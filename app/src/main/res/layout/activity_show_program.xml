@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/spname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/abc_text_size_display_1_material" />
+
+    <EditText
+        android:id="@+id/spdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date not set" />
+
+    <EditText
+        android:id="@+id/sptime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Time not set" />
+
+    <EditText
+        android:id="@+id/spplace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Place not set" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Program"
+        android:onClick="saveProgram" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Mark as Complete"
+        android:onClick="completeProgram" />
+
+</LinearLayout>
