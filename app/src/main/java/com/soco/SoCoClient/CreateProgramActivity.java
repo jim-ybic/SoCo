@@ -24,14 +24,13 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
     private EditText ptimeEditText = null;
     private DatePickerDialog pdatePickerDialog = null;
     private TimePickerDialog ptimePickerDialog = null;
-    private SimpleDateFormat dateFormatter = null;
+    private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_program);
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         findViewsById();
         setDateTimeField();
     }
@@ -50,7 +49,6 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
         pdateEditText = (EditText) findViewById(R.id.pdate);
         pdateEditText.setInputType(InputType.TYPE_NULL);
         pdateEditText.requestFocus();
-
         ptimeEditText = (EditText) findViewById(R.id.ptime);
         ptimeEditText.setInputType(InputType.TYPE_NULL);
 

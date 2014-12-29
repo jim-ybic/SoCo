@@ -1,9 +1,5 @@
 package com.soco.SoCoClient.db;
 
-/**
- * Created by jenny on 28/12/14.
- */
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +38,7 @@ public class DBManagerSoco {
     }
 
     public List<Program> loadProgram() {
-        ArrayList<Program> programs = new ArrayList<Program>();
+        ArrayList<Program> programs = new ArrayList<>();
         Cursor c = queryTheCursor();
         while (c.moveToNext()) {
             Program program = new Program();
@@ -75,14 +71,12 @@ public class DBManagerSoco {
     }
 
     public Cursor queryTheCursor(String pname) {
-        Cursor c = db.rawQuery("SELECT * FROM program where pname = ?",
+        return db.rawQuery("SELECT * FROM program where pname = ?",
                 new String[] {pname});
-        return c;
     }
 
     public Cursor queryTheCursor() {
-        Cursor c = db.rawQuery("SELECT * FROM program", null);
-        return c;
+        return db.rawQuery("SELECT * FROM program", null);
     }
 
     // Given a pname, update other fields (pdate, ptime, and pplace)
@@ -95,28 +89,8 @@ public class DBManagerSoco {
         db.update("program", cv, "pname = ?", new String[]{program.pname});
     }
 
-    // Given a pname, update other fields (pdate, ptime, and pplace)
-    public void update(String pname, String pdate, String ptime, String pplace) {
-        ContentValues cv = new ContentValues();
-        cv.put("pdate", pdate);
-        cv.put("ptime", ptime);
-        cv.put("pplace", pplace);
-        db.update("program", cv, "pname = ?", new String[]{pname});
-    }
-
-    // Given a pname, update other fields (pdate, ptime, pplace, and pcomplete)
-    public void update(String pname, String pdate, String ptime, String pplace,
-                             int pcomplete) {
-        ContentValues cv = new ContentValues();
-        cv.put("pdate", pdate);
-        cv.put("ptime", ptime);
-        cv.put("pplace", pplace);
-        cv.put("pcomplete", pcomplete);
-        db.update("program", cv, "pname = ?", new String[]{pname});
-    }
-
-    public void closeDB() {
-        db.close();
-    }
+//    public void closeDB() {
+//        db.close();
+//    }
 
 }
