@@ -16,5 +16,6 @@
     <string name="button_list_program_from_db">List Program from DB</string>
     <string name="button_add_program_to_db">Add Program to DB</string>
     <string name="title_activity_show_completed_programs">Completed Programs</string>
+    <string name="title_activity_login">LoginActivity</string>
 
 </resources>
