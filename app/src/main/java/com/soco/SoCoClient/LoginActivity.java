@@ -36,7 +36,7 @@ public class LoginActivity extends ActionBarActivity {
         // TODO: add login logic
 
         if(loginSuccess) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
             startActivity(intent);
         }
     }

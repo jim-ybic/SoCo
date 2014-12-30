@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ShowActiveProgramsActivity"
             android:label="@string/app_name" >
             <!--intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,28 +36,28 @@
             </intent-filter-->
         </activity>
         <activity
-            android:name=".ShowProgramActivity"
+            android:name=".ShowSingleProgramActivity"
             android:label="@string/title_activity_display_message"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".ShowActiveProgramsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.soco.SoCoClient.MainActivity" />
+                android:value=".ShowActiveProgramsActivity" />
         </activity>
         <activity
             android:name=".CreateProgramActivity"
             android:label="@string/title_activity_create_program"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".ShowActiveProgramsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.soco.SoCoClient.MainActivity" />
+                android:value=".ShowActiveProgramsActivity" />
         </activity>
         <activity
             android:name=".ShowCompletedProgramsActivity"
             android:label="@string/title_activity_show_completed_programs"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".ShowActiveProgramsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.soco.SoCoClient.MainActivity" />
+                android:value=".ShowActiveProgramsActivity" />
         </activity>
 
 

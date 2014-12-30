@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MainActivity extends ActionBarActivity {
+public class ShowActiveProgramsActivity extends ActionBarActivity {
 
     private DBManagerSoco dbmgrSoco;
     private ListView listViewSoco;
@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_show_active_programs);
 
         dbmgrSoco = new DBManagerSoco(this);
         programs = dbmgrSoco.loadProgram();
@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity {
                         listView.getItemAtPosition(position);
                 String name = map.get(Program.PROGRAM_PNAME);
 
-                Intent intent = new Intent(view.getContext(), ShowProgramActivity.class);
+                Intent intent = new Intent(view.getContext(), ShowSingleProgramActivity.class);
                 intent.putExtra(Program.PROGRAM_PNAME, name);
                 startActivity(intent);
             }

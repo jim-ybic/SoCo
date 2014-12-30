@@ -45,7 +45,7 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
                         listView.getItemAtPosition(position);
                 String name = map.get(Program.PROGRAM_PNAME);
 
-                Intent intent = new Intent(view.getContext(), ShowProgramActivity.class);
+                Intent intent = new Intent(view.getContext(), ShowSingleProgramActivity.class);
                 intent.putExtra(Program.PROGRAM_PNAME, name);
                 startActivity(intent);
             }

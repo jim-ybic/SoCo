@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class ShowProgramActivity extends ActionBarActivity implements View.OnClickListener {
+public class ShowSingleProgramActivity extends ActionBarActivity implements View.OnClickListener {
 
     private EditText pdateEditText = null;
     private EditText ptimeEditText = null;
@@ -33,7 +33,7 @@ public class ShowProgramActivity extends ActionBarActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_program);
+        setContentView(R.layout.activity_show_single_program);
 
         Intent intent = getIntent();
         String pname = intent.getStringExtra(Program.PROGRAM_PNAME);
