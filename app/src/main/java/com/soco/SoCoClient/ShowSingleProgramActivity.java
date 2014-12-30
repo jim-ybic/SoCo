@@ -30,6 +30,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
     DBManagerSoco dbmgrSoco = null;
+    Program program = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         String pname = intent.getStringExtra(Program.PROGRAM_PNAME);
 
         dbmgrSoco = new DBManagerSoco(this);
-        Program program = dbmgrSoco.loadProgram(pname);
+        program = dbmgrSoco.loadProgram(pname);
         showProgram(program);
 
         findViewsById();
@@ -74,7 +75,8 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         int year = newCalendar.get(Calendar.YEAR);
         int month = newCalendar.get(Calendar.MONTH);
         int day = newCalendar.get(Calendar.DAY_OF_MONTH);
-        pdatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        pdatePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
@@ -85,7 +87,8 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         // Time picker
         int hour = newCalendar.get(Calendar.HOUR_OF_DAY);
         int minute = newCalendar.get(Calendar.MINUTE);
-        ptimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+        ptimePickerDialog = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 ptimeEditText.setText( selectedHour + ":" + selectedMinute);
             }
@@ -120,11 +123,22 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     }
 
     Program getProgram(){
-        Program program = new Program();
-        program.pname = ((TextView) findViewById(R.id.spname)).getText().toString();
-        program.pdate = ((EditText) findViewById(R.id.spdate)).getText().toString();
-        program.ptime = ((EditText) findViewById(R.id.sptime)).getText().toString();
-        program.pplace = ((EditText) findViewById(R.id.spplace)).getText().toString();
+        String pname = ((TextView) findViewById(R.id.spname)).getText().toString();
+        if (!program.pname.equals(pname))
+            program.pname = pname;
+
+        String pdate = ((EditText) findViewById(R.id.spdate)).getText().toString();
+        if (!program.pdate.equals(pdate))
+            program.pdate = pdate;
+
+        String ptime = ((EditText) findViewById(R.id.sptime)).getText().toString();
+        if (!program.ptime.equals(ptime))
+            program.ptime = ptime;
+
+        String pplace = ((EditText) findViewById(R.id.spplace)).getText().toString();
+        if (!program.pplace.equals(pplace))
+            program.pplace = pplace;
+
         return program;
     }
 
