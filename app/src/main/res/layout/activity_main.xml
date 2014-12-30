@@ -1,57 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <!--EditText android:id="@+id/edit_message"
-        android:hint="Input text to save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" /-->
-
-    <!--Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_save_file"
-        android:onClick="saveFile" /-->
-
-    <!--Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_read_file"
-        android:onClick="readFile" /-->
-
-    <!--Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_list_program"
-        android:onClick="listPrograms" /-->
-
-
-    <!--Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_add_program_to_db"
-        android:onClick="addProgramToDB" /-->
-
-    <!--Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_list_program_from_db"
-        android:onClick="listProgramsFromDB" /-->
-
-    <!--Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="add"
-        android:onClick="add"/-->
-
-    <!--Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="loadProgram"
-        android:onClick="loadProgram"/-->
 
     <Button
         android:layout_width="fill_parent"
@@ -65,21 +16,15 @@
         android:text="@string/button_create_program"
         android:onClick="createProgram" />
 
-    <!--Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="add program (testing)"
-        android:onClick="addProgram"/-->
-
-    <!--Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="List Program"
-        android:onClick="listPrograms"/-->
-
     <ListView
         android:id="@+id/listView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Completed Programs"
+        android:onClick="showCompletedPrograms" />
 
 </LinearLayout>
