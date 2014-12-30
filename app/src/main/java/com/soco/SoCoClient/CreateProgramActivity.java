@@ -2,9 +2,12 @@ package com.soco.SoCoClient;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,13 +29,42 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
     private TimePickerDialog ptimePickerDialog = null;
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
+    String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_program);
 
+        Intent intent = getIntent();
+        username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
+        Toast.makeText(getApplicationContext(), "Hello, " + username,
+                Toast.LENGTH_SHORT).show();
+
         findViewsById();
         setDateTimeField();
+    }
+
+
+
+    void gotoPreviousScreen(){
+        Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
+        intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                gotoPreviousScreen();
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        gotoPreviousScreen();
     }
 
     @Override

@@ -31,6 +31,8 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     DBManagerSoco dbmgrSoco = null;
     Program program = null;
+    String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,9 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
         Intent intent = getIntent();
         String pname = intent.getStringExtra(Program.PROGRAM_PNAME);
+        username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
+        Toast.makeText(getApplicationContext(), "Hello, " + username,
+                Toast.LENGTH_SHORT).show();
 
         dbmgrSoco = new DBManagerSoco(this);
         program = dbmgrSoco.loadProgram(pname);
@@ -45,6 +50,26 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
         findViewsById();
         setDateTimeField();
+    }
+
+    void gotoPreviousScreen(){
+        Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
+        intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                gotoPreviousScreen();
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        gotoPreviousScreen();
     }
 
     @Override
@@ -94,21 +119,6 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
             }
         }, hour, minute, true); //Yes 24 hour time
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void showProgram(Program program){

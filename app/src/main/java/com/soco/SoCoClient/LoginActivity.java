@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 public class LoginActivity extends ActionBarActivity {
 
+    public static String LOGIN_USERNAME = "LOGIN_USER_NAME";
+
     EditText etUsername;
     EditText etPassword;
 
@@ -37,6 +39,7 @@ public class LoginActivity extends ActionBarActivity {
 
         if(loginSuccess) {
             Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
+            intent.putExtra(LOGIN_USERNAME, user);
             startActivity(intent);
         }
     }

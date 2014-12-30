@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.db.DBManagerSoco;
 import com.soco.SoCoClient.db.Program;
@@ -24,11 +25,17 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
     private DBManagerSoco dbmgrSoco;
     private ListView listViewSoco;
     private List<Program> programs;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_completed_programs);
+
+        Intent intent = getIntent();
+        username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
+        Toast.makeText(getApplicationContext(), "Hello, " + username,
+                Toast.LENGTH_SHORT).show();
 
         dbmgrSoco = new DBManagerSoco(this);
         programs = dbmgrSoco.loadPrograms(Program.PROGRAM_COMPLETED);
@@ -50,6 +57,26 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    void gotoPreviousScreen(){
+        Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
+        intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                gotoPreviousScreen();
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        gotoPreviousScreen();
     }
 
     public void listPrograms(ListView listView, List<Program> programs) {
@@ -76,18 +103,5 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

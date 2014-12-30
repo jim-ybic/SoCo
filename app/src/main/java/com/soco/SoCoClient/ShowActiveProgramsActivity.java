@@ -25,12 +25,17 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
     private DBManagerSoco dbmgrSoco;
     private ListView listViewSoco;
     private List<Program> programs;
-
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_active_programs);
+
+        Intent intent = getIntent();
+        username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
+        Toast.makeText(getApplicationContext(), "Hello, " + username,
+                Toast.LENGTH_SHORT).show();
 
         dbmgrSoco = new DBManagerSoco(this);
         programs = dbmgrSoco.loadProgram();
@@ -49,6 +54,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
                 Intent intent = new Intent(view.getContext(), ShowSingleProgramActivity.class);
                 intent.putExtra(Program.PROGRAM_PNAME, name);
+                intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
                 startActivity(intent);
             }
         });
@@ -83,6 +89,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
     public void createProgram(View view) {
         Intent intent = new Intent(this, CreateProgramActivity.class);
+        intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
         startActivity(intent);
     }
 
@@ -104,6 +111,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
     public void showCompletedPrograms(View view) {
         Intent intent = new Intent(this, ShowCompletedProgramsActivity.class);
+        intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
         startActivity(intent);
     }
 
