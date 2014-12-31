@@ -47,4 +47,22 @@
         android:text="Mark as Complete"
         android:onClick="completeProgram" />
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Call (TEST)"
+        android:onClick="call" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Email (TEST)"
+        android:onClick="email" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Whatsapp (TEST)"
+        android:onClick="whatsapp" />
+
 </LinearLayout>

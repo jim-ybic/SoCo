@@ -3,9 +3,15 @@ package com.soco.SoCoClient;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -167,5 +173,30 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         dbmgrSoco.update(p);
         Toast.makeText(getApplicationContext(), "Program complete.", Toast.LENGTH_SHORT).show();
     }
+
+    public void call(View view){
+        Log.i("call", "Make call");
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "92713146"));
+        startActivity(intent);
+    }
+
+    public void email(View view){
+        Log.i("email", "Send email");
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto","abc@gmail.com", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+    }
+
+    public void whatsapp(View view) {
+        Log.i("email", "Send whatsapp");
+        Uri uri = Uri.parse("smsto:92713146");
+        Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+        intent.setPackage("com.whatsapp");
+        intent.putExtra("chat",true);
+        startActivity(intent);
+    }
+
+
 
 }
