@@ -1,8 +1,10 @@
 package com.soco.SoCoClient;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,9 @@ public class LoginActivity extends ActionBarActivity {
     EditText etUsername;
     EditText etPassword;
 
+    String username;
+    String password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,20 +31,66 @@ public class LoginActivity extends ActionBarActivity {
         etUsername.setText("Jim");
         etPassword = (EditText) findViewById(R.id.et_login_password);
         etPassword.setText("12345678");
+
+    }
+
+//    void readFile(){
+//            File file = new File(Config.PREFERENCE_FILENAME);
+//            if (!file.exists()) {
+//                file = new File(getApplicationContext().getFilesDir(), Config.PREFERENCE_FILENAME);
+//
+//                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+//                        new FileOutputStream(file), Config.ENCODING));
+//                writer.write(Config.PREFERENCE_USERNAME + ":" + username);
+//                writer.flush();
+//                writer.close();
+//            }
+//
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(
+//                    new FileInputStream(file), Config.ENCODING));
+//            String s = reader.readLine();
+//            while (!s.isEmpty()) {
+//                s = reader.readLine();
+//            }
+//    }
+
+    void updatePreference(String username) {
+//        try {
+            Log.i("soco", "Loading preference file.");
+            SharedPreferences settings = getSharedPreferences(Config.PREFERENCE_FILENAME, 0);
+            SharedPreferences.Editor editor = settings.edit();
+
+            String user = settings.getString(Config.PREFERENCE_USERNAME,"");
+            if(user.isEmpty()) {
+                Log.i("soco", "Update preference, " + Config.PREFERENCE_USERNAME + ":" + username);
+                editor.putString(Config.PREFERENCE_USERNAME, username);
+                editor.commit();
+            } else {
+                Log.i("soco", "Load preference, " + Config.PREFERENCE_USERNAME + ":" + user);
+            }
+
+//        }
+//        catch (Exception e){
+//            System.out.println("File not found.");
+//            e.printStackTrace();
+//            return;
+//        }
     }
 
     public void login (View view) {
-        String user = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
-        Toast.makeText(getApplicationContext(), "Hello, " + user,
+        username = etUsername.getText().toString();
+        password = etPassword.getText().toString();
+        Toast.makeText(getApplicationContext(), "Hello, " + username,
                 Toast.LENGTH_SHORT).show();
+
+        updatePreference(username);
 
         boolean loginSuccess = true;
         // TODO: add login logic
 
         if(loginSuccess) {
             Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
-            intent.putExtra(LOGIN_USERNAME, user);
+            intent.putExtra(LOGIN_USERNAME, username);
             startActivity(intent);
         }
     }
