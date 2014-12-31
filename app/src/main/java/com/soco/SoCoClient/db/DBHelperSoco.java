@@ -8,20 +8,22 @@ import com.soco.SoCoClient.Config;
 
 public class DBHelperSoco extends SQLiteOpenHelper {
 
+    public static String DATABASE_NAME = "soco4.db";
+    public static int DATABASE_VERSION = 1;
 
     public DBHelperSoco(Context context) {
-        super(context, Config.DATABASE_NAME, null, Config.DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + Config.TABLE_PROGRAM + " (" +
-                Config.TABLE_COLUMN_PID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                Config.TABLE_COLUMN_PNAME + " VARCHAR, " +
-                Config.TABLE_COLUMN_PDATE + " VARCHAR," +
-                Config.TABLE_COLUMN_PTIME + " VARCHAR," +
-                Config.TABLE_COLUMN_PPLACE + " VARCHAR," +
-                Config.TABLE_COLUMN_PCOMPLETE + " INTEGER)");
+                Config.COLUMN_PID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Config.COLUMN_PNAME + " VARCHAR, " +
+                Config.COLUMN_PDATE + " VARCHAR," +
+                Config.COLUMN_PTIME + " VARCHAR," +
+                Config.COLUMN_PPLACE + " VARCHAR," +
+                Config.COLUMN_PCOMPLETE + " INTEGER)");
     }
 
     @Override

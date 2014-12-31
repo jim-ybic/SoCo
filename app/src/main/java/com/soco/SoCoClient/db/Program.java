@@ -1,5 +1,9 @@
 package com.soco.SoCoClient.db;
 
+import android.database.Cursor;
+
+import com.soco.SoCoClient.Config;
+
 public class Program {
     public int pid;
     public String pname = "";
@@ -8,9 +12,16 @@ public class Program {
     public String pplace = "";
     public int pcomplete = 0;
 
-
-
     public Program() {
+    }
+
+    public Program(Cursor c) {
+        this.pid = c.getInt(c.getColumnIndex(Config.COLUMN_PID));
+        this.pname = c.getString(c.getColumnIndex(Config.COLUMN_PNAME));
+        this.pdate = c.getString(c.getColumnIndex(Config.COLUMN_PDATE));
+        this.ptime = c.getString(c.getColumnIndex(Config.COLUMN_PTIME));
+        this.pplace = c.getString(c.getColumnIndex(Config.COLUMN_PPLACE));
+        this.pcomplete = c.getInt(c.getColumnIndex(Config.COLUMN_PCOMPLETE));
     }
 
 //    public Program(String pname) {

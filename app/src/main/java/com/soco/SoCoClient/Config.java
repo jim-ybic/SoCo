@@ -14,15 +14,13 @@ public class Config {
     //public static String PROGRAM_PID = "PROGRAM_PID";
 
     // Database
-    public static String DATABASE_NAME = "soco4.db";
-    public static int DATABASE_VERSION = 1;
     public static String TABLE_PROGRAM = "program";
-    public static String TABLE_COLUMN_PID = "pid";
-    public static String TABLE_COLUMN_PNAME = "pname";
-    public static String TABLE_COLUMN_PDATE = "pdate";
-    public static String TABLE_COLUMN_PTIME = "ptime";
-    public static String TABLE_COLUMN_PPLACE = "pplace";
-    public static String TABLE_COLUMN_PCOMPLETE = "pcomplete";
+    public static String COLUMN_PID = "pid";
+    public static String COLUMN_PNAME = "pname";
+    public static String COLUMN_PDATE = "pdate";
+    public static String COLUMN_PTIME = "ptime";
+    public static String COLUMN_PPLACE = "pplace";
+    public static String COLUMN_PCOMPLETE = "pcomplete";
 
 //    public static String ENCODING = "UTF-8";
 //    public static String PROGRAM_PDATE = "PROGRAM_PDATE";
