@@ -17,5 +17,6 @@
     <string name="button_add_program_to_db">Add Program to DB</string>
     <string name="title_activity_show_completed_programs">Completed Programs</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 
 </resources>

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -14,8 +13,8 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.db.DBManagerSoco;
-import com.soco.SoCoClient.db.Program;
+import com.soco.SoCoClient.datamodel.DBManagerSoco;
+import com.soco.SoCoClient.datamodel.Program;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,7 +28,7 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
     private TimePickerDialog ptimePickerDialog = null;
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
-    String username;
+    String loginEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,7 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
         setContentView(R.layout.activity_create_program);
 
         Intent intent = getIntent();
-        username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
+        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
 
         findViewsById();
         setDateTimeField();
@@ -45,7 +44,7 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
 
     void gotoPreviousScreen(){
         Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
-        intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
+        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
         startActivity(intent);
     }
 

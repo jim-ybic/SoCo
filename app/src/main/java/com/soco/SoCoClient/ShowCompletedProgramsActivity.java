@@ -10,8 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.soco.SoCoClient.db.DBManagerSoco;
-import com.soco.SoCoClient.db.Program;
+import com.soco.SoCoClient.datamodel.DBManagerSoco;
+import com.soco.SoCoClient.datamodel.Program;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
     private DBManagerSoco dbmgrSoco;
     private ListView listViewSoco;
     private List<Program> programs;
-    String username;
+    String loginEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_show_completed_programs);
 
         Intent intent = getIntent();
-        username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
+        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
 
         dbmgrSoco = new DBManagerSoco(this);
         programs = dbmgrSoco.loadPrograms(Config.PROGRAM_COMPLETED);
@@ -58,7 +58,7 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
 
     void gotoPreviousScreen(){
         Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
-        intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
+        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
         startActivity(intent);
     }
 

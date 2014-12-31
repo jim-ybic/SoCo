@@ -2,6 +2,7 @@ package com.soco.SoCoClient;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,8 +12,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.db.DBManagerSoco;
-import com.soco.SoCoClient.db.Program;
+import com.soco.SoCoClient.datamodel.DBManagerSoco;
+import com.soco.SoCoClient.datamodel.Program;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +26,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
     private DBManagerSoco dbmgrSoco;
     private ListView listViewSoco;
     private List<Program> programs;
-    private String username;
+    private String loginEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_show_active_programs);
 
         Intent intent = getIntent();
-        username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
+        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
 
         dbmgrSoco = new DBManagerSoco(this);
         programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
@@ -52,7 +53,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
                 Intent intent = new Intent(view.getContext(), ShowSingleProgramActivity.class);
                 intent.putExtra(Config.PROGRAM_PNAME, name);
-                intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
+                intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
                 startActivity(intent);
             }
         });
@@ -61,7 +62,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_show_active_programs, menu);
         return true;
     }
 
@@ -74,7 +75,15 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Log.i("setting", "Click on Settings.");
             return true;
+        }
+        if (id == R.id.action_profile) {
+            Log.i("setting", "Click on Profile.");
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+            startActivity(intent);
+//            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -87,7 +96,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
     public void createProgram(View view) {
         Intent intent = new Intent(this, CreateProgramActivity.class);
-        intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
+        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
         startActivity(intent);
     }
 
@@ -108,7 +117,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
     public void showCompletedPrograms(View view) {
         Intent intent = new Intent(this, ShowCompletedProgramsActivity.class);
-        intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
+        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
         startActivity(intent);
     }
 

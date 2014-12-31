@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.db.test;
+package com.soco.SoCoClient.datamodel.test;
 
 /**
  * Created by jenny on 28/12/14.
@@ -11,9 +11,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.soco.SoCoClient.db.test.DBHelper;
-import com.soco.SoCoClient.db.test.Person;
 
 public class DBManager {
     private DBHelper helper;

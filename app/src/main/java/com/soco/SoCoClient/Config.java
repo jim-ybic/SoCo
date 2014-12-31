@@ -2,9 +2,15 @@ package com.soco.SoCoClient;
 
 public class Config {
 
+    // Login
+    public static String LOGIN_EMAIL = "email";
+
     // Config file
-    public static String PREFERENCE_FILENAME = "SoCo.config";
-    public static String PREFERENCE_USERNAME = "username";
+    public static String PROFILE_FILENAME = "SoCo.config";
+    public static String PROFILE_EMAIL = "email";
+    public static String PROFILE_NICKNAME = "nickname";
+    public static String PROFILE_PHONE = "phone";
+    public static String PROFILE__WECHAT = "wechat";
 
     // Program details
     public static String PROGRAM_PNAME = "PROGRAM_PNAME";

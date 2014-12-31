@@ -3,11 +3,7 @@ package com.soco.SoCoClient;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -20,8 +16,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.db.DBManagerSoco;
-import com.soco.SoCoClient.db.Program;
+import com.soco.SoCoClient.datamodel.DBManagerSoco;
+import com.soco.SoCoClient.datamodel.Program;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,7 +33,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     DBManagerSoco dbmgrSoco = null;
     Program program = null;
-    String username;
+    String loginEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +42,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
         Intent intent = getIntent();
         String pname = intent.getStringExtra(Config.PROGRAM_PNAME);
-        username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
+        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
 
         dbmgrSoco = new DBManagerSoco(this);
         program = dbmgrSoco.loadProgram(pname);
@@ -58,7 +54,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     void gotoPreviousScreen(){
         Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
-        intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
+        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
         startActivity(intent);
     }
 
@@ -176,25 +172,40 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     public void call(View view){
         Log.i("call", "Make call");
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "92713146"));
-        startActivity(intent);
-    }
+        try{
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "92713146"));
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e("call", "Cannot start intent to call");
+            e.printStackTrace();
+        }
+}
 
     public void email(View view){
         Log.i("email", "Send email");
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto","abc@gmail.com", null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
-        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        try {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                    "mailto", "abc@gmail.com", null));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
+            startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        } catch (Exception e) {
+            Log.e("email", "Cannot start intent to send email");
+            e.printStackTrace();
+        }
     }
 
     public void whatsapp(View view) {
         Log.i("email", "Send whatsapp");
         Uri uri = Uri.parse("smsto:92713146");
-        Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
-        intent.setPackage("com.whatsapp");
-        intent.putExtra("chat",true);
-        startActivity(intent);
+        try {
+            Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+            intent.setPackage("com.whatsapp");
+            intent.putExtra("chat", true);
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e("whatsapp", "Cannot start intent to send whatsapp");
+            e.printStackTrace();
+        }
     }
 
 

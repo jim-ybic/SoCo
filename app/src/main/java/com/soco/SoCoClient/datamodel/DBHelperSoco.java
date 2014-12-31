@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.db;
+package com.soco.SoCoClient.datamodel;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

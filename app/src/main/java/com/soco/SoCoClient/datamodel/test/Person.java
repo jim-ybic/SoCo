@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.db.test;
+package com.soco.SoCoClient.datamodel.test;
 
 /**
  * Created by jenny on 28/12/14.

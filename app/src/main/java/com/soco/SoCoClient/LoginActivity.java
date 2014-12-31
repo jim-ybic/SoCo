@@ -14,34 +14,33 @@ import android.widget.Toast;
 
 public class LoginActivity extends ActionBarActivity {
 
-    public static String LOGIN_USERNAME = "LOGIN_USER_NAME";
 
-    EditText etUsername;
-    EditText etPassword;
+    EditText etLoginEmail;
+    EditText etLoginPassword;
 
-    String username;
-    String password;
+    String loginEmail;
+    String loginPassword;
+    String nickname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etUsername = (EditText) findViewById(R.id.et_login_username);
-        etUsername.setText("Jim");
-        etPassword = (EditText) findViewById(R.id.et_login_password);
-        etPassword.setText("12345678");
-
+        etLoginEmail = (EditText) findViewById(R.id.et_login_email);
+        etLoginEmail.setText("jim.ybic@gmail.com");
+        etLoginPassword = (EditText) findViewById(R.id.et_login_password);
+        etLoginPassword.setText("12345678");
     }
 
 //    void readFile(){
-//            File file = new File(Config.PREFERENCE_FILENAME);
+//            File file = new File(Config.PROFILE_FILENAME);
 //            if (!file.exists()) {
-//                file = new File(getApplicationContext().getFilesDir(), Config.PREFERENCE_FILENAME);
+//                file = new File(getApplicationContext().getFilesDir(), Config.PROFILE_FILENAME);
 //
 //                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 //                        new FileOutputStream(file), Config.ENCODING));
-//                writer.write(Config.PREFERENCE_USERNAME + ":" + username);
+//                writer.write(Config.PROFILE_EMAIL + ":" + loginEmail);
 //                writer.flush();
 //                writer.close();
 //            }
@@ -54,43 +53,40 @@ public class LoginActivity extends ActionBarActivity {
 //            }
 //    }
 
-    void updatePreference(String username) {
-//        try {
-            Log.i("soco", "Loading preference file.");
-            SharedPreferences settings = getSharedPreferences(Config.PREFERENCE_FILENAME, 0);
+    void updateProfile(String loginEmail) {
+            Log.i("soco", "Load profile.");
+            SharedPreferences settings = getSharedPreferences(Config.PROFILE_FILENAME, 0);
             SharedPreferences.Editor editor = settings.edit();
 
-            String user = settings.getString(Config.PREFERENCE_USERNAME,"");
-            if(user.isEmpty()) {
-                Log.i("soco", "Update preference, " + Config.PREFERENCE_USERNAME + ":" + username);
-                editor.putString(Config.PREFERENCE_USERNAME, username);
+            String email = settings.getString(Config.PROFILE_EMAIL, "");
+            if(email.isEmpty()) {
+                Log.i("soco", "Create new profile, " + Config.PROFILE_EMAIL + ":" + loginEmail);
+                editor.putString(Config.PROFILE_EMAIL, loginEmail);
                 editor.commit();
             } else {
-                Log.i("soco", "Load preference, " + Config.PREFERENCE_USERNAME + ":" + user);
+                Log.i("soco", "Load existing profile, " + Config.PROFILE_EMAIL + ":" + email);
+                String n = settings.getString(Config.PROFILE_NICKNAME, "");
+                if (!n.isEmpty())
+                    nickname = n;
             }
-
-//        }
-//        catch (Exception e){
-//            System.out.println("File not found.");
-//            e.printStackTrace();
-//            return;
-//        }
     }
 
     public void login (View view) {
-        username = etUsername.getText().toString();
-        password = etPassword.getText().toString();
-        Toast.makeText(getApplicationContext(), "Hello, " + username,
-                Toast.LENGTH_SHORT).show();
+        loginEmail = etLoginEmail.getText().toString();
+        loginPassword = etLoginPassword.getText().toString();
+        nickname = loginEmail;
 
-        updatePreference(username);
+        updateProfile(loginEmail);
+
+        Toast.makeText(getApplicationContext(), "Hello, " + nickname,
+                Toast.LENGTH_SHORT).show();
 
         boolean loginSuccess = true;
         // TODO: add login logic
 
         if(loginSuccess) {
             Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
-            intent.putExtra(LOGIN_USERNAME, username);
+            intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
             startActivity(intent);
         }
     }

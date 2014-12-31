@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.db;
+package com.soco.SoCoClient.datamodel;
 
 import android.database.Cursor;
 
@@ -14,8 +14,7 @@ public class Program {
     public int pcomplete = 0;
     public String pdesc = "";
 
-    public Program() {
-    }
+    public Program() {}
 
     public Program(Cursor c) {
         this.pid = c.getInt(c.getColumnIndex(Config.COLUMN_PID));
