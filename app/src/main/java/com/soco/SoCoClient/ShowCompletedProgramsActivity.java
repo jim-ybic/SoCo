@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.soco.SoCoClient.db.DBManagerSoco;
 import com.soco.SoCoClient.db.Program;
@@ -36,7 +35,7 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
         username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
 
         dbmgrSoco = new DBManagerSoco(this);
-        programs = dbmgrSoco.loadPrograms(Program.PROGRAM_COMPLETED);
+        programs = dbmgrSoco.loadPrograms(Config.PROGRAM_COMPLETED);
 
         listViewSoco = (ListView) findViewById(R.id.lv_complete_programs);
         listPrograms(listViewSoco, programs);
@@ -48,10 +47,10 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
                 ListView listView = (ListView)parent;
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
-                String name = map.get(Program.PROGRAM_PNAME);
+                String name = map.get(Config.PROGRAM_PNAME);
 
                 Intent intent = new Intent(view.getContext(), ShowSingleProgramActivity.class);
-                intent.putExtra(Program.PROGRAM_PNAME, name);
+                intent.putExtra(Config.PROGRAM_PNAME, name);
                 startActivity(intent);
             }
         });
@@ -81,14 +80,14 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
         ArrayList<Map<String, String>> data = new ArrayList<>();
         for (Program program : programs) {
             HashMap<String, String> map = new HashMap<>();
-            map.put(Program.PROGRAM_PNAME, program.pname);
-            map.put(Program.PROGRAM_PINFO, program.getMoreInfo());
+            map.put(Config.PROGRAM_PNAME, program.pname);
+            map.put(Config.PROGRAM_PINFO, program.getMoreInfo());
             data.add(map);
         }
 
         SimpleAdapter adapter = new SimpleAdapter(this, data,
                 android.R.layout.simple_list_item_2,
-                new String[]{Program.PROGRAM_PNAME, Program.PROGRAM_PINFO},
+                new String[]{Config.PROGRAM_PNAME, Config.PROGRAM_PINFO},
                 new int[]{android.R.id.text1, android.R.id.text2});
         listView.setAdapter(adapter);
     }

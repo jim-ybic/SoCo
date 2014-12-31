@@ -39,7 +39,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         setContentView(R.layout.activity_show_single_program);
 
         Intent intent = getIntent();
-        String pname = intent.getStringExtra(Program.PROGRAM_PNAME);
+        String pname = intent.getStringExtra(Config.PROGRAM_PNAME);
         username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
 
         dbmgrSoco = new DBManagerSoco(this);

@@ -37,22 +37,22 @@ public class DBManagerSoco {
         }
     }
 
-    public List<Program> loadProgram() {
-        ArrayList<Program> programs = new ArrayList<>();
-        Cursor c = queryTheCursor();
-        while (c.moveToNext()) {
-            Program program = new Program();
-            program.pid = c.getInt(c.getColumnIndex("pid"));
-            program.pname = c.getString(c.getColumnIndex("pname"));
-            program.pdate = c.getString(c.getColumnIndex("pdate"));
-            program.ptime = c.getString(c.getColumnIndex("ptime"));
-            program.pplace = c.getString(c.getColumnIndex("pplace"));
-            program.pcomplete = c.getInt(c.getColumnIndex("pcomplete"));
-            programs.add(program);
-        }
-        c.close();
-        return programs;
-    }
+//    public List<Program> loadProgram() {
+//        ArrayList<Program> programs = new ArrayList<>();
+//        Cursor c = queryTheCursor();
+//        while (c.moveToNext()) {
+//            Program program = new Program();
+//            program.pid = c.getInt(c.getColumnIndex("pid"));
+//            program.pname = c.getString(c.getColumnIndex("pname"));
+//            program.pdate = c.getString(c.getColumnIndex("pdate"));
+//            program.ptime = c.getString(c.getColumnIndex("ptime"));
+//            program.pplace = c.getString(c.getColumnIndex("pplace"));
+//            program.pcomplete = c.getInt(c.getColumnIndex("pcomplete"));
+//            programs.add(program);
+//        }
+//        c.close();
+//        return programs;
+//    }
 
     public ArrayList<Program> loadPrograms(int pcompleted) {
         ArrayList<Program> programs = new ArrayList<>();
@@ -92,24 +92,15 @@ public class DBManagerSoco {
                 new String[] {pname});
     }
 
-    public Cursor queryTheCursor() {
-        return db.rawQuery("SELECT * FROM program", null);
-    }
+//    public Cursor queryTheCursor() {
+//        return db.rawQuery("SELECT * FROM program", null);
+//    }
 
     public Cursor queryTheCursor(int pcomplete) {
         return db.rawQuery("SELECT * FROM program where pcomplete = ?",
                 new String[] {String.valueOf(pcomplete)});
-//        return db.Query("SELECT * FROM program where pcompleted = ?",
-//                new String[] {String.valueOf(completed)});
-//        return db.query(
-//                "program",
-//                new String[] {"pid", "pname", "pdate", "ptime", "pplace", "pcompleted"},
-//                "pcompleted = ?",
-//                new String[] {Integer.toString(completed)},
-//                null, null, null);
     }
 
-    // Given a pname, update other fields (pdate, ptime, and pplace)
     public void update(Program program) {
         ContentValues cv = new ContentValues();
         cv.put("pdate", program.pdate);

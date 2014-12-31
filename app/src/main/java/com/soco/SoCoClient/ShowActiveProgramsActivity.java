@@ -36,7 +36,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
 
         dbmgrSoco = new DBManagerSoco(this);
-        programs = dbmgrSoco.loadProgram();
+        programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
 
         listViewSoco = (ListView) findViewById(R.id.listView);
         listPrograms(null);
@@ -48,17 +48,15 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                 ListView listView = (ListView)parent;
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
-                String name = map.get(Program.PROGRAM_PNAME);
+                String name = map.get(Config.PROGRAM_PNAME);
 
                 Intent intent = new Intent(view.getContext(), ShowSingleProgramActivity.class);
-                intent.putExtra(Program.PROGRAM_PNAME, name);
+                intent.putExtra(Config.PROGRAM_PNAME, name);
                 intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
                 startActivity(intent);
             }
         });
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,17 +92,16 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
     }
 
     public void listPrograms(View view) {
-
         ArrayList<Map<String, String>> list = new ArrayList<>();
         for (Program program : programs) {
             HashMap<String, String> map = new HashMap<>();
-            map.put(Program.PROGRAM_PNAME, program.pname);
-            map.put(Program.PROGRAM_PINFO, program.getMoreInfo());
+            map.put(Config.PROGRAM_PNAME, program.pname);
+            map.put(Config.PROGRAM_PINFO, program.getMoreInfo());
             list.add(map);
         }
         SimpleAdapter adapter = new SimpleAdapter(this, list,
                 android.R.layout.simple_list_item_2,
-                new String[]{Program.PROGRAM_PNAME, Program.PROGRAM_PINFO},
+                new String[]{Config.PROGRAM_PNAME, Config.PROGRAM_PINFO},
                 new int[]{android.R.id.text1, android.R.id.text2});
         listViewSoco.setAdapter(adapter);
     }
