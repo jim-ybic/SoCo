@@ -43,7 +43,8 @@ public class Program {
             t = s.isEmpty() ? this.pplace : ", " + this.pplace;
             s += t;
         }
-
+        if (s.isEmpty())
+            s = "No more detail";
         return s;
     }
 }
