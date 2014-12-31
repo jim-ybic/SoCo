@@ -41,8 +41,6 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         Intent intent = getIntent();
         String pname = intent.getStringExtra(Program.PROGRAM_PNAME);
         username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
-        Toast.makeText(getApplicationContext(), "Hello, " + username,
-                Toast.LENGTH_SHORT).show();
 
         dbmgrSoco = new DBManagerSoco(this);
         program = dbmgrSoco.loadProgram(pname);

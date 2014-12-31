@@ -38,8 +38,6 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
 
         Intent intent = getIntent();
         username = intent.getStringExtra(LoginActivity.LOGIN_USERNAME);
-        Toast.makeText(getApplicationContext(), "Hello, " + username,
-                Toast.LENGTH_SHORT).show();
 
         findViewsById();
         setDateTimeField();

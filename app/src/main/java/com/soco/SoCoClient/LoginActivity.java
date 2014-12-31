@@ -31,7 +31,7 @@ public class LoginActivity extends ActionBarActivity {
     public void login (View view) {
         String user = etUsername.getText().toString();
         String password = etPassword.getText().toString();
-        Toast.makeText(getApplicationContext(), "Login: " + user + "/" + password,
+        Toast.makeText(getApplicationContext(), "Hello, " + user,
                 Toast.LENGTH_SHORT).show();
 
         boolean loginSuccess = true;
