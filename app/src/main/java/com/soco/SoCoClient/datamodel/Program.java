@@ -13,6 +13,9 @@ public class Program {
     public String pplace = "";
     public int pcomplete = 0;
     public String pdesc = "";
+    public String pphone = "";
+    public String pemail = "";
+    public String pwechat = "";
 
     public Program() {}
 
@@ -24,6 +27,9 @@ public class Program {
         this.pplace = c.getString(c.getColumnIndex(Config.COLUMN_PPLACE));
         this.pcomplete = c.getInt(c.getColumnIndex(Config.COLUMN_PCOMPLETE));
         this.pdesc = c.getString(c.getColumnIndex(Config.COLUMN_PDESC));
+        this.pphone = c.getString(c.getColumnIndex(Config.COLUMN_PPHONE));
+        this.pemail = c.getString(c.getColumnIndex(Config.COLUMN_PEMAIL));
+        this.pwechat = c.getString(c.getColumnIndex(Config.COLUMN_PWECHAT));
     }
 
 //    public Program(String pname) {
@@ -40,7 +46,7 @@ public class Program {
 
     public String toString() {
         return this.pname + ", " + this.pdate + ", " + this.ptime + ", " + this.pplace + ", "
-                + this.pdesc;
+                + this.pdesc + ", " + this.pphone + ", " + this.pemail + ", " + this.pwechat;
     }
 
     public String getMoreInfo() {

@@ -110,16 +110,19 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
     }
 
     public void createProgram(View view) {
-        Program program = new Program();
-        program.pname = ((EditText) findViewById(R.id.pname)).getText().toString();
-        program.pdate = ((EditText) findViewById(R.id.pdate)).getText().toString();
-        program.ptime = ((EditText) findViewById(R.id.ptime)).getText().toString();
-        program.pplace = ((EditText) findViewById(R.id.pplace)).getText().toString();
-        program.pcomplete = 0;
-        program.pdesc = ((EditText) findViewById(R.id.pdesc)).getText().toString();
+        Program p = new Program();
+        p.pname = ((EditText) findViewById(R.id.pname)).getText().toString();
+        p.pdate = ((EditText) findViewById(R.id.pdate)).getText().toString();
+        p.ptime = ((EditText) findViewById(R.id.ptime)).getText().toString();
+        p.pplace = ((EditText) findViewById(R.id.pplace)).getText().toString();
+        p.pcomplete = 0;
+        p.pdesc = ((EditText) findViewById(R.id.pdesc)).getText().toString();
+        p.pphone = ((EditText) findViewById(R.id.pphone)).getText().toString();
+        p.pemail = ((EditText) findViewById(R.id.pemail)).getText().toString();
+        p.pwechat = ((EditText) findViewById(R.id.pwechat)).getText().toString();
 
         DBManagerSoco dbmgrSoco = new DBManagerSoco(this);
-        dbmgrSoco.add(program);
+        dbmgrSoco.add(p);
 
         Toast.makeText(getApplicationContext(), "Program created.", Toast.LENGTH_SHORT).show();
     }

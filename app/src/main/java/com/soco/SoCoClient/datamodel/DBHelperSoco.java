@@ -8,7 +8,7 @@ import com.soco.SoCoClient.Config;
 
 public class DBHelperSoco extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "soco5.db";
+    public static String DATABASE_NAME = "soco.0.1.db";
     public static int DATABASE_VERSION = 1;
 
     public DBHelperSoco(Context context) {
@@ -24,7 +24,10 @@ public class DBHelperSoco extends SQLiteOpenHelper {
                 Config.COLUMN_PTIME + " VARCHAR," +
                 Config.COLUMN_PPLACE + " VARCHAR," +
                 Config.COLUMN_PCOMPLETE + " INTEGER," +
-                Config.COLUMN_PDESC + ")");
+                Config.COLUMN_PDESC + " VARCHAR," +
+                Config.COLUMN_PPHONE + " VARCHAR, " +
+                Config.COLUMN_PEMAIL + " VARCHAR, " +
+                Config.COLUMN_PWECHAT + " VARCHAR)");
     }
 
     @Override

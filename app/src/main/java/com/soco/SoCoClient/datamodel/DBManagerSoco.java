@@ -29,10 +29,12 @@ public class DBManagerSoco {
         try {
             Log.i("db", "Insert new program: " + program.pname + ", "
                     + program.pdate + ", " + program.ptime + ", " + program.pplace + ", "
-                    + program.pdesc);
-            db.execSQL("INSERT INTO " + Config.TABLE_PROGRAM + " VALUES(null, ?, ?, ?, ?, ?, ?)",
+                    + program.pdesc + ", " + program.pphone + ", " + program.pemail + ", "
+                    + program.pwechat);
+            db.execSQL("INSERT INTO " + Config.TABLE_PROGRAM
+                            + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     new Object[]{program.pname, program.pdate, program.ptime, program.pplace, 0,
-                    program.pdesc});
+                    program.pdesc, program.pphone, program.pemail, program.pwechat});
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -107,16 +109,19 @@ public class DBManagerSoco {
                 new String[] {String.valueOf(pcomplete)});
     }
 
-    public void update(Program program) {
+    public void update(Program p) {
         ContentValues cv = new ContentValues();
-        cv.put(Config.COLUMN_PDATE, program.pdate);
-        cv.put(Config.COLUMN_PTIME, program.ptime);
-        cv.put(Config.COLUMN_PPLACE, program.pplace);
-        cv.put(Config.COLUMN_PCOMPLETE, program.pcomplete);
-        cv.put(Config.COLUMN_PDESC, program.pdesc);
+        cv.put(Config.COLUMN_PDATE, p.pdate);
+        cv.put(Config.COLUMN_PTIME, p.ptime);
+        cv.put(Config.COLUMN_PPLACE, p.pplace);
+        cv.put(Config.COLUMN_PCOMPLETE, p.pcomplete);
+        cv.put(Config.COLUMN_PDESC, p.pdesc);
+        cv.put(Config.COLUMN_PPHONE, p.pphone);
+        cv.put(Config.COLUMN_PEMAIL, p.pemail);
+        cv.put(Config.COLUMN_PWECHAT, p.pwechat);
 
         db.update(Config.TABLE_PROGRAM, cv, Config.COLUMN_PNAME + " = ?",
-                new String[]{program.pname});
+                new String[]{p.pname});
     }
 
 //    public void closeDB() {

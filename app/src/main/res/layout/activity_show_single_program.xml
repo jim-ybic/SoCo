@@ -35,6 +35,63 @@
         android:layout_height="wrap_content"
         android:hint="Description not set" />
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent">
+        <EditText
+            android:id="@+id/spphone"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:hint="Phone not set" />
+        <Button
+            android:text="Call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="call" />
+        <Button
+            android:text="Whatsapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="whatsapp" />
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent">
+        <EditText
+            android:id="@+id/spemail"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:hint="Email not set" />
+        <Button
+            android:text="Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="email" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent">
+        <EditText
+            android:id="@+id/spwechat"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:hint="Wechat not set" />
+        <Button
+            android:text="Wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="wechat" />
+    </LinearLayout>
+
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -46,23 +103,5 @@
         android:layout_height="wrap_content"
         android:text="Mark as Complete"
         android:onClick="completeProgram" />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Call (TEST)"
-        android:onClick="call" />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Email (TEST)"
-        android:onClick="email" />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Whatsapp (TEST)"
-        android:onClick="whatsapp" />
 
 </LinearLayout>

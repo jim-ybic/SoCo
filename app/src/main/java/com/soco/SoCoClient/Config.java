@@ -28,6 +28,9 @@ public class Config {
     public static String COLUMN_PPLACE = "pplace";
     public static String COLUMN_PCOMPLETE = "pcomplete";
     public static String COLUMN_PDESC = "pdesc";
+    public static String COLUMN_PPHONE = "pphone";
+    public static String COLUMN_PEMAIL = "pemail";
+    public static String COLUMN_PWECHAT = "pwechat";
 
 //    public static String ENCODING = "UTF-8";
 //    public static String PROGRAM_PDATE = "PROGRAM_PDATE";

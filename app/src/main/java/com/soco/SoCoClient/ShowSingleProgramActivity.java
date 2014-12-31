@@ -131,6 +131,12 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 TextView.BufferType.EDITABLE);
         ((EditText) findViewById(R.id.spdesc)).setText(program.pdesc,
                 TextView.BufferType.EDITABLE);
+        ((EditText) findViewById(R.id.spphone)).setText(program.pphone,
+                TextView.BufferType.EDITABLE);
+        ((EditText) findViewById(R.id.spemail)).setText(program.pemail,
+                TextView.BufferType.EDITABLE);
+        ((EditText) findViewById(R.id.spwechat)).setText(program.pwechat,
+                TextView.BufferType.EDITABLE);
     }
 
     Program getProgram(){
@@ -153,6 +159,18 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         String pdesc = ((EditText) findViewById(R.id.spdesc)).getText().toString();
         if (!program.pdesc.equals(pdesc))
             program.pdesc = pdesc;
+
+        String pphone = ((EditText) findViewById(R.id.spphone)).getText().toString();
+        if (!program.pphone.equals(pphone))
+            program.pphone = pphone;
+
+        String pemail = ((EditText) findViewById(R.id.spemail)).getText().toString();
+        if (!program.pemail.equals(pemail))
+            program.pemail = pemail;
+
+        String pwechat = ((EditText) findViewById(R.id.spwechat)).getText().toString();
+        if (!program.pwechat.equals(pwechat))
+            program.pwechat = pwechat;
 
         return program;
     }
@@ -206,6 +224,11 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
             Log.e("whatsapp", "Cannot start intent to send whatsapp");
             e.printStackTrace();
         }
+    }
+
+    public void wechat(View view) {
+        Log.i("wechat", "Send wechat");
+        // TODO: send wechat message
     }
 
 
