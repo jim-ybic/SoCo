@@ -86,7 +86,6 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         pdateEditText.requestFocus();
         ptimeEditText = (EditText) findViewById(R.id.sptime);
         ptimeEditText.setInputType(InputType.TYPE_NULL);
-
     }
 
     private void setDateTimeField() {
@@ -128,6 +127,8 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 TextView.BufferType.EDITABLE);
         ((EditText) findViewById(R.id.spplace)).setText(program.pplace,
                 TextView.BufferType.EDITABLE);
+        ((EditText) findViewById(R.id.spdesc)).setText(program.pdesc,
+                TextView.BufferType.EDITABLE);
     }
 
     Program getProgram(){
@@ -146,6 +147,10 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         String pplace = ((EditText) findViewById(R.id.spplace)).getText().toString();
         if (!program.pplace.equals(pplace))
             program.pplace = pplace;
+
+        String pdesc = ((EditText) findViewById(R.id.spdesc)).getText().toString();
+        if (!program.pdesc.equals(pdesc))
+            program.pdesc = pdesc;
 
         return program;
     }

@@ -28,9 +28,11 @@ public class DBManagerSoco {
         db.beginTransaction();
         try {
             Log.i("db", "Insert new program: " + program.pname + ", "
-                    + program.pdate + ", " + program.ptime + ", " + program.pplace);
-            db.execSQL("INSERT INTO " + Config.TABLE_PROGRAM + " VALUES(null, ?, ?, ?, ?, ?)",
-                    new Object[]{program.pname, program.pdate, program.ptime, program.pplace, 0});
+                    + program.pdate + ", " + program.ptime + ", " + program.pplace + ", "
+                    + program.pdesc);
+            db.execSQL("INSERT INTO " + Config.TABLE_PROGRAM + " VALUES(null, ?, ?, ?, ?, ?, ?)",
+                    new Object[]{program.pname, program.pdate, program.ptime, program.pplace, 0,
+                    program.pdesc});
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -111,6 +113,7 @@ public class DBManagerSoco {
         cv.put(Config.COLUMN_PTIME, program.ptime);
         cv.put(Config.COLUMN_PPLACE, program.pplace);
         cv.put(Config.COLUMN_PCOMPLETE, program.pcomplete);
+        cv.put(Config.COLUMN_PDESC, program.pdesc);
 
         db.update(Config.TABLE_PROGRAM, cv, Config.COLUMN_PNAME + " = ?",
                 new String[]{program.pname});

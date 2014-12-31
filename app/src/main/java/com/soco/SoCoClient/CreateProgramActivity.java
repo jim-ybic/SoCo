@@ -43,8 +43,6 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
         setDateTimeField();
     }
 
-
-
     void gotoPreviousScreen(){
         Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
         intent.putExtra(LoginActivity.LOGIN_USERNAME, username);
@@ -79,9 +77,9 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
         pdateEditText = (EditText) findViewById(R.id.pdate);
         pdateEditText.setInputType(InputType.TYPE_NULL);
         pdateEditText.requestFocus();
+
         ptimeEditText = (EditText) findViewById(R.id.ptime);
         ptimeEditText.setInputType(InputType.TYPE_NULL);
-
     }
 
     private void setDateTimeField() {
@@ -113,13 +111,13 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
     }
 
     public void createProgram(View view) {
-
         Program program = new Program();
         program.pname = ((EditText) findViewById(R.id.pname)).getText().toString();
         program.pdate = ((EditText) findViewById(R.id.pdate)).getText().toString();
         program.ptime = ((EditText) findViewById(R.id.ptime)).getText().toString();
         program.pplace = ((EditText) findViewById(R.id.pplace)).getText().toString();
         program.pcomplete = 0;
+        program.pdesc = ((EditText) findViewById(R.id.pdesc)).getText().toString();
 
         DBManagerSoco dbmgrSoco = new DBManagerSoco(this);
         dbmgrSoco.add(program);

@@ -5,12 +5,14 @@ import android.database.Cursor;
 import com.soco.SoCoClient.Config;
 
 public class Program {
+
     public int pid;
     public String pname = "";
     public String pdate = "";
     public String ptime = "";
     public String pplace = "";
     public int pcomplete = 0;
+    public String pdesc = "";
 
     public Program() {
     }
@@ -22,6 +24,7 @@ public class Program {
         this.ptime = c.getString(c.getColumnIndex(Config.COLUMN_PTIME));
         this.pplace = c.getString(c.getColumnIndex(Config.COLUMN_PPLACE));
         this.pcomplete = c.getInt(c.getColumnIndex(Config.COLUMN_PCOMPLETE));
+        this.pdesc = c.getString(c.getColumnIndex(Config.COLUMN_PDESC));
     }
 
 //    public Program(String pname) {
@@ -37,7 +40,8 @@ public class Program {
 //    }
 
     public String toString() {
-        return this.pname + ", " + this.pdate + ", " + this.ptime + ", " + this.pplace;
+        return this.pname + ", " + this.pdate + ", " + this.ptime + ", " + this.pplace + ", "
+                + this.pdesc;
     }
 
     public String getMoreInfo() {
