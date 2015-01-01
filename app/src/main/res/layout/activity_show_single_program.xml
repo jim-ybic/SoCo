@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -47,11 +46,13 @@
             android:layout_width="fill_parent"
             android:hint="Phone not set" />
         <Button
+            android:id="@+id/bt_call"
             android:text="Call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="call" />
         <Button
+            android:id="@+id/bt_whatsapp"
             android:text="Whatsapp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,6 +71,7 @@
             android:layout_width="fill_parent"
             android:hint="Email not set" />
         <Button
+            android:id="@+id/bt_email"
             android:text="Email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,6 +89,7 @@
             android:layout_width="fill_parent"
             android:hint="Wechat not set" />
         <Button
+            android:id="@+id/bt_wechat"
             android:text="Wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

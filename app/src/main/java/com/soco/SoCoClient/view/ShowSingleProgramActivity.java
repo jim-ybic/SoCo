@@ -8,8 +8,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,6 +41,10 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     public EditText et_spphone;
     public EditText et_spemail;
     public EditText et_spwechat;
+    public Button bt_call;
+    public Button bt_whatsapp;
+    public Button bt_email;
+    public Button bt_wechat;
 
     // Local variables
     DBManagerSoco dbmgrSoco = null;
@@ -67,6 +73,14 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         setDateTimeField();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_show_single_program, menu);
+        return true;
+    }
+
+
     private void findViewsById() {
         pdateEditText = (EditText) findViewById(R.id.et_spdate);
         pdateEditText.setInputType(InputType.TYPE_NULL);
@@ -83,6 +97,11 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         et_spphone = (EditText) findViewById(R.id.et_spphone);
         et_spemail = (EditText) findViewById(R.id.et_spemail);
         et_spwechat = (EditText) findViewById(R.id.et_spwechat);
+
+        bt_call = (Button) findViewById(R.id.bt_call);
+        bt_whatsapp = (Button) findViewById(R.id.bt_whatsapp);
+        bt_email = (Button) findViewById(R.id.bt_email);
+        bt_wechat = (Button) findViewById(R.id.bt_wechat);
     }
 
 
@@ -94,12 +113,64 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        Log.i("menu", "Menu click from single program activity.");
+
         switch (item.getItemId()) {
             case android.R.id.home:
+                Log.i("menu", "Menu click: home.");
                 gotoPreviousScreen();
+                break;
+            case R.id.action_add_date:
+                Log.i("menu", "Menu click: add date.");
+                et_spdate.setVisibility(View.VISIBLE);
+                et_spdate.requestFocus();
+                break;
+            case R.id.action_add_time:
+                Log.i("menu", "Menu click: add time.");
+                et_sptime.setVisibility(View.VISIBLE);
+                et_sptime.requestFocus();
+                break;
+            case R.id.action_add_place:
+                Log.i("menu", "Menu click: add place.");
+                et_spplace.setVisibility(View.VISIBLE);
+                et_spplace.requestFocus();
+                break;
+            case R.id.action_add_desc:
+                Log.i("menu", "Menu click: add desc.");
+                et_spdesc.setVisibility(View.VISIBLE);
+                et_spdesc.requestFocus();
+                break;
+            case R.id.action_add_phone:
+                Log.i("menu", "Menu click: add phone.");
+                et_spphone.setVisibility(View.VISIBLE);
+                et_spphone.requestFocus();
+                break;
+            case R.id.action_add_email:
+                Log.i("menu", "Menu click: add email.");
+                et_spemail.setVisibility(View.VISIBLE);
+                et_spemail.requestFocus();
+                break;
+            case R.id.action_add_wechat:
+                Log.i("menu", "Menu click: add wechat.");
+                et_spwechat.setVisibility(View.VISIBLE);
+                et_spwechat.requestFocus();
+                break;
         }
-        return true;
+
+        return super.onOptionsItemSelected(item);
     }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                gotoPreviousScreen();
+//        }
+//        return true;
+//    }
 
     @Override
     public void onBackPressed() {
@@ -145,15 +216,62 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     }
 
-    public void showProgram(Program program){
-        et_spname.setText(program.pname, TextView.BufferType.EDITABLE);
-        et_spdate.setText(program.pdate, TextView.BufferType.EDITABLE);
-        et_sptime.setText(program.ptime, TextView.BufferType.EDITABLE);
-        et_spplace.setText(program.pplace, TextView.BufferType.EDITABLE);
-        et_spdesc.setText(program.pdesc, TextView.BufferType.EDITABLE);
-        et_spphone.setText(program.pphone, TextView.BufferType.EDITABLE);
-        et_spemail.setText(program.pemail, TextView.BufferType.EDITABLE);
-        et_spwechat.setText(program.pwechat, TextView.BufferType.EDITABLE);
+    public void showProgram(Program p){
+        Log.i("program", "Show program: " + p.toString());
+        et_spname.setText(p.pname, TextView.BufferType.EDITABLE);
+
+        if (p.pdate.isEmpty())
+            et_spdate.setVisibility(View.GONE);
+        else {
+            et_spdate.setVisibility(View.VISIBLE);
+            et_spdate.setText(p.pdate, TextView.BufferType.EDITABLE);
+        }
+
+        if (p.ptime.isEmpty())
+            et_sptime.setVisibility(View.GONE);
+        else {
+            et_sptime.setVisibility(View.VISIBLE);
+            et_sptime.setText(p.ptime, TextView.BufferType.EDITABLE);
+        }
+
+        if (p.pplace.isEmpty())
+            et_spplace.setVisibility(View.GONE);
+        else{
+            et_spplace.setVisibility(View.VISIBLE);
+            et_spplace.setText(p.pplace, TextView.BufferType.EDITABLE);
+        }
+
+        if (p.pdesc.isEmpty())
+            et_spdesc.setVisibility(View.GONE);
+        else {
+            et_spdesc.setVisibility(View.VISIBLE);
+            et_spdesc.setText(p.pdesc, TextView.BufferType.EDITABLE);
+        }
+
+        if (p.pphone.isEmpty()) {
+            et_spphone.setVisibility(View.GONE);
+            bt_call.setVisibility(View.GONE);
+            bt_whatsapp.setVisibility(View.GONE);
+        } else {
+            et_spphone.setVisibility(View.VISIBLE);
+            et_spphone.setText(p.pphone, TextView.BufferType.EDITABLE);
+        }
+
+        if (p.pemail.isEmpty()) {
+            et_spemail.setVisibility(View.GONE);
+            bt_email.setVisibility(View.GONE);
+        } else {
+            et_spemail.setVisibility(View.VISIBLE);
+            et_spemail.setText(p.pemail, TextView.BufferType.EDITABLE);
+        }
+
+        if (p.pwechat.isEmpty()) {
+            et_spwechat.setVisibility(View.GONE);
+            bt_wechat.setVisibility(View.GONE);
+        } else {
+            et_spwechat.setVisibility(View.VISIBLE);
+            et_spwechat.setText(p.pwechat, TextView.BufferType.EDITABLE);
+        }
     }
 
     void refreshProgram(){
