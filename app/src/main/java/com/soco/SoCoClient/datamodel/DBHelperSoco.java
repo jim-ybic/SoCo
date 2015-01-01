@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.soco.SoCoClient.Config;
+import com.soco.SoCoClient.config.Config;
 
 public class DBHelperSoco extends SQLiteOpenHelper {
 

@@ -1,4 +1,4 @@
-package com.soco.SoCoClient;
+package com.soco.SoCoClient.ui;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.soco.SoCoClient.config.Config;
+import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.datamodel.DBManagerSoco;
 import com.soco.SoCoClient.datamodel.Program;
 

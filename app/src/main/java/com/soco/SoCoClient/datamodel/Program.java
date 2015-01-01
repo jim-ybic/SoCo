@@ -2,7 +2,7 @@ package com.soco.SoCoClient.datamodel;
 
 import android.database.Cursor;
 
-import com.soco.SoCoClient.Config;
+import com.soco.SoCoClient.config.Config;
 
 public class Program {
 

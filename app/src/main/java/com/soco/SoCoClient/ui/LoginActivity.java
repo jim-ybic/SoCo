@@ -1,4 +1,4 @@
-package com.soco.SoCoClient;
+package com.soco.SoCoClient.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.soco.SoCoClient.config.Config;
+import com.soco.SoCoClient.R;
 
 
 public class LoginActivity extends ActionBarActivity {

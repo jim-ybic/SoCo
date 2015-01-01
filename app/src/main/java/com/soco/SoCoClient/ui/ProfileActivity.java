@@ -1,4 +1,4 @@
-package com.soco.SoCoClient;
+package com.soco.SoCoClient.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.soco.SoCoClient.config.Config;
+import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.datamodel.Profile;
-import com.soco.SoCoClient.datamodel.Program;
 
 
 public class ProfileActivity extends ActionBarActivity {

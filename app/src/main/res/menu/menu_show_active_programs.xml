@@ -13,4 +13,8 @@
         android:id="@+id/action_profile"
         android:title="Profile" />
 
+    <item
+        android:id="@+id/action_clean_up"
+        android:title="Clean up" />
+
 </menu>

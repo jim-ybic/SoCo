@@ -1,5 +1,7 @@
-package com.soco.SoCoClient;
+package com.soco.SoCoClient.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.soco.SoCoClient.config.Config;
+import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.datamodel.DBManagerSoco;
 import com.soco.SoCoClient.datamodel.Program;
 
@@ -74,8 +78,20 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Log.i("setting", "Click on Settings.");
+        if (id == R.id.action_clean_up) {
+            Log.i("setting", "Click on Clean up.");
+            new AlertDialog.Builder(this)
+                    .setMessage("Delete all programs?")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dbmgrSoco.cleanDB();
+                            Toast.makeText(getApplicationContext(),
+                                    "All Programs deleted.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
             return true;
         }
         if (id == R.id.action_profile) {
@@ -89,10 +105,10 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void cleanDB(View view) {
-        dbmgrSoco.cleanDB();
-        Toast.makeText(getApplicationContext(), "Database cleaned.", Toast.LENGTH_SHORT).show();
-    }
+//    public void cleanDB(View view) {
+//        dbmgrSoco.cleanDB();
+//        Toast.makeText(getApplicationContext(), "Database cleaned.", Toast.LENGTH_SHORT).show();
+//    }
 
     public void createProgram(View view) {
         Intent intent = new Intent(this, CreateProgramActivity.class);
