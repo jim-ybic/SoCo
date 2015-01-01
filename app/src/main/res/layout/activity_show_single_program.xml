@@ -11,34 +11,80 @@
         android:textSize="@dimen/abc_text_size_display_1_material"
         android:hint="Name not set" />
 
-    <EditText
-        android:id="@+id/et_spdate"
-        android:layout_width="match_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
-        android:hint="Date not set" />
-
-    <EditText
-        android:id="@+id/et_sptime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Time not set" />
-
-    <EditText
-        android:id="@+id/et_spplace"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Place not set" />
-
-    <EditText
-        android:id="@+id/et_spdesc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Description not set" />
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:id="@+id/layout_spdate" >
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Date" />
+        <EditText
+            android:id="@+id/et_spdate"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Date not set" />
+    </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_width="fill_parent">
+        android:layout_width="fill_parent"
+        android:id="@+id/layout_sptime" >
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Time" />
+        <EditText
+            android:id="@+id/et_sptime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Time not set" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:id="@+id/layout_spplace" >
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Place" />
+        <EditText
+            android:id="@+id/et_spplace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Place not set" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:id="@+id/layout_spdesc" >
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Description" />
+        <EditText
+            android:id="@+id/et_spdesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description not set" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:id="@+id/layout_spphone">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Phone" />
         <EditText
             android:id="@+id/et_spphone"
             android:layout_height="wrap_content"
@@ -63,7 +109,12 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_width="fill_parent">
+        android:layout_width="fill_parent"
+        android:id="@+id/layout_spemail">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Email" />
         <EditText
             android:id="@+id/et_spemail"
             android:layout_height="wrap_content"
@@ -81,7 +132,12 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_width="fill_parent">
+        android:layout_width="fill_parent"
+        android:id="@+id/layout_spwechat">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Wechat" />
         <EditText
             android:id="@+id/et_spwechat"
             android:layout_height="wrap_content"

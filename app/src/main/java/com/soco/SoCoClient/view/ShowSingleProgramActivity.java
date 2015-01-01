@@ -2,7 +2,6 @@ package com.soco.SoCoClient.view;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -52,6 +52,13 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     MenuItem action_add_phone;
     MenuItem action_add_email;
     MenuItem action_add_wechat;
+    LinearLayout layout_spdate;
+    LinearLayout layout_sptime;
+    LinearLayout layout_spplace;
+    LinearLayout layout_spdesc;
+    LinearLayout layout_spphone;
+    LinearLayout layout_spemail;
+    LinearLayout layout_spwechat;
 
     // Local variables
     DBManagerSoco dbmgrSoco = null;
@@ -153,6 +160,14 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         bt_email = (Button) findViewById(R.id.bt_email);
         bt_wechat = (Button) findViewById(R.id.bt_wechat);
 
+        layout_spdate = (LinearLayout) findViewById(R.id.layout_spdate);
+        layout_sptime = (LinearLayout) findViewById(R.id.layout_sptime);
+        layout_spplace = (LinearLayout) findViewById(R.id.layout_spplace);
+        layout_spdesc = (LinearLayout) findViewById(R.id.layout_spdesc);
+        layout_spphone = (LinearLayout) findViewById(R.id.layout_spphone);
+        layout_spemail = (LinearLayout) findViewById(R.id.layout_spemail);
+        layout_spwechat = (LinearLayout) findViewById(R.id.layout_spwechat);
+
 //        action_add_date = (MenuItem) findViewById(R.id.action_add_date);
 //        action_add_time = (MenuItem) findViewById(R.id.action_add_time);
 //        action_add_place = (MenuItem) findViewById(R.id.action_add_place);
@@ -183,52 +198,43 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 break;
             case R.id.action_add_date:
                 Log.i("menu", "Menu click: add date.");
-                et_spdate.setVisibility(View.VISIBLE);
+                layout_spdate.setVisibility(View.VISIBLE);
                 et_spdate.requestFocus();
                 break;
             case R.id.action_add_time:
                 Log.i("menu", "Menu click: add time.");
-                et_sptime.setVisibility(View.VISIBLE);
+                layout_sptime.setVisibility(View.VISIBLE);
                 et_sptime.requestFocus();
                 break;
             case R.id.action_add_place:
                 Log.i("menu", "Menu click: add place.");
-                et_spplace.setVisibility(View.VISIBLE);
+                layout_spplace.setVisibility(View.VISIBLE);
                 et_spplace.requestFocus();
                 break;
             case R.id.action_add_desc:
                 Log.i("menu", "Menu click: add desc.");
-                et_spdesc.setVisibility(View.VISIBLE);
+                layout_spdesc.setVisibility(View.VISIBLE);
                 et_spdesc.requestFocus();
                 break;
             case R.id.action_add_phone:
                 Log.i("menu", "Menu click: add phone.");
-                et_spphone.setVisibility(View.VISIBLE);
+                layout_spphone.setVisibility(View.VISIBLE);
                 et_spphone.requestFocus();
                 break;
             case R.id.action_add_email:
                 Log.i("menu", "Menu click: add email.");
-                et_spemail.setVisibility(View.VISIBLE);
+                layout_spemail.setVisibility(View.VISIBLE);
                 et_spemail.requestFocus();
                 break;
             case R.id.action_add_wechat:
                 Log.i("menu", "Menu click: add wechat.");
-                et_spwechat.setVisibility(View.VISIBLE);
+                layout_spwechat.setVisibility(View.VISIBLE);
                 et_spwechat.requestFocus();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                gotoPreviousScreen();
-//        }
-//        return true;
-//    }
 
     @Override
     public void onBackPressed() {
@@ -279,55 +285,51 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         et_spname.setText(p.pname, TextView.BufferType.EDITABLE);
 
         if (p.pdate.isEmpty())
-            et_spdate.setVisibility(View.GONE);
+            layout_spdate.setVisibility(View.GONE);
         else {
-            et_spdate.setVisibility(View.VISIBLE);
+            layout_spdate.setVisibility(View.VISIBLE);
             et_spdate.setText(p.pdate, TextView.BufferType.EDITABLE);
         }
 
         if (p.ptime.isEmpty())
-            et_sptime.setVisibility(View.GONE);
+            layout_sptime.setVisibility(View.GONE);
         else {
-            et_sptime.setVisibility(View.VISIBLE);
+            layout_sptime.setVisibility(View.VISIBLE);
             et_sptime.setText(p.ptime, TextView.BufferType.EDITABLE);
         }
 
         if (p.pplace.isEmpty())
-            et_spplace.setVisibility(View.GONE);
+            layout_spplace.setVisibility(View.GONE);
         else{
-            et_spplace.setVisibility(View.VISIBLE);
+            layout_spplace.setVisibility(View.VISIBLE);
             et_spplace.setText(p.pplace, TextView.BufferType.EDITABLE);
         }
 
         if (p.pdesc.isEmpty())
-            et_spdesc.setVisibility(View.GONE);
+            layout_spdesc.setVisibility(View.GONE);
         else {
-            et_spdesc.setVisibility(View.VISIBLE);
+            layout_spdesc.setVisibility(View.VISIBLE);
             et_spdesc.setText(p.pdesc, TextView.BufferType.EDITABLE);
         }
 
-        if (p.pphone.isEmpty()) {
-            et_spphone.setVisibility(View.GONE);
-            bt_call.setVisibility(View.GONE);
-            bt_whatsapp.setVisibility(View.GONE);
-        } else {
-            et_spphone.setVisibility(View.VISIBLE);
+        if (p.pphone.isEmpty())
+            layout_spphone.setVisibility(View.GONE);
+        else {
+            layout_spphone.setVisibility(View.VISIBLE);
             et_spphone.setText(p.pphone, TextView.BufferType.EDITABLE);
         }
 
-        if (p.pemail.isEmpty()) {
-            et_spemail.setVisibility(View.GONE);
-            bt_email.setVisibility(View.GONE);
-        } else {
-            et_spemail.setVisibility(View.VISIBLE);
+        if (p.pemail.isEmpty())
+            layout_spemail.setVisibility(View.GONE);
+        else {
+            layout_spemail.setVisibility(View.VISIBLE);
             et_spemail.setText(p.pemail, TextView.BufferType.EDITABLE);
         }
 
-        if (p.pwechat.isEmpty()) {
-            et_spwechat.setVisibility(View.GONE);
-            bt_wechat.setVisibility(View.GONE);
-        } else {
-            et_spwechat.setVisibility(View.VISIBLE);
+        if (p.pwechat.isEmpty())
+            layout_spwechat.setVisibility(View.GONE);
+        else {
+            layout_spwechat.setVisibility(View.VISIBLE);
             et_spwechat.setText(p.pwechat, TextView.BufferType.EDITABLE);
         }
     }
@@ -383,30 +385,19 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     public void call(View view){
         Log.i("call", "Make call");
         try{
-            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "92713146"));
+            String n = et_spphone.getText().toString();
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + n));
             startActivity(intent);
         } catch (Exception e) {
             Log.e("call", "Cannot start intent to call");
             e.printStackTrace();
         }
-}
-
-    public void email(View view){
-        Log.i("email", "Send email");
-        try {
-            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto", "abc@gmail.com", null));
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
-            startActivity(Intent.createChooser(emailIntent, "Send email..."));
-        } catch (Exception e) {
-            Log.e("email", "Cannot start intent to send email");
-            e.printStackTrace();
-        }
     }
 
     public void whatsapp(View view) {
-        Log.i("email", "Send whatsapp");
-        Uri uri = Uri.parse("smsto:92713146");
+        Log.i("whatsapp", "Send whatsapp");
+        String n = et_spphone.getText().toString();
+        Uri uri = Uri.parse("smsto:" + n);
         try {
             Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
             intent.setPackage("com.whatsapp");
@@ -417,6 +408,21 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
             e.printStackTrace();
         }
     }
+
+    public void email(View view){
+        Log.i("email", "Send email");
+        try {
+            String e = et_spemail.getText().toString();
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                    "mailto", e, null));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
+            startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        } catch (Exception e) {
+            Log.e("email", "Cannot start intent to send email");
+            e.printStackTrace();
+        }
+    }
+
 
     public void wechat(View view) {
         Log.i("wechat", "Send wechat");
