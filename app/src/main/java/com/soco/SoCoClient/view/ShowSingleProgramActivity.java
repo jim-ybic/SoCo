@@ -67,9 +67,9 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     String loginEmail;
     String original_pname;
 
-    private DatePickerDialog pdatePickerDialog = null;
-    private TimePickerDialog ptimePickerDialog = null;
-    private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+    DatePickerDialog pdatePickerDialog = null;
+    TimePickerDialog ptimePickerDialog = null;
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,58 +88,63 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         setDateTimeField();
     }
 
+    void refreshOptionMenu(){
+        if (et_spdate.getText().toString().isEmpty())
+            action_add_date.setVisible(true);
+        else
+            action_add_date.setVisible(false);
+
+        if (et_sptime.getText().toString().isEmpty())
+            action_add_time.setVisible(true);
+        else
+            action_add_time.setVisible(false);
+
+        if (et_spplace.getText().toString().isEmpty())
+            action_add_place.setVisible(true);
+        else
+            action_add_place.setVisible(false);
+
+        if (et_spdesc.getText().toString().isEmpty())
+            action_add_desc.setVisible(true);
+        else
+            action_add_desc.setVisible(false);
+
+        if (et_spphone.getText().toString().isEmpty())
+            action_add_phone.setVisible(true);
+        else
+            action_add_phone.setVisible(false);
+
+        if (et_spemail.getText().toString().isEmpty())
+            action_add_email.setVisible(true);
+        else
+            action_add_email.setVisible(false);
+
+        if (et_spwechat.getText().toString().isEmpty())
+            action_add_wechat.setVisible(true);
+        else
+            action_add_wechat.setVisible(false);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_show_single_program, menu);
 
         action_add_date = menu.findItem(R.id.action_add_date);
-        if (program.pdate.isEmpty())
-            action_add_date.setVisible(true);
-        else
-            action_add_date.setVisible(false);
-
         action_add_time = menu.findItem(R.id.action_add_time);
-        if (program.ptime.isEmpty())
-            action_add_time.setVisible(true);
-        else
-            action_add_time.setVisible(false);
-
         action_add_place = menu.findItem(R.id.action_add_place);
-        if (program.pplace.isEmpty())
-            action_add_place.setVisible(true);
-        else
-            action_add_place.setVisible(false);
-
         action_add_desc = menu.findItem(R.id.action_add_desc);
-        if (program.pdesc.isEmpty())
-            action_add_desc.setVisible(true);
-        else
-            action_add_desc.setVisible(false);
-
         action_add_phone = menu.findItem(R.id.action_add_phone);
-        if (program.pphone.isEmpty())
-            action_add_phone.setVisible(true);
-        else
-            action_add_phone.setVisible(false);
-
         action_add_email = menu.findItem(R.id.action_add_email);
-        if (program.pemail.isEmpty())
-            action_add_email.setVisible(true);
-        else
-            action_add_email.setVisible(false);
-
         action_add_wechat = menu.findItem(R.id.action_add_wechat);
-        if (program.pwechat.isEmpty())
-            action_add_wechat.setVisible(true);
-        else
-            action_add_wechat.setVisible(false);
+
+        refreshOptionMenu();
 
         return true;
     }
 
 
-    private void findViewsById() {
+    void findViewsById() {
         pdateEditText = (EditText) findViewById(R.id.et_spdate);
         pdateEditText.setInputType(InputType.TYPE_NULL);
         pdateEditText.requestFocus();
@@ -186,11 +191,18 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        refreshOptionMenu();
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         Log.i("menu", "Menu click from single program activity.");
+
 
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -252,7 +264,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         }
     }
 
-    private void setDateTimeField() {
+    void setDateTimeField() {
         // Date picker
         pdateEditText.setOnClickListener(this);
         Calendar newCalendar = Calendar.getInstance();
@@ -374,6 +386,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         dbmgrSoco.update(original_pname, program);
         Log.i("db", "Program saved, " + program.toString());
         Toast.makeText(getApplicationContext(), "Program saved.", Toast.LENGTH_SHORT).show();
+        gotoPreviousScreen();
     }
 
     public void completeProgram(View view){
@@ -381,6 +394,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         program.pcomplete = 1;
         dbmgrSoco.update(program.pname, program);
         Toast.makeText(getApplicationContext(), "Program complete.", Toast.LENGTH_SHORT).show();
+        gotoPreviousScreen();
     }
 
     public void call(View view){
