@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.ui;
+package com.soco.SoCoClient.view;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -10,10 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.soco.SoCoClient.config.Config;
+import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.datamodel.DBManagerSoco;
-import com.soco.SoCoClient.datamodel.Program;
+import com.soco.SoCoClient.control.DBManagerSoco;
+import com.soco.SoCoClient.model.Program;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +23,11 @@ import java.util.Map;
 
 public class ShowCompletedProgramsActivity extends ActionBarActivity {
 
+    // Local view
+    private ListView lv_completed_programs;
+
+    // Local variable
     private DBManagerSoco dbmgrSoco;
-    private ListView listViewSoco;
     private List<Program> programs;
     String loginEmail;
 
@@ -32,6 +35,7 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_completed_programs);
+        findViewsById();
 
         Intent intent = getIntent();
         loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
@@ -39,14 +43,13 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
         dbmgrSoco = new DBManagerSoco(this);
         programs = dbmgrSoco.loadPrograms(Config.PROGRAM_COMPLETED);
 
-        listViewSoco = (ListView) findViewById(R.id.lv_complete_programs);
-        listPrograms(listViewSoco, programs);
+        listPrograms(lv_completed_programs, programs);
 
-        listViewSoco.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        lv_completed_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListView listView = (ListView)parent;
+                ListView listView = (ListView) parent;
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
                 String name = map.get(Config.PROGRAM_PNAME);
@@ -56,6 +59,10 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void findViewsById() {
+      lv_completed_programs = (ListView) findViewById(R.id.lv_completed_programs);
     }
 
     void gotoPreviousScreen(){

@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.config;
+package com.soco.SoCoClient.control;
 
 public class Config {
 

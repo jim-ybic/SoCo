@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.ui;
+package com.soco.SoCoClient.view;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,12 +12,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.config.Config;
+import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.datamodel.Profile;
+import com.soco.SoCoClient.model.Profile;
 
 
 public class ProfileActivity extends ActionBarActivity {
+
+    // Local views
+    TextView tv_profile_email;
+    EditText et_profile_nickname;
+    EditText et_profile_phone;
+    EditText et_profile_wechat;
 
     String loginEmail;
     Profile profile;
@@ -26,12 +32,20 @@ public class ProfileActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        findViewsById();;
 
         Intent intent = getIntent();
         loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
 
         profile = loadProfile();
         showProfile(profile);
+    }
+
+    private void findViewsById() {
+        tv_profile_email = (TextView) findViewById(R.id.profile_email);
+        et_profile_nickname = (EditText) findViewById(R.id.profile_nickname);
+        et_profile_phone = (EditText) findViewById(R.id.profile_phone);
+        et_profile_wechat = (EditText) findViewById(R.id.profile_wechat);
     }
 
     Profile loadProfile() {
@@ -52,25 +66,18 @@ public class ProfileActivity extends ActionBarActivity {
         SharedPreferences settings = getSharedPreferences(Config.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        editor.putString(Config.PROFILE_NICKNAME,
-                ((TextView) findViewById(R.id.profile_nickname)).getText().toString());
-        editor.putString(Config.PROFILE_PHONE,
-                ((TextView) findViewById(R.id.profile_phone)).getText().toString());
-        editor.putString(Config.PROFILE__WECHAT,
-                ((TextView) findViewById(R.id.profile_wechat)).getText().toString());
+        editor.putString(Config.PROFILE_NICKNAME, et_profile_nickname.getText().toString());
+        editor.putString(Config.PROFILE_PHONE, et_profile_phone.getText().toString());
+        editor.putString(Config.PROFILE__WECHAT, et_profile_wechat.getText().toString());
         editor.commit();
         Toast.makeText(getApplicationContext(), "Profile saved.", Toast.LENGTH_SHORT).show();
     }
 
     public void showProfile(Profile profile){
-        ((EditText) findViewById(R.id.profile_nickname)).setText(profile.nickname,
-                TextView.BufferType.EDITABLE);
-        ((TextView) findViewById(R.id.profile_email)).setText(profile.email,
-                TextView.BufferType.EDITABLE);
-        ((EditText) findViewById(R.id.profile_phone)).setText(profile.phone,
-                TextView.BufferType.EDITABLE);
-        ((EditText) findViewById(R.id.profile_wechat)).setText(profile.wechat,
-                TextView.BufferType.EDITABLE);
+        et_profile_nickname.setText(profile.nickname, TextView.BufferType.EDITABLE);
+        tv_profile_email.setText(profile.email, TextView.BufferType.EDITABLE);
+        et_profile_phone.setText(profile.phone, TextView.BufferType.EDITABLE);
+        et_profile_wechat.setText(profile.wechat, TextView.BufferType.EDITABLE);
     }
 
     @Override

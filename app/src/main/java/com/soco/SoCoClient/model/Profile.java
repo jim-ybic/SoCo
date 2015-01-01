@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.datamodel;
+package com.soco.SoCoClient.model;
 
 public class Profile {
     public String email;

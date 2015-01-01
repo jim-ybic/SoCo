@@ -20,7 +20,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".view.LoginActivity"
             android:label="SoCo"
             android:windowSoftInputMode="adjustResize|stateHidden" >
             <intent-filter>
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.ShowActiveProgramsActivity"
+            android:name=".view.ShowActiveProgramsActivity"
             android:label="@string/app_name" >
 
             <!--
@@ -41,28 +41,28 @@
             -->
         </activity>
         <activity
-            android:name=".ui.ShowSingleProgramActivity"
+            android:name=".view.ShowSingleProgramActivity"
             android:label="@string/title_activity_display_message"
-            android:parentActivityName=".ui.ShowActiveProgramsActivity" >
+            android:parentActivityName=".view.ShowActiveProgramsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.ShowActiveProgramsActivity" />
+                android:value=".view.ShowActiveProgramsActivity" />
         </activity>
         <activity
-            android:name=".ui.CreateProgramActivity"
+            android:name=".view.CreateProgramActivity"
             android:label="@string/title_activity_create_program"
-            android:parentActivityName=".ui.ShowActiveProgramsActivity" >
+            android:parentActivityName=".view.ShowActiveProgramsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.ShowActiveProgramsActivity" />
+                android:value=".view.ShowActiveProgramsActivity" />
         </activity>
         <activity
-            android:name=".ui.ShowCompletedProgramsActivity"
+            android:name=".view.ShowCompletedProgramsActivity"
             android:label="@string/title_activity_show_completed_programs"
-            android:parentActivityName=".ui.ShowActiveProgramsActivity" >
+            android:parentActivityName=".view.ShowActiveProgramsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.ShowActiveProgramsActivity" />
+                android:value=".view.ShowActiveProgramsActivity" />
         </activity>
 
         <meta-data
@@ -70,20 +70,12 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".ui.ProfileActivity"
+            android:name=".view.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:parentActivityName=".ui.ShowActiveProgramsActivity" >
+            android:parentActivityName=".view.ShowActiveProgramsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.ShowActiveProgramsActivity" />
-        </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".ui.ShowActiveProgramsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.soco.SoCoClient.ui.ShowActiveProgramsActivity" />
+                android:value=".view.ShowActiveProgramsActivity" />
         </activity>
     </application>
 

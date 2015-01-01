@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.datamodel;
+package com.soco.SoCoClient.control;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient.config.Config;
+import com.soco.SoCoClient.control.Config;
+import com.soco.SoCoClient.control.DBHelperSoco;
+import com.soco.SoCoClient.model.Program;
 
 public class DBManagerSoco {
     private DBHelperSoco helper;
@@ -27,7 +29,7 @@ public class DBManagerSoco {
     public void add(Program program) {
         db.beginTransaction();
         try {
-            Log.i("db", "Insert new program: " + program.pname + ", "
+            Log.i("db", "Add new program: " + program.pname + ", "
                     + program.pdate + ", " + program.ptime + ", " + program.pplace + ", "
                     + program.pdesc + ", " + program.pphone + ", " + program.pemail + ", "
                     + program.pwechat);
@@ -41,35 +43,12 @@ public class DBManagerSoco {
         }
     }
 
-//    public List<Program> loadProgram() {
-//        ArrayList<Program> programs = new ArrayList<>();
-//        Cursor c = queryTheCursor();
-//        while (c.moveToNext()) {
-//            Program program = new Program();
-//            program.pid = c.getInt(c.getColumnIndex("pid"));
-//            program.pname = c.getString(c.getColumnIndex("pname"));
-//            program.pdate = c.getString(c.getColumnIndex("pdate"));
-//            program.ptime = c.getString(c.getColumnIndex("ptime"));
-//            program.pplace = c.getString(c.getColumnIndex("pplace"));
-//            program.pcomplete = c.getInt(c.getColumnIndex("pcomplete"));
-//            programs.add(program);
-//        }
-//        c.close();
-//        return programs;
-//    }
-
     public ArrayList<Program> loadPrograms(int pcompleted) {
         Log.i("db", "Load programs where pcomplete is " + pcompleted);
         ArrayList<Program> programs = new ArrayList<>();
         Cursor c = queryTheCursor(pcompleted);
         while (c.moveToNext()) {
             Program program = new Program(c);
-//            program.pid = c.getInt(c.getColumnIndex(Config.COLUMN_PID));
-//            program.pname = c.getString(c.getColumnIndex(Config.COLUMN_PNAME));
-//            program.pdate = c.getString(c.getColumnIndex(Config.COLUMN_PDATE));
-//            program.ptime = c.getString(c.getColumnIndex(Config.COLUMN_PTIME));
-//            program.pplace = c.getString(c.getColumnIndex(Config.COLUMN_PPLACE));
-//            program.pcomplete = c.getInt(c.getColumnIndex(Config.COLUMN_PCOMPLETE));
             programs.add(program);
         }
         c.close();
@@ -82,12 +61,6 @@ public class DBManagerSoco {
         Cursor c = queryTheCursor(pname);
         while (c.moveToNext()) {
             program = new Program(c);
-//            program.pid = c.getInt(c.getColumnIndex(Config.COLUMN_PID));
-//            program.pname = c.getString(c.getColumnIndex(Config.COLUMN_PNAME));
-//            program.pdate = c.getString(c.getColumnIndex(Config.COLUMN_PDATE));
-//            program.ptime = c.getString(c.getColumnIndex(Config.COLUMN_PTIME));
-//            program.pplace = c.getString(c.getColumnIndex(Config.COLUMN_PPLACE));
-//            program.pcomplete = c.getInt(c.getColumnIndex(Config.COLUMN_PCOMPLETE));
         }
         c.close();
         return program;
@@ -99,18 +72,17 @@ public class DBManagerSoco {
                 new String[] {pname});
     }
 
-//    public Cursor queryTheCursor() {
-//        return db.rawQuery("SELECT * FROM program", null);
-//    }
-
     public Cursor queryTheCursor(int pcomplete) {
         return db.rawQuery("SELECT * FROM " + Config.TABLE_PROGRAM +
                         " where " + Config.COLUMN_PCOMPLETE + " = ?",
                 new String[] {String.valueOf(pcomplete)});
     }
 
-    public void update(Program p) {
+    public void update(String original_pname, Program p) {
+        Log.i("db", "Update database for program: " + p.toString());
+
         ContentValues cv = new ContentValues();
+        cv.put(Config.COLUMN_PNAME, p.pname);
         cv.put(Config.COLUMN_PDATE, p.pdate);
         cv.put(Config.COLUMN_PTIME, p.ptime);
         cv.put(Config.COLUMN_PPLACE, p.pplace);
@@ -121,7 +93,7 @@ public class DBManagerSoco {
         cv.put(Config.COLUMN_PWECHAT, p.pwechat);
 
         db.update(Config.TABLE_PROGRAM, cv, Config.COLUMN_PNAME + " = ?",
-                new String[]{p.pname});
+                new String[]{original_pname});
     }
 
 //    public void closeDB() {

@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.ui;
+package com.soco.SoCoClient.view;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -16,10 +16,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.config.Config;
+import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.datamodel.DBManagerSoco;
-import com.soco.SoCoClient.datamodel.Program;
+import com.soco.SoCoClient.control.DBManagerSoco;
+import com.soco.SoCoClient.model.Program;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,32 +27,64 @@ import java.util.Locale;
 
 public class ShowSingleProgramActivity extends ActionBarActivity implements View.OnClickListener {
 
-    private EditText pdateEditText = null;
-    private EditText ptimeEditText = null;
-    private DatePickerDialog pdatePickerDialog = null;
-    private TimePickerDialog ptimePickerDialog = null;
-    private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+    // Local views
+    public EditText pdateEditText = null;
+    public EditText ptimeEditText = null;
 
+    public EditText et_spname;
+    public EditText et_spdate;
+    public EditText et_sptime;
+    public EditText et_spplace;
+    public EditText et_spdesc;
+    public EditText et_spphone;
+    public EditText et_spemail;
+    public EditText et_spwechat;
+
+    // Local variables
     DBManagerSoco dbmgrSoco = null;
     Program program = null;
     String loginEmail;
+    String original_pname;
+
+    private DatePickerDialog pdatePickerDialog = null;
+    private TimePickerDialog ptimePickerDialog = null;
+    private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_single_program);
+        findViewsById();
 
         Intent intent = getIntent();
-        String pname = intent.getStringExtra(Config.PROGRAM_PNAME);
+        original_pname = intent.getStringExtra(Config.PROGRAM_PNAME);
         loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
 
         dbmgrSoco = new DBManagerSoco(this);
-        program = dbmgrSoco.loadProgram(pname);
+        program = dbmgrSoco.loadProgram(original_pname);
         showProgram(program);
 
-        findViewsById();
         setDateTimeField();
     }
+
+    private void findViewsById() {
+        pdateEditText = (EditText) findViewById(R.id.et_spdate);
+        pdateEditText.setInputType(InputType.TYPE_NULL);
+        pdateEditText.requestFocus();
+
+        ptimeEditText = (EditText) findViewById(R.id.et_sptime);
+        ptimeEditText.setInputType(InputType.TYPE_NULL);
+
+        et_spname = (EditText) findViewById(R.id.et_spname);
+        et_spdate = (EditText) findViewById(R.id.et_spdate);
+        et_sptime = (EditText) findViewById(R.id.et_sptime);
+        et_spplace = (EditText) findViewById(R.id.et_spplace);
+        et_spdesc = (EditText) findViewById(R.id.et_spdesc);
+        et_spphone = (EditText) findViewById(R.id.et_spphone);
+        et_spemail = (EditText) findViewById(R.id.et_spemail);
+        et_spwechat = (EditText) findViewById(R.id.et_spwechat);
+    }
+
 
     void gotoPreviousScreen(){
         Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
@@ -84,19 +116,9 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         }
     }
 
-    private void findViewsById() {
-        pdateEditText = (EditText) findViewById(R.id.spdate);
-        pdateEditText.setInputType(InputType.TYPE_NULL);
-        pdateEditText.requestFocus();
-        ptimeEditText = (EditText) findViewById(R.id.sptime);
-        ptimeEditText.setInputType(InputType.TYPE_NULL);
-    }
-
     private void setDateTimeField() {
-        pdateEditText.setOnClickListener(this);
-        ptimeEditText.setOnClickListener(this);
-
         // Date picker
+        pdateEditText.setOnClickListener(this);
         Calendar newCalendar = Calendar.getInstance();
         int year = newCalendar.get(Calendar.YEAR);
         int month = newCalendar.get(Calendar.MONTH);
@@ -111,6 +133,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         }, year, month, day);
 
         // Time picker
+        ptimeEditText.setOnClickListener(this);
         int hour = newCalendar.get(Calendar.HOUR_OF_DAY);
         int minute = newCalendar.get(Calendar.MINUTE);
         ptimePickerDialog = new TimePickerDialog(this,
@@ -123,70 +146,61 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     }
 
     public void showProgram(Program program){
-        ((TextView) findViewById(R.id.spname)).setText(program.pname,
-                TextView.BufferType.EDITABLE);
-        ((EditText) findViewById(R.id.spdate)).setText(program.pdate,
-                TextView.BufferType.EDITABLE);
-        ((EditText) findViewById(R.id.sptime)).setText(program.ptime,
-                TextView.BufferType.EDITABLE);
-        ((EditText) findViewById(R.id.spplace)).setText(program.pplace,
-                TextView.BufferType.EDITABLE);
-        ((EditText) findViewById(R.id.spdesc)).setText(program.pdesc,
-                TextView.BufferType.EDITABLE);
-        ((EditText) findViewById(R.id.spphone)).setText(program.pphone,
-                TextView.BufferType.EDITABLE);
-        ((EditText) findViewById(R.id.spemail)).setText(program.pemail,
-                TextView.BufferType.EDITABLE);
-        ((EditText) findViewById(R.id.spwechat)).setText(program.pwechat,
-                TextView.BufferType.EDITABLE);
+        et_spname.setText(program.pname, TextView.BufferType.EDITABLE);
+        et_spdate.setText(program.pdate, TextView.BufferType.EDITABLE);
+        et_sptime.setText(program.ptime, TextView.BufferType.EDITABLE);
+        et_spplace.setText(program.pplace, TextView.BufferType.EDITABLE);
+        et_spdesc.setText(program.pdesc, TextView.BufferType.EDITABLE);
+        et_spphone.setText(program.pphone, TextView.BufferType.EDITABLE);
+        et_spemail.setText(program.pemail, TextView.BufferType.EDITABLE);
+        et_spwechat.setText(program.pwechat, TextView.BufferType.EDITABLE);
     }
 
-    Program getProgram(){
-        String pname = ((TextView) findViewById(R.id.spname)).getText().toString();
+    void refreshProgram(){
+        String pname = et_spname.getText().toString();
         if (!program.pname.equals(pname))
             program.pname = pname;
 
-        String pdate = ((EditText) findViewById(R.id.spdate)).getText().toString();
+        String pdate = et_spdate.getText().toString();
         if (!program.pdate.equals(pdate))
             program.pdate = pdate;
 
-        String ptime = ((EditText) findViewById(R.id.sptime)).getText().toString();
+        String ptime = et_sptime.getText().toString();
         if (!program.ptime.equals(ptime))
             program.ptime = ptime;
 
-        String pplace = ((EditText) findViewById(R.id.spplace)).getText().toString();
+        String pplace = et_spplace.getText().toString();
         if (!program.pplace.equals(pplace))
             program.pplace = pplace;
 
-        String pdesc = ((EditText) findViewById(R.id.spdesc)).getText().toString();
+        String pdesc = et_spdesc.getText().toString();
         if (!program.pdesc.equals(pdesc))
             program.pdesc = pdesc;
 
-        String pphone = ((EditText) findViewById(R.id.spphone)).getText().toString();
+        String pphone = et_spphone.getText().toString();
         if (!program.pphone.equals(pphone))
             program.pphone = pphone;
 
-        String pemail = ((EditText) findViewById(R.id.spemail)).getText().toString();
+        String pemail = et_spemail.getText().toString();
         if (!program.pemail.equals(pemail))
             program.pemail = pemail;
 
-        String pwechat = ((EditText) findViewById(R.id.spwechat)).getText().toString();
+        String pwechat = et_spwechat.getText().toString();
         if (!program.pwechat.equals(pwechat))
             program.pwechat = pwechat;
-
-        return program;
     }
 
     public void saveProgram(View view){
-        Program p = getProgram();
-        dbmgrSoco.update(p);
+        refreshProgram();
+        dbmgrSoco.update(original_pname, program);
+        Log.i("db", "Program saved, " + program.toString());
         Toast.makeText(getApplicationContext(), "Program saved.", Toast.LENGTH_SHORT).show();
     }
 
     public void completeProgram(View view){
-        Program p = getProgram();
-        p.pcomplete = 1;
-        dbmgrSoco.update(p);
+        refreshProgram();
+        program.pcomplete = 1;
+        dbmgrSoco.update(program.pname, program);
         Toast.makeText(getApplicationContext(), "Program complete.", Toast.LENGTH_SHORT).show();
     }
 

@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/lv_complete_programs"
+        android:id="@+id/lv_completed_programs"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
 

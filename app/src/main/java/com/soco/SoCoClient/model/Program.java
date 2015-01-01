@@ -1,8 +1,8 @@
-package com.soco.SoCoClient.datamodel;
+package com.soco.SoCoClient.model;
 
 import android.database.Cursor;
 
-import com.soco.SoCoClient.config.Config;
+import com.soco.SoCoClient.control.Config;
 
 public class Program {
 
@@ -31,18 +31,6 @@ public class Program {
         this.pemail = c.getString(c.getColumnIndex(Config.COLUMN_PEMAIL));
         this.pwechat = c.getString(c.getColumnIndex(Config.COLUMN_PWECHAT));
     }
-
-//    public Program(String pname) {
-//        this.pname = pname;
-//    }
-
-//    public Program(String pname, String pdate, String ptime, String pplace) {
-//        this.pname = pname;
-//        this.pdate = pdate;
-//        this.ptime = ptime;
-//        this.pplace = pplace;
-//        this.pcomplete = 0;
-//    }
 
     public String toString() {
         return this.pname + ", " + this.pdate + ", " + this.ptime + ", " + this.pplace + ", "

@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.ui;
+package com.soco.SoCoClient.view;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -13,10 +13,10 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.config.Config;
+import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.datamodel.DBManagerSoco;
-import com.soco.SoCoClient.datamodel.Program;
+import com.soco.SoCoClient.control.DBManagerSoco;
+import com.soco.SoCoClient.model.Program;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,8 +24,15 @@ import java.util.Locale;
 
 public class CreateProgramActivity extends ActionBarActivity implements View.OnClickListener {
 
-    private EditText pdateEditText = null;
-    private EditText ptimeEditText = null;
+    // Local views
+    private EditText et_pdate = null;
+    private EditText et_ptime = null;
+    private EditText et_pplace = null;
+    private EditText et_pdesc = null;
+    private EditText et_pphone = null;
+    private EditText et_pemail = null;
+    private EditText et_pwechat = null;
+
     private DatePickerDialog pdatePickerDialog = null;
     private TimePickerDialog ptimePickerDialog = null;
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
@@ -36,11 +43,11 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_program);
+        findViewsById();
 
         Intent intent = getIntent();
         loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
 
-        findViewsById();
         setDateTimeField();
     }
 
@@ -66,28 +73,32 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
 
     @Override
     public void onClick(View view) {
-        if(view == pdateEditText) {
+        if(view == et_pdate) {
             pdatePickerDialog.show();
         }
-        if(view == ptimeEditText) {
+        if(view == et_ptime) {
             ptimePickerDialog.show();
         }
     }
 
     private void findViewsById() {
-        pdateEditText = (EditText) findViewById(R.id.pdate);
-        pdateEditText.setInputType(InputType.TYPE_NULL);
-        pdateEditText.requestFocus();
+        et_pdate = (EditText) findViewById(R.id.pdate);
+        et_pdate.setInputType(InputType.TYPE_NULL);
+        et_pdate.requestFocus();
 
-        ptimeEditText = (EditText) findViewById(R.id.ptime);
-        ptimeEditText.setInputType(InputType.TYPE_NULL);
+        et_ptime = (EditText) findViewById(R.id.ptime);
+        et_ptime.setInputType(InputType.TYPE_NULL);
+
+        et_pplace = (EditText) findViewById(R.id.pplace);
+        et_pdesc = (EditText) findViewById(R.id.pdesc);
+        et_pphone = (EditText) findViewById(R.id.pphone);
+        et_pemail = (EditText) findViewById(R.id.pemail);
+        et_pwechat = (EditText) findViewById(R.id.pwechat);
     }
 
     private void setDateTimeField() {
-        pdateEditText.setOnClickListener(this);
-        ptimeEditText.setOnClickListener(this);
-
         // Date picker
+        et_pdate.setOnClickListener(this);
         Calendar newCalendar = Calendar.getInstance();
         int year = newCalendar.get(Calendar.YEAR);
         int month = newCalendar.get(Calendar.MONTH);
@@ -96,16 +107,17 @@ public class CreateProgramActivity extends ActionBarActivity implements View.OnC
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                pdateEditText.setText(dateFormatter.format(newDate.getTime()));
+                et_pdate.setText(dateFormatter.format(newDate.getTime()));
             }
         }, year, month, day);
 
         // Time picker
+        et_ptime.setOnClickListener(this);
         int hour = newCalendar.get(Calendar.HOUR_OF_DAY);
         int minute = newCalendar.get(Calendar.MINUTE);
         ptimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                ptimeEditText.setText( selectedHour + ":" + selectedMinute);
+                et_ptime.setText(selectedHour + ":" + selectedMinute);
             }
         }, hour, minute, true); //Yes 24 hour time
 

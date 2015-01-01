@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.ui;
+package com.soco.SoCoClient.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,10 +14,10 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.config.Config;
+import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.datamodel.DBManagerSoco;
-import com.soco.SoCoClient.datamodel.Program;
+import com.soco.SoCoClient.control.DBManagerSoco;
+import com.soco.SoCoClient.model.Program;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +27,11 @@ import java.util.Map;
 
 public class ShowActiveProgramsActivity extends ActionBarActivity {
 
+    // Local view
+    private ListView lv_active_programs;
+
+    // Local variable
     private DBManagerSoco dbmgrSoco;
-    private ListView listViewSoco;
     private List<Program> programs;
     private String loginEmail;
 
@@ -36,6 +39,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_active_programs);
+        findViewsById();
 
         Intent intent = getIntent();
         loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
@@ -43,14 +47,13 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         dbmgrSoco = new DBManagerSoco(this);
         programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
 
-        listViewSoco = (ListView) findViewById(R.id.listView);
         listPrograms(null);
 
-        listViewSoco.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        lv_active_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListView listView = (ListView)parent;
+                ListView listView = (ListView) parent;
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
                 String name = map.get(Config.PROGRAM_PNAME);
@@ -62,6 +65,11 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
             }
         });
     }
+
+    private void findViewsById() {
+        lv_active_programs = (ListView) findViewById(R.id.lv_active_programs);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -88,6 +96,10 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                             dbmgrSoco.cleanDB();
                             Toast.makeText(getApplicationContext(),
                                     "All Programs deleted.", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(getApplicationContext(),
+                                    ShowActiveProgramsActivity.class);
+                            i.putExtra(Config.LOGIN_EMAIL, loginEmail);
+                            startActivity(i);;
                         }
                     })
                     .setNegativeButton("No", null)
@@ -99,16 +111,10 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
             intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
             startActivity(intent);
-//            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-//    public void cleanDB(View view) {
-//        dbmgrSoco.cleanDB();
-//        Toast.makeText(getApplicationContext(), "Database cleaned.", Toast.LENGTH_SHORT).show();
-//    }
 
     public void createProgram(View view) {
         Intent intent = new Intent(this, CreateProgramActivity.class);
@@ -128,7 +134,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                 android.R.layout.simple_list_item_2,
                 new String[]{Config.PROGRAM_PNAME, Config.PROGRAM_PINFO},
                 new int[]{android.R.id.text1, android.R.id.text2});
-        listViewSoco.setAdapter(adapter);
+        lv_active_programs.setAdapter(adapter);
     }
 
     public void showCompletedPrograms(View view) {

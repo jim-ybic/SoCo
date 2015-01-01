@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.ui;
+package com.soco.SoCoClient.view;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,15 +11,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.config.Config;
+import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
 
 
 public class LoginActivity extends ActionBarActivity {
 
-
-    EditText etLoginEmail;
-    EditText etLoginPassword;
+    // Local views
+    EditText et_login_email;
+    EditText et_login_password;
 
     String loginEmail;
     String loginPassword;
@@ -29,32 +29,17 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        findViewsById();
 
-        etLoginEmail = (EditText) findViewById(R.id.et_login_email);
-        etLoginEmail.setText("jim.ybic@gmail.com");
-        etLoginPassword = (EditText) findViewById(R.id.et_login_password);
-        etLoginPassword.setText("12345678");
+        // Test
+        et_login_email.setText("jim.ybic@gmail.com");
+        et_login_password.setText("12345678");
     }
 
-//    void readFile(){
-//            File file = new File(Config.PROFILE_FILENAME);
-//            if (!file.exists()) {
-//                file = new File(getApplicationContext().getFilesDir(), Config.PROFILE_FILENAME);
-//
-//                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-//                        new FileOutputStream(file), Config.ENCODING));
-//                writer.write(Config.PROFILE_EMAIL + ":" + loginEmail);
-//                writer.flush();
-//                writer.close();
-//            }
-//
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(
-//                    new FileInputStream(file), Config.ENCODING));
-//            String s = reader.readLine();
-//            while (!s.isEmpty()) {
-//                s = reader.readLine();
-//            }
-//    }
+    private void findViewsById() {
+        et_login_email = (EditText) findViewById(R.id.et_login_email);
+        et_login_password = (EditText) findViewById(R.id.et_login_password);
+    }
 
     void updateProfile(String loginEmail) {
             Log.i("soco", "Load profile.");
@@ -75,8 +60,8 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public void login (View view) {
-        loginEmail = etLoginEmail.getText().toString();
-        loginPassword = etLoginPassword.getText().toString();
+        loginEmail = et_login_email.getText().toString();
+        loginPassword = et_login_password.getText().toString();
         nickname = loginEmail;
 
         updateProfile(loginEmail);
@@ -115,4 +100,25 @@ public class LoginActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    //    void readFile(){
+//            File file = new File(Config.PROFILE_FILENAME);
+//            if (!file.exists()) {
+//                file = new File(getApplicationContext().getFilesDir(), Config.PROFILE_FILENAME);
+//
+//                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+//                        new FileOutputStream(file), Config.ENCODING));
+//                writer.write(Config.PROFILE_EMAIL + ":" + loginEmail);
+//                writer.flush();
+//                writer.close();
+//            }
+//
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(
+//                    new FileInputStream(file), Config.ENCODING));
+//            String s = reader.readLine();
+//            while (!s.isEmpty()) {
+//                s = reader.readLine();
+//            }
+//    }
+
 }

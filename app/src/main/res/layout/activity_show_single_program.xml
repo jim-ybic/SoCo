@@ -5,32 +5,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/spname"
+    <EditText
+        android:id="@+id/et_spname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/abc_text_size_display_1_material" />
+        android:textSize="@dimen/abc_text_size_display_1_material"
+        android:hint="Name not set" />
 
     <EditText
-        android:id="@+id/spdate"
+        android:id="@+id/et_spdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Date not set" />
 
     <EditText
-        android:id="@+id/sptime"
+        android:id="@+id/et_sptime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Time not set" />
 
     <EditText
-        android:id="@+id/spplace"
+        android:id="@+id/et_spplace"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Place not set" />
 
     <EditText
-        android:id="@+id/spdesc"
+        android:id="@+id/et_spdesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description not set" />
@@ -40,7 +41,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent">
         <EditText
-            android:id="@+id/spphone"
+            android:id="@+id/et_spphone"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -63,7 +64,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent">
         <EditText
-            android:id="@+id/spemail"
+            android:id="@+id/et_spemail"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -80,7 +81,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent">
         <EditText
-            android:id="@+id/spwechat"
+            android:id="@+id/et_spwechat"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_width="fill_parent"
