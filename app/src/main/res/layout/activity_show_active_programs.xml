@@ -10,21 +10,27 @@
         android:text="Clean Database"
         android:onClick="cleanDB"/-->
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_create_program"
-        android:onClick="createProgram" />
-
     <ListView
         android:id="@+id/lv_active_programs"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Show Completed Programs"
-        android:onClick="showCompletedPrograms" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="vertical" >
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_create_program"
+            android:onClick="createProgram" />
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Show Completed Programs"
+            android:onClick="showCompletedPrograms" />
+    </LinearLayout>
 
 </LinearLayout>
