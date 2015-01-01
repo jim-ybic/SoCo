@@ -2,6 +2,7 @@ package com.soco.SoCoClient.view;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
@@ -426,7 +427,19 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     public void wechat(View view) {
         Log.i("wechat", "Send wechat");
-        // TODO: send wechat message
+        try {
+            Intent intent = new Intent();
+            intent.setComponent(new ComponentName(
+                    "com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI"));
+            intent.setAction("android.intent.action.SEND");
+            intent.setType("image/*");
+            intent.putExtra(Intent.EXTRA_TEXT, "Input message below:");
+//        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+            startActivity(intent);
+        } catch (Exception e){
+            Log.e("wechat", "Cannot start intent to send wechat");
+            e.printStackTrace();
+        }
     }
 
 
