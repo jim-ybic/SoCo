@@ -90,7 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_width="fill_parent"
-            android:hint="Phone not set" />
+            android:hint="Phone not set"
+            android:inputType="phone" />
         <Button
             android:id="@+id/bt_call"
             android:text="Call"
@@ -120,7 +121,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_width="fill_parent"
-            android:hint="Email not set" />
+            android:hint="Email not set"
+            android:inputType="textEmailAddress"  />
         <Button
             android:id="@+id/bt_email"
             android:text="Email"

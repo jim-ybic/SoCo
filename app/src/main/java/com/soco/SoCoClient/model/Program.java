@@ -19,6 +19,10 @@ public class Program {
 
     public Program() {}
 
+    public Program(String name) {
+        this.pname = name;
+    }
+
     public Program(Cursor c) {
         this.pid = c.getInt(c.getColumnIndex(Config.COLUMN_PID));
         this.pname = c.getString(c.getColumnIndex(Config.COLUMN_PNAME));

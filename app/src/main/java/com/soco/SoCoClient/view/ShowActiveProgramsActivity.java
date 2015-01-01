@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -117,9 +118,34 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
     }
 
     public void createProgram(View view) {
-        Intent intent = new Intent(this, CreateProgramActivity.class);
-        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-        startActivity(intent);
+        //TEST1 - start new intent/activity
+//        Intent intent = new Intent(this, CreateProgramActivity.class);
+//        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+//        startActivity(intent);
+
+        //TEST2 - show an alert dialog
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Create new program");
+        alert.setMessage("PLease input a name: ");
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String n = input.getText().toString();
+                Program p = new Program(n);
+                dbmgrSoco.add(p);
+                Log.i("new", "New program created: " + n);
+                Toast.makeText(getApplicationContext(), "Program created.", Toast.LENGTH_SHORT).show();
+                programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
+                listPrograms(null);
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {} });
+
+        alert.show();
     }
 
     public void listPrograms(View view) {

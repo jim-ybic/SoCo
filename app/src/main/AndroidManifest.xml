@@ -49,14 +49,6 @@
                 android:value=".view.ShowActiveProgramsActivity" />
         </activity>
         <activity
-            android:name=".view.CreateProgramActivity"
-            android:label="@string/title_activity_create_program"
-            android:parentActivityName=".view.ShowActiveProgramsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.ShowActiveProgramsActivity" />
-        </activity>
-        <activity
             android:name=".view.ShowCompletedProgramsActivity"
             android:label="@string/title_activity_show_completed_programs"
             android:parentActivityName=".view.ShowActiveProgramsActivity" >
