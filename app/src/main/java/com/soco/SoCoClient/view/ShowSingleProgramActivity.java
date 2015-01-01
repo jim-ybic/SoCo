@@ -2,6 +2,7 @@ package com.soco.SoCoClient.view;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
@@ -30,21 +31,27 @@ import java.util.Locale;
 public class ShowSingleProgramActivity extends ActionBarActivity implements View.OnClickListener {
 
     // Local views
-    public EditText pdateEditText = null;
-    public EditText ptimeEditText = null;
-
-    public EditText et_spname;
-    public EditText et_spdate;
-    public EditText et_sptime;
-    public EditText et_spplace;
-    public EditText et_spdesc;
-    public EditText et_spphone;
-    public EditText et_spemail;
-    public EditText et_spwechat;
-    public Button bt_call;
-    public Button bt_whatsapp;
-    public Button bt_email;
-    public Button bt_wechat;
+    EditText pdateEditText = null;
+    EditText ptimeEditText = null;
+    EditText et_spname;
+    EditText et_spdate;
+    EditText et_sptime;
+    EditText et_spplace;
+    EditText et_spdesc;
+    EditText et_spphone;
+    EditText et_spemail;
+    EditText et_spwechat;
+    Button bt_call;
+    Button bt_whatsapp;
+    Button bt_email;
+    Button bt_wechat;
+    MenuItem action_add_date;
+    MenuItem action_add_time;
+    MenuItem action_add_place;
+    MenuItem action_add_desc;
+    MenuItem action_add_phone;
+    MenuItem action_add_email;
+    MenuItem action_add_wechat;
 
     // Local variables
     DBManagerSoco dbmgrSoco = null;
@@ -77,6 +84,49 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_show_single_program, menu);
+
+        action_add_date = menu.findItem(R.id.action_add_date);
+        if (program.pdate.isEmpty())
+            action_add_date.setVisible(true);
+        else
+            action_add_date.setVisible(false);
+
+        action_add_time = menu.findItem(R.id.action_add_time);
+        if (program.ptime.isEmpty())
+            action_add_time.setVisible(true);
+        else
+            action_add_time.setVisible(false);
+
+        action_add_place = menu.findItem(R.id.action_add_place);
+        if (program.pplace.isEmpty())
+            action_add_place.setVisible(true);
+        else
+            action_add_place.setVisible(false);
+
+        action_add_desc = menu.findItem(R.id.action_add_desc);
+        if (program.pdesc.isEmpty())
+            action_add_desc.setVisible(true);
+        else
+            action_add_desc.setVisible(false);
+
+        action_add_phone = menu.findItem(R.id.action_add_phone);
+        if (program.pphone.isEmpty())
+            action_add_phone.setVisible(true);
+        else
+            action_add_phone.setVisible(false);
+
+        action_add_email = menu.findItem(R.id.action_add_email);
+        if (program.pemail.isEmpty())
+            action_add_email.setVisible(true);
+        else
+            action_add_email.setVisible(false);
+
+        action_add_wechat = menu.findItem(R.id.action_add_wechat);
+        if (program.pwechat.isEmpty())
+            action_add_wechat.setVisible(true);
+        else
+            action_add_wechat.setVisible(false);
+
         return true;
     }
 
@@ -102,6 +152,14 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         bt_whatsapp = (Button) findViewById(R.id.bt_whatsapp);
         bt_email = (Button) findViewById(R.id.bt_email);
         bt_wechat = (Button) findViewById(R.id.bt_wechat);
+
+//        action_add_date = (MenuItem) findViewById(R.id.action_add_date);
+//        action_add_time = (MenuItem) findViewById(R.id.action_add_time);
+//        action_add_place = (MenuItem) findViewById(R.id.action_add_place);
+//        action_add_desc = (MenuItem) findViewById(R.id.action_add_desc);
+//        action_add_phone = (MenuItem) findViewById(R.id.action_add_phone);
+//        action_add_email = (MenuItem) findViewById(R.id.action_add_email);
+//        action_add_wechat = (MenuItem) findViewById(R.id.action_add_wechat);
     }
 
 
