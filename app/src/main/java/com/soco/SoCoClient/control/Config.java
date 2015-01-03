@@ -32,7 +32,7 @@ public class Config {
     public static String COLUMN_PEMAIL = "pemail";
     public static String COLUMN_PWECHAT = "pwechat";
 
-//    public static String ENCODING = "UTF-8";
+    public static String ENCODING = "UTF-8";
 //    public static String PROGRAM_PDATE = "PROGRAM_PDATE";
 //    public static String PROGRAM_PTIME = "PROGRAM_PTIME";
 //    public static String PROGRAM_PPLACE = "PROGRAM_PPLACE";

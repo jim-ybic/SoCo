@@ -170,6 +170,11 @@
             android:layout_height="wrap_content"
             android:text="Mark as Complete"
             android:onClick="completeProgram" />
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload to cloud (TEST)"
+            android:onClick="upload" />
     </LinearLayout>
 
 </LinearLayout>

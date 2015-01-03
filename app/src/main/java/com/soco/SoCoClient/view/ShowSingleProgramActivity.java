@@ -20,6 +20,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.session.AccessTokenPair;
+import com.dropbox.client2.session.AppKeyPair;
+import com.dropbox.client2.session.Session;
+import com.dropbox.client2.session.TokenPair;
 import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.DBManagerSoco;
@@ -28,6 +34,8 @@ import com.soco.SoCoClient.model.Program;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import com.soco.SoCoClient.model.UploadFileToDropbox;
 
 public class ShowSingleProgramActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -71,8 +79,16 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     TimePickerDialog ptimePickerDialog = null;
     SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
+    DropboxAPI<AndroidAuthSession> dropbox;
+    String ACCESS_KEY = "7cfm4ur90xw54pv";
+    String ACCESS_SECRET = "9rou23wi8t4htkz";
+    String accessToken;
+    AppKeyPair appKeyPair;
+    AccessTokenPair accessTokenPair;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("show", "Show single activity: onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_single_program);
         findViewsById();
@@ -86,6 +102,8 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         showProgram(program);
 
         setDateTimeField();
+
+        initDropboxApiAuthentication();
     }
 
     void refreshOptionMenu(){
@@ -458,4 +476,103 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
 
 
+    public void upload(View view) {
+        Log.i("upload", "ShowSingleProgramActivity:upload");
+
+//        Log.i("dropbox", "Begin to anthenticate");
+//        dropbox.getSession().startAuthentication(ShowSingleProgramActivity.this);
+
+        String p = getApplicationContext().getFilesDir().toString();
+        UploadFileToDropbox upload = new UploadFileToDropbox(this, dropbox, p);
+        upload.key = ACCESS_KEY;
+        upload.secret = ACCESS_SECRET;
+        upload.accessTokenPair = accessTokenPair;
+        Log.i("dropbox", "Create UploadFileToDropbox with accessTokenPair: " + accessTokenPair
+                + " and file path: " + p);
+        upload.execute();
+    }
+
+    void initDropboxApiAuthentication(){
+        Log.i("dropbox", "Create DropboxAPI object");
+
+        AndroidAuthSession session;
+
+        Log.i("dropbox", "Step 1: Create appKeyPair from Key/Secret: "
+                + ACCESS_KEY + "/" + ACCESS_SECRET);
+        appKeyPair = new AppKeyPair(ACCESS_KEY, ACCESS_SECRET);
+        accessTokenPair = new AccessTokenPair(ACCESS_KEY, ACCESS_SECRET);
+
+        Log.i("dropbox", "Step 2: Create session with appKeyPair: " + appKeyPair
+                + ", AccessType: " + Session.AccessType.APP_FOLDER
+                + ", accessTokenPair: " + accessTokenPair);
+//        session = new AndroidAuthSession(appKeyPair, Session.AccessType.APP_FOLDER, accessTokenPair);
+        session = new AndroidAuthSession(appKeyPair, Session.AccessType.APP_FOLDER);
+
+        Log.i("dropbox", "Step 3: Create DropboxAPI from session: " + session);
+        dropbox = new DropboxAPI<AndroidAuthSession>(session);
+
+        Log.i("dropbox", "Step 4: Load saved OA2 token");
+        String OA2token = "JWWNa2LgL2UAAAAAAAAANNpl6wfgG5wTX6_OrNik5a_yKGsnySogfHYMK-uxjLJd";
+        Log.i("dropbox", "Set DropboxAPI OA2 token: " + OA2token);
+        dropbox.getSession().setOAuth2AccessToken(OA2token);
+
+        Log.i("dropbox", "Validate DropboxAPI and Session");
+        if (dropbox != null && dropbox.getSession() != null)
+            Log.i("dropbox", "Validation success");
+        else {
+            Log.i("dropbox", "Session authentication failed, create new session");
+//            if (ACCESS_KEY != null && ACCESS_SECRET != null) {
+                accessTokenPair = new AccessTokenPair(ACCESS_KEY, ACCESS_SECRET);
+//                accessTokenPair = new AccessTokenPair(ACCESS_KEY, ACCESS_SECRET);
+                Log.i("dropbox", "Created accessTokenPair: " + accessTokenPair);
+//                session = new AndroidAuthSession(appKeyPair, Session.AccessType.APP_FOLDER, accessTokenPair);
+            session = new AndroidAuthSession(appKeyPair, Session.AccessType.APP_FOLDER);
+            Log.i("dropbox", "New session created with accessTokenPair: " + accessTokenPair);
+
+                dropbox = new DropboxAPI<AndroidAuthSession>(session);
+                Log.i("dropbox", "Start DropboxAPI OAuth2 authentication screen");
+                dropbox.getSession().startOAuth2Authentication(ShowSingleProgramActivity.this);
+//            }
+
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("dropbox", "ShowSingleProgramActivity:OnResume, check if OA2 authentication success");
+
+//        AndroidAuthSession session = dropbox.getSession();
+        if (dropbox != null && dropbox.getSession() != null) {
+            Log.i("dropbox", "DropboxAPI and Session created with existing token. "
+                    + "No OA2 authentication executed");
+            return;
+        }
+
+        Log.i("dropbox", "Check OA2 authentication result");
+        if (dropbox.getSession().authenticationSuccessful()) {
+            Log.i("dropbox", "Dropbox OA2 authentication success");
+            try {
+                Log.i("dropbox", "Session finish authentication");
+                dropbox.getSession().finishAuthentication();
+                Log.i("dropbox", "Session finish authentication complete with token: "
+                        + dropbox.getSession().getOAuth2AccessToken());
+
+//                TokenPair accessToken = dropbox.getSession().getAccessTokenPair();
+//                Log.i("dropbox", "TokenPair after authentication: " + accessToken);
+//                if(accessToken != null) {
+//                    ACCESS_KEY = accessToken.key;
+//                    ACCESS_SECRET = accessToken.secret;
+//                } else {
+//                    Log.i("dropbox", "Set session accessTokenPair as: " + accessTokenPair);
+//                    dropbox.getSession().setAccessTokenPair(accessTokenPair);
+//                }
+            } catch (IllegalStateException e) {
+                Toast.makeText(this, "Error during Dropbox authentication",
+                        Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Log.i("dropbox", "Dropbox OA2 authentication failed (possibly timing issue)");
+        }
+    }
 }
