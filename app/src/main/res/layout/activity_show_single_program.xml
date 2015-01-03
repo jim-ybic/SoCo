@@ -92,20 +92,37 @@
             android:layout_width="fill_parent"
             android:hint="Phone not set"
             android:inputType="phone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
         <Button
             android:id="@+id/bt_call"
             android:text="Call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="call" />
+            android:onClick="call"
+            android:drawableTop="@drawable/ic_action_call"
+            android:layout_weight="1" />
         <Button
             android:id="@+id/bt_whatsapp"
             android:text="Whatsapp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="whatsapp" />
+            android:onClick="whatsapp"
+            android:drawableTop="@drawable/ic_action_call"
+            android:layout_weight="1" />
+        <Button
+            android:id="@+id/bt_sms"
+            android:text="SMS (Test)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="whatsapp"
+            android:drawableTop="@drawable/ic_action_call"
+            android:layout_weight="1" />
     </LinearLayout>
-
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
@@ -128,7 +145,8 @@
             android:text="Email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="email" />
+            android:onClick="email"
+            android:drawableLeft="@drawable/ic_action_mail"/>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -159,22 +177,29 @@
         android:layout_height="0dip"
         android:layout_weight="1"
         android:gravity="center|bottom"
-        android:orientation="vertical" >
+        android:orientation="horizontal" >
+
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save Program"
-            android:onClick="saveProgram" />
+            android:text="Save"
+            android:onClick="saveProgram"
+            android:drawableLeft="@drawable/ic_action_save"
+            android:layout_weight="1"/>
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mark as Complete"
-            android:onClick="completeProgram" />
+            android:text="Finish"
+            android:onClick="completeProgram"
+            android:drawableLeft="@drawable/ic_action_done"
+            android:layout_weight="1"/>
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upload to cloud (TEST)"
-            android:onClick="upload" />
+            android:text="File"
+            android:onClick="upload"
+            android:drawableLeft="@drawable/ic_action_attach"
+            android:layout_weight="1"/>
     </LinearLayout>
 
 </LinearLayout>
