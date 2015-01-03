@@ -1,0 +1,2 @@
+configurations.create("default")
+artifacts.add("default", file('google-api-client-android-1.19.0.jar'))
