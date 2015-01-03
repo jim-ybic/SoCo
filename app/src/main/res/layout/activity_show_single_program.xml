@@ -78,51 +78,59 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:id="@+id/layout_spphone">
-        <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Phone" />
+            <EditText
+                android:id="@+id/et_spphone"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:hint="Phone not set"
+                android:inputType="phone" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Phone" />
-        <EditText
-            android:id="@+id/et_spphone"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:hint="Phone not set"
-            android:inputType="phone" />
+            android:orientation="horizontal" >
+            <Button
+                android:id="@+id/bt_call"
+                android:text="Call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="call"
+                android:drawableTop="@drawable/ic_action_call"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+            <Button
+                android:id="@+id/bt_whatsapp"
+                android:text="WhatsApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="whatsapp"
+                android:drawableTop="@drawable/ic_action_send"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+            <Button
+                android:id="@+id/bt_sms"
+                android:text="SMS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="sms"
+                android:drawableTop="@drawable/ic_action_send"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-        <Button
-            android:id="@+id/bt_call"
-            android:text="Call"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="call"
-            android:drawableTop="@drawable/ic_action_call"
-            android:layout_weight="1" />
-        <Button
-            android:id="@+id/bt_whatsapp"
-            android:text="Whatsapp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="whatsapp"
-            android:drawableTop="@drawable/ic_action_call"
-            android:layout_weight="1" />
-        <Button
-            android:id="@+id/bt_sms"
-            android:text="SMS (Test)"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="whatsapp"
-            android:drawableTop="@drawable/ic_action_call"
-            android:layout_weight="1" />
-    </LinearLayout>
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
@@ -146,7 +154,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="email"
-            android:drawableLeft="@drawable/ic_action_mail"/>
+            android:drawableLeft="@drawable/ic_action_mail"
+            android:textSize="10dp"/>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -169,37 +178,88 @@
             android:text="Wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="wechat" />
+            android:onClick="wechat"
+            android:textSize="10dp"
+            android:drawableLeft="@drawable/ic_action_send"/>
     </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
         android:gravity="center|bottom"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save"
-            android:onClick="saveProgram"
-            android:drawableLeft="@drawable/ic_action_save"
-            android:layout_weight="1"/>
-        <Button
-            android:layout_width="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:onClick="setVisiblePdate"
+                android:drawableTop="@drawable/ic_action_new"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:onClick="setVisiblePtime"
+                android:drawableTop="@drawable/ic_action_new"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Place"
+                android:onClick="setVisiblePplace"
+                android:drawableTop="@drawable/ic_action_new"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone"
+                android:onClick="setVisiblePphone"
+                android:drawableTop="@drawable/ic_action_new"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Finish"
-            android:onClick="completeProgram"
-            android:drawableLeft="@drawable/ic_action_done"
-            android:layout_weight="1"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="File"
-            android:onClick="upload"
-            android:drawableLeft="@drawable/ic_action_attach"
-            android:layout_weight="1"/>
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:onClick="saveProgram"
+                android:drawableLeft="@drawable/ic_action_save"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Finish"
+                android:onClick="completeProgram"
+                android:drawableLeft="@drawable/ic_action_done"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="File"
+                android:onClick="upload"
+                android:drawableLeft="@drawable/ic_action_attach"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

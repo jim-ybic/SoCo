@@ -229,18 +229,15 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 break;
             case R.id.action_add_date:
                 Log.i("menu", "Menu click: add date.");
-                layout_spdate.setVisibility(View.VISIBLE);
-                et_spdate.requestFocus();
+                setVisiblePdate(null);
                 break;
             case R.id.action_add_time:
                 Log.i("menu", "Menu click: add time.");
-                layout_sptime.setVisibility(View.VISIBLE);
-                et_sptime.requestFocus();
+                setVisiblePtime(null);
                 break;
             case R.id.action_add_place:
                 Log.i("menu", "Menu click: add place.");
-                layout_spplace.setVisibility(View.VISIBLE);
-                et_spplace.requestFocus();
+                setVisiblePplace(null);
                 break;
             case R.id.action_add_desc:
                 Log.i("menu", "Menu click: add desc.");
@@ -249,13 +246,11 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 break;
             case R.id.action_add_phone:
                 Log.i("menu", "Menu click: add phone.");
-                layout_spphone.setVisibility(View.VISIBLE);
-                et_spphone.requestFocus();
+                setVisiblePphone(null);
                 break;
             case R.id.action_add_email:
                 Log.i("menu", "Menu click: add email.");
-                layout_spemail.setVisibility(View.VISIBLE);
-                et_spemail.requestFocus();
+                setVisiblePemail(null);
                 break;
             case R.id.action_add_wechat:
                 Log.i("menu", "Menu click: add wechat.");
@@ -265,6 +260,31 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setVisiblePphone(View view) {
+        layout_spphone.setVisibility(View.VISIBLE);
+        et_spphone.requestFocus();
+    }
+
+    public void setVisiblePemail(View view) {
+        layout_spemail.setVisibility(View.VISIBLE);
+        et_spemail.requestFocus();
+    }
+
+    public void setVisiblePplace(View view) {
+        layout_spplace.setVisibility(View.VISIBLE);
+        et_spplace.requestFocus();
+    }
+
+    public void setVisiblePtime(View view) {
+        layout_sptime.setVisibility(View.VISIBLE);
+        et_sptime.requestFocus();
+    }
+
+    public void setVisiblePdate(View view) {
+        layout_spdate.setVisibility(View.VISIBLE);
+        et_spdate.requestFocus();
     }
 
     @Override
@@ -404,7 +424,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         dbmgrSoco.update(original_pname, program);
         Log.i("db", "Program saved, " + program.toString());
         Toast.makeText(getApplicationContext(), "Program saved.", Toast.LENGTH_SHORT).show();
-        gotoPreviousScreen();
+//        gotoPreviousScreen();
     }
 
     public void completeProgram(View view){
@@ -423,6 +443,20 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
             startActivity(intent);
         } catch (Exception e) {
             Log.e("call", "Cannot start intent to call");
+            e.printStackTrace();
+        }
+    }
+
+    public void sms(View view) {
+        Log.i("whatsapp", "Send whatsapp");
+        String n = et_spphone.getText().toString();
+        Uri uri = Uri.parse("smsto:" + n);
+        try {
+            Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+            intent.putExtra("sms_body", "Hi, ");
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e("sms", "Cannot start intent to send sms");
             e.printStackTrace();
         }
     }
