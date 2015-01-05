@@ -34,7 +34,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
     // Local variable
     private DBManagerSoco dbmgrSoco;
     private List<Program> programs;
-    private String loginEmail;
+    private String loginEmail, loginPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
         Intent intent = getIntent();
         loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
+        loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
 
         dbmgrSoco = new DBManagerSoco(this);
         programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
@@ -62,6 +63,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                 Intent intent = new Intent(view.getContext(), ShowSingleProgramActivity.class);
                 intent.putExtra(Config.PROGRAM_PNAME, name);
                 intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+                intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
                 startActivity(intent);
             }
         });
@@ -111,6 +113,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
             Log.i("setting", "Click on Profile.");
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
             intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
             startActivity(intent);
         }
 
@@ -146,6 +149,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                 Intent intent = new Intent(getApplicationContext(), ShowSingleProgramActivity.class);
                 intent.putExtra(Config.PROGRAM_PNAME, n);
                 intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+                intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
                 Log.i("new", "Start activity to view program details");
                 startActivity(intent);
             }
@@ -175,6 +179,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
     public void showCompletedPrograms(View view) {
         Intent intent = new Intent(this, ShowCompletedProgramsActivity.class);
         intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+        intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
         startActivity(intent);
     }
 

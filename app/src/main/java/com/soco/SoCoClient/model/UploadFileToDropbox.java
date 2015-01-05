@@ -27,6 +27,8 @@ public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
 
     public String key, secret;
     public AccessTokenPair accessTokenPair;
+    public String sigEmail, sigProgram;
+    public String localPath;
 
     public UploadFileToDropbox(Context context, DropboxAPI<AndroidAuthSession> dropbox,
                                String path) {
@@ -93,7 +95,7 @@ public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
         File file = new File("test.txt");
         try {
             if (!file.exists()) {
-                file = new File(path, "test.txt");
+                file = new File(localPath, "test.txt");
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
                         new FileOutputStream(file), Config.ENCODING));
                 writer.write(Config.PROFILE_EMAIL + ":" + "jim.ybic@gmail.com");
@@ -104,22 +106,23 @@ public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
         }
 
-        String loginEmail = "jim.ybic@gmail.com";
-        Log.i("hash", "Hash code of, " + loginEmail + ", "
-                + ShowSingleProgramActivity.hash(loginEmail));
-        String program = "Dinner w Jenny";
-        Log.i("hash", "Hash code of, " + program + ", "
-                + ShowSingleProgramActivity.hash(program));
-        String remotePath = "/" + ShowSingleProgramActivity.hash(loginEmail)
-                + "/" + ShowSingleProgramActivity.hash(program) + "/";
-        Log.i("hash", "Remote file path: " + remotePath);
+//        String loginEmail = "jim.ybic@gmail.com";
+//        Log.i("hash", "Hash code of, " + loginEmail + ", "
+//                + ShowSingleProgramActivity.hash(loginEmail));
+//        String program = "Dinner w Jenny";
+//        Log.i("hash", "Hash code of, " + program + ", "
+//                + ShowSingleProgramActivity.hash(program));
+
+//        String remotePath = "/" + ShowSingleProgramActivity.hash(loginEmail)
+//                + "/" + ShowSingleProgramActivity.hash(program) + "/";
+        Log.i("hash", "Remote file path: " + path);
 
 //        Log.i("upload", "Begin to putfile");
         try {
                 FileInputStream fileInputStream = new FileInputStream(file);
                 Log.i("upload", "Begin to put file");
                 DropboxAPI.Entry response = dropbox.putFile(
-                        remotePath + file.getName(), fileInputStream,
+                        path + file.getName(), fileInputStream,
                     file.length(), null, null);
                 Log.i("upload", "Put file status: " + response.toString());
         } catch (Exception e1) {

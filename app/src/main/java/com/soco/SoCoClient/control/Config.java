@@ -4,6 +4,7 @@ public class Config {
 
     // Login
     public static String LOGIN_EMAIL = "email";
+    public static String LOGIN_PASSWORD = "password";
 
     // Config file
     public static String PROFILE_FILENAME = "SoCo.config";

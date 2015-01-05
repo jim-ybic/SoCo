@@ -29,6 +29,7 @@ import com.dropbox.client2.session.TokenPair;
 import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.DBManagerSoco;
+import com.soco.SoCoClient.control.SignatureUtil;
 import com.soco.SoCoClient.model.Program;
 
 import java.text.SimpleDateFormat;
@@ -73,6 +74,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     DBManagerSoco dbmgrSoco = null;
     Program program = null;
     String loginEmail;
+    String loginPassword;
     String original_pname;
 
     DatePickerDialog pdatePickerDialog = null;
@@ -96,6 +98,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         Intent intent = getIntent();
         original_pname = intent.getStringExtra(Config.PROGRAM_PNAME);
         loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
+        loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
 
         dbmgrSoco = new DBManagerSoco(this);
         program = dbmgrSoco.loadProgram(original_pname);
@@ -205,6 +208,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     void gotoPreviousScreen(){
         Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
         intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
         startActivity(intent);
     }
 
@@ -524,24 +528,34 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     public void upload(View view) {
         Log.i("upload", "ShowSingleProgramActivity:upload");
+        saveProgram(view);
 
 //        Log.i("dropbox", "Begin to anthenticate");
 //        dropbox.getSession().startAuthentication(ShowSingleProgramActivity.this);
 
         //TEST
-        String loginEmail = "jim.ybic@gmail.com";
-        Log.i("hash", "Hash code of, " + loginEmail + ", " + hash(loginEmail));
-        String program = "Dinner w Jenny";
-        Log.i("hash", "Hash code of, " + program + ", " + hash(program));
+//        String loginEmail = "jim.ybic@gmail.com";
+        String sigEmail = SignatureUtil.genSHA1(loginEmail, loginPassword);
+        Log.i("hash", "SHA1 signature, " + loginEmail + ", " + sigEmail);
+//        String program = "Dinner w Jenny";
+        String sigProgram = SignatureUtil.genSHA1(program.pname, loginPassword);
+        Log.i("hash", "SHA1 signature, " + program.pname + ", " + sigProgram);
 
-        String p = getApplicationContext().getFilesDir().toString();
+//        Log.i("hash", "Hash code of, " + program + ", " + hash(program));
+
+//        String p = getApplicationContext().getFilesDir().toString();
+        String p = "/" + sigEmail + "/" + sigProgram + "/";
+        Log.i("dropbox",  "Remote file path: " + p);
+
 //        String p = "/" + hash(loginEmail) + "/" + hash(program);
         UploadFileToDropbox upload = new UploadFileToDropbox(this, dropbox, p);
         upload.key = ACCESS_KEY;
         upload.secret = ACCESS_SECRET;
         upload.accessTokenPair = accessTokenPair;
+        upload.sigEmail = sigEmail;
+        upload.sigProgram = sigProgram;
+        upload.localPath = getApplicationContext().getFilesDir().toString();
         Log.i("dropbox", "Create UploadFileToDropbox with accessTokenPair: " + accessTokenPair);
-                Log.i("dropbox",  "Remote file path: " + p);
         upload.execute();
     }
 

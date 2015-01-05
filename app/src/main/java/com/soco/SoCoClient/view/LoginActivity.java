@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +13,7 @@ import android.widget.Toast;
 
 import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.Signature;
-
-import java.security.SignatureException;
+import com.soco.SoCoClient.control.SignatureUtil;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -43,11 +40,11 @@ public class LoginActivity extends ActionBarActivity {
         et_login_email.setText("jim.ybic@gmail.com");
         et_login_password.setText("12345678");
 
-        try {
-            Signature.calculateRFC2104HMAC2("data", "key");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            SignatureUtil.genSHA1("data", "key");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void findViewsById() {
@@ -89,6 +86,7 @@ public class LoginActivity extends ActionBarActivity {
         if(loginSuccess) {
             Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
             intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
             startActivity(intent);
         }
     }
