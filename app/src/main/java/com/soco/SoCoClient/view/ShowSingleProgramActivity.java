@@ -193,14 +193,6 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         layout_spphone = (LinearLayout) findViewById(R.id.layout_spphone);
         layout_spemail = (LinearLayout) findViewById(R.id.layout_spemail);
         layout_spwechat = (LinearLayout) findViewById(R.id.layout_spwechat);
-
-//        action_add_date = (MenuItem) findViewById(R.id.action_add_date);
-//        action_add_time = (MenuItem) findViewById(R.id.action_add_time);
-//        action_add_place = (MenuItem) findViewById(R.id.action_add_place);
-//        action_add_desc = (MenuItem) findViewById(R.id.action_add_desc);
-//        action_add_phone = (MenuItem) findViewById(R.id.action_add_phone);
-//        action_add_email = (MenuItem) findViewById(R.id.action_add_email);
-//        action_add_wechat = (MenuItem) findViewById(R.id.action_add_wechat);
     }
 
 
@@ -423,10 +415,6 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     }
 
     public void saveProgram(View view){
-
-        //TEST
-//        finish();
-
         refreshProgram();
         dbmgrSoco.update(original_pname, program);
         Log.i("db", "Program saved, " + program.toString());
@@ -515,38 +503,18 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     }
 
 
-    public static String hash(String string) {
-        long h = 1125899906842597L; // prime
-        int len = string.length();
-
-        for (int i = 0; i < len; i++) {
-            h = 31*h + string.charAt(i);
-        }
-        return String.valueOf(h);
-    }
-
     public void upload(View view) {
         Log.i("upload", "ShowSingleProgramActivity:upload");
         saveProgram(view);
 
-//        Log.i("dropbox", "Begin to anthenticate");
-//        dropbox.getSession().startAuthentication(ShowSingleProgramActivity.this);
-
-        //TEST
-//        String loginEmail = "jim.ybic@gmail.com";
         String sigEmail = SignatureUtil.genSHA1(loginEmail, loginPassword);
         Log.i("hash", "SHA1 signature, " + loginEmail + ", " + sigEmail);
-//        String program = "Dinner w Jenny";
         String sigProgram = SignatureUtil.genSHA1(program.pname, loginPassword);
         Log.i("hash", "SHA1 signature, " + program.pname + ", " + sigProgram);
 
-//        Log.i("hash", "Hash code of, " + program + ", " + hash(program));
-
-//        String p = getApplicationContext().getFilesDir().toString();
         String p = "/" + sigEmail + "/" + sigProgram + "/";
         Log.i("dropbox",  "Remote file path: " + p);
 
-//        String p = "/" + hash(loginEmail) + "/" + hash(program);
         UploadFileToDropbox upload = new UploadFileToDropbox(this, dropbox, p);
         upload.key = ACCESS_KEY;
         upload.secret = ACCESS_SECRET;
@@ -571,7 +539,6 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         Log.i("dropbox", "Step 2: Create session with appKeyPair: " + appKeyPair
                 + ", AccessType: " + Session.AccessType.APP_FOLDER
                 + ", accessTokenPair: " + accessTokenPair);
-//        session = new AndroidAuthSession(appKeyPair, Session.AccessType.APP_FOLDER, accessTokenPair);
         session = new AndroidAuthSession(appKeyPair, Session.AccessType.APP_FOLDER);
 
         Log.i("dropbox", "Step 3: Create DropboxAPI from session: " + session);
@@ -595,15 +562,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
             Log.i("dropbox", "Validation success, token: " + dropbox.getSession().getOAuth2AccessToken());
         else {
                 Log.i("dropbox", "Session authentication failed, create new OA2 validation session");
-//                accessTokenPair = new AccessTokenPair(ACCESS_KEY, ACCESS_SECRET);
-//                Log.i("dropbox", "Created accessTokenPair: " + accessTokenPair);
-//                session = new AndroidAuthSession(appKeyPair, Session.AccessType.APP_FOLDER);
-//                Log.i("dropbox", "New session created with accessTokenPair: " + accessTokenPair);
-//                dropbox = new DropboxAPI<AndroidAuthSession>(session);
-//                Log.i("dropbox", "Start DropboxAPI OAuth2 authentication screen");
                 dropbox.getSession().startOAuth2Authentication(ShowSingleProgramActivity.this);
-//            }
-
         }
     }
 
@@ -629,16 +588,6 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 dropbox.getSession().finishAuthentication();
                 Log.i("dropbox", "Session finish authentication complete with token: "
                         + dropbox.getSession().getOAuth2AccessToken());
-
-//                TokenPair accessToken = dropbox.getSession().getAccessTokenPair();
-//                Log.i("dropbox", "TokenPair after authentication: " + accessToken);
-//                if(accessToken != null) {
-//                    ACCESS_KEY = accessToken.key;
-//                    ACCESS_SECRET = accessToken.secret;
-//                } else {
-//                    Log.i("dropbox", "Set session accessTokenPair as: " + accessTokenPair);
-//                    dropbox.getSession().setAccessTokenPair(accessTokenPair);
-//                }
             } catch (IllegalStateException e) {
                 Toast.makeText(this, "Error during Dropbox authentication",
                         Toast.LENGTH_SHORT).show();
