@@ -118,19 +118,13 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
     }
 
     public void createProgram(View view) {
-        //TEST1 - start new intent/activity
-//        Intent intent = new Intent(this, CreateProgramActivity.class);
-//        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-//        startActivity(intent);
-
-        //TEST2 - show an alert dialog
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Create new program");
-        alert.setMessage("PLease input a name: ");
+        alert.setMessage("So I want to ...");
         final EditText input = new EditText(this);
         alert.setView(input);
 
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String n = input.getText().toString();
                 Program p = new Program(n);
@@ -139,6 +133,21 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "Program created.", Toast.LENGTH_SHORT).show();
                 programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
                 listPrograms(null);
+            }
+        });
+
+        alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String n = input.getText().toString();
+                Program p = new Program(n);
+                dbmgrSoco.add(p);
+                Log.i("new", "New program created: " + n);
+
+                Intent intent = new Intent(getApplicationContext(), ShowSingleProgramActivity.class);
+                intent.putExtra(Config.PROGRAM_PNAME, n);
+                intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+                Log.i("new", "Start activity to view program details");
+                startActivity(intent);
             }
         });
 
