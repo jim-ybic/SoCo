@@ -17,6 +17,7 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.TokenPair;
 import com.soco.SoCoClient.control.Config;
+import com.soco.SoCoClient.view.ShowSingleProgramActivity;
 
 public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
 
@@ -103,15 +104,27 @@ public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
         }
 
+        String loginEmail = "jim.ybic@gmail.com";
+        Log.i("hash", "Hash code of, " + loginEmail + ", "
+                + ShowSingleProgramActivity.hash(loginEmail));
+        String program = "Dinner w Jenny";
+        Log.i("hash", "Hash code of, " + program + ", "
+                + ShowSingleProgramActivity.hash(program));
+        String remotePath = "/" + ShowSingleProgramActivity.hash(loginEmail)
+                + "/" + ShowSingleProgramActivity.hash(program) + "/";
+        Log.i("hash", "Remote file path: " + remotePath);
+
 //        Log.i("upload", "Begin to putfile");
         try {
                 FileInputStream fileInputStream = new FileInputStream(file);
                 Log.i("upload", "Begin to put file");
-                DropboxAPI.Entry response = dropbox.putFile(path + Config.PROFILE_FILENAME, fileInputStream,
+                DropboxAPI.Entry response = dropbox.putFile(
+                        remotePath + file.getName(), fileInputStream,
                     file.length(), null, null);
                 Log.i("upload", "Put file status: " + response.toString());
         } catch (Exception e1) {
             e1.printStackTrace();
+            Toast.makeText(context, "File Upload failed.", Toast.LENGTH_LONG).show();
         }
 
         return false;
