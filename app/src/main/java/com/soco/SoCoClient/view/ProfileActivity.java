@@ -25,7 +25,7 @@ public class ProfileActivity extends ActionBarActivity {
     EditText et_profile_phone;
     EditText et_profile_wechat;
 
-    String loginEmail;
+    String loginEmail, loginPassword;
     Profile profile;
 
     @Override
@@ -36,6 +36,7 @@ public class ProfileActivity extends ActionBarActivity {
 
         Intent intent = getIntent();
         loginEmail = intent.getStringExtra(LoginActivity.LOGIN_EMAIL);
+        loginPassword = intent.getStringExtra(LoginActivity.LOGIN_PASSWORD);
 
         profile = loadProfile();
         showProfile(profile);
@@ -49,28 +50,34 @@ public class ProfileActivity extends ActionBarActivity {
     }
 
     Profile loadProfile() {
-        Log.i("profile", "Load profile from " + ProfileUtil.PROFILE_FILENAME);
-        SharedPreferences settings = getSharedPreferences(ProfileUtil.PROFILE_FILENAME, 0);
-
-        Profile profile = new Profile();
-        profile.email = settings.getString(ProfileUtil.PROFILE_EMAIL,"");
-        profile.nickname = settings.getString(ProfileUtil.PROFILE_NICKNAME,"");
-        profile.phone = settings.getString(ProfileUtil.PROFILE_PHONE,"");
-        profile.wechat = settings.getString(ProfileUtil.PROFILE__WECHAT,"");
-
-        return profile;
+        Log.i("profile", "Load profile from " + Profile.PROFILE_FILENAME);
+        return new Profile(getApplicationContext());
+//        SharedPreferences settings = getSharedPreferences(ProfileUtil.PROFILE_FILENAME, 0);
+//
+//        Profile profile = new Profile();
+//        profile.email = settings.getString(ProfileUtil.PROFILE_EMAIL,"");
+//        profile.nickname = settings.getString(ProfileUtil.PROFILE_NICKNAME,"");
+//        profile.phone = settings.getString(ProfileUtil.PROFILE_PHONE,"");
+//        profile.wechat = settings.getString(ProfileUtil.PROFILE_WECHAT,"");
+//
+//        return profile;
     }
 
     public void saveProfile(View view) {
-        Log.i("profile", "Save profile to " + ProfileUtil.PROFILE_FILENAME);
-        SharedPreferences settings = getSharedPreferences(ProfileUtil.PROFILE_FILENAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
+        Log.i("profile", "Save profile to " + Profile.PROFILE_FILENAME);
+//        SharedPreferences settings = getSharedPreferences(Profile.PROFILE_FILENAME, 0);
+//        SharedPreferences.Editor editor = settings.edit();
 
-        editor.putString(ProfileUtil.PROFILE_NICKNAME, et_profile_nickname.getText().toString());
-        editor.putString(ProfileUtil.PROFILE_PHONE, et_profile_phone.getText().toString());
-        editor.putString(ProfileUtil.PROFILE__WECHAT, et_profile_wechat.getText().toString());
-        editor.commit();
-        Toast.makeText(getApplicationContext(), "Profile saved.", Toast.LENGTH_SHORT).show();
+        ProfileUtil.save(getApplicationContext(),
+                et_profile_nickname.getText().toString(),
+                et_profile_phone.getText().toString(),
+                et_profile_wechat.getText().toString());
+
+//        editor.putString(Profile.PROFILE_NICKNAME, et_profile_nickname.getText().toString());
+//        editor.putString(Profile.PROFILE_PHONE, et_profile_phone.getText().toString());
+//        editor.putString(Profile.PROFILE_WECHAT, et_profile_wechat.getText().toString());
+//        editor.commit();
+//        Toast.makeText(getApplicationContext(), "Profile saved.", Toast.LENGTH_SHORT).show();
     }
 
     public void showProfile(Profile profile){
