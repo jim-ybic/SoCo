@@ -27,6 +27,7 @@
 
                 <!-- Change this to be db- followed by your app key -->
                 <data android:scheme="db-7cfm4ur90xw54pv" />
+
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />

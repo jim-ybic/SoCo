@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="New Program"
             android:onClick="createProgram"
-            android:drawableLeft="@drawable/ic_action_new"
+            android:drawableTop="@drawable/ic_action_new"
             android:layout_weight="1"
             android:textSize="10dp"/>
         <Button
@@ -34,7 +34,15 @@
             android:layout_height="wrap_content"
             android:text="Completed Programs"
             android:onClick="showCompletedPrograms"
-            android:drawableLeft="@drawable/ic_action_collection"
+            android:drawableTop="@drawable/ic_action_collection"
+            android:layout_weight="1"
+            android:textSize="10dp"/>
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Exit"
+            android:onClick="exit"
+            android:drawableTop="@drawable/ic_action_forward"
             android:layout_weight="1"
             android:textSize="10dp"/>
     </LinearLayout>
