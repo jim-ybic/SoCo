@@ -188,7 +188,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
     public void exit(View view) {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("EXIT", true);
+        intent.putExtra(LoginActivity.FLAG_EXIT, true);
         startActivity(intent);
     }
 

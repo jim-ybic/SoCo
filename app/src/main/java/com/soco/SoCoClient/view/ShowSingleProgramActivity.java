@@ -572,7 +572,6 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         Log.i("dropbox", "ShowSingleProgramActivity:OnResume, check if OA2 authentication success");
         Log.i("dropbox", "Session token: " + dropbox.getSession().getOAuth2AccessToken());
 
-//        AndroidAuthSession session = dropbox.getSession();
         if (dropbox != null && dropbox.getSession() != null
                 && dropbox.getSession().getOAuth2AccessToken() != null) {
             Log.i("dropbox", "DropboxAPI and Session created with existing token: "
