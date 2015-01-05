@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.OutputStreamWriter;
 
 import android.content.Context;
@@ -15,9 +14,8 @@ import android.widget.Toast;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
-import com.dropbox.client2.session.TokenPair;
 import com.soco.SoCoClient.control.Config;
-import com.soco.SoCoClient.view.ShowSingleProgramActivity;
+import com.soco.SoCoClient.control.ProfileUtil;
 
 public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
 
@@ -98,7 +96,7 @@ public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
                 file = new File(localPath, "test.txt");
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
                         new FileOutputStream(file), Config.ENCODING));
-                writer.write(Config.PROFILE_EMAIL + ":" + "jim.ybic@gmail.com");
+                writer.write(ProfileUtil.PROFILE_EMAIL + ":" + "jim.ybic@gmail.com");
                 writer.flush();
                 writer.close();
             }

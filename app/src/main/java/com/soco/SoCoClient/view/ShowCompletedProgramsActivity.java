@@ -38,8 +38,8 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
         findViewsById();
 
         Intent intent = getIntent();
-        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
-        loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
+        loginEmail = intent.getStringExtra(LoginActivity.LOGIN_EMAIL);
+        loginPassword = intent.getStringExtra(LoginActivity.LOGIN_PASSWORD);
 
         dbmgrSoco = new DBManagerSoco(this);
         programs = dbmgrSoco.loadPrograms(Config.PROGRAM_COMPLETED);
@@ -57,7 +57,7 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
 
                 Intent intent = new Intent(view.getContext(), ShowSingleProgramActivity.class);
                 intent.putExtra(Config.PROGRAM_PNAME, name);
-                intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+                intent.putExtra(LoginActivity.LOGIN_PASSWORD, loginPassword);
                 startActivity(intent);
             }
         });
@@ -69,8 +69,8 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
 
     void gotoPreviousScreen(){
         Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
-        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-        intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+        intent.putExtra(LoginActivity.LOGIN_EMAIL, loginEmail);
+        intent.putExtra(LoginActivity.LOGIN_PASSWORD, loginPassword);
         startActivity(intent);
     }
 

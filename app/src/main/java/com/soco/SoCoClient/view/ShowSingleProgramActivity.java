@@ -25,7 +25,6 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
-import com.dropbox.client2.session.TokenPair;
 import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.DBManagerSoco;
@@ -97,8 +96,8 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
         Intent intent = getIntent();
         original_pname = intent.getStringExtra(Config.PROGRAM_PNAME);
-        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
-        loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
+        loginEmail = intent.getStringExtra(LoginActivity.LOGIN_EMAIL);
+        loginPassword = intent.getStringExtra(LoginActivity.LOGIN_PASSWORD);
 
         dbmgrSoco = new DBManagerSoco(this);
         program = dbmgrSoco.loadProgram(original_pname);
@@ -207,8 +206,8 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     void gotoPreviousScreen(){
         Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
-        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
+        intent.putExtra(LoginActivity.LOGIN_EMAIL, loginEmail);
+        loginEmail = intent.getStringExtra(LoginActivity.LOGIN_EMAIL);
         startActivity(intent);
     }
 

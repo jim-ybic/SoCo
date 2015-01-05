@@ -11,17 +11,23 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.SignatureUtil;
+import com.soco.SoCoClient.control.LoginUtil;
+import com.soco.SoCoClient.control.ProfileUtil;
 
 
 public class LoginActivity extends ActionBarActivity {
+
+    // Local constants
+    public static String LOGIN_EMAIL = "email";
+    public static String LOGIN_PASSWORD = "password";
+    public static String FLAG_EXIT = "exit";
 
     // Local views
     EditText et_login_email;
     EditText et_login_password;
 
+    // Local variables
     String loginEmail;
     String loginPassword;
     String nickname;
@@ -32,19 +38,12 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
         findViewsById();
 
-        if (getIntent().getBooleanExtra("EXIT", false)) {
+        if (getIntent().getBooleanExtra(FLAG_EXIT, false))
             finish();
-        }
 
-        // Test
+        // Testing login
         et_login_email.setText("jim.ybic@gmail.com");
         et_login_password.setText("12345678");
-
-//        try {
-//            SignatureUtil.genSHA1("data", "key");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
     private void findViewsById() {
@@ -53,41 +52,26 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     void updateProfile(String loginEmail) {
-            Log.i("soco", "Load profile.");
-            SharedPreferences settings = getSharedPreferences(Config.PROFILE_FILENAME, 0);
-            SharedPreferences.Editor editor = settings.edit();
-
-            String email = settings.getString(Config.PROFILE_EMAIL, "");
-            if(email.isEmpty()) {
-                Log.i("soco", "Create new profile, " + Config.PROFILE_EMAIL + ":" + loginEmail);
-                editor.putString(Config.PROFILE_EMAIL, loginEmail);
-                editor.commit();
-            } else {
-                Log.i("soco", "Load existing profile, " + Config.PROFILE_EMAIL + ":" + email);
-                String n = settings.getString(Config.PROFILE_NICKNAME, "");
-                if (!n.isEmpty())
-                    nickname = n;
-            }
+        ProfileUtil.ready(getApplicationContext(), loginEmail);
+        nickname = ProfileUtil.getNickname(getApplicationContext(), loginEmail);
     }
 
     public void login (View view) {
         loginEmail = et_login_email.getText().toString();
         loginPassword = et_login_password.getText().toString();
-        nickname = loginEmail;
-
         updateProfile(loginEmail);
 
-        Toast.makeText(getApplicationContext(), "Hello, " + nickname,
-                Toast.LENGTH_SHORT).show();
-
-        boolean loginSuccess = true;
-        // TODO: add login logic
-
+        boolean loginSuccess = LoginUtil.validateLogin(loginEmail, loginPassword);
         if(loginSuccess) {
+            Toast.makeText(getApplicationContext(), "Hello, " + nickname,
+                    Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
-            intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+            intent.putExtra(LOGIN_EMAIL, loginEmail);
+            intent.putExtra(LOGIN_PASSWORD, loginPassword);
             startActivity(intent);
+        } else {
+            Toast.makeText(getApplicationContext(), "Oops, login failed.",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
