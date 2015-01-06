@@ -1,8 +1,10 @@
 package com.soco.SoCoClient.view;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -40,16 +43,11 @@ import com.soco.SoCoClient.model.UploadFileToDropbox;
 public class ShowSingleProgramActivity extends ActionBarActivity implements View.OnClickListener {
 
     // Local views
-    EditText pdateEditText = null;
-    EditText ptimeEditText = null;
-    EditText et_spname;
-    EditText et_spdate;
-    EditText et_sptime;
-    EditText et_spplace;
-    EditText et_spdesc;
+    EditText pdateEditText, ptimeEditText;
+    EditText et_spname, et_spdate, et_sptime, et_spplace, et_spdesc;
     EditText et_spphone;
     EditText et_spemail;
-    EditText et_spwechat;
+//    EditText et_spwechat;
     Button bt_call;
     Button bt_whatsapp;
     Button bt_email;
@@ -60,14 +58,16 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     MenuItem action_add_desc;
     MenuItem action_add_phone;
     MenuItem action_add_email;
-    MenuItem action_add_wechat;
+//    MenuItem action_add_wechat;
     LinearLayout layout_spdate;
     LinearLayout layout_sptime;
     LinearLayout layout_spplace;
     LinearLayout layout_spdesc;
     LinearLayout layout_spphone;
     LinearLayout layout_spemail;
-    LinearLayout layout_spwechat;
+//    LinearLayout layout_spwechat;
+    TableRow tr_spdate, tr_sptime, tr_spplace, tr_spdesc, tr_spphone, tr_spemail;
+
 
     // Local variables
     DBManagerSoco dbmgrSoco = null;
@@ -101,64 +101,64 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
         dbmgrSoco = new DBManagerSoco(this);
         program = dbmgrSoco.loadProgram(original_pname);
-        showProgram(program);
+        showProgramToScreen(program);
 
         setDateTimeField();
 
         initDropboxApiAuthentication();
     }
 
-    void refreshOptionMenu(){
-        if (et_spdate.getText().toString().isEmpty())
-            action_add_date.setVisible(true);
-        else
-            action_add_date.setVisible(false);
+//    void refreshOptionMenu(){
+//        if (et_spdate.getText().toString().isEmpty())
+//            action_add_date.setVisible(true);
+//        else
+//            action_add_date.setVisible(false);
+//
+//        if (et_sptime.getText().toString().isEmpty())
+//            action_add_time.setVisible(true);
+//        else
+//            action_add_time.setVisible(false);
+//
+//        if (et_spplace.getText().toString().isEmpty())
+//            action_add_place.setVisible(true);
+//        else
+//            action_add_place.setVisible(false);
+//
+//        if (et_spdesc.getText().toString().isEmpty())
+//            action_add_desc.setVisible(true);
+//        else
+//            action_add_desc.setVisible(false);
+//
+//        if (et_spphone.getText().toString().isEmpty())
+//            action_add_phone.setVisible(true);
+//        else
+//            action_add_phone.setVisible(false);
+//
+//        if (et_spemail.getText().toString().isEmpty())
+//            action_add_email.setVisible(true);
+//        else
+//            action_add_email.setVisible(false);
 
-        if (et_sptime.getText().toString().isEmpty())
-            action_add_time.setVisible(true);
-        else
-            action_add_time.setVisible(false);
-
-        if (et_spplace.getText().toString().isEmpty())
-            action_add_place.setVisible(true);
-        else
-            action_add_place.setVisible(false);
-
-        if (et_spdesc.getText().toString().isEmpty())
-            action_add_desc.setVisible(true);
-        else
-            action_add_desc.setVisible(false);
-
-        if (et_spphone.getText().toString().isEmpty())
-            action_add_phone.setVisible(true);
-        else
-            action_add_phone.setVisible(false);
-
-        if (et_spemail.getText().toString().isEmpty())
-            action_add_email.setVisible(true);
-        else
-            action_add_email.setVisible(false);
-
-        if (et_spwechat.getText().toString().isEmpty())
-            action_add_wechat.setVisible(true);
-        else
-            action_add_wechat.setVisible(false);
-    }
+//        if (et_spwechat.getText().toString().isEmpty())
+//            action_add_wechat.setVisible(true);
+//        else
+//            action_add_wechat.setVisible(false);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_show_single_program, menu);
 
-        action_add_date = menu.findItem(R.id.action_add_date);
-        action_add_time = menu.findItem(R.id.action_add_time);
-        action_add_place = menu.findItem(R.id.action_add_place);
-        action_add_desc = menu.findItem(R.id.action_add_desc);
-        action_add_phone = menu.findItem(R.id.action_add_phone);
-        action_add_email = menu.findItem(R.id.action_add_email);
-        action_add_wechat = menu.findItem(R.id.action_add_wechat);
+//        action_add_date = menu.findItem(R.id.action_add_date);
+//        action_add_time = menu.findItem(R.id.action_add_time);
+//        action_add_place = menu.findItem(R.id.action_add_place);
+//        action_add_desc = menu.findItem(R.id.action_add_desc);
+//        action_add_phone = menu.findItem(R.id.action_add_phone);
+//        action_add_email = menu.findItem(R.id.action_add_email);
+//        action_add_wechat = menu.findItem(R.id.action_add_wechat);
 
-        refreshOptionMenu();
+//        refreshOptionMenu();
 
         return true;
     }
@@ -179,7 +179,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         et_spdesc = (EditText) findViewById(R.id.et_spdesc);
         et_spphone = (EditText) findViewById(R.id.et_spphone);
         et_spemail = (EditText) findViewById(R.id.et_spemail);
-        et_spwechat = (EditText) findViewById(R.id.et_spwechat);
+//        et_spwechat = (EditText) findViewById(R.id.et_spwechat);
 
         bt_call = (Button) findViewById(R.id.bt_call);
         bt_whatsapp = (Button) findViewById(R.id.bt_whatsapp);
@@ -192,7 +192,14 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         layout_spdesc = (LinearLayout) findViewById(R.id.layout_spdesc);
         layout_spphone = (LinearLayout) findViewById(R.id.layout_spphone);
         layout_spemail = (LinearLayout) findViewById(R.id.layout_spemail);
-        layout_spwechat = (LinearLayout) findViewById(R.id.layout_spwechat);
+//        layout_spwechat = (LinearLayout) findViewById(R.id.layout_spwechat);
+
+        tr_spdate = (TableRow) findViewById(R.id.tr_spdate);
+        tr_sptime = (TableRow) findViewById(R.id.tr_sptime);
+        tr_spplace = (TableRow) findViewById(R.id.tr_spplace);
+        tr_spdesc = (TableRow) findViewById(R.id.tr_spdesc);
+        tr_spphone = (TableRow) findViewById(R.id.tr_spphone);
+        tr_spemail = (TableRow) findViewById(R.id.tr_spemail);
     }
 
 
@@ -205,7 +212,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        refreshOptionMenu();
+//        refreshOptionMenu();
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -222,63 +229,75 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 Log.i("menu", "Menu click: home.");
                 gotoPreviousScreen();
                 break;
-            case R.id.action_add_date:
-                Log.i("menu", "Menu click: add date.");
-                setVisiblePdate(null);
-                break;
-            case R.id.action_add_time:
-                Log.i("menu", "Menu click: add time.");
-                setVisiblePtime(null);
-                break;
-            case R.id.action_add_place:
-                Log.i("menu", "Menu click: add place.");
-                setVisiblePplace(null);
-                break;
-            case R.id.action_add_desc:
-                Log.i("menu", "Menu click: add desc.");
-                layout_spdesc.setVisibility(View.VISIBLE);
-                et_spdesc.requestFocus();
-                break;
-            case R.id.action_add_phone:
-                Log.i("menu", "Menu click: add phone.");
-                setVisiblePphone(null);
-                break;
-            case R.id.action_add_email:
-                Log.i("menu", "Menu click: add email.");
-                setVisiblePemail(null);
-                break;
-            case R.id.action_add_wechat:
-                Log.i("menu", "Menu click: add wechat.");
-                layout_spwechat.setVisibility(View.VISIBLE);
-                et_spwechat.requestFocus();
-                break;
+//            case R.id.action_add_date:
+//                Log.i("menu", "Menu click: add date.");
+//                setVisiblePdate(null);
+//                break;
+//            case R.id.action_add_time:
+//                Log.i("menu", "Menu click: add time.");
+//                setVisiblePtime(null);
+//                break;
+//            case R.id.action_add_place:
+//                Log.i("menu", "Menu click: add place.");
+//                setVisiblePplace(null);
+//                break;
+//            case R.id.action_add_desc:
+//                Log.i("menu", "Menu click: add desc.");
+//                setVisiblePdesc(null);
+//                break;
+//            case R.id.action_add_phone:
+//                Log.i("menu", "Menu click: add phone.");
+//                setVisiblePphone(null);
+//                break;
+//            case R.id.action_add_email:
+//                Log.i("menu", "Menu click: add email.");
+//                setVisiblePemail(null);
+//                break;
+//            case R.id.action_add_wechat:
+//                Log.i("menu", "Menu click: add wechat.");
+//                layout_spwechat.setVisibility(View.VISIBLE);
+//                et_spwechat.requestFocus();
+//                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    public void setVisiblePdesc(View view) {
+//        layout_spdesc.setVisibility(View.VISIBLE);
+        tr_spdesc.setVisibility(View.VISIBLE);
+        et_spdesc.requestFocus();
+    }
+
     public void setVisiblePphone(View view) {
-        layout_spphone.setVisibility(View.VISIBLE);
+//        layout_spphone.setVisibility(View.VISIBLE);
+        tr_spplace.setVisibility(View.VISIBLE);
         et_spphone.requestFocus();
     }
 
     public void setVisiblePemail(View view) {
-        layout_spemail.setVisibility(View.VISIBLE);
+//        layout_spemail.setVisibility(View.VISIBLE);
+        tr_spemail.setVisibility(View.VISIBLE);
         et_spemail.requestFocus();
     }
 
     public void setVisiblePplace(View view) {
-        layout_spplace.setVisibility(View.VISIBLE);
+//        layout_spplace.setVisibility(View.VISIBLE);
+        tr_spplace.setVisibility(View.VISIBLE);
         et_spplace.requestFocus();
     }
 
     public void setVisiblePtime(View view) {
-        layout_sptime.setVisibility(View.VISIBLE);
+//        layout_sptime.setVisibility(View.VISIBLE);
+        tr_sptime.setVisibility(View.VISIBLE);
         et_sptime.requestFocus();
     }
 
     public void setVisiblePdate(View view) {
-        layout_spdate.setVisibility(View.VISIBLE);
+//        layout_spdate.setVisibility(View.VISIBLE);
+//        et_spdate.requestFocus();
+//        TableLayout tl_pbasic = (TableLayout) findViewById(R.id.tl_pbasic);
+        tr_spdate.setVisibility(View.VISIBLE);
         et_spdate.requestFocus();
     }
 
@@ -326,61 +345,73 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     }
 
-    public void showProgram(Program p){
+    public void showProgramToScreen(Program p){
         Log.i("program", "Show program: " + p.toString());
         et_spname.setText(p.pname, TextView.BufferType.EDITABLE);
 
         if (p.pdate.isEmpty())
-            layout_spdate.setVisibility(View.GONE);
+//            layout_spdate.setVisibility(View.GONE);
+            tr_spdate.setVisibility(View.GONE);
         else {
-            layout_spdate.setVisibility(View.VISIBLE);
+//            layout_spdate.setVisibility(View.VISIBLE);
+            tr_spdate.setVisibility(View.VISIBLE);
             et_spdate.setText(p.pdate, TextView.BufferType.EDITABLE);
         }
 
         if (p.ptime.isEmpty())
-            layout_sptime.setVisibility(View.GONE);
+            tr_sptime.setVisibility(View.GONE);
+//            layout_sptime.setVisibility(View.GONE);
         else {
-            layout_sptime.setVisibility(View.VISIBLE);
+//            layout_sptime.setVisibility(View.VISIBLE);
+            tr_sptime.setVisibility(View.VISIBLE);
             et_sptime.setText(p.ptime, TextView.BufferType.EDITABLE);
         }
 
         if (p.pplace.isEmpty())
-            layout_spplace.setVisibility(View.GONE);
+            tr_spplace.setVisibility(View.GONE);
+//            layout_spplace.setVisibility(View.GONE);
         else{
-            layout_spplace.setVisibility(View.VISIBLE);
+            tr_spplace.setVisibility(View.VISIBLE);
+//            layout_spplace.setVisibility(View.VISIBLE);
             et_spplace.setText(p.pplace, TextView.BufferType.EDITABLE);
         }
 
         if (p.pdesc.isEmpty())
-            layout_spdesc.setVisibility(View.GONE);
+            tr_spdesc.setVisibility(View.GONE);
+//            layout_spdesc.setVisibility(View.GONE);
         else {
-            layout_spdesc.setVisibility(View.VISIBLE);
+            tr_spdesc.setVisibility(View.VISIBLE);
+//            layout_spdesc.setVisibility(View.VISIBLE);
             et_spdesc.setText(p.pdesc, TextView.BufferType.EDITABLE);
         }
 
         if (p.pphone.isEmpty())
-            layout_spphone.setVisibility(View.GONE);
+            tr_spphone.setVisibility(View.GONE);
+//            layout_spphone.setVisibility(View.GONE);
         else {
-            layout_spphone.setVisibility(View.VISIBLE);
+            tr_spphone.setVisibility(View.VISIBLE);
+//            layout_spphone.setVisibility(View.VISIBLE);
             et_spphone.setText(p.pphone, TextView.BufferType.EDITABLE);
         }
 
         if (p.pemail.isEmpty())
-            layout_spemail.setVisibility(View.GONE);
+            tr_spemail.setVisibility(View.GONE);
+//            layout_spemail.setVisibility(View.GONE);
         else {
-            layout_spemail.setVisibility(View.VISIBLE);
+            tr_spemail.setVisibility(View.VISIBLE);
+//            layout_spemail.setVisibility(View.VISIBLE);
             et_spemail.setText(p.pemail, TextView.BufferType.EDITABLE);
         }
 
-        if (p.pwechat.isEmpty())
-            layout_spwechat.setVisibility(View.GONE);
-        else {
-            layout_spwechat.setVisibility(View.VISIBLE);
-            et_spwechat.setText(p.pwechat, TextView.BufferType.EDITABLE);
-        }
+//        if (p.pwechat.isEmpty())
+//            layout_spwechat.setVisibility(View.GONE);
+//        else {
+//            layout_spwechat.setVisibility(View.VISIBLE);
+//            et_spwechat.setText(p.pwechat, TextView.BufferType.EDITABLE);
+//        }
     }
 
-    void refreshProgram(){
+    void refreshProgramFromScreen(){
         String pname = et_spname.getText().toString();
         if (!program.pname.equals(pname))
             program.pname = pname;
@@ -402,6 +433,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
             program.pdesc = pdesc;
 
         String pphone = et_spphone.getText().toString();
+        Log.i("db", "Phone on the screen is: " + pphone);
         if (!program.pphone.equals(pphone))
             program.pphone = pphone;
 
@@ -409,78 +441,238 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         if (!program.pemail.equals(pemail))
             program.pemail = pemail;
 
-        String pwechat = et_spwechat.getText().toString();
-        if (!program.pwechat.equals(pwechat))
-            program.pwechat = pwechat;
+//        String pwechat = et_spwechat.getText().toString();
+//        if (!program.pwechat.equals(pwechat))
+//            program.pwechat = pwechat;
     }
 
-    public void saveProgram(View view){
-        refreshProgram();
+    public void saveProgramToDb(View view){
+        Log.i("db", "Save Program to DB");
+        refreshProgramFromScreen();
         dbmgrSoco.update(original_pname, program);
         Log.i("db", "Program saved, " + program.toString());
         Toast.makeText(getApplicationContext(), "Program saved.", Toast.LENGTH_SHORT).show();
     }
 
     public void completeProgram(View view){
-        refreshProgram();
+        refreshProgramFromScreen();
         program.pcomplete = 1;
         dbmgrSoco.update(program.pname, program);
         Toast.makeText(getApplicationContext(), "Program complete.", Toast.LENGTH_SHORT).show();
         gotoPreviousScreen();
     }
 
-    public void call(View view){
-        Log.i("call", "Make call");
+    public void call(final View view){
+        Log.i("call", "Make a call");
         try{
             String n = et_spphone.getText().toString();
-            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + n));
-            startActivity(intent);
+            if (n.isEmpty()){
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("Phone number is not set");
+                alert.setMessage("Input number");
+                final EditText input = new EditText(this);
+                input.setInputType(InputType.TYPE_CLASS_PHONE);
+                alert.setView(input);
+                alert.setPositiveButton("Call", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String s = input.getText().toString();
+                        program.pphone = s;
+                        et_spphone.setText(s);
+                        saveProgramToDb(view);
+                        Log.i("new", "New phone number saved and call: " + s);
+                        showProgramToScreen(program);
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + s));
+                        startActivity(intent);
+                    }
+                });
+                alert.setNeutralButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String s = input.getText().toString();
+                        program.pphone = s;
+                        et_spphone.setText(s);
+                        saveProgramToDb(view);
+                        Log.i("new", "New phone number saved: " + s);
+                        showProgramToScreen(program);
+                    }
+                });
+                alert.setNegativeButton("Cancel", null);
+                alert.show();
+            } else {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + n));
+                startActivity(intent);
+            }
         } catch (Exception e) {
             Log.e("call", "Cannot start intent to call");
             e.printStackTrace();
         }
     }
 
-    public void sms(View view) {
-        Log.i("whatsapp", "Send whatsapp");
+    public void sms(final View view) {
+        Log.i("sms", "Send sms");
         String n = et_spphone.getText().toString();
-        Uri uri = Uri.parse("smsto:" + n);
-        try {
-            Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
-            intent.putExtra("sms_body", "Hi, ");
-            startActivity(intent);
-        } catch (Exception e) {
-            Log.e("sms", "Cannot start intent to send sms");
-            e.printStackTrace();
+        if (n.isEmpty()){
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Phone number is not set");
+            alert.setMessage("Input number");
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_PHONE);
+            alert.setView(input);
+            alert.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String s = input.getText().toString();
+                    program.pphone = s;
+                    et_spphone.setText(s);
+                    saveProgramToDb(view);
+                    Log.i("new", "New phone number saved and send sms: " + s);
+                    showProgramToScreen(program);
+                    Log.i("new", "Send sms");
+                    Uri uri = Uri.parse("smsto:" + s);
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                        intent.putExtra("sms_body", "Hi, ");
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Log.e("sms", "Cannot start intent to send sms");
+                        e.printStackTrace();
+                    }
+                }
+            });
+            alert.setNeutralButton("Save", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String s = input.getText().toString();
+                    program.pphone = s;
+                    et_spphone.setText(s);
+                    saveProgramToDb(view);
+                    Log.i("new", "New phone number saved: " + s);
+                    showProgramToScreen(program);
+                }
+            });
+            alert.setNegativeButton("Cancel", null);
+            alert.show();
+        } else {
+            Uri uri = Uri.parse("smsto:" + n);
+            try {
+                Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                intent.putExtra("sms_body", "Hi, ");
+                startActivity(intent);
+            } catch (Exception e) {
+                Log.e("sms", "Cannot start intent to send sms");
+                e.printStackTrace();
+            }
         }
     }
 
-    public void whatsapp(View view) {
+    public void whatsapp(final View view) {
         Log.i("whatsapp", "Send whatsapp");
         String n = et_spphone.getText().toString();
-        Uri uri = Uri.parse("smsto:" + n);
-        try {
-            Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
-            intent.setPackage("com.whatsapp");
-            intent.putExtra("chat", true);
-            startActivity(intent);
-        } catch (Exception e) {
-            Log.e("whatsapp", "Cannot start intent to send whatsapp");
-            e.printStackTrace();
+
+        if (n.isEmpty()){
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Phone number is not set");
+            alert.setMessage("Input number");
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_PHONE);
+            alert.setView(input);
+            alert.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String s = input.getText().toString();
+                    program.pphone = s;
+                    et_spphone.setText(s);
+                    saveProgramToDb(view);
+                    Log.i("new", "New phone number saved and send whatsapp: " + s);
+                    showProgramToScreen(program);
+                    Uri uri = Uri.parse("smsto:" + s);
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                        intent.setPackage("com.whatsapp");
+                        intent.putExtra("chat", true);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Log.e("whatsapp", "Cannot start intent to send whatsapp");
+                        e.printStackTrace();
+                    }
+                }
+            });
+            alert.setNeutralButton("Save", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String s = input.getText().toString();
+                    program.pphone = s;
+                    et_spphone.setText(s);
+                    saveProgramToDb(view);
+                    Log.i("new", "New phone number saved: " + s);
+                    showProgramToScreen(program);
+                }
+            });
+            alert.setNegativeButton("Cancel", null);
+            alert.show();
+        } else {
+            Uri uri = Uri.parse("smsto:" + n);
+            try {
+                Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                intent.setPackage("com.whatsapp");
+                intent.putExtra("chat", true);
+                startActivity(intent);
+            } catch (Exception e) {
+                Log.e("whatsapp", "Cannot start intent to send whatsapp");
+                e.printStackTrace();
+            }
         }
     }
 
-    public void email(View view){
+    public void email(final View view){
         Log.i("email", "Send email");
-        try {
-            String e = et_spemail.getText().toString();
-            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto", e, null));
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
-            startActivity(Intent.createChooser(emailIntent, "Send email..."));
-        } catch (Exception e) {
-            Log.e("email", "Cannot start intent to send email");
-            e.printStackTrace();
+        String n = et_spemail.getText().toString();
+        if (n.isEmpty()){
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Email is not set");
+            alert.setMessage("Input email");
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT |
+                    InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS |
+                    InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+            alert.setView(input);
+            alert.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String s = input.getText().toString();
+                    program.pemail = s;
+                    et_spemail.setText(s);
+                    saveProgramToDb(view);
+                    Log.i("new", "New email saved and send email: " + s);
+                    showProgramToScreen(program);
+                    try {
+                        String e = et_spemail.getText().toString();
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                                "mailto", e, null));
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
+                        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+                    } catch (Exception e) {
+                        Log.e("email", "Cannot start intent to send email");
+                        e.printStackTrace();
+                    }
+                }
+            });
+            alert.setNeutralButton("Save", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String s = input.getText().toString();
+                    program.pemail = s;
+                    et_spemail.setText(s);
+                    saveProgramToDb(view);
+                    Log.i("new", "New email: " + s);
+                    showProgramToScreen(program);
+                }
+            });
+            alert.setNegativeButton("Cancel", null);
+            alert.show();
+        } else {
+            try {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto", n, null));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
+                startActivity(Intent.createChooser(emailIntent, "Send email..."));
+            } catch (Exception e) {
+                Log.e("email", "Cannot start intent to send email");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -505,7 +697,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     public void upload(View view) {
         Log.i("upload", "ShowSingleProgramActivity:upload");
-        saveProgram(view);
+        saveProgramToDb(view);
 
         String sigEmail = SignatureUtil.genSHA1(loginEmail, loginPassword);
         Log.i("hash", "SHA1 signature, " + loginEmail + ", " + sigEmail);
@@ -569,6 +761,10 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     @Override
     protected void onResume() {
         super.onResume();
+
+        Log.i("call", "onResume: Show program to screen: " + program.pname + ", " + program.pphone);
+        showProgramToScreen(program);
+
         Log.i("dropbox", "ShowSingleProgramActivity:OnResume, check if OA2 authentication success");
         Log.i("dropbox", "Session token: " + dropbox.getSession().getOAuth2AccessToken());
 

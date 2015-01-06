@@ -12,21 +12,76 @@
         android:hint="Name not set" />
 
 
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tl_pbasic">
+        <TableRow
+            android:id="@+id/tr_spdate">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Date" />
+            <EditText
+                android:id="@+id/et_spdate"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date not set"/>
+        </TableRow>
+        <TableRow
+            android:id="@+id/tr_sptime">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Time" />
+            <EditText
+                android:id="@+id/et_sptime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Time not set" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tr_spplace">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Place" />
+            <EditText
+                android:id="@+id/et_spplace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Place not set" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tr_spdesc">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Description" />
+            <EditText
+                android:id="@+id/et_spdesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description not set" />
+        </TableRow>
+    </TableLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:id="@+id/layout_spdate">
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Date" />
-        <EditText
-            android:id="@+id/et_spdate"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="Date not set"/>
+        <!--<TextView-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="Date" />-->
+        <!--<EditText-->
+            <!--android:id="@+id/et_spdate"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="Date not set"/>-->
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,15 +89,15 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:id="@+id/layout_sptime" >
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Time" />
-        <EditText
-            android:id="@+id/et_sptime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Time not set" />
+        <!--<TextView-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="Time" />-->
+        <!--<EditText-->
+            <!--android:id="@+id/et_sptime"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="Time not set" />-->
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -50,15 +105,15 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:id="@+id/layout_spplace" >
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Place" />
-        <EditText
-            android:id="@+id/et_spplace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Place not set" />
+        <!--<TextView-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="Place" />-->
+        <!--<EditText-->
+            <!--android:id="@+id/et_spplace"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="Place not set" />-->
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -66,132 +121,18 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:id="@+id/layout_spdesc" >
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Description" />
-        <EditText
-            android:id="@+id/et_spdesc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Description not set" />
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:id="@+id/layout_spphone">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Phone" />
-            <EditText
-                android:id="@+id/et_spphone"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_width="fill_parent"
-                android:hint="Phone not set"
-                android:inputType="phone" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <Button
-                android:id="@+id/bt_call"
-                android:text="Call"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="call"
-                android:drawableTop="@drawable/ic_action_call"
-                android:layout_weight="1"
-                android:textSize="10dp"/>
-            <Button
-                android:id="@+id/bt_whatsapp"
-                android:text="WhatsApp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="whatsapp"
-                android:drawableTop="@drawable/ic_action_send"
-                android:layout_weight="1"
-                android:textSize="10dp"/>
-            <Button
-                android:id="@+id/bt_sms"
-                android:text="SMS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="sms"
-                android:drawableTop="@drawable/ic_action_send"
-                android:layout_weight="1"
-                android:textSize="10dp"/>
-        </LinearLayout>
+        <!--<TextView-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="Description" />-->
+        <!--<EditText-->
+            <!--android:id="@+id/et_spdesc"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="Description not set" />-->
     </LinearLayout>
 
 
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:id="@+id/layout_spemail">
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Email" />
-        <EditText
-            android:id="@+id/et_spemail"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:hint="Email not set"
-            android:inputType="textEmailAddress"  />
-        <Button
-            android:id="@+id/bt_email"
-            android:text="Email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="email"
-            android:drawableLeft="@drawable/ic_action_mail"
-            android:textSize="10dp"/>
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:id="@+id/layout_spwechat">
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Wechat" />
-        <EditText
-            android:id="@+id/et_spwechat"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:hint="Wechat not set" />
-        <Button
-            android:id="@+id/bt_wechat"
-            android:text="Wechat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="wechat"
-            android:textSize="10dp"
-            android:drawableLeft="@drawable/ic_action_send"/>
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:gravity="center|bottom"
-        android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -225,9 +166,161 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Phone"
-                android:onClick="setVisiblePphone"
+                android:text="Desc"
+                android:onClick="setVisiblePdesc"
                 android:drawableTop="@drawable/ic_action_new"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+        </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow
+            android:id="@+id/tr_spphone">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Phone" />
+            <EditText
+                android:id="@+id/et_spphone"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:hint="Phone not set"
+                android:inputType="phone" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tr_spemail">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Email" />
+            <EditText
+                android:id="@+id/et_spemail"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:hint="Email not set"
+                android:inputType="textEmailAddress"  />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:id="@+id/layout_spphone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!--<TextView-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="Phone" />-->
+            <!--<EditText-->
+                <!--android:id="@+id/et_spphone"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:hint="Phone not set"-->
+                <!--android:inputType="phone" />-->
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:id="@+id/layout_spemail">
+        <!--<TextView-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="Email" />-->
+        <!--<EditText-->
+            <!--android:id="@+id/et_spemail"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:hint="Email not set"-->
+            <!--android:inputType="textEmailAddress"  />-->
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:id="@+id/layout_spwechat">
+        <!--<TextView-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="Wechat" />-->
+        <!--<EditText-->
+            <!--android:id="@+id/et_spwechat"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:hint="Wechat not set" />-->
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <Button
+                android:id="@+id/bt_call"
+                android:text="Call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="call"
+                android:drawableTop="@drawable/ic_action_call"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+            <Button
+                android:id="@+id/bt_sms"
+                android:text="SMS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="sms"
+                android:drawableTop="@drawable/ic_action_send"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+            <Button
+                android:id="@+id/bt_email"
+                android:text="Email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="email"
+                android:drawableTop="@drawable/ic_action_mail"
+                android:textSize="10dp"/>
+            <Button
+                android:id="@+id/bt_wechat"
+                android:text="Wechat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="wechat"
+                android:textSize="10dp"
+                android:drawableTop="@drawable/ic_action_send"/>
+            <Button
+                android:id="@+id/bt_whatsapp"
+                android:text="WhatsApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="whatsapp"
+                android:drawableTop="@drawable/ic_action_send"
                 android:layout_weight="1"
                 android:textSize="10dp"/>
         </LinearLayout>
@@ -240,7 +333,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Save"
-                android:onClick="saveProgram"
+                android:onClick="saveProgramToDb"
                 android:drawableLeft="@drawable/ic_action_save"
                 android:layout_weight="1"
                 android:textSize="10dp"/>
