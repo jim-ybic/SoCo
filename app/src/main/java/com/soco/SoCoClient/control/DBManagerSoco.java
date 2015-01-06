@@ -43,6 +43,12 @@ public class DBManagerSoco {
         }
     }
 
+    public void delete(int pid){
+        Log.i("db", "Delete programs where pid is " + pid);
+        db.delete(Config.TABLE_PROGRAM, Config.COLUMN_PID + " == ?",
+                new String[]{String.valueOf(pid)});
+    }
+
     public ArrayList<Program> loadPrograms(int pcompleted) {
         Log.i("db", "Load programs where pcomplete is " + pcompleted);
         ArrayList<Program> programs = new ArrayList<>();
