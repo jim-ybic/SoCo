@@ -301,6 +301,36 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         et_spdate.requestFocus();
     }
 
+    public void clearPdate(View view) {
+        et_spdate.setText("");
+        tr_spdate.setVisibility(View.GONE);
+    }
+
+    public void clearPtime(View view) {
+        et_sptime.setText("");
+        tr_sptime.setVisibility(View.GONE);
+    }
+
+    public void clearPplace(View view) {
+        et_spplace.setText("");
+        tr_spplace.setVisibility(View.GONE);
+    }
+
+    public void clearPdesc(View view) {
+        et_spdesc.setText("");
+        tr_spdesc.setVisibility(View.GONE);
+    }
+
+    public void clearPphone(View view) {
+        et_spphone.setText("");
+        tr_spphone.setVisibility(View.GONE);
+    }
+
+    public void clearPemail(View view) {
+        et_spemail.setText("");
+        tr_spemail.setVisibility(View.GONE);
+    }
+
     @Override
     public void onBackPressed() {
         gotoPreviousScreen();

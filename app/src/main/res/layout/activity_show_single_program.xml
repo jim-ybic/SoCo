@@ -28,6 +28,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Date not set"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clearPdate"
+                android:id="@+id/bt_clear_pdate"
+                android:text="---"
+                android:textSize="10dp"/>
+            <!--android:src="@drawable/ic_action_remove"-->
         </TableRow>
         <TableRow
             android:id="@+id/tr_sptime">
@@ -39,7 +47,15 @@
                 android:id="@+id/et_sptime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:hint="Time not set" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clearPtime"
+                android:id="@+id/bt_clear_ptime"
+                android:text="---"
+                android:textSize="10dp" />
         </TableRow>
         <TableRow
             android:id="@+id/tr_spplace">
@@ -51,7 +67,15 @@
                 android:id="@+id/et_spplace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Place not set" />
+                android:hint="Place not set"
+                android:layout_weight="1"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clearPplace"
+                android:id="@+id/bt_clear_pplace"
+                android:text="---"
+                android:textSize="10dp" />
         </TableRow>
         <TableRow
             android:id="@+id/tr_spdesc">
@@ -63,7 +87,15 @@
                 android:id="@+id/et_spdesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Description not set" />
+                android:hint="Description not set"
+                android:layout_weight="1"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clearPdesc"
+                android:id="@+id/bt_clear_pdesc"
+                android:text="---"
+                android:textSize="10dp"/>
         </TableRow>
     </TableLayout>
 
@@ -73,15 +105,15 @@
         android:layout_width="fill_parent"
         android:id="@+id/layout_spdate">
         <!--<TextView-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:text="Date" />-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:text="Date" />-->
         <!--<EditText-->
-            <!--android:id="@+id/et_spdate"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:hint="Date not set"/>-->
+        <!--android:id="@+id/et_spdate"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Date not set"/>-->
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -90,14 +122,14 @@
         android:layout_width="fill_parent"
         android:id="@+id/layout_sptime" >
         <!--<TextView-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:text="Time" />-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:text="Time" />-->
         <!--<EditText-->
-            <!--android:id="@+id/et_sptime"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:hint="Time not set" />-->
+        <!--android:id="@+id/et_sptime"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Time not set" />-->
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -106,14 +138,14 @@
         android:layout_width="fill_parent"
         android:id="@+id/layout_spplace" >
         <!--<TextView-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:text="Place" />-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:text="Place" />-->
         <!--<EditText-->
-            <!--android:id="@+id/et_spplace"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:hint="Place not set" />-->
+        <!--android:id="@+id/et_spplace"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Place not set" />-->
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -122,56 +154,56 @@
         android:layout_width="fill_parent"
         android:id="@+id/layout_spdesc" >
         <!--<TextView-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:text="Description" />-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:text="Description" />-->
         <!--<EditText-->
-            <!--android:id="@+id/et_spdesc"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:hint="Description not set" />-->
+        <!--android:id="@+id/et_spdesc"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Description not set" />-->
     </LinearLayout>
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date"
-                android:onClick="setVisiblePdate"
-                android:drawableTop="@drawable/ic_action_new"
-                android:layout_weight="1"
-                android:textSize="10dp"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time"
-                android:onClick="setVisiblePtime"
-                android:drawableTop="@drawable/ic_action_new"
-                android:layout_weight="1"
-                android:textSize="10dp"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Place"
-                android:onClick="setVisiblePplace"
-                android:drawableTop="@drawable/ic_action_new"
-                android:layout_weight="1"
-                android:textSize="10dp"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Desc"
-                android:onClick="setVisiblePdesc"
-                android:drawableTop="@drawable/ic_action_new"
-                android:layout_weight="1"
-                android:textSize="10dp"/>
-        </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:onClick="setVisiblePdate"
+            android:drawableTop="@drawable/ic_action_new"
+            android:layout_weight="1"
+            android:textSize="10dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"
+            android:onClick="setVisiblePtime"
+            android:drawableTop="@drawable/ic_action_new"
+            android:layout_weight="1"
+            android:textSize="10dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Place"
+            android:onClick="setVisiblePplace"
+            android:drawableTop="@drawable/ic_action_new"
+            android:layout_weight="1"
+            android:textSize="10dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Desc"
+            android:onClick="setVisiblePdesc"
+            android:drawableTop="@drawable/ic_action_new"
+            android:layout_weight="1"
+            android:textSize="10dp"/>
+    </LinearLayout>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -189,6 +221,13 @@
                 android:layout_width="fill_parent"
                 android:hint="Phone not set"
                 android:inputType="phone" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clearPphone"
+                android:id="@+id/bt_clear_pphone"
+                android:text="---"
+                android:textSize="10dp"/>
         </TableRow>
         <TableRow
             android:id="@+id/tr_spemail">
@@ -203,6 +242,13 @@
                 android:layout_width="fill_parent"
                 android:hint="Email not set"
                 android:inputType="textEmailAddress"  />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clearPemail"
+                android:id="@+id/bt_clear_pemail"
+                android:text="---"
+                android:textSize="10dp"/>
         </TableRow>
     </TableLayout>
 
@@ -215,16 +261,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <!--<TextView-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:text="Phone" />-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="Phone" />-->
             <!--<EditText-->
-                <!--android:id="@+id/et_spphone"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:hint="Phone not set"-->
-                <!--android:inputType="phone" />-->
+            <!--android:id="@+id/et_spphone"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:hint="Phone not set"-->
+            <!--android:inputType="phone" />-->
         </LinearLayout>
 
     </LinearLayout>
@@ -237,16 +283,16 @@
         android:layout_width="fill_parent"
         android:id="@+id/layout_spemail">
         <!--<TextView-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:text="Email" />-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:text="Email" />-->
         <!--<EditText-->
-            <!--android:id="@+id/et_spemail"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:hint="Email not set"-->
-            <!--android:inputType="textEmailAddress"  />-->
+        <!--android:id="@+id/et_spemail"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:hint="Email not set"-->
+        <!--android:inputType="textEmailAddress"  />-->
 
     </LinearLayout>
 
@@ -256,15 +302,15 @@
         android:layout_width="fill_parent"
         android:id="@+id/layout_spwechat">
         <!--<TextView-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:text="Wechat" />-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:text="Wechat" />-->
         <!--<EditText-->
-            <!--android:id="@+id/et_spwechat"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:hint="Wechat not set" />-->
+        <!--android:id="@+id/et_spwechat"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:hint="Wechat not set" />-->
     </LinearLayout>
 
 
@@ -348,11 +394,19 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="File"
-                android:onClick="upload"
-                android:drawableLeft="@drawable/ic_action_attach"
+                android:text="More"
+                android:onClick="more"
+                android:drawableLeft="@drawable/ic_action_share"
                 android:layout_weight="1"
                 android:textSize="10dp"/>
+            <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="File"-->
+            <!--android:onClick="upload"-->
+            <!--android:drawableLeft="@drawable/ic_action_attach"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textSize="10dp"/>-->
         </LinearLayout>
     </LinearLayout>
 
