@@ -1,14 +1,18 @@
 package com.soco.SoCoClient.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
@@ -53,12 +57,38 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
                 ListView listView = (ListView) parent;
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
-                String name = map.get(Config.PROGRAM_PNAME);
+                final String name = map.get(Config.PROGRAM_PNAME);
 
-                Intent intent = new Intent(view.getContext(), ShowSingleProgramActivity.class);
-                intent.putExtra(Config.PROGRAM_PNAME, name);
-                intent.putExtra(LoginActivity.LOGIN_PASSWORD, loginPassword);
-                startActivity(intent);
+                Log.i("list", "Click on completed program.");
+                new AlertDialog.Builder(ShowCompletedProgramsActivity.this)
+                        .setTitle(name)
+                        .setMessage("Program complete, shall we:")
+//                        .setCancelable(true)
+                        .setPositiveButton("Activate", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Program p = dbmgrSoco.loadProgram(name);
+                                p.pcomplete = 0;
+                                dbmgrSoco.update(name, p);
+                                programs = dbmgrSoco.loadPrograms(Config.PROGRAM_COMPLETED);
+                                listPrograms(lv_completed_programs, programs);
+                         }})
+                        .setNegativeButton("Cancel", null)
+                        .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Program p = dbmgrSoco.loadProgram(name);
+                                Log.i("list", "Click on delete program, pid: " + p.pid +
+                                        ", pname: " + p.pname);
+                                dbmgrSoco.delete(p.pid);
+                                programs = dbmgrSoco.loadPrograms(Config.PROGRAM_COMPLETED);
+                                listPrograms(lv_completed_programs, programs);
+                         }})
+                        .show();
+
+
+//                Intent intent = new Intent(view.getContext(), ShowSingleProgramActivity.class);
+//                intent.putExtra(Config.PROGRAM_PNAME, name);
+//                intent.putExtra(LoginActivity.LOGIN_PASSWORD, loginPassword);
+//                startActivity(intent);
             }
         });
     }
