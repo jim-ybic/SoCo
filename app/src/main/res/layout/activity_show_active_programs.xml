@@ -13,28 +13,28 @@
     <ListView
         android:id="@+id/lv_active_programs"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:gravity="center|bottom"
         android:orientation="horizontal" >
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="New Program"
+            android:text="New"
             android:onClick="createProgram"
-            android:drawableTop="@drawable/ic_action_new"
+            android:drawableLeft="@drawable/ic_action_new"
             android:layout_weight="1"
             android:textSize="10dp"/>
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Completed Programs"
+            android:text="Archive"
             android:onClick="showCompletedPrograms"
-            android:drawableTop="@drawable/ic_action_collection"
+            android:drawableLeft="@drawable/ic_action_collection"
             android:layout_weight="1"
             android:textSize="10dp"/>
         <Button
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:text="Exit"
             android:onClick="exit"
-            android:drawableTop="@drawable/ic_action_forward"
+            android:drawableLeft="@drawable/ic_action_forward"
             android:layout_weight="1"
             android:textSize="10dp"/>
     </LinearLayout>
