@@ -314,6 +314,19 @@
     </LinearLayout>
 
 
+    <AutoCompleteTextView
+        android:id="@+id/mmWhoNo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Call...." >
+    </AutoCompleteTextView>
+    <AutoCompleteTextView
+        android:id="@+id/mmWhoNoEm"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email...." >
+    </AutoCompleteTextView>
+
 
     <LinearLayout
         android:layout_width="match_parent"

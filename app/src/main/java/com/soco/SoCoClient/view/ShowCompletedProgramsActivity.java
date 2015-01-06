@@ -64,7 +64,7 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
                         .setTitle(name)
                         .setMessage("Program complete, shall we:")
 //                        .setCancelable(true)
-                        .setPositiveButton("Activate", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Re-Activate", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Program p = dbmgrSoco.loadProgram(name);
                                 p.pcomplete = 0;

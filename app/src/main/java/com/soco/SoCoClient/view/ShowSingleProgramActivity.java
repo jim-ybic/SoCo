@@ -4,9 +4,12 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -14,10 +17,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.SimpleAdapter;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -28,6 +34,7 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
+import com.soco.SoCoClient.control.BackgroudUtil;
 import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.DBManagerSoco;
@@ -35,8 +42,11 @@ import com.soco.SoCoClient.control.SignatureUtil;
 import com.soco.SoCoClient.model.Program;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import com.soco.SoCoClient.model.UploadFileToDropbox;
 
@@ -87,6 +97,10 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     AppKeyPair appKeyPair;
     AccessTokenPair accessTokenPair;
 
+    private ArrayList<Map<String, String>> mPeopleList;
+    private SimpleAdapter mAdapter;
+    private AutoCompleteTextView mTxtPhoneNo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("show", "Show single activity: onCreate");
@@ -106,7 +120,142 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         setDateTimeField();
 
         initDropboxApiAuthentication();
+
+        //TEST - AutoComplete
+        mPeopleList = new ArrayList<Map<String, String>>();
+        PopulatePeopleList2();
+//        BackgroudUtil backUtil = new BackgroudUtil();
+//        backUtil.context = getApplicationContext();
+//        backUtil.execute();
+//        BackgroudUtil.getInstance().context = getApplicationContext();
+//        BackgroudUtil.getInstance().execute();
+//        mPeopleList = BackgroudUtil.getInstance().mPeopleList;
+
+        mTxtPhoneNo = (AutoCompleteTextView) findViewById(R.id.mmWhoNo);
+        mAdapter = new SimpleAdapter(this, mPeopleList, R.layout.custcontview ,
+                new String[] { "Name", "Phone" , "Type" },
+                new int[] { R.id.ccontName, R.id.ccontNo, R.id.ccontType });
+        mTxtPhoneNo.setAdapter(mAdapter);
+
+        //TEST AUTO COMPLETE EMAIL
+        PopulateEmail();
     }
+
+    public void PopulateEmail(){
+        ArrayList<String> emailAddressCollection = new ArrayList<String>();
+
+        ContentResolver cr = getContentResolver();
+
+        Cursor emailCur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
+
+        while (emailCur.moveToNext())
+        {
+            String email = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+            emailAddressCollection.add(email);
+        }
+        emailCur.close();
+
+        String[] emailAddresses = new String[emailAddressCollection.size()];
+        emailAddressCollection.toArray(emailAddresses);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, emailAddresses);
+        AutoCompleteTextView textView = (AutoCompleteTextView)findViewById(R.id.mmWhoNoEm);
+        textView.setAdapter(adapter);
+    }
+
+
+    public void PopulatePeopleList2(){
+        Log.i("auto", "Poplulate people list revised");
+        Cursor phones = getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+
+        int colDisplayName = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+        int colPhoneNumber = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        int colPhoneType = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE);
+
+        while (phones.moveToNext()) {
+            String contactName = phones.getString(colDisplayName);
+            String phoneNumber = phones.getString(colPhoneNumber);
+            String numberType = phones.getString(colPhoneType);
+            Log.i("auto", "Get record: " + contactName + ", " + phoneNumber + ", " + numberType);
+
+            Map<String, String> NamePhoneType = new HashMap<String, String>();
+            NamePhoneType.put("Name", contactName);
+            NamePhoneType.put("Phone", phoneNumber);
+            if(numberType.equals("0"))
+                NamePhoneType.put("Type", "Work");
+            else
+            if(numberType.equals("1"))
+                NamePhoneType.put("Type", "Home");
+            else if(numberType.equals("2"))
+                NamePhoneType.put("Type", "Mobile");
+            else
+                NamePhoneType.put("Type", "Other");
+            mPeopleList.add(NamePhoneType); //add this map to the list.
+        }
+        phones.close();
+    }
+
+    public void PopulatePeopleList()
+    {
+        Log.i("auto", "Populate people list");
+
+        mPeopleList.clear();
+        Log.i("auto", "Query contacts");
+        Cursor people = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+
+        Log.i("auto", "Process results");
+        while (people.moveToNext()) {
+            String contactName = people.getString(people.getColumnIndex(
+                    ContactsContract.Contacts.DISPLAY_NAME));
+            String contactId = people.getString(people.getColumnIndex(
+                    ContactsContract.Contacts._ID));
+            String hasPhone = people.getString(people.getColumnIndex(
+                    ContactsContract.Contacts.HAS_PHONE_NUMBER));
+            Log.i("auto", "Current contactName: " + contactName + ", contactId: " + contactId
+                    + ", hasPhone: " + hasPhone);
+
+            if ((Integer.parseInt(hasPhone) > 0)) {
+                // You know have the number so now query it like this
+                Cursor phones = getContentResolver().query(
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                        null,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ contactId,
+                        null, null);
+                while (phones.moveToNext()) {
+                    //store numbers and display a dialog letting the user select which.
+                    String phoneNumber = phones.getString(
+                            phones.getColumnIndex(
+                                    ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    String numberType = phones.getString(phones.getColumnIndex(
+                            ContactsContract.CommonDataKinds.Phone.TYPE));
+                    Log.i("auto", "Load phoneNumber: " + phoneNumber + ", numberType: " + numberType);
+
+                    Map<String, String> NamePhoneType = new HashMap<String, String>();
+                    NamePhoneType.put("Name", contactName);
+                    NamePhoneType.put("Phone", phoneNumber);
+
+                    if(numberType.equals("0"))
+                        NamePhoneType.put("Type", "Work");
+                    else if(numberType.equals("1"))
+                        NamePhoneType.put("Type", "Home");
+                    else if(numberType.equals("2"))
+                        NamePhoneType.put("Type",  "Mobile");
+                    else
+                        NamePhoneType.put("Type", "Other");
+
+                    //Then add this map to the list.
+                    mPeopleList.add(NamePhoneType);
+                }
+                phones.close();
+            }
+        }
+        people.close();
+        startManagingCursor(people);
+    }
+
+
 
 //    void refreshOptionMenu(){
 //        if (et_spdate.getText().toString().isEmpty())
