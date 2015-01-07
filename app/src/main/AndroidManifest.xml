@@ -84,6 +84,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.ShowActiveProgramsActivity" />
         </activity>
+        <activity
+            android:name=".view.ShowMoreActivity"
+            android:label="@string/title_activity_show_more"
+            android:parentActivityName=".view.ShowSingleProgramActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.ShowSingleProgramActivity" />
+        </activity>
     </application>
 
 </manifest>

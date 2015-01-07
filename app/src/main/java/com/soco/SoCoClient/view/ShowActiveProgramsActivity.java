@@ -46,6 +46,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         loginEmail = intent.getStringExtra(LoginActivity.LOGIN_EMAIL);
         loginPassword = intent.getStringExtra(LoginActivity.LOGIN_PASSWORD);
 
+
         dbmgrSoco = new DBManagerSoco(this);
         programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
 
@@ -122,7 +123,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
     public void createProgram(View view) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Create new program");
+        alert.setTitle("Create new programName");
         alert.setMessage("So I want to ...");
         final EditText input = new EditText(this);
         alert.setView(input);
@@ -132,7 +133,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                 String n = input.getText().toString();
                 Program p = new Program(n);
                 dbmgrSoco.add(p);
-                Log.i("new", "New program created: " + n);
+                Log.i("new", "New programName created: " + n);
                 Toast.makeText(getApplicationContext(), "Program created.", Toast.LENGTH_SHORT).show();
                 programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
                 listPrograms(null);
@@ -144,13 +145,13 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                 String n = input.getText().toString();
                 Program p = new Program(n);
                 dbmgrSoco.add(p);
-                Log.i("new", "New program created: " + n);
+                Log.i("new", "New programName created: " + n);
 
                 Intent intent = new Intent(getApplicationContext(), ShowSingleProgramActivity.class);
                 intent.putExtra(Config.PROGRAM_PNAME, n);
                 intent.putExtra(LoginActivity.LOGIN_EMAIL, loginEmail);
                 intent.putExtra(LoginActivity.LOGIN_PASSWORD, loginPassword);
-                Log.i("new", "Start activity to view program details");
+                Log.i("new", "Start activity to view programName details");
                 startActivity(intent);
             }
         });

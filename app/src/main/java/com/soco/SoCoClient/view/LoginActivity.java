@@ -44,7 +44,6 @@ public class LoginActivity extends ActionBarActivity {
         // Testing login
         et_login_email.setText("jim.ybic@gmail.com");
         et_login_password.setText("12345678");
-        login(null);
     }
 
     private void findViewsById() {

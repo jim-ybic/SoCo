@@ -59,7 +59,7 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
                         listView.getItemAtPosition(position);
                 final String name = map.get(Config.PROGRAM_PNAME);
 
-                Log.i("list", "Click on completed program.");
+                Log.i("list", "Click on completed programName.");
                 new AlertDialog.Builder(ShowCompletedProgramsActivity.this)
                         .setTitle(name)
                         .setMessage("Program complete, shall we:")
@@ -76,7 +76,7 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
                         .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Program p = dbmgrSoco.loadProgram(name);
-                                Log.i("list", "Click on delete program, pid: " + p.pid +
+                                Log.i("list", "Click on delete programName, pid: " + p.pid +
                                         ", pname: " + p.pname);
                                 dbmgrSoco.delete(p.pid);
                                 programs = dbmgrSoco.loadPrograms(Config.PROGRAM_COMPLETED);

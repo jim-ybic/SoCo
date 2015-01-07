@@ -37,6 +37,7 @@ import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.DBManagerSoco;
 import com.soco.SoCoClient.control.SignatureUtil;
+import com.soco.SoCoClient.model.DropboxUploader;
 import com.soco.SoCoClient.model.Program;
 
 import java.text.SimpleDateFormat;
@@ -46,9 +47,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import com.soco.SoCoClient.model.UploadFileToDropbox;
-
 public class ShowSingleProgramActivity extends ActionBarActivity implements View.OnClickListener {
+
+    public static String PROGRAM = "programName";
 
     // Local views
     EditText pdateEditText, ptimeEditText;
@@ -404,7 +405,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        Log.i("menu", "Menu click from single program activity.");
+        Log.i("menu", "Menu click from single programName activity.");
 
 
         switch (item.getItemId()) {
@@ -559,7 +560,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     }
 
     public void showProgramToScreen(Program p){
-        Log.i("program", "Show program: " + p.toString());
+        Log.i("programName", "Show programName: " + p.toString());
         et_spname.setText(p.pname, TextView.BufferType.EDITABLE);
 
         if (p.pdate.isEmpty())
@@ -655,8 +656,8 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
             program.pemail = pemail;
 
 //        String pwechat = et_spwechat.getText().toString();
-//        if (!program.pwechat.equals(pwechat))
-//            program.pwechat = pwechat;
+//        if (!programName.pwechat.equals(pwechat))
+//            programName.pwechat = pwechat;
     }
 
     public void saveProgramToDb(View view){
@@ -952,7 +953,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         String p = "/" + sigEmail + "/" + sigProgram + "/";
         Log.i("dropbox",  "Remote file path: " + p);
 
-        UploadFileToDropbox upload = new UploadFileToDropbox(this, dropbox, p);
+        DropboxUploader upload = new DropboxUploader(this, dropbox, p);
         upload.key = ACCESS_KEY;
         upload.secret = ACCESS_SECRET;
         upload.accessTokenPair = accessTokenPair;
@@ -962,6 +963,8 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         Log.i("dropbox", "Create UploadFileToDropbox with accessTokenPair: " + accessTokenPair);
         upload.execute();
     }
+
+
 
     void initDropboxApiAuthentication(){
         Log.i("dropbox", "Create DropboxAPI object");
@@ -1007,7 +1010,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     protected void onResume() {
         super.onResume();
 
-        Log.i("call", "onResume: Show program to screen: " + program.pname + ", " + program.pphone);
+        Log.i("call", "onResume: Show programName to screen: " + program.pname + ", " + program.pphone);
         showProgramToScreen(program);
 
         Log.i("dropbox", "ShowSingleProgramActivity:OnResume, check if OA2 authentication success");
@@ -1035,5 +1038,16 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         } else {
             Log.i("dropbox", "Dropbox OA2 authentication failed (possibly timing issue)");
         }
+    }
+
+    public void more(View view) {
+        Log.i("more", "ShowSingleProgramActivity:more");
+        saveProgramToDb(view);
+
+        Intent i = new Intent(this, ShowMoreActivity.class);
+        i.putExtra(LoginActivity.LOGIN_EMAIL, loginEmail);
+        i.putExtra(LoginActivity.LOGIN_PASSWORD, loginPassword);
+        i.putExtra(PROGRAM, program.pname);
+        startActivity(i);
     }
 }

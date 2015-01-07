@@ -409,7 +409,7 @@
                 android:layout_height="wrap_content"
                 android:text="More"
                 android:onClick="more"
-                android:drawableLeft="@drawable/ic_action_share"
+                android:drawableLeft="@drawable/ic_action_group"
                 android:layout_weight="1"
                 android:textSize="10dp"/>
             <Button
