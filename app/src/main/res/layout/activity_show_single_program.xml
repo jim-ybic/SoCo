@@ -214,8 +214,8 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="Phone" />
-            <EditText
-                android:id="@+id/et_spphone"
+            <AutoCompleteTextView
+                android:id="@+id/et_spphone_auto"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_width="fill_parent"
@@ -235,8 +235,8 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="Email" />
-            <EditText
-                android:id="@+id/et_spemail"
+            <AutoCompleteTextView
+                android:id="@+id/et_spemail_auto"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_width="fill_parent"
@@ -314,18 +314,18 @@
     </LinearLayout>
 
 
-    <AutoCompleteTextView
-        android:id="@+id/mmWhoNo"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Call...." >
-    </AutoCompleteTextView>
-    <AutoCompleteTextView
-        android:id="@+id/mmWhoNoEm"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email...." >
-    </AutoCompleteTextView>
+    <!--<AutoCompleteTextView-->
+        <!--android:id="@+id/mmWhoNo"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Call...." >-->
+    <!--</AutoCompleteTextView>-->
+    <!--<AutoCompleteTextView-->
+        <!--android:id="@+id/mmWhoNoEm"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Email...." >-->
+    <!--</AutoCompleteTextView>-->
 
 
     <LinearLayout

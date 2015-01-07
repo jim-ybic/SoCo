@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,7 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -34,7 +33,6 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
-import com.soco.SoCoClient.control.BackgroudUtil;
 import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.DBManagerSoco;
@@ -55,8 +53,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     // Local views
     EditText pdateEditText, ptimeEditText;
     EditText et_spname, et_spdate, et_sptime, et_spplace, et_spdesc;
-    EditText et_spphone;
-    EditText et_spemail;
+    AutoCompleteTextView et_spphone_auto, et_spphone_auto_test, et_spemail_auto;
 //    EditText et_spwechat;
     Button bt_call;
     Button bt_whatsapp;
@@ -97,9 +94,9 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     AppKeyPair appKeyPair;
     AccessTokenPair accessTokenPair;
 
-    private ArrayList<Map<String, String>> mPeopleList;
-    private SimpleAdapter mAdapter;
-    private AutoCompleteTextView mTxtPhoneNo;
+    private ArrayList<Map<String, String>> mPeopleList, mEmailList;
+    private SimpleAdapter mAdapterPhone, mAdapterEmail;
+//    private AutoCompleteTextView mTxtPhoneNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,138 +119,171 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         initDropboxApiAuthentication();
 
         //TEST - AutoComplete
-        mPeopleList = new ArrayList<Map<String, String>>();
         PopulatePeopleList2();
-//        BackgroudUtil backUtil = new BackgroudUtil();
-//        backUtil.context = getApplicationContext();
-//        backUtil.execute();
-//        BackgroudUtil.getInstance().context = getApplicationContext();
-//        BackgroudUtil.getInstance().execute();
-//        mPeopleList = BackgroudUtil.getInstance().mPeopleList;
-
-        mTxtPhoneNo = (AutoCompleteTextView) findViewById(R.id.mmWhoNo);
-        mAdapter = new SimpleAdapter(this, mPeopleList, R.layout.custcontview ,
-                new String[] { "Name", "Phone" , "Type" },
-                new int[] { R.id.ccontName, R.id.ccontNo, R.id.ccontType });
-        mTxtPhoneNo.setAdapter(mAdapter);
 
         //TEST AUTO COMPLETE EMAIL
-        PopulateEmail();
+        PopulateEmailList2();
     }
 
-    public void PopulateEmail(){
-        ArrayList<String> emailAddressCollection = new ArrayList<String>();
+//    public void PopulateEmail(){
+//        ArrayList<String> emailAddressCollection = new ArrayList<String>();
+//
+//        Cursor emailCur = getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
+//
+//        while (emailCur.moveToNext())
+//        {
+//            String email = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+//            emailAddressCollection.add(email);
+//        }
+//        emailCur.close();
+//
+//        String[] emailAddresses = new String[emailAddressCollection.size()];
+//        emailAddressCollection.toArray(emailAddresses);
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+//                android.R.layout.simple_dropdown_item_1line, emailAddresses);
+////        AutoCompleteTextView textView = (AutoCompleteTextView)findViewById(R.id.mmWhoNoEm);
+//        et_spemail_auto.setAdapter(adapter);
+//    }
 
-        ContentResolver cr = getContentResolver();
+    public void PopulateEmailList2(){
+        Log.i("auto", "Poplulate people list revised");
 
-        Cursor emailCur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
+        mEmailList = new ArrayList<Map<String, String>>();
+        Cursor emails = getContentResolver().query(
+                ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
 
-        while (emailCur.moveToNext())
-        {
-            String email = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-            emailAddressCollection.add(email);
+        int colDisplayName = emails.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+        int colEmail = emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
+
+        while (emails.moveToNext()) {
+            String contactName = emails.getString(colDisplayName);
+            String email = emails.getString(colEmail);
+            Log.i("auto", "Get email: " + contactName + ", " + email);
+
+            Map<String, String> NameEmail = new HashMap<String, String>();
+            NameEmail.put("Key", contactName);
+            NameEmail.put("Value", email);
+            mEmailList.add(NameEmail); //add this map to the list.
         }
-        emailCur.close();
+        emails.close();
 
-        String[] emailAddresses = new String[emailAddressCollection.size()];
-        emailAddressCollection.toArray(emailAddresses);
+        mAdapterEmail = new SimpleAdapter(this, mEmailList, R.layout.custcontview ,
+                new String[] { "Key", "Value" },
+//                new int[] { R.id.ccontName, R.id.ccontNo, R.id.ccontType });
+                new int[] { R.id.auto_key, R.id.auto_value});
+        et_spemail_auto.setAdapter(mAdapterEmail);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, emailAddresses);
-        AutoCompleteTextView textView = (AutoCompleteTextView)findViewById(R.id.mmWhoNoEm);
-        textView.setAdapter(adapter);
+        et_spemail_auto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View arg1, int index, long arg3) {
+                Map<String, String> map = (Map<String, String>) av.getItemAtPosition(index);
+                String key  = map.get("Key");
+                String value = map.get("Value");
+                et_spemail_auto.setText(value);
+            }
+        });
     }
-
 
     public void PopulatePeopleList2(){
         Log.i("auto", "Poplulate people list revised");
+
+        mPeopleList = new ArrayList<Map<String, String>>();
         Cursor phones = getContentResolver().query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
 
         int colDisplayName = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
         int colPhoneNumber = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-        int colPhoneType = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE);
 
         while (phones.moveToNext()) {
             String contactName = phones.getString(colDisplayName);
             String phoneNumber = phones.getString(colPhoneNumber);
-            String numberType = phones.getString(colPhoneType);
-            Log.i("auto", "Get record: " + contactName + ", " + phoneNumber + ", " + numberType);
+            Log.i("auto", "Get phone: " + contactName + ", " + phoneNumber);
 
-            Map<String, String> NamePhoneType = new HashMap<String, String>();
-            NamePhoneType.put("Name", contactName);
-            NamePhoneType.put("Phone", phoneNumber);
-            if(numberType.equals("0"))
-                NamePhoneType.put("Type", "Work");
-            else
-            if(numberType.equals("1"))
-                NamePhoneType.put("Type", "Home");
-            else if(numberType.equals("2"))
-                NamePhoneType.put("Type", "Mobile");
-            else
-                NamePhoneType.put("Type", "Other");
-            mPeopleList.add(NamePhoneType); //add this map to the list.
+            Map<String, String> NamePhone = new HashMap<String, String>();
+            NamePhone.put("Key", contactName);
+            NamePhone.put("Value", phoneNumber);
+            mPeopleList.add(NamePhone); //add this map to the list.
         }
         phones.close();
-    }
 
-    public void PopulatePeopleList()
-    {
-        Log.i("auto", "Populate people list");
+        mAdapterPhone = new SimpleAdapter(this, mPeopleList, R.layout.custcontview ,
+                new String[] { "Key", "Value" },
+//                new int[] { R.id.ccontName, R.id.ccontNo, R.id.ccontType });
+                new int[] { R.id.auto_key, R.id.auto_value});
+        et_spphone_auto.setAdapter(mAdapterPhone);
 
-        mPeopleList.clear();
-        Log.i("auto", "Query contacts");
-        Cursor people = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-
-        Log.i("auto", "Process results");
-        while (people.moveToNext()) {
-            String contactName = people.getString(people.getColumnIndex(
-                    ContactsContract.Contacts.DISPLAY_NAME));
-            String contactId = people.getString(people.getColumnIndex(
-                    ContactsContract.Contacts._ID));
-            String hasPhone = people.getString(people.getColumnIndex(
-                    ContactsContract.Contacts.HAS_PHONE_NUMBER));
-            Log.i("auto", "Current contactName: " + contactName + ", contactId: " + contactId
-                    + ", hasPhone: " + hasPhone);
-
-            if ((Integer.parseInt(hasPhone) > 0)) {
-                // You know have the number so now query it like this
-                Cursor phones = getContentResolver().query(
-                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                        null,
-                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ contactId,
-                        null, null);
-                while (phones.moveToNext()) {
-                    //store numbers and display a dialog letting the user select which.
-                    String phoneNumber = phones.getString(
-                            phones.getColumnIndex(
-                                    ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    String numberType = phones.getString(phones.getColumnIndex(
-                            ContactsContract.CommonDataKinds.Phone.TYPE));
-                    Log.i("auto", "Load phoneNumber: " + phoneNumber + ", numberType: " + numberType);
-
-                    Map<String, String> NamePhoneType = new HashMap<String, String>();
-                    NamePhoneType.put("Name", contactName);
-                    NamePhoneType.put("Phone", phoneNumber);
-
-                    if(numberType.equals("0"))
-                        NamePhoneType.put("Type", "Work");
-                    else if(numberType.equals("1"))
-                        NamePhoneType.put("Type", "Home");
-                    else if(numberType.equals("2"))
-                        NamePhoneType.put("Type",  "Mobile");
-                    else
-                        NamePhoneType.put("Type", "Other");
-
-                    //Then add this map to the list.
-                    mPeopleList.add(NamePhoneType);
-                }
-                phones.close();
+        et_spphone_auto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View arg1, int index, long arg3) {
+                Map<String, String> map = (Map<String, String>) av.getItemAtPosition(index);
+                String key  = map.get("Key");
+                String value = map.get("Value");
+                et_spphone_auto.setText(value);
             }
-        }
-        people.close();
-        startManagingCursor(people);
+        });
+
+//        et_spphone_auto_test.setAdapter(mAdapter);
+
     }
+
+//    public void PopulatePeopleList()
+//    {
+//        Log.i("auto", "Populate people list");
+//
+//        mPeopleList.clear();
+//        Log.i("auto", "Query contacts");
+//        Cursor people = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+//
+//        Log.i("auto", "Process results");
+//        while (people.moveToNext()) {
+//            String contactName = people.getString(people.getColumnIndex(
+//                    ContactsContract.Contacts.DISPLAY_NAME));
+//            String contactId = people.getString(people.getColumnIndex(
+//                    ContactsContract.Contacts._ID));
+//            String hasPhone = people.getString(people.getColumnIndex(
+//                    ContactsContract.Contacts.HAS_PHONE_NUMBER));
+//            Log.i("auto", "Current contactName: " + contactName + ", contactId: " + contactId
+//                    + ", hasPhone: " + hasPhone);
+//
+//            if ((Integer.parseInt(hasPhone) > 0)) {
+//                // You know have the number so now query it like this
+//                Cursor phones = getContentResolver().query(
+//                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+//                        null,
+//                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ contactId,
+//                        null, null);
+//                while (phones.moveToNext()) {
+//                    //store numbers and display a dialog letting the user select which.
+//                    String phoneNumber = phones.getString(
+//                            phones.getColumnIndex(
+//                                    ContactsContract.CommonDataKinds.Phone.NUMBER));
+//                    String numberType = phones.getString(phones.getColumnIndex(
+//                            ContactsContract.CommonDataKinds.Phone.TYPE));
+//                    Log.i("auto", "Load phoneNumber: " + phoneNumber + ", numberType: " + numberType);
+//
+//                    Map<String, String> NamePhoneType = new HashMap<String, String>();
+//                    NamePhoneType.put("Name", contactName);
+//                    NamePhoneType.put("Phone", phoneNumber);
+//
+//                    if(numberType.equals("0"))
+//                        NamePhoneType.put("Type", "Work");
+//                    else if(numberType.equals("1"))
+//                        NamePhoneType.put("Type", "Home");
+//                    else if(numberType.equals("2"))
+//                        NamePhoneType.put("Type",  "Mobile");
+//                    else
+//                        NamePhoneType.put("Type", "Other");
+//
+//                    //Then add this map to the list.
+//                    mPeopleList.add(NamePhoneType);
+//                }
+//                phones.close();
+//            }
+//        }
+//        people.close();
+//        startManagingCursor(people);
+//    }
 
 
 
@@ -278,12 +308,12 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 //        else
 //            action_add_desc.setVisible(false);
 //
-//        if (et_spphone.getText().toString().isEmpty())
+//        if (et_spphone_auto.getText().toString().isEmpty())
 //            action_add_phone.setVisible(true);
 //        else
 //            action_add_phone.setVisible(false);
 //
-//        if (et_spemail.getText().toString().isEmpty())
+//        if (et_spemail_auto.getText().toString().isEmpty())
 //            action_add_email.setVisible(true);
 //        else
 //            action_add_email.setVisible(false);
@@ -326,8 +356,9 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         et_sptime = (EditText) findViewById(R.id.et_sptime);
         et_spplace = (EditText) findViewById(R.id.et_spplace);
         et_spdesc = (EditText) findViewById(R.id.et_spdesc);
-        et_spphone = (EditText) findViewById(R.id.et_spphone);
-        et_spemail = (EditText) findViewById(R.id.et_spemail);
+        et_spphone_auto = (AutoCompleteTextView) findViewById(R.id.et_spphone_auto);
+//        et_spphone_auto_test = (AutoCompleteTextView) findViewById(R.id.mmWhoNo);
+        et_spemail_auto = (AutoCompleteTextView) findViewById(R.id.et_spemail_auto);
 //        et_spwechat = (EditText) findViewById(R.id.et_spwechat);
 
         bt_call = (Button) findViewById(R.id.bt_call);
@@ -349,6 +380,9 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         tr_spdesc = (TableRow) findViewById(R.id.tr_spdesc);
         tr_spphone = (TableRow) findViewById(R.id.tr_spphone);
         tr_spemail = (TableRow) findViewById(R.id.tr_spemail);
+
+//        mTxtPhoneNo = (AutoCompleteTextView) findViewById(R.id.et_spphone_auto);
+
     }
 
 
@@ -421,13 +455,13 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     public void setVisiblePphone(View view) {
 //        layout_spphone.setVisibility(View.VISIBLE);
         tr_spplace.setVisibility(View.VISIBLE);
-        et_spphone.requestFocus();
+        et_spphone_auto.requestFocus();
     }
 
     public void setVisiblePemail(View view) {
 //        layout_spemail.setVisibility(View.VISIBLE);
         tr_spemail.setVisibility(View.VISIBLE);
-        et_spemail.requestFocus();
+        et_spemail_auto.requestFocus();
     }
 
     public void setVisiblePplace(View view) {
@@ -471,12 +505,12 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     }
 
     public void clearPphone(View view) {
-        et_spphone.setText("");
+        et_spphone_auto.setText("");
         tr_spphone.setVisibility(View.GONE);
     }
 
     public void clearPemail(View view) {
-        et_spemail.setText("");
+        et_spemail_auto.setText("");
         tr_spemail.setVisibility(View.GONE);
     }
 
@@ -570,7 +604,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         else {
             tr_spphone.setVisibility(View.VISIBLE);
 //            layout_spphone.setVisibility(View.VISIBLE);
-            et_spphone.setText(p.pphone, TextView.BufferType.EDITABLE);
+            et_spphone_auto.setText(p.pphone, TextView.BufferType.EDITABLE);
         }
 
         if (p.pemail.isEmpty())
@@ -579,7 +613,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         else {
             tr_spemail.setVisibility(View.VISIBLE);
 //            layout_spemail.setVisibility(View.VISIBLE);
-            et_spemail.setText(p.pemail, TextView.BufferType.EDITABLE);
+            et_spemail_auto.setText(p.pemail, TextView.BufferType.EDITABLE);
         }
 
 //        if (p.pwechat.isEmpty())
@@ -611,12 +645,12 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         if (!program.pdesc.equals(pdesc))
             program.pdesc = pdesc;
 
-        String pphone = et_spphone.getText().toString();
+        String pphone = et_spphone_auto.getText().toString();
         Log.i("db", "Phone on the screen is: " + pphone);
         if (!program.pphone.equals(pphone))
             program.pphone = pphone;
 
-        String pemail = et_spemail.getText().toString();
+        String pemail = et_spemail_auto.getText().toString();
         if (!program.pemail.equals(pemail))
             program.pemail = pemail;
 
@@ -644,19 +678,24 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     public void call(final View view){
         Log.i("call", "Make a call");
         try{
-            String n = et_spphone.getText().toString();
+            String n = et_spphone_auto.getText().toString();
             if (n.isEmpty()){
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.setTitle("Phone number is not set");
                 alert.setMessage("Input number");
-                final EditText input = new EditText(this);
-                input.setInputType(InputType.TYPE_CLASS_PHONE);
+
+//                final EditText input = new EditText(this);
+//                input.setInputType(InputType.TYPE_CLASS_PHONE);
+//                alert.setView(input);
+                final AutoCompleteTextView input = getAutoCompleteTextViewPhone();
                 alert.setView(input);
+
+
                 alert.setPositiveButton("Call", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String s = input.getText().toString();
                         program.pphone = s;
-                        et_spphone.setText(s);
+                        et_spphone_auto.setText(s);
                         saveProgramToDb(view);
                         Log.i("new", "New phone number saved and call: " + s);
                         showProgramToScreen(program);
@@ -668,7 +707,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String s = input.getText().toString();
                         program.pphone = s;
-                        et_spphone.setText(s);
+                        et_spphone_auto.setText(s);
                         saveProgramToDb(view);
                         Log.i("new", "New phone number saved: " + s);
                         showProgramToScreen(program);
@@ -686,21 +725,52 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         }
     }
 
+    public AutoCompleteTextView getAutoCompleteTextViewPhone() {
+        final AutoCompleteTextView input = new AutoCompleteTextView(this);
+        input.setInputType(InputType.TYPE_CLASS_PHONE);
+        input.setAdapter(mAdapterPhone);
+        input.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View arg1, int index, long arg3) {
+                Map<String, String> map = (Map<String, String>) av.getItemAtPosition(index);
+                String key  = map.get("Key");
+                String value = map.get("Value");
+                input.setText(value);
+            }
+        });
+        return input;
+    }
+
+    public AutoCompleteTextView getAutoCompleteTextViewEmail() {
+        final AutoCompleteTextView input = new AutoCompleteTextView(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setAdapter(mAdapterEmail);
+        input.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View arg1, int index, long arg3) {
+                Map<String, String> map = (Map<String, String>) av.getItemAtPosition(index);
+                String key  = map.get("Key");
+                String value = map.get("Value");
+                input.setText(value);
+            }
+        });
+        return input;
+    }
+
     public void sms(final View view) {
         Log.i("sms", "Send sms");
-        String n = et_spphone.getText().toString();
+        String n = et_spphone_auto.getText().toString();
         if (n.isEmpty()){
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("Phone number is not set");
             alert.setMessage("Input number");
-            final EditText input = new EditText(this);
-            input.setInputType(InputType.TYPE_CLASS_PHONE);
+            final AutoCompleteTextView input = getAutoCompleteTextViewPhone();
             alert.setView(input);
             alert.setPositiveButton("Send", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
                     program.pphone = s;
-                    et_spphone.setText(s);
+                    et_spphone_auto.setText(s);
                     saveProgramToDb(view);
                     Log.i("new", "New phone number saved and send sms: " + s);
                     showProgramToScreen(program);
@@ -720,7 +790,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
                     program.pphone = s;
-                    et_spphone.setText(s);
+                    et_spphone_auto.setText(s);
                     saveProgramToDb(view);
                     Log.i("new", "New phone number saved: " + s);
                     showProgramToScreen(program);
@@ -743,20 +813,19 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     public void whatsapp(final View view) {
         Log.i("whatsapp", "Send whatsapp");
-        String n = et_spphone.getText().toString();
+        String n = et_spphone_auto.getText().toString();
 
         if (n.isEmpty()){
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("Phone number is not set");
             alert.setMessage("Input number");
-            final EditText input = new EditText(this);
-            input.setInputType(InputType.TYPE_CLASS_PHONE);
+            final AutoCompleteTextView input = getAutoCompleteTextViewPhone();
             alert.setView(input);
             alert.setPositiveButton("Send", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
                     program.pphone = s;
-                    et_spphone.setText(s);
+                    et_spphone_auto.setText(s);
                     saveProgramToDb(view);
                     Log.i("new", "New phone number saved and send whatsapp: " + s);
                     showProgramToScreen(program);
@@ -776,7 +845,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
                     program.pphone = s;
-                    et_spphone.setText(s);
+                    et_spphone_auto.setText(s);
                     saveProgramToDb(view);
                     Log.i("new", "New phone number saved: " + s);
                     showProgramToScreen(program);
@@ -800,26 +869,23 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     public void email(final View view){
         Log.i("email", "Send email");
-        String n = et_spemail.getText().toString();
+        String n = et_spemail_auto.getText().toString();
         if (n.isEmpty()){
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("Email is not set");
             alert.setMessage("Input email");
-            final EditText input = new EditText(this);
-            input.setInputType(InputType.TYPE_CLASS_TEXT |
-                    InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS |
-                    InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+            final AutoCompleteTextView input = getAutoCompleteTextViewEmail();
             alert.setView(input);
             alert.setPositiveButton("Send", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
                     program.pemail = s;
-                    et_spemail.setText(s);
+                    et_spemail_auto.setText(s);
                     saveProgramToDb(view);
                     Log.i("new", "New email saved and send email: " + s);
                     showProgramToScreen(program);
                     try {
-                        String e = et_spemail.getText().toString();
+                        String e = et_spemail_auto.getText().toString();
                         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                                 "mailto", e, null));
                         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
@@ -834,7 +900,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
                     program.pemail = s;
-                    et_spemail.setText(s);
+                    et_spemail_auto.setText(s);
                     saveProgramToDb(view);
                     Log.i("new", "New email: " + s);
                     showProgramToScreen(program);
