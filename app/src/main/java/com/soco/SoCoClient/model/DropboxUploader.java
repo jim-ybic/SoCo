@@ -4,7 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.net.URI;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -16,10 +18,10 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.soco.SoCoClient.control.Config;
 
-public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
+public class DropboxUploader extends AsyncTask<Void, Void, Boolean> {
 
     private DropboxAPI<AndroidAuthSession> dropbox;
-    private String path;
+    private String remotePath;
     private Context context;
 
     public String key, secret;
@@ -27,11 +29,16 @@ public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
     public String sigEmail, sigProgram;
     public String localPath;
 
-    public UploadFileToDropbox(Context context, DropboxAPI<AndroidAuthSession> dropbox,
-                               String path) {
+    public URI uri;
+    public String filename = "unnamed.file";
+    public InputStream inputStream;
+    public FileInputStream fileInputStream;
+
+    public DropboxUploader(Context context, DropboxAPI<AndroidAuthSession> dropbox,
+                           String path) {
         this.context = context.getApplicationContext();
         this.dropbox = dropbox;
-        this.path = path;
+        this.remotePath = path;
 
         reAuthenticateDropboxApi();
     }
@@ -112,14 +119,15 @@ public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
 
 //        String remotePath = "/" + ShowSingleProgramActivity.hash(loginEmail)
 //                + "/" + ShowSingleProgramActivity.hash(program) + "/";
-        Log.i("hash", "Remote file path: " + path);
+        Log.i("hash", "Remote file remotePath: " + remotePath);
 
 //        Log.i("upload", "Begin to putfile");
         try {
-                FileInputStream fileInputStream = new FileInputStream(file);
-                Log.i("upload", "Begin to put file");
+//                FileInputStream fileInputStream = new FileInputStream(file);
+//                FileInputStream fileInputStream = new FileInputStream(inputStream);
+                Log.i("upload", "Begin to put file: " + filename);
                 DropboxAPI.Entry response = dropbox.putFile(
-                        path + file.getName(), fileInputStream,
+                        remotePath + filename, inputStream,
                     file.length(), null, null);
                 Log.i("upload", "Put file status: " + response.toString());
         } catch (Exception e1) {
