@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.DBManagerSoco;
+import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.model.Program;
 
 import java.util.ArrayList;
@@ -54,6 +55,11 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
 
         listPrograms(null);
+
+        //TEST
+        SocoApp app = (SocoApp) getApplicationContext();
+        Log.i(tag, "SocoApp get state: " + app.getState());
+        app.setState("showActive");
 
         lv_active_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")

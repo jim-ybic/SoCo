@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.LoginUtil;
 import com.soco.SoCoClient.control.ProfileUtil;
+import com.soco.SoCoClient.control.SocoApp;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -39,6 +40,10 @@ public class LoginActivity extends ActionBarActivity {
         // Testing login
         et_login_email.setText("jim.ybic@gmail.com");
         et_login_password.setText("12345678");
+
+        //TEST
+        SocoApp app = (SocoApp) getApplicationContext();
+        app.setState("login");
     }
 
     private void findViewsById() {

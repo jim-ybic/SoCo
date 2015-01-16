@@ -38,6 +38,7 @@ import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.DBManagerSoco;
 import com.soco.SoCoClient.control.SignatureUtil;
+import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.model.DropboxUploader;
 import com.soco.SoCoClient.model.Program;
 
@@ -97,7 +98,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     AppKeyPair appKeyPair;
     AccessTokenPair accessTokenPair;
 
-    private ArrayList<Map<String, String>> mPeopleList, mEmailList;
+    private ArrayList<Map<String, String>> listNamePhone, listNameEmail;
     private SimpleAdapter mAdapterPhone, mAdapterEmail;
 //    private AutoCompleteTextView mTxtPhoneNo;
 
@@ -107,6 +108,11 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_single_program);
         findViewsById();
+
+        //TEST
+        SocoApp app = (SocoApp) getApplicationContext();
+        Log.i(tag, "SocoApp get state: " + app.getState());
+        app.setState("showSingle");
 
         Log.i(tag, "onCreate, original values: " +
                 loginEmail + ", " + loginPassword + ", " + original_pname);
@@ -132,56 +138,38 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         initDropboxApiAuthentication();
 
         //TEST - AutoComplete
-        PopulatePeopleList2();
+        PopulatePhoneList();
 
         //TEST AUTO COMPLETE EMAIL
-        PopulateEmailList2();
+        PopulateEmailList();
     }
 
-//    public void PopulateEmail(){
-//        ArrayList<String> emailAddressCollection = new ArrayList<String>();
+
+    public void PopulateEmailList(){
+        Log.i("auto", "Populate people list revised");
+
+//        listNameEmail = new ArrayList<Map<String, String>>();
+//        Cursor emails = getContentResolver().query(
+//                ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
 //
-//        Cursor emailCur = getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
+//        int colDisplayName = emails.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+//        int colEmail = emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
 //
-//        while (emailCur.moveToNext())
-//        {
-//            String email = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-//            emailAddressCollection.add(email);
+//        while (emails.moveToNext()) {
+//            String contactName = emails.getString(colDisplayName);
+//            String email = emails.getString(colEmail);
+////            Log.i("auto", "Get email: " + contactName + ", " + email);
+//
+//            Map<String, String> NameEmail = new HashMap<String, String>();
+//            NameEmail.put("Key", contactName);
+//            NameEmail.put("Value", email);
+//            listNameEmail.add(NameEmail); //add this map to the list.
 //        }
-//        emailCur.close();
-//
-//        String[] emailAddresses = new String[emailAddressCollection.size()];
-//        emailAddressCollection.toArray(emailAddresses);
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_dropdown_item_1line, emailAddresses);
-////        AutoCompleteTextView textView = (AutoCompleteTextView)findViewById(R.id.mmWhoNoEm);
-//        et_spemail_auto.setAdapter(adapter);
-//    }
+//        emails.close();
+        SocoApp app = (SocoApp) getApplicationContext();
+        listNameEmail = app.loadNameEmailList();
 
-    public void PopulateEmailList2(){
-        Log.i("auto", "Poplulate people list revised");
-
-        mEmailList = new ArrayList<Map<String, String>>();
-        Cursor emails = getContentResolver().query(
-                ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
-
-        int colDisplayName = emails.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-        int colEmail = emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
-
-        while (emails.moveToNext()) {
-            String contactName = emails.getString(colDisplayName);
-            String email = emails.getString(colEmail);
-//            Log.i("auto", "Get email: " + contactName + ", " + email);
-
-            Map<String, String> NameEmail = new HashMap<String, String>();
-            NameEmail.put("Key", contactName);
-            NameEmail.put("Value", email);
-            mEmailList.add(NameEmail); //add this map to the list.
-        }
-        emails.close();
-
-        mAdapterEmail = new SimpleAdapter(this, mEmailList, R.layout.custcontview ,
+        mAdapterEmail = new SimpleAdapter(this, listNameEmail, R.layout.custcontview ,
                 new String[] { "Key", "Value" },
 //                new int[] { R.id.ccontName, R.id.ccontNo, R.id.ccontType });
                 new int[] { R.id.auto_key, R.id.auto_value});
@@ -198,29 +186,31 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         });
     }
 
-    public void PopulatePeopleList2(){
-        Log.i("auto", "Poplulate people list revised");
+    public void PopulatePhoneList(){
+        Log.i("auto", "Populate phone list revised");
 
-        mPeopleList = new ArrayList<Map<String, String>>();
-        Cursor phones = getContentResolver().query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+//        listNamePhone = new ArrayList<Map<String, String>>();
+//        Cursor phones = getContentResolver().query(
+//                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+//
+//        int colDisplayName = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+//        int colPhoneNumber = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+//
+//        while (phones.moveToNext()) {
+//            String contactName = phones.getString(colDisplayName);
+//            String phoneNumber = phones.getString(colPhoneNumber);
+////            Log.i("auto", "Get phone: " + contactName + ", " + phoneNumber);
+//
+//            Map<String, String> NamePhone = new HashMap<String, String>();
+//            NamePhone.put("Key", contactName);
+//            NamePhone.put("Value", phoneNumber);
+//            listNamePhone.add(NamePhone); //add this map to the list.
+//        }
+//        phones.close();
+        SocoApp app = (SocoApp) getApplicationContext();
+        listNamePhone = app.loadNamePhoneList();
 
-        int colDisplayName = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-        int colPhoneNumber = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-
-        while (phones.moveToNext()) {
-            String contactName = phones.getString(colDisplayName);
-            String phoneNumber = phones.getString(colPhoneNumber);
-//            Log.i("auto", "Get phone: " + contactName + ", " + phoneNumber);
-
-            Map<String, String> NamePhone = new HashMap<String, String>();
-            NamePhone.put("Key", contactName);
-            NamePhone.put("Value", phoneNumber);
-            mPeopleList.add(NamePhone); //add this map to the list.
-        }
-        phones.close();
-
-        mAdapterPhone = new SimpleAdapter(this, mPeopleList, R.layout.custcontview ,
+        mAdapterPhone = new SimpleAdapter(this, listNamePhone, R.layout.custcontview ,
                 new String[] { "Key", "Value" },
 //                new int[] { R.id.ccontName, R.id.ccontNo, R.id.ccontType });
                 new int[] { R.id.auto_key, R.id.auto_value});
@@ -244,7 +234,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 //    {
 //        Log.i("auto", "Populate people list");
 //
-//        mPeopleList.clear();
+//        listNamePhone.clear();
 //        Log.i("auto", "Query contacts");
 //        Cursor people = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
 //
@@ -289,7 +279,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 //                        NamePhoneType.put("Type", "Other");
 //
 //                    //Then add this map to the list.
-//                    mPeopleList.add(NamePhoneType);
+//                    listNamePhone.add(NamePhoneType);
 //                }
 //                phones.close();
 //            }
