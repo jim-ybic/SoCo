@@ -1,10 +1,8 @@
 package com.soco.SoCoClient.view;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,9 +16,6 @@ import com.soco.SoCoClient.control.ProfileUtil;
 
 public class LoginActivity extends ActionBarActivity {
 
-    // Local constants
-    public static String LOGIN_EMAIL = "email";
-    public static String LOGIN_PASSWORD = "password";
     public static String FLAG_EXIT = "exit";
 
     // Local views
@@ -66,8 +61,8 @@ public class LoginActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Hello, " + nickname,
                     Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
-            intent.putExtra(LOGIN_EMAIL, loginEmail);
-            intent.putExtra(LOGIN_PASSWORD, loginPassword);
+            intent.putExtra(com.soco.SoCoClient.control.Config.LOGIN_EMAIL, loginEmail);
+            intent.putExtra(com.soco.SoCoClient.control.Config.LOGIN_PASSWORD, loginPassword);
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Oops, login failed.",

@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.view;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
@@ -30,6 +31,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
     // Local view
     private ListView lv_active_programs;
+    public static String tag = "ShowActivePrograms";
 
     // Local variable
     private DBManagerSoco dbmgrSoco;
@@ -43,9 +45,10 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         findViewsById();
 
         Intent intent = getIntent();
-        loginEmail = intent.getStringExtra(LoginActivity.LOGIN_EMAIL);
-        loginPassword = intent.getStringExtra(LoginActivity.LOGIN_PASSWORD);
-
+        Log.i(tag, "onCreate, original values: " + loginEmail + ", " + loginPassword);
+        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
+        loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
+        Log.i(tag, "onCreate, get string extra: " + loginEmail + ", " + loginPassword);
 
         dbmgrSoco = new DBManagerSoco(this);
         programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
@@ -63,11 +66,31 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
                 Intent intent = new Intent(view.getContext(), ShowSingleProgramActivity.class);
                 intent.putExtra(Config.PROGRAM_PNAME, name);
-                intent.putExtra(LoginActivity.LOGIN_EMAIL, loginEmail);
-                intent.putExtra(LoginActivity.LOGIN_PASSWORD, loginPassword);
-                startActivity(intent);
+                intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+                intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+                final int result = 1;
+                startActivityForResult(intent, result);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (1) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    Log.i(tag, "onActivityResult, original values: " + loginEmail + ", " + loginPassword);
+                    loginEmail = data.getStringExtra(Config.LOGIN_EMAIL);
+                    loginPassword = data.getStringExtra(Config.LOGIN_PASSWORD);
+//                    loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
+//                    loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
+                    Log.i(tag, "get string extra: " + loginEmail + ", " + loginPassword);
+
+                }
+                break;
+            }
+        }
     }
 
     private void findViewsById() {
@@ -102,7 +125,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                                     "All Programs deleted.", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getApplicationContext(),
                                     ShowActiveProgramsActivity.class);
-                            i.putExtra(LoginActivity.LOGIN_EMAIL, loginEmail);
+                            i.putExtra(Config.LOGIN_EMAIL, loginEmail);
                             startActivity(i);;
                         }
                     })
@@ -113,8 +136,8 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         if (id == R.id.action_profile) {
             Log.i("setting", "Click on Profile.");
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            intent.putExtra(LoginActivity.LOGIN_EMAIL, loginEmail);
-            intent.putExtra(LoginActivity.LOGIN_PASSWORD, loginPassword);
+            intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
             startActivity(intent);
         }
 
@@ -149,9 +172,9 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
                 Intent intent = new Intent(getApplicationContext(), ShowSingleProgramActivity.class);
                 intent.putExtra(Config.PROGRAM_PNAME, n);
-                intent.putExtra(LoginActivity.LOGIN_EMAIL, loginEmail);
-                intent.putExtra(LoginActivity.LOGIN_PASSWORD, loginPassword);
-                Log.i("new", "Start activity to view programName details");
+                intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+                intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+                Log.i(tag, "Start activity to view programName details");
                 startActivity(intent);
             }
         });
@@ -181,8 +204,8 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
     public void showCompletedPrograms(View view) {
         Intent intent = new Intent(this, ShowCompletedProgramsActivity.class);
-        intent.putExtra(LoginActivity.LOGIN_EMAIL, loginEmail);
-        intent.putExtra(LoginActivity.LOGIN_PASSWORD, loginPassword);
+        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+        intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
         startActivity(intent);
     }
 

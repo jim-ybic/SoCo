@@ -23,6 +23,9 @@ public class Config {
     public static String COLUMN_PWECHAT = "pwechat";
 
     public static String ENCODING = "UTF-8";
+    // Local constants
+    public static String LOGIN_EMAIL = "email";
+    public static String LOGIN_PASSWORD = "password";
 //    public static String PROGRAM_PDATE = "PROGRAM_PDATE";
 //    public static String PROGRAM_PTIME = "PROGRAM_PTIME";
 //    public static String PROGRAM_PPLACE = "PROGRAM_PPLACE";

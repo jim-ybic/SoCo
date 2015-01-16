@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
@@ -42,8 +41,8 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
         findViewsById();
 
         Intent intent = getIntent();
-        loginEmail = intent.getStringExtra(LoginActivity.LOGIN_EMAIL);
-        loginPassword = intent.getStringExtra(LoginActivity.LOGIN_PASSWORD);
+        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
+        loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
 
         dbmgrSoco = new DBManagerSoco(this);
         programs = dbmgrSoco.loadPrograms(Config.PROGRAM_COMPLETED);
@@ -99,8 +98,8 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
 
     void gotoPreviousScreen(){
         Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
-        intent.putExtra(LoginActivity.LOGIN_EMAIL, loginEmail);
-        intent.putExtra(LoginActivity.LOGIN_PASSWORD, loginPassword);
+        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+        intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
         startActivity(intent);
     }
 

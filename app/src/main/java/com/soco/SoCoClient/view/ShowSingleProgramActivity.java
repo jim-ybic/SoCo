@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.view;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -50,6 +51,7 @@ import java.util.Map;
 public class ShowSingleProgramActivity extends ActionBarActivity implements View.OnClickListener {
 
     public static String PROGRAM = "programName";
+    public static String tag="ShowSingleProgram";
 
     // Local views
     EditText pdateEditText, ptimeEditText;
@@ -101,15 +103,25 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("show", "Show single activity: onCreate");
+        Log.i(tag, "onCreate, start");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_single_program);
         findViewsById();
 
-        Intent intent = getIntent();
-        original_pname = intent.getStringExtra(Config.PROGRAM_PNAME);
-        loginEmail = intent.getStringExtra(LoginActivity.LOGIN_EMAIL);
-        loginPassword = intent.getStringExtra(LoginActivity.LOGIN_PASSWORD);
+        Log.i(tag, "onCreate, original values: " +
+                loginEmail + ", " + loginPassword + ", " + original_pname);
+
+        if (loginEmail == null || loginEmail.isEmpty()) {
+            Intent intent = getIntent();
+            Log.i(tag, "onCreate: intent package, " + intent.getPackage());
+            loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
+            loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
+            original_pname = intent.getStringExtra(Config.PROGRAM_PNAME);
+            Log.i(tag, "onCreate, get String extra: "
+                    + Config.LOGIN_EMAIL + ":" + loginEmail + ", "
+                    + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
+                    + Config.PROGRAM_PNAME + ":" + original_pname);
+        }
 
         dbmgrSoco = new DBManagerSoco(this);
         program = dbmgrSoco.loadProgram(original_pname);
@@ -160,7 +172,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         while (emails.moveToNext()) {
             String contactName = emails.getString(colDisplayName);
             String email = emails.getString(colEmail);
-            Log.i("auto", "Get email: " + contactName + ", " + email);
+//            Log.i("auto", "Get email: " + contactName + ", " + email);
 
             Map<String, String> NameEmail = new HashMap<String, String>();
             NameEmail.put("Key", contactName);
@@ -199,7 +211,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         while (phones.moveToNext()) {
             String contactName = phones.getString(colDisplayName);
             String phoneNumber = phones.getString(colPhoneNumber);
-            Log.i("auto", "Get phone: " + contactName + ", " + phoneNumber);
+//            Log.i("auto", "Get phone: " + contactName + ", " + phoneNumber);
 
             Map<String, String> NamePhone = new HashMap<String, String>();
             NamePhone.put("Key", contactName);
@@ -388,10 +400,19 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
 
     void gotoPreviousScreen(){
-        Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
-        intent.putExtra(LoginActivity.LOGIN_EMAIL, loginEmail);
-        loginEmail = intent.getStringExtra(LoginActivity.LOGIN_EMAIL);
-        startActivity(intent);
+        Log.i(tag, "gotoPreviousScreen");
+        Intent intent = new Intent();
+//        Intent intent = new Intent(null);
+//        Intent intent = getIntent();
+        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+        intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+//        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
+        Log.i(tag, "put extra, "
+                + Config.LOGIN_EMAIL + ":" + loginEmail + ", "
+                + Config.LOGIN_PASSWORD + ":" + loginPassword);
+//        startActivity(intent);
+        setResult(Activity.RESULT_OK, intent);
+        finish();
     }
 
     @Override
@@ -405,12 +426,12 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        Log.i("menu", "Menu click from single programName activity.");
+        Log.i(tag, "onOptionsItemSelected");
 
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                Log.i("menu", "Menu click: home.");
+                Log.i(tag, "Menu click: home.");
                 gotoPreviousScreen();
                 break;
 //            case R.id.action_add_date:
@@ -1010,7 +1031,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     protected void onResume() {
         super.onResume();
 
-        Log.i("call", "onResume: Show programName to screen: " + program.pname + ", " + program.pphone);
+        Log.i(tag, "onResume: Show programName to screen: " + program.pname + ", " + program.pphone);
         showProgramToScreen(program);
 
         Log.i("dropbox", "ShowSingleProgramActivity:OnResume, check if OA2 authentication success");
@@ -1041,13 +1062,41 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     }
 
     public void more(View view) {
-        Log.i("more", "ShowSingleProgramActivity:more");
+        Log.i(tag, "ShowSingleProgramActivity:more");
         saveProgramToDb(view);
 
         Intent i = new Intent(this, ShowMoreActivity.class);
-        i.putExtra(LoginActivity.LOGIN_EMAIL, loginEmail);
-        i.putExtra(LoginActivity.LOGIN_PASSWORD, loginPassword);
-        i.putExtra(PROGRAM, program.pname);
-        startActivity(i);
+        i.putExtra(Config.LOGIN_EMAIL, loginEmail);
+        i.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+        i.putExtra(Config.PROGRAM_PNAME, program.pname);
+        Log.i(tag, Config.LOGIN_EMAIL + ":" + loginEmail + ", "
+                + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
+                + PROGRAM + ":" + program.pname);
+
+        final int result = 1;
+        startActivityForResult(i, result);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (1) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    Log.i(tag, "onActivityResult, original values: " + loginEmail + ", " + loginPassword);
+                    loginEmail = data.getStringExtra(Config.LOGIN_EMAIL);
+                    loginPassword = data.getStringExtra(Config.LOGIN_PASSWORD);
+                    original_pname = data.getStringExtra(Config.PROGRAM_PNAME);
+//                    loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
+//                    loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
+                    Log.i(tag, "get string extra: "
+                            + loginEmail + ", " + loginPassword + ", " + original_pname);
+
+                }
+                break;
+            }
+        }
+    }
+
+
 }

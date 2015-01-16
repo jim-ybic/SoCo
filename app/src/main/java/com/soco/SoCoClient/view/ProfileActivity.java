@@ -1,7 +1,6 @@
 package com.soco.SoCoClient.view;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.ProfileUtil;
@@ -35,8 +33,8 @@ public class ProfileActivity extends ActionBarActivity {
         findViewsById();;
 
         Intent intent = getIntent();
-        loginEmail = intent.getStringExtra(LoginActivity.LOGIN_EMAIL);
-        loginPassword = intent.getStringExtra(LoginActivity.LOGIN_PASSWORD);
+        loginEmail = intent.getStringExtra(com.soco.SoCoClient.control.Config.LOGIN_EMAIL);
+        loginPassword = intent.getStringExtra(com.soco.SoCoClient.control.Config.LOGIN_PASSWORD);
 
         profile = loadProfile();
         showProfile(profile);

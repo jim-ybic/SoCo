@@ -11,6 +11,7 @@ public class Profile {
     public static String PROFILE_NICKNAME = "nickname";
     public static String PROFILE_PHONE = "phone";
     public static String PROFILE_WECHAT = "wechat";
+    public static String PROFILE_PNAME = "pname";
     public String email;
     public String nickname;
     public String phone;

@@ -16,6 +16,8 @@ public class DBManagerSoco {
     private DBHelperSoco helper;
     private SQLiteDatabase db;
 
+    public static String tag = "DBManagerSoco";
+
     public DBManagerSoco(Context context) {
         helper = new DBHelperSoco(context);
         db = helper.getWritableDatabase();
@@ -50,7 +52,7 @@ public class DBManagerSoco {
     }
 
     public ArrayList<Program> loadPrograms(int pcompleted) {
-        Log.i("db", "Load programs where pcomplete is " + pcompleted);
+        Log.i(tag, "Load programs where pcomplete is " + pcompleted);
         ArrayList<Program> programs = new ArrayList<>();
         Cursor c = queryTheCursor(pcompleted);
         while (c.moveToNext()) {
@@ -62,7 +64,7 @@ public class DBManagerSoco {
     }
 
     public Program loadProgram(String pname) {
-        Log.i("db", "Load programs where pname is " + pname);
+        Log.i(tag, "Load programs where pname is " + pname);
         Program program = null;
         Cursor c = queryTheCursor(pname);
         while (c.moveToNext()) {
