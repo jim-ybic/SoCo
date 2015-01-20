@@ -1,8 +1,9 @@
-package com.soco.SoCoClient.control;
+package com.soco.SoCoClient.control.util;
 
 import android.util.Log;
 
 public class LoginUtil {
+
     public static boolean validateLogin(String loginEmail, String loginPassword) {
         Log.i("login", "Validate login for: " + loginEmail + "/" + loginPassword);
 

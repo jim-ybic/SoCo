@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.util.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,7 @@ public class SocoApp extends Application {
     public String myState;
     public ArrayList<Map<String, String>> listNamePhone, listNameEmail;
     public boolean listNamePhoneReady = false, listNameEmailReady = false;
+    public String currPicturePath;
 
     public String getState(){
         return myState;
@@ -27,7 +29,7 @@ public class SocoApp extends Application {
 
 
     public ArrayList<Map<String, String>> loadNameEmailList() {
-        Log.i(tag, "loadNameEmailList");
+        Log.d(tag, "loadNameEmailList");
 
         if (!listNameEmailReady) {
             Log.i(tag, "listNameEmail not ready, load for the first time");
@@ -41,7 +43,7 @@ public class SocoApp extends Application {
             while (emails.moveToNext()) {
                 String contactName = emails.getString(colDisplayName);
                 String email = emails.getString(colEmail);
-//            Log.i("auto", "Get email: " + contactName + ", " + email);
+                Log.d(tag, "Get email: " + contactName + ", " + email);
 
                 Map<String, String> NameEmail = new HashMap<String, String>();
                 NameEmail.put("Key", contactName);
@@ -58,7 +60,7 @@ public class SocoApp extends Application {
     }
 
     public ArrayList<Map<String, String>> loadNamePhoneList() {
-        Log.i(tag, "loadNamePhoneList");
+        Log.d(tag, "loadNamePhoneList");
 
         if (!listNamePhoneReady) {
             Log.i(tag, "listNamePhone not ready, load for the first time");
@@ -72,7 +74,7 @@ public class SocoApp extends Application {
             while (phones.moveToNext()) {
                 String contactName = phones.getString(colDisplayName);
                 String phoneNumber = phones.getString(colPhoneNumber);
-//            Log.i("auto", "Get phone: " + contactName + ", " + phoneNumber);
+                Log.d(tag, "Get phone: " + contactName + ", " + phoneNumber);
 
                 Map<String, String> NamePhone = new HashMap<String, String>();
                 NamePhone.put("Key", contactName);
