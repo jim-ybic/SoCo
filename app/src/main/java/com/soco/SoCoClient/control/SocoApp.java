@@ -43,7 +43,7 @@ public class SocoApp extends Application {
             while (emails.moveToNext()) {
                 String contactName = emails.getString(colDisplayName);
                 String email = emails.getString(colEmail);
-                Log.d(tag, "Get email: " + contactName + ", " + email);
+                Log.v(tag, "Get email: " + contactName + ", " + email);
 
                 Map<String, String> NameEmail = new HashMap<String, String>();
                 NameEmail.put("Key", contactName);
@@ -74,7 +74,7 @@ public class SocoApp extends Application {
             while (phones.moveToNext()) {
                 String contactName = phones.getString(colDisplayName);
                 String phoneNumber = phones.getString(colPhoneNumber);
-                Log.d(tag, "Get phone: " + contactName + ", " + phoneNumber);
+                Log.v(tag, "Get phone: " + contactName + ", " + phoneNumber);
 
                 Map<String, String> NamePhone = new HashMap<String, String>();
                 NamePhone.put("Key", contactName);
