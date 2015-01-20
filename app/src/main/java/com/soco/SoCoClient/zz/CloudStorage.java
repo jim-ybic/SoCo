@@ -66,7 +66,7 @@ public class CloudStorage {
 //
 //            Storage.Objects.Insert insert = storage.objects().insert(
 //                    bucketName, null, content);
-//            insert.setName(file.getName());
+//            insert.setName(file.getDisplayName());
 //
 //            insert.execute();
 //        } finally {
@@ -160,7 +160,7 @@ public class CloudStorage {
 //        List<StorageObject> objects = storage.objects().list(bucketName).execute().getItems();
 //        if(objects != null) {
 //            for(StorageObject o : objects) {
-//                list.add(o.getName());
+//                list.add(o.getDisplayName());
 //            }
 //        }
 //
@@ -183,7 +183,7 @@ public class CloudStorage {
 //        List<Bucket> buckets = storage.buckets().list(getProperties().getProperty(PROJECT_ID_PROPERTY)).execute().getItems();
 //        if(buckets != null) {
 //            for(Bucket b : buckets) {
-//                list.add(b.getName());
+//                list.add(b.getDisplayName());
 //            }
 //        }
 //

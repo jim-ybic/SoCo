@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.DBManagerSoco;
+import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.model.Program;
 
@@ -89,10 +89,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                     Log.i(tag, "onActivityResult, original values: " + loginEmail + ", " + loginPassword);
                     loginEmail = data.getStringExtra(Config.LOGIN_EMAIL);
                     loginPassword = data.getStringExtra(Config.LOGIN_PASSWORD);
-//                    loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
-//                    loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
                     Log.i(tag, "get string extra: " + loginEmail + ", " + loginPassword);
-
                 }
                 break;
             }
@@ -103,22 +100,15 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         lv_active_programs = (ListView) findViewById(R.id.lv_active_programs);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_show_active_programs, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_clean_up) {
             Log.i("setting", "Click on Clean up.");
             new AlertDialog.Builder(this)

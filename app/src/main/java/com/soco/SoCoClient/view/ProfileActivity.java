@@ -11,11 +11,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.ProfileUtil;
+import com.soco.SoCoClient.control.Config;
+import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.model.Profile;
 
 
 public class ProfileActivity extends ActionBarActivity {
+    static String tag = "ProfileActivity";
 
     // Local views
     TextView tv_profile_email;
@@ -48,35 +50,17 @@ public class ProfileActivity extends ActionBarActivity {
     }
 
     Profile loadProfile() {
-        Log.i("profile", "Load profile from " + Profile.PROFILE_FILENAME);
+        Log.i(tag, "Load profile from " + Config.PROFILE_FILENAME);
         return new Profile(getApplicationContext());
-//        SharedPreferences settings = getSharedPreferences(ProfileUtil.PROFILE_FILENAME, 0);
-//
-//        Profile profile = new Profile();
-//        profile.email = settings.getString(ProfileUtil.PROFILE_EMAIL,"");
-//        profile.nickname = settings.getString(ProfileUtil.PROFILE_NICKNAME,"");
-//        profile.phone = settings.getString(ProfileUtil.PROFILE_PHONE,"");
-//        profile.wechat = settings.getString(ProfileUtil.PROFILE_WECHAT,"");
-//
-//        return profile;
     }
 
     public void saveProfile(View view) {
-        Log.i("profile", "Save profile to " + Profile.PROFILE_FILENAME);
-//        SharedPreferences settings = getSharedPreferences(Profile.PROFILE_FILENAME, 0);
-//        SharedPreferences.Editor editor = settings.edit();
-
+        Log.i(tag, "Save profile to " + Config.PROFILE_FILENAME);
         ProfileUtil.save(getApplicationContext(),
                 et_profile_nickname.getText().toString(),
                 et_profile_phone.getText().toString(),
                 et_profile_wechat.getText().toString());
-
-//        editor.putString(Profile.PROFILE_NICKNAME, et_profile_nickname.getText().toString());
-//        editor.putString(Profile.PROFILE_PHONE, et_profile_phone.getText().toString());
-//        editor.putString(Profile.PROFILE_WECHAT, et_profile_wechat.getText().toString());
-//        editor.commit();
-//        Toast.makeText(getApplicationContext(), "Profile saved.", Toast.LENGTH_SHORT).show();
-    }
+}
 
     public void showProfile(Profile profile){
         et_profile_nickname.setText(profile.nickname, TextView.BufferType.EDITABLE);
@@ -87,23 +71,18 @@ public class ProfileActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_profile, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
+
+
 }

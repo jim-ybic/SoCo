@@ -17,8 +17,6 @@ public class Program {
     public String pemail = "";
     public String pwechat = "";
 
-    public Program() {}
-
     public Program(String name) {
         this.pname = name;
     }

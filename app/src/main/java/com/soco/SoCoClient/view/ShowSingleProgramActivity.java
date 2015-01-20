@@ -7,9 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -36,16 +34,13 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
 import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.DBManagerSoco;
-import com.soco.SoCoClient.control.SignatureUtil;
+import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.SocoApp;
-import com.soco.SoCoClient.model.DropboxUploader;
 import com.soco.SoCoClient.model.Program;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -57,28 +52,11 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     // Local views
     EditText pdateEditText, ptimeEditText;
     EditText et_spname, et_spdate, et_sptime, et_spplace, et_spdesc;
-    AutoCompleteTextView et_spphone_auto, et_spphone_auto_test, et_spemail_auto;
-//    EditText et_spwechat;
-    Button bt_call;
-    Button bt_whatsapp;
-    Button bt_email;
-    Button bt_wechat;
-    MenuItem action_add_date;
-    MenuItem action_add_time;
-    MenuItem action_add_place;
-    MenuItem action_add_desc;
-    MenuItem action_add_phone;
-    MenuItem action_add_email;
-//    MenuItem action_add_wechat;
-    LinearLayout layout_spdate;
-    LinearLayout layout_sptime;
-    LinearLayout layout_spplace;
-    LinearLayout layout_spdesc;
-    LinearLayout layout_spphone;
-    LinearLayout layout_spemail;
-//    LinearLayout layout_spwechat;
+    AutoCompleteTextView et_spphone_auto, et_spemail_auto;
+    Button bt_call, bt_whatsapp, bt_email, bt_wechat;
+    LinearLayout layout_spdate, layout_sptime, layout_spplace, layout_spdesc;
+    LinearLayout layout_spphone, layout_spemail;
     TableRow tr_spdate, tr_sptime, tr_spplace, tr_spdesc, tr_spphone, tr_spemail;
-
 
     // Local variables
     DBManagerSoco dbmgrSoco = null;
@@ -137,35 +115,13 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
         initDropboxApiAuthentication();
 
-        //TEST - AutoComplete
         PopulatePhoneList();
-
-        //TEST AUTO COMPLETE EMAIL
         PopulateEmailList();
     }
 
 
     public void PopulateEmailList(){
         Log.i("auto", "Populate people list revised");
-
-//        listNameEmail = new ArrayList<Map<String, String>>();
-//        Cursor emails = getContentResolver().query(
-//                ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
-//
-//        int colDisplayName = emails.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-//        int colEmail = emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
-//
-//        while (emails.moveToNext()) {
-//            String contactName = emails.getString(colDisplayName);
-//            String email = emails.getString(colEmail);
-////            Log.i("auto", "Get email: " + contactName + ", " + email);
-//
-//            Map<String, String> NameEmail = new HashMap<String, String>();
-//            NameEmail.put("Key", contactName);
-//            NameEmail.put("Value", email);
-//            listNameEmail.add(NameEmail); //add this map to the list.
-//        }
-//        emails.close();
         SocoApp app = (SocoApp) getApplicationContext();
         listNameEmail = app.loadNameEmailList();
 
@@ -188,25 +144,6 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
     public void PopulatePhoneList(){
         Log.i("auto", "Populate phone list revised");
-
-//        listNamePhone = new ArrayList<Map<String, String>>();
-//        Cursor phones = getContentResolver().query(
-//                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-//
-//        int colDisplayName = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-//        int colPhoneNumber = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-//
-//        while (phones.moveToNext()) {
-//            String contactName = phones.getString(colDisplayName);
-//            String phoneNumber = phones.getString(colPhoneNumber);
-////            Log.i("auto", "Get phone: " + contactName + ", " + phoneNumber);
-//
-//            Map<String, String> NamePhone = new HashMap<String, String>();
-//            NamePhone.put("Key", contactName);
-//            NamePhone.put("Value", phoneNumber);
-//            listNamePhone.add(NamePhone); //add this map to the list.
-//        }
-//        phones.close();
         SocoApp app = (SocoApp) getApplicationContext();
         listNamePhone = app.loadNamePhoneList();
 
@@ -225,123 +162,13 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 et_spphone_auto.setText(value);
             }
         });
-
-//        et_spphone_auto_test.setAdapter(mAdapter);
-
     }
 
-//    public void PopulatePeopleList()
-//    {
-//        Log.i("auto", "Populate people list");
-//
-//        listNamePhone.clear();
-//        Log.i("auto", "Query contacts");
-//        Cursor people = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-//
-//        Log.i("auto", "Process results");
-//        while (people.moveToNext()) {
-//            String contactName = people.getString(people.getColumnIndex(
-//                    ContactsContract.Contacts.DISPLAY_NAME));
-//            String contactId = people.getString(people.getColumnIndex(
-//                    ContactsContract.Contacts._ID));
-//            String hasPhone = people.getString(people.getColumnIndex(
-//                    ContactsContract.Contacts.HAS_PHONE_NUMBER));
-//            Log.i("auto", "Current contactName: " + contactName + ", contactId: " + contactId
-//                    + ", hasPhone: " + hasPhone);
-//
-//            if ((Integer.parseInt(hasPhone) > 0)) {
-//                // You know have the number so now query it like this
-//                Cursor phones = getContentResolver().query(
-//                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-//                        null,
-//                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ contactId,
-//                        null, null);
-//                while (phones.moveToNext()) {
-//                    //store numbers and display a dialog letting the user select which.
-//                    String phoneNumber = phones.getString(
-//                            phones.getColumnIndex(
-//                                    ContactsContract.CommonDataKinds.Phone.NUMBER));
-//                    String numberType = phones.getString(phones.getColumnIndex(
-//                            ContactsContract.CommonDataKinds.Phone.TYPE));
-//                    Log.i("auto", "Load phoneNumber: " + phoneNumber + ", numberType: " + numberType);
-//
-//                    Map<String, String> NamePhoneType = new HashMap<String, String>();
-//                    NamePhoneType.put("Name", contactName);
-//                    NamePhoneType.put("Phone", phoneNumber);
-//
-//                    if(numberType.equals("0"))
-//                        NamePhoneType.put("Type", "Work");
-//                    else if(numberType.equals("1"))
-//                        NamePhoneType.put("Type", "Home");
-//                    else if(numberType.equals("2"))
-//                        NamePhoneType.put("Type",  "Mobile");
-//                    else
-//                        NamePhoneType.put("Type", "Other");
-//
-//                    //Then add this map to the list.
-//                    listNamePhone.add(NamePhoneType);
-//                }
-//                phones.close();
-//            }
-//        }
-//        people.close();
-//        startManagingCursor(people);
-//    }
-
-
-
-//    void refreshOptionMenu(){
-//        if (et_spdate.getText().toString().isEmpty())
-//            action_add_date.setVisible(true);
-//        else
-//            action_add_date.setVisible(false);
-//
-//        if (et_sptime.getText().toString().isEmpty())
-//            action_add_time.setVisible(true);
-//        else
-//            action_add_time.setVisible(false);
-//
-//        if (et_spplace.getText().toString().isEmpty())
-//            action_add_place.setVisible(true);
-//        else
-//            action_add_place.setVisible(false);
-//
-//        if (et_spdesc.getText().toString().isEmpty())
-//            action_add_desc.setVisible(true);
-//        else
-//            action_add_desc.setVisible(false);
-//
-//        if (et_spphone_auto.getText().toString().isEmpty())
-//            action_add_phone.setVisible(true);
-//        else
-//            action_add_phone.setVisible(false);
-//
-//        if (et_spemail_auto.getText().toString().isEmpty())
-//            action_add_email.setVisible(true);
-//        else
-//            action_add_email.setVisible(false);
-
-//        if (et_spwechat.getText().toString().isEmpty())
-//            action_add_wechat.setVisible(true);
-//        else
-//            action_add_wechat.setVisible(false);
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_show_single_program, menu);
-
-//        action_add_date = menu.findItem(R.id.action_add_date);
-//        action_add_time = menu.findItem(R.id.action_add_time);
-//        action_add_place = menu.findItem(R.id.action_add_place);
-//        action_add_desc = menu.findItem(R.id.action_add_desc);
-//        action_add_phone = menu.findItem(R.id.action_add_phone);
-//        action_add_email = menu.findItem(R.id.action_add_email);
-//        action_add_wechat = menu.findItem(R.id.action_add_wechat);
-
-//        refreshOptionMenu();
-
         return true;
     }
 
@@ -383,24 +210,16 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         tr_spdesc = (TableRow) findViewById(R.id.tr_spdesc);
         tr_spphone = (TableRow) findViewById(R.id.tr_spphone);
         tr_spemail = (TableRow) findViewById(R.id.tr_spemail);
-
-//        mTxtPhoneNo = (AutoCompleteTextView) findViewById(R.id.et_spphone_auto);
-
     }
-
 
     void gotoPreviousScreen(){
         Log.i(tag, "gotoPreviousScreen");
         Intent intent = new Intent();
-//        Intent intent = new Intent(null);
-//        Intent intent = getIntent();
         intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
         intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
-//        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
         Log.i(tag, "put extra, "
                 + Config.LOGIN_EMAIL + ":" + loginEmail + ", "
                 + Config.LOGIN_PASSWORD + ":" + loginPassword);
-//        startActivity(intent);
         setResult(Activity.RESULT_OK, intent);
         finish();
     }
@@ -550,12 +369,12 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         int day = newCalendar.get(Calendar.DAY_OF_MONTH);
         pdatePickerDialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                pdateEditText.setText(dateFormatter.format(newDate.getTime()));
-            }
-        }, year, month, day);
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        pdateEditText.setText(dateFormatter.format(newDate.getTime()));
+                    }
+                }, year, month, day);
 
         // Time picker
         ptimeEditText.setOnClickListener(this);
@@ -563,10 +382,10 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         int minute = newCalendar.get(Calendar.MINUTE);
         ptimePickerDialog = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
-            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                ptimeEditText.setText( selectedHour + ":" + selectedMinute);
-            }
-        }, hour, minute, true); //Yes 24 hour time
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        ptimeEditText.setText( selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true); //Yes 24 hour time
 
     }
 
@@ -951,29 +770,29 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         }
     }
 
-
-    public void upload(View view) {
-        Log.i("upload", "ShowSingleProgramActivity:upload");
-        saveProgramToDb(view);
-
-        String sigEmail = SignatureUtil.genSHA1(loginEmail, loginPassword);
-        Log.i("hash", "SHA1 signature, " + loginEmail + ", " + sigEmail);
-        String sigProgram = SignatureUtil.genSHA1(program.pname, loginPassword);
-        Log.i("hash", "SHA1 signature, " + program.pname + ", " + sigProgram);
-
-        String p = "/" + sigEmail + "/" + sigProgram + "/";
-        Log.i("dropbox",  "Remote file path: " + p);
-
-        DropboxUploader upload = new DropboxUploader(this, dropbox, p);
-        upload.key = ACCESS_KEY;
-        upload.secret = ACCESS_SECRET;
-        upload.accessTokenPair = accessTokenPair;
-        upload.sigEmail = sigEmail;
-        upload.sigProgram = sigProgram;
-        upload.localPath = getApplicationContext().getFilesDir().toString();
-        Log.i("dropbox", "Create UploadFileToDropbox with accessTokenPair: " + accessTokenPair);
-        upload.execute();
-    }
+//
+//    public void upload(View view) {
+//        Log.i("upload", "ShowSingleProgramActivity:upload");
+//        saveProgramToDb(view);
+//
+//        String sigEmail = SignatureUtil.genSHA1(loginEmail, loginPassword);
+//        Log.i("hash", "SHA1 signature, " + loginEmail + ", " + sigEmail);
+//        String sigProgram = SignatureUtil.genSHA1(program.pname, loginPassword);
+//        Log.i("hash", "SHA1 signature, " + program.pname + ", " + sigProgram);
+//
+//        String p = "/" + sigEmail + "/" + sigProgram + "/";
+//        Log.i("dropbox",  "Remote file path: " + p);
+//
+//        DropboxUploaderUtil upload = new DropboxUploaderUtil(this, dropbox,sigEmail, sigProgram);
+//        upload.key = ACCESS_KEY;
+//        upload.secret = ACCESS_SECRET;
+//        upload.accessTokenPair = accessTokenPair;
+////        upload.sigEmail = sigEmail;
+////        upload.sigProgram = sigProgram;
+//        upload.localPath = getApplicationContext().getFilesDir().toString();
+//        Log.i("dropbox", "Create UploadFileToDropbox with accessTokenPair: " + accessTokenPair);
+//        upload.execute();
+//    }
 
 
 
@@ -982,38 +801,39 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 
         AndroidAuthSession session;
 
-        Log.i("dropbox", "Step 1: Create appKeyPair from Key/Secret: "
-                + ACCESS_KEY + "/" + ACCESS_SECRET);
+//        Log.i(tag, "Step 1: Create appKeyPair from Key/Secret: "
+//                + ACCESS_KEY + "/" + ACCESS_SECRET);
         appKeyPair = new AppKeyPair(ACCESS_KEY, ACCESS_SECRET);
         accessTokenPair = new AccessTokenPair(ACCESS_KEY, ACCESS_SECRET);
 
-        Log.i("dropbox", "Step 2: Create session with appKeyPair: " + appKeyPair
-                + ", AccessType: " + Session.AccessType.APP_FOLDER
-                + ", accessTokenPair: " + accessTokenPair);
+//        Log.i(tag, "Step 2: Create session with appKeyPair: " + appKeyPair
+//                + ", AccessType: " + Session.AccessType.APP_FOLDER
+//                + ", accessTokenPair: " + accessTokenPair);
         session = new AndroidAuthSession(appKeyPair, Session.AccessType.APP_FOLDER);
 
-        Log.i("dropbox", "Step 3: Create DropboxAPI from session: " + session);
+//        Log.i(tag, "Step 3: Create DropboxAPI from session: " + session);
         dropbox = new DropboxAPI<AndroidAuthSession>(session);
 
         boolean useSoCoDropboxAccount = true;
         //TODO: choose if use SoCo's dropbox account or user's own dropbox account
 
         if (useSoCoDropboxAccount) {
-            Log.i("dropbox", "Step 4 (approach a): Load SoCo's dropbox account and OA2 token");
+//            Log.i(tag, "Step 4 (approach a): Load SoCo's dropbox account and OA2 token");
             String OA2token = "JWWNa2LgL2UAAAAAAAAANNpl6wfgG5wTX6_OrNik5a_yKGsnySogfHYMK-uxjLJd";
-            Log.i("dropbox", "Set DropboxAPI OA2 token: " + OA2token);
+//            Log.i(tag, "Set DropboxAPI OA2 token: " + OA2token);
             dropbox.getSession().setOAuth2AccessToken(OA2token);
         } else {
-            Log.i("dropbox", "Step 4 (approach b): Let user login");
+//            Log.i("dropbox", "Step 4 (approach b): Let user login");
         }
 
-        Log.i("dropbox", "Validate DropboxAPI and Session");
+//        Log.d(tag, "Validate DropboxAPI and Session");
         if (dropbox != null && dropbox.getSession() != null
-                && dropbox.getSession().getOAuth2AccessToken() != null)
-            Log.i("dropbox", "Validation success, token: " + dropbox.getSession().getOAuth2AccessToken());
+                && dropbox.getSession().getOAuth2AccessToken() != null) {
+//            Log.d("dropbox", "Validation success, token: " + dropbox.getSession().getOAuth2AccessToken());
+        }
         else {
-                Log.i("dropbox", "Session authentication failed, create new OA2 validation session");
-                dropbox.getSession().startOAuth2Authentication(ShowSingleProgramActivity.this);
+//                Log.d("dropbox", "Session authentication failed, create new OA2 validation session");
+            dropbox.getSession().startOAuth2Authentication(ShowSingleProgramActivity.this);
         }
     }
 
@@ -1024,30 +844,30 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         Log.i(tag, "onResume: Show programName to screen: " + program.pname + ", " + program.pphone);
         showProgramToScreen(program);
 
-        Log.i("dropbox", "ShowSingleProgramActivity:OnResume, check if OA2 authentication success");
-        Log.i("dropbox", "Session token: " + dropbox.getSession().getOAuth2AccessToken());
+//        Log.d(tag, "ShowSingleProgramActivity:OnResume, check if OA2 authentication success");
+//        Log.d(tag, "Session token: " + dropbox.getSession().getOAuth2AccessToken());
 
         if (dropbox != null && dropbox.getSession() != null
                 && dropbox.getSession().getOAuth2AccessToken() != null) {
-            Log.i("dropbox", "DropboxAPI and Session created with existing token: "
-                    + dropbox.getSession().getOAuth2AccessToken());
+//            Log.i(tag, "DropboxAPI and Session created with existing token: "
+//                    + dropbox.getSession().getOAuth2AccessToken());
             return;
         }
 
-        Log.i("dropbox", "Check OA2 authentication result");
+//        Log.i(tag, "Check OA2 authentication result");
         if (dropbox.getSession().authenticationSuccessful()) {
-            Log.i("dropbox", "Dropbox OA2 authentication success");
+//            Log.i(tag, "Dropbox OA2 authentication success");
             try {
-                Log.i("dropbox", "Session finish authentication, set OA2 token");
+//                Log.i(tag, "Session finish authentication, set OA2 token");
                 dropbox.getSession().finishAuthentication();
-                Log.i("dropbox", "Session finish authentication complete with token: "
-                        + dropbox.getSession().getOAuth2AccessToken());
+//                Log.i(tag, "Session finish authentication complete with token: "
+//                        + dropbox.getSession().getOAuth2AccessToken());
             } catch (IllegalStateException e) {
                 Toast.makeText(this, "Error during Dropbox authentication",
                         Toast.LENGTH_SHORT).show();
             }
         } else {
-            Log.i("dropbox", "Dropbox OA2 authentication failed (possibly timing issue)");
+            Log.i(tag, "Dropbox OA2 authentication failed (possibly timing issue)");
         }
     }
 
@@ -1077,8 +897,6 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                     loginEmail = data.getStringExtra(Config.LOGIN_EMAIL);
                     loginPassword = data.getStringExtra(Config.LOGIN_PASSWORD);
                     original_pname = data.getStringExtra(Config.PROGRAM_PNAME);
-//                    loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
-//                    loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
                     Log.i(tag, "get string extra: "
                             + loginEmail + ", " + loginPassword + ", " + original_pname);
 

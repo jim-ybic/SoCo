@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.LoginUtil;
-import com.soco.SoCoClient.control.ProfileUtil;
+import com.soco.SoCoClient.control.util.LoginUtil;
+import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.SocoApp;
 
 
@@ -77,19 +77,13 @@ public class LoginActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -97,24 +91,6 @@ public class LoginActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //    void readFile(){
-//            File file = new File(Config.PROFILE_FILENAME);
-//            if (!file.exists()) {
-//                file = new File(getApplicationContext().getFilesDir(), Config.PROFILE_FILENAME);
-//
-//                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-//                        new FileOutputStream(file), Config.ENCODING));
-//                writer.write(Config.PROFILE_EMAIL + ":" + loginEmail);
-//                writer.flush();
-//                writer.close();
-//            }
-//
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(
-//                    new FileInputStream(file), Config.ENCODING));
-//            String s = reader.readLine();
-//            while (!s.isEmpty()) {
-//                s = reader.readLine();
-//            }
-//    }
+
 
 }
