@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.control;
+package com.soco.SoCoClient.control.db;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.soco.SoCoClient.control.Config;
-import com.soco.SoCoClient.control.DBHelperSoco;
+import com.soco.SoCoClient.control.db.DBHelperSoco;
 import com.soco.SoCoClient.model.Program;
 
 public class DBManagerSoco {
@@ -24,14 +24,14 @@ public class DBManagerSoco {
     }
 
     public void cleanDB() {
-        Log.i("db", "Clean up database.");
+        Log.i(tag, "Clean up database.");
         db.execSQL("delete from " + Config.TABLE_PROGRAM);
     }
 
     public void add(Program program) {
         db.beginTransaction();
         try {
-            Log.i("db", "Add new program: " + program.pname + ", "
+            Log.i(tag, "Add new program: " + program.pname + ", "
                     + program.pdate + ", " + program.ptime + ", " + program.pplace + ", "
                     + program.pdesc + ", " + program.pphone + ", " + program.pemail + ", "
                     + program.pwechat);
@@ -46,7 +46,7 @@ public class DBManagerSoco {
     }
 
     public void delete(int pid){
-        Log.i("db", "Delete programs where pid is " + pid);
+        Log.i(tag, "Delete programs where pid is " + pid);
         db.delete(Config.TABLE_PROGRAM, Config.COLUMN_PID + " == ?",
                 new String[]{String.valueOf(pid)});
     }
@@ -87,7 +87,7 @@ public class DBManagerSoco {
     }
 
     public void update(String original_pname, Program p) {
-        Log.i("db", "Update database for program: " + p.toString());
+        Log.i(tag, "Update database for program: " + p.toString());
 
         ContentValues cv = new ContentValues();
         cv.put(Config.COLUMN_PNAME, p.pname);
