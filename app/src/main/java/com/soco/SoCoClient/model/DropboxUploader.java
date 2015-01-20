@@ -1,150 +1,91 @@
 package com.soco.SoCoClient.model;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.net.URI;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.session.AccessTokenPair;
-import com.soco.SoCoClient.control.Config;
+import com.soco.SoCoClient.control.util.FileUtils;
 
 public class DropboxUploader extends AsyncTask<Void, Void, Boolean> {
 
-    private DropboxAPI<AndroidAuthSession> dropbox;
-    private String remotePath;
-    private Context context;
+    static String tag = "DropboxUploader";
 
-    public String key, secret;
-    public AccessTokenPair accessTokenPair;
-    public String sigEmail, sigProgram;
-    public String localPath;
+    Context context;
+    DropboxAPI<AndroidAuthSession> dropboxApi;
+    String sigEmail, sigProgram;
+    String remotePath;
+    Uri uri;
+    String filename;
+    InputStream inputStream;
+    ContentResolver cr;
 
-    public URI uri;
-    public String filename = "unnamed.file";
-    public InputStream inputStream;
-    public FileInputStream fileInputStream;
+    public DropboxUploader(Context context,
+                           DropboxAPI<AndroidAuthSession> dropboxApi,
+                           String sigEmail, String sigProgram,
+                           Uri uri,
+                           String filename,
+                           InputStream is,
+                           ContentResolver cr) {
 
-    public DropboxUploader(Context context, DropboxAPI<AndroidAuthSession> dropbox,
-                           String path) {
+        reAuthenticateDropboxApi(dropboxApi);
+
         this.context = context.getApplicationContext();
-        this.dropbox = dropbox;
-        this.remotePath = path;
-
-        reAuthenticateDropboxApi();
+        this.dropboxApi = dropboxApi;
+        this.sigEmail = sigEmail;
+        this.sigProgram = sigProgram;
+        this.remotePath = "/" + sigEmail + "/" + sigProgram + "/";
+        this.uri = uri;
+        this.filename = filename;
+        this.inputStream = is;
+        this.cr = cr;
     }
 
-    void reAuthenticateDropboxApi(){
-        Log.i("upload", "Validate session authentication ");
-
-        if (dropbox != null && dropbox.getSession() != null) {
-            Log.i("dropbox", "DropboxAPI and Session success with existing token. "
-                    + "No OA2 authentication executed");
-            return;
-        }
-
-//        AndroidAuthSession session = dropbox.getSession();
-        // TODO: if validation fail, need to start OA2 authentication before checking result
-        if (dropbox.getSession().authenticationSuccessful()) {
-            Log.i("upload", "Session authentication successful");
+    void reAuthenticateDropboxApi(DropboxAPI<AndroidAuthSession> dropbox){
+        if (dropbox != null && dropbox.getSession() != null)
+            Log.i(tag, "DropboxAPI and Session success with existing token");
+        else if (dropbox.getSession().authenticationSuccessful()) {
+            Log.i(tag, "Session authentication successful");
             try {
-                Log.i("upload", "Session finish authentication");
+                Log.d(tag, "Session finish authentication");
                 dropbox.getSession().finishAuthentication();
-
-//                TokenPair accessToken = dropbox.getSession().getAccessTokenPair();
-                Log.i("dropbox", "Token after reAuthentication: " +
+                Log.d(tag, "Token after reAuthentication: " +
                         dropbox.getSession().getOAuth2AccessToken());
-//                TokenPair tokens = session.getAccessTokenPair();
-//                SharedPreferences prefs = getSharedPreferences(DROPBOX_NAME, 0);
-//                Editor editor = prefs.edit();
-//                editor.putString(ACCESS_KEY, tokens.key);
-//                editor.putString(ACCESS_SECRET, tokens.secret);
-//                editor.commit();
-//                if (accessToken != null) {
-//                    key = accessToken.key;
-//                    secret = accessToken.secret;
-//                }
-//                loggedIn(true);
             } catch (IllegalStateException e) {
                 e.printStackTrace();
+                Log.e(tag, "Failed to authenticate dropboxApi api");
             }
         } else {
-            Log.i("upload", "Session authentication failed");
+            Log.e(tag, "Session authentication failed");
         }
-
     }
-
 
     @Override
     protected Boolean doInBackground(Void... params) {
-//        final File tempDir = context.getCacheDir();
-//        File tempFile;
-//        FileWriter fr;
-//        try {
-//            tempFile = File.createTempFile("file", ".txt", tempDir);
-//            fr = new FileWriter(tempFile);
-//            fr.write("Test file uploaded using Dropbox API for Android");
-//            fr.close();
-
-        Log.i("upload", "Upload in background");
-        File file = new File("test.txt");
+        Long len = Long.valueOf(FileUtils.checkUriSize(cr, uri));
         try {
-            if (!file.exists()) {
-                file = new File(localPath, "test.txt");
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(file), Config.ENCODING));
-                writer.write(Profile.PROFILE_EMAIL + ":" + "jim.ybic@gmail.com");
-                writer.flush();
-                writer.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-//        String loginEmail = "jim.ybic@gmail.com";
-//        Log.i("hash", "Hash code of, " + loginEmail + ", "
-//                + ShowSingleProgramActivity.hash(loginEmail));
-//        String program = "Dinner w Jenny";
-//        Log.i("hash", "Hash code of, " + program + ", "
-//                + ShowSingleProgramActivity.hash(program));
-
-//        String remotePath = "/" + ShowSingleProgramActivity.hash(loginEmail)
-//                + "/" + ShowSingleProgramActivity.hash(program) + "/";
-        Log.i("hash", "Remote file remotePath: " + remotePath);
-
-//        Log.i("upload", "Begin to putfile");
-        try {
-//                FileInputStream fileInputStream = new FileInputStream(file);
-//                FileInputStream fileInputStream = new FileInputStream(inputStream);
-                Log.i("upload", "Begin to put file: " + filename);
-                DropboxAPI.Entry response = dropbox.putFile(
-                        remotePath + filename, inputStream,
-                    file.length(), null, null);
-                Log.i("upload", "Put file status: " + response.toString());
+            Log.i(tag, "Dropbox putfile: " + remotePath + ", " + filename + ", "
+                    + inputStream + ", " + len);
+            DropboxAPI.Entry response = dropboxApi.putFile(
+                    remotePath + filename, inputStream, len, null, null);
+            Log.i(tag, "Dropbox put file status: " + response.toString());
         } catch (Exception e1) {
             e1.printStackTrace();
             Toast.makeText(context, "File Upload failed.", Toast.LENGTH_LONG).show();
+            return false;
         }
-
-        return false;
+        return true;
     }
 
     @Override
     protected void onPostExecute(Boolean result) {
-//        if (result) {
-            Toast.makeText(context, "File Uploaded Successfully.", Toast.LENGTH_LONG).show();
-//        } else {
-//            Toast.makeText(context, "Failed to upload file", Toast.LENGTH_LONG)
-//                    .show();
-//        }
+        Toast.makeText(context, "File Uploaded Successfully.", Toast.LENGTH_LONG).show();
     }
+
 }
