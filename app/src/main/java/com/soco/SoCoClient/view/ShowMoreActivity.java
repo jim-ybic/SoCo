@@ -1,13 +1,8 @@
 package com.soco.SoCoClient.view;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -25,25 +20,14 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.Config;
-import com.soco.SoCoClient.control.http.GetTest;
+import com.soco.SoCoClient.control.http.HttpTask;
 import com.soco.SoCoClient.control.util.FileUtils;
-import com.soco.SoCoClient.control.util.HttpUtils;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.model.DropboxUploader;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class ShowMoreActivity extends ActionBarActivity {
 
@@ -253,7 +237,7 @@ public class ShowMoreActivity extends ActionBarActivity {
     public void httpGet(View view){
 //        String url = "http://192.168.0.101:8888/android.png";
         String url = "http://google.com";
-        GetTest getTest = new GetTest(url);
+        HttpTask getTest = new HttpTask(url, HttpTask.HTTP_TYPE_TEST);
         getTest.execute();
     }
 
