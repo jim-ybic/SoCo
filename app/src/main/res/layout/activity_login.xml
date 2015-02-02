@@ -23,4 +23,10 @@
         android:text="Login"
         android:onClick="login" />
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:onClick="register" />
+
 </LinearLayout>

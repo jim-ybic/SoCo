@@ -3,6 +3,7 @@ package com.soco.SoCoClient.view;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.soco.SoCoClient.control.SocoApp;
 public class LoginActivity extends ActionBarActivity {
 
     public static String FLAG_EXIT = "exit";
+    public static String tag = "Login";
 
     // Local views
     EditText et_login_email;
@@ -73,6 +75,11 @@ public class LoginActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Oops, login failed.",
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void register (View view) {
+        Log.i(tag, "Start register");
+
     }
 
     @Override
