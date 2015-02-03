@@ -238,7 +238,8 @@ public class ShowMoreActivity extends ActionBarActivity {
 //        String url = "http://192.168.0.101:8888/android.png";
         //String url = "http://google.com";
         String url = "http://192.168.43.240:8080/SocoServer/echo";
-        HttpTask getTest = new HttpTask(url, HttpTask.HTTP_TYPE_TEST);
+        HttpTask getTest = new HttpTask(url, HttpTask.HTTP_TYPE_LOGIN,
+                "jim.ybic@gmail.com", "Pass@123");
         getTest.execute();
     }
 

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.control.http.HttpTask;
 import com.soco.SoCoClient.control.util.LoginUtil;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.SocoApp;
@@ -20,6 +21,7 @@ public class LoginActivity extends ActionBarActivity {
 
     public static String FLAG_EXIT = "exit";
     public static String tag = "Login";
+    public static String LOGIN_SOCO_SERVER_URL = "http://192.168.0.103:8080/socoserver/api/login";
 
     // Local views
     EditText et_login_email;
@@ -41,7 +43,7 @@ public class LoginActivity extends ActionBarActivity {
 
         // Testing login
         et_login_email.setText("jim.ybic@gmail.com");
-        et_login_password.setText("12345678");
+        et_login_password.setText("Pass@123");
 
         //TEST
         SocoApp app = (SocoApp) getApplicationContext();
@@ -63,6 +65,10 @@ public class LoginActivity extends ActionBarActivity {
         loginPassword = et_login_password.getText().toString();
         updateProfile(loginEmail);
 
+        HttpTask loginTask = new HttpTask(LOGIN_SOCO_SERVER_URL, HttpTask.HTTP_TYPE_LOGIN,
+                loginEmail, loginPassword);
+        loginTask.execute();
+
         boolean loginSuccess = LoginUtil.validateLogin(loginEmail, loginPassword);
         if(loginSuccess) {
             Toast.makeText(getApplicationContext(), "Hello, " + nickname,
@@ -75,11 +81,6 @@ public class LoginActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Oops, login failed.",
                     Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void register (View view) {
-        Log.i(tag, "Start register");
-
     }
 
     @Override
