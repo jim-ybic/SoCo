@@ -1,6 +1,11 @@
 package com.soco.SoCoClient.view;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,18 +15,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.cast.Cast;
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.control.Config;
 import com.soco.SoCoClient.control.http.HttpTask;
 import com.soco.SoCoClient.control.util.LoginUtil;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.SocoApp;
+import com.soco.SoCoClient.model.Program;
 
 
 public class LoginActivity extends ActionBarActivity {
 
     public static String FLAG_EXIT = "exit";
     public static String tag = "Login";
-    public static String SOCO_SERVER_IP = "192.168.43.240";
+    public static String SOCO_SERVER_IP = "192.168.0.104";
     public static String SOCO_SERVER_PORT = "8080";
 
     public static String LOGIN_PATH = "/socoserver/api/login";
@@ -31,6 +39,9 @@ public class LoginActivity extends ActionBarActivity {
             + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + LOGIN_PATH;
     public static String REGISTER_SOCO_SERVER_URL = "http://"
             + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + REGISTER_PATH;
+
+    public static String TEST_EMAIL = "jim.ybic@gmail.com";
+    public static String TEST_PASSWORD = "Pass@123";
 
     // Local views
     EditText et_login_email;
@@ -51,12 +62,8 @@ public class LoginActivity extends ActionBarActivity {
             finish();
 
         // Testing login
-        et_login_email.setText("jim.ybic@gmail.com");
-        et_login_password.setText("Pass@123");
-
-        //TEST
-        SocoApp app = (SocoApp) getApplicationContext();
-        app.setState("login");
+        et_login_email.setText(TEST_EMAIL);
+        et_login_password.setText(TEST_PASSWORD);
     }
 
     private void findViewsById() {
@@ -75,7 +82,7 @@ public class LoginActivity extends ActionBarActivity {
         updateProfile(loginEmail);
 
         HttpTask loginTask = new HttpTask(LOGIN_SOCO_SERVER_URL, HttpTask.HTTP_TYPE_LOGIN,
-                loginEmail, loginPassword);
+                loginEmail, loginPassword, getApplicationContext());
         loginTask.execute();
         //TODO: check if login is success
 
@@ -98,11 +105,42 @@ public class LoginActivity extends ActionBarActivity {
         loginPassword = et_login_password.getText().toString();
         updateProfile(loginEmail);
 
+        final SocoApp app = (SocoApp) getApplicationContext();
+        app.setRegistrationStatus("start");
+
         HttpTask registerTask = new HttpTask(REGISTER_SOCO_SERVER_URL, HttpTask.HTTP_TYPE_REGISTER,
-                loginEmail, loginPassword);
+                loginEmail, loginPassword, getApplicationContext());
         registerTask.execute();
 
-        //TODO
+        int RETRY = 5;
+        boolean flagRegistration = false;
+        for (int i=1; i<=RETRY; i++) {
+            Log.d(tag, "Sleep for 2s");
+            SystemClock.sleep(2000);;
+            String registrationStatus = app.getRegistationStatus();
+            Log.d(tag, "Registration status is: " + registrationStatus);
+            if(registrationStatus.equals("success")) {
+                flagRegistration = true;
+                break;
+            }
+        }
+
+        if(flagRegistration) {
+            Log.i(tag, "Registration submitted success");
+            new AlertDialog.Builder(this)
+                    .setTitle("Registration submitted")
+                    .setMessage("Check email to finish registration")
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
+        else {
+            Log.i(tag, "Registration failed");
+            new AlertDialog.Builder(this)
+                    .setTitle("Registration failed")
+                    .setMessage("Please review details and try again")
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
     }
 
     @Override
@@ -117,7 +155,6 @@ public class LoginActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

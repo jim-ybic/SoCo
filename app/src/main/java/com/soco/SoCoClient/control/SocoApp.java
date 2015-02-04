@@ -14,7 +14,7 @@ public class SocoApp extends Application {
 
     public static String tag = "SocoApp";
 
-    public String myState;
+    public String myState, loginStatus, registrationStatus;
     public ArrayList<Map<String, String>> listNamePhone, listNameEmail;
     public boolean listNamePhoneReady = false, listNameEmailReady = false;
     public String currPicturePath;
@@ -27,6 +27,21 @@ public class SocoApp extends Application {
         myState = s;
     }
 
+    public void setLoginStatus(String s){
+        loginStatus = s;
+    }
+
+    public String getLoginStatus(){
+        return loginStatus;
+    }
+
+    public void setRegistrationStatus(String s){
+        registrationStatus = s;
+    }
+
+    public String getRegistationStatus(){
+        return registrationStatus;
+    }
 
     public ArrayList<Map<String, String>> loadNameEmailList() {
         Log.d(tag, "loadNameEmailList");

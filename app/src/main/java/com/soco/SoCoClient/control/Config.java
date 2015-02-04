@@ -32,4 +32,5 @@ public class Config {
     public static String PROFILE_PHONE = "phone";
     public static String PROFILE_WECHAT = "wechat";
     public static String PROFILE_PNAME = "pname";
+    public static String PROFILE_LOGIN_ACCESS_TOKEN = "access_token";
 }

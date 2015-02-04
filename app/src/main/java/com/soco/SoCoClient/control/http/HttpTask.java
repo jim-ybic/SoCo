@@ -1,7 +1,13 @@
 package com.soco.SoCoClient.control.http;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.soco.SoCoClient.control.SocoApp;
+import com.soco.SoCoClient.control.util.ProfileUtil;
 
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
@@ -20,15 +26,21 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
     public static String JSON_KEY_PASSWORD2 = "password2";
     public static String JSON_KEY_ACCESS_TOKEN = "access_token";
 
+    public static String KEYWORD_REGISTRATION_SUBMITTED = "Your account registration email";
+
+
     String url;
     String type;
     String loginEmail, loginPassword;
+    Context context;
 
-    public HttpTask(String url, String type, String loginEmail, String loginPassword){
+    public HttpTask(String url, String type, String loginEmail, String loginPassword,
+                    Context context){
         this.url = url;
         this.type = type;
         this.loginEmail = loginEmail;
         this.loginPassword = loginPassword;
+        this.context = context;
     }
 
     @Override
@@ -40,42 +52,71 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
         Log.i(tag, "Start http task, url is " + url + ", type is " + type);
 
         if(type.equals(HTTP_TYPE_LOGIN)) {
-            Object response = login();
-            try {
-                JSONObject json = new JSONObject(response.toString());
-                String access_token = json.getString(JSON_KEY_ACCESS_TOKEN);
-                Log.i(tag, "Get access token: " + access_token);
-                //TODO: save token into shared preference
-            } catch (Exception e) {
-                Log.e(tag, "Cannot convert response to Json object: " + e.toString());
-                e.printStackTrace();
-            }
+            Object response = loginStart();
+            loginResponse(response);
         }
         else if(type.equals(HTTP_TYPE_REGISTER)) {
-            Object response = register();
-            try {
-                String str = response.toString();
-                String flagSuccess = "Your account registration email was sent";
-                if (str.contains(flagSuccess)){
-                    Log.i(tag, "Register submitted, check email to confirm");
-                    //TODO: inform user to check email
-                }
-                else {
-                    Log.i(tag, "Register submission fail");
-                    //TODO: show fail reason
-                }
-            } catch (Exception e) {
-                Log.e(tag, "Cannot convert response to Json object: " + e.toString());
-                e.printStackTrace();
-            }
+            Object response = registerStart();
+            registerResponse(response);
         }
 
         return true;
     }
 
-    private Object login() {
+    private boolean registerResponse(Object response) {
+        try {
+            String str = response.toString();
+            if (str.contains(KEYWORD_REGISTRATION_SUBMITTED)){
+                SocoApp app = (SocoApp) context;
+                app.setRegistrationStatus("success");
+                Log.i(tag, "Set registration status: success");
+
+//                Toast.makeText(context, "Registration submitted, please check email.",
+//                        Toast.LENGTH_SHORT).show();
+//                new AlertDialog.Builder(context)
+//                        .setMessage("Registration submitted, please check email.")
+//                        .setPositiveButton("OK", null)
+//                        .show();
+               return true;
+            }
+            else {
+                SocoApp app = (SocoApp) context;
+                app.setRegistrationStatus("fail");
+                Log.i(tag, "Set registration status: fail");
+
+//                Toast.makeText(context, "Registration not submitted, please try again.",
+//                        Toast.LENGTH_SHORT).show();
+//                new AlertDialog.Builder(context)
+//                        .setMessage("Registration not submitted, please try again.")
+//                        .setPositiveButton("OK", null)
+//                        .show();
+                return false;
+            }
+        } catch (Exception e) {
+            Log.e(tag, "Cannot convert response to Json object: " + e.toString());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean loginResponse(Object response) {
+        Log.d(tag, "Process login response: " + response.toString());
+        try {
+            JSONObject json = new JSONObject(response.toString());
+            String access_token = json.getString(JSON_KEY_ACCESS_TOKEN);
+            Log.i(tag, "Get access token: " + access_token);
+            ProfileUtil.saveLoginAccessToken(context, access_token);
+            Toast.makeText(context, "Login success.", Toast.LENGTH_SHORT).show();
+            return true;
+        } catch (Exception e) {
+            Log.e(tag, "Cannot convert response to Json object: " + e.toString());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private Object loginStart() {
         JSONObject data = new JSONObject();
-        Object response = null;
         try {
             data.put(JSON_KEY_USERNAME, loginEmail);
             data.put(JSON_KEY_PASSWORD, loginPassword);
@@ -85,28 +126,11 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
         }
 
-        try {
-            DefaultHttpClient httpclient = new DefaultHttpClient();
-            HttpPost httpost = new HttpPost(url);
-            StringEntity se = new StringEntity(data.toString());
-            httpost.setEntity(se);
-            httpost.setHeader("Accept", "application/json");
-            httpost.setHeader("Content-type", "application/json");
-            ResponseHandler responseHandler = new BasicResponseHandler();
-            response = httpclient.execute(httpost, responseHandler);
-            Log.i(tag, "Login success.");
-            Log.i(tag, "Json response: " + response);
-        } catch (Exception e) {
-            Log.e(tag, "Login fail." + e.toString());
-            e.printStackTrace();
-        }
-
-        return response;
+        return executeHttpPost(url, data);
     }
 
-    private Object register() {
+    private Object registerStart() {
         JSONObject data = new JSONObject();
-        Object response = null;
         try {
             data.put(JSON_KEY_USERNAME, loginEmail);
             data.put(JSON_KEY_EMAIL, loginEmail);
@@ -118,6 +142,13 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
         }
 
+        return executeHttpPost(url, data);
+    }
+
+    private Object executeHttpPost(String url, JSONObject data) {
+        Object response = null;
+        Log.d(tag, "executeHttpPost, url: " + url + ", data" + data);
+
         try {
             DefaultHttpClient httpclient = new DefaultHttpClient();
             HttpPost httpost = new HttpPost(url);
@@ -127,9 +158,9 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
             httpost.setHeader("Content-type", "application/json");
             ResponseHandler responseHandler = new BasicResponseHandler();
             response = httpclient.execute(httpost, responseHandler);
-            Log.i(tag, "Json response: " + response);   //response in html
+            Log.i(tag, "Post success, response: " + response);
         } catch (Exception e) {
-            Log.e(tag, "Register fail." + e.toString());
+            Log.e(tag, "Post fail: " + e.toString());
             e.printStackTrace();
         }
 

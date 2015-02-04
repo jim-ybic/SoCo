@@ -56,4 +56,13 @@ public class ProfileUtil {
         Toast.makeText(context.getApplicationContext(), "Profile saved.",
                 Toast.LENGTH_SHORT).show();
     }
+
+    public static void saveLoginAccessToken(Context context, String token){
+        Log.i(tag, "Save login access token: " + token);
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_LOGIN_ACCESS_TOKEN, token);
+        editor.commit();
+        Log.i(tag, "Save complete");
+    }
 }
