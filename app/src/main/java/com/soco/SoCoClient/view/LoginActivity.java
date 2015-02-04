@@ -21,7 +21,16 @@ public class LoginActivity extends ActionBarActivity {
 
     public static String FLAG_EXIT = "exit";
     public static String tag = "Login";
-    public static String LOGIN_SOCO_SERVER_URL = "http://192.168.0.103:8080/socoserver/api/login";
+    public static String SOCO_SERVER_IP = "192.168.43.240";
+    public static String SOCO_SERVER_PORT = "8080";
+
+    public static String LOGIN_PATH = "/socoserver/api/login";
+    public static String REGISTER_PATH = "/socoserver/register/register";
+
+    public static String LOGIN_SOCO_SERVER_URL = "http://"
+            + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + LOGIN_PATH;
+    public static String REGISTER_SOCO_SERVER_URL = "http://"
+            + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + REGISTER_PATH;
 
     // Local views
     EditText et_login_email;
@@ -68,6 +77,7 @@ public class LoginActivity extends ActionBarActivity {
         HttpTask loginTask = new HttpTask(LOGIN_SOCO_SERVER_URL, HttpTask.HTTP_TYPE_LOGIN,
                 loginEmail, loginPassword);
         loginTask.execute();
+        //TODO: check if login is success
 
         boolean loginSuccess = LoginUtil.validateLogin(loginEmail, loginPassword);
         if(loginSuccess) {
@@ -81,6 +91,18 @@ public class LoginActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Oops, login failed.",
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void register (View view) {
+        loginEmail = et_login_email.getText().toString();
+        loginPassword = et_login_password.getText().toString();
+        updateProfile(loginEmail);
+
+        HttpTask registerTask = new HttpTask(REGISTER_SOCO_SERVER_URL, HttpTask.HTTP_TYPE_REGISTER,
+                loginEmail, loginPassword);
+        registerTask.execute();
+
+        //TODO
     }
 
     @Override
