@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.control.Config;
+import com.soco.SoCoClient.control.config.Config;
 
 public class ProfileUtil {
 

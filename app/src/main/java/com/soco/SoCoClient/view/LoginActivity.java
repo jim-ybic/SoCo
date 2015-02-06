@@ -13,10 +13,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.control.http.HttpTask;
 import com.soco.SoCoClient.control.util.LoginUtil;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.SocoApp;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -61,6 +65,7 @@ public class LoginActivity extends ActionBarActivity {
         // Testing login
         et_login_email.setText(TEST_EMAIL);
         et_login_password.setText(TEST_PASSWORD);
+
     }
 
     private void findViewsById() {
@@ -126,8 +131,8 @@ public class LoginActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Hello, " + nickname,
                     Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
-            intent.putExtra(com.soco.SoCoClient.control.Config.LOGIN_EMAIL, loginEmail);
-            intent.putExtra(com.soco.SoCoClient.control.Config.LOGIN_PASSWORD, loginPassword);
+            intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Oops, login failed.",

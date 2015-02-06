@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.Config;
+import com.soco.SoCoClient.control.config.Config;
 
 public class Profile {
     static String tag = "Profile";
@@ -22,6 +22,5 @@ public class Profile {
         this.phone = settings.getString(Config.PROFILE_PHONE,"");
         this.wechat = settings.getString(Config.PROFILE_WECHAT,"");
     }
-
 
 }

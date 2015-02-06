@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.Config;
+import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.model.Profile;
 
@@ -35,8 +35,8 @@ public class ProfileActivity extends ActionBarActivity {
         findViewsById();;
 
         Intent intent = getIntent();
-        loginEmail = intent.getStringExtra(com.soco.SoCoClient.control.Config.LOGIN_EMAIL);
-        loginPassword = intent.getStringExtra(com.soco.SoCoClient.control.Config.LOGIN_PASSWORD);
+        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
+        loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
 
         profile = loadProfile();
         showProfile(profile);

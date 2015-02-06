@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 public class HttpTask extends AsyncTask<Void, Void, Boolean> {
     static String tag = "HttpTask";
+
     public static String HTTP_TYPE_LOGIN = "login";
     public static String HTTP_TYPE_REGISTER = "register";
     public static String JSON_KEY_USERNAME = "username";
@@ -53,17 +54,20 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
 
         if(type.equals(HTTP_TYPE_LOGIN)) {
             Object response = loginStart();
-            loginResponse(response);
+            if (response != null)
+                loginResponse(response);
         }
         else if(type.equals(HTTP_TYPE_REGISTER)) {
             Object response = registerStart();
-            registerResponse(response);
+            if (response != null)
+                registerResponse(response);
         }
 
         return true;
     }
 
     private boolean registerResponse(Object response) {
+        Log.d(tag, "Process register response: " + response.toString());
         try {
             String str = response.toString();
             if (str.contains(KEYWORD_REGISTRATION_SUBMITTED)){
@@ -90,7 +94,7 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
         try {
             JSONObject json = new JSONObject(response.toString());
             String access_token = json.getString(JSON_KEY_ACCESS_TOKEN);
-            Log.i(tag, "Get access token: " + access_token);
+            Log.i(tag, "Login success. Get access token: " + access_token);
             ProfileUtil.saveLoginAccessToken(context, access_token);
             return true;
         } catch (Exception e) {
@@ -146,7 +150,6 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
             Log.i(tag, "Post success, response: " + response);
         } catch (Exception e) {
             Log.e(tag, "Post fail: " + e.toString());
-            e.printStackTrace();
         }
 
         return response;
