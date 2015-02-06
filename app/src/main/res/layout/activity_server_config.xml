@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/abc_text_size_display_1_material"
+        android:hint="Server Config" />
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tl_servconfig">
+        <TableRow
+            android:id="@+id/tr_servip">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Server IP" />
+            <EditText
+                android:id="@+id/et_servip"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Server IP not set"/>
+        </TableRow>
+        <TableRow
+            android:id="@+id/tr_servport">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Server Port" />
+            <EditText
+                android:id="@+id/et_servport"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Server Port not set"/>
+        </TableRow>
+        <TableRow
+            android:id="@+id/tr_regiaddr">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Register Address" />
+            <EditText
+                android:id="@+id/et_regiaddr"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Register Address not set"/>
+        </TableRow>
+        <TableRow
+            android:id="@+id/tr_loginaddr">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Login Address" />
+            <EditText
+                android:id="@+id/et_loginaddr"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Login Address not set"/>
+        </TableRow>
+    </TableLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="vertical" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:onClick="cancel"
+                android:drawableLeft="@drawable/ic_action_cancel"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:onClick="save"
+                android:drawableLeft="@drawable/ic_action_save"
+                android:layout_weight="1"
+                android:textSize="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

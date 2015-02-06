@@ -65,4 +65,52 @@ public class ProfileUtil {
         editor.commit();
         Log.i(tag, "Save complete");
     }
+
+    public static String getServerIp(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        return settings.getString(Config.PROFILE_SERVER_IP, "");
+    }
+
+    public static void setServerIp(Context context, String servIp){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_SERVER_IP, servIp);
+        editor.commit();
+    }
+
+    public static String getServerPort(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        return settings.getString(Config.PROFILE_SERVER_PORT, "");
+    }
+
+    public static void setServerPort(Context context, String servPort){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_SERVER_PORT, servPort);
+        editor.commit();
+    }
+
+    public static String getServerRegisterAddress(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        return settings.getString(Config.PROFILE_SERVER_REGISTER_ADDRESS, "");
+    }
+
+    public static void setServerRegisterAddress(Context context, String regiAddr){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_SERVER_REGISTER_ADDRESS, regiAddr);
+        editor.commit();
+    }
+
+    public static String getServerLoginAddr(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        return settings.getString(Config.PROFILE_SERVER_LOGIN_ADDRESS, "");
+    }
+
+    public static void setServerLoginAddr(Context context, String loginAddr){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_SERVER_LOGIN_ADDRESS, loginAddr);
+        editor.commit();
+    }
 }

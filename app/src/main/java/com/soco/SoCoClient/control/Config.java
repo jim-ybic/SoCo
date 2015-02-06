@@ -33,4 +33,8 @@ public class Config {
     public static String PROFILE_WECHAT = "wechat";
     public static String PROFILE_PNAME = "pname";
     public static String PROFILE_LOGIN_ACCESS_TOKEN = "access_token";
+    public static String PROFILE_SERVER_IP = "server_ip";
+    public static String PROFILE_SERVER_PORT = "server_port";
+    public static String PROFILE_SERVER_REGISTER_ADDRESS = "server_register_address";
+    public static String PROFILE_SERVER_LOGIN_ADDRESS = "server_login_address";
 }
