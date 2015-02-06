@@ -19,5 +19,6 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="title_activity_show_more">ShowMoreActivity</string>
+    <string name="title_activity_server_config">ServerConfigActivity</string>
 
 </resources>
