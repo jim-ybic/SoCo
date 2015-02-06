@@ -1,10 +1,8 @@
 package com.soco.SoCoClient.control.http;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.util.ProfileUtil;
@@ -36,6 +34,8 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
 
     public HttpTask(String url, String type, String loginEmail, String loginPassword,
                     Context context){
+        Log.i(tag, "Create new HttpTask: " + url + ", " + type + ", "
+                + loginEmail + ", " + loginPassword);
         this.url = url;
         this.type = type;
         this.loginEmail = loginEmail;
@@ -68,28 +68,14 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
             String str = response.toString();
             if (str.contains(KEYWORD_REGISTRATION_SUBMITTED)){
                 SocoApp app = (SocoApp) context;
-                app.setRegistrationStatus("success");
+                app.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_SUCCESS);
                 Log.i(tag, "Set registration status: success");
-
-//                Toast.makeText(context, "Registration submitted, please check email.",
-//                        Toast.LENGTH_SHORT).show();
-//                new AlertDialog.Builder(context)
-//                        .setMessage("Registration submitted, please check email.")
-//                        .setPositiveButton("OK", null)
-//                        .show();
                return true;
             }
             else {
                 SocoApp app = (SocoApp) context;
-                app.setRegistrationStatus("fail");
+                app.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_FAIL);
                 Log.i(tag, "Set registration status: fail");
-
-//                Toast.makeText(context, "Registration not submitted, please try again.",
-//                        Toast.LENGTH_SHORT).show();
-//                new AlertDialog.Builder(context)
-//                        .setMessage("Registration not submitted, please try again.")
-//                        .setPositiveButton("OK", null)
-//                        .show();
                 return false;
             }
         } catch (Exception e) {
@@ -106,7 +92,6 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
             String access_token = json.getString(JSON_KEY_ACCESS_TOKEN);
             Log.i(tag, "Get access token: " + access_token);
             ProfileUtil.saveLoginAccessToken(context, access_token);
-            Toast.makeText(context, "Login success.", Toast.LENGTH_SHORT).show();
             return true;
         } catch (Exception e) {
             Log.e(tag, "Cannot convert response to Json object: " + e.toString());

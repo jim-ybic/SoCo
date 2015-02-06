@@ -14,6 +14,10 @@ public class SocoApp extends Application {
 
     public static String tag = "SocoApp";
 
+    public static String REGISTRATION_STATUS_START = "registration_start";
+    public static String REGISTRATION_STATUS_SUCCESS = "registration_success";
+    public static String REGISTRATION_STATUS_FAIL = "registration_fail";
+
     public String myState, loginStatus, registrationStatus;
     public ArrayList<Map<String, String>> listNamePhone, listNameEmail;
     public boolean listNamePhoneReady = false, listNameEmailReady = false;
