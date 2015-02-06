@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.control;
+package com.soco.SoCoClient.control.config;
 
 public class Config {
 
@@ -8,18 +8,10 @@ public class Config {
     public static int PROGRAM_COMPLETED = 1;
     public static int PROGRAM_ACTIVE = 0;
 
-    // Database
-    public static String TABLE_PROGRAM = "program";
-    public static String COLUMN_PID = "pid";
-    public static String COLUMN_PNAME = "pname";
-    public static String COLUMN_PDATE = "pdate";
-    public static String COLUMN_PTIME = "ptime";
-    public static String COLUMN_PPLACE = "pplace";
-    public static String COLUMN_PCOMPLETE = "pcomplete";
-    public static String COLUMN_PDESC = "pdesc";
-    public static String COLUMN_PPHONE = "pphone";
-    public static String COLUMN_PEMAIL = "pemail";
-    public static String COLUMN_PWECHAT = "pwechat";
+    // Project details
+    public static String PROJECT_PID = "project_pid";
+    public static String PROJECT_PNAME = "project_pname";
+    public static String PROJECT_PINFO = "project_pinfo";
 
     // Local constants
     public static String LOGIN_EMAIL = "email";
