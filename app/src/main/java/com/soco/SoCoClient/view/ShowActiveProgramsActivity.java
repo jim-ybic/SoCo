@@ -16,11 +16,12 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.control.Config;
+import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.control.config.DatabaseConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
-import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.model.Program;
+import com.soco.SoCoClient.model.Project;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +35,12 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
     private ListView lv_active_programs;
     public static String tag = "ShowActivePrograms";
 
+    public static int INTENT_SHOW_SINGLE_PROGRAM = 101;
+
     // Local variable
     private DBManagerSoco dbmgrSoco;
     private List<Program> programs;
+    private List<Project> projects;
     private String loginEmail, loginPassword;
 
     @Override
@@ -52,14 +56,16 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         Log.i(tag, "onCreate, get string extra: " + loginEmail + ", " + loginPassword);
 
         dbmgrSoco = new DBManagerSoco(this);
-        programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
+//        programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
+        projects = dbmgrSoco.loadProjectsByActiveness(DatabaseConfig.VALUE_PROJECT_ACTIVE);
 
-        listPrograms(null);
+//        listPrograms(null);
+        listProjects(null);
 
         //TEST
-        SocoApp app = (SocoApp) getApplicationContext();
-        Log.i(tag, "SocoApp get state: " + app.getState());
-        app.setState("showActive");
+//        SocoApp app = (SocoApp) getApplicationContext();
+//        Log.i(tag, "SocoApp get state: " + app.getState());
+//        app.setState("showActive");
 
         lv_active_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")
@@ -68,28 +74,41 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                 ListView listView = (ListView) parent;
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
-                String name = map.get(Config.PROGRAM_PNAME);
+                String name = map.get(Config.PROJECT_PNAME);
+                int pid = findPidByPname(projects, name);
 
                 Intent intent = new Intent(view.getContext(), ShowSingleProgramActivity.class);
-                intent.putExtra(Config.PROGRAM_PNAME, name);
+                intent.putExtra(Config.PROJECT_PID, pid);
+//                intent.putExtra(Config.PROGRAM_PNAME, name);
                 intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
                 intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
-                final int result = 1;
-                startActivityForResult(intent, result);
+                startActivityForResult(intent, INTENT_SHOW_SINGLE_PROGRAM);
             }
         });
+    }
+
+    int findPidByPname(List<Project> projects, String pname){
+        int pid = -1;
+        for (int i=0; i< projects.size(); i++)
+            if(projects.get(i).pname.equals(pname))
+                pid =  projects.get(i).pid;
+        if (pid == -1)
+            Log.e(tag, "Cannot find pid for project name: " + pname);
+        else
+            Log.i(tag, "Found pid for project name " + pname + ": " + pid);
+        return pid;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
-            case (1) : {
+            case (101): {
                 if (resultCode == Activity.RESULT_OK) {
-                    Log.i(tag, "onActivityResult, original values: " + loginEmail + ", " + loginPassword);
                     loginEmail = data.getStringExtra(Config.LOGIN_EMAIL);
                     loginPassword = data.getStringExtra(Config.LOGIN_PASSWORD);
-                    Log.i(tag, "get string extra: " + loginEmail + ", " + loginPassword);
+                    projects = dbmgrSoco.loadProjectsByActiveness(DatabaseConfig.VALUE_PROJECT_ACTIVE);
+                    listProjects(null);
                 }
                 break;
             }
@@ -140,6 +159,48 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void createProject(View view) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Create new project");
+        alert.setMessage("So I want to ...");
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String n = input.getText().toString();
+                Project p2 = new Project(n);
+                dbmgrSoco.addProject(p2);
+                Log.i(tag, "New project added: " + p2);
+                Toast.makeText(getApplicationContext(),
+                        "Project created.", Toast.LENGTH_SHORT).show();
+                projects = dbmgrSoco.loadProjectsByActiveness(DatabaseConfig.VALUE_PROJECT_ACTIVE);
+                listProjects(null);
+            }
+        });
+        alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String n = input.getText().toString();
+                Program p = new Program(n);
+                dbmgrSoco.add(p);
+                Log.i("new", "New programName created: " + n);
+
+                Intent intent = new Intent(getApplicationContext(), ShowSingleProgramActivity.class);
+                intent.putExtra(Config.PROGRAM_PNAME, n);
+                intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+                intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+                Log.i(tag, "Start activity to view programName details");
+                startActivity(intent);
+            }
+        });
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+
+        alert.show();
+    }
+
     public void createProgram(View view) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Create new programName");
@@ -158,7 +219,6 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                 listPrograms(null);
             }
         });
-
         alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String n = input.getText().toString();
@@ -174,7 +234,6 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
-
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
             }
@@ -183,6 +242,22 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         alert.show();
     }
 
+    public void listProjects(View view) {
+        ArrayList<Map<String, String>> list = new ArrayList<>();
+        for (Project p : projects) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put(Config.PROJECT_PNAME, p.pname);
+            map.put(Config.PROJECT_PINFO, p.getMoreInfo());
+            list.add(map);
+        }
+        SimpleAdapter adapter = new SimpleAdapter(this, list,
+                android.R.layout.simple_list_item_2,
+                new String[]{Config.PROJECT_PNAME, Config.PROJECT_PINFO},
+                new int[]{android.R.id.text1, android.R.id.text2});
+        lv_active_programs.setAdapter(adapter);
+    }
+
+    //todo: decommission
     public void listPrograms(View view) {
         ArrayList<Map<String, String>> list = new ArrayList<>();
         for (Program program : programs) {

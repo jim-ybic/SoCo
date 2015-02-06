@@ -32,11 +32,12 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
-import com.soco.SoCoClient.control.Config;
+import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.model.Program;
+import com.soco.SoCoClient.model.Project;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,6 +65,8 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     String loginEmail;
     String loginPassword;
     String original_pname;
+
+    Project project;
 
     DatePickerDialog pdatePickerDialog = null;
     TimePickerDialog ptimePickerDialog = null;
@@ -95,21 +98,25 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         Log.i(tag, "onCreate, original values: " +
                 loginEmail + ", " + loginPassword + ", " + original_pname);
 
+        int pid = -1;
         if (loginEmail == null || loginEmail.isEmpty()) {
             Intent intent = getIntent();
             Log.i(tag, "onCreate: intent package, " + intent.getPackage());
             loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
             loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
-            original_pname = intent.getStringExtra(Config.PROGRAM_PNAME);
+//            original_pname = intent.getStringExtra(Config.PROGRAM_PNAME);
+            pid = intent.getIntExtra(Config.PROJECT_PID, -1);
             Log.i(tag, "onCreate, get String extra: "
                     + Config.LOGIN_EMAIL + ":" + loginEmail + ", "
                     + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
-                    + Config.PROGRAM_PNAME + ":" + original_pname);
+                    + Config.PROJECT_PID + ":" + pid);
         }
 
         dbmgrSoco = new DBManagerSoco(this);
-        program = dbmgrSoco.loadProgram(original_pname);
-        showProgramToScreen(program);
+//        program = dbmgrSoco.loadProgram(original_pname);
+        project = dbmgrSoco.loadProjectByPid(pid);
+//        showProgramToScreen(program);
+        showProjectToScreen(project);
 
         setDateTimeField();
 
@@ -455,6 +462,56 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 //        }
     }
 
+    public void showProjectToScreen(Project p){
+        Log.i(tag, "Show project: " + p.pname);
+        et_spname.setText(p.pname);
+//        et_spname.setText(p.pname, TextView.BufferType.EDITABLE);
+
+//        if (p.pdate.isEmpty())
+//            tr_spdate.setVisibility(View.GONE);
+//        else {
+//            tr_spdate.setVisibility(View.VISIBLE);
+//            et_spdate.setText(p.pdate, TextView.BufferType.EDITABLE);
+//        }
+//
+//        if (p.ptime.isEmpty())
+//            tr_sptime.setVisibility(View.GONE);
+//        else {
+//            tr_sptime.setVisibility(View.VISIBLE);
+//            et_sptime.setText(p.ptime, TextView.BufferType.EDITABLE);
+//        }
+//
+//        if (p.pplace.isEmpty())
+//            tr_spplace.setVisibility(View.GONE);
+//        else{
+//            tr_spplace.setVisibility(View.VISIBLE);
+//            et_spplace.setText(p.pplace, TextView.BufferType.EDITABLE);
+//        }
+//
+//        if (p.pdesc.isEmpty())
+//            tr_spdesc.setVisibility(View.GONE);
+//        else {
+//            tr_spdesc.setVisibility(View.VISIBLE);
+//            et_spdesc.setText(p.pdesc, TextView.BufferType.EDITABLE);
+//        }
+//
+//        if (p.pphone.isEmpty())
+//            tr_spphone.setVisibility(View.GONE);
+//        else {
+//            tr_spphone.setVisibility(View.VISIBLE);
+//            et_spphone_auto.setText(p.pphone, TextView.BufferType.EDITABLE);
+//        }
+//
+//        if (p.pemail.isEmpty())
+//            tr_spemail.setVisibility(View.GONE);
+//        else {
+//            tr_spemail.setVisibility(View.VISIBLE);
+//            et_spemail_auto.setText(p.pemail, TextView.BufferType.EDITABLE);
+//        }
+
+    }
+
+    //todo: decommission
     void refreshProgramFromScreen(){
         String pname = et_spname.getText().toString();
         if (!program.pname.equals(pname))
@@ -490,6 +547,46 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
 //            programName.pwechat = pwechat;
     }
 
+    void refreshProjectFromScreen(){
+        String pname = et_spname.getText().toString();
+        if (!project.pname.equals(pname))
+            project.pname = pname;
+
+//        String pdate = et_spdate.getText().toString();
+//        if (!program.pdate.equals(pdate))
+//            program.pdate = pdate;
+//
+//        String ptime = et_sptime.getText().toString();
+//        if (!program.ptime.equals(ptime))
+//            program.ptime = ptime;
+//
+//        String pplace = et_spplace.getText().toString();
+//        if (!program.pplace.equals(pplace))
+//            program.pplace = pplace;
+//
+//        String pdesc = et_spdesc.getText().toString();
+//        if (!program.pdesc.equals(pdesc))
+//            program.pdesc = pdesc;
+//
+//        String pphone = et_spphone_auto.getText().toString();
+//        Log.i("db", "Phone on the screen is: " + pphone);
+//        if (!program.pphone.equals(pphone))
+//            program.pphone = pphone;
+//
+//        String pemail = et_spemail_auto.getText().toString();
+//        if (!program.pemail.equals(pemail))
+//            program.pemail = pemail;
+
+    }
+
+    public void saveProjectToDb(View view){
+        Log.i(tag, "Save to db the project: " + project.pname);
+        refreshProjectFromScreen();
+        dbmgrSoco.updateProject(project);
+        Toast.makeText(getApplicationContext(), "Project saved.", Toast.LENGTH_SHORT).show();
+    }
+
+    //todo: decommission
     public void saveProgramToDb(View view){
         Log.i("db", "Save Program to DB");
         refreshProgramFromScreen();
@@ -841,16 +938,15 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     protected void onResume() {
         super.onResume();
 
-        Log.i(tag, "onResume: Show programName to screen: " + program.pname + ", " + program.pphone);
-        showProgramToScreen(program);
-
-//        Log.d(tag, "ShowSingleProgramActivity:OnResume, check if OA2 authentication success");
-//        Log.d(tag, "Session token: " + dropbox.getSession().getOAuth2AccessToken());
+//        Log.i(tag, "onResume: Show programName to screen: " + program.pname + ", " + program.pphone);
+//        showProgramToScreen(program);
+        Log.i(tag, "onResume, show project");
+        showProjectToScreen(project);
 
         if (dropbox != null && dropbox.getSession() != null
                 && dropbox.getSession().getOAuth2AccessToken() != null) {
-//            Log.i(tag, "DropboxAPI and Session created with existing token: "
-//                    + dropbox.getSession().getOAuth2AccessToken());
+            Log.d(tag, "DropboxAPI and Session created with existing token: "
+                    + dropbox.getSession().getOAuth2AccessToken());
             return;
         }
 

@@ -1,8 +1,7 @@
 package com.soco.SoCoClient.control.util;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Formatter;
 
 import javax.crypto.Mac;
@@ -10,9 +9,12 @@ import javax.crypto.spec.SecretKeySpec;
 
 import android.util.Log;
 
+import com.soco.SoCoClient.model.Project;
+
 public class SignatureUtil {
 
     public static String tag = "SignatureUtil";
+    public static String SIGNATURE_KEY = "SocoSig";
 
     private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
 
@@ -36,6 +38,20 @@ public class SignatureUtil {
             Log.e(tag, "Error generating SHA1 signature");
             e.printStackTrace();
         }
+        return s;
+    }
+
+    public static String genSHA1(Project p){
+        String data = p.pid + ", " + p.pname + ", "
+                        + p.pcreate_timestamp + ", " + p.pupdate_timestamp;
+        String s = genSHA1(data, SIGNATURE_KEY);
+        Log.i(tag, "Gen SHA1 signature for project " + p.pname + " is: " + s);
+        return s;
+    }
+
+    public static String now() {
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String s = f.format(new Date());
         return s;
     }
 
