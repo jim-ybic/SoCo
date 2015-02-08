@@ -3,7 +3,7 @@ package com.soco.SoCoClient.model;
 
 import android.database.Cursor;
 
-import com.soco.SoCoClient.control.config.DatabaseConfig;
+import com.soco.SoCoClient.control.config.DataConfig;
 
 public class Project {
     public int pid;
@@ -19,15 +19,15 @@ public class Project {
     }
 
     public Project(Cursor c) {
-        this.pid = c.getInt(c.getColumnIndex(DatabaseConfig.COLUMN_PROJECT_ID));
-        this.pname = c.getString(c.getColumnIndex(DatabaseConfig.COLUMN_PROJECT_NAME));
-        this.ptag = c.getString(c.getColumnIndex(DatabaseConfig.COLUMN_PROJECT_TAG));
+        this.pid = c.getInt(c.getColumnIndex(DataConfig.COLUMN_PROJECT_ID));
+        this.pname = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_NAME));
+        this.ptag = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_TAG));
         this.pcreate_timestamp = c.getString(c.getColumnIndex(
-                DatabaseConfig.COLUMN_PROJECT_CREATE_TIMESTAMP));
+                DataConfig.COLUMN_PROJECT_CREATE_TIMESTAMP));
         this.pupdate_timestamp = c.getString(c.getColumnIndex(
-                DatabaseConfig.COLUMN_PROJECT_UPDATE_TIMESTAMP));
-        this.psignature = c.getString(c.getColumnIndex(DatabaseConfig.COLUMN_PROJECT_SIGNATURE));
-        this.pactive = c.getString(c.getColumnIndex(DatabaseConfig.COLUMN_PROJECT_ACTIVE));
+                DataConfig.COLUMN_PROJECT_UPDATE_TIMESTAMP));
+        this.psignature = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_SIGNATURE));
+        this.pactive = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_ACTIVE));
     }
 
     public String getMoreInfo() {

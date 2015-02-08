@@ -48,10 +48,10 @@ public class SocoApp extends Application {
     }
 
     public ArrayList<Map<String, String>> loadNameEmailList() {
-        Log.d(tag, "loadNameEmailList");
+        Log.d(tag, "loadNameEmailList: start");
 
         if (!listNameEmailReady) {
-            Log.i(tag, "listNameEmail not ready, load for the first time");
+            Log.d(tag, "listNameEmail not ready, load for the first time");
             listNameEmail = new ArrayList<Map<String, String>>();
             Cursor emails = getContentResolver().query(
                     ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
@@ -73,9 +73,9 @@ public class SocoApp extends Application {
             listNameEmailReady = true;
         }
         else
-            Log.i(tag, "listNameEmail already loaded");
+            Log.d(tag, "listNameEmail already loaded");
 
-        return listNamePhone;
+        return listNameEmail;
     }
 
     public ArrayList<Map<String, String>> loadNamePhoneList() {

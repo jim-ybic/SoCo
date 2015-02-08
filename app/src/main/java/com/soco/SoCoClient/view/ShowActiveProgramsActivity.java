@@ -1,6 +1,5 @@
 package com.soco.SoCoClient.view;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
@@ -18,7 +17,7 @@ import android.widget.Toast;
 
 import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.DatabaseConfig;
+import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
@@ -57,7 +56,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
 
         dbmgrSoco = new DBManagerSoco(this);
 //        programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
-        projects = dbmgrSoco.loadProjectsByActiveness(DatabaseConfig.VALUE_PROJECT_ACTIVE);
+        projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
 
 //        listPrograms(null);
         listProjects(null);
@@ -104,12 +103,15 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
             case (101): {
-                if (resultCode == Activity.RESULT_OK) {
-                    loginEmail = data.getStringExtra(Config.LOGIN_EMAIL);
-                    loginPassword = data.getStringExtra(Config.LOGIN_PASSWORD);
-                    projects = dbmgrSoco.loadProjectsByActiveness(DatabaseConfig.VALUE_PROJECT_ACTIVE);
-                    listProjects(null);
-                }
+                Log.i(tag, "onActivityResult, return from ShowSingleProject");
+                Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
+                projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
+                listProjects(null);
+//                if (resultCode == Activity.RESULT_OK) {
+//                    loginEmail = data.getStringExtra(Config.LOGIN_EMAIL);
+//                    loginPassword = data.getStringExtra(Config.LOGIN_PASSWORD);
+//                    Log.i(tag, "Current email/password: " + loginEmail + "/" + loginPassword);
+//                }
                 break;
             }
         }
@@ -174,7 +176,7 @@ public class ShowActiveProgramsActivity extends ActionBarActivity {
                 Log.i(tag, "New project added: " + p2);
                 Toast.makeText(getApplicationContext(),
                         "Project created.", Toast.LENGTH_SHORT).show();
-                projects = dbmgrSoco.loadProjectsByActiveness(DatabaseConfig.VALUE_PROJECT_ACTIVE);
+                projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
                 listProjects(null);
             }
         });

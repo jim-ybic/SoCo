@@ -4,11 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.soco.SoCoClient.control.config.DatabaseConfig;
+import com.soco.SoCoClient.control.config.DataConfig;
 
 public class DBHelperSoco extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "soco.0.1.1.db";
+    public static String DATABASE_NAME = "soco.0.1.2.db";
     public static int DATABASE_VERSION = 1;
 
     public DBHelperSoco(Context context) {
@@ -19,41 +19,41 @@ public class DBHelperSoco extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         //todo: decommission
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseConfig.TABLE_PROGRAM + " (" +
-                DatabaseConfig.COLUMN_PID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                DatabaseConfig.COLUMN_PNAME + " VARCHAR, " +
-                DatabaseConfig.COLUMN_PDATE + " VARCHAR," +
-                DatabaseConfig.COLUMN_PTIME + " VARCHAR," +
-                DatabaseConfig.COLUMN_PPLACE + " VARCHAR," +
-                DatabaseConfig.COLUMN_PCOMPLETE + " INTEGER," +
-                DatabaseConfig.COLUMN_PDESC + " VARCHAR," +
-                DatabaseConfig.COLUMN_PPHONE + " VARCHAR, " +
-                DatabaseConfig.COLUMN_PEMAIL + " VARCHAR, " +
-                DatabaseConfig.COLUMN_PWECHAT + " VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_PROGRAM + " (" +
+                DataConfig.COLUMN_PID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DataConfig.COLUMN_PNAME + " VARCHAR, " +
+                DataConfig.COLUMN_PDATE + " VARCHAR," +
+                DataConfig.COLUMN_PTIME + " VARCHAR," +
+                DataConfig.COLUMN_PPLACE + " VARCHAR," +
+                DataConfig.COLUMN_PCOMPLETE + " INTEGER," +
+                DataConfig.COLUMN_PDESC + " VARCHAR," +
+                DataConfig.COLUMN_PPHONE + " VARCHAR, " +
+                DataConfig.COLUMN_PEMAIL + " VARCHAR, " +
+                DataConfig.COLUMN_PWECHAT + " VARCHAR)");
 
         //update: 20150206
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseConfig.TABLE_PROJECT + " (" +
-                DatabaseConfig.COLUMN_PROJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                DatabaseConfig.COLUMN_PROJECT_NAME + " VARCHAR, " +
-                DatabaseConfig.COLUMN_PROJECT_TAG + " VARCHAR," +
-                DatabaseConfig.COLUMN_PROJECT_CREATE_TIMESTAMP + " VARCHAR," +
-                DatabaseConfig.COLUMN_PROJECT_UPDATE_TIMESTAMP + " VARCHAR," +
-                DatabaseConfig.COLUMN_PROJECT_SIGNATURE + " VARCHAR, " +
-                DatabaseConfig.COLUMN_PROJECT_ACTIVE + " VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_PROJECT + " (" +
+                DataConfig.COLUMN_PROJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DataConfig.COLUMN_PROJECT_NAME + " VARCHAR, " +
+                DataConfig.COLUMN_PROJECT_TAG + " VARCHAR," +
+                DataConfig.COLUMN_PROJECT_CREATE_TIMESTAMP + " VARCHAR," +
+                DataConfig.COLUMN_PROJECT_UPDATE_TIMESTAMP + " VARCHAR," +
+                DataConfig.COLUMN_PROJECT_SIGNATURE + " VARCHAR, " +
+                DataConfig.COLUMN_PROJECT_ACTIVE + " VARCHAR)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseConfig.TABLE_ATTRIBUTE + " (" +
-                DatabaseConfig.COLUMN_ATTRIBUTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                DatabaseConfig.COLUMN_ATTRIBUTE_PID + " INTEGER, " +
-                DatabaseConfig.COLUMN_ATTRIBUTE_NAME + " VARCHAR, " +
-                DatabaseConfig.COLUMN_ATTRIBUTE_VALUE + " VARCHAR, " +
-                DatabaseConfig.COLUMN_ATTRIBUTE_USER + " VARCHAR, " +
-                DatabaseConfig.COLUMN_ATTRIBUTE_CREATE_TIMESTAMP + " VARCHAR, " +
-                DatabaseConfig.COLUMN_ATTRIBUTE_UPDATE_TIMESTAMP + " VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_ATTRIBUTE + " (" +
+                DataConfig.COLUMN_ATTRIBUTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DataConfig.COLUMN_ATTRIBUTE_PID + " INTEGER, " +
+                DataConfig.COLUMN_ATTRIBUTE_NAME + " VARCHAR, " +
+                DataConfig.COLUMN_ATTRIBUTE_VALUE + " VARCHAR, " +
+                DataConfig.COLUMN_ATTRIBUTE_USER + " VARCHAR, " +
+                DataConfig.COLUMN_ATTRIBUTE_CREATE_TIMESTAMP + " VARCHAR, " +
+                DataConfig.COLUMN_ATTRIBUTE_UPDATE_TIMESTAMP + " VARCHAR)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("ALTER TABLE " + DatabaseConfig.TABLE_PROGRAM + " ADD COLUMN other STRING");
+        db.execSQL("ALTER TABLE " + DataConfig.TABLE_PROGRAM + " ADD COLUMN other STRING");
     }
 }
 

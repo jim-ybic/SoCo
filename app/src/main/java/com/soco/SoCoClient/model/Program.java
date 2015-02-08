@@ -2,7 +2,7 @@ package com.soco.SoCoClient.model;
 
 import android.database.Cursor;
 
-import com.soco.SoCoClient.control.config.DatabaseConfig;
+import com.soco.SoCoClient.control.config.DataConfig;
 
 public class Program {
 
@@ -22,16 +22,16 @@ public class Program {
     }
 
     public Program(Cursor c) {
-        this.pid = c.getInt(c.getColumnIndex(DatabaseConfig.COLUMN_PID));
-        this.pname = c.getString(c.getColumnIndex(DatabaseConfig.COLUMN_PNAME));
-        this.pdate = c.getString(c.getColumnIndex(DatabaseConfig.COLUMN_PDATE));
-        this.ptime = c.getString(c.getColumnIndex(DatabaseConfig.COLUMN_PTIME));
-        this.pplace = c.getString(c.getColumnIndex(DatabaseConfig.COLUMN_PPLACE));
-        this.pcomplete = c.getInt(c.getColumnIndex(DatabaseConfig.COLUMN_PCOMPLETE));
-        this.pdesc = c.getString(c.getColumnIndex(DatabaseConfig.COLUMN_PDESC));
-        this.pphone = c.getString(c.getColumnIndex(DatabaseConfig.COLUMN_PPHONE));
-        this.pemail = c.getString(c.getColumnIndex(DatabaseConfig.COLUMN_PEMAIL));
-        this.pwechat = c.getString(c.getColumnIndex(DatabaseConfig.COLUMN_PWECHAT));
+        this.pid = c.getInt(c.getColumnIndex(DataConfig.COLUMN_PID));
+        this.pname = c.getString(c.getColumnIndex(DataConfig.COLUMN_PNAME));
+        this.pdate = c.getString(c.getColumnIndex(DataConfig.COLUMN_PDATE));
+        this.ptime = c.getString(c.getColumnIndex(DataConfig.COLUMN_PTIME));
+        this.pplace = c.getString(c.getColumnIndex(DataConfig.COLUMN_PPLACE));
+        this.pcomplete = c.getInt(c.getColumnIndex(DataConfig.COLUMN_PCOMPLETE));
+        this.pdesc = c.getString(c.getColumnIndex(DataConfig.COLUMN_PDESC));
+        this.pphone = c.getString(c.getColumnIndex(DataConfig.COLUMN_PPHONE));
+        this.pemail = c.getString(c.getColumnIndex(DataConfig.COLUMN_PEMAIL));
+        this.pwechat = c.getString(c.getColumnIndex(DataConfig.COLUMN_PWECHAT));
     }
 
     public String toString() {

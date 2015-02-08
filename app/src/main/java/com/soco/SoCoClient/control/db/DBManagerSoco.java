@@ -1,6 +1,8 @@
 package com.soco.SoCoClient.control.db;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,7 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config.DatabaseConfig;
+import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
@@ -28,11 +30,11 @@ public class DBManagerSoco {
         Log.i(tag, "Clean up database.");
 
         //todo: decommission
-        db.execSQL("delete from " + DatabaseConfig.TABLE_PROGRAM);
+        db.execSQL("delete from " + DataConfig.TABLE_PROGRAM);
 
         //update: 20150206
-        db.execSQL("delete from " + DatabaseConfig.TABLE_PROJECT);
-        db.execSQL("delete from " + DatabaseConfig.TABLE_ATTRIBUTE);
+        db.execSQL("delete from " + DataConfig.TABLE_PROJECT);
+        db.execSQL("delete from " + DataConfig.TABLE_ATTRIBUTE);
     }
 
     //todo: decommission
@@ -44,7 +46,7 @@ public class DBManagerSoco {
 
         try {
             db.beginTransaction();
-            db.execSQL("INSERT INTO " + DatabaseConfig.TABLE_PROGRAM
+            db.execSQL("INSERT INTO " + DataConfig.TABLE_PROGRAM
                             + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     new Object[]{program.pname, program.pdate, program.ptime, program.pplace, 0,
                     program.pdesc, program.pphone, program.pemail, program.pwechat});
@@ -60,11 +62,11 @@ public class DBManagerSoco {
             db.beginTransaction();
             Log.i(tag, "Insert into db: " + p.pname + ", "
                     + SignatureUtil.now() + ", " + SignatureUtil.now() + ", "
-                    + SignatureUtil.genSHA1(p) + ", " + DatabaseConfig.VALUE_PROJECT_ACTIVE);
-            db.execSQL("INSERT INTO " + DatabaseConfig.TABLE_PROJECT + " VALUES(null, ?, ?, ?, ?, ?, ?)",
+                    + SignatureUtil.genSHA1(p) + ", " + DataConfig.VALUE_PROJECT_ACTIVE);
+            db.execSQL("INSERT INTO " + DataConfig.TABLE_PROJECT + " VALUES(null, ?, ?, ?, ?, ?, ?)",
                     new Object[]{p.pname, "",
                             SignatureUtil.now(), SignatureUtil.now(), SignatureUtil.genSHA1(p),
-                            DatabaseConfig.VALUE_PROJECT_ACTIVE});
+                            DataConfig.VALUE_PROJECT_ACTIVE});
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -94,7 +96,7 @@ public class DBManagerSoco {
 
     public void delete(int pid){
         Log.i(tag, "Delete programs where pid is " + pid);
-        db.delete(DatabaseConfig.TABLE_PROGRAM, DatabaseConfig.COLUMN_PID + " == ?",
+        db.delete(DataConfig.TABLE_PROGRAM, DataConfig.COLUMN_PID + " == ?",
                 new String[]{String.valueOf(pid)});
     }
 
@@ -135,19 +137,19 @@ public class DBManagerSoco {
         return program;
     }
 
-    public Project loadProject(String pname) {
-        Log.i(tag, "Load project by name: " + pname);
-        Project p = null;
-        Cursor c = queryProjectByPname(pname);
-        while (c.moveToNext()) {
-            p = new Project(c);
-        }
-        c.close();
-        return p;
-    }
+//    public Project loadProject(String pname) {
+//        Log.i(tag, "Load project by name: " + pname);
+//        Project p = null;
+//        Cursor c = queryProjectByPname(pname);
+//        while (c.moveToNext()) {
+//            p = new Project(c);
+//        }
+//        c.close();
+//        return p;
+//    }
 
     public Project loadProjectByPid(int pid) {
-        Log.i(tag, "Load project by id: " + pid);
+        Log.i(tag, "Load project for pid: " + pid);
         Project p = null;
         Cursor c = queryProjectByPid(pid);
         while (c.moveToNext()) {
@@ -157,47 +159,118 @@ public class DBManagerSoco {
         return p;
     }
 
+    public HashMap<String, String> loadProjectAttributesByPid(int pid){
+        Log.i(tag, "Load project attributes for pid: " + pid);
+        HashMap<String, String> attrMap = new HashMap<String, String>();
+        Cursor c = queryProjectAttributesByPid(pid);
+        int count = 0;
+        while (c.moveToNext()){
+            String attr_name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ATTRIBUTE_NAME));
+            String attr_value = c.getString(c.getColumnIndex(DataConfig.COLUMN_ATTRIBUTE_VALUE));
+            Log.i(tag, "Found attribute: " + attr_name + ", " + attr_value);
+            attrMap.put(attr_name, attr_value);
+            count ++;
+        }
+        Log.i(tag, count + " attributes loaded for pid");
+        return attrMap;
+    }
+
+    public Cursor queryProjectAttributesByPid(int pid) {
+        Log.d(tag, "Query project attributes: select * from " + DataConfig.TABLE_ATTRIBUTE
+                + " where " + DataConfig.COLUMN_PROJECT_ID + " = " + pid);
+        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ATTRIBUTE +
+                        " where " + DataConfig.COLUMN_PROJECT_ID + " = ?",
+                new String[] {String.valueOf(pid)});
+    }
+
     public Cursor queryProjectByPid(int pid) {
-        Log.d(tag, "Query project: select * from " + DatabaseConfig.TABLE_PROJECT
-                + " where " + DatabaseConfig.COLUMN_PROJECT_ID + " = " + pid);
-        return db.rawQuery("SELECT * FROM " + DatabaseConfig.TABLE_PROJECT +
-                        " where " + DatabaseConfig.COLUMN_PROJECT_ID + " = ?",
+        Log.d(tag, "Query project: select * from " + DataConfig.TABLE_PROJECT
+                + " where " + DataConfig.COLUMN_PROJECT_ID + " = " + pid);
+        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROJECT +
+                        " where " + DataConfig.COLUMN_PROJECT_ID + " = ?",
                 new String[] {String.valueOf(pid)});
     }
 
     public Cursor queryProjectByPname(String pname) {
-        Log.d(tag, "Query project: select * from " + DatabaseConfig.TABLE_PROJECT
-            + " where " + DatabaseConfig.COLUMN_PROJECT_NAME + " = " + pname);
-        return db.rawQuery("SELECT * FROM " + DatabaseConfig.TABLE_PROJECT +
-                        " where " + DatabaseConfig.COLUMN_PROJECT_NAME + " = ?",
+        Log.d(tag, "Query project: select * from " + DataConfig.TABLE_PROJECT
+            + " where " + DataConfig.COLUMN_PROJECT_NAME + " = " + pname);
+        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROJECT +
+                        " where " + DataConfig.COLUMN_PROJECT_NAME + " = ?",
                 new String[] {pname});
     }
 
     public Cursor queryTheCursor(String pname) {
-        return db.rawQuery("SELECT * FROM " + DatabaseConfig.TABLE_PROGRAM +
-                        " where " + DatabaseConfig.COLUMN_PNAME + " = ?",
+        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROGRAM +
+                        " where " + DataConfig.COLUMN_PNAME + " = ?",
                 new String[] {pname});
     }
 
     public Cursor queryTheCursor(int pcomplete) {
-        return db.rawQuery("SELECT * FROM " + DatabaseConfig.TABLE_PROGRAM +
-                        " where " + DatabaseConfig.COLUMN_PCOMPLETE + " = ?",
+        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROGRAM +
+                        " where " + DataConfig.COLUMN_PCOMPLETE + " = ?",
                 new String[] {String.valueOf(pcomplete)});
     }
 
     public Cursor queryProjectByActiveness(String pactive) {
-        Log.d(tag, "Query project: select * from " + DatabaseConfig.TABLE_PROJECT
-                + " where " + DatabaseConfig.COLUMN_PROJECT_ACTIVE + " = " + pactive);
-        return db.rawQuery("SELECT * FROM " + DatabaseConfig.TABLE_PROJECT +
-                        " where " + DatabaseConfig.COLUMN_PROJECT_ACTIVE + " = ?",
+        Log.d(tag, "Query project: select * from " + DataConfig.TABLE_PROJECT
+                + " where " + DataConfig.COLUMN_PROJECT_ACTIVE + " = " + pactive);
+        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROJECT +
+                        " where " + DataConfig.COLUMN_PROJECT_ACTIVE + " = ?",
                 new String[] {pactive});
     }
 
-    public void updateProject(Project p){
-        Log.i(tag, "Update database for project: " + p.pname);
+    public void clearProjectAttributes(int pid){
+
+        //todo: rawQuery seems not working for delete
+//        return db.rawQuery("DELETE FROM " + DbConfig.TABLE_ATTRIBUTE +
+//                        " where " + DbConfig.COLUMN_ATTRIBUTE_PID + " = ?",
+//                new String[] {String.valueOf(pid)});
+
+        try {
+            db.beginTransaction();
+            Log.d(tag, "Clear project attributes: DELETE FROM " + DataConfig.TABLE_ATTRIBUTE
+                    + " where " + DataConfig.COLUMN_ATTRIBUTE_PID + " = " + pid);
+            db.execSQL("DELETE FROM " + DataConfig.TABLE_ATTRIBUTE
+                            + " WHERE " + DataConfig.COLUMN_ATTRIBUTE_PID + " = ?",
+                    new Object[]{pid});
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+
+    }
+
+    public void updateDbProjectAttributes(int pid, HashMap<String, String> attrMap){
+        clearProjectAttributes(pid);
+
+        for(Map.Entry<String, String> entry : attrMap.entrySet()){
+            String attr_name = entry.getKey();
+            String attr_value = entry.getValue();
+            String now = SignatureUtil.now();
+            Log.i(tag, "Process project attribute: " + attr_name + ", " + attr_value);
+
+            try {
+                db.beginTransaction();
+                Log.i(tag, "Add project attribute: INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                        + " VALUES(null, " + pid + ", " + attr_name + ", " + attr_value + ", "
+                        + ", " + now + ", " + now);
+                db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                                + " VALUES(null, ?, ?, ?, ?, ?, ?)",
+                        new Object[]{pid, attr_name, attr_value, "", now, now});
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        }
+    }
+
+    public void updateProjectName(int pid, String pname){
+        Log.i(tag, "Update database for project: " + pid);
 
         ContentValues cv = new ContentValues();
-        cv.put(DatabaseConfig.COLUMN_PROJECT_NAME, p.pname);
+        cv.put(DataConfig.COLUMN_PROJECT_NAME, pname);
+        String now = SignatureUtil.now();
+        cv.put(DataConfig.COLUMN_PROJECT_UPDATE_TIMESTAMP, now);
 //        cv.put(DbConfig.COLUMN_PDATE, p.pdate);
 //        cv.put(DbConfig.COLUMN_PTIME, p.ptime);
 //        cv.put(DbConfig.COLUMN_PPLACE, p.pplace);
@@ -207,26 +280,37 @@ public class DBManagerSoco {
 //        cv.put(DbConfig.COLUMN_PEMAIL, p.pemail);
 //        cv.put(DbConfig.COLUMN_PWECHAT, p.pwechat);
 
-        db.update(DatabaseConfig.TABLE_PROJECT, cv, DatabaseConfig.COLUMN_PROJECT_ID + " = ?",
-                new String[]{String.valueOf(p.pid)});
+        db.update(DataConfig.TABLE_PROJECT, cv, DataConfig.COLUMN_PROJECT_ID + " = ?",
+                new String[]{String.valueOf(pid)});
+
+        Log.i(tag, "Updated project " + pid + " name: " + pname);
+        Log.i(tag, "Updated project " + pid + " update timestamp: " + now);
     }
 
     public void update(String original_pname, Program p) {
         Log.i(tag, "Update database for program: " + p.toString());
 
         ContentValues cv = new ContentValues();
-        cv.put(DatabaseConfig.COLUMN_PNAME, p.pname);
-        cv.put(DatabaseConfig.COLUMN_PDATE, p.pdate);
-        cv.put(DatabaseConfig.COLUMN_PTIME, p.ptime);
-        cv.put(DatabaseConfig.COLUMN_PPLACE, p.pplace);
-        cv.put(DatabaseConfig.COLUMN_PCOMPLETE, p.pcomplete);
-        cv.put(DatabaseConfig.COLUMN_PDESC, p.pdesc);
-        cv.put(DatabaseConfig.COLUMN_PPHONE, p.pphone);
-        cv.put(DatabaseConfig.COLUMN_PEMAIL, p.pemail);
-        cv.put(DatabaseConfig.COLUMN_PWECHAT, p.pwechat);
+        cv.put(DataConfig.COLUMN_PNAME, p.pname);
+        cv.put(DataConfig.COLUMN_PDATE, p.pdate);
+        cv.put(DataConfig.COLUMN_PTIME, p.ptime);
+        cv.put(DataConfig.COLUMN_PPLACE, p.pplace);
+        cv.put(DataConfig.COLUMN_PCOMPLETE, p.pcomplete);
+        cv.put(DataConfig.COLUMN_PDESC, p.pdesc);
+        cv.put(DataConfig.COLUMN_PPHONE, p.pphone);
+        cv.put(DataConfig.COLUMN_PEMAIL, p.pemail);
+        cv.put(DataConfig.COLUMN_PWECHAT, p.pwechat);
 
-        db.update(DatabaseConfig.TABLE_PROGRAM, cv, DatabaseConfig.COLUMN_PNAME + " = ?",
+        db.update(DataConfig.TABLE_PROGRAM, cv, DataConfig.COLUMN_PNAME + " = ?",
                 new String[]{original_pname});
+    }
+
+    public void updateProjectActiveness(int pid, String activeness) {
+        Log.i(tag, "Update project " + pid + " status: " + activeness);
+        ContentValues cv = new ContentValues();
+        cv.put(DataConfig.COLUMN_PROJECT_ACTIVE, activeness);
+        db.update(DataConfig.TABLE_PROJECT, cv, DataConfig.COLUMN_PROJECT_ID + " = ?",
+                new String[]{String.valueOf(pid)});
     }
 
 //    public void closeDB() {
