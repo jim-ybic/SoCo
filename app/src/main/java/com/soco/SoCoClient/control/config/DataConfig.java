@@ -1,6 +1,6 @@
 package com.soco.SoCoClient.control.config;
 
-public class DatabaseConfig {
+public class DataConfig {
 
     // Database
     public static String TABLE_PROGRAM = "program";
@@ -26,6 +26,7 @@ public class DatabaseConfig {
     public static String COLUMN_PROJECT_ACTIVE = "pactive";
 
     public static String VALUE_PROJECT_ACTIVE = "active";
+    public static String VALUE_PROJECT_INACTIVE = "inactive";
 
     public static String TABLE_ATTRIBUTE = "attribute";
     public static String COLUMN_ATTRIBUTE_ID = "aid";
@@ -35,4 +36,12 @@ public class DatabaseConfig {
     public static String COLUMN_ATTRIBUTE_USER = "auser";
     public static String COLUMN_ATTRIBUTE_CREATE_TIMESTAMP = "acreate_timestamp";
     public static String COLUMN_ATTRIBUTE_UPDATE_TIMESTAMP = "aupdate_timestamp";
+
+    public static String ATTRIBUTE_NAME_DATE = "date";
+    public static String ATTRIBUTE_NAME_TIME = "time";
+    public static String ATTRIBUTE_NAME_PLACE = "place";
+    public static String ATTRIBUTE_NAME_DESC = "desc";
+    public static String ATTRIBUTE_NAME_PHONE = "phone";
+    public static String ATTRIBUTE_NAME_EMAIL = "email";
+
 }
