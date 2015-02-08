@@ -3,46 +3,4 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.soco.SoCoClient.view.ShowSingleProgramActivity">
 
-    <!--<item-->
-        <!--android:id="@+id/action_add_date"-->
-        <!--android:title="Add date"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never" />-->
-
-    <!--<item-->
-        <!--android:id="@+id/action_add_time"-->
-        <!--android:title="Add time"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never" />-->
-
-    <!--<item-->
-        <!--android:id="@+id/action_add_place"-->
-        <!--android:title="Add place"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never" />-->
-
-    <!--<item-->
-        <!--android:id="@+id/action_add_desc"-->
-        <!--android:title="Add descrption"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never" />-->
-
-    <!--<item-->
-        <!--android:id="@+id/action_add_phone"-->
-        <!--android:title="Add phone"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never" />-->
-
-    <!--<item-->
-        <!--android:id="@+id/action_add_email"-->
-        <!--android:title="Add email"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never" />-->
-
-    <!--<item-->
-        <!--android:id="@+id/action_add_wechat"-->
-        <!--android:title="Add wechat"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never" />-->
-
 </menu>

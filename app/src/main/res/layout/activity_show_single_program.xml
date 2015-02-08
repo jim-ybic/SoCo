@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,11 +20,56 @@
         android:textSize="@dimen/abc_text_size_display_1_material"
         android:hint="Name not set" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:hint="Date, Time, and Place" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:onClick="setVisibleDateTimePlace"
+            android:textSize="20dp"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal" >-->
+
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="+Date"-->
+            <!--android:onClick="setVisiblePdate"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textSize="10dp"/>-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="+Time"-->
+            <!--android:onClick="setVisiblePtime"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textSize="10dp"/>-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="+Place"-->
+            <!--android:onClick="setVisiblePplace"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textSize="10dp"/>-->
+    <!--</LinearLayout>-->
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tl_pbasic">
+        android:layout_height="wrap_content">
         <TableRow
             android:id="@+id/tr_spdate">
             <TextView
@@ -33,8 +87,8 @@
                 android:layout_height="wrap_content"
                 android:onClick="clearPdate"
                 android:id="@+id/bt_clear_pdate"
-                android:text="---"
-                android:textSize="10dp"/>
+                android:text="-"
+                android:textSize="20dp"/>
             <!--android:src="@drawable/ic_action_remove"-->
         </TableRow>
         <TableRow
@@ -54,8 +108,8 @@
                 android:layout_height="wrap_content"
                 android:onClick="clearPtime"
                 android:id="@+id/bt_clear_ptime"
-                android:text="---"
-                android:textSize="10dp" />
+                android:text="-"
+                android:textSize="20dp" />
         </TableRow>
         <TableRow
             android:id="@+id/tr_spplace">
@@ -74,9 +128,34 @@
                 android:layout_height="wrap_content"
                 android:onClick="clearPplace"
                 android:id="@+id/bt_clear_pplace"
-                android:text="---"
-                android:textSize="10dp" />
+                android:text="-"
+                android:textSize="20dp" />
         </TableRow>
+    </TableLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:hint="Description" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:onClick="setVisiblePdesc"
+            android:textSize="20dp"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <TableRow
             android:id="@+id/tr_spdesc">
             <TextView
@@ -94,47 +173,107 @@
                 android:layout_height="wrap_content"
                 android:onClick="clearPdesc"
                 android:id="@+id/bt_clear_pdesc"
-                android:text="---"
-                android:textSize="10dp"/>
+                android:text="-"
+                android:textSize="20dp"/>
         </TableRow>
     </TableLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:hint="Contact" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+Date"
-            android:onClick="setVisiblePdate"
-            android:layout_weight="1"
-            android:textSize="10dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+Time"
-            android:onClick="setVisiblePtime"
-            android:layout_weight="1"
-            android:textSize="10dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+Place"
-            android:onClick="setVisiblePplace"
-            android:layout_weight="1"
-            android:textSize="10dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+Desc"
-            android:onClick="setVisiblePdesc"
-            android:layout_weight="1"
-            android:textSize="10dp"/>
-    </LinearLayout>
+            android:text="+"
+            android:onClick="setVisiblePhoneEmail"
+            android:textSize="20dp"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
-    <TableLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal" >-->
+
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="+Phone"-->
+                <!--android:onClick="setVisiblePdate"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="10dp"/>-->
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="+Email"-->
+                <!--android:onClick="setVisiblePtime"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="10dp"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal" >-->
+            <!--<Button-->
+                <!--android:id="@+id/bt_call"-->
+                <!--android:text="Call"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:onClick="call"-->
+                <!--android:drawableTop="@drawable/ic_action_call"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="10dp"/>-->
+            <!--<Button-->
+                <!--android:id="@+id/bt_sms"-->
+                <!--android:text="SMS"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:onClick="sms"-->
+                <!--android:drawableTop="@drawable/ic_action_send"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="10dp"/>-->
+            <!--<Button-->
+                <!--android:id="@+id/bt_email"-->
+                <!--android:text="Email"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:onClick="email"-->
+                <!--android:drawableTop="@drawable/ic_action_mail"-->
+                <!--android:textSize="10dp"/>-->
+            <!--<Button-->
+                <!--android:id="@+id/bt_wechat"-->
+                <!--android:text="Wechat"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:onClick="wechat"-->
+                <!--android:textSize="10dp"-->
+                <!--android:drawableTop="@drawable/ic_action_send"/>-->
+            <!--<Button-->
+                <!--android:id="@+id/bt_whatsapp"-->
+                <!--android:text="WhatsApp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:onClick="whatsapp"-->
+                <!--android:drawableTop="@drawable/ic_action_send"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="10dp"/>-->
+        <!--</LinearLayout>-->
+
+        <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TableRow
@@ -155,8 +294,8 @@
                 android:layout_height="wrap_content"
                 android:onClick="clearPphone"
                 android:id="@+id/bt_clear_pphone"
-                android:text="---"
-                android:textSize="10dp"/>
+                android:text="-"
+                android:textSize="20dp"/>
         </TableRow>
         <TableRow
             android:id="@+id/tr_spemail">
@@ -176,147 +315,45 @@
                 android:layout_height="wrap_content"
                 android:onClick="clearPemail"
                 android:id="@+id/bt_clear_pemail"
-                android:text="---"
-                android:textSize="10dp"/>
+                android:text="-"
+                android:textSize="20dp"/>
         </TableRow>
     </TableLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:id="@+id/layout_spphone">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <!--<TextView-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:text="Phone" />-->
-            <!--<EditText-->
-            <!--android:id="@+id/et_spphone"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:hint="Phone not set"-->
-            <!--android:inputType="phone" />-->
-        </LinearLayout>
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="25dp"-->
+        <!--android:hint="Members" />-->
+
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="25dp"-->
+        <!--android:hint="Attachment" />-->
+
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="25dp"-->
+        <!--android:hint="What's New" />-->
+
 
     </LinearLayout>
 
 
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:id="@+id/layout_spemail">
-        <!--<TextView-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:text="Email" />-->
-        <!--<EditText-->
-        <!--android:id="@+id/et_spemail"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:hint="Email not set"-->
-        <!--android:inputType="textEmailAddress"  />-->
+</LinearLayout>
 
-    </LinearLayout>
+</ScrollView>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:id="@+id/layout_spwechat">
-        <!--<TextView-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:text="Wechat" />-->
-        <!--<EditText-->
-        <!--android:id="@+id/et_spwechat"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:hint="Wechat not set" />-->
-    </LinearLayout>
-
-
-    <!--<AutoCompleteTextView-->
-        <!--android:id="@+id/mmWhoNo"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:hint="Call...." >-->
-    <!--</AutoCompleteTextView>-->
-    <!--<AutoCompleteTextView-->
-        <!--android:id="@+id/mmWhoNoEm"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:hint="Email...." >-->
-    <!--</AutoCompleteTextView>-->
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:gravity="center|bottom"
-        android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <Button
-                android:id="@+id/bt_call"
-                android:text="Call"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="call"
-                android:drawableTop="@drawable/ic_action_call"
-                android:layout_weight="1"
-                android:textSize="10dp"/>
-            <Button
-                android:id="@+id/bt_sms"
-                android:text="SMS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="sms"
-                android:drawableTop="@drawable/ic_action_send"
-                android:layout_weight="1"
-                android:textSize="10dp"/>
-            <Button
-                android:id="@+id/bt_email"
-                android:text="Email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="email"
-                android:drawableTop="@drawable/ic_action_mail"
-                android:textSize="10dp"/>
-            <Button
-                android:id="@+id/bt_wechat"
-                android:text="Wechat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="wechat"
-                android:textSize="10dp"
-                android:drawableTop="@drawable/ic_action_send"/>
-            <Button
-                android:id="@+id/bt_whatsapp"
-                android:text="WhatsApp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="whatsapp"
-                android:drawableTop="@drawable/ic_action_send"
-                android:layout_weight="1"
-                android:textSize="10dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_alignParentBottom="true">
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -329,7 +366,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Finish"
-                android:onClick="completeProgram"
+                android:onClick="setProjectCompleted"
                 android:drawableLeft="@drawable/ic_action_done"
                 android:layout_weight="1"
                 android:textSize="10dp"/>
@@ -341,15 +378,6 @@
                 android:drawableLeft="@drawable/ic_action_group"
                 android:layout_weight="1"
                 android:textSize="10dp"/>
-            <!--<Button-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Upload"-->
-                <!--android:onClick="upload"-->
-                <!--android:drawableLeft="@drawable/ic_action_attach"-->
-                <!--android:layout_weight="1"-->
-                <!--android:textSize="10dp"/>-->
         </LinearLayout>
-    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

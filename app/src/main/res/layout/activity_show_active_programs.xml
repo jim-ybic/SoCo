@@ -21,18 +21,18 @@
         android:layout_height="wrap_content"
         android:gravity="center|bottom"
         android:orientation="horizontal" >
+        <!--<Button-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="New"-->
+            <!--android:onClick="createProgram"-->
+            <!--android:drawableLeft="@drawable/ic_action_new"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textSize="10dp"/>-->
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="New"
-            android:onClick="createProgram"
-            android:drawableLeft="@drawable/ic_action_new"
-            android:layout_weight="1"
-            android:textSize="10dp"/>
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="New2"
             android:onClick="createProject"
             android:drawableLeft="@drawable/ic_action_new"
             android:layout_weight="1"
