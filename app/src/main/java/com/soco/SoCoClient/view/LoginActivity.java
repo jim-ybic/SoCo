@@ -19,9 +19,6 @@ import com.soco.SoCoClient.control.util.LoginUtil;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.SocoApp;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -130,7 +127,7 @@ public class LoginActivity extends ActionBarActivity {
         if(loginSuccess) {
             Toast.makeText(getApplicationContext(), "Hello, " + nickname,
                     Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
+            Intent intent = new Intent(this, ShowActiveProjectsActivity.class);
             intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
             intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
             startActivity(intent);

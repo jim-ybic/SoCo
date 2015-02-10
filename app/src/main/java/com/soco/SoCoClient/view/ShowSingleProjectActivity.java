@@ -49,7 +49,7 @@ import java.util.Map;
 
 import static com.soco.SoCoClient.control.config.DataConfig.*;
 
-public class ShowSingleProgramActivity extends ActionBarActivity implements View.OnClickListener {
+public class ShowSingleProjectActivity extends ActionBarActivity implements View.OnClickListener {
 
     public static String PROGRAM = "programName";
     public static String tag="ShowSingleProgram";
@@ -454,22 +454,17 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.setTitle("Phone number is not set");
                 alert.setMessage("Input number");
-
-//                final EditText input = new EditText(this);
-//                input.setInputType(InputType.TYPE_CLASS_PHONE);
-//                alert.setView(input);
                 final AutoCompleteTextView input = getAutoCompleteTextViewPhone();
                 alert.setView(input);
 
                 alert.setPositiveButton("Call", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String s = input.getText().toString();
-                        //todo: save phone number to project
-//                        program.pphone = s;
-//                        et_spphone_auto.setText(s);
-//                        saveProgramToDb(view);
-//                        Log.i("new", "New phone number saved and call: " + s);
-//                        showProgramToScreen(program);
+                        et_spphone_auto.setText(s);
+                        saveProjectToDb(view);
+                        Log.i(tag, "New phone number saved and call: " + s);
+                        attrMap.put(DataConfig.ATTRIBUTE_NAME_PHONE, s);
+                        showProjectToScreen(project, attrMap);
                         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + s));
                         startActivity(intent);
                     }
@@ -477,12 +472,11 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 alert.setNeutralButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String s = input.getText().toString();
-                        //todo: save phone number to project
-//                        program.pphone = s;
-//                        et_spphone_auto.setText(s);
-//                        saveProgramToDb(view);
-//                        Log.i("new", "New phone number saved: " + s);
-//                        showProgramToScreen(program);
+                        et_spphone_auto.setText(s);
+                        saveProjectToDb(view);
+                        Log.i(tag, "New phone number saved: " + s);
+                        attrMap.put(DataConfig.ATTRIBUTE_NAME_PHONE, s);
+                        showProjectToScreen(project, attrMap);
                     }
                 });
                 alert.setNegativeButton("Cancel", null);
@@ -492,7 +486,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 startActivity(intent);
             }
         } catch (Exception e) {
-            Log.e("call", "Cannot start intent to call");
+            Log.e(tag, "Cannot start intent to call");
             e.printStackTrace();
         }
     }
@@ -644,7 +638,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
     }
 
     public void email(final View view){
-        Log.i("email", "Send email");
+        Log.i(tag, "Send email");
         String n = et_spemail_auto.getText().toString();
         if (n.isEmpty()){
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -655,12 +649,11 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
             alert.setPositiveButton("Send", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
-                    //todo: save email to project
-//                    program.pemail = s;
-//                    et_spemail_auto.setText(s);
-//                    saveProgramToDb(view);
-//                    Log.i("new", "New email saved and send email: " + s);
-//                    showProgramToScreen(program);
+                    et_spemail_auto.setText(s);
+                    saveProjectToDb(view);
+                    Log.i(tag, "New email saved and send: " + s);
+                    attrMap.put(DataConfig.ATTRIBUTE_NAME_EMAIL, s);
+                    showProjectToScreen(project, attrMap);
                     try {
                         String e = et_spemail_auto.getText().toString();
                         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
@@ -676,12 +669,11 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
             alert.setNeutralButton("Save", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
-                    //todo: save email to project
-//                    program.pemail = s;
-//                    et_spemail_auto.setText(s);
-//                    saveProgramToDb(view);
-//                    Log.i("new", "New email: " + s);
-//                    showProgramToScreen(program);
+                    et_spemail_auto.setText(s);
+                    saveProjectToDb(view);
+                    Log.i(tag, "New email saved and send: " + s);
+                    attrMap.put(DataConfig.ATTRIBUTE_NAME_EMAIL, s);
+                    showProjectToScreen(project, attrMap);
                 }
             });
             alert.setNegativeButton("Cancel", null);
@@ -693,7 +685,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
                 startActivity(Intent.createChooser(emailIntent, "Send email..."));
             } catch (Exception e) {
-                Log.e("email", "Cannot start intent to send email");
+                Log.e(tag, "Cannot start intent to send email");
                 e.printStackTrace();
             }
         }
@@ -780,7 +772,7 @@ public class ShowSingleProgramActivity extends ActionBarActivity implements View
         }
         else {
 //                Log.d("dropbox", "Session authentication failed, create new OA2 validation session");
-            dropbox.getSession().startOAuth2Authentication(ShowSingleProgramActivity.this);
+            dropbox.getSession().startOAuth2Authentication(ShowSingleProjectActivity.this);
         }
     }
 

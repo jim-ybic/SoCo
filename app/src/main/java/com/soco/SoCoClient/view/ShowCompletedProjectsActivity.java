@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ShowCompletedProgramsActivity extends ActionBarActivity {
+public class ShowCompletedProjectsActivity extends ActionBarActivity {
     static String tag = "ShowCompletedPrograms";
 
     // Local view
@@ -60,7 +60,7 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
                 final String name = map.get(Config.PROGRAM_PNAME);
 
                 Log.i(tag, "Click on completed programName.");
-                new AlertDialog.Builder(ShowCompletedProgramsActivity.this)
+                new AlertDialog.Builder(ShowCompletedProjectsActivity.this)
                         .setTitle(name)
                         .setMessage("Program complete, shall we:")
                         .setPositiveButton("Re-Activate", new DialogInterface.OnClickListener() {
@@ -91,7 +91,7 @@ public class ShowCompletedProgramsActivity extends ActionBarActivity {
     }
 
     void gotoPreviousScreen(){
-        Intent intent = new Intent(this, ShowActiveProgramsActivity.class);
+        Intent intent = new Intent(this, ShowActiveProjectsActivity.class);
         intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
         intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
         startActivity(intent);
