@@ -119,7 +119,7 @@ public class LoginActivity extends ActionBarActivity {
         updateProfile(loginEmail);
 
         HttpTask loginTask = new HttpTask(getLoginUrl(), HttpTask.HTTP_TYPE_LOGIN,
-                loginEmail, loginPassword, getApplicationContext());
+                loginEmail, loginPassword, getApplicationContext(), null);
         loginTask.execute();
         //TODO: check if login is success
 
@@ -147,7 +147,7 @@ public class LoginActivity extends ActionBarActivity {
         app.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_START);
 
         HttpTask registerTask = new HttpTask(getRegisterUrl(), HttpTask.HTTP_TYPE_REGISTER,
-                loginEmail, loginPassword, getApplicationContext());
+                loginEmail, loginPassword, getApplicationContext(), null);
         registerTask.execute();
 
         //wait and check login status

@@ -19,11 +19,16 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
 
     public static String HTTP_TYPE_LOGIN = "login";
     public static String HTTP_TYPE_REGISTER = "register";
+    public static String HTTP_TYPE_CREATE_PROJECT = "create_project";
+
     public static String JSON_KEY_USERNAME = "username";
     public static String JSON_KEY_EMAIL = "email";
     public static String JSON_KEY_PASSWORD = "password";
     public static String JSON_KEY_PASSWORD2 = "password2";
     public static String JSON_KEY_ACCESS_TOKEN = "access_token";
+    public static String JSON_KEY_PROJECT_NAME = "name";
+
+    public static String HTTP_TOKEN_TYPE = "Bearer";
 
     public static String KEYWORD_REGISTRATION_SUBMITTED = "Your account registration email";
 
@@ -32,16 +37,18 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
     String type;
     String loginEmail, loginPassword;
     Context context;
+    String pname;
 
     public HttpTask(String url, String type, String loginEmail, String loginPassword,
-                    Context context){
+                    Context context, String pname){
         Log.i(tag, "Create new HttpTask: " + url + ", " + type + ", "
-                + loginEmail + ", " + loginPassword);
+                + loginEmail + ", " + loginPassword + ", " + pname);
         this.url = url;
         this.type = type;
         this.loginEmail = loginEmail;
         this.loginPassword = loginPassword;
         this.context = context;
+        this.pname = pname;
     }
 
     @Override
@@ -62,8 +69,29 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
             if (response != null)
                 registerResponse(response);
         }
+        else if(type.equals(HTTP_TYPE_CREATE_PROJECT)) {
+            Object response = createProjectStart(url, pname);
+            if (response != null)
+                createProjectResponse(response);
+        }
 
         return true;
+    }
+
+    private Object registerStart() {
+        JSONObject data = new JSONObject();
+        try {
+            data.put(JSON_KEY_USERNAME, loginEmail);
+            data.put(JSON_KEY_EMAIL, loginEmail);
+            data.put(JSON_KEY_PASSWORD, loginPassword);
+            data.put(JSON_KEY_PASSWORD2, loginPassword);
+            Log.i(tag, "Register Json post: " + data);
+        } catch (Exception e) {
+            Log.e(tag, "Cannot create RegisterJson post data");
+            e.printStackTrace();
+        }
+
+        return executeHttpPost(url, data);
     }
 
     private boolean registerResponse(Object response) {
@@ -74,7 +102,7 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
                 SocoApp app = (SocoApp) context;
                 app.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_SUCCESS);
                 Log.i(tag, "Set registration status: success");
-               return true;
+                return true;
             }
             else {
                 SocoApp app = (SocoApp) context;
@@ -87,6 +115,48 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private Object createProjectStart(String url, String pname) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put(JSON_KEY_PROJECT_NAME, pname);
+            Log.i(tag, "Create project Json post: " + data);
+        } catch (Exception e) {
+            Log.e(tag, "Cannot create create project Json post data");
+            e.printStackTrace();
+        }
+
+        return executeHttpPost(url, data);
+    }
+
+    private boolean createProjectResponse(Object response) {
+        Log.d(tag, "Process register response: " + response.toString());
+        try {
+            String str = response.toString();
+            Log.i(tag, "Create project response: " + str);
+            //todo
+            return true;
+
+        } catch (Exception e) {
+            Log.e(tag, "Cannot convert response to Json object: " + e.toString());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private Object loginStart() {
+        JSONObject data = new JSONObject();
+        try {
+            data.put(JSON_KEY_USERNAME, loginEmail);
+            data.put(JSON_KEY_PASSWORD, loginPassword);
+            Log.i(tag, "Login Json post: " + data);
+        } catch (Exception e) {
+            Log.e(tag, "Cannot create Login Json post data");
+            e.printStackTrace();
+        }
+
+        return executeHttpPost(url, data);
     }
 
     private boolean loginResponse(Object response) {
@@ -102,36 +172,6 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
             return false;
         }
-    }
-
-    private Object loginStart() {
-        JSONObject data = new JSONObject();
-        try {
-            data.put(JSON_KEY_USERNAME, loginEmail);
-            data.put(JSON_KEY_PASSWORD, loginPassword);
-            Log.i(tag, "Json post: " + data);
-        } catch (Exception e) {
-            Log.e(tag, "Cannot create Json post data");
-            e.printStackTrace();
-        }
-
-        return executeHttpPost(url, data);
-    }
-
-    private Object registerStart() {
-        JSONObject data = new JSONObject();
-        try {
-            data.put(JSON_KEY_USERNAME, loginEmail);
-            data.put(JSON_KEY_EMAIL, loginEmail);
-            data.put(JSON_KEY_PASSWORD, loginPassword);
-            data.put(JSON_KEY_PASSWORD2, loginPassword);
-            Log.i(tag, "Json post: " + data);
-        } catch (Exception e) {
-            Log.e(tag, "Cannot create Json post data");
-            e.printStackTrace();
-        }
-
-        return executeHttpPost(url, data);
     }
 
     private Object executeHttpPost(String url, JSONObject data) {

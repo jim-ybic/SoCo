@@ -29,4 +29,6 @@ public class Config {
     public static String PROFILE_SERVER_PORT = "server_port";
     public static String PROFILE_SERVER_REGISTER_ADDRESS = "server_register_address";
     public static String PROFILE_SERVER_LOGIN_ADDRESS = "server_login_address";
+    public static String PROFILE_CREATE_PROJECT_ADDRESS = "create_project_address";
+
 }

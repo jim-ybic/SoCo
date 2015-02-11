@@ -19,6 +19,8 @@ import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
+import com.soco.SoCoClient.control.http.HttpTask;
+import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
 
@@ -86,11 +88,11 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         });
     }
 
-    int findPidByPname(List<Project> projects, String pname){
+    int findPidByPname(List<Project> projects, String pname) {
         int pid = -1;
-        for (int i=0; i< projects.size(); i++)
-            if(projects.get(i).pname.equals(pname))
-                pid =  projects.get(i).pid;
+        for (int i = 0; i < projects.size(); i++)
+            if (projects.get(i).pname.equals(pname))
+                pid = projects.get(i).pid;
         if (pid == -1)
             Log.e(tag, "Cannot find pid for project name: " + pname);
         else
@@ -101,7 +103,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
+        switch (requestCode) {
             case (101): {
                 Log.i(tag, "onActivityResult, return from ShowSingleProject");
                 Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
@@ -143,7 +145,8 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                             Intent i = new Intent(getApplicationContext(),
                                     ShowActiveProjectsActivity.class);
                             i.putExtra(Config.LOGIN_EMAIL, loginEmail);
-                            startActivity(i);;
+                            startActivity(i);
+                            ;
                         }
                     })
                     .setNegativeButton("No", null)
@@ -176,6 +179,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 Log.i(tag, "New project added: " + p2);
                 Toast.makeText(getApplicationContext(),
                         "Project created.", Toast.LENGTH_SHORT).show();
+                createProjectOnServer(n);
                 projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
                 listProjects(null);
             }
@@ -186,7 +190,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 Program p = new Program(n);
                 dbmgrSoco.add(p);
                 Log.i(tag, "New programName created: " + n);
-
+                createProjectOnServer(n);
                 Intent intent = new Intent(getApplicationContext(), ShowSingleProjectActivity.class);
                 intent.putExtra(Config.PROGRAM_PNAME, n);
                 intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
@@ -202,6 +206,25 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
 
         alert.show();
     }
+
+    void createProjectOnServer(String pname) {
+        HttpTask registerTask = new HttpTask(getCreateProjectUrl(),
+                HttpTask.HTTP_TYPE_CREATE_PROJECT,
+                loginEmail, loginPassword, getApplicationContext(), pname);
+        registerTask.execute();
+    }
+
+    public String getCreateProjectUrl(){
+        String ip = ProfileUtil.getServerIp(this);
+        String port = ProfileUtil.getServerPort(this);
+        String path = ProfileUtil.getCreateProjectAddr(this);
+        String token = ProfileUtil.getLoginAccessToken(this);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        Log.i(tag, "Create project url: " + url);
+        return url;
+    }
+
 
 //    public void createProgram(View view) {
 //        AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -260,20 +283,20 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
     }
 
     //todo: decommission
-    public void listPrograms(View view) {
-        ArrayList<Map<String, String>> list = new ArrayList<>();
-        for (Program program : programs) {
-            HashMap<String, String> map = new HashMap<>();
-            map.put(Config.PROGRAM_PNAME, program.pname);
-            map.put(Config.PROGRAM_PINFO, program.getMoreInfo());
-            list.add(map);
-        }
-        SimpleAdapter adapter = new SimpleAdapter(this, list,
-                android.R.layout.simple_list_item_2,
-                new String[]{Config.PROGRAM_PNAME, Config.PROGRAM_PINFO},
-                new int[]{android.R.id.text1, android.R.id.text2});
-        lv_active_programs.setAdapter(adapter);
-    }
+//    public void listPrograms(View view) {
+//        ArrayList<Map<String, String>> list = new ArrayList<>();
+//        for (Program program : programs) {
+//            HashMap<String, String> map = new HashMap<>();
+//            map.put(Config.PROGRAM_PNAME, program.pname);
+//            map.put(Config.PROGRAM_PINFO, program.getMoreInfo());
+//            list.add(map);
+//        }
+//        SimpleAdapter adapter = new SimpleAdapter(this, list,
+//                android.R.layout.simple_list_item_2,
+//                new String[]{Config.PROGRAM_PNAME, Config.PROGRAM_PINFO},
+//                new int[]{android.R.id.text1, android.R.id.text2});
+//        lv_active_programs.setAdapter(adapter);
+//    }
 
     public void showCompletedPrograms(View view) {
         Intent intent = new Intent(this, ShowCompletedProjectsActivity.class);

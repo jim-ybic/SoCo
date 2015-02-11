@@ -66,6 +66,12 @@ public class ProfileUtil {
         Log.i(tag, "Save complete");
     }
 
+    public static String getLoginAccessToken(Context context){
+        Log.i(tag, "Get login access token");
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        return settings.getString(Config.PROFILE_LOGIN_ACCESS_TOKEN, "");
+    }
+
     public static String getServerIp(Context context){
         SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
         return settings.getString(Config.PROFILE_SERVER_IP, "");
@@ -111,6 +117,18 @@ public class ProfileUtil {
         SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(Config.PROFILE_SERVER_LOGIN_ADDRESS, loginAddr);
+        editor.commit();
+    }
+
+    public static String getCreateProjectAddr(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        return settings.getString(Config.PROFILE_CREATE_PROJECT_ADDRESS, "");
+    }
+
+    public static void setCreateProjectAddr(Context context, String addr){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_CREATE_PROJECT_ADDRESS, addr);
         editor.commit();
     }
 }

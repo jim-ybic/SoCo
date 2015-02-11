@@ -67,6 +67,19 @@
                 android:layout_height="wrap_content"
                 android:hint="Login Address not set"/>
         </TableRow>
+        <TableRow
+            android:id="@+id/tr_cprojectaddr">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Create Project" />
+            <EditText
+                android:id="@+id/et_cprojectaddr"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Create Project Address not set"/>
+        </TableRow>
     </TableLayout>
 
 
