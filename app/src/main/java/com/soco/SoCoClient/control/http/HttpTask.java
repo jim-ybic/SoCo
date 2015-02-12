@@ -28,7 +28,10 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
     public static String JSON_KEY_ACCESS_TOKEN = "access_token";
     public static String JSON_KEY_PROJECT_NAME = "name";
 
-    public static String HTTP_TOKEN_TYPE = "Bearer";
+    public static String JSON_KEY_CREATE_PROJECT_STATUS = "status";
+    public static String JSON_VALUE_CREATE_PROJECT_SUCCESS = "success";
+
+    public static String HTTP_TOKEN_TYPE = "access_token";
 
     public static String KEYWORD_REGISTRATION_SUBMITTED = "Your account registration email";
 
@@ -121,6 +124,7 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
         JSONObject data = new JSONObject();
         try {
             data.put(JSON_KEY_PROJECT_NAME, pname);
+            //todo: put other project details
             Log.i(tag, "Create project Json post: " + data);
         } catch (Exception e) {
             Log.e(tag, "Cannot create create project Json post data");
@@ -131,13 +135,19 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     private boolean createProjectResponse(Object response) {
-        Log.d(tag, "Process register response: " + response.toString());
         try {
             String str = response.toString();
-            Log.i(tag, "Create project response: " + str);
-            //todo
-            return true;
-
+            Log.i(tag, "Create project response string: " + str);
+            JSONObject json = new JSONObject(response.toString());
+            String isSuccess = json.getString(JSON_KEY_CREATE_PROJECT_STATUS);
+            if(isSuccess.equals(JSON_VALUE_CREATE_PROJECT_SUCCESS)) {
+                Log.i(tag, "Create project server response: " + JSON_VALUE_CREATE_PROJECT_SUCCESS);
+                return true;
+            }
+            else {
+                Log.e(tag, "Cannot receive create project status response from server");
+                return false;
+            }
         } catch (Exception e) {
             Log.e(tag, "Cannot convert response to Json object: " + e.toString());
             e.printStackTrace();
@@ -187,7 +197,7 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
             httpost.setHeader("Content-type", "application/json");
             ResponseHandler responseHandler = new BasicResponseHandler();
             response = httpclient.execute(httpost, responseHandler);
-            Log.i(tag, "Post success, response: " + response);
+            Log.i(tag, "Post success, raw response: " + response);
         } catch (Exception e) {
             Log.e(tag, "Post fail: " + e.toString());
         }
