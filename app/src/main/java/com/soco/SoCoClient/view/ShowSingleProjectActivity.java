@@ -93,7 +93,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(tag, "onCreate, start");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_single_program);
+        setContentView(R.layout.activity_show_single_project);
         findViewsById();
 
         //TEST
@@ -172,8 +172,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     void findViewsById() {
         pdateEditText = (EditText) findViewById(R.id.et_spdate);
         pdateEditText.setInputType(InputType.TYPE_NULL);
-        pdateEditText.requestFocus();
-
         ptimeEditText = (EditText) findViewById(R.id.et_sptime);
         ptimeEditText.setInputType(InputType.TYPE_NULL);
 
@@ -237,7 +235,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     }
 
     public void setVisiblePdesc(View view) {
-       tr_spdesc.setVisibility(View.VISIBLE);
+        tr_spdesc.setVisibility(View.VISIBLE);
         et_spdesc.requestFocus();
     }
 
@@ -438,7 +436,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     }
 
     public void setProjectCompleted(View view){
-        Log.i(tag, "Complete program: start");
+        Log.i(tag, "Set project complete start");
         saveProjectToDb(view);
         dbmgrSoco.updateProjectActiveness(pid, DataConfig.VALUE_PROJECT_INACTIVE);
         Toast.makeText(getApplicationContext(), "Project complete, well done.",

@@ -21,6 +21,7 @@ import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.HttpTask;
 import com.soco.SoCoClient.control.util.ProfileUtil;
+import com.soco.SoCoClient.control.util.ProjectUtil;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
 
@@ -47,7 +48,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_active_programs);
+        setContentView(R.layout.activity_show_active_projects);
         findViewsById();
 
         Intent intent = getIntent();
@@ -76,7 +77,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
                 String name = map.get(Config.PROJECT_PNAME);
-                int pid = findPidByPname(projects, name);
+                int pid = ProjectUtil.findPidByPname(projects, name);
 
                 Intent intent = new Intent(view.getContext(), ShowSingleProjectActivity.class);
                 intent.putExtra(Config.PROJECT_PID, pid);
@@ -86,18 +87,6 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 startActivityForResult(intent, INTENT_SHOW_SINGLE_PROGRAM);
             }
         });
-    }
-
-    int findPidByPname(List<Project> projects, String pname) {
-        int pid = -1;
-        for (int i = 0; i < projects.size(); i++)
-            if (projects.get(i).pname.equals(pname))
-                pid = projects.get(i).pid;
-        if (pid == -1)
-            Log.e(tag, "Cannot find pid for project name: " + pname);
-        else
-            Log.i(tag, "Found pid for project name " + pname + ": " + pid);
-        return pid;
     }
 
     @Override
@@ -299,7 +288,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
 //    }
 
     public void showCompletedPrograms(View view) {
-        Intent intent = new Intent(this, ShowCompletedProjectsActivity.class);
+        Intent intent = new Intent(this, ShowInactiveProjectsActivity.class);
         intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
         intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
         startActivity(intent);

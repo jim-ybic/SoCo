@@ -94,9 +94,17 @@ public class DBManagerSoco {
 //        }
 //    }
 
-    public void delete(int pid){
-        Log.i(tag, "Delete programs where pid is " + pid);
-        db.delete(DataConfig.TABLE_PROGRAM, DataConfig.COLUMN_PID + " == ?",
+//    public void delete(int pid){
+//        Log.i(tag, "Delete programs where pid is " + pid);
+//        db.delete(DataConfig.TABLE_PROGRAM, DataConfig.COLUMN_PID + " == ?",
+//                new String[]{String.valueOf(pid)});
+//    }
+
+    public void deleteProjectByPid(int pid){
+        Log.i(tag, "Delete project by pid: " + pid);
+        db.delete(DataConfig.TABLE_PROJECT, DataConfig.COLUMN_PROJECT_ID + " = ?",
+                new String[]{String.valueOf(pid)});
+        db.delete(DataConfig.TABLE_ATTRIBUTE, DataConfig.COLUMN_ATTRIBUTE_PID + " = ?",
                 new String[]{String.valueOf(pid)});
     }
 
@@ -124,6 +132,8 @@ public class DBManagerSoco {
         c.close();
         return projects;
     }
+
+
 
     //todo: decommission
     public Program loadProgram(String pname) {

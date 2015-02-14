@@ -15,8 +15,11 @@ import android.widget.SimpleAdapter;
 
 import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
+import com.soco.SoCoClient.control.util.ProjectUtil;
 import com.soco.SoCoClient.model.Program;
+import com.soco.SoCoClient.model.Project;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,21 +27,21 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ShowCompletedProjectsActivity extends ActionBarActivity {
+public class ShowInactiveProjectsActivity extends ActionBarActivity {
     static String tag = "ShowCompletedPrograms";
 
     // Local view
-    private ListView lv_completed_programs;
+    private ListView lv_inactive_projects;
 
     // Local variable
     private DBManagerSoco dbmgrSoco;
-    private List<Program> programs;
+    List<Project> projects;
     String loginEmail, loginPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_completed_programs);
+        setContentView(R.layout.activity_show_completed_projects);
         findViewsById();
 
         Intent intent = getIntent();
@@ -46,11 +49,11 @@ public class ShowCompletedProjectsActivity extends ActionBarActivity {
         loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
 
         dbmgrSoco = new DBManagerSoco(this);
-        programs = dbmgrSoco.loadPrograms(Config.PROGRAM_COMPLETED);
+        projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_INACTIVE);
 
-        listPrograms(lv_completed_programs, programs);
+        listProjects(lv_inactive_projects, projects);
 
-        lv_completed_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv_inactive_projects.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,34 +63,43 @@ public class ShowCompletedProjectsActivity extends ActionBarActivity {
                 final String name = map.get(Config.PROGRAM_PNAME);
 
                 Log.i(tag, "Click on completed programName.");
-                new AlertDialog.Builder(ShowCompletedProjectsActivity.this)
+                new AlertDialog.Builder(ShowInactiveProjectsActivity.this)
                         .setTitle(name)
                         .setMessage("Program complete, shall we:")
                         .setPositiveButton("Re-Activate", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Program p = dbmgrSoco.loadProgram(name);
-                                p.pcomplete = 0;
-                                dbmgrSoco.update(name, p);
-                                programs = dbmgrSoco.loadPrograms(Config.PROGRAM_COMPLETED);
-                                listPrograms(lv_completed_programs, programs);
-                            }})
+                                int pid = ProjectUtil.findPidByPname(projects, name);
+                                dbmgrSoco.updateProjectActiveness(pid,
+                                        DataConfig.VALUE_PROJECT_ACTIVE);
+//                                Program p = dbmgrSoco.loadProgram(name);
+//                                p.pcomplete = 0;
+//                                dbmgrSoco.update(name, p);
+                                projects = dbmgrSoco.loadProjectsByActiveness(
+                                        DataConfig.VALUE_PROJECT_INACTIVE);
+                                listProjects(lv_inactive_projects, projects);
+                            }
+                        })
                         .setNegativeButton("Cancel", null)
                         .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Program p = dbmgrSoco.loadProgram(name);
-                                Log.i(tag, "Click on delete programName, pid: " + p.pid +
-                                        ", pname: " + p.pname);
-                                dbmgrSoco.delete(p.pid);
-                                programs = dbmgrSoco.loadPrograms(Config.PROGRAM_COMPLETED);
-                                listPrograms(lv_completed_programs, programs);
-                            }})
+//                                Program p = dbmgrSoco.loadProgram(name);
+//                                Log.i(tag, "Click on delete programName, pid: " + p.pid +
+//                                        ", pname: " + p.pname);
+//                                dbmgrSoco.delete(p.pid);
+                                int pid = ProjectUtil.findPidByPname(projects, name);
+                                dbmgrSoco.deleteProjectByPid(pid);
+                                projects = dbmgrSoco.loadProjectsByActiveness(
+                                        DataConfig.VALUE_PROJECT_INACTIVE);
+                                listProjects(lv_inactive_projects, projects);
+                            }
+                        })
                         .show();
             }
         });
     }
 
     private void findViewsById() {
-        lv_completed_programs = (ListView) findViewById(R.id.lv_completed_programs);
+        lv_inactive_projects = (ListView) findViewById(R.id.lv_completed_programs);
     }
 
     void gotoPreviousScreen(){
@@ -111,12 +123,28 @@ public class ShowCompletedProjectsActivity extends ActionBarActivity {
         gotoPreviousScreen();
     }
 
-    public void listPrograms(ListView listView, List<Program> programs) {
+//    public void listPrograms(ListView listView, List<Program> programs) {
+//        ArrayList<Map<String, String>> data = new ArrayList<>();
+//        for (Program program : programs) {
+//            HashMap<String, String> map = new HashMap<>();
+//            map.put(Config.PROGRAM_PNAME, program.pname);
+//            map.put(Config.PROGRAM_PINFO, program.getMoreInfo());
+//            data.add(map);
+//        }
+//
+//        SimpleAdapter adapter = new SimpleAdapter(this, data,
+//                android.R.layout.simple_list_item_2,
+//                new String[]{Config.PROGRAM_PNAME, Config.PROGRAM_PINFO},
+//                new int[]{android.R.id.text1, android.R.id.text2});
+//        listView.setAdapter(adapter);
+//    }
+
+    public void listProjects(ListView listView, List<Project> projects) {
         ArrayList<Map<String, String>> data = new ArrayList<>();
-        for (Program program : programs) {
+        for (Project project : projects) {
             HashMap<String, String> map = new HashMap<>();
-            map.put(Config.PROGRAM_PNAME, program.pname);
-            map.put(Config.PROGRAM_PINFO, program.getMoreInfo());
+            map.put(Config.PROGRAM_PNAME, project.pname);
+            map.put(Config.PROGRAM_PINFO, project.getMoreInfo());
             data.add(map);
         }
 
@@ -126,7 +154,6 @@ public class ShowCompletedProjectsActivity extends ActionBarActivity {
                 new int[]{android.R.id.text1, android.R.id.text2});
         listView.setAdapter(adapter);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
