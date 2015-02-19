@@ -43,5 +43,6 @@ public class DataConfig {
     public static String ATTRIBUTE_NAME_DESC = "desc";
     public static String ATTRIBUTE_NAME_PHONE = "phone";
     public static String ATTRIBUTE_NAME_EMAIL = "email";
+    public static String ATTRIBUTE_NAME_FILE_REMOTE_PATH = "file_remote_path";
 
 }

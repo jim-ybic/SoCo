@@ -18,10 +18,44 @@ public class SocoApp extends Application {
     public static String REGISTRATION_STATUS_SUCCESS = "registration_success";
     public static String REGISTRATION_STATUS_FAIL = "registration_fail";
 
-    public String myState, loginStatus, registrationStatus;
+    public static String UPLOAD_STATUS_START = "upload_start";
+    public static String UPLOAD_STATUS_SUCCESS = "upload_success";
+    public static String UPLOAD_STATUS_FAIL = "upload_fail";
+
+    public String myState, loginStatus, registrationStatus, uploadStatus;
     public ArrayList<Map<String, String>> listNamePhone, listNameEmail;
     public boolean listNamePhoneReady = false, listNameEmailReady = false;
     public String currPicturePath;
+
+    public ArrayList<String> sharedFileNames = new ArrayList<>();
+    public int pid;
+    ArrayList<HashMap<String, String>> attrMap;
+
+    public ArrayList<HashMap<String, String>> getAttrMap(){
+        return attrMap;
+    }
+
+    public void setAttrMap(ArrayList<HashMap<String, String>> map){
+        attrMap = map;
+    }
+
+    public int getPid(){
+        return pid;
+    }
+
+    public void setPid(int pid){
+        this.pid = pid;
+    }
+
+    public void setSharedFileNames(ArrayList<String> names){
+        sharedFileNames = new ArrayList<>();
+        for (String n : names)
+            sharedFileNames.add(n);
+    }
+
+    public ArrayList<String> getSharedFileNames(){
+        return sharedFileNames;
+    }
 
     public String getState(){
         return myState;
@@ -30,6 +64,10 @@ public class SocoApp extends Application {
     public void setState(String s){
         myState = s;
     }
+
+    public String getUploadStatus () { return uploadStatus; }
+
+    public void setUploadStatus(String status) { uploadStatus = status; }
 
     public void setLoginStatus(String s){
         loginStatus = s;

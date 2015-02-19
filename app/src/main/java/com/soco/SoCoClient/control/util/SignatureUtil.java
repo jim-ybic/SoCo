@@ -1,14 +1,17 @@
 package com.soco.SoCoClient.control.util;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Formatter;
+import java.util.HashMap;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import android.util.Log;
 
+import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.model.Project;
 
 public class SignatureUtil {
@@ -52,6 +55,28 @@ public class SignatureUtil {
     public static String now() {
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String s = f.format(new Date());
+        return s;
+    }
+
+    public static String genSharedFileSummary(ArrayList<HashMap<String, String>> attrMap){
+        Log.i(tag, "Gen shared file summary start, attribute size: " + attrMap.size());
+        String s = new String();
+        for(HashMap<String, String> map : attrMap) {
+            for (HashMap.Entry<String, String> e : map.entrySet()) {
+                Log.d(tag, "Current attribute key: " + e.getKey());
+                if (e.getKey().equals(DataConfig.ATTRIBUTE_NAME_FILE_REMOTE_PATH)) {
+                    String remotePath = e.getValue();
+                    int pos = remotePath.lastIndexOf("/");
+                    String displayName = remotePath.substring(pos + 1, remotePath.length());
+                    Log.i(tag, "Found remote path: " + remotePath + ", "
+                            + " display name: " + displayName);
+                    if (s.isEmpty())
+                        s = displayName;
+                    else
+                        s += ", " + displayName;
+                }
+            }
+        }
         return s;
     }
 

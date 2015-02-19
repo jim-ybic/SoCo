@@ -6,9 +6,45 @@
     android:focusable="true"
     android:focusableInTouchMode="true" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:id="@+id/ll_sproject">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:onClick="saveProjectToDb"
+            android:drawableLeft="@drawable/ic_action_save"
+            android:layout_weight="1"
+            android:textSize="10dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Finish"
+            android:onClick="setProjectCompleted"
+            android:drawableLeft="@drawable/ic_action_done"
+            android:layout_weight="1"
+            android:textSize="10dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="More"
+            android:onClick="more"
+            android:drawableLeft="@drawable/ic_action_group"
+            android:layout_weight="1"
+            android:textSize="10dp"/>
+    </LinearLayout>
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@id/sv_sproject"
+        android:layout_below="@id/ll_sproject">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -31,7 +67,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="25dp"
                     android:hint="Date, Time, and Place" />
-
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -40,34 +75,6 @@
                     android:textSize="20dp"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal" >-->
-
-            <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="+Date"-->
-            <!--android:onClick="setVisiblePdate"-->
-            <!--android:layout_weight="1"-->
-            <!--android:textSize="10dp"/>-->
-            <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="+Time"-->
-            <!--android:onClick="setVisiblePtime"-->
-            <!--android:layout_weight="1"-->
-            <!--android:textSize="10dp"/>-->
-            <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="+Place"-->
-            <!--android:onClick="setVisiblePplace"-->
-            <!--android:layout_weight="1"-->
-            <!--android:textSize="10dp"/>-->
-            <!--</LinearLayout>-->
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -91,7 +98,6 @@
                         android:id="@+id/bt_clear_pdate"
                         android:text="-"
                         android:textSize="20dp"/>
-                    <!--android:src="@drawable/ic_action_remove"-->
                 </TableRow>
                 <TableRow
                     android:id="@+id/tr_sptime">
@@ -144,7 +150,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="25dp"
                     android:hint="Description" />
-
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -153,7 +158,6 @@
                     android:textSize="20dp"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
-
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -198,184 +202,100 @@
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
 
-            <LinearLayout
+            <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="1"
-                android:orientation="vertical" >
+                android:layout_height="wrap_content">
+                <TableRow
+                    android:id="@+id/tr_spphone">
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="Phone" />
+                    <AutoCompleteTextView
+                        android:id="@+id/et_spphone_auto"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="fill_parent"
+                        android:hint="Phone not set"
+                        android:inputType="phone" />
+                    <ImageButton
+                        android:id="@+id/bt_call"
+                        android:src="@drawable/ic_action_call"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="call"
+                        android:textSize="10dp"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="clearPphone"
+                        android:id="@+id/bt_clear_pphone"
+                        android:text="-"
+                        android:textSize="20dp"/>
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tr_spemail">
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="Email" />
+                    <AutoCompleteTextView
+                        android:id="@+id/et_spemail_auto"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="fill_parent"
+                        android:hint="Email not set"
+                        android:inputType="textEmailAddress"  />
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_action_mail"
+                        android:onClick="email"
+                        android:textSize="10dp"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="clearPemail"
+                        android:id="@+id/bt_clear_pemail"
+                        android:text="-"
+                        android:textSize="20dp"/>
+                </TableRow>
+            </TableLayout>
 
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal" >-->
-
-                <!--<Button-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="+Phone"-->
-                <!--android:onClick="setVisiblePdate"-->
-                <!--android:layout_weight="1"-->
-                <!--android:textSize="10dp"/>-->
-                <!--<Button-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="+Email"-->
-                <!--android:onClick="setVisiblePtime"-->
-                <!--android:layout_weight="1"-->
-                <!--android:textSize="10dp"/>-->
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal" >-->
-                <!--<Button-->
-                <!--android:id="@+id/bt_email"-->
-                <!--android:text="Email"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:onClick="email"-->
-                <!--android:drawableTop="@drawable/ic_action_mail"-->
-                <!--android:textSize="10dp"/>-->
-                <!--<Button-->
-                <!--android:id="@+id/bt_wechat"-->
-                <!--android:text="Wechat"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:onClick="wechat"-->
-                <!--android:textSize="10dp"-->
-                <!--android:drawableTop="@drawable/ic_action_send"/>-->
-                <!--<Button-->
-                <!--android:id="@+id/bt_whatsapp"-->
-                <!--android:text="WhatsApp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:onClick="whatsapp"-->
-                <!--android:drawableTop="@drawable/ic_action_send"-->
-                <!--android:layout_weight="1"-->
-                <!--android:textSize="10dp"/>-->
-                <!--</LinearLayout>-->
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TableRow
-                        android:id="@+id/tr_spphone">
-                        <TextView
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:text="Phone" />
-                        <AutoCompleteTextView
-                            android:id="@+id/et_spphone_auto"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_width="fill_parent"
-                            android:hint="Phone not set"
-                            android:inputType="phone" />
-                        <ImageButton
-                            android:id="@+id/bt_call"
-                            android:src="@drawable/ic_action_call"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="call"
-                            android:layout_weight="1"
-                            android:textSize="10dp"/>
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="clearPphone"
-                            android:id="@+id/bt_clear_pphone"
-                            android:text="-"
-                            android:textSize="20dp"/>
-                    </TableRow>
-                    <TableRow
-                        android:id="@+id/tr_spemail">
-                        <TextView
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:text="Email" />
-                        <AutoCompleteTextView
-                            android:id="@+id/et_spemail_auto"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_width="fill_parent"
-                            android:hint="Email not set"
-                            android:inputType="textEmailAddress"  />
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_action_mail"
-                            android:onClick="email"
-                            android:layout_weight="1"
-                            android:textSize="10dp"/>
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="clearPemail"
-                            android:id="@+id/bt_clear_pemail"
-                            android:text="-"
-                            android:textSize="20dp"/>
-                    </TableRow>
-                </TableLayout>
-
-                <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="25dp"-->
-                <!--android:hint="Members" />-->
-
-                <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="25dp"-->
-                <!--android:hint="Attachment" />-->
-
-                <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="25dp"-->
-                <!--android:hint="What's New" />-->
-
-
-            </LinearLayout>
-
-
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:hint="Shared Files"
+                        android:layout_weight="1"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_action_send"
+                        android:onClick="sharedFileDetails"
+                        android:textSize="10dp"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+"
+                        android:onClick="addFile"
+                        android:textSize="20dp"
+                        android:layout_alignParentRight="true"/>
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:id="@id/tv_shared_file_summary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="No shared file found"
+                        android:layout_weight="1"/>
+                </TableRow>
+            </TableLayout>
 
         </LinearLayout>
-
     </ScrollView>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_alignParentBottom="true">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save"
-            android:onClick="saveProjectToDb"
-            android:drawableLeft="@drawable/ic_action_save"
-            android:layout_weight="1"
-            android:textSize="10dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Finish"
-            android:onClick="setProjectCompleted"
-            android:drawableLeft="@drawable/ic_action_done"
-            android:layout_weight="1"
-            android:textSize="10dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="More"
-            android:onClick="more"
-            android:drawableLeft="@drawable/ic_action_group"
-            android:layout_weight="1"
-            android:textSize="10dp"/>
-    </LinearLayout>
-
 </RelativeLayout>

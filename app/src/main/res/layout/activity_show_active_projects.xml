@@ -43,7 +43,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Archive"
-            android:onClick="showCompletedPrograms"
+            android:onClick="showCompletedProjects"
             android:drawableLeft="@drawable/ic_action_collection"
             android:layout_weight="1"
             android:textSize="10dp"/>

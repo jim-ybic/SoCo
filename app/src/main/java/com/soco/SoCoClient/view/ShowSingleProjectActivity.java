@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -37,6 +38,9 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.SocoApp;
+import com.soco.SoCoClient.control.dropbox.DropboxUtl;
+import com.soco.SoCoClient.control.util.FileUtils;
+import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
 
@@ -71,7 +75,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     String original_pname;
 
     Project project;
-    HashMap<String, String> attrMap;
+    ArrayList<HashMap<String, String>> attrMap;
 
     DatePickerDialog pdatePickerDialog = null;
     TimePickerDialog ptimePickerDialog = null;
@@ -84,10 +88,17 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     AppKeyPair appKeyPair;
     AccessTokenPair accessTokenPair;
     int pid;
+    ArrayList<String> sharedFileNames = new ArrayList<>();
 
     private ArrayList<Map<String, String>> listNamePhone, listNameEmail;
     private SimpleAdapter mAdapterPhone, mAdapterEmail;
 //    private AutoCompleteTextView mTxtPhoneNo;
+
+    static int SHOW_MORE_ACTIVITY = 100;
+    static int OPEN_FILE_ACTIVITY = 101;
+
+    public static int UPLOAD_RETRY = 30;
+    public static int UPLOAD_WAIT = 1000;    //ms
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -339,8 +350,9 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
     }
 
-    public void showProjectToScreen(Project p, HashMap<String, String> attrMap){
-        Log.i(tag, "Show project: " + p.pid + ", " + p.pname);
+    public void showProjectToScreen(Project p, ArrayList<HashMap<String, String>> attrMap){
+        Log.i(tag, "Show project: " + p.pid + ", " + p.pname + ", "
+                + " total attributes: " + attrMap.size());
 
         //name
         et_spname.setText(p.pname);
@@ -355,35 +367,38 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         tr_spemail.setVisibility(View.GONE);
 
         //show available attributes
-        for(Map.Entry<String, String> entry : attrMap.entrySet()){
-            String attr_name = entry.getKey();
-            String attr_value = entry.getValue();
+        for(HashMap<String, String> map : attrMap) {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                String attr_name = entry.getKey();
+                String attr_value = entry.getValue();
 
-            if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_DATE)){    //date
-                tr_spdate.setVisibility(View.VISIBLE);
-                et_spdate.setText(attr_value, TextView.BufferType.EDITABLE);
-            }
-            else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_TIME)){   //time
-                tr_sptime.setVisibility(View.VISIBLE);
-                et_sptime.setText(attr_value, TextView.BufferType.EDITABLE);
-            }
-            else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_PLACE)){   //place
-                tr_spplace.setVisibility(View.VISIBLE);
-                et_spplace.setText(attr_value, TextView.BufferType.EDITABLE);
-            }
-            else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_DESC)){   //description
-                tr_spdesc.setVisibility(View.VISIBLE);
-                et_spdesc.setText(attr_value, TextView.BufferType.EDITABLE);
-            }
-            else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_PHONE)){   //phone
-                tr_spphone.setVisibility(View.VISIBLE);
-                et_spphone_auto.setText(attr_value, TextView.BufferType.EDITABLE);
-            }
-            else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_EMAIL)){   //email
-                tr_spemail.setVisibility(View.VISIBLE);
-                et_spemail_auto.setText(attr_value, TextView.BufferType.EDITABLE);
+                if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_DATE)) {    //date
+                    tr_spdate.setVisibility(View.VISIBLE);
+                    et_spdate.setText(attr_value, TextView.BufferType.EDITABLE);
+                } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_TIME)) {   //time
+                    tr_sptime.setVisibility(View.VISIBLE);
+                    et_sptime.setText(attr_value, TextView.BufferType.EDITABLE);
+                } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_PLACE)) {   //place
+                    tr_spplace.setVisibility(View.VISIBLE);
+                    et_spplace.setText(attr_value, TextView.BufferType.EDITABLE);
+                } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_DESC)) {   //description
+                    tr_spdesc.setVisibility(View.VISIBLE);
+                    et_spdesc.setText(attr_value, TextView.BufferType.EDITABLE);
+                } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_PHONE)) {   //phone
+                    tr_spphone.setVisibility(View.VISIBLE);
+                    et_spphone_auto.setText(attr_value, TextView.BufferType.EDITABLE);
+                } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_EMAIL)) {   //email
+                    tr_spemail.setVisibility(View.VISIBLE);
+                    et_spemail_auto.setText(attr_value, TextView.BufferType.EDITABLE);
+                }
             }
         }
+
+        //show shared file summary
+        String summary = SignatureUtil.genSharedFileSummary(attrMap);
+        Log.i(tag, "Shared file summary: " + summary);
+        ((TextView) findViewById(R.id.tv_shared_file_summary)).setText(summary,
+                TextView.BufferType.EDITABLE);
 
     }
 
@@ -461,7 +476,9 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                         et_spphone_auto.setText(s);
                         saveProjectToDb(view);
                         Log.i(tag, "New phone number saved and call: " + s);
-                        attrMap.put(DataConfig.ATTRIBUTE_NAME_PHONE, s);
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put(DataConfig.ATTRIBUTE_NAME_PHONE, s);
+                        attrMap.add(map);
                         showProjectToScreen(project, attrMap);
                         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + s));
                         startActivity(intent);
@@ -473,7 +490,9 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                         et_spphone_auto.setText(s);
                         saveProjectToDb(view);
                         Log.i(tag, "New phone number saved: " + s);
-                        attrMap.put(DataConfig.ATTRIBUTE_NAME_PHONE, s);
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put(DataConfig.ATTRIBUTE_NAME_PHONE, s);
+                        attrMap.add(map);
                         showProjectToScreen(project, attrMap);
                     }
                 });
@@ -650,7 +669,9 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                     et_spemail_auto.setText(s);
                     saveProjectToDb(view);
                     Log.i(tag, "New email saved and send: " + s);
-                    attrMap.put(DataConfig.ATTRIBUTE_NAME_EMAIL, s);
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put(DataConfig.ATTRIBUTE_NAME_EMAIL, s);
+                    attrMap.add(map);
                     showProjectToScreen(project, attrMap);
                     try {
                         String e = et_spemail_auto.getText().toString();
@@ -670,7 +691,9 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                     et_spemail_auto.setText(s);
                     saveProjectToDb(view);
                     Log.i(tag, "New email saved and send: " + s);
-                    attrMap.put(DataConfig.ATTRIBUTE_NAME_EMAIL, s);
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put(DataConfig.ATTRIBUTE_NAME_EMAIL, s);
+                    attrMap.add(map);
                     showProjectToScreen(project, attrMap);
                 }
             });
@@ -718,16 +741,16 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 //        Log.i("hash", "SHA1 signature, " + program.pname + ", " + sigProgram);
 //
 //        String p = "/" + sigEmail + "/" + sigProgram + "/";
-//        Log.i("dropbox",  "Remote file path: " + p);
+//        Log.i("dropboxApi",  "Remote file path: " + p);
 //
-//        DropboxUploaderUtil upload = new DropboxUploaderUtil(this, dropbox,sigEmail, sigProgram);
+//        DropboxUploaderUtil upload = new DropboxUploaderUtil(this, dropboxApi,sigEmail, sigProgram);
 //        upload.key = ACCESS_KEY;
 //        upload.secret = ACCESS_SECRET;
 //        upload.accessTokenPair = accessTokenPair;
 ////        upload.sigEmail = sigEmail;
 ////        upload.sigProgram = sigProgram;
 //        upload.localPath = getApplicationContext().getFilesDir().toString();
-//        Log.i("dropbox", "Create UploadFileToDropbox with accessTokenPair: " + accessTokenPair);
+//        Log.i("dropboxApi", "Create UploadFileToDropbox with accessTokenPair: " + accessTokenPair);
 //        upload.execute();
 //    }
 
@@ -752,24 +775,24 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         dropbox = new DropboxAPI<AndroidAuthSession>(session);
 
         boolean useSoCoDropboxAccount = true;
-        //TODO: choose if use SoCo's dropbox account or user's own dropbox account
+        //TODO: choose if use SoCo's dropboxApi account or user's own dropboxApi account
 
         if (useSoCoDropboxAccount) {
-//            Log.i(tag, "Step 4 (approach a): Load SoCo's dropbox account and OA2 token");
+//            Log.i(tag, "Step 4 (approach a): Load SoCo's dropboxApi account and OA2 token");
             String OA2token = "JWWNa2LgL2UAAAAAAAAANNpl6wfgG5wTX6_OrNik5a_yKGsnySogfHYMK-uxjLJd";
 //            Log.i(tag, "Set DropboxAPI OA2 token: " + OA2token);
             dropbox.getSession().setOAuth2AccessToken(OA2token);
         } else {
-//            Log.i("dropbox", "Step 4 (approach b): Let user login");
+//            Log.i("dropboxApi", "Step 4 (approach b): Let user login");
         }
 
 //        Log.d(tag, "Validate DropboxAPI and Session");
         if (dropbox != null && dropbox.getSession() != null
                 && dropbox.getSession().getOAuth2AccessToken() != null) {
-//            Log.d("dropbox", "Validation success, token: " + dropbox.getSession().getOAuth2AccessToken());
+//            Log.d("dropboxApi", "Validation success, token: " + dropboxApi.getSession().getOAuth2AccessToken());
         }
         else {
-//                Log.d("dropbox", "Session authentication failed, create new OA2 validation session");
+//                Log.d("dropboxApi", "Session authentication failed, create new OA2 validation session");
             dropbox.getSession().startOAuth2Authentication(ShowSingleProjectActivity.this);
         }
     }
@@ -780,7 +803,9 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
 //        Log.i(tag, "onResume: Show programName to screen: " + program.pname + ", " + program.pphone);
 //        showProgramToScreen(program);
-        Log.i(tag, "onResume, show project");
+        Log.i(tag, "onResume start, reload project attribute for pid: " + pid);
+        attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);
+        Log.i(tag, "onResume, total attributes loaded: " + attrMap.size());
         showProjectToScreen(project, attrMap);
 
         if (dropbox != null && dropbox.getSession() != null
@@ -797,7 +822,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 //                Log.i(tag, "Session finish authentication, set OA2 token");
                 dropbox.getSession().finishAuthentication();
 //                Log.i(tag, "Session finish authentication complete with token: "
-//                        + dropbox.getSession().getOAuth2AccessToken());
+//                        + dropboxApi.getSession().getOAuth2AccessToken());
             } catch (IllegalStateException e) {
                 Toast.makeText(this, "Error during Dropbox authentication",
                         Toast.LENGTH_SHORT).show();
@@ -815,20 +840,19 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         Intent i = new Intent(this, ShowMoreActivity.class);
         i.putExtra(Config.LOGIN_EMAIL, loginEmail);
         i.putExtra(Config.LOGIN_PASSWORD, loginPassword);
-        i.putExtra(Config.PROGRAM_PNAME, program.pname);
+        i.putExtra(Config.PROJECT_PID, project.pid);
         Log.i(tag, Config.LOGIN_EMAIL + ":" + loginEmail + ", "
                 + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
-                + PROGRAM + ":" + program.pname);
+                + Config.PROJECT_PID + ":" + project.pid);
 
-        final int result = 1;
-        startActivityForResult(i, result);
+        startActivityForResult(i, SHOW_MORE_ACTIVITY);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
-            case (1) : {
+            case (100) : {  //show more
                 if (resultCode == Activity.RESULT_OK) {
                     Log.i(tag, "onActivityResult, original values: " + loginEmail + ", " + loginPassword);
                     loginEmail = data.getStringExtra(Config.LOGIN_EMAIL);
@@ -840,7 +864,82 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 }
                 break;
             }
+            case (101) : {  //add file
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri uri = null;
+                    if (data != null) {
+                        uri = data.getData();
+                        Log.i(tag, "File selected with uri: " + uri.toString());
+                        FileUtils.checkUriMeta(getContentResolver(), uri);
+                        DropboxUtl.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropbox,
+                                getContentResolver(), getApplicationContext());
+                        SocoApp app = (SocoApp) getApplicationContext();
+                        app.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
+                        // check result
+                        boolean isSuccess = false;
+                        for (int i=1; i<= UPLOAD_RETRY; i++) {
+                            Log.d(tag, "Wait for upload response: " + i + "/" + UPLOAD_RETRY);
+                            SystemClock.sleep(UPLOAD_WAIT);;
+                            Log.d(tag, "Current upload status is: " + app.getUploadStatus());
+                            if(app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_SUCCESS)) {
+                                isSuccess = true;
+                                break;
+                            }
+                            else if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_FAIL)){
+                                isSuccess = false;
+                                break;
+                            }
+                        }
+                        if(isSuccess) {
+                            Log.i(tag, "File upload success");
+//                            String filename = FileUtils.getDisplayName(getContentResolver(), uri);
+//                            sharedFileNames.add(filename);
+//                            ((SocoApp) getApplicationContext()).setSharedFileNames(sharedFileNames);
+                            String remotePath = DropboxUtl.getRemotePath(uri,
+                                    loginEmail, loginPassword, pid, getContentResolver());
+                            saveSharedFileToDb(pid, remotePath);
+                            new AlertDialog.Builder(this)
+                                    .setTitle("File upload success")
+                                    .setMessage("File has been saved in the cloud")
+                                    .setPositiveButton("OK", null)
+                                    .show();
+                        }
+                        else {
+                            Log.i(tag, "File upload failed");
+                            new AlertDialog.Builder(this)
+                                    .setTitle("File upload failed")
+                                    .setMessage("Review upload details and try again")
+                                    .setPositiveButton("OK", null)
+                                    .show();
+                        }
+                    }
+                }
+                break;
+            }
         }
+    }
+
+    public void saveSharedFileToDb(int pid, String remotePath){
+        Log.i(tag, "Save shared file to db start: " + pid + ", " + remotePath);
+        dbmgrSoco.addSharedFileProjectAttribute(pid, remotePath);
+    }
+
+    public void addFile(View view){
+        Log.i(tag, "add file start");
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        startActivityForResult(intent, OPEN_FILE_ACTIVITY);
+    }
+
+    public void sharedFileDetails(View view){
+        Log.i(tag, "Show shared file details start, set attrMap for pid=" + pid);
+//        ((SocoApp) getApplicationContext()).setPid(pid);
+
+        ((SocoApp) getApplicationContext()).setAttrMap(attrMap);
+
+        Intent i = new Intent(this, ShowSharedFilesActivity.class);
+        startActivityForResult(i, -1);
     }
 
 

@@ -176,9 +176,11 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String n = input.getText().toString();
-                Program p = new Program(n);
-                dbmgrSoco.add(p);
-                Log.i(tag, "New programName created: " + n);
+//                Program p = new Program(n);
+                Project p2 = new Project(n);
+//                dbmgrSoco.add(p);
+                dbmgrSoco.addProject(p2);
+                Log.i(tag, "New project created: " + n);
                 createProjectOnServer(n);
                 Intent intent = new Intent(getApplicationContext(), ShowSingleProjectActivity.class);
                 intent.putExtra(Config.PROGRAM_PNAME, n);
@@ -214,48 +216,6 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         return url;
     }
 
-
-//    public void createProgram(View view) {
-//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-//        alert.setTitle("Create new programName");
-//        alert.setMessage("So I want to ...");
-//        final EditText input = new EditText(this);
-//        alert.setView(input);
-//
-//        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                String n = input.getText().toString();
-//                Program p = new Program(n);
-//                dbmgrSoco.add(p);
-//                Log.i("new", "New programName created: " + n);
-//                Toast.makeText(getApplicationContext(), "Program created.", Toast.LENGTH_SHORT).show();
-//                programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
-//                listPrograms(null);
-//            }
-//        });
-//        alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                String n = input.getText().toString();
-//                Program p = new Program(n);
-//                dbmgrSoco.add(p);
-//                Log.i("new", "New programName created: " + n);
-//
-//                Intent intent = new Intent(getApplicationContext(), ShowSingleProjectActivity.class);
-//                intent.putExtra(Config.PROGRAM_PNAME, n);
-//                intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-//                intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
-//                Log.i(tag, "Start activity to view programName details");
-//                startActivity(intent);
-//            }
-//        });
-//        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//            }
-//        });
-//
-//        alert.show();
-//    }
-
     public void listProjects(View view) {
         ArrayList<Map<String, String>> list = new ArrayList<>();
         for (Project p : projects) {
@@ -271,23 +231,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         lv_active_programs.setAdapter(adapter);
     }
 
-    //todo: decommission
-//    public void listPrograms(View view) {
-//        ArrayList<Map<String, String>> list = new ArrayList<>();
-//        for (Program program : programs) {
-//            HashMap<String, String> map = new HashMap<>();
-//            map.put(Config.PROGRAM_PNAME, program.pname);
-//            map.put(Config.PROGRAM_PINFO, program.getMoreInfo());
-//            list.add(map);
-//        }
-//        SimpleAdapter adapter = new SimpleAdapter(this, list,
-//                android.R.layout.simple_list_item_2,
-//                new String[]{Config.PROGRAM_PNAME, Config.PROGRAM_PINFO},
-//                new int[]{android.R.id.text1, android.R.id.text2});
-//        lv_active_programs.setAdapter(adapter);
-//    }
-
-    public void showCompletedPrograms(View view) {
+    public void showCompletedProjects(View view) {
         Intent intent = new Intent(this, ShowInactiveProjectsActivity.class);
         intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
         intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="edit_message" type="id">Edit</item>
+    <item name="sv_sproject" type="id">sv_sproject</item>
+    <item name="tv_shared_file_summary" type="id">tv_shared_file_summary</item>
 </resources>

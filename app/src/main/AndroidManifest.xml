@@ -110,6 +110,14 @@
             android:name=".view.ServerConfigActivity"
             android:label="@string/title_activity_server_config" >
         </activity>
+        <activity
+            android:name=".view.ShowSharedFilesActivity"
+            android:label="@string/title_activity_show_shared_files"
+            android:parentActivityName=".view.ShowSingleProjectActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.ShowSingleProjectActivity" />
+        </activity>
     </application>
 
 </manifest>

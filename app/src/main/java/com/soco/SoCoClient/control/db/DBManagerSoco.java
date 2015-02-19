@@ -37,7 +37,6 @@ public class DBManagerSoco {
         db.execSQL("delete from " + DataConfig.TABLE_ATTRIBUTE);
     }
 
-    //todo: decommission
     public void add(Program program) {
         Log.i(tag, "Add new program: " + program.pname + ", "
                 + program.pdate + ", " + program.ptime + ", " + program.pplace + ", "
@@ -87,7 +86,6 @@ public class DBManagerSoco {
 //                String aname = entry.getKey();
 //                String avalue = entry.getValue();
 //            }
-//            //todo
 //            db.setTransactionSuccessful();
 //        } finally {
 //            db.endTransaction();
@@ -108,18 +106,17 @@ public class DBManagerSoco {
                 new String[]{String.valueOf(pid)});
     }
 
-    //todo: decommission
-    public ArrayList<Program> loadPrograms(int pcompleted) {
-        Log.i(tag, "Load programs where pcomplete is " + pcompleted);
-        ArrayList<Program> programs = new ArrayList<>();
-        Cursor c = queryTheCursor(pcompleted);
-        while (c.moveToNext()) {
-            Program program = new Program(c);
-            programs.add(program);
-        }
-        c.close();
-        return programs;
-    }
+//    public ArrayList<Program> loadPrograms(int pcompleted) {
+//        Log.i(tag, "Load programs where pcomplete is " + pcompleted);
+//        ArrayList<Program> programs = new ArrayList<>();
+//        Cursor c = queryTheCursor(pcompleted);
+//        while (c.moveToNext()) {
+//            Program program = new Program(c);
+//            programs.add(program);
+//        }
+//        c.close();
+//        return programs;
+//    }
 
     public ArrayList<Project> loadProjectsByActiveness(String pactive) {
         Log.i(tag, "Load projects which are: " + pactive);
@@ -133,31 +130,6 @@ public class DBManagerSoco {
         return projects;
     }
 
-
-
-    //todo: decommission
-    public Program loadProgram(String pname) {
-        Log.i(tag, "Load programs where pname is " + pname);
-        Program program = null;
-        Cursor c = queryTheCursor(pname);
-        while (c.moveToNext()) {
-            program = new Program(c);
-        }
-        c.close();
-        return program;
-    }
-
-//    public Project loadProject(String pname) {
-//        Log.i(tag, "Load project by name: " + pname);
-//        Project p = null;
-//        Cursor c = queryProjectByPname(pname);
-//        while (c.moveToNext()) {
-//            p = new Project(c);
-//        }
-//        c.close();
-//        return p;
-//    }
-
     public Project loadProjectByPid(int pid) {
         Log.i(tag, "Load project for pid: " + pid);
         Project p = null;
@@ -169,20 +141,22 @@ public class DBManagerSoco {
         return p;
     }
 
-    public HashMap<String, String> loadProjectAttributesByPid(int pid){
+    public ArrayList<HashMap<String, String>> loadProjectAttributesByPid(int pid){
         Log.i(tag, "Load project attributes for pid: " + pid);
-        HashMap<String, String> attrMap = new HashMap<String, String>();
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
         Cursor c = queryProjectAttributesByPid(pid);
         int count = 0;
         while (c.moveToNext()){
             String attr_name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ATTRIBUTE_NAME));
             String attr_value = c.getString(c.getColumnIndex(DataConfig.COLUMN_ATTRIBUTE_VALUE));
             Log.i(tag, "Found attribute: " + attr_name + ", " + attr_value);
+            HashMap<String, String> attrMap = new HashMap<>();
             attrMap.put(attr_name, attr_value);
+            list.add(attrMap);
             count ++;
         }
-        Log.i(tag, count + " attributes loaded for pid");
-        return attrMap;
+        Log.i(tag, count + " attributes loaded for pid " + pid);
+        return list;
     }
 
     public Cursor queryProjectAttributesByPid(int pid) {
@@ -201,19 +175,19 @@ public class DBManagerSoco {
                 new String[] {String.valueOf(pid)});
     }
 
-    public Cursor queryProjectByPname(String pname) {
-        Log.d(tag, "Query project: select * from " + DataConfig.TABLE_PROJECT
-            + " where " + DataConfig.COLUMN_PROJECT_NAME + " = " + pname);
-        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROJECT +
-                        " where " + DataConfig.COLUMN_PROJECT_NAME + " = ?",
-                new String[] {pname});
-    }
-
-    public Cursor queryTheCursor(String pname) {
-        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROGRAM +
-                        " where " + DataConfig.COLUMN_PNAME + " = ?",
-                new String[] {pname});
-    }
+//    public Cursor queryProjectByPname(String pname) {
+//        Log.d(tag, "Query project: select * from " + DataConfig.TABLE_PROJECT
+//            + " where " + DataConfig.COLUMN_PROJECT_NAME + " = " + pname);
+//        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROJECT +
+//                        " where " + DataConfig.COLUMN_PROJECT_NAME + " = ?",
+//                new String[] {pname});
+//    }
+//
+//    public Cursor queryTheCursor(String pname) {
+//        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROGRAM +
+//                        " where " + DataConfig.COLUMN_PNAME + " = ?",
+//                new String[] {pname});
+//    }
 
     public Cursor queryTheCursor(int pcomplete) {
         return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROGRAM +
@@ -271,6 +245,24 @@ public class DBManagerSoco {
             } finally {
                 db.endTransaction();
             }
+        }
+    }
+
+    public void addSharedFileProjectAttribute(int pid, String remotePath){
+        String now = SignatureUtil.now();
+        try{
+            db.beginTransaction();
+            Log.i(tag, "Add shared file project attribute: INSERT INTO "
+                    + DataConfig.TABLE_ATTRIBUTE + " VALUES(null, " + pid + ", "
+                    + DataConfig.ATTRIBUTE_NAME_FILE_REMOTE_PATH + ", "
+                    + remotePath);
+            db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                        + " VALUES(null, ?, ?, ?, ?, ?, ?)",
+                        new Object[]{pid, DataConfig.ATTRIBUTE_NAME_FILE_REMOTE_PATH, remotePath,
+                                        "", now, now});
+            db.setTransactionSuccessful();
+        } finally{
+            db.endTransaction();
         }
     }
 
