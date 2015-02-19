@@ -1,10 +1,13 @@
 package com.soco.SoCoClient.view;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -12,6 +15,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.util.ProjectUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +41,22 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
 //        }
         ArrayList<String> displayFilenames = getDisplayFilenames();
         showSharedFiles(displayFilenames);
+
+        ListView lv_files = (ListView) findViewById(R.id.lv_files);
+        lv_files.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListView listView = (ListView) parent;
+                HashMap<String, String> map = (HashMap<String, String>)
+                        listView.getItemAtPosition(position);
+                String name = map.get(Config.PROJECT_PNAME);
+                Log.i(tag, "Click on shared file list: " + name);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                startActivity(intent);
+            }
+        });
     }
 
     ArrayList<String> getDisplayFilenames(){
