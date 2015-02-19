@@ -165,7 +165,7 @@ public class FileUtils {
                cursor.close();
         }
 
-        Log.i(tag, "Size is: " + size);
+        Log.d(tag, "Size is: " + size);
         return size;
     }
 

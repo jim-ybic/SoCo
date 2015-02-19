@@ -21,6 +21,34 @@ public class DropboxUtl {
 
     static String tag = "DropboxUtil";
 
+    public static void downloadFromDropbox(Uri uri,
+                                       String loginEmail, String loginPassword, int pid,
+                                       DropboxAPI<AndroidAuthSession> dropboxApi,
+                                       ContentResolver cr,
+                                       Context context){
+        Log.i(tag, "Download from dropboxApi uri: " + uri);
+
+        InputStream is = null;
+        try {
+            is = cr.openInputStream(uri);
+            Log.d(tag, "Input stream created: " + is);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String remoteFilePath = getRemotePath(uri, loginEmail, loginPassword, pid, cr);
+        Log.d(tag, "Remote file path is: " + remoteFilePath);
+
+        DownloaderTask dropboxTask = new DownloaderTask(
+                dropboxApi, remoteFilePath, uri, is, null, cr, context);
+        dropboxTask.execute();
+
+//        TextView tv_file_log = (TextView) showMoreActivity.findViewById(R.id.tv_file_log);
+//        tv_file_log.append("File upload success: "
+//                + FileUtils.getDisplayName(showMoreActivity.getContentResolver(), uri) + "\n");
+    }
+
+
     public static void uploadToDropbox(Uri uri,
                                        String loginEmail, String loginPassword, int pid,
                                        DropboxAPI<AndroidAuthSession> dropboxApi,

@@ -149,7 +149,7 @@ public class DBManagerSoco {
         while (c.moveToNext()){
             String attr_name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ATTRIBUTE_NAME));
             String attr_value = c.getString(c.getColumnIndex(DataConfig.COLUMN_ATTRIBUTE_VALUE));
-            Log.i(tag, "Found attribute: " + attr_name + ", " + attr_value);
+            Log.d(tag, "Found attribute: " + attr_name + ", " + attr_value);
             HashMap<String, String> attrMap = new HashMap<>();
             attrMap.put(attr_name, attr_value);
             list.add(attrMap);

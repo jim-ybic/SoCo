@@ -68,7 +68,7 @@ public class SignatureUtil {
                     String remotePath = e.getValue();
                     int pos = remotePath.lastIndexOf("/");
                     String displayName = remotePath.substring(pos + 1, remotePath.length());
-                    Log.i(tag, "Found remote path: " + remotePath + ", "
+                    Log.d(tag, "Found remote path: " + remotePath + ", "
                             + " display name: " + displayName);
                     if (s.isEmpty())
                         s = displayName;

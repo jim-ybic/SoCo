@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
@@ -44,6 +46,9 @@ import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -879,7 +884,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                         boolean isSuccess = false;
                         for (int i=1; i<= UPLOAD_RETRY; i++) {
                             Log.d(tag, "Wait for upload response: " + i + "/" + UPLOAD_RETRY);
-                            SystemClock.sleep(UPLOAD_WAIT);;
+                            SystemClock.sleep(UPLOAD_WAIT);
                             Log.d(tag, "Current upload status is: " + app.getUploadStatus());
                             if(app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_SUCCESS)) {
                                 isSuccess = true;
@@ -903,6 +908,12 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                                     .setMessage("File has been saved in the cloud")
                                     .setPositiveButton("OK", null)
                                     .show();
+                            //todo
+                            Log.i(tag, "Start to download from dropbox");
+                            DropboxUtl.downloadFromDropbox(uri, loginEmail, loginPassword, pid,
+                                    dropbox, getContentResolver(), getApplicationContext());
+                            testReadDropboxFile();
+//                            viewFile(uri);
                         }
                         else {
                             Log.i(tag, "File upload failed");
@@ -942,5 +953,67 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         startActivityForResult(i, -1);
     }
 
+    public void viewFile(Uri uri){
+        Log.i(tag, "View file uri: " + uri + ", path: " + uri.getPath());
+
+        File file = new File(uri.getPath());
+        MimeTypeMap map = MimeTypeMap.getSingleton();
+        String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
+        String type = map.getMimeTypeFromExtension(ext);
+
+        if (type == null)
+            type = "*/*";
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri data = Uri.fromFile(file);
+
+        intent.setDataAndType(data, type);
+
+        startActivity(intent);
+    }
+
+    public void testReadDropboxFile(){
+        Log.d(tag, "Test read dropbox file");
+
+        SystemClock.sleep(5000);
+        Uri data = ((SocoApp) getApplicationContext()).getDropboxDownloadUri();
+        String type = ((SocoApp) getApplicationContext()).getDropboxDownloadType();
+
+
+//        File file = new File(getApplicationContext().getFilesDir(), "Signature.java");
+//        FileOutputStream outputStream = null;
+//        try {
+//            outputStream = new FileOutputStream(file);
+//        } catch (FileNotFoundException e) {
+//            Log.e(tag, "Cannot create file: " + e.toString());
+//            e.printStackTrace();
+//        }
+//        Log.d(tag, "Local file created");
+//
+//        DropboxAPI.DropboxFileInfo info = null;
+//        try {
+//            info = dropbox.getFile("/c1025defa913032715d4aac356ebd44f8eab30c4" +
+//                    "/c2b605fb03833b5d739373b28d43d68c493f75c5" +
+//                    "/Signature.java", null, outputStream, null);
+//        } catch (DropboxException e) {
+//            Log.e(tag, "Cannot find file on dropbox: " + e.toString());
+//            e.printStackTrace();
+//        }
+//        Log.i("DbExampleLog", "The file's rev is: " + info.getMetadata().rev);
+//
+//        MimeTypeMap map = MimeTypeMap.getSingleton();
+//        String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
+//        String type = map.getMimeTypeFromExtension(ext);
+//
+//        if (type == null)
+//            type = "*/*";
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        Uri data = Uri.fromFile(file);
+
+        intent.setDataAndType(data, type);
+
+        startActivity(intent);
+    }
 
 }

@@ -2,6 +2,7 @@ package com.soco.SoCoClient.control;
 
 import android.app.Application;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
 
@@ -30,6 +31,26 @@ public class SocoApp extends Application {
     public ArrayList<String> sharedFileNames = new ArrayList<>();
     public int pid;
     ArrayList<HashMap<String, String>> attrMap;
+
+    Uri dropboxDownloadUri;
+    String dropboxDownloadType;
+    String dropboxDownloadStatus;
+
+    public void setDropboxDownloadUri(Uri uri){
+        this.dropboxDownloadUri = uri;
+    }
+
+    public Uri getDropboxDownloadUri(){
+        return dropboxDownloadUri;
+    }
+
+    public void setDropboxDownloadType(String type){
+        this.dropboxDownloadType = type;
+    }
+
+    public String getDropboxDownloadType(){
+        return dropboxDownloadType;
+    }
 
     public ArrayList<HashMap<String, String>> getAttrMap(){
         return attrMap;
