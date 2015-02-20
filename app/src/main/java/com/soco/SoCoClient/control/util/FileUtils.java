@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -12,6 +13,11 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
+
+import com.soco.SoCoClient.view.ShowSingleProjectActivity;
+
+import java.io.File;
 
 public class FileUtils {
 
@@ -178,7 +184,7 @@ public class FileUtils {
             if (cursor != null && cursor.moveToFirst()) {
                 name = cursor.getString(
                         cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                Log.i(tag, "Found display Name: " + name);
+                Log.d(tag, "Found display Name: " + name);
             }
         } finally {
             if (cursor != null)
@@ -213,6 +219,8 @@ public class FileUtils {
                 cursor.close();
         }
     }
+
+
 
     //    void readFile(){
 //            File file = new File(Config.PROFILE_FILENAME);

@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.util.Log;
 
 import com.soco.SoCoClient.control.config.DataConfig;
@@ -248,23 +249,32 @@ public class DBManagerSoco {
         }
     }
 
-    public void addSharedFileProjectAttribute(int pid, String remotePath){
-        String now = SignatureUtil.now();
-        try{
-            db.beginTransaction();
-            Log.i(tag, "Add shared file project attribute: INSERT INTO "
-                    + DataConfig.TABLE_ATTRIBUTE + " VALUES(null, " + pid + ", "
-                    + DataConfig.ATTRIBUTE_NAME_FILE_REMOTE_PATH + ", "
-                    + remotePath);
-            db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
-                        + " VALUES(null, ?, ?, ?, ?, ?, ?)",
-                        new Object[]{pid, DataConfig.ATTRIBUTE_NAME_FILE_REMOTE_PATH, remotePath,
-                                        "", now, now});
-            db.setTransactionSuccessful();
-        } finally{
-            db.endTransaction();
-        }
-    }
+//    public void addSharedFileProjectAttribute(int pid, String displayName, Uri uri,
+//                                              String remotePath, String localPath){
+//        String now = SignatureUtil.now();
+//        try{
+//            db.beginTransaction();
+////            Log.i(tag, "Add shared file project attribute: INSERT INTO "
+////                    + DataConfig.TABLE_ATTRIBUTE + " VALUES(null, " + pid + ", "
+////                    + DataConfig.ATTRIBUTE_NAME_FILE_REMOTE_PATH + ", "
+////                    + remotePath);
+////            db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+////                        + " VALUES(null, ?, ?, ?, ?, ?, ?)",
+////                        new Object[]{pid, DataConfig.ATTRIBUTE_NAME_FILE_REMOTE_PATH, remotePath,
+////                                        "", now, now});
+//            Log.i(tag, "Add shared file project attribute: INSERT INTO "
+//                    + DataConfig.TABLE_ATTRIBUTE + " VALUES(null, " + pid + ", "
+//                    + DataConfig.ATTRIBUTE_NAME_FILE_REMOTE_PATH + ", "
+//                    + remotePath);
+//            db.execSQL("INSERT INTO " + DataConfig.TABLE_SHARED_FILE
+//                            + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?)",
+//                    new Object[]{pid, DataConfig.ATTRIBUTE_NAME_FILE_REMOTE_PATH, remotePath,
+//                            "", now, now});
+//            db.setTransactionSuccessful();
+//        } finally{
+//            db.endTransaction();
+//        }
+//    }
 
     public void updateProjectName(int pid, String pname){
         Log.i(tag, "Update database for project: " + pid);
@@ -313,6 +323,76 @@ public class DBManagerSoco {
         cv.put(DataConfig.COLUMN_PROJECT_ACTIVE, activeness);
         db.update(DataConfig.TABLE_PROJECT, cv, DataConfig.COLUMN_PROJECT_ID + " = ?",
                 new String[]{String.valueOf(pid)});
+    }
+
+    public void addSharedFile(
+            int pid, String displayName, Uri uri, String remotePath, String localPath) {
+        Log.i(tag, "Add shared file start: " + pid + ", " + displayName + ", "
+                + uri.toString() + ", " + remotePath + ", " + localPath);
+
+        String now = SignatureUtil.now();
+        try{
+            db.beginTransaction();
+            Log.i(tag, "INSERT INTO " + DataConfig.TABLE_SHARED_FILE
+                    + " VALUES(null, " + pid + ", " + displayName + ", "
+                    + uri + ", " + remotePath + ", " + localPath
+                    + ",, " + now + ", " + now);
+            db.execSQL("INSERT INTO " + DataConfig.TABLE_SHARED_FILE
+                            + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    new Object[]{pid, displayName, uri, remotePath, localPath,
+                            "", now, now});
+            db.setTransactionSuccessful();
+        } finally{
+            db.endTransaction();
+        }
+    }
+
+    public ArrayList<String> getSharedFilesLocalPath(int pid) {
+        Log.i(tag, "Get shared file local path for pid: " + pid);
+        ArrayList<String> list = new ArrayList<>();
+
+        Log.d(tag, "SELECT " + DataConfig.COLUMN_SHARED_FILE_LOCAL_PATH
+                + " FROM " + DataConfig.TABLE_SHARED_FILE
+                + " WHERE " + DataConfig.COLUMN_SHARED_FILE_PID + " = " + pid);
+        Cursor c =  db.rawQuery("SELECT " + DataConfig.COLUMN_SHARED_FILE_LOCAL_PATH
+                        + " FROM " + DataConfig.TABLE_SHARED_FILE
+                        + " WHERE " + DataConfig.COLUMN_SHARED_FILE_PID + " = ?",
+                new String[] {String.valueOf(pid)});
+
+        int count = 0;
+        while (c.moveToNext()){
+            String path = c.getString(c.getColumnIndex(
+                    DataConfig.COLUMN_SHARED_FILE_LOCAL_PATH));
+            Log.d(tag, "Found path: " + path);
+            list.add(path);
+            count ++;
+        }
+        Log.i(tag, "Total number of results returned: " + count);
+        return list;
+    }
+
+    public ArrayList<String> getSharedFilesDisplayName(int pid) {
+        Log.i(tag, "Get shared file display name for pid: " + pid);
+        ArrayList<String> list = new ArrayList<>();
+
+        Log.d(tag, "SELECT " + DataConfig.COLUMN_SHARED_FILE_DISPLAY_NAME
+                    + " FROM " + DataConfig.TABLE_SHARED_FILE
+                    + " WHERE " + DataConfig.COLUMN_SHARED_FILE_PID + " = " + pid);
+        Cursor c =  db.rawQuery("SELECT " + DataConfig.COLUMN_SHARED_FILE_DISPLAY_NAME
+                                + " FROM " + DataConfig.TABLE_SHARED_FILE
+                                + " WHERE " + DataConfig.COLUMN_SHARED_FILE_PID + " = ?",
+                new String[] {String.valueOf(pid)});
+
+        int count = 0;
+        while (c.moveToNext()){
+            String name = c.getString(c.getColumnIndex(
+                    DataConfig.COLUMN_SHARED_FILE_DISPLAY_NAME));
+            Log.d(tag, "Found display name: " + name);
+            list.add(name);
+            count ++;
+        }
+        Log.i(tag, "Total number of results returned: " + count);
+        return list;
     }
 
 //    public void closeDB() {

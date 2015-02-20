@@ -19,7 +19,7 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.Config;
-import com.soco.SoCoClient.control.dropbox.DropboxUtl;
+import com.soco.SoCoClient.control.dropbox.DropboxUtil;
 import com.soco.SoCoClient.control.util.FileUtils;
 import com.soco.SoCoClient.control.SocoApp;
 
@@ -112,7 +112,7 @@ public class ShowMoreActivity extends ActionBarActivity {
                 uri = resultData.getData();
                 Log.i(tag, "File selected with uri: " + uri.toString());
                 FileUtils.checkUriMeta(getContentResolver(), uri);
-                DropboxUtl.uploadToDropbox(
+                DropboxUtil.uploadToDropbox(
                         uri, loginEmail, loginPassword, pid, dropboxApi,
                         getContentResolver(), getApplicationContext());
             }
@@ -123,7 +123,7 @@ public class ShowMoreActivity extends ActionBarActivity {
                 Uri uri = resultData.getData();
                 Log.d(tag, "Photo uri: " + uri);
                 FileUtils.checkUriMeta(getContentResolver(), uri);
-                DropboxUtl.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
+                DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
                         getContentResolver(), getApplicationContext());
             }
         }

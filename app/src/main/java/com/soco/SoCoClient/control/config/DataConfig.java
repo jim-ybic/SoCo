@@ -45,4 +45,14 @@ public class DataConfig {
     public static String ATTRIBUTE_NAME_EMAIL = "email";
     public static String ATTRIBUTE_NAME_FILE_REMOTE_PATH = "file_remote_path";
 
+    public static String TABLE_SHARED_FILE = "shared_files";
+    public static String COLUMN_SHARED_FILE_ID = "fid";
+    public static String COLUMN_SHARED_FILE_PID = "pid";
+    public static String COLUMN_SHARED_FILE_DISPLAY_NAME = "fdisplay_name";
+    public static String COLUMN_SHARED_FILE_URI = "furi";
+    public static String COLUMN_SHARED_FILE_REMOTE_PATH = "fremote_path";
+    public static String COLUMN_SHARED_FILE_LOCAL_PATH = "flocal_path";
+    public static String COLUMN_SHARED_FILE_USER = "fuser";
+    public static String COLUMN_SHARED_FILE_CREATE_TIMESTAMP = "fcreate_timestamp";
+    public static String COLUMN_SHARED_FILE_UPDATE_TIMESTAMP = "fupdate_timestamp";
 }

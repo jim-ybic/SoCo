@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -31,7 +33,6 @@ import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
@@ -40,15 +41,19 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.SocoApp;
-import com.soco.SoCoClient.control.dropbox.DropboxUtl;
+import com.soco.SoCoClient.control.dropbox.DropboxUtil;
 import com.soco.SoCoClient.control.util.FileUtils;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,6 +65,7 @@ import static com.soco.SoCoClient.control.config.DataConfig.*;
 
 public class ShowSingleProjectActivity extends ActionBarActivity implements View.OnClickListener {
 
+    private static final String APP_FOLDER_NAME = "SoCo";
     public static String PROGRAM = "programName";
     public static String tag="ShowSingleProgram";
 
@@ -400,7 +406,8 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         }
 
         //show shared file summary
-        String summary = SignatureUtil.genSharedFileSummary(attrMap);
+        ArrayList<String> sharedFileDisplayName = dbmgrSoco.getSharedFilesDisplayName(pid);
+        String summary = SignatureUtil.genSharedFileSummary(sharedFileDisplayName);
         Log.i(tag, "Shared file summary: " + summary);
         ((TextView) findViewById(R.id.tv_shared_file_summary)).setText(summary,
                 TextView.BufferType.EDITABLE);
@@ -876,7 +883,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                         uri = data.getData();
                         Log.i(tag, "File selected with uri: " + uri.toString());
                         FileUtils.checkUriMeta(getContentResolver(), uri);
-                        DropboxUtl.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropbox,
+                        DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropbox,
                                 getContentResolver(), getApplicationContext());
                         SocoApp app = (SocoApp) getApplicationContext();
                         app.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
@@ -900,19 +907,21 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 //                            String filename = FileUtils.getDisplayName(getContentResolver(), uri);
 //                            sharedFileNames.add(filename);
 //                            ((SocoApp) getApplicationContext()).setSharedFileNames(sharedFileNames);
-                            String remotePath = DropboxUtl.getRemotePath(uri,
-                                    loginEmail, loginPassword, pid, getContentResolver());
-                            saveSharedFileToDb(pid, remotePath);
+//                            String remotePath = DropboxUtil.getRemotePath(uri,
+//                                    loginEmail, loginPassword, pid, getContentResolver());
+//                            saveSharedFileToDb(pid,
+//                                    FileUtils.getDisplayName(getContentResolver(), uri),
+//                                    uri, remotePath, localPath);
                             new AlertDialog.Builder(this)
                                     .setTitle("File upload success")
                                     .setMessage("File has been saved in the cloud")
                                     .setPositiveButton("OK", null)
                                     .show();
-                            //todo
-                            Log.i(tag, "Start to download from dropbox");
-                            DropboxUtl.downloadFromDropbox(uri, loginEmail, loginPassword, pid,
-                                    dropbox, getContentResolver(), getApplicationContext());
-                            testReadDropboxFile();
+                            addSharedFileToDb(uri, loginEmail, loginPassword, pid);
+//                            Log.i(tag, "Start to download from dropbox");
+//                            DropboxUtil.downloadFromDropbox(uri, loginEmail, loginPassword, pid,
+//                                    dropbox, getContentResolver(), getApplicationContext());
+//                            testReadDropboxFile();
 //                            viewFile(uri);
                         }
                         else {
@@ -930,10 +939,59 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         }
     }
 
-    public void saveSharedFileToDb(int pid, String remotePath){
-        Log.i(tag, "Save shared file to db start: " + pid + ", " + remotePath);
-        dbmgrSoco.addSharedFileProjectAttribute(pid, remotePath);
+    private void addSharedFileToDb(Uri uri, String loginEmail, String loginPassword, int pid) {
+        String displayName = FileUtils.getDisplayName(getContentResolver(), uri);
+        String remotePath = DropboxUtil.getRemotePath(uri,
+                loginEmail, loginPassword, pid, getContentResolver());
+        String localPath = copyFileToLocal(uri, getContentResolver(), getApplicationContext());
+        dbmgrSoco.addSharedFile(pid, displayName, uri, remotePath, localPath);
+//        viewFile(localPath);
     }
+
+    public static String copyFileToLocal(Uri uri, ContentResolver cr, Context context){
+        Log.i(tag, "Copy file to local start, uri: " + uri);
+        String displayName = FileUtils.getDisplayName(cr, uri);
+
+//        String sourceFilename= uri.getPath();
+        String destinationFilename = android.os.Environment.getExternalStorageDirectory().getPath()
+                                        + File.separatorChar + APP_FOLDER_NAME
+                                        + File.separator + displayName;
+//        String destinationFilename =context.getExternalFilesDir(null)
+//                                        + File.separator + displayName;
+        Log.i(tag, "Copy to: " + destinationFilename);
+
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+        try {
+            InputStream is = cr.openInputStream(uri);
+
+//            bis = new BufferedInputStream(new FileInputStream(sourceFilename));
+            bis = new BufferedInputStream(is);
+            bos = new BufferedOutputStream(new FileOutputStream(destinationFilename, false));
+            byte[] buf = new byte[1024];
+            bis.read(buf);
+            do {
+                bos.write(buf);
+            } while(bis.read(buf) != -1);
+        } catch (IOException e) {
+            Log.e(tag, "Cannot copy file: " + e.toString());
+        } finally {
+            try {
+                if (bis != null) bis.close();
+                if (bos != null) bos.close();
+            } catch (IOException e) {
+                Log.e(tag, "Cannot close file stream: " + e.toString());
+            }
+        }
+
+        return destinationFilename;
+    }
+
+//    public void saveSharedFileToDb(int pid, String displayName,
+//                                   Uri uri, String remotePath, String localPath){
+//        Log.i(tag, "Save shared file to db start: " + pid + ", " + remotePath);
+//        dbmgrSoco.addSharedFile(pid, displayName, uri, remotePath, localPath);
+//    }
 
     public void addFile(View view){
         Log.i(tag, "add file start");
@@ -945,75 +1003,13 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
     public void sharedFileDetails(View view){
         Log.i(tag, "Show shared file details start, set attrMap for pid=" + pid);
-//        ((SocoApp) getApplicationContext()).setPid(pid);
 
         ((SocoApp) getApplicationContext()).setAttrMap(attrMap);
+        ((SocoApp) getApplicationContext()).setPid(pid);
+        ((SocoApp) getApplicationContext()).dbManagerSoco = dbmgrSoco;
 
         Intent i = new Intent(this, ShowSharedFilesActivity.class);
         startActivityForResult(i, -1);
-    }
-
-    public void viewFile(Uri uri){
-        Log.i(tag, "View file uri: " + uri + ", path: " + uri.getPath());
-
-        File file = new File(uri.getPath());
-        MimeTypeMap map = MimeTypeMap.getSingleton();
-        String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
-        String type = map.getMimeTypeFromExtension(ext);
-
-        if (type == null)
-            type = "*/*";
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri data = Uri.fromFile(file);
-
-        intent.setDataAndType(data, type);
-
-        startActivity(intent);
-    }
-
-    public void testReadDropboxFile(){
-        Log.d(tag, "Test read dropbox file");
-
-        SystemClock.sleep(5000);
-        Uri data = ((SocoApp) getApplicationContext()).getDropboxDownloadUri();
-        String type = ((SocoApp) getApplicationContext()).getDropboxDownloadType();
-
-
-//        File file = new File(getApplicationContext().getFilesDir(), "Signature.java");
-//        FileOutputStream outputStream = null;
-//        try {
-//            outputStream = new FileOutputStream(file);
-//        } catch (FileNotFoundException e) {
-//            Log.e(tag, "Cannot create file: " + e.toString());
-//            e.printStackTrace();
-//        }
-//        Log.d(tag, "Local file created");
-//
-//        DropboxAPI.DropboxFileInfo info = null;
-//        try {
-//            info = dropbox.getFile("/c1025defa913032715d4aac356ebd44f8eab30c4" +
-//                    "/c2b605fb03833b5d739373b28d43d68c493f75c5" +
-//                    "/Signature.java", null, outputStream, null);
-//        } catch (DropboxException e) {
-//            Log.e(tag, "Cannot find file on dropbox: " + e.toString());
-//            e.printStackTrace();
-//        }
-//        Log.i("DbExampleLog", "The file's rev is: " + info.getMetadata().rev);
-//
-//        MimeTypeMap map = MimeTypeMap.getSingleton();
-//        String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
-//        String type = map.getMimeTypeFromExtension(ext);
-//
-//        if (type == null)
-//            type = "*/*";
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        Uri data = Uri.fromFile(file);
-
-        intent.setDataAndType(data, type);
-
-        startActivity(intent);
     }
 
 }

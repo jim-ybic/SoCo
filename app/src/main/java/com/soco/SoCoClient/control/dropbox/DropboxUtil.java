@@ -17,7 +17,7 @@ import com.soco.SoCoClient.view.ShowMoreActivity;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class DropboxUtl {
+public class DropboxUtil {
 
     static String tag = "DropboxUtil";
 

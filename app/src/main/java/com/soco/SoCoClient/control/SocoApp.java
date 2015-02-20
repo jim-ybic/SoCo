@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.soco.SoCoClient.control.db.DBManagerSoco;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +37,8 @@ public class SocoApp extends Application {
     Uri dropboxDownloadUri;
     String dropboxDownloadType;
     String dropboxDownloadStatus;
+
+    public DBManagerSoco dbManagerSoco;
 
     public void setDropboxDownloadUri(Uri uri){
         this.dropboxDownloadUri = uri;
