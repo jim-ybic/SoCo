@@ -21,5 +21,6 @@
     <string name="title_activity_show_more">ShowMoreActivity</string>
     <string name="title_activity_server_config">ServerConfigActivity</string>
     <string name="title_activity_show_shared_files">ShowSharedFilesActivity</string>
+    <string name="title_activity_project_location">ProjectLocationActivity</string>
 
 </resources>

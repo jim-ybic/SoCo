@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="25dp"
-                    android:hint="Date, Time, and Place" />
+                    android:hint="Date, Time, and Location" />
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -116,13 +116,19 @@
                     <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="Place" />
+                        android:text="Location" />
                     <EditText
                         android:id="@+id/et_spplace"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Place not set"
+                        android:hint="Location not set"
                         android:layout_weight="1"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="showLocationDetails"
+                        android:text="..."
+                        android:textSize="20dp" />
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

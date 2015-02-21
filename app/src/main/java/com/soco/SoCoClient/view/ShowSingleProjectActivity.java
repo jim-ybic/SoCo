@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
+import com.soco.SoCoClient.ProjectLocationActivity;
 import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
@@ -774,6 +775,11 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
         Intent i = new Intent(this, ShowSharedFilesActivity.class);
         startActivityForResult(i, -1);
+    }
+
+    public void showLocationDetails(View view){
+        Intent i = new Intent(this, ProjectLocationActivity.class);
+        startActivity(i);
     }
 
 }

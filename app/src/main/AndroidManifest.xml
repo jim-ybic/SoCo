@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -88,6 +89,9 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCZmxbgzgDM4ncl6A8BWtw5AujhuAGPZ60"/>
 
         <activity
             android:name=".view.ProfileActivity"
@@ -119,8 +123,14 @@
                 android:value="com.soco.SoCoClient.view.ShowSingleProjectActivity" />
         </activity>
 
-        <service android:enabled="true" android:name=".control.dropbox.UploaderWatcher"></service>
+        <service
+            android:name=".control.dropbox.UploaderWatcher"
+            android:enabled="true" />
 
+        <activity
+            android:name=".ProjectLocationActivity"
+            android:label="@string/title_activity_project_location" >
+        </activity>
     </application>
 
 </manifest>
