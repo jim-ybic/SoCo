@@ -118,6 +118,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.soco.SoCoClient.view.ShowSingleProjectActivity" />
         </activity>
+
+        <service android:enabled="true" android:name=".control.dropbox.UploaderWatcher"></service>
+
     </application>
 
 </manifest>

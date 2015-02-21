@@ -24,6 +24,7 @@ import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.dropbox.DropboxUtil;
+import com.soco.SoCoClient.control.dropbox.UploaderWatcher;
 import com.soco.SoCoClient.control.util.FileUtils;
 import com.soco.SoCoClient.control.util.ProjectUtil;
 
@@ -95,37 +96,11 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
             DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
                     getContentResolver(), getApplicationContext());
             app.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
-            // check result
-            boolean isSuccess = false;
-            for (int i = 1; i <= Config.UPLOAD_RETRY; i++) {
-                Log.d(tag, "Wait for upload response: " + i + "/" + Config.UPLOAD_RETRY);
-                SystemClock.sleep(Config.UPLOAD_WAIT);
-                Log.d(tag, "Current upload status is: " + app.getUploadStatus());
-                if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_SUCCESS)) {
-                    isSuccess = true;
-                    break;
-                } else if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_FAIL)) {
-                    isSuccess = false;
-                    break;
-                }
-            }
-            if (isSuccess) {
-                Log.i(tag, "File upload success");
-                new AlertDialog.Builder(this)
-                        .setTitle("File upload success")
-                        .setMessage("File has been saved in the cloud")
-                        .setPositiveButton("OK", null)
-                        .show();
-                ProjectUtil.addSharedFileToDb(uri, loginEmail, loginPassword, pid,
-                        getContentResolver(), dbManagerSoco);
-            } else {
-                Log.i(tag, "File upload failed");
-                new AlertDialog.Builder(this)
-                        .setTitle("File upload failed")
-                        .setMessage("Review upload details and try again")
-                        .setPositiveButton("OK", null)
-                        .show();
-            }
+            // check status
+            ((SocoApp)getApplicationContext()).uri = uri;
+            Log.i(tag, "Start status service");
+            Intent intent = new Intent(this, UploaderWatcher.class);
+            startService(intent);
         }
 
         //take picture
@@ -136,38 +111,41 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
             DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
                     getContentResolver(), getApplicationContext());
             app.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
-            // check result
-            boolean isSuccess = false;
-            for (int i = 1; i <= Config.UPLOAD_RETRY; i++) {
-                Log.d(tag, "Wait for upload response: " + i + "/" + Config.UPLOAD_RETRY);
-                SystemClock.sleep(Config.UPLOAD_WAIT);
-                Log.d(tag, "Current upload status is: " + app.getUploadStatus());
-                if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_SUCCESS)) {
-                    isSuccess = true;
-                    break;
-                } else if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_FAIL)) {
-                    isSuccess = false;
-                    break;
-                }
-            }
-            if (isSuccess) {
-                Log.i(tag, "File upload success");
-                new AlertDialog.Builder(this)
-                        .setTitle("File upload success")
-                        .setMessage("File has been saved in the cloud")
-                        .setPositiveButton("OK", null)
-                        .show();
-                ProjectUtil.addSharedFileToDb(uri, loginEmail, loginPassword, pid,
-                        getContentResolver(), dbManagerSoco);
-            } else {
-                Log.i(tag, "File upload failed");
-                new AlertDialog.Builder(this)
-                        .setTitle("File upload failed")
-                        .setMessage("Review upload details and try again")
-                        .setPositiveButton("OK", null)
-                        .show();
-            }
-
+            // check status
+            ((SocoApp)getApplicationContext()).uri = uri;
+            Log.i(tag, "Start status service");
+            Intent intent = new Intent(this, UploaderWatcher.class);
+            startService(intent);
+//            boolean isSuccess = false;
+//            for (int i = 1; i <= Config.UPLOAD_RETRY; i++) {
+//                Log.d(tag, "Wait for upload response: " + i + "/" + Config.UPLOAD_RETRY);
+//                SystemClock.sleep(Config.UPLOAD_WAIT);
+//                Log.d(tag, "Current upload status is: " + app.getUploadStatus());
+//                if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_SUCCESS)) {
+//                    isSuccess = true;
+//                    break;
+//                } else if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_FAIL)) {
+//                    isSuccess = false;
+//                    break;
+//                }
+//            }
+//            if (isSuccess) {
+//                Log.i(tag, "File upload success");
+//                new AlertDialog.Builder(this)
+//                        .setTitle("File upload success")
+//                        .setMessage("File has been saved in the cloud")
+//                        .setPositiveButton("OK", null)
+//                        .show();
+//                ProjectUtil.addSharedFileToDb(uri, loginEmail, loginPassword, pid,
+//                        getContentResolver(), dbManagerSoco);
+//            } else {
+//                Log.i(tag, "File upload failed");
+//                new AlertDialog.Builder(this)
+//                        .setTitle("File upload failed")
+//                        .setMessage("Review upload details and try again")
+//                        .setPositiveButton("OK", null)
+//                        .show();
+//            }
         }
 
         //always refresh the list view in the end

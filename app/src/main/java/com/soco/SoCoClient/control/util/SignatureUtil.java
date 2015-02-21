@@ -58,28 +58,6 @@ public class SignatureUtil {
         return s;
     }
 
-//    public static String genSharedFileSummary(ArrayList<HashMap<String, String>> attrMap){
-//        Log.i(tag, "Gen shared file summary start, attribute size: " + attrMap.size());
-//        String s = new String();
-//        for(HashMap<String, String> map : attrMap) {
-//            for (HashMap.Entry<String, String> e : map.entrySet()) {
-//                Log.d(tag, "Current attribute key: " + e.getKey());
-//                if (e.getKey().equals(DataConfig.ATTRIBUTE_NAME_FILE_REMOTE_PATH)) {
-//                    String remotePath = e.getValue();
-//                    int pos = remotePath.lastIndexOf("/");
-//                    String displayName = remotePath.substring(pos + 1, remotePath.length());
-//                    Log.d(tag, "Found remote path: " + remotePath + ", "
-//                            + " display name: " + displayName);
-//                    if (s.isEmpty())
-//                        s = displayName;
-//                    else
-//                        s += ", " + displayName;
-//                }
-//            }
-//        }
-//        return s;
-//    }
-
     public static String genSharedFileSummary(ArrayList<String> sharedFileDisplayName) {
         String s = new String();
         for(String n : sharedFileDisplayName){

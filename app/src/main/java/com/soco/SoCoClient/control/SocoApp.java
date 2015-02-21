@@ -46,6 +46,8 @@ public class SocoApp extends Application {
 
     public DropboxAPI<AndroidAuthSession> dropboxApi;
 
+    public Uri uri;
+
     public void setDropboxDownloadUri(Uri uri){
         this.dropboxDownloadUri = uri;
     }
