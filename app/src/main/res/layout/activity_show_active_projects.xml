@@ -6,12 +6,6 @@
     android:focusable="true"
     android:focusableInTouchMode="true" >
 
-    <!--Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Clean Database"
-        android:onClick="cleanDB"/-->
-
     <ListView
         android:id="@+id/lv_active_programs"
         android:layout_width="fill_parent"
@@ -23,14 +17,6 @@
         android:layout_height="wrap_content"
         android:gravity="center|bottom"
         android:orientation="horizontal" >
-        <!--<Button-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="New"-->
-            <!--android:onClick="createProgram"-->
-            <!--android:drawableLeft="@drawable/ic_action_new"-->
-            <!--android:layout_weight="1"-->
-            <!--android:textSize="10dp"/>-->
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

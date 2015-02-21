@@ -32,4 +32,16 @@ public class Config {
     public static String PROFILE_SERVER_LOGIN_ADDRESS = "server_login_address";
     public static String PROFILE_CREATE_PROJECT_ADDRESS = "create_project_address";
 
+    public static String ACCESS_KEY = "7cfm4ur90xw54pv";
+    public static String ACCESS_SECRET = "9rou23wi8t4htkz";
+    public static String OA2_TOKEN = "JWWNa2LgL2UAAAAAAAAANNpl6wfgG5wTX6_OrNik5a_yKGsnySogfHYMK-uxjLJd";
+
+    public static int ACTIVITY_SHOW_MORE = 100;
+    public static int ACTIVITY_OPEN_FILE = 101;
+    public static int ACTIVITY_TAKE_PHOTO = 102;
+    public static int READ_REQUEST_CODE = 42;
+
+    public static int UPLOAD_RETRY = 120;
+    public static int UPLOAD_WAIT = 1000;    //ms
+
 }

@@ -29,14 +29,6 @@
             android:drawableLeft="@drawable/ic_action_done"
             android:layout_weight="1"
             android:textSize="10dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="More"
-            android:onClick="more"
-            android:drawableLeft="@drawable/ic_action_group"
-            android:layout_weight="1"
-            android:textSize="10dp"/>
     </LinearLayout>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -272,17 +264,11 @@
                         android:textSize="25dp"
                         android:hint="Shared Files"
                         android:layout_weight="1"/>
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_action_send"
-                        android:onClick="sharedFileDetails"
-                        android:textSize="10dp"/>
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="+"
-                        android:onClick="addFile"
+                        android:onClick="sharedFileDetails"
                         android:textSize="20dp"
                         android:layout_alignParentRight="true"/>
                 </TableRow>

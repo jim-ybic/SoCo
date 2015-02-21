@@ -98,7 +98,7 @@
                 android:value=".view.ShowActiveProjectsActivity" />
         </activity>
         <activity
-            android:name=".view.ShowMoreActivity"
+            android:name=".zz.ShowMoreActivity"
             android:label="@string/title_activity_show_more"
             android:launchMode="singleTop"
             android:parentActivityName=".view.ShowSingleProjectActivity" >

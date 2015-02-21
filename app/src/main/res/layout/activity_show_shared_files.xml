@@ -5,20 +5,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:hint="List of Shared Files" />
-    </RelativeLayout>
-
     <ListView
         android:id="@+id/lv_files"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|bottom"
+        android:orientation="horizontal" >
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Add a File"
+            android:onClick="addFile"
+            android:drawableLeft="@drawable/ic_action_attach"
+            android:layout_weight="1"
+            android:textSize="10dp"/>
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Take a Picture"
+            android:onClick="takePicture"
+            android:drawableLeft="@drawable/ic_action_photo"
+            android:layout_weight="1"
+            android:textSize="10dp"/>
+        </LinearLayout>
+
 
 </LinearLayout>

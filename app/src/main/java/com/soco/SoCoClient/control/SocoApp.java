@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 
 import java.io.File;
@@ -41,6 +43,8 @@ public class SocoApp extends Application {
     public DBManagerSoco dbManagerSoco;
 
     public String loginEmail, loginPassword;
+
+    public DropboxAPI<AndroidAuthSession> dropboxApi;
 
     public void setDropboxDownloadUri(Uri uri){
         this.dropboxDownloadUri = uri;

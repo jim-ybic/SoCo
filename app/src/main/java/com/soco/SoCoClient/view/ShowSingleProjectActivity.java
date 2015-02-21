@@ -8,7 +8,6 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -18,10 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -30,19 +27,16 @@ import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.session.AccessTokenPair;
-import com.dropbox.client2.session.AppKeyPair;
 import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.dropbox.DropboxUtil;
-import com.soco.SoCoClient.control.util.FileUtils;
-import com.soco.SoCoClient.control.util.ProjectUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
+import com.soco.SoCoClient.zz.ShowMoreActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -78,19 +72,10 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
     DropboxAPI<AndroidAuthSession> dropboxApi;
-    String ACCESS_KEY = "7cfm4ur90xw54pv";
-    String ACCESS_SECRET = "9rou23wi8t4htkz";
-    String OA2token = "JWWNa2LgL2UAAAAAAAAANNpl6wfgG5wTX6_OrNik5a_yKGsnySogfHYMK-uxjLJd";
     int pid;
 
     private ArrayList<Map<String, String>> listNamePhone, listNameEmail;
     private SimpleAdapter mAdapterPhone, mAdapterEmail;
-
-    static int SHOW_MORE_ACTIVITY = 100;
-    static int OPEN_FILE_ACTIVITY = 101;
-
-    public static int UPLOAD_RETRY = 30;
-    public static int UPLOAD_WAIT = 1000;    //ms
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +98,11 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);
         showProjectToScreen(project, attrMap);
 
-        dropboxApi = DropboxUtil.initDropboxApiAuthentication(ACCESS_KEY, ACCESS_SECRET, OA2token,
+        dropboxApi = DropboxUtil.initDropboxApiAuthentication(
+                Config.ACCESS_KEY, Config.ACCESS_SECRET, Config.OA2_TOKEN,
                 getApplicationContext());
+        ((SocoApp)getApplicationContext()).dropboxApi = dropboxApi;
+
         setDateTimeField();
         PopulatePhoneEmailList();
     }
@@ -687,20 +675,20 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         }
     }
 
-    public void more(View view) {
-        Log.i(tag, "ShowSingleProgramActivity:more");
-        saveProjectToDb(view);;
-
-        Intent i = new Intent(this, ShowMoreActivity.class);
-        i.putExtra(Config.LOGIN_EMAIL, loginEmail);
-        i.putExtra(Config.LOGIN_PASSWORD, loginPassword);
-        i.putExtra(Config.PROJECT_PID, project.pid);
-        Log.i(tag, Config.LOGIN_EMAIL + ":" + loginEmail + ", "
-                + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
-                + Config.PROJECT_PID + ":" + project.pid);
-
-        startActivityForResult(i, SHOW_MORE_ACTIVITY);
-    }
+//    public void more(View view) {
+//        Log.i(tag, "ShowSingleProgramActivity:more");
+//        saveProjectToDb(view);;
+//
+//        Intent i = new Intent(this, ShowMoreActivity.class);
+//        i.putExtra(Config.LOGIN_EMAIL, loginEmail);
+//        i.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+//        i.putExtra(Config.PROJECT_PID, project.pid);
+//        Log.i(tag, Config.LOGIN_EMAIL + ":" + loginEmail + ", "
+//                + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
+//                + Config.PROJECT_PID + ":" + project.pid);
+//
+//        startActivityForResult(i, Config.ACTIVITY_SHOW_MORE);
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -718,64 +706,64 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 }
                 break;
             }
-            case (101) : {  //add file
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri uri = null;
-                    if (data != null) {
-                        uri = data.getData();
-                        Log.i(tag, "File selected with uri: " + uri.toString());
-                        FileUtils.checkUriMeta(getContentResolver(), uri);
-                        DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
-                                getContentResolver(), getApplicationContext());
-                        SocoApp app = (SocoApp) getApplicationContext();
-                        app.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
-                        // check result
-                        boolean isSuccess = false;
-                        for (int i=1; i<= UPLOAD_RETRY; i++) {
-                            Log.d(tag, "Wait for upload response: " + i + "/" + UPLOAD_RETRY);
-                            SystemClock.sleep(UPLOAD_WAIT);
-                            Log.d(tag, "Current upload status is: " + app.getUploadStatus());
-                            if(app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_SUCCESS)) {
-                                isSuccess = true;
-                                break;
-                            }
-                            else if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_FAIL)){
-                                isSuccess = false;
-                                break;
-                            }
-                        }
-                        if(isSuccess) {
-                            Log.i(tag, "File upload success");
-                            new AlertDialog.Builder(this)
-                                    .setTitle("File upload success")
-                                    .setMessage("File has been saved in the cloud")
-                                    .setPositiveButton("OK", null)
-                                    .show();
-                            ProjectUtil.addSharedFileToDb(uri, loginEmail, loginPassword, pid,
-                                    getContentResolver(), dbmgrSoco);
-                        }
-                        else {
-                            Log.i(tag, "File upload failed");
-                            new AlertDialog.Builder(this)
-                                    .setTitle("File upload failed")
-                                    .setMessage("Review upload details and try again")
-                                    .setPositiveButton("OK", null)
-                                    .show();
-                        }
-                    }
-                }
-                break;
-            }
+//            case (101) : {  //add file
+//                if (resultCode == Activity.RESULT_OK) {
+//                    Uri uri = null;
+//                    if (data != null) {
+//                        uri = data.getData();
+//                        Log.i(tag, "File selected with uri: " + uri.toString());
+//                        FileUtils.checkUriMeta(getContentResolver(), uri);
+//                        DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
+//                                getContentResolver(), getApplicationContext());
+//                        SocoApp app = (SocoApp) getApplicationContext();
+//                        app.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
+//                        // check result
+//                        boolean isSuccess = false;
+//                        for (int i=1; i<= Config.UPLOAD_RETRY; i++) {
+//                            Log.d(tag, "Wait for upload response: " + i + "/" + Config.UPLOAD_RETRY);
+//                            SystemClock.sleep(Config.UPLOAD_WAIT);
+//                            Log.d(tag, "Current upload status is: " + app.getUploadStatus());
+//                            if(app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_SUCCESS)) {
+//                                isSuccess = true;
+//                                break;
+//                            }
+//                            else if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_FAIL)){
+//                                isSuccess = false;
+//                                break;
+//                            }
+//                        }
+//                        if(isSuccess) {
+//                            Log.i(tag, "File upload success");
+//                            new AlertDialog.Builder(this)
+//                                    .setTitle("File upload success")
+//                                    .setMessage("File has been saved in the cloud")
+//                                    .setPositiveButton("OK", null)
+//                                    .show();
+//                            ProjectUtil.addSharedFileToDb(uri, loginEmail, loginPassword, pid,
+//                                    getContentResolver(), dbmgrSoco);
+//                        }
+//                        else {
+//                            Log.i(tag, "File upload failed");
+//                            new AlertDialog.Builder(this)
+//                                    .setTitle("File upload failed")
+//                                    .setMessage("Review upload details and try again")
+//                                    .setPositiveButton("OK", null)
+//                                    .show();
+//                        }
+//                    }
+//                }
+//                break;
+//            }
         }
     }
 
-    public void addFile(View view){
-        Log.i(tag, "add file start");
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*");
-        startActivityForResult(intent, OPEN_FILE_ACTIVITY);
-    }
+//    public void addFile(View view){
+//        Log.i(tag, "add file start");
+//        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//        intent.addCategory(Intent.CATEGORY_OPENABLE);
+//        intent.setType("*/*");
+//        startActivityForResult(intent, Config.ACTIVITY_OPEN_FILE);
+//    }
 
     public void sharedFileDetails(View view){
         Log.i(tag, "Show shared file details start, set attrMap for pid=" + pid);

@@ -299,23 +299,23 @@ public class DBManagerSoco {
         Log.i(tag, "Updated project " + pid + " update timestamp: " + now);
     }
 
-    public void update(String original_pname, Program p) {
-        Log.i(tag, "Update database for program: " + p.toString());
-
-        ContentValues cv = new ContentValues();
-        cv.put(DataConfig.COLUMN_PNAME, p.pname);
-        cv.put(DataConfig.COLUMN_PDATE, p.pdate);
-        cv.put(DataConfig.COLUMN_PTIME, p.ptime);
-        cv.put(DataConfig.COLUMN_PPLACE, p.pplace);
-        cv.put(DataConfig.COLUMN_PCOMPLETE, p.pcomplete);
-        cv.put(DataConfig.COLUMN_PDESC, p.pdesc);
-        cv.put(DataConfig.COLUMN_PPHONE, p.pphone);
-        cv.put(DataConfig.COLUMN_PEMAIL, p.pemail);
-        cv.put(DataConfig.COLUMN_PWECHAT, p.pwechat);
-
-        db.update(DataConfig.TABLE_PROGRAM, cv, DataConfig.COLUMN_PNAME + " = ?",
-                new String[]{original_pname});
-    }
+//    public void update(String original_pname, Program p) {
+//        Log.i(tag, "Update database for program: " + p.toString());
+//
+//        ContentValues cv = new ContentValues();
+//        cv.put(DataConfig.COLUMN_PNAME, p.pname);
+//        cv.put(DataConfig.COLUMN_PDATE, p.pdate);
+//        cv.put(DataConfig.COLUMN_PTIME, p.ptime);
+//        cv.put(DataConfig.COLUMN_PPLACE, p.pplace);
+//        cv.put(DataConfig.COLUMN_PCOMPLETE, p.pcomplete);
+//        cv.put(DataConfig.COLUMN_PDESC, p.pdesc);
+//        cv.put(DataConfig.COLUMN_PPHONE, p.pphone);
+//        cv.put(DataConfig.COLUMN_PEMAIL, p.pemail);
+//        cv.put(DataConfig.COLUMN_PWECHAT, p.pwechat);
+//
+//        db.update(DataConfig.TABLE_PROGRAM, cv, DataConfig.COLUMN_PNAME + " = ?",
+//                new String[]{original_pname});
+//    }
 
     public void updateProjectActiveness(int pid, String activeness) {
         Log.i(tag, "Update project " + pid + " status: " + activeness);
@@ -348,7 +348,7 @@ public class DBManagerSoco {
     }
 
     public ArrayList<String> getSharedFilesLocalPath(int pid) {
-        Log.i(tag, "Get shared file local path for pid: " + pid);
+        Log.d(tag, "Get shared file local path for pid: " + pid);
         ArrayList<String> list = new ArrayList<>();
 
         Log.d(tag, "SELECT " + DataConfig.COLUMN_SHARED_FILE_LOCAL_PATH
@@ -367,12 +367,12 @@ public class DBManagerSoco {
             list.add(path);
             count ++;
         }
-        Log.i(tag, "Total number of results returned: " + count);
+        Log.i(tag, "Total number of shared file local path returned: " + count);
         return list;
     }
 
     public ArrayList<String> getSharedFilesDisplayName(int pid) {
-        Log.i(tag, "Get shared file display name for pid: " + pid);
+        Log.d(tag, "Get shared file display name for pid: " + pid);
         ArrayList<String> list = new ArrayList<>();
 
         Log.d(tag, "SELECT " + DataConfig.COLUMN_SHARED_FILE_DISPLAY_NAME
@@ -391,7 +391,7 @@ public class DBManagerSoco {
             list.add(name);
             count ++;
         }
-        Log.i(tag, "Total number of results returned: " + count);
+        Log.i(tag, "Total number of display names returned: " + count);
         return list;
     }
 

@@ -5,18 +5,14 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
-import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.util.FileUtils;
 import com.soco.SoCoClient.control.util.SignatureUtil;
-import com.soco.SoCoClient.view.ShowMoreActivity;
-import com.soco.SoCoClient.view.ShowSingleProjectActivity;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;

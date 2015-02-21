@@ -180,7 +180,7 @@ public class FileUtils {
     }
 
     public static String getDisplayName(ContentResolver cr, Uri uri) {
-        Log.i(tag, "Get display name from uri: " + uri);
+        Log.d(tag, "Get display name from uri: " + uri);
 
         String name = "name_not_found";
         Cursor cursor = cr.query(uri, null, null, null, null, null);

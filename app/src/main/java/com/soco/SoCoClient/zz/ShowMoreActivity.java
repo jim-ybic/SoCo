@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.view;
+package com.soco.SoCoClient.zz;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,8 +25,6 @@ import com.soco.SoCoClient.control.SocoApp;
 
 public class ShowMoreActivity extends ActionBarActivity {
 
-    static int READ_REQUEST_CODE = 42;
-    static int REQUEST_TAKE_PHOTO = 100;
     public static String tag = "ShowMore";
 
     DropboxAPI<AndroidAuthSession> dropboxApi;
@@ -63,14 +61,14 @@ public class ShowMoreActivity extends ActionBarActivity {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
-        startActivityForResult(intent, READ_REQUEST_CODE);
+        startActivityForResult(intent, Config.READ_REQUEST_CODE);
     }
 
     public void takePicture(View view){
         Log.i(tag, "Start activity: take picture");
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null)
-            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            startActivityForResult(takePictureIntent, Config.ACTIVITY_TAKE_PHOTO);
     }
 
     void gotoPreviousScreen() {
@@ -106,7 +104,7 @@ public class ShowMoreActivity extends ActionBarActivity {
                 + ", result code: " + resultCode
                 + ", result data: " + resultData);
 
-        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Config.READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = null;
             if (resultData != null) {
                 uri = resultData.getData();
@@ -117,7 +115,7 @@ public class ShowMoreActivity extends ActionBarActivity {
                         getContentResolver(), getApplicationContext());
             }
         }
-        else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
+        else if (requestCode == Config.ACTIVITY_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             SocoApp socoApp = (SocoApp) getApplicationContext();
             if (resultData != null){
                 Uri uri = resultData.getData();
