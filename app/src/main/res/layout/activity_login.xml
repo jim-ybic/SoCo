@@ -8,14 +8,16 @@
         android:id="@+id/et_login_email"
         android:hint="Email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="jim.ybic@gmail.com"/>
 
     <EditText
         android:id="@+id/et_login_password"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        android:hint="Password" />
+        android:hint="Password"
+        android:text="Pass@123"/>
 
     <Button
         android:layout_width="fill_parent"

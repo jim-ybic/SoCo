@@ -2,6 +2,7 @@ package com.soco.SoCoClient.control.config;
 
 public class Config {
 
+    public static final String APP_FOLDER_NAME = "SoCo";
     // Program details
     public static String PROGRAM_PNAME = "PROGRAM_PNAME";
     public static String PROGRAM_PINFO = "PROGRAM_PINFO";

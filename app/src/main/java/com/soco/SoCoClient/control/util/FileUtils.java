@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -13,11 +12,16 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
-import android.webkit.MimeTypeMap;
 
+import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.view.ShowSingleProjectActivity;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class FileUtils {
 
@@ -220,27 +224,38 @@ public class FileUtils {
         }
     }
 
+    public static String copyFileToLocal(Uri uri, ContentResolver cr){
+        Log.i(tag, "Copy file to local start, uri: " + uri);
+        String displayName = getDisplayName(cr, uri);
 
+        String destinationFilename = Environment.getExternalStorageDirectory().getPath()
+                + File.separatorChar + Config.APP_FOLDER_NAME
+                + File.separator + displayName;
+        Log.i(tag, "Copy to: " + destinationFilename);
 
-    //    void readFile(){
-//            File file = new File(Config.PROFILE_FILENAME);
-//            if (!file.exists()) {
-//                file = new File(getApplicationContext().getFilesDir(), Config.PROFILE_FILENAME);
-//
-//                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-//                        new FileOutputStream(file), Config.ENCODING));
-//                writer.write(Config.PROFILE_EMAIL + ":" + loginEmail);
-//                writer.flush();
-//                writer.close();
-//            }
-//
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(
-//                    new FileInputStream(file), Config.ENCODING));
-//            String s = reader.readLine();
-//            while (!s.isEmpty()) {
-//                s = reader.readLine();
-//            }
-//    }
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+        try {
+            InputStream is = cr.openInputStream(uri);
+            bis = new BufferedInputStream(is);
+            bos = new BufferedOutputStream(new FileOutputStream(destinationFilename, false));
+            byte[] buf = new byte[1024];
+            bis.read(buf);
+            do {
+                bos.write(buf);
+            } while(bis.read(buf) != -1);
+        } catch (IOException e) {
+            Log.e(tag, "Cannot copy file: " + e.toString());
+        } finally {
+            try {
+                if (bis != null) bis.close();
+                if (bos != null) bos.close();
+            } catch (IOException e) {
+                Log.e(tag, "Cannot close file stream: " + e.toString());
+            }
+        }
 
+        return destinationFilename;
+    }
 
 }

@@ -6,6 +6,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.control.config.Config;
+import com.soco.SoCoClient.control.http.HttpTask;
+import com.soco.SoCoClient.view.LoginActivity;
+import com.soco.SoCoClient.view.ShowActiveProjectsActivity;
 
 public class ProfileUtil {
 
@@ -130,5 +133,34 @@ public class ProfileUtil {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(Config.PROFILE_CREATE_PROJECT_ADDRESS, addr);
         editor.commit();
+    }
+
+    public static String getLoginUrl(Context context){
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = getServerLoginAddr(context);
+        String url = "http://" + ip + ":" + port + path;
+        Log.i(tag, "Login url: " + url);
+        return url;
+    }
+
+    public static String getRegisterUrl(Context context){
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = getServerRegisterAddress(context);
+        String url = "http://" + ip + ":" + port + path;
+        Log.i(tag, "Register url: " + url);
+        return url;
+    }
+
+    public static String getCreateProjectUrl(Context context){
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = getCreateProjectAddr(context);
+        String token = getLoginAccessToken(context);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        Log.i(tag, "Create project url: " + url);
+        return url;
     }
 }

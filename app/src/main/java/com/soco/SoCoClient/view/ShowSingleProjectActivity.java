@@ -5,8 +5,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,7 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -35,7 +32,6 @@ import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
-import com.dropbox.client2.session.Session;
 import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
@@ -43,17 +39,11 @@ import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.dropbox.DropboxUtil;
 import com.soco.SoCoClient.control.util.FileUtils;
+import com.soco.SoCoClient.control.util.ProjectUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,17 +55,12 @@ import static com.soco.SoCoClient.control.config.DataConfig.*;
 
 public class ShowSingleProjectActivity extends ActionBarActivity implements View.OnClickListener {
 
-    private static final String APP_FOLDER_NAME = "SoCo";
-    public static String PROGRAM = "programName";
     public static String tag="ShowSingleProgram";
 
     // Local views
     EditText pdateEditText, ptimeEditText;
     EditText et_spname, et_spdate, et_sptime, et_spplace, et_spdesc;
     AutoCompleteTextView et_spphone_auto, et_spemail_auto;
-    Button bt_call, bt_whatsapp, bt_email, bt_wechat;
-//    LinearLayout layout_spdate, layout_sptime, layout_spplace, layout_spdesc;
-    LinearLayout layout_spphone, layout_spemail;
     TableRow tr_spdate, tr_sptime, tr_spplace, tr_spdesc, tr_spphone, tr_spemail;
 
     // Local variables
@@ -92,18 +77,14 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     TimePickerDialog ptimePickerDialog = null;
     SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
-    DropboxAPI<AndroidAuthSession> dropbox;
+    DropboxAPI<AndroidAuthSession> dropboxApi;
     String ACCESS_KEY = "7cfm4ur90xw54pv";
     String ACCESS_SECRET = "9rou23wi8t4htkz";
-    String accessToken;
-    AppKeyPair appKeyPair;
-    AccessTokenPair accessTokenPair;
+    String OA2token = "JWWNa2LgL2UAAAAAAAAANNpl6wfgG5wTX6_OrNik5a_yKGsnySogfHYMK-uxjLJd";
     int pid;
-    ArrayList<String> sharedFileNames = new ArrayList<>();
 
     private ArrayList<Map<String, String>> listNamePhone, listNameEmail;
     private SimpleAdapter mAdapterPhone, mAdapterEmail;
-//    private AutoCompleteTextView mTxtPhoneNo;
 
     static int SHOW_MORE_ACTIVITY = 100;
     static int OPEN_FILE_ACTIVITY = 101;
@@ -113,38 +94,28 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(tag, "onCreate, start");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_single_project);
         findViewsById();
 
-        //TEST
-        SocoApp app = (SocoApp) getApplicationContext();
-        Log.i(tag, "SocoApp get state: " + app.getState());
-        app.setState("showSingle");
+        loginEmail = ((SocoApp)getApplicationContext()).loginEmail;
+        loginPassword = ((SocoApp)getApplicationContext()).loginPassword;
+        pid = ((SocoApp)getApplicationContext()).pid;
 
-        Log.i(tag, "onCreate, original values: " +
-                loginEmail + ", " + loginPassword + ", " + original_pname);
+        Log.i(tag, "onCreate, get project properties: "
+                + Config.LOGIN_EMAIL + ":" + loginEmail + ", "
+                + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
+                + Config.PROJECT_PID + ":" + pid);
 
-        if (loginEmail == null || loginEmail.isEmpty()) {
-            Intent intent = getIntent();
-            Log.i(tag, "onCreate: intent package, " + intent.getPackage());
-            loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
-            loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
-            pid = intent.getIntExtra(Config.PROJECT_PID, -1);
-            Log.i(tag, "onCreate, get String extra: "
-                    + Config.LOGIN_EMAIL + ":" + loginEmail + ", "
-                    + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
-                    + Config.PROJECT_PID + ":" + pid);
-        }
 
         dbmgrSoco = new DBManagerSoco(this);
         project = dbmgrSoco.loadProjectByPid(pid);
         attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);
         showProjectToScreen(project, attrMap);
 
+        dropboxApi = DropboxUtil.initDropboxApiAuthentication(ACCESS_KEY, ACCESS_SECRET, OA2token,
+                getApplicationContext());
         setDateTimeField();
-        initDropboxApiAuthentication();
         PopulatePhoneEmailList();
     }
 
@@ -205,14 +176,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         et_spphone_auto = (AutoCompleteTextView) findViewById(R.id.et_spphone_auto);
         et_spemail_auto = (AutoCompleteTextView) findViewById(R.id.et_spemail_auto);
 
-//        bt_call = (Button) findViewById(R.id.bt_call);
-//        bt_whatsapp = (Button) findViewById(R.id.bt_whatsapp);
-//        bt_email = (Button) findViewById(R.id.bt_email);
-//        bt_wechat = (Button) findViewById(R.id.bt_wechat);
-
-//        layout_spphone = (LinearLayout) findViewById(R.id.layout_spphone);
-//        layout_spemail = (LinearLayout) findViewById(R.id.layout_spemail);
-
         tr_spdate = (TableRow) findViewById(R.id.tr_spdate);
         tr_sptime = (TableRow) findViewById(R.id.tr_sptime);
         tr_spplace = (TableRow) findViewById(R.id.tr_spplace);
@@ -222,20 +185,11 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     }
 
     void gotoPreviousScreen(){
-        Log.i(tag, "gotoPreviousScreen");
-//        Intent intent = new Intent();
-//        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-//        intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
-//        Log.i(tag, "put extra, "
-//                + Config.LOGIN_EMAIL + ":" + loginEmail + ", "
-//                + Config.LOGIN_PASSWORD + ":" + loginPassword);
-//        setResult(Activity.RESULT_OK, intent);
         finish();
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-//        refreshOptionMenu();
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -260,21 +214,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         tr_spdesc.setVisibility(View.VISIBLE);
         et_spdesc.requestFocus();
     }
-
-//    public void setVisiblePplace(View view) {
-//        tr_spplace.setVisibility(View.VISIBLE);
-//        et_spplace.requestFocus();
-//    }
-//
-//    public void setVisiblePtime(View view) {
-//        tr_sptime.setVisibility(View.VISIBLE);
-//        et_sptime.requestFocus();
-//    }
-//
-//    public void setVisiblePdate(View view) {
-//        tr_spdate.setVisibility(View.VISIBLE);
-//        et_spdate.requestFocus();
-//    }
 
     public void setVisibleDateTimePlace(View view) {
         tr_spdate.setVisibility(View.VISIBLE);
@@ -367,7 +306,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
         //name
         et_spname.setText(p.pname);
-//        et_spname.setText(p.pname, TextView.BufferType.EDITABLE);
 
         //hide all attributes (before showing available attributes)
         tr_spdate.setVisibility(View.GONE);
@@ -447,15 +385,9 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         return attrMap;
     }
 
-    String collectProjectNameFromScreen(){
-        String pname = et_spname.getText().toString();
-        Log.i(tag, "Get project name from screen: " + pname);
-        return pname;
-    }
-
     public void saveProjectToDb(View view){
         Log.i(tag, "Save to db the project: " + project.pid + ", " + project.pname);
-        String pname = collectProjectNameFromScreen();
+        String pname = et_spname.getText().toString();
         dbmgrSoco.updateProjectName(project.pid, pname);
         HashMap<String, String> attrMap = collectProjectAttributes();
         dbmgrSoco.updateDbProjectAttributes(pid, attrMap);
@@ -566,10 +498,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                     String s = input.getText().toString();
                     //todo: save phone number to project
                     program.pphone = s;
-//                    et_spphone_auto.setText(s);
-//                    saveProgramToDb(view);
-//                    Log.i("new", "New phone number saved and send sms: " + s);
-//                    showProgramToScreen(program);
                     Log.i("new", "Send sms");
                     Uri uri = Uri.parse("smsto:" + s);
                     try {
@@ -586,11 +514,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
                     //todo: save phone number to project
-//                    program.pphone = s;
-//                    et_spphone_auto.setText(s);
-//                    saveProgramToDb(view);
-//                    Log.i("new", "New phone number saved: " + s);
-//                    showProgramToScreen(program);
                 }
             });
             alert.setNegativeButton("Cancel", null);
@@ -622,11 +545,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
                     //todo: save phone number to project
-//                    program.pphone = s;
-//                    et_spphone_auto.setText(s);
-//                    saveProgramToDb(view);
-//                    Log.i("new", "New phone number saved and send whatsapp: " + s);
-//                    showProgramToScreen(program);
                     Uri uri = Uri.parse("smsto:" + s);
                     try {
                         Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
@@ -643,11 +561,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
                     //todo: save phone number to project
-//                    program.pphone = s;
-//                    et_spphone_auto.setText(s);
-//                    saveProgramToDb(view);
-//                    Log.i("new", "New phone number saved: " + s);
-//                    showProgramToScreen(program);
                 }
             });
             alert.setNegativeButton("Cancel", null);
@@ -734,7 +647,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
             intent.setAction("android.intent.action.SEND");
             intent.setType("image/*");
             intent.putExtra(Intent.EXTRA_TEXT, "Input message below:");
-//        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
             startActivity(intent);
         } catch (Exception e){
             Log.e("wechat", "Cannot start intent to send wechat");
@@ -742,99 +654,30 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         }
     }
 
-//
-//    public void upload(View view) {
-//        Log.i("upload", "ShowSingleProgramActivity:upload");
-//        saveProgramToDb(view);
-//
-//        String sigEmail = SignatureUtil.genSHA1(loginEmail, loginPassword);
-//        Log.i("hash", "SHA1 signature, " + loginEmail + ", " + sigEmail);
-//        String sigProgram = SignatureUtil.genSHA1(program.pname, loginPassword);
-//        Log.i("hash", "SHA1 signature, " + program.pname + ", " + sigProgram);
-//
-//        String p = "/" + sigEmail + "/" + sigProgram + "/";
-//        Log.i("dropboxApi",  "Remote file path: " + p);
-//
-//        DropboxUploaderUtil upload = new DropboxUploaderUtil(this, dropboxApi,sigEmail, sigProgram);
-//        upload.key = ACCESS_KEY;
-//        upload.secret = ACCESS_SECRET;
-//        upload.accessTokenPair = accessTokenPair;
-////        upload.sigEmail = sigEmail;
-////        upload.sigProgram = sigProgram;
-//        upload.localPath = getApplicationContext().getFilesDir().toString();
-//        Log.i("dropboxApi", "Create UploadFileToDropbox with accessTokenPair: " + accessTokenPair);
-//        upload.execute();
-//    }
-
-
-
-    void initDropboxApiAuthentication(){
-        Log.d(tag, "initDropboxApiAuthentication: start");
-
-        AndroidAuthSession session;
-
-//        Log.i(tag, "Step 1: Create appKeyPair from Key/Secret: "
-//                + ACCESS_KEY + "/" + ACCESS_SECRET);
-        appKeyPair = new AppKeyPair(ACCESS_KEY, ACCESS_SECRET);
-        accessTokenPair = new AccessTokenPair(ACCESS_KEY, ACCESS_SECRET);
-
-//        Log.i(tag, "Step 2: Create session with appKeyPair: " + appKeyPair
-//                + ", AccessType: " + Session.AccessType.APP_FOLDER
-//                + ", accessTokenPair: " + accessTokenPair);
-        session = new AndroidAuthSession(appKeyPair, Session.AccessType.APP_FOLDER);
-
-//        Log.i(tag, "Step 3: Create DropboxAPI from session: " + session);
-        dropbox = new DropboxAPI<AndroidAuthSession>(session);
-
-        boolean useSoCoDropboxAccount = true;
-        //TODO: choose if use SoCo's dropboxApi account or user's own dropboxApi account
-
-        if (useSoCoDropboxAccount) {
-//            Log.i(tag, "Step 4 (approach a): Load SoCo's dropboxApi account and OA2 token");
-            String OA2token = "JWWNa2LgL2UAAAAAAAAANNpl6wfgG5wTX6_OrNik5a_yKGsnySogfHYMK-uxjLJd";
-//            Log.i(tag, "Set DropboxAPI OA2 token: " + OA2token);
-            dropbox.getSession().setOAuth2AccessToken(OA2token);
-        } else {
-//            Log.i("dropboxApi", "Step 4 (approach b): Let user login");
-        }
-
-//        Log.d(tag, "Validate DropboxAPI and Session");
-        if (dropbox != null && dropbox.getSession() != null
-                && dropbox.getSession().getOAuth2AccessToken() != null) {
-//            Log.d("dropboxApi", "Validation success, token: " + dropboxApi.getSession().getOAuth2AccessToken());
-        }
-        else {
-//                Log.d("dropboxApi", "Session authentication failed, create new OA2 validation session");
-            dropbox.getSession().startOAuth2Authentication(ShowSingleProjectActivity.this);
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
 
-//        Log.i(tag, "onResume: Show programName to screen: " + program.pname + ", " + program.pphone);
-//        showProgramToScreen(program);
         Log.i(tag, "onResume start, reload project attribute for pid: " + pid);
         attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);
         Log.i(tag, "onResume, total attributes loaded: " + attrMap.size());
         showProjectToScreen(project, attrMap);
 
-        if (dropbox != null && dropbox.getSession() != null
-                && dropbox.getSession().getOAuth2AccessToken() != null) {
+        if (dropboxApi != null && dropboxApi.getSession() != null
+                && dropboxApi.getSession().getOAuth2AccessToken() != null) {
             Log.d(tag, "DropboxAPI and Session created with existing token: "
-                    + dropbox.getSession().getOAuth2AccessToken());
+                    + dropboxApi.getSession().getOAuth2AccessToken());
             return;
         }
 
-//        Log.i(tag, "Check OA2 authentication result");
-        if (dropbox.getSession().authenticationSuccessful()) {
-//            Log.i(tag, "Dropbox OA2 authentication success");
+        Log.v(tag, "Check OA2 authentication result");
+        if (dropboxApi.getSession().authenticationSuccessful()) {
+            Log.v(tag, "Dropbox OA2 authentication success");
             try {
-//                Log.i(tag, "Session finish authentication, set OA2 token");
-                dropbox.getSession().finishAuthentication();
-//                Log.i(tag, "Session finish authentication complete with token: "
-//                        + dropboxApi.getSession().getOAuth2AccessToken());
+                Log.v(tag, "Session finish authentication, set OA2 token");
+                dropboxApi.getSession().finishAuthentication();
+                Log.v(tag, "Session finish authentication complete with token: "
+                        + dropboxApi.getSession().getOAuth2AccessToken());
             } catch (IllegalStateException e) {
                 Toast.makeText(this, "Error during Dropbox authentication",
                         Toast.LENGTH_SHORT).show();
@@ -846,7 +689,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
     public void more(View view) {
         Log.i(tag, "ShowSingleProgramActivity:more");
-//        saveProgramToDb(view);
         saveProjectToDb(view);;
 
         Intent i = new Intent(this, ShowMoreActivity.class);
@@ -883,7 +725,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                         uri = data.getData();
                         Log.i(tag, "File selected with uri: " + uri.toString());
                         FileUtils.checkUriMeta(getContentResolver(), uri);
-                        DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropbox,
+                        DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
                                 getContentResolver(), getApplicationContext());
                         SocoApp app = (SocoApp) getApplicationContext();
                         app.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
@@ -904,25 +746,13 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                         }
                         if(isSuccess) {
                             Log.i(tag, "File upload success");
-//                            String filename = FileUtils.getDisplayName(getContentResolver(), uri);
-//                            sharedFileNames.add(filename);
-//                            ((SocoApp) getApplicationContext()).setSharedFileNames(sharedFileNames);
-//                            String remotePath = DropboxUtil.getRemotePath(uri,
-//                                    loginEmail, loginPassword, pid, getContentResolver());
-//                            saveSharedFileToDb(pid,
-//                                    FileUtils.getDisplayName(getContentResolver(), uri),
-//                                    uri, remotePath, localPath);
                             new AlertDialog.Builder(this)
                                     .setTitle("File upload success")
                                     .setMessage("File has been saved in the cloud")
                                     .setPositiveButton("OK", null)
                                     .show();
-                            addSharedFileToDb(uri, loginEmail, loginPassword, pid);
-//                            Log.i(tag, "Start to download from dropbox");
-//                            DropboxUtil.downloadFromDropbox(uri, loginEmail, loginPassword, pid,
-//                                    dropbox, getContentResolver(), getApplicationContext());
-//                            testReadDropboxFile();
-//                            viewFile(uri);
+                            ProjectUtil.addSharedFileToDb(uri, loginEmail, loginPassword, pid,
+                                    getContentResolver(), dbmgrSoco);
                         }
                         else {
                             Log.i(tag, "File upload failed");
@@ -938,60 +768,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
             }
         }
     }
-
-    private void addSharedFileToDb(Uri uri, String loginEmail, String loginPassword, int pid) {
-        String displayName = FileUtils.getDisplayName(getContentResolver(), uri);
-        String remotePath = DropboxUtil.getRemotePath(uri,
-                loginEmail, loginPassword, pid, getContentResolver());
-        String localPath = copyFileToLocal(uri, getContentResolver(), getApplicationContext());
-        dbmgrSoco.addSharedFile(pid, displayName, uri, remotePath, localPath);
-//        viewFile(localPath);
-    }
-
-    public static String copyFileToLocal(Uri uri, ContentResolver cr, Context context){
-        Log.i(tag, "Copy file to local start, uri: " + uri);
-        String displayName = FileUtils.getDisplayName(cr, uri);
-
-//        String sourceFilename= uri.getPath();
-        String destinationFilename = android.os.Environment.getExternalStorageDirectory().getPath()
-                                        + File.separatorChar + APP_FOLDER_NAME
-                                        + File.separator + displayName;
-//        String destinationFilename =context.getExternalFilesDir(null)
-//                                        + File.separator + displayName;
-        Log.i(tag, "Copy to: " + destinationFilename);
-
-        BufferedInputStream bis = null;
-        BufferedOutputStream bos = null;
-        try {
-            InputStream is = cr.openInputStream(uri);
-
-//            bis = new BufferedInputStream(new FileInputStream(sourceFilename));
-            bis = new BufferedInputStream(is);
-            bos = new BufferedOutputStream(new FileOutputStream(destinationFilename, false));
-            byte[] buf = new byte[1024];
-            bis.read(buf);
-            do {
-                bos.write(buf);
-            } while(bis.read(buf) != -1);
-        } catch (IOException e) {
-            Log.e(tag, "Cannot copy file: " + e.toString());
-        } finally {
-            try {
-                if (bis != null) bis.close();
-                if (bos != null) bos.close();
-            } catch (IOException e) {
-                Log.e(tag, "Cannot close file stream: " + e.toString());
-            }
-        }
-
-        return destinationFilename;
-    }
-
-//    public void saveSharedFileToDb(int pid, String displayName,
-//                                   Uri uri, String remotePath, String localPath){
-//        Log.i(tag, "Save shared file to db start: " + pid + ", " + remotePath);
-//        dbmgrSoco.addSharedFile(pid, displayName, uri, remotePath, localPath);
-//    }
 
     public void addFile(View view){
         Log.i(tag, "add file start");

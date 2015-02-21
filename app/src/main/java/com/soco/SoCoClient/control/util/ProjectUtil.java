@@ -1,9 +1,16 @@
 package com.soco.SoCoClient.control.util;
 
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
+import com.soco.SoCoClient.control.db.DBManagerSoco;
+import com.soco.SoCoClient.control.dropbox.DropboxUtil;
+import com.soco.SoCoClient.control.http.HttpTask;
 import com.soco.SoCoClient.model.Project;
+import com.soco.SoCoClient.view.LoginActivity;
 import com.soco.SoCoClient.view.ShowActiveProjectsActivity;
 
 import java.util.List;
@@ -22,5 +29,24 @@ public class ProjectUtil {
         else
             Log.i(tag, "Found pid for project name " + pname + ": " + pid);
         return pid;
+    }
+
+    public static void createProjectOnServer(String pname, Context context,
+                                             String loginEmail, String loginPassword) {
+        HttpTask registerTask = new HttpTask(
+                ProfileUtil.getCreateProjectUrl(context),
+                HttpTask.HTTP_TYPE_CREATE_PROJECT,
+                loginEmail, loginPassword, context, pname);
+        registerTask.execute();
+    }
+
+    public static void addSharedFileToDb(Uri uri,
+                                         String loginEmail, String loginPassword, int pid,
+                                         ContentResolver cr, DBManagerSoco dbmgrSoco) {
+        String displayName = FileUtils.getDisplayName(cr, uri);
+        String remotePath = DropboxUtil.getRemotePath(uri,
+                loginEmail, loginPassword, pid, cr);
+        String localPath = FileUtils.copyFileToLocal(uri, cr);
+        dbmgrSoco.addSharedFile(pid, displayName, uri, remotePath, localPath);
     }
 }

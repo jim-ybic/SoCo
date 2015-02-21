@@ -42,12 +42,6 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
         DBManagerSoco dbManagerSoco = ((SocoApp) getApplicationContext()).dbManagerSoco;
         final ArrayList<String> sharedFilesLocalPath = dbManagerSoco.getSharedFilesLocalPath(pid);
 
-//        attrMap = ((SocoApp) getApplicationContext()).getAttrMap();
-//        ArrayList<String> sharedFiles = new ArrayList<>();
-//        for(HashMap.Entry<String, String> e : attrMap.entrySet()){
-//            if (e.getKey().equals(DataConfig.ATTRIBUTE_NAME_FILE_REMOTE_PATH))
-//                sharedFiles.add(e.getValue());
-//        }
         ArrayList<String> displayFilenames = dbManagerSoco.getSharedFilesDisplayName(pid);
         showSharedFiles(displayFilenames);
 
@@ -65,8 +59,6 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
                 Log.i(tag, "Shared file local path: " + localPath);
                 //todo: show file
                 viewFile(localPath);
-//                Intent intent = new Intent(Intent.ACTION_VIEW);
-//                startActivity(intent);
             }
         });
     }
@@ -89,28 +81,6 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
         intent.setDataAndType(uri, type);
         startActivity(intent);
     }
-
-//    ArrayList<String> getDisplayFilenames(){
-//        ArrayList<String> displayFilenames = new ArrayList<>();
-//        ArrayList<HashMap<String, String>> attrMap = ((SocoApp) getApplicationContext()).getAttrMap();
-//        Log.d(tag, "Number of attributes loaded: " + attrMap.size());
-//
-//        for(HashMap<String, String> map : attrMap) {
-//            for (HashMap.Entry<String, String> e : map.entrySet()) {
-//                Log.d(tag, "Current entry key: " + e.getKey());
-//                if (e.getKey().equals(DataConfig.ATTRIBUTE_NAME_FILE_REMOTE_PATH)) {
-//                    String remotePath = e.getValue();
-//                    int pos = remotePath.lastIndexOf("/");
-//                    String displayName = remotePath.substring(pos + 1, remotePath.length());
-//                    Log.d(tag, "Found remote path: " + remotePath + ", "
-//                            + " display name: " + displayName);
-//                    displayFilenames.add(displayName);
-//                }
-//            }
-//        }
-//        return ;
-//    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

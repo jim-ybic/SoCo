@@ -71,9 +71,6 @@ public class ShowInactiveProjectsActivity extends ActionBarActivity {
                                 int pid = ProjectUtil.findPidByPname(projects, name);
                                 dbmgrSoco.updateProjectActiveness(pid,
                                         DataConfig.VALUE_PROJECT_ACTIVE);
-//                                Program p = dbmgrSoco.loadProgram(name);
-//                                p.pcomplete = 0;
-//                                dbmgrSoco.update(name, p);
                                 projects = dbmgrSoco.loadProjectsByActiveness(
                                         DataConfig.VALUE_PROJECT_INACTIVE);
                                 listProjects(lv_inactive_projects, projects);
@@ -82,10 +79,6 @@ public class ShowInactiveProjectsActivity extends ActionBarActivity {
                         .setNegativeButton("Cancel", null)
                         .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-//                                Program p = dbmgrSoco.loadProgram(name);
-//                                Log.i(tag, "Click on delete programName, pid: " + p.pid +
-//                                        ", pname: " + p.pname);
-//                                dbmgrSoco.delete(p.pid);
                                 int pid = ProjectUtil.findPidByPname(projects, name);
                                 dbmgrSoco.deleteProjectByPid(pid);
                                 projects = dbmgrSoco.loadProjectsByActiveness(
@@ -122,22 +115,6 @@ public class ShowInactiveProjectsActivity extends ActionBarActivity {
     public void onBackPressed() {
         gotoPreviousScreen();
     }
-
-//    public void listPrograms(ListView listView, List<Program> programs) {
-//        ArrayList<Map<String, String>> data = new ArrayList<>();
-//        for (Program program : programs) {
-//            HashMap<String, String> map = new HashMap<>();
-//            map.put(Config.PROGRAM_PNAME, program.pname);
-//            map.put(Config.PROGRAM_PINFO, program.getMoreInfo());
-//            data.add(map);
-//        }
-//
-//        SimpleAdapter adapter = new SimpleAdapter(this, data,
-//                android.R.layout.simple_list_item_2,
-//                new String[]{Config.PROGRAM_PNAME, Config.PROGRAM_PINFO},
-//                new int[]{android.R.id.text1, android.R.id.text2});
-//        listView.setAdapter(adapter);
-//    }
 
     public void listProjects(ListView listView, List<Project> projects) {
         ArrayList<Map<String, String>> data = new ArrayList<>();

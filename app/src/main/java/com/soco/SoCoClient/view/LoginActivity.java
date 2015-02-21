@@ -58,11 +58,6 @@ public class LoginActivity extends ActionBarActivity {
 
         if (getIntent().getBooleanExtra(FLAG_EXIT, false))
             finish();
-
-        // Testing login
-        et_login_email.setText(TEST_EMAIL);
-        et_login_password.setText(TEST_PASSWORD);
-
     }
 
     private void findViewsById() {
@@ -70,57 +65,24 @@ public class LoginActivity extends ActionBarActivity {
         et_login_password = (EditText) findViewById(R.id.et_login_password);
     }
 
-    void updateProfile(String loginEmail) {
-        ProfileUtil.ready(getApplicationContext(), loginEmail);
-        nickname = ProfileUtil.getNickname(getApplicationContext(), loginEmail);
-    }
-
     public void serverConfig (View view) {
         Log.i(tag, "serverConfig start");
         Intent intent = new Intent(this, ServerConfigActivity.class);
         startActivity(intent);
-
-//        SOCO_SERVER_IP = ProfileUtil.getServerIp(this);
-//        SOCO_SERVER_PORT = ProfileUtil.getServerPort(this);
-//        REGISTER_PATH = ProfileUtil.getServerRegisterAddress(this);
-//        LOGIN_PATH = ProfileUtil.getServerLoginAddr(this);
-//        LOGIN_SOCO_SERVER_URL = "http://"
-//                + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + LOGIN_PATH;
-//        REGISTER_SOCO_SERVER_URL = "http://"
-//                + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + REGISTER_PATH;
-//
-//        Log.i(tag, "Update server config: " + SOCO_SERVER_IP + ", " + SOCO_SERVER_PORT + ", "
-//                    + REGISTER_PATH + ", " + LOGIN_PATH);
-//        Log.i(tag, "Register url: " + REGISTER_SOCO_SERVER_URL);
-//        Log.i(tag, "Login url: " + LOGIN_SOCO_SERVER_URL);
-    }
-
-    public String getLoginUrl(){
-        String ip = ProfileUtil.getServerIp(this);
-        String port = ProfileUtil.getServerPort(this);
-        String path = ProfileUtil.getServerLoginAddr(this);
-        String url = "http://" + ip + ":" + port + path;
-        Log.i(tag, "Login url: " + url);
-        return url;
-    }
-
-    public String getRegisterUrl(){
-        String ip = ProfileUtil.getServerIp(this);
-        String port = ProfileUtil.getServerPort(this);
-        String path = ProfileUtil.getServerRegisterAddress(this);
-        String url = "http://" + ip + ":" + port + path;
-        Log.i(tag, "Register url: " + url);
-        return url;
     }
 
     public void login (View view) {
         loginEmail = et_login_email.getText().toString();
         loginPassword = et_login_password.getText().toString();
-        updateProfile(loginEmail);
 
-        HttpTask loginTask = new HttpTask(getLoginUrl(), HttpTask.HTTP_TYPE_LOGIN,
+        ProfileUtil.ready(getApplicationContext(), loginEmail);
+        nickname = ProfileUtil.getNickname(getApplicationContext(), loginEmail);
+
+        HttpTask loginTask = new HttpTask(
+                ProfileUtil.getLoginUrl(getApplicationContext()), HttpTask.HTTP_TYPE_LOGIN,
                 loginEmail, loginPassword, getApplicationContext(), null);
         loginTask.execute();
+
         //TODO: check if login is success
 
         boolean loginSuccess = LoginUtil.validateLogin(loginEmail, loginPassword);
@@ -128,8 +90,10 @@ public class LoginActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Hello, " + nickname,
                     Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ShowActiveProjectsActivity.class);
-            intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+//            intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+//            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+            ((SocoApp)getApplicationContext()).loginEmail = loginEmail;
+            ((SocoApp)getApplicationContext()).loginPassword = loginPassword;
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Oops, login failed.",
@@ -140,13 +104,16 @@ public class LoginActivity extends ActionBarActivity {
     public void register (View view) {
         loginEmail = et_login_email.getText().toString();
         loginPassword = et_login_password.getText().toString();
-        updateProfile(loginEmail);
+
+        ProfileUtil.ready(getApplicationContext(), loginEmail);
+        nickname = ProfileUtil.getNickname(getApplicationContext(), loginEmail);
 
         //set initial status and start login
         final SocoApp app = (SocoApp) getApplicationContext();
         app.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_START);
 
-        HttpTask registerTask = new HttpTask(getRegisterUrl(), HttpTask.HTTP_TYPE_REGISTER,
+        HttpTask registerTask = new HttpTask(
+                ProfileUtil.getRegisterUrl(getApplicationContext()), HttpTask.HTTP_TYPE_REGISTER,
                 loginEmail, loginPassword, getApplicationContext(), null);
         registerTask.execute();
 

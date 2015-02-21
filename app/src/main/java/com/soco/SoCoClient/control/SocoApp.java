@@ -40,6 +40,8 @@ public class SocoApp extends Application {
 
     public DBManagerSoco dbManagerSoco;
 
+    public String loginEmail, loginPassword;
+
     public void setDropboxDownloadUri(Uri uri){
         this.dropboxDownloadUri = uri;
     }

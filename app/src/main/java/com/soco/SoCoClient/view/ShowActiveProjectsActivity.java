@@ -15,12 +15,11 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
-import com.soco.SoCoClient.control.http.HttpTask;
-import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.util.ProjectUtil;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
@@ -41,7 +40,6 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
 
     // Local variable
     private DBManagerSoco dbmgrSoco;
-    private List<Program> programs;
     private List<Project> projects;
     private String loginEmail, loginPassword;
 
@@ -51,23 +49,13 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_show_active_projects);
         findViewsById();
 
-        Intent intent = getIntent();
-        Log.i(tag, "onCreate, original values: " + loginEmail + ", " + loginPassword);
-        loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
-        loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
-        Log.i(tag, "onCreate, get string extra: " + loginEmail + ", " + loginPassword);
+        loginEmail = ((SocoApp)getApplicationContext()).loginEmail;
+        loginPassword = ((SocoApp)getApplicationContext()).loginPassword;
+        Log.i(tag, "onCreate, get login info: " + loginEmail + ", " + loginPassword);
 
         dbmgrSoco = new DBManagerSoco(this);
-//        programs = dbmgrSoco.loadPrograms(Config.PROGRAM_ACTIVE);
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
-
-//        listPrograms(null);
         listProjects(null);
-
-        //TEST
-//        SocoApp app = (SocoApp) getApplicationContext();
-//        Log.i(tag, "SocoApp get state: " + app.getState());
-//        app.setState("showActive");
 
         lv_active_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")
@@ -80,10 +68,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 int pid = ProjectUtil.findPidByPname(projects, name);
 
                 Intent intent = new Intent(view.getContext(), ShowSingleProjectActivity.class);
-                intent.putExtra(Config.PROJECT_PID, pid);
-//                intent.putExtra(Config.PROGRAM_PNAME, name);
-                intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-                intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+                ((SocoApp)getApplicationContext()).pid = pid;
                 startActivityForResult(intent, INTENT_SHOW_SINGLE_PROGRAM);
             }
         });
@@ -98,11 +83,6 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
                 projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
                 listProjects(null);
-//                if (resultCode == Activity.RESULT_OK) {
-//                    loginEmail = data.getStringExtra(Config.LOGIN_EMAIL);
-//                    loginPassword = data.getStringExtra(Config.LOGIN_PASSWORD);
-//                    Log.i(tag, "Current email/password: " + loginEmail + "/" + loginPassword);
-//                }
                 break;
             }
         }
@@ -168,7 +148,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 Log.i(tag, "New project added: " + p2);
                 Toast.makeText(getApplicationContext(),
                         "Project created.", Toast.LENGTH_SHORT).show();
-                createProjectOnServer(n);
+                ProjectUtil.createProjectOnServer(n, getApplicationContext(), loginEmail, loginPassword);
                 projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
                 listProjects(null);
             }
@@ -176,12 +156,10 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String n = input.getText().toString();
-//                Program p = new Program(n);
                 Project p2 = new Project(n);
-//                dbmgrSoco.add(p);
                 dbmgrSoco.addProject(p2);
                 Log.i(tag, "New project created: " + n);
-                createProjectOnServer(n);
+                ProjectUtil.createProjectOnServer(n, getApplicationContext(), loginEmail, loginPassword);
                 Intent intent = new Intent(getApplicationContext(), ShowSingleProjectActivity.class);
                 intent.putExtra(Config.PROGRAM_PNAME, n);
                 intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
@@ -196,24 +174,6 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         });
 
         alert.show();
-    }
-
-    void createProjectOnServer(String pname) {
-        HttpTask registerTask = new HttpTask(getCreateProjectUrl(),
-                HttpTask.HTTP_TYPE_CREATE_PROJECT,
-                loginEmail, loginPassword, getApplicationContext(), pname);
-        registerTask.execute();
-    }
-
-    public String getCreateProjectUrl(){
-        String ip = ProfileUtil.getServerIp(this);
-        String port = ProfileUtil.getServerPort(this);
-        String path = ProfileUtil.getCreateProjectAddr(this);
-        String token = ProfileUtil.getLoginAccessToken(this);
-        String url = "http://" + ip + ":" + port + path;
-        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
-        Log.i(tag, "Create project url: " + url);
-        return url;
     }
 
     public void listProjects(View view) {
