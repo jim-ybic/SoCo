@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.soco.SoCoClient.ProjectLocationActivity;
 import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
@@ -37,7 +36,6 @@ import com.soco.SoCoClient.control.dropbox.DropboxUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
-import com.soco.SoCoClient.zz.ShowMoreActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,9 +52,10 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
     // Local views
     EditText pdateEditText, ptimeEditText;
-    EditText et_spname, et_spdate, et_sptime, et_spplace, et_spdesc;
+    EditText et_spname, et_spdate, et_sptime, et_spdesc;
+    TextView tv_splocname;
     AutoCompleteTextView et_spphone_auto, et_spemail_auto;
-    TableRow tr_spdate, tr_sptime, tr_spplace, tr_spdesc, tr_spphone, tr_spemail;
+    TableRow tr_spdate, tr_sptime, tr_splocname, tr_spdesc, tr_spphone, tr_spemail;
 
     // Local variables
     DBManagerSoco dbmgrSoco = null;
@@ -160,14 +159,14 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         et_spname = (EditText) findViewById(R.id.et_spname);
         et_spdate = (EditText) findViewById(R.id.et_spdate);
         et_sptime = (EditText) findViewById(R.id.et_sptime);
-        et_spplace = (EditText) findViewById(R.id.et_spplace);
+        tv_splocname = (TextView) findViewById(R.id.tv_splocname);
         et_spdesc = (EditText) findViewById(R.id.et_spdesc);
         et_spphone_auto = (AutoCompleteTextView) findViewById(R.id.et_spphone_auto);
         et_spemail_auto = (AutoCompleteTextView) findViewById(R.id.et_spemail_auto);
 
         tr_spdate = (TableRow) findViewById(R.id.tr_spdate);
         tr_sptime = (TableRow) findViewById(R.id.tr_sptime);
-        tr_spplace = (TableRow) findViewById(R.id.tr_spplace);
+        tr_splocname = (TableRow) findViewById(R.id.tr_spplace);
         tr_spdesc = (TableRow) findViewById(R.id.tr_spdesc);
         tr_spphone = (TableRow) findViewById(R.id.tr_spphone);
         tr_spemail = (TableRow) findViewById(R.id.tr_spemail);
@@ -207,7 +206,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     public void setVisibleDateTimePlace(View view) {
         tr_spdate.setVisibility(View.VISIBLE);
         tr_sptime.setVisibility(View.VISIBLE);
-        tr_spplace.setVisibility(View.VISIBLE);
+        tr_splocname.setVisibility(View.VISIBLE);
     }
 
     public void setVisiblePhoneEmail(View view) {
@@ -226,8 +225,8 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     }
 
     public void clearPplace(View view) {
-        et_spplace.setText("");
-        tr_spplace.setVisibility(View.GONE);
+        tv_splocname.setText("");
+        tr_splocname.setVisibility(View.GONE);
     }
 
     public void clearPdesc(View view) {
@@ -299,7 +298,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         //hide all attributes (before showing available attributes)
         tr_spdate.setVisibility(View.GONE);
         tr_sptime.setVisibility(View.GONE);
-        tr_spplace.setVisibility(View.GONE);
+        tr_splocname.setVisibility(View.GONE);
         tr_spdesc.setVisibility(View.GONE);
         tr_spphone.setVisibility(View.GONE);
         tr_spemail.setVisibility(View.GONE);
@@ -309,6 +308,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
             for (Map.Entry<String, String> entry : map.entrySet()) {
                 String attr_name = entry.getKey();
                 String attr_value = entry.getValue();
+                Log.d(tag, "Current attr: " + attr_name + ", " + attr_value);
 
                 if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_DATE)) {    //date
                     tr_spdate.setVisibility(View.VISIBLE);
@@ -316,9 +316,9 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_TIME)) {   //time
                     tr_sptime.setVisibility(View.VISIBLE);
                     et_sptime.setText(attr_value, TextView.BufferType.EDITABLE);
-                } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_PLACE)) {   //place
-                    tr_spplace.setVisibility(View.VISIBLE);
-                    et_spplace.setText(attr_value, TextView.BufferType.EDITABLE);
+                } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_LOCNAME)) {   //locname
+                    tr_splocname.setVisibility(View.VISIBLE);
+                    tv_splocname.setText(attr_value, TextView.BufferType.EDITABLE);
                 } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_DESC)) {   //description
                     tr_spdesc.setVisibility(View.VISIBLE);
                     et_spdesc.setText(attr_value, TextView.BufferType.EDITABLE);
@@ -341,7 +341,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
     }
 
-    HashMap<String, String> collectProjectAttributes(){
+    HashMap<String, String> collectProjectAttributesFromScreen(){
         HashMap<String, String> attrMap = new HashMap<String, String>();
 
         //date, time, and place
@@ -353,9 +353,9 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         if (time != null && !time.isEmpty())
             attrMap.put(ATTRIBUTE_NAME_TIME, time);
 
-        String place = et_spplace.getText().toString();
-        if (place != null && !place.isEmpty())
-            attrMap.put(ATTRIBUTE_NAME_PLACE, place);
+//        String locname = tv_splocname.getText().toString();
+//        if (locname != null && !locname.isEmpty())
+//            attrMap.put(ATTRIBUTE_NAME_LOCNAME, locname);
 
         //description
         String desc = et_spdesc.getText().toString();
@@ -378,7 +378,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         Log.i(tag, "Save to db the project: " + project.pid + ", " + project.pname);
         String pname = et_spname.getText().toString();
         dbmgrSoco.updateProjectName(project.pid, pname);
-        HashMap<String, String> attrMap = collectProjectAttributes();
+        HashMap<String, String> attrMap = collectProjectAttributesFromScreen();
         dbmgrSoco.updateDbProjectAttributes(pid, attrMap);
         Toast.makeText(getApplicationContext(), "Project saved.", Toast.LENGTH_SHORT).show();
     }
@@ -778,6 +778,8 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     }
 
     public void showLocationDetails(View view){
+        ((SocoApp)getApplicationContext()).setAttrMap(attrMap);
+        ((SocoApp)getApplicationContext()).dbManagerSoco = dbmgrSoco;
         Intent i = new Intent(this, ProjectLocationActivity.class);
         startActivity(i);
     }

@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="25dp"
-                    android:hint="Date, Time, and Location" />
+                    android:hint="Date and Time" />
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,31 +111,37 @@
                         android:text="-"
                         android:textSize="20dp" />
                 </TableRow>
+            </TableLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:hint="Location" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="..."
+                    android:onClick="showLocationDetails"
+                    android:textSize="20dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <TableRow
                     android:id="@+id/tr_spplace">
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:text="Location" />
-                    <EditText
-                        android:id="@+id/et_spplace"
+                        android:id="@+id/tv_splocname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Location not set"
                         android:layout_weight="1"/>
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="showLocationDetails"
-                        android:text="..."
-                        android:textSize="20dp" />
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="clearPplace"
-                        android:id="@+id/bt_clear_pplace"
-                        android:text="-"
-                        android:textSize="20dp" />
                 </TableRow>
             </TableLayout>
 
@@ -273,7 +279,7 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+"
+                        android:text="..."
                         android:onClick="sharedFileDetails"
                         android:textSize="20dp"
                         android:layout_alignParentRight="true"/>

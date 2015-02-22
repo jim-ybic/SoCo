@@ -22,7 +22,6 @@ public class SocoApp extends Application {
     public static String REGISTRATION_STATUS_START = "registration_start";
     public static String REGISTRATION_STATUS_SUCCESS = "registration_success";
     public static String REGISTRATION_STATUS_FAIL = "registration_fail";
-
     public static String UPLOAD_STATUS_START = "upload_start";
     public static String UPLOAD_STATUS_SUCCESS = "upload_success";
     public static String UPLOAD_STATUS_FAIL = "upload_fail";
@@ -31,22 +30,17 @@ public class SocoApp extends Application {
     public ArrayList<Map<String, String>> listNamePhone, listNameEmail;
     public boolean listNamePhoneReady = false, listNameEmailReady = false;
     public String currPicturePath;
-
     public ArrayList<String> sharedFileNames = new ArrayList<>();
     public int pid;
-    ArrayList<HashMap<String, String>> attrMap;
-
-    Uri dropboxDownloadUri;
-    String dropboxDownloadType;
-    String dropboxDownloadStatus;
-
+    public ArrayList<HashMap<String, String>> attrMap;
+    public Uri dropboxDownloadUri;
+    public String dropboxDownloadType;
+    public String dropboxDownloadStatus;
     public DBManagerSoco dbManagerSoco;
-
     public String loginEmail, loginPassword;
-
     public DropboxAPI<AndroidAuthSession> dropboxApi;
-
     public Uri uri;
+    public String lat, lng, zoom, locationName;
 
     public void setDropboxDownloadUri(Uri uri){
         this.dropboxDownloadUri = uri;

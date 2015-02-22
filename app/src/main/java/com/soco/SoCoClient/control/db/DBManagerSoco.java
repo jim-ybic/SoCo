@@ -13,7 +13,6 @@ import android.util.Log;
 
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.util.SignatureUtil;
-import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
 
 public class DBManagerSoco {
@@ -38,23 +37,23 @@ public class DBManagerSoco {
         db.execSQL("delete from " + DataConfig.TABLE_ATTRIBUTE);
     }
 
-    public void add(Program program) {
-        Log.i(tag, "Add new program: " + program.pname + ", "
-                + program.pdate + ", " + program.ptime + ", " + program.pplace + ", "
-                + program.pdesc + ", " + program.pphone + ", " + program.pemail + ", "
-                + program.pwechat);
-
-        try {
-            db.beginTransaction();
-            db.execSQL("INSERT INTO " + DataConfig.TABLE_PROGRAM
-                            + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    new Object[]{program.pname, program.pdate, program.ptime, program.pplace, 0,
-                    program.pdesc, program.pphone, program.pemail, program.pwechat});
-            db.setTransactionSuccessful();
-        } finally {
-            db.endTransaction();
-        }
-    }
+//    public void add(Program program) {
+//        Log.i(tag, "Add new program: " + program.pname + ", "
+//                + program.pdate + ", " + program.ptime + ", " + program.pplace + ", "
+//                + program.pdesc + ", " + program.pphone + ", " + program.pemail + ", "
+//                + program.pwechat);
+//
+//        try {
+//            db.beginTransaction();
+//            db.execSQL("INSERT INTO " + DataConfig.TABLE_PROGRAM
+//                            + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+//                    new Object[]{program.pname, program.pdate, program.ptime, program.pplace, 0,
+//                    program.pdesc, program.pphone, program.pemail, program.pwechat});
+//            db.setTransactionSuccessful();
+//        } finally {
+//            db.endTransaction();
+//        }
+//    }
 
     public void addProject(Project p){
         Log.i(tag, "Add new project (update 20150206): " + p.pname);
@@ -204,29 +203,32 @@ public class DBManagerSoco {
                 new String[] {pactive});
     }
 
-    public void clearProjectAttributes(int pid){
-
-        //todo: rawQuery seems not working for delete
-//        return db.rawQuery("DELETE FROM " + DbConfig.TABLE_ATTRIBUTE +
-//                        " where " + DbConfig.COLUMN_ATTRIBUTE_PID + " = ?",
-//                new String[] {String.valueOf(pid)});
-
+    public void clearProjectAttributesExceptLocation(int pid){
         try {
             db.beginTransaction();
-            Log.d(tag, "Clear project attributes: DELETE FROM " + DataConfig.TABLE_ATTRIBUTE
-                    + " where " + DataConfig.COLUMN_ATTRIBUTE_PID + " = " + pid);
+            Log.d(tag, "DELETE FROM " + DataConfig.TABLE_ATTRIBUTE
+                    + " WHERE " + DataConfig.COLUMN_ATTRIBUTE_PID + " = " + pid
+                    + " AND " + DataConfig.COLUMN_ATTRIBUTE_NAME + " NOT IN ("
+                    + DataConfig.ATTRIBUTE_NAME_LOCLAT + ","
+                    + DataConfig.ATTRIBUTE_NAME_LOCLNG + ","
+                    + DataConfig.ATTRIBUTE_NAME_LOCZOOM + ","
+                    + DataConfig.ATTRIBUTE_NAME_LOCNAME + ")");
             db.execSQL("DELETE FROM " + DataConfig.TABLE_ATTRIBUTE
-                            + " WHERE " + DataConfig.COLUMN_ATTRIBUTE_PID + " = ?",
-                    new Object[]{pid});
+                            + " WHERE " + DataConfig.COLUMN_ATTRIBUTE_PID + " = ?"
+                            + " AND " + DataConfig.COLUMN_ATTRIBUTE_NAME + " NOT IN (?, ?, ?, ?)",
+                    new Object[]{pid,
+                            DataConfig.ATTRIBUTE_NAME_LOCLAT,
+                            DataConfig.ATTRIBUTE_NAME_LOCLNG,
+                            DataConfig.ATTRIBUTE_NAME_LOCZOOM,
+                            DataConfig.ATTRIBUTE_NAME_LOCNAME});
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
         }
-
     }
 
     public void updateDbProjectAttributes(int pid, HashMap<String, String> attrMap){
-        clearProjectAttributes(pid);
+        clearProjectAttributesExceptLocation(pid);
 
         for(Map.Entry<String, String> entry : attrMap.entrySet()){
             String attr_name = entry.getKey();
@@ -393,6 +395,64 @@ public class DBManagerSoco {
         }
         Log.i(tag, "Total number of display names returned: " + count);
         return list;
+    }
+
+    public void setLocation(int pid, String lat, String lng, String zoom, String name) {
+        Log.i(tag, "Add location start: " + pid + ", " + lat + ", " + lng + ", "
+                + zoom + ", " + name);
+
+        String now = SignatureUtil.now();
+        try{
+            db.beginTransaction();
+
+            Log.i(tag, "DELETE FROM " + DataConfig.TABLE_ATTRIBUTE
+                    + " WHERE " + DataConfig.COLUMN_ATTRIBUTE_PID + " = " + pid
+                    + " AND " + DataConfig.COLUMN_ATTRIBUTE_NAME + " IN ("
+                    + DataConfig.ATTRIBUTE_NAME_LOCLAT + ","
+                    + DataConfig.ATTRIBUTE_NAME_LOCLNG + ","
+                    + DataConfig.ATTRIBUTE_NAME_LOCZOOM + ","
+                    + DataConfig.ATTRIBUTE_NAME_LOCNAME + ")");
+            db.delete(DataConfig.TABLE_ATTRIBUTE,
+                    DataConfig.COLUMN_ATTRIBUTE_PID + " = ? AND "
+                            + DataConfig.COLUMN_ATTRIBUTE_NAME + " IN (?, ?, ?, ?)",
+                    new String[]{String.valueOf(pid),
+                            DataConfig.ATTRIBUTE_NAME_LOCLAT,
+                            DataConfig.ATTRIBUTE_NAME_LOCLNG,
+                            DataConfig.ATTRIBUTE_NAME_LOCZOOM,
+                            DataConfig.ATTRIBUTE_NAME_LOCNAME});
+
+
+            Log.i(tag, "INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                    + " VALUES(null, " + pid + ", " + DataConfig.ATTRIBUTE_NAME_LOCLAT + ", "
+                    + lat + ", , " + now + ", " + now);
+            db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                            + " VALUES(null, ?, ?, ?, ?, ?, ?)",
+                    new Object[]{pid, DataConfig.ATTRIBUTE_NAME_LOCLAT, lat, "", now, now});
+
+            Log.i(tag, "INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                    + " VALUES(null, " + pid + ", " + DataConfig.ATTRIBUTE_NAME_LOCLNG + ", "
+                    + lng + ", , " + now + ", " + now);
+            db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                            + " VALUES(null, ?, ?, ?, ?, ?, ?)",
+                    new Object[]{pid, DataConfig.ATTRIBUTE_NAME_LOCLNG, lng, "", now, now});
+
+            Log.i(tag, "INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                    + " VALUES(null, " + pid + ", " + DataConfig.ATTRIBUTE_NAME_LOCZOOM + ", "
+                    + zoom + ", , " + now + ", " + now);
+            db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                            + " VALUES(null, ?, ?, ?, ?, ?, ?)",
+                    new Object[]{pid, DataConfig.ATTRIBUTE_NAME_LOCZOOM, zoom, "", now, now});
+
+            Log.i(tag, "INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                    + " VALUES(null, " + pid + ", " + DataConfig.ATTRIBUTE_NAME_LOCNAME + ", "
+                    + name + ", , " + now + ", " + now);
+            db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                            + " VALUES(null, ?, ?, ?, ?, ?, ?)",
+                    new Object[]{pid, DataConfig.ATTRIBUTE_NAME_LOCNAME, name, "", now, now});
+            db.setTransactionSuccessful();
+        } finally{
+            db.endTransaction();
+        }
     }
 
 //    public void closeDB() {

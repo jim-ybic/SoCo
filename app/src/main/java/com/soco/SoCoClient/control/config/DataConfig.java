@@ -39,11 +39,17 @@ public class DataConfig {
 
     public static String ATTRIBUTE_NAME_DATE = "date";
     public static String ATTRIBUTE_NAME_TIME = "time";
-    public static String ATTRIBUTE_NAME_PLACE = "place";
+//    public static String ATTRIBUTE_NAME_PLACE = "place";
     public static String ATTRIBUTE_NAME_DESC = "desc";
     public static String ATTRIBUTE_NAME_PHONE = "phone";
     public static String ATTRIBUTE_NAME_EMAIL = "email";
     public static String ATTRIBUTE_NAME_FILE_REMOTE_PATH = "file_remote_path";
+    public static String ATTRIBUTE_NAME_LOCLAT = "loclat";
+    public static String ATTRIBUTE_NAME_LOCLNG = "loclng";
+    public static String ATTRIBUTE_NAME_LOCZOOM = "loczoom";
+    public static String ATTRIBUTE_NAME_LOCNAME = "locname";
+    public static String ATTRIBUTE_NAME_LOC_PREFIX = "loc";
+
 
     public static String TABLE_SHARED_FILE = "shared_files";
     public static String COLUMN_SHARED_FILE_ID = "fid";
