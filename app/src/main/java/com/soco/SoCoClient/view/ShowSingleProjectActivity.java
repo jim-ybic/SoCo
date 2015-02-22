@@ -92,7 +92,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
                 + Config.PROJECT_PID + ":" + pid);
 
-
         dbmgrSoco = new DBManagerSoco(this);
         project = dbmgrSoco.loadProjectByPid(pid);
         attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);

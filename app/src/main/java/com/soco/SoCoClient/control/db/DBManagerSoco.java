@@ -55,8 +55,9 @@ public class DBManagerSoco {
 //        }
 //    }
 
-    public void addProject(Project p){
+    public int addProject(Project p){
         Log.i(tag, "Add new project (update 20150206): " + p.pname);
+        int pid = -1;
         try {
             db.beginTransaction();
             Log.i(tag, "Insert into db: " + p.pname + ", "
@@ -66,10 +67,23 @@ public class DBManagerSoco {
                     new Object[]{p.pname, "",
                             SignatureUtil.now(), SignatureUtil.now(), SignatureUtil.genSHA1(p),
                             DataConfig.VALUE_PROJECT_ACTIVE});
+
+            String query = "SELECT MAX(" + DataConfig.COLUMN_PROJECT_ID
+                    + ") FROM " + DataConfig.TABLE_PROJECT;
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()){
+                do {
+                    pid = cursor.getInt(0);
+                } while(cursor.moveToNext());
+            }
+
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
         }
+
+        Log.i(tag, "New project added with pid: " + pid);
+        return pid;
     }
 
 //    public void addAttributeFromProject(Project p){
@@ -378,11 +392,11 @@ public class DBManagerSoco {
         ArrayList<String> list = new ArrayList<>();
 
         Log.d(tag, "SELECT " + DataConfig.COLUMN_SHARED_FILE_DISPLAY_NAME
-                    + " FROM " + DataConfig.TABLE_SHARED_FILE
-                    + " WHERE " + DataConfig.COLUMN_SHARED_FILE_PID + " = " + pid);
+                + " FROM " + DataConfig.TABLE_SHARED_FILE
+                + " WHERE " + DataConfig.COLUMN_SHARED_FILE_PID + " = " + pid);
         Cursor c =  db.rawQuery("SELECT " + DataConfig.COLUMN_SHARED_FILE_DISPLAY_NAME
-                                + " FROM " + DataConfig.TABLE_SHARED_FILE
-                                + " WHERE " + DataConfig.COLUMN_SHARED_FILE_PID + " = ?",
+                        + " FROM " + DataConfig.TABLE_SHARED_FILE
+                        + " WHERE " + DataConfig.COLUMN_SHARED_FILE_PID + " = ?",
                 new String[] {String.valueOf(pid)});
 
         int count = 0;

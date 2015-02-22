@@ -31,7 +31,7 @@ public class Project {
     }
 
     public String getMoreInfo() {
-        return "More info coming soon";
+        return "";
     }
 
 }

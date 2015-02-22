@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.view;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,10 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.control.SocoApp;
@@ -140,32 +143,33 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         final EditText input = new EditText(this);
         alert.setView(input);
 
-        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+//        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                String n = input.getText().toString();
+//                Project p = new Project(n);
+//                dbmgrSoco.addProject(p);
+//                Toast.makeText(getApplicationContext(),
+//                        "Project created.", Toast.LENGTH_SHORT).show();
+//                ProjectUtil.createProjectOnServer(n, getApplicationContext(),
+//                        loginEmail, loginPassword);
+//                projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
+//                listProjects(null);
+//            }
+//        });
+        alert.setPositiveButton("Details", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String n = input.getText().toString();
-                Project p2 = new Project(n);
-                dbmgrSoco.addProject(p2);
-                Log.i(tag, "New project added: " + p2);
-                Toast.makeText(getApplicationContext(),
-                        "Project created.", Toast.LENGTH_SHORT).show();
-                ProjectUtil.createProjectOnServer(n, getApplicationContext(), loginEmail, loginPassword);
-                projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
-                listProjects(null);
-            }
-        });
-        alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String n = input.getText().toString();
-                Project p2 = new Project(n);
-                dbmgrSoco.addProject(p2);
-                Log.i(tag, "New project created: " + n);
-                ProjectUtil.createProjectOnServer(n, getApplicationContext(), loginEmail, loginPassword);
+                Project p = new Project(n);
+                int pid = dbmgrSoco.addProject(p);
+                ProjectUtil.createProjectOnServer(n, getApplicationContext(),
+                        loginEmail, loginPassword);
                 Intent intent = new Intent(getApplicationContext(), ShowSingleProjectActivity.class);
-                intent.putExtra(Config.PROGRAM_PNAME, n);
-                intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-                intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+//                intent.putExtra(Config.PROGRAM_PNAME, n);
+//                intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
+//                intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+                ((SocoApp)getApplicationContext()).pid = pid;
                 Log.i(tag, "Start activity to view programName details");
-                startActivity(intent);
+                startActivityForResult(intent, -1);
             }
         });
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -203,6 +207,29 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(LoginActivity.FLAG_EXIT, true);
         startActivity(intent);
+    }
+
+    public void quickAdd(View view){
+        String name = ((EditText)findViewById(R.id.et_quickadd)).getText().toString();
+        Project p = new Project(name);
+        dbmgrSoco.addProject(p);
+        Toast.makeText(getApplicationContext(),
+                "Project created success.", Toast.LENGTH_SHORT).show();
+        ProjectUtil.createProjectOnServer(name, getApplicationContext(),
+                loginEmail, loginPassword);
+        projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
+        listProjects(null);
+        ((EditText)findViewById(R.id.et_quickadd)).setText("", TextView.BufferType.EDITABLE);
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow((findViewById(R.id.et_quickadd)).getWindowToken(), 0);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        Log.i(tag, "onResume start, reload active projects");
+        projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
+        listProjects(null);
     }
 
 }
