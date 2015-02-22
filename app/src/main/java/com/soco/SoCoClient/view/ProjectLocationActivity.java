@@ -40,9 +40,16 @@ public class ProjectLocationActivity extends ActionBarActivity {
         setContentView(R.layout.activity_project_location);
 
         attrMap = ((SocoApp)getApplicationContext()).getAttrMap();
+
         lat = findAttrValue(attrMap, DataConfig.ATTRIBUTE_NAME_LOCLAT);
+        if(lat.isEmpty())
+            lat = DataConfig.DEFAULT_LOCATION_LAT;
         lng = findAttrValue(attrMap, DataConfig.ATTRIBUTE_NAME_LOCLNG);
+        if(lng.isEmpty())
+            lng = DataConfig.DEFAULT_LOCATION_LNG;
         zoom = findAttrValue(attrMap, DataConfig.ATTRIBUTE_NAME_LOCZOOM);
+        if(zoom.isEmpty())
+            zoom = DataConfig.DEFAULT_LOCATION_ZOOM;
 
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
         if(status != ConnectionResult.SUCCESS){

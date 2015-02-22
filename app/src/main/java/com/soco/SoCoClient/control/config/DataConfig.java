@@ -61,4 +61,9 @@ public class DataConfig {
     public static String COLUMN_SHARED_FILE_USER = "fuser";
     public static String COLUMN_SHARED_FILE_CREATE_TIMESTAMP = "fcreate_timestamp";
     public static String COLUMN_SHARED_FILE_UPDATE_TIMESTAMP = "fupdate_timestamp";
+
+    public static String DEFAULT_LOCATION_LAT = "22.36757894430302";    //HONG KONG
+    public static String DEFAULT_LOCATION_LNG = "114.12860479205847";
+    public static String DEFAULT_LOCATION_ZOOM = "10.7580385";
+
 }
