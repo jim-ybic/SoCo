@@ -3,4 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.soco.SoCoClient.view.ShowSingleProjectActivity">
 
+    <item
+        android:id="@+id/mn_datetime"
+        android:title="+/- date, time"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <!--<item-->
+        <!--android:id="@+id/mn_locmap"-->
+        <!--android:title="+/- location, map"-->
+        <!--android:orderInCategory="100"-->
+        <!--app:showAsAction="never" />-->
+
 </menu>

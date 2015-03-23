@@ -24,7 +24,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Finish"
+            android:text="Archive"
             android:onClick="setProjectCompleted"
             android:drawableLeft="@drawable/ic_action_done"
             android:layout_weight="1"
@@ -50,66 +50,63 @@
                 android:textSize="@dimen/abc_text_size_display_1_material"
                 android:hint="Name not set" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="25dp"
-                    android:hint="Date and Time" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+"
-                    android:onClick="setVisibleDateTimePlace"
-                    android:textSize="20dp"
-                    android:layout_alignParentRight="true"/>
-            </RelativeLayout>
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal" >-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="25dp"-->
+                    <!--android:hint="Date and Time" />-->
+                <!--<Button-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="+"-->
+                    <!--android:onClick="setVisibleDateTimePlace"-->
+                    <!--android:textSize="20dp"-->
+                    <!--android:layout_alignParentRight="true"/>-->
+            <!--</RelativeLayout>-->
 
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TableRow
-                    android:id="@+id/tr_spdate">
+
+                <TableRow>
                     <TextView
+                        android:id="@+id/tv_spdate"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="Date" />
+                        android:text="Date: " />
                     <EditText
                         android:id="@+id/et_spdate"
-                        android:layout_weight="1"
-                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Date not set"/>
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="clearPdate"
-                        android:id="@+id/bt_clear_pdate"
-                        android:text="-"
-                        android:textSize="20dp"/>
-                </TableRow>
-                <TableRow
-                    android:id="@+id/tr_sptime">
+                    <!--<Button-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:onClick="clearPdate"-->
+                        <!--android:id="@+id/bt_clear_pdate"-->
+                        <!--android:text="-"-->
+                        <!--android:textSize="20dp"/>-->
+                <!--</TableRow>-->
+                <!--<TableRow>-->
                     <TextView
+                        android:id="@+id/tv_sptime"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="Time" />
+                        android:text="\tTime: " />
                     <EditText
                         android:id="@+id/et_sptime"
-                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:hint="Time not set" />
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="clearPtime"
-                        android:id="@+id/bt_clear_ptime"
-                        android:text="-"
-                        android:textSize="20dp" />
+                    <!--<Button-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:onClick="clearPdatetime"-->
+                        <!--android:id="@+id/bt_clear_pdatetime"-->
+                        <!--android:text="-"-->
+                        <!--android:textSize="20dp" />-->
                 </TableRow>
             </TableLayout>
 
