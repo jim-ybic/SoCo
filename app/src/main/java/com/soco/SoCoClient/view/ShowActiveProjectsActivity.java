@@ -104,27 +104,27 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_clean_up) {
-            Log.i("setting", "Click on Clean up.");
-            new AlertDialog.Builder(this)
-                    .setMessage("Delete all programs?")
-                    .setCancelable(true)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dbmgrSoco.cleanDB();
-                            Toast.makeText(getApplicationContext(),
-                                    "All Programs deleted.", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(getApplicationContext(),
-                                    ShowActiveProjectsActivity.class);
-                            i.putExtra(Config.LOGIN_EMAIL, loginEmail);
-                            startActivity(i);
-                            ;
-                        }
-                    })
-                    .setNegativeButton("No", null)
-                    .show();
-            return true;
-        }
+//        if (id == R.id.action_clean_up) {
+//            Log.i("setting", "Click on Clean up.");
+//            new AlertDialog.Builder(this)
+//                    .setMessage("Delete all programs?")
+//                    .setCancelable(true)
+//                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int id) {
+//                            dbmgrSoco.cleanDB();
+//                            Toast.makeText(getApplicationContext(),
+//                                    "All Programs deleted.", Toast.LENGTH_SHORT).show();
+//                            Intent i = new Intent(getApplicationContext(),
+//                                    ShowActiveProjectsActivity.class);
+//                            i.putExtra(Config.LOGIN_EMAIL, loginEmail);
+//                            startActivity(i);
+//                            ;
+//                        }
+//                    })
+//                    .setNegativeButton("No", null)
+//                    .show();
+//            return true;
+//        }
         if (id == R.id.action_profile) {
             Log.i("setting", "Click on Profile.");
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);

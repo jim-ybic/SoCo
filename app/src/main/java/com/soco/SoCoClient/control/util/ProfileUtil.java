@@ -163,4 +163,39 @@ public class ProfileUtil {
         Log.i(tag, "Create project url: " + url);
         return url;
     }
+
+    public static String getLoginEmail(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        return settings.getString(Config.PROFILE_LOGIN_EMAIL, "");
+    }
+
+    public static void setLoginEmail(Context context, String loginEmail){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_LOGIN_EMAIL, loginEmail);
+        editor.commit();
+    }
+
+    public static String getLoginPassword(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        return settings.getString(Config.PROFILE_LOGIN_PASSWORD, "");
+    }
+
+    public static void setLoginPassword(Context context, String loginPassword){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_LOGIN_PASSWORD, loginPassword);
+        editor.commit();
+    }
+
+    public static void clearUserInfo(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_LOGIN_EMAIL, "");
+        editor.putString(Config.PROFILE_LOGIN_PASSWORD, "");
+        editor.putString(Config.PROFILE_NICKNAME, "");
+        editor.putString(Config.PROFILE_PHONE, "");
+        editor.putString(Config.PROFILE_WECHAT, "");
+        editor.commit();
+    }
 }

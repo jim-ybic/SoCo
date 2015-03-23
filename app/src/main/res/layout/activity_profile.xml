@@ -5,43 +5,92 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/profile_nickname"
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nickname not set"
-        android:textSize="@dimen/abc_text_size_display_1_material" />
-
-    <TextView
-        android:id="@+id/profile_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/profile_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Phone not set" />
-
-    <EditText
-        android:id="@+id/profile_wechat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Wechat not set" />
-
+        android:layout_height="wrap_content">
+        <TableRow>
+            <TextView
+                android:text="Login Email: "/>
+            <EditText
+                android:id="@+id/profile_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Email not set"
+                android:inputType="textEmailAddress"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="Login Password: "/>
+            <EditText
+                android:id="@+id/profile_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Password not set"
+                android:inputType="textPassword"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_span="2"
+                android:text="\nBelow fields are optional "/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="Nickname: "/>
+            <EditText
+                android:id="@+id/profile_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Nickname not set" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="Phone: "/>
+            <EditText
+                android:id="@+id/profile_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Phone not set"
+                android:inputType="number"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="Wechat: "/>
+            <EditText
+                android:id="@+id/profile_wechat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Wechat not set" />
+        </TableRow>
+    </TableLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center|bottom"
-        android:orientation="vertical" >
+        android:orientation="horizontal"
+        android:gravity="center|bottom">
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save Profile"
-            android:onClick="saveProfile" />
+            android:text="Save"
+            android:onClick="saveProfile"
+            android:drawableLeft="@drawable/ic_action_save"
+            android:layout_weight="1"
+            android:textSize="10dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:onClick="logout"
+            android:drawableLeft="@drawable/ic_action_backspace"
+            android:layout_weight="1"
+            android:textSize="10dp"/>
     </LinearLayout>
 
 </LinearLayout>

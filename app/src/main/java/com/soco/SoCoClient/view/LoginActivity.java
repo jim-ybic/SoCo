@@ -58,6 +58,14 @@ public class LoginActivity extends ActionBarActivity {
 
         if (getIntent().getBooleanExtra(FLAG_EXIT, false))
             finish();
+
+        //check if login credential exists
+        String savedLoginEmail = ProfileUtil.getLoginEmail(this);
+        String savedLoginPassword = ProfileUtil.getLoginPassword(this);
+        Log.i(tag, "Get saved login email/password: " + savedLoginEmail + "/" + savedLoginPassword);
+        if(!savedLoginEmail.isEmpty())
+            login(null);
+
     }
 
     private void findViewsById() {
@@ -87,6 +95,10 @@ public class LoginActivity extends ActionBarActivity {
 
         boolean loginSuccess = LoginUtil.validateLogin(loginEmail, loginPassword);
         if(loginSuccess) {
+            ProfileUtil.setLoginEmail(this, loginEmail);
+            ProfileUtil.setLoginPassword(this, loginPassword);
+            Log.i(tag, "Save to profile login email/password: " + loginEmail + "/" + loginPassword);
+
             Toast.makeText(getApplicationContext(), "Hello, " + nickname,
                     Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ShowActiveProjectsActivity.class);

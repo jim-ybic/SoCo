@@ -20,10 +20,9 @@ public class ProfileActivity extends ActionBarActivity {
     static String tag = "ProfileActivity";
 
     // Local views
-    TextView tv_profile_email;
-    EditText et_profile_nickname;
-    EditText et_profile_phone;
-    EditText et_profile_wechat;
+//    TextView tv_profile_email;
+    EditText et_profile_email, et_profile_password;
+    EditText et_profile_nickname, et_profile_phone, et_profile_wechat;
 
     String loginEmail, loginPassword;
     Profile profile;
@@ -43,7 +42,9 @@ public class ProfileActivity extends ActionBarActivity {
     }
 
     private void findViewsById() {
-        tv_profile_email = (TextView) findViewById(R.id.profile_email);
+//        tv_profile_email = (TextView) findViewById(R.id.profile_email);
+        et_profile_email = (EditText) findViewById(R.id.profile_email);
+        et_profile_password = (EditText) findViewById(R.id.profile_password);
         et_profile_nickname = (EditText) findViewById(R.id.profile_nickname);
         et_profile_phone = (EditText) findViewById(R.id.profile_phone);
         et_profile_wechat = (EditText) findViewById(R.id.profile_wechat);
@@ -60,11 +61,21 @@ public class ProfileActivity extends ActionBarActivity {
                 et_profile_nickname.getText().toString(),
                 et_profile_phone.getText().toString(),
                 et_profile_wechat.getText().toString());
-}
+        ProfileUtil.setLoginEmail(this, et_profile_email.getText().toString());
+        ProfileUtil.setLoginPassword(this, et_profile_password.getText().toString());
+    }
+
+    public void logout(View view) {
+//        finish();
+        Log.i(tag, "Logout from current user");
+        ProfileUtil.clearUserInfo(this);
+    }
 
     public void showProfile(Profile profile){
+        et_profile_email.setText(profile.email, TextView.BufferType.EDITABLE);
+        et_profile_password.setText(profile.password, TextView.BufferType.EDITABLE);
         et_profile_nickname.setText(profile.nickname, TextView.BufferType.EDITABLE);
-        tv_profile_email.setText(profile.email, TextView.BufferType.EDITABLE);
+//        tv_profile_email.setText(profile.email, TextView.BufferType.EDITABLE);
         et_profile_phone.setText(profile.phone, TextView.BufferType.EDITABLE);
         et_profile_wechat.setText(profile.wechat, TextView.BufferType.EDITABLE);
     }
