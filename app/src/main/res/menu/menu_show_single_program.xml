@@ -9,10 +9,16 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
 
-    <!--<item-->
-        <!--android:id="@+id/mn_locmap"-->
-        <!--android:title="+/- location, map"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never" />-->
+    <item
+        android:id="@+id/mn_locmap"
+        android:title="+/- location, map"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mn_desc"
+        android:title="+/- description"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 
 </menu>

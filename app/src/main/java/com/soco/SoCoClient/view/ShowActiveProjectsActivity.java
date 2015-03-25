@@ -143,20 +143,20 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         final EditText input = new EditText(this);
         alert.setView(input);
 
-//        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                String n = input.getText().toString();
-//                Project p = new Project(n);
-//                dbmgrSoco.addProject(p);
-//                Toast.makeText(getApplicationContext(),
-//                        "Project created.", Toast.LENGTH_SHORT).show();
-//                ProjectUtil.createProjectOnServer(n, getApplicationContext(),
-//                        loginEmail, loginPassword);
-//                projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
-//                listProjects(null);
-//            }
-//        });
-        alert.setPositiveButton("Details", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String n = input.getText().toString();
+                Project p = new Project(n);
+                dbmgrSoco.addProject(p);
+                Toast.makeText(getApplicationContext(),
+                        "Project created.", Toast.LENGTH_SHORT).show();
+                ProjectUtil.createProjectOnServer(n, getApplicationContext(),
+                        loginEmail, loginPassword);
+                projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
+                listProjects(null);
+            }
+        });
+        alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String n = input.getText().toString();
                 Project p = new Project(n);

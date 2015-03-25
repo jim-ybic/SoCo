@@ -226,15 +226,17 @@ public class DBManagerSoco {
                     + DataConfig.ATTRIBUTE_NAME_LOCLAT + ","
                     + DataConfig.ATTRIBUTE_NAME_LOCLNG + ","
                     + DataConfig.ATTRIBUTE_NAME_LOCZOOM + ","
-                    + DataConfig.ATTRIBUTE_NAME_LOCNAME + ")");
+//                    + DataConfig.ATTRIBUTE_NAME_LOCNAME
+                    + ")");
             db.execSQL("DELETE FROM " + DataConfig.TABLE_ATTRIBUTE
                             + " WHERE " + DataConfig.COLUMN_ATTRIBUTE_PID + " = ?"
-                            + " AND " + DataConfig.COLUMN_ATTRIBUTE_NAME + " NOT IN (?, ?, ?, ?)",
+                            + " AND " + DataConfig.COLUMN_ATTRIBUTE_NAME + " NOT IN (?, ?, ?)",
                     new Object[]{pid,
                             DataConfig.ATTRIBUTE_NAME_LOCLAT,
                             DataConfig.ATTRIBUTE_NAME_LOCLNG,
-                            DataConfig.ATTRIBUTE_NAME_LOCZOOM,
-                            DataConfig.ATTRIBUTE_NAME_LOCNAME});
+                            DataConfig.ATTRIBUTE_NAME_LOCZOOM
+//                            ,DataConfig.ATTRIBUTE_NAME_LOCNAME
+                    });
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();

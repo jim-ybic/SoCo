@@ -81,7 +81,7 @@
                     <EditText
                         android:id="@+id/et_spdate"
                         android:layout_height="wrap_content"
-                        android:hint="Date not set"/>
+                        android:hint="Click to set Date"/>
                     <!--<Button-->
                         <!--android:layout_width="wrap_content"-->
                         <!--android:layout_height="wrap_content"-->
@@ -99,7 +99,7 @@
                     <EditText
                         android:id="@+id/et_sptime"
                         android:layout_height="wrap_content"
-                        android:hint="Time not set" />
+                        android:hint="Click to set time" />
                     <!--<Button-->
                         <!--android:layout_width="wrap_content"-->
                         <!--android:layout_height="wrap_content"-->
@@ -110,55 +110,56 @@
                 </TableRow>
             </TableLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
                 <TextView
+                    android:id="@+id/tv_splocname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="25dp"
-                    android:hint="Location" />
+                    android:hint="Location: " />
+                <EditText
+                    android:id="@+id/et_splocname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Click to set location"/>
                 <Button
+                    android:id="@+id/bt_splocname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="..."
+                    android:text="Map"
                     android:onClick="showLocationDetails"
-                    android:textSize="20dp"
-                    android:layout_alignParentRight="true"/>
-            </RelativeLayout>
+                    android:layout_alignParentRight="true"
+                    android:textSize="10dp"/>
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TableRow
                     android:id="@+id/tr_spplace">
-                    <TextView
-                        android:id="@+id/tv_splocname"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Location not set"
-                        android:layout_weight="1"/>
+
                 </TableRow>
             </TableLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="25dp"
-                    android:hint="Description" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+"
-                    android:onClick="setVisiblePdesc"
-                    android:textSize="20dp"
-                    android:layout_alignParentRight="true"/>
-            </RelativeLayout>
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal" >-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="25dp"-->
+                    <!--android:hint="Description" />-->
+                <!--<Button-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="+"-->
+                    <!--android:onClick="setVisiblePdesc"-->
+                    <!--android:textSize="20dp"-->
+                    <!--android:layout_alignParentRight="true"/>-->
+            <!--</RelativeLayout>-->
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -166,22 +167,22 @@
                 <TableRow
                     android:id="@+id/tr_spdesc">
                     <TextView
+                        android:id="@+id/tv_spdesc"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="Description" />
+                        android:text="Description: " />
                     <EditText
                         android:id="@+id/et_spdesc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Description not set"
-                        android:layout_weight="1"/>
-                    <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="clearPdesc"
-                        android:id="@+id/bt_clear_pdesc"
-                        android:text="-"
-                        android:textSize="20dp"/>
+                        android:hint="Click to set escription"/>
+                    <!--<Button-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:onClick="clearPdesc"-->
+                        <!--android:id="@+id/bt_clear_pdesc"-->
+                        <!--android:text="-"-->
+                        <!--android:textSize="20dp"/>-->
                 </TableRow>
             </TableLayout>
 
