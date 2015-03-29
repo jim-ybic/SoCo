@@ -54,10 +54,10 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     // Local views
     EditText pdateEditText, ptimeEditText;
     EditText et_spname, et_spdate, et_sptime, et_spdesc;
-    TextView tv_spdate, tv_sptime, tv_splocname, tv_spdesc;
-    EditText et_splocname;
+    TextView tv_spdate, tv_sptime, tv_splocname, tv_spdesc, tv_sptag;
+    EditText et_splocation, et_sptag;
     AutoCompleteTextView et_spphone_auto, et_spemail_auto;
-    TableRow tr_spdatetime, tr_splocname, tr_spdesc, tr_spphone, tr_spemail;
+    TableRow tr_spdatetime, tr_splocation, tr_spdesc, tr_spphone, tr_spemail, tr_sptag;
     Button bt_clear_pdatetime, bt_splocname;
 
     // Local variables
@@ -161,14 +161,14 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         et_spname = (EditText) findViewById(R.id.et_spname);
         et_spdate = (EditText) findViewById(R.id.et_spdate);
         et_sptime = (EditText) findViewById(R.id.et_sptime);
-        et_splocname = (EditText) findViewById(R.id.et_splocname);
+        et_splocation = (EditText) findViewById(R.id.et_splocation);
         et_spdesc = (EditText) findViewById(R.id.et_spdesc);
         et_spphone_auto = (AutoCompleteTextView) findViewById(R.id.et_spphone_auto);
         et_spemail_auto = (AutoCompleteTextView) findViewById(R.id.et_spemail_auto);
 
-//        tr_spdatetime = (TableRow) findViewById(R.id.tr_spdatetime);
+        tr_spdatetime = (TableRow) findViewById(R.id.tr_spdatetime);
 //        tr_sptime = (TableRow) findViewById(R.id.tr_sptime);
-        tr_splocname = (TableRow) findViewById(R.id.tr_spplace);
+        tr_splocation = (TableRow) findViewById(R.id.tr_splocation);
         tr_spdesc = (TableRow) findViewById(R.id.tr_spdesc);
         tr_spphone = (TableRow) findViewById(R.id.tr_spphone);
         tr_spemail = (TableRow) findViewById(R.id.tr_spemail);
@@ -178,7 +178,11 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         tv_splocname = (TextView) findViewById(R.id.tv_splocname);
         tv_spdesc = (TextView) findViewById(R.id.tv_spdesc);
 
-        bt_splocname = (Button) findViewById(R.id.bt_splocname);
+        bt_splocname = (Button) findViewById(R.id.bt_splocation);
+
+        tr_sptag = (TableRow) findViewById(R.id.tr_sptag);
+        tv_sptag = (TextView) findViewById(R.id.tv_sptag);
+        et_sptag = (EditText) findViewById(R.id.et_sptag);
 
 //        bt_clear_pdatetime = (Button) findViewById(R.id.bt_clear_pdatetime);
     }
@@ -201,46 +205,69 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
         switch (item.getItemId()) {
             case android.R.id.home:
-//                Log.i(tag, "Menu click: home.");
-//                gotoPreviousScreen();
                 finish();
                 break;
             case R.id.mn_datetime:
                 if (et_spdate.getText().toString().isEmpty()
                         || et_sptime.getText().toString().isEmpty()){
+                    tr_spdatetime.setVisibility(View.VISIBLE);
                     tv_spdate.setVisibility(View.VISIBLE);
                     et_spdate.setVisibility(View.VISIBLE);
                     tv_sptime.setVisibility(View.VISIBLE);
                     et_sptime.setVisibility(View.VISIBLE);
                 } else {
                     et_spdate.setText("");
-                    tv_spdate.setVisibility(View.GONE);
-                    et_spdate.setVisibility(View.GONE);
+//                    tv_spdate.setVisibility(View.GONE);
+//                    et_spdate.setVisibility(View.GONE);
                     et_sptime.setText("");
-                    tv_sptime.setVisibility(View.GONE);
-                    et_sptime.setVisibility(View.GONE);
+                    tr_spdatetime.setVisibility(View.GONE);
+//                    et_sptime.setVisibility(View.GONE);
                 }
                 break;
-            case R.id.mn_locmap:
-                if (et_splocname.getText().toString().isEmpty()){
-                    tv_splocname.setVisibility(View.VISIBLE);
-                    et_splocname.setVisibility(View.VISIBLE);
-                    bt_splocname.setVisibility(View.VISIBLE);
+            case R.id.mn_location:
+                if (et_splocation.getText().toString().isEmpty()){
+                    tr_splocation.setVisibility(View.VISIBLE);
+//                    et_splocation.setVisibility(View.VISIBLE);
+//                    bt_splocname.setVisibility(View.VISIBLE);
                 } else {
-                    et_splocname.setText("");
-                    tv_splocname.setVisibility(View.GONE);
-                    et_splocname.setVisibility(View.GONE);
-                    bt_splocname.setVisibility(View.GONE);
+                    et_splocation.setText("");
+                    tr_splocation.setVisibility(View.GONE);
+//                    et_splocation.setVisibility(View.GONE);
+//                    bt_splocname.setVisibility(View.GONE);
                 }
                 break;
             case R.id.mn_desc:
                 if (et_spdesc.getText().toString().isEmpty()){
-                    tv_spdesc.setVisibility(View.VISIBLE);
-                    et_spdesc.setVisibility(View.VISIBLE);
+                    tr_spdesc.setVisibility(View.VISIBLE);
+//                    et_spdesc.setVisibility(View.VISIBLE);
                 } else {
                     et_spdesc.setText("");
-                    tv_spdesc.setVisibility(View.GONE);
-                    et_spdesc.setVisibility(View.GONE);
+                    tr_spdesc.setVisibility(View.GONE);
+//                    et_spdesc.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.mn_phone:
+                if (et_spphone_auto.getText().toString().isEmpty()){
+                    tr_spphone.setVisibility(View.VISIBLE);
+                } else {
+                    et_spphone_auto.setText("");
+                    tr_spphone.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.mn_email:
+                if (et_spemail_auto.getText().toString().isEmpty()){
+                    tr_spemail.setVisibility(View.VISIBLE);
+                } else {
+                    et_spemail_auto.setText("");
+                    tr_spemail.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.mn_tag:
+                if (et_sptag.getText().toString().isEmpty()){
+                    tr_sptag.setVisibility(View.VISIBLE);
+                } else {
+                    et_sptag.setText("");
+                    tr_sptag.setVisibility(View.GONE);
                 }
                 break;
         }
@@ -256,7 +283,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     public void setVisibleDateTimePlace(View view) {
         tr_spdatetime.setVisibility(View.VISIBLE);
 //        tr_sptime.setVisibility(View.VISIBLE);
-        tr_splocname.setVisibility(View.VISIBLE);
+        tr_splocation.setVisibility(View.VISIBLE);
     }
 
     public void setVisiblePhoneEmail(View view) {
@@ -279,8 +306,8 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     }
 
     public void clearPplace(View view) {
-        et_splocname.setText("");
-        tr_splocname.setVisibility(View.GONE);
+        et_splocation.setText("");
+        tr_splocation.setVisibility(View.GONE);
     }
 
     public void clearPdesc(View view) {
@@ -350,23 +377,26 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         et_spname.setText(p.pname);
 
         //hide all attributes (before showing available attributes)
+        tr_spdatetime.setVisibility(View.GONE);
         tv_spdate.setVisibility(View.GONE);
         et_spdate.setVisibility(View.GONE);
         tv_sptime.setVisibility(View.GONE);
         et_sptime.setVisibility(View.GONE);
 //        bt_clear_pdatetime.setVisibility(View.GONE);
 
-//        tr_splocname.setVisibility(View.GONE);
-        tv_splocname.setVisibility(View.GONE);
-        et_splocname.setVisibility(View.GONE);
-        bt_splocname.setVisibility(View.GONE);
+        tr_splocation.setVisibility(View.GONE);
+//        tv_splocname.setVisibility(View.GONE);
+//        et_splocation.setVisibility(View.GONE);
+//        bt_splocname.setVisibility(View.GONE);
 
-//        tr_spdesc.setVisibility(View.GONE);
-        tv_spdesc.setVisibility(View.GONE);
-        et_spdesc.setVisibility(View.GONE);
+        tr_spdesc.setVisibility(View.GONE);
+//        tv_spdesc.setVisibility(View.GONE);
+//        et_spdesc.setVisibility(View.GONE);
 
         tr_spphone.setVisibility(View.GONE);
         tr_spemail.setVisibility(View.GONE);
+
+        tr_sptag.setVisibility(View.GONE);
 
         //show available attributes
         for(HashMap<String, String> map : attrMap) {
@@ -376,24 +406,26 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 Log.d(tag, "Current attr: " + attr_name + ", " + attr_value);
 
                 if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_DATE)) {    //date
+                    tr_spdatetime.setVisibility(View.VISIBLE);
                     tv_spdate.setVisibility(View.VISIBLE);
                     et_spdate.setVisibility(View.VISIBLE);
                     et_spdate.setText(attr_value, TextView.BufferType.EDITABLE);
 //                    bt_clear_pdatetime.setVisibility(View.VISIBLE);
                 } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_TIME)) {   //time
+                    tr_spdatetime.setVisibility(View.VISIBLE);
                     tv_sptime.setVisibility(View.VISIBLE);
                     et_sptime.setVisibility(View.VISIBLE);
                     et_sptime.setText(attr_value, TextView.BufferType.EDITABLE);
 //                    bt_clear_pdatetime.setVisibility(View.VISIBLE);
                 } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_LOCNAME)) {   //locname
-//                    tr_splocname.setVisibility(View.VISIBLE);
-                    tv_splocname.setVisibility(View.VISIBLE);
-                    et_splocname.setVisibility(View.VISIBLE);
-                    et_splocname.setText(attr_value, TextView.BufferType.EDITABLE);
-                    bt_splocname.setVisibility(View.VISIBLE);
+                    tr_splocation.setVisibility(View.VISIBLE);
+//                    tv_splocname.setVisibility(View.VISIBLE);
+//                    et_splocation.setVisibility(View.VISIBLE);
+                    et_splocation.setText(attr_value, TextView.BufferType.EDITABLE);
+//                    bt_splocname.setVisibility(View.VISIBLE);
                 } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_DESC)) {   //description
-                    tv_spdesc.setVisibility(View.VISIBLE);
-                    et_spdesc.setVisibility(View.VISIBLE);
+                    tr_spdesc.setVisibility(View.VISIBLE);
+//                    et_spdesc.setVisibility(View.VISIBLE);
                     et_spdesc.setText(attr_value, TextView.BufferType.EDITABLE);
                 } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_PHONE)) {   //phone
                     tr_spphone.setVisibility(View.VISIBLE);
@@ -401,6 +433,9 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_EMAIL)) {   //email
                     tr_spemail.setVisibility(View.VISIBLE);
                     et_spemail_auto.setText(attr_value, TextView.BufferType.EDITABLE);
+                } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_TAG)) {    //tag
+                    tr_sptag.setVisibility(View.VISIBLE);
+                    et_sptag.setText(attr_value, TextView.BufferType.EDITABLE);
                 }
             }
         }
@@ -426,7 +461,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         if (time != null && !time.isEmpty())
             attrMap.put(ATTRIBUTE_NAME_TIME, time);
 
-        String locname = et_splocname.getText().toString();
+        String locname = et_splocation.getText().toString();
         if (locname != null && !locname.isEmpty())
             attrMap.put(ATTRIBUTE_NAME_LOCNAME, locname);
 
@@ -444,6 +479,11 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         if(email != null && !email.isEmpty())
             attrMap.put(ATTRIBUTE_NAME_EMAIL, email);
 
+        //tag
+        String tag = et_sptag.getText().toString();
+        if (tag != null && !tag.isEmpty())
+            attrMap.put(ATTRIBUTE_NAME_TAG, tag);
+        
         return attrMap;
     }
 

@@ -84,7 +84,7 @@ public class ProjectLocationActivity extends ActionBarActivity {
         });
 
         name = findAttrValue(attrMap, DataConfig.ATTRIBUTE_NAME_LOCNAME);
-        ((EditText)findViewById(R.id.et_splocname)).setText(name, TextView.BufferType.EDITABLE);
+        ((EditText)findViewById(R.id.et_splocation)).setText(name, TextView.BufferType.EDITABLE);
     }
 
     public static String findAttrValue(ArrayList<HashMap<String, String>> attrMap,
@@ -135,7 +135,7 @@ public class ProjectLocationActivity extends ActionBarActivity {
     public void reset(View view){
         Log.d(tag, "Reset map and clear markers");
         googleMap.clear();
-        ((EditText)findViewById(R.id.et_splocname)).setText("", TextView.BufferType.EDITABLE);
+        ((EditText)findViewById(R.id.et_splocation)).setText("", TextView.BufferType.EDITABLE);
     }
 
     public void save(View view){
@@ -143,7 +143,7 @@ public class ProjectLocationActivity extends ActionBarActivity {
         app.lat = lat;
         app.lng = lng;
         app.zoom = zoom;
-        String name = ((EditText)findViewById(R.id.et_splocname)).getText().toString();
+        String name = ((EditText)findViewById(R.id.et_splocation)).getText().toString();
         app.locationName = name;
         Log.i(tag, "Save current point: " + lat + ", " + lng + ", " + zoom
                 + ", name: " + name);

@@ -64,7 +64,7 @@ public class SignatureUtil {
             if (s.isEmpty())
                 s = n;
             else
-                s += ", " + n;
+                s += "\n" + n;
         }
         return s;
     }

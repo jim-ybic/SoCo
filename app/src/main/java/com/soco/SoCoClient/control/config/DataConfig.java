@@ -49,6 +49,7 @@ public class DataConfig {
     public static String ATTRIBUTE_NAME_LOCZOOM = "loczoom";
     public static String ATTRIBUTE_NAME_LOCNAME = "locname";
     public static String ATTRIBUTE_NAME_LOC_PREFIX = "loc";
+    public static String ATTRIBUTE_NAME_TAG = "tag";
 
 
     public static String TABLE_SHARED_FILE = "shared_files";
