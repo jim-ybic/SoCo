@@ -317,6 +317,30 @@ public class DBManagerSoco {
         Log.i(tag, "Updated project " + pid + " update timestamp: " + now);
     }
 
+    public void updateProjectTag(int pid, String ptag){
+        Log.i(tag, "Update database for project: " + pid);
+
+        ContentValues cv = new ContentValues();
+        cv.put(DataConfig.COLUMN_PROJECT_TAG, ptag);
+        String now = SignatureUtil.now();
+        cv.put(DataConfig.COLUMN_PROJECT_UPDATE_TIMESTAMP, now);
+//        cv.put(DbConfig.COLUMN_PDATE, p.pdate);
+//        cv.put(DbConfig.COLUMN_PTIME, p.ptime);
+//        cv.put(DbConfig.COLUMN_PPLACE, p.pplace);
+//        cv.put(DbConfig.COLUMN_PCOMPLETE, p.pcomplete);
+//        cv.put(DbConfig.COLUMN_PDESC, p.pdesc);
+//        cv.put(DbConfig.COLUMN_PPHONE, p.pphone);
+//        cv.put(DbConfig.COLUMN_PEMAIL, p.pemail);
+//        cv.put(DbConfig.COLUMN_PWECHAT, p.pwechat);
+
+        db.update(DataConfig.TABLE_PROJECT, cv, DataConfig.COLUMN_PROJECT_ID + " = ?",
+                new String[]{String.valueOf(pid)});
+
+        Log.i(tag, "Updated project " + pid + " tag: " + ptag);
+        Log.i(tag, "Updated project " + pid + " update timestamp: " + now);
+    }
+
+
 //    public void update(String original_pname, Program p) {
 //        Log.i(tag, "Update database for program: " + p.toString());
 //

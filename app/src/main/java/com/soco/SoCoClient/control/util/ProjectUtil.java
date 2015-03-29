@@ -13,6 +13,8 @@ import com.soco.SoCoClient.model.Project;
 import com.soco.SoCoClient.view.LoginActivity;
 import com.soco.SoCoClient.view.ShowActiveProjectsActivity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProjectUtil {
@@ -48,5 +50,23 @@ public class ProjectUtil {
                 loginEmail, loginPassword, pid, cr);
         String localPath = FileUtils.copyFileToLocal(uri, cr);
         dbmgrSoco.addSharedFile(pid, displayName, uri, remotePath, localPath);
+    }
+
+    public static HashMap<String, ArrayList<Project>> groupingProjectsByTag(List<Project> projects){
+        HashMap<String, ArrayList<Project>> map = new HashMap<String, ArrayList<Project>>();
+        for(Project p : projects){
+            String tag = p.ptag;
+            if (map.containsKey(tag)) {
+                Log.d(tag, "Add " + p.pname + " into existing group " + tag);
+                map.get(tag).add(p);
+            } else {
+                Log.d(tag, "Create new group " + p.ptag + " for " + p.pname);
+                ArrayList<Project> pp = new ArrayList<Project>();
+                pp.add(p);
+                map.put(tag, pp);
+            }
+        }
+
+        return map;
     }
 }

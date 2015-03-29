@@ -433,11 +433,19 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_EMAIL)) {   //email
                     tr_spemail.setVisibility(View.VISIBLE);
                     et_spemail_auto.setText(attr_value, TextView.BufferType.EDITABLE);
-                } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_TAG)) {    //tag
-                    tr_sptag.setVisibility(View.VISIBLE);
-                    et_sptag.setText(attr_value, TextView.BufferType.EDITABLE);
                 }
+//                else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_TAG)) {    //tag
+//                    tr_sptag.setVisibility(View.VISIBLE);
+//                    et_sptag.setText(attr_value, TextView.BufferType.EDITABLE);
+//                }
             }
+        }
+
+        //show tag
+        String ptag = p.ptag;
+        if(ptag != null && !ptag.isEmpty()){
+            tr_sptag.setVisibility(View.VISIBLE);
+            et_sptag.setText(ptag, TextView.BufferType.EDITABLE);
         }
 
         //show shared file summary
@@ -480,9 +488,9 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
             attrMap.put(ATTRIBUTE_NAME_EMAIL, email);
 
         //tag
-        String tag = et_sptag.getText().toString();
-        if (tag != null && !tag.isEmpty())
-            attrMap.put(ATTRIBUTE_NAME_TAG, tag);
+//        String tag = et_sptag.getText().toString();
+//        if (tag != null && !tag.isEmpty())
+//            attrMap.put(ATTRIBUTE_NAME_TAG, tag);
         
         return attrMap;
     }
@@ -491,6 +499,9 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         Log.i(tag, "Save to db the project: " + project.pid + ", " + project.pname);
         String pname = et_spname.getText().toString();
         dbmgrSoco.updateProjectName(project.pid, pname);
+        String ptag = et_sptag.getText().toString();
+        dbmgrSoco.updateProjectTag(project.pid, ptag);
+
         HashMap<String, String> attrMap2 = collectProjectAttributesFromScreen();
         dbmgrSoco.updateDbProjectAttributes(pid, attrMap2);
         Toast.makeText(getApplicationContext(), "Project saved.", Toast.LENGTH_SHORT).show();
