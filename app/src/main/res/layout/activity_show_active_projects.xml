@@ -60,6 +60,14 @@
             android:drawableLeft="@drawable/ic_action_forward"
             android:layout_weight="1"
             android:textSize="10dp"/>
+        <!--<Button-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Test"-->
+            <!--android:onClick="test"-->
+            <!--android:drawableLeft="@drawable/ic_action_forward"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textSize="10dp"/>-->
     </LinearLayout>
 
 </LinearLayout>

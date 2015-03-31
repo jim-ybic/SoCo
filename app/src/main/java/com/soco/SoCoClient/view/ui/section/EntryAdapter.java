@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.view.ui;
+package com.soco.SoCoClient.view.ui.section;
 
 import java.util.ArrayList;
 

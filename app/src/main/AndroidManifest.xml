@@ -18,7 +18,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -35,9 +35,12 @@
             android:configChanges="orientation|keyboard"
             android:launchMode="singleTask" >
             <intent-filter>
+
                 <!-- Change this to be db- followed by your app key -->
                 <data android:scheme="db-7cfm4ur90xw54pv" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -81,7 +84,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCZmxbgzgDM4ncl6A8BWtw5AujhuAGPZ60"/>
+            android:value="AIzaSyCZmxbgzgDM4ncl6A8BWtw5AujhuAGPZ60" />
 
         <activity
             android:name=".view.ProfileActivity"
@@ -91,15 +94,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.ShowActiveProjectsActivity" />
         </activity>
-        <!--<activity-->
-            <!--android:name=".zz.ShowMoreActivity"-->
-            <!--android:label="@string/title_activity_show_more"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:parentActivityName=".view.ShowSingleProjectActivity" >-->
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value=".view.ShowSingleProjectActivity" />-->
-        <!--</activity>-->
+        <!-- <activity -->
+        <!-- android:name=".zz.ShowMoreActivity" -->
+        <!-- android:label="@string/title_activity_show_more" -->
+        <!-- android:launchMode="singleTop" -->
+        <!-- android:parentActivityName=".view.ShowSingleProjectActivity" > -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.PARENT_ACTIVITY" -->
+        <!-- android:value=".view.ShowSingleProjectActivity" /> -->
+        <!-- </activity> -->
         <activity
             android:name=".view.ServerConfigActivity"
             android:label="@string/title_activity_server_config" >
@@ -120,6 +123,14 @@
         <activity
             android:name=".view.ProjectLocationActivity"
             android:label="@string/title_activity_project_location" >
+        </activity>
+        <activity
+            android:name=".view.ShowSingleProjectNewActivity"
+            android:label="@string/title_activity_show_single_project_new"
+            android:parentActivityName=".view.ShowActiveProjectsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.ShowActiveProjectsActivity" />
         </activity>
     </application>
 

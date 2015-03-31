@@ -14,7 +14,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,18 +23,16 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.util.ProjectUtil;
-import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.soco.SoCoClient.view.ui.EntryAdapter;
-import com.soco.SoCoClient.view.ui.EntryItem;
-import com.soco.SoCoClient.view.ui.Item;
-import com.soco.SoCoClient.view.ui.SectionItem;
+import com.soco.SoCoClient.view.ui.section.EntryAdapter;
+import com.soco.SoCoClient.view.ui.section.EntryItem;
+import com.soco.SoCoClient.view.ui.section.Item;
+import com.soco.SoCoClient.view.ui.section.SectionItem;
 
 public class ShowActiveProjectsActivity extends ActionBarActivity {
 
@@ -79,10 +76,12 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
 
                     String name = item.title;
                     int pid = ProjectUtil.findPidByPname(projects, name);
+                    ((SocoApp)getApplicationContext()).pid = pid;
 
                     Intent intent = new Intent(view.getContext(), ShowSingleProjectActivity.class);
-                    ((SocoApp)getApplicationContext()).pid = pid;
                     startActivityForResult(intent, INTENT_SHOW_SINGLE_PROGRAM);
+//                    Intent i = new Intent(view.getContext(), ShowSingleProjectNewActivity.class);
+//                    startActivityForResult(i, INTENT_SHOW_SINGLE_PROGRAM);
                 }
 
 //                ListView listView = (ListView) parent;
@@ -294,6 +293,11 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
 //        listProjects(null);
         listProjectsTest(null);
+    }
+
+    public void test(View view){
+        Intent i = new Intent(getApplicationContext(), ShowSingleProjectNewActivity.class);
+        startActivity(i);
     }
 
 }
