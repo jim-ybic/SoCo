@@ -15,7 +15,7 @@ import com.soco.SoCoClient.control.util.ProfileUtil;
 public class ServerConfigActivity extends ActionBarActivity {
 
     static String tag = "ServerConfig";
-    EditText et_servip, et_servport, et_regiaddr, et_loginaddr, et_cprojectaddr;
+    EditText et_servip, et_servport, et_regiaddr, et_loginaddr, et_cprojectaddr, et_aprojectaddr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,7 @@ public class ServerConfigActivity extends ActionBarActivity {
         et_regiaddr = (EditText) findViewById(R.id.et_regiaddr);
         et_loginaddr = (EditText) findViewById(R.id.et_loginaddr);
         et_cprojectaddr = (EditText) findViewById(R.id.et_cprojectaddr);
+        et_aprojectaddr = (EditText) findViewById(R.id.et_aprojectaddr);
     }
 
     private void loadServerProperties(){
@@ -40,12 +41,15 @@ public class ServerConfigActivity extends ActionBarActivity {
         et_regiaddr.setText(ProfileUtil.getServerRegisterAddress(this));
         et_loginaddr.setText(ProfileUtil.getServerLoginAddr(this));
         et_cprojectaddr.setText(ProfileUtil.getCreateProjectAddr(this));
+        et_aprojectaddr.setText(ProfileUtil.getArchiveProjectAddr(this));
+
         Log.i(tag, "Load server config: "
                 + et_servip.getText().toString() + ", "
                 + et_servport.getText().toString() + ", "
                 + et_regiaddr.getText().toString() + ", "
                 + et_loginaddr.getText().toString() + ", "
-                + et_cprojectaddr.getText().toString());
+                + et_cprojectaddr.getText().toString() + ","
+                + et_aprojectaddr.getText().toString());
     }
 
     public void cancel (View view){
@@ -58,12 +62,15 @@ public class ServerConfigActivity extends ActionBarActivity {
         ProfileUtil.setServerRegisterAddress(this, et_regiaddr.getText().toString());
         ProfileUtil.setServerLoginAddr(this, et_loginaddr.getText().toString());
         ProfileUtil.setCreateProjectAddr(this, et_cprojectaddr.getText().toString());
+        ProfileUtil.setArchiveProjectAddr(this, et_aprojectaddr.getText().toString());
+
         Log.i(tag, "Save server config: "
                 + et_servip.getText().toString() + ", "
                 + et_servport.getText().toString() + ", "
                 + et_regiaddr.getText().toString() + ", "
                 + et_loginaddr.getText().toString() + ", "
-                + et_cprojectaddr.getText().toString());
+                + et_cprojectaddr.getText().toString() + ","
+                + et_aprojectaddr.getText().toString());
         finish();
     }
 

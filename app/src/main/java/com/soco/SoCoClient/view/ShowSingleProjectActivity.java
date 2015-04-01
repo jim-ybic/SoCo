@@ -20,6 +20,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.dropbox.DropboxUtil;
+import com.soco.SoCoClient.control.util.ProjectUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
@@ -58,7 +60,8 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     EditText et_splocation, et_sptag;
     AutoCompleteTextView et_spphone_auto, et_spemail_auto;
     TableRow tr_spdatetime, tr_splocation, tr_spdesc, tr_spphone, tr_spemail, tr_sptag;
-    Button bt_clear_pdatetime, bt_splocname;
+    Button bt_clear_pdatetime, bt_splocname, bt_spdetails, bt_spupdates;
+    ScrollView sv_sproject, sv_supdates;
 
     // Local variables
     DBManagerSoco dbmgrSoco = null;
@@ -183,6 +186,12 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         tr_sptag = (TableRow) findViewById(R.id.tr_sptag);
         tv_sptag = (TextView) findViewById(R.id.tv_sptag);
         et_sptag = (EditText) findViewById(R.id.et_sptag);
+
+        sv_sproject = (ScrollView) findViewById(R.id.sv_sproject);
+        bt_spdetails = (Button) findViewById(R.id.bt_spdetails);
+        bt_spupdates = (Button) findViewById(R.id.bt_spupdates);
+
+        sv_supdates = (ScrollView) findViewById(R.id.sv_supdates);
 
 //        bt_clear_pdatetime = (Button) findViewById(R.id.bt_clear_pdatetime);
     }
@@ -514,6 +523,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         dbmgrSoco.updateProjectActiveness(pid, DataConfig.VALUE_PROJECT_INACTIVE);
         Toast.makeText(getApplicationContext(), "Project complete, well done.",
                 Toast.LENGTH_SHORT).show();
+        ProjectUtil.serverArchiveProject(String.valueOf(pid), getApplicationContext());
         gotoPreviousScreen();
     }
 
@@ -846,7 +856,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 //                        // check result
 //                        boolean isSuccess = false;
 //                        for (int i=1; i<= Config.UPLOAD_RETRY; i++) {
-//                            Log.d(tag, "Wait for upload response: " + i + "/" + Config.UPLOAD_RETRY);
+//                            Log.d(tag, "Wait for upload parse: " + i + "/" + Config.UPLOAD_RETRY);
 //                            SystemClock.sleep(Config.UPLOAD_WAIT);
 //                            Log.d(tag, "Current upload status is: " + app.getUploadStatus());
 //                            if(app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_SUCCESS)) {
@@ -907,6 +917,26 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         ((SocoApp)getApplicationContext()).dbManagerSoco = dbmgrSoco;
         Intent i = new Intent(this, ProjectLocationActivity.class);
         startActivity(i);
+    }
+
+    public void detailsShowHide(View view){
+        if(bt_spdetails.getText().toString().equals("HIDE")) {
+            sv_sproject.setVisibility(View.GONE);
+            bt_spdetails.setText("SHOW");
+        }  else{
+            sv_sproject.setVisibility(View.VISIBLE);
+            bt_spdetails.setText("HIDE");
+        }
+    }
+
+    public void updatesShowHide(View view){
+        if(bt_spupdates.getText().toString().equals("HIDE")) {
+            sv_supdates.setVisibility(View.GONE);
+            bt_spupdates.setText("SHOW");
+        }  else{
+            sv_supdates.setVisibility(View.VISIBLE);
+            bt_spupdates.setText("HIDE");
+        }
     }
 
 }

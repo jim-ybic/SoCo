@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
     android:focusable="true"
-    android:focusableInTouchMode="true" >
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,6 +32,51 @@
             android:textSize="10dp"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:id="@+id/ll_sprojectname">
+        <EditText
+            android:id="@+id/et_spname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/abc_text_size_display_1_material"
+            android:hint="Name not set" />
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="Details: " />
+                <Button
+                    android:id="@+id/bt_spdetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HIDE"
+                    android:onClick="detailsShowHide"
+                    android:layout_alignParentRight="true"
+                    android:textSize="10dp"/>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="\tUpdates: " />
+                <Button
+                    android:id="@+id/bt_spupdates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HIDE"
+                    android:onClick="updatesShowHide"
+                    android:layout_alignParentRight="true"
+                    android:textSize="10dp"/>
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -43,12 +89,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/et_spname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/abc_text_size_display_1_material"
-                android:hint="Name not set" />
+            <!--<EditText-->
+                <!--android:id="@+id/et_spname"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="@dimen/abc_text_size_display_1_material"-->
+                <!--android:hint="Name not set" />-->
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -172,8 +218,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="25dp"
-                        android:hint="Shared Files"/>
+                        android:hint="Shared Files: "/>
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -212,4 +257,24 @@
 
         </LinearLayout>
     </ScrollView>
-</RelativeLayout>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/sv_supdates"
+        android:layout_below="@+id/ll_supdates">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Updates: "/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

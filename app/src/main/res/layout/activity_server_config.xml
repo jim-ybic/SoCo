@@ -80,6 +80,19 @@
                 android:layout_height="wrap_content"
                 android:hint="Create Project Address not set"/>
         </TableRow>
+        <TableRow
+            android:id="@+id/tr_aprojectaddr">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Archive Project" />
+            <EditText
+                android:id="@+id/et_aprojectaddr"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Archive Project Address not set"/>
+        </TableRow>
     </TableLayout>
 
 

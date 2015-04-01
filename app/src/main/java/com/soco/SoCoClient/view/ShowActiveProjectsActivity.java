@@ -166,7 +166,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 dbmgrSoco.addProject(p);
                 Toast.makeText(getApplicationContext(),
                         "Project created.", Toast.LENGTH_SHORT).show();
-                ProjectUtil.createProjectOnServer(n, getApplicationContext(),
+                ProjectUtil.serverCreateProject(n, getApplicationContext(),
                         loginEmail, loginPassword);
                 projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
 //                listProjects(null);
@@ -178,7 +178,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 String n = input.getText().toString();
                 Project p = new Project(n);
                 int pid = dbmgrSoco.addProject(p);
-                ProjectUtil.createProjectOnServer(n, getApplicationContext(),
+                ProjectUtil.serverCreateProject(n, getApplicationContext(),
                         loginEmail, loginPassword);
                 Intent intent = new Intent(getApplicationContext(), ShowSingleProjectActivity.class);
 //                intent.putExtra(Config.PROGRAM_PNAME, n);
@@ -276,7 +276,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         dbmgrSoco.addProject(p);
         Toast.makeText(getApplicationContext(),
                 "Project created success.", Toast.LENGTH_SHORT).show();
-        ProjectUtil.createProjectOnServer(name, getApplicationContext(),
+        ProjectUtil.serverCreateProject(name, getApplicationContext(),
                 loginEmail, loginPassword);
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
 //        listProjects(null);
@@ -293,11 +293,6 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
 //        listProjects(null);
         listProjectsTest(null);
-    }
-
-    public void test(View view){
-        Intent i = new Intent(getApplicationContext(), ShowSingleProjectNewActivity.class);
-        startActivity(i);
     }
 
 }

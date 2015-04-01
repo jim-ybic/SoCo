@@ -6,12 +6,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.dropbox.DropboxUtil;
 import com.soco.SoCoClient.control.http.HttpTask;
 import com.soco.SoCoClient.model.Project;
-import com.soco.SoCoClient.view.LoginActivity;
-import com.soco.SoCoClient.view.ShowActiveProjectsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,13 +32,21 @@ public class ProjectUtil {
         return pid;
     }
 
-    public static void createProjectOnServer(String pname, Context context,
-                                             String loginEmail, String loginPassword) {
+    public static void serverCreateProject(String pname, Context context,
+                                           String loginEmail, String loginPassword) {
         HttpTask registerTask = new HttpTask(
                 ProfileUtil.getCreateProjectUrl(context),
-                HttpTask.HTTP_TYPE_CREATE_PROJECT,
-                loginEmail, loginPassword, context, pname);
+                HttpConfig.HTTP_TYPE_CREATE_PROJECT,
+                loginEmail, loginPassword, context, pname, null);
         registerTask.execute();
+    }
+
+    public static void serverArchiveProject(String pid, Context context) {
+        HttpTask archiveProjectTask = new HttpTask(
+                ProfileUtil.getArchiveProjectUrl(context),
+                HttpConfig.HTTP_TYPE_ARCHIVE_PROJECT,
+                null, null, null, null, pid);
+        archiveProjectTask.execute();
     }
 
     public static void addSharedFileToDb(Uri uri,

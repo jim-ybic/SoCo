@@ -118,7 +118,7 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
             startService(intent);
 //            boolean isSuccess = false;
 //            for (int i = 1; i <= Config.UPLOAD_RETRY; i++) {
-//                Log.d(tag, "Wait for upload response: " + i + "/" + Config.UPLOAD_RETRY);
+//                Log.d(tag, "Wait for upload parse: " + i + "/" + Config.UPLOAD_RETRY);
 //                SystemClock.sleep(Config.UPLOAD_WAIT);
 //                Log.d(tag, "Current upload status is: " + app.getUploadStatus());
 //                if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_SUCCESS)) {

@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.Config;
+import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.http.HttpTask;
 import com.soco.SoCoClient.control.util.LoginUtil;
 import com.soco.SoCoClient.control.util.ProfileUtil;
@@ -87,8 +87,8 @@ public class LoginActivity extends ActionBarActivity {
         nickname = ProfileUtil.getNickname(getApplicationContext(), loginEmail);
 
         HttpTask loginTask = new HttpTask(
-                ProfileUtil.getLoginUrl(getApplicationContext()), HttpTask.HTTP_TYPE_LOGIN,
-                loginEmail, loginPassword, getApplicationContext(), null);
+                ProfileUtil.getLoginUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_LOGIN,
+                loginEmail, loginPassword, getApplicationContext(), null, null);
         loginTask.execute();
 
         //TODO: check if login is success
@@ -125,14 +125,14 @@ public class LoginActivity extends ActionBarActivity {
         app.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_START);
 
         HttpTask registerTask = new HttpTask(
-                ProfileUtil.getRegisterUrl(getApplicationContext()), HttpTask.HTTP_TYPE_REGISTER,
-                loginEmail, loginPassword, getApplicationContext(), null);
+                ProfileUtil.getRegisterUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_REGISTER,
+                loginEmail, loginPassword, getApplicationContext(), null, null);
         registerTask.execute();
 
         //wait and check login status
         boolean isSuccess = false;
         for (int i=1; i<= REGISTER_RETRY; i++) {
-            Log.d(tag, "Wait for registration response: " + i + "/" + REGISTER_RETRY);
+            Log.d(tag, "Wait for registration parse: " + i + "/" + REGISTER_RETRY);
             SystemClock.sleep(REGISTER_WAIT);;
             Log.d(tag, "Current registration status is: " + app.getRegistationStatus());
             if(app.getRegistationStatus().equals(SocoApp.REGISTRATION_STATUS_SUCCESS)) {
