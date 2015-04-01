@@ -78,7 +78,7 @@ public class DownloaderTask extends AsyncTask<Void, Void, Boolean> {
         try {
 //            Log.i(tag, "Dropbox put file to remote: " + remoteFilePath + ", "
 //                    + inputStream + ", " + len);
-//            DropboxAPI.Entry response = dropboxApi.putFile(
+//            DropboxAPI.Entry parse = dropboxApi.putFile(
 //                    remoteFilePath, inputStream, len, null, null);
             Log.d(tag, "Test read dropbox file");
 
@@ -99,7 +99,7 @@ public class DownloaderTask extends AsyncTask<Void, Void, Boolean> {
                 info = dropboxApi.getFile("/c1025defa913032715d4aac356ebd44f8eab30c4" +
                         "/c2b605fb03833b5d739373b28d43d68c493f75c5" +
                         "/IMG-20150219-WA0001.jpg", null, outputStream, null);
-                Log.i(tag, "Get file response: " + info);
+                Log.i(tag, "Get file parse: " + info);
             } catch (DropboxException e) {
                 Log.e(tag, "Cannot find file on dropbox: " + e.toString());
                 e.printStackTrace();
@@ -123,7 +123,7 @@ public class DownloaderTask extends AsyncTask<Void, Void, Boolean> {
 
 //            context.startActivity(intent);
 
-//            Log.i(tag, "Dropbox put file status: " + response.toString());
+//            Log.i(tag, "Dropbox put file status: " + parse.toString());
             SocoApp app = (SocoApp) context;
             app.setUploadStatus(SocoApp.UPLOAD_STATUS_SUCCESS);
         } catch (Exception e1) {

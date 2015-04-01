@@ -31,8 +31,10 @@ public class Config {
     public static String PROFILE_SERVER_REGISTER_ADDRESS = "server_register_address";
     public static String PROFILE_SERVER_LOGIN_ADDRESS = "server_login_address";
     public static String PROFILE_CREATE_PROJECT_ADDRESS = "create_project_address";
-    public static final String PROFILE_LOGIN_EMAIL = "login_email";
-    public static final String PROFILE_LOGIN_PASSWORD = "login_password";
+    public static String PROFILE_ARCHIVE_PROJECT_ADDRESS = "archive_project_address";
+    public static String PROFILE_LOGIN_EMAIL = "login_email";
+    public static String PROFILE_LOGIN_PASSWORD = "login_password";
+    public static String PROFILE_LAST_LOGIN_TIMESTAMP = "last_login_timestamp";
 
     public static String ACCESS_KEY = "7cfm4ur90xw54pv";
     public static String ACCESS_SECRET = "9rou23wi8t4htkz";

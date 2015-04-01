@@ -11,8 +11,7 @@ public class Profile {
 
     public String email, password;
     public String nickname;
-    public String phone;
-    public String wechat;
+    public String phone, wechat, lastLoginTimestamp;
 
     public Profile(Context context) {
         Log.i(tag, "Create profile from " + Config.PROFILE_FILENAME);
@@ -22,6 +21,7 @@ public class Profile {
         this.nickname = settings.getString(Config.PROFILE_NICKNAME,"");
         this.phone = settings.getString(Config.PROFILE_PHONE,"");
         this.wechat = settings.getString(Config.PROFILE_WECHAT,"");
+        this.lastLoginTimestamp = settings.getString(Config.PROFILE_LAST_LOGIN_TIMESTAMP,"");
     }
 
 }

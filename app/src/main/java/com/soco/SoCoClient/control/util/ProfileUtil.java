@@ -135,6 +135,18 @@ public class ProfileUtil {
         editor.commit();
     }
 
+    public static String getArchiveProjectAddr(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        return settings.getString(Config.PROFILE_ARCHIVE_PROJECT_ADDRESS, "");
+    }
+
+    public static void setArchiveProjectAddr(Context context, String addr){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_ARCHIVE_PROJECT_ADDRESS, addr);
+        editor.commit();
+    }
+
     public static String getLoginUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -164,6 +176,17 @@ public class ProfileUtil {
         return url;
     }
 
+    public static String getArchiveProjectUrl(Context context){
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = getArchiveProjectAddr(context);
+        String token = getLoginAccessToken(context);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        Log.i(tag, "Archive project url: " + url);
+        return url;
+    }
+
     public static String getLoginEmail(Context context){
         SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
         return settings.getString(Config.PROFILE_LOGIN_EMAIL, "");
@@ -185,6 +208,18 @@ public class ProfileUtil {
         SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(Config.PROFILE_LOGIN_PASSWORD, loginPassword);
+        editor.commit();
+    }
+
+    public static String getLastLoginTimestamp(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        return settings.getString(Config.PROFILE_LAST_LOGIN_TIMESTAMP, "");
+    }
+
+    public static void setLastLoginTimestamp(Context context, String timestamp){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_LAST_LOGIN_TIMESTAMP, timestamp);
         editor.commit();
     }
 

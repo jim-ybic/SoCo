@@ -33,7 +33,7 @@
         <TableRow>
             <TextView
                 android:layout_span="2"
-                android:text="\nBelow fields are optional "/>
+                android:text="\n(optional) "/>
         </TableRow>
         <TableRow>
             <TextView
@@ -65,6 +65,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Wechat not set" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TableRow>
+            <TextView
+                android:text="Last login: "/>
+            <TextView
+                android:id="@+id/tv_last_login_timestamp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="" />
         </TableRow>
     </TableLayout>
 

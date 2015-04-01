@@ -23,6 +23,7 @@ public class ProfileActivity extends ActionBarActivity {
 //    TextView tv_profile_email;
     EditText et_profile_email, et_profile_password;
     EditText et_profile_nickname, et_profile_phone, et_profile_wechat;
+    TextView tv_lastLoginTimestamp;
 
     String loginEmail, loginPassword;
     Profile profile;
@@ -48,6 +49,7 @@ public class ProfileActivity extends ActionBarActivity {
         et_profile_nickname = (EditText) findViewById(R.id.profile_nickname);
         et_profile_phone = (EditText) findViewById(R.id.profile_phone);
         et_profile_wechat = (EditText) findViewById(R.id.profile_wechat);
+        tv_lastLoginTimestamp = (TextView) findViewById(R.id.tv_last_login_timestamp);
     }
 
     Profile loadProfile() {
@@ -72,12 +74,13 @@ public class ProfileActivity extends ActionBarActivity {
     }
 
     public void showProfile(Profile profile){
-        et_profile_email.setText(profile.email, TextView.BufferType.EDITABLE);
-        et_profile_password.setText(profile.password, TextView.BufferType.EDITABLE);
-        et_profile_nickname.setText(profile.nickname, TextView.BufferType.EDITABLE);
+        et_profile_email.setText(profile.email);
+        et_profile_password.setText(profile.password);
+        et_profile_nickname.setText(profile.nickname);
 //        tv_profile_email.setText(profile.email, TextView.BufferType.EDITABLE);
-        et_profile_phone.setText(profile.phone, TextView.BufferType.EDITABLE);
-        et_profile_wechat.setText(profile.wechat, TextView.BufferType.EDITABLE);
+        et_profile_phone.setText(profile.phone);
+        et_profile_wechat.setText(profile.wechat);
+        tv_lastLoginTimestamp.setText(profile.lastLoginTimestamp);
     }
 
     @Override

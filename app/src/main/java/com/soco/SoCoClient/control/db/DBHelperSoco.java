@@ -51,7 +51,7 @@ public class DBHelperSoco extends SQLiteOpenHelper {
                 DataConfig.COLUMN_ATTRIBUTE_UPDATE_TIMESTAMP + " VARCHAR)");
 
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_SHARED_FILE      + " (" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_SHARED_FILE + " (" +
                 DataConfig.COLUMN_SHARED_FILE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DataConfig.COLUMN_SHARED_FILE_PID + " INTEGER, " +
                 DataConfig.COLUMN_SHARED_FILE_DISPLAY_NAME + " VARCHAR, " +
