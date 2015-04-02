@@ -17,6 +17,7 @@ public class HttpConfig {
     public static String JSON_KEY_PROJECT_TAG = "tag";
     public static String JSON_KEY_PROJECT_SIGNATURE = "signature";
     public static String JSON_KEY_PROJECT_ID = "activity";
+    public static String JSON_KEY_PROJECT_ID_ONSERVER = "id";
 
     public static String JSON_KEY_RESPONSE_STATUS = "status";
     public static String JSON_VALUE_RESPONSE_STATUS_SUCCESS = "success";

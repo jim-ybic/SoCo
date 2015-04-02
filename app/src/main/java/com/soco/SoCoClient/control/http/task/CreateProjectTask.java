@@ -1,8 +1,11 @@
 package com.soco.SoCoClient.control.http.task;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.HttpConfig;
+import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.HttpUtil;
 
 import org.json.JSONObject;
@@ -13,10 +16,11 @@ public class CreateProjectTask {
 
     static String TEST_STR_TO_REMOVE = "test string - to be removed";
 
-    public static void execute(String url, String pname){
+    public static void execute(String url, String pname, String pid, Context context){
         Object response = request(url, pname);
+        DBManagerSoco dbManagerSoco = ((SocoApp)context).dbManagerSoco;
         if (response != null)
-            parse(response);
+            parse(response, pid, dbManagerSoco);
     }
 
     public static Object request(String url, String pname) {
@@ -35,14 +39,19 @@ public class CreateProjectTask {
         return HttpUtil.executeHttpPost(url, data);
     }
 
-    public static boolean parse(Object response) {
+    public static boolean parse(Object response, String pid, DBManagerSoco dbManagerSoco) {
         try {
             String str = response.toString();
-            Log.i(tag, "Create project parse string: " + str);
+            Log.i(tag, "Parse string: " + str);
+
             JSONObject json = new JSONObject(response.toString());
             String isSuccess = json.getString(HttpConfig.JSON_KEY_RESPONSE_STATUS);
             if(isSuccess.equals(HttpConfig.JSON_VALUE_RESPONSE_STATUS_SUCCESS)) {
-                Log.i(tag, "Create project server parse: " + HttpConfig.JSON_VALUE_RESPONSE_STATUS_SUCCESS);
+                Log.i(tag, "Create project server parse: " +
+                        HttpConfig.JSON_VALUE_RESPONSE_STATUS_SUCCESS);
+                String pid_onserver = json.getString(HttpConfig.JSON_KEY_PROJECT_ID_ONSERVER);
+                Log.i(tag, "Project pid " + pid + ", set pid_onserver " + pid_onserver);
+                dbManagerSoco.updateProjectIdOnserver(Integer.parseInt(pid), pid_onserver);
                 return true;
             }
             else {

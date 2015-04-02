@@ -33,11 +33,11 @@ public class ProjectUtil {
     }
 
     public static void serverCreateProject(String pname, Context context,
-                                           String loginEmail, String loginPassword) {
+                                           String loginEmail, String loginPassword, String pid) {
         HttpTask registerTask = new HttpTask(
                 ProfileUtil.getCreateProjectUrl(context),
                 HttpConfig.HTTP_TYPE_CREATE_PROJECT,
-                loginEmail, loginPassword, context, pname, null);
+                loginEmail, loginPassword, context, pname, pid);
         registerTask.execute();
     }
 

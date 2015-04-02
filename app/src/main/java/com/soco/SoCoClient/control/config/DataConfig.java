@@ -24,6 +24,8 @@ public class DataConfig {
     public static String COLUMN_PROJECT_UPDATE_TIMESTAMP = "pupdate_timestamp";
     public static String COLUMN_PROJECT_SIGNATURE = "psignature";
     public static String COLUMN_PROJECT_ACTIVE = "pactive";
+    //update: 20150402
+    public static String COLUMN_PROJECT_ID_ONSERVER = "pid_onserver";
 
     public static String VALUE_PROJECT_ACTIVE = "active";
     public static String VALUE_PROJECT_INACTIVE = "inactive";

@@ -63,10 +63,11 @@ public class DBManagerSoco {
             Log.i(tag, "Insert into db: " + p.pname + ", "
                     + SignatureUtil.now() + ", " + SignatureUtil.now() + ", "
                     + SignatureUtil.genSHA1(p) + ", " + DataConfig.VALUE_PROJECT_ACTIVE);
-            db.execSQL("INSERT INTO " + DataConfig.TABLE_PROJECT + " VALUES(null, ?, ?, ?, ?, ?, ?)",
+            db.execSQL("INSERT INTO " + DataConfig.TABLE_PROJECT
+                            + " VALUES(null, ?, ?, ?, ?, ?, ?, ?)",
                     new Object[]{p.pname, "",
                             SignatureUtil.now(), SignatureUtil.now(), SignatureUtil.genSHA1(p),
-                            DataConfig.VALUE_PROJECT_ACTIVE});
+                            DataConfig.VALUE_PROJECT_ACTIVE, null});
 
             String query = "SELECT MAX(" + DataConfig.COLUMN_PROJECT_ID
                     + ") FROM " + DataConfig.TABLE_PROJECT;
@@ -82,7 +83,7 @@ public class DBManagerSoco {
             db.endTransaction();
         }
 
-        Log.i(tag, "New project added with pid: " + pid);
+        Log.i(tag, "New project added with local pid: " + pid);
         return pid;
     }
 
@@ -364,6 +365,15 @@ public class DBManagerSoco {
         ContentValues cv = new ContentValues();
         cv.put(DataConfig.COLUMN_PROJECT_ACTIVE, activeness);
         db.update(DataConfig.TABLE_PROJECT, cv, DataConfig.COLUMN_PROJECT_ID + " = ?",
+                new String[]{String.valueOf(pid)});
+    }
+
+    public void updateProjectIdOnserver(int pid, String pid_onserver) {
+        Log.i(tag, "Update project " + pid + " pid_onserver: " + pid_onserver);
+        ContentValues cv = new ContentValues();
+        cv.put(DataConfig.COLUMN_PROJECT_ID_ONSERVER, pid_onserver);
+        db.update(DataConfig.TABLE_PROJECT, cv,
+                DataConfig.COLUMN_PROJECT_ID + " = ?",
                 new String[]{String.valueOf(pid)});
     }
 

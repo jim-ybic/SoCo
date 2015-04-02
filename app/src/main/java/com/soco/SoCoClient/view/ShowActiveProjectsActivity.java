@@ -60,6 +60,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         Log.i(tag, "onCreate, get login info: " + loginEmail + ", " + loginPassword);
 
         dbmgrSoco = new DBManagerSoco(this);
+        ((SocoApp)getApplicationContext()).dbManagerSoco = dbmgrSoco;
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
 
 //        listProjects(null);
@@ -163,11 +164,11 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String n = input.getText().toString();
                 Project p = new Project(n);
-                dbmgrSoco.addProject(p);
+                int pid = dbmgrSoco.addProject(p);
                 Toast.makeText(getApplicationContext(),
                         "Project created.", Toast.LENGTH_SHORT).show();
                 ProjectUtil.serverCreateProject(n, getApplicationContext(),
-                        loginEmail, loginPassword);
+                        loginEmail, loginPassword, String.valueOf(pid));
                 projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
 //                listProjects(null);
                 listProjectsTest(null);
@@ -179,7 +180,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 Project p = new Project(n);
                 int pid = dbmgrSoco.addProject(p);
                 ProjectUtil.serverCreateProject(n, getApplicationContext(),
-                        loginEmail, loginPassword);
+                        loginEmail, loginPassword, String.valueOf(pid));
                 Intent intent = new Intent(getApplicationContext(), ShowSingleProjectActivity.class);
 //                intent.putExtra(Config.PROGRAM_PNAME, n);
 //                intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
@@ -273,11 +274,11 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
     public void quickAdd(View view){
         String name = ((EditText)findViewById(R.id.et_quickadd)).getText().toString();
         Project p = new Project(name);
-        dbmgrSoco.addProject(p);
+        int pid = dbmgrSoco.addProject(p);
         Toast.makeText(getApplicationContext(),
                 "Project created success.", Toast.LENGTH_SHORT).show();
         ProjectUtil.serverCreateProject(name, getApplicationContext(),
-                loginEmail, loginPassword);
+                loginEmail, loginPassword, String.valueOf(pid));
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
 //        listProjects(null);
         listProjectsTest(null);
