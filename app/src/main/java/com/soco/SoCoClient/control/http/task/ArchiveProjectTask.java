@@ -11,16 +11,16 @@ public class ArchiveProjectTask {
 
     public static String tag = "ArchiveProjectTask";
 
-    public static void execute(String url, String pid){
-        Object response = request(url, pid);
+    public static void execute(String url, String pid, String pid_onserver){
+        Object response = request(url, pid, pid_onserver);
         if (response != null)
             parse(response);
     }
 
-    public static Object request(String url, String pid) {
+    public static Object request(String url, String pid, String pid_onserver) {
         JSONObject data = new JSONObject();
         try {
-            data.put(HttpConfig.JSON_KEY_PROJECT_ID, pid);
+            data.put(HttpConfig.JSON_KEY_PROJECT_ID, Integer.parseInt(pid_onserver));
             Log.i(tag, "Post Json: " + data);
         } catch (Exception e) {
             Log.e(tag, "Cannot create create project Json post data");

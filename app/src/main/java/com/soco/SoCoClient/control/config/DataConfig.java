@@ -69,4 +69,6 @@ public class DataConfig {
     public static String DEFAULT_LOCATION_LNG = "114.12860479205847";
     public static String DEFAULT_LOCATION_ZOOM = "10.7580385";
 
+    public static int INT_INDEX_1 = 1;
+    public static String TYPE_STRING = "String";
 }

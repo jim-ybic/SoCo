@@ -156,6 +156,11 @@ public class DBManagerSoco {
         return p;
     }
 
+    public String findProjectIdOnserver(int pid){
+        Project p = loadProjectByPid(pid);
+        return p.pid_onserver;
+    }
+
     public ArrayList<HashMap<String, String>> loadProjectAttributesByPid(int pid){
         Log.i(tag, "Load project attributes for pid: " + pid);
         ArrayList<HashMap<String, String>> list = new ArrayList<>();

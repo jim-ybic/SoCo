@@ -79,6 +79,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
     DropboxAPI<AndroidAuthSession> dropboxApi;
     int pid;
+    String pid_onserver;
 
     private ArrayList<Map<String, String>> listNamePhone, listNameEmail;
     private SimpleAdapter mAdapterPhone, mAdapterEmail;
@@ -92,11 +93,14 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         loginEmail = ((SocoApp)getApplicationContext()).loginEmail;
         loginPassword = ((SocoApp)getApplicationContext()).loginPassword;
         pid = ((SocoApp)getApplicationContext()).pid;
+        pid_onserver = ((SocoApp)getApplicationContext()).pid_onserver;
 
         Log.i(tag, "onCreate, get project properties: "
                 + Config.LOGIN_EMAIL + ":" + loginEmail + ", "
                 + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
-                + Config.PROJECT_PID + ":" + pid);
+                + Config.PROJECT_PID + ":" + pid + ","
+                + Config.PROJECT_PID_ONSERVER + ":" + pid_onserver
+        );
 
         dbmgrSoco = new DBManagerSoco(this);
         project = dbmgrSoco.loadProjectByPid(pid);
@@ -508,11 +512,18 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         Log.i(tag, "Save to db the project: " + project.pid + ", " + project.pname);
         String pname = et_spname.getText().toString();
         dbmgrSoco.updateProjectName(project.pid, pname);
+        ProjectUtil.serverUpdateProjectName(String.valueOf(pid), getApplicationContext(),
+                pname, pid_onserver);
+
         String ptag = et_sptag.getText().toString();
         dbmgrSoco.updateProjectTag(project.pid, ptag);
+        //TODO: server interface to update project tag
 
         HashMap<String, String> attrMap2 = collectProjectAttributesFromScreen();
         dbmgrSoco.updateDbProjectAttributes(pid, attrMap2);
+        ProjectUtil.serverSetProjectAttribute(String.valueOf(pid), getApplicationContext(),
+                pname, pid_onserver, attrMap2);
+
         Toast.makeText(getApplicationContext(), "Project saved.", Toast.LENGTH_SHORT).show();
         attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);
     }
@@ -523,7 +534,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         dbmgrSoco.updateProjectActiveness(pid, DataConfig.VALUE_PROJECT_INACTIVE);
         Toast.makeText(getApplicationContext(), "Project complete, well done.",
                 Toast.LENGTH_SHORT).show();
-        ProjectUtil.serverArchiveProject(String.valueOf(pid), getApplicationContext());
+        ProjectUtil.serverArchiveProject(String.valueOf(pid), getApplicationContext(), pid_onserver);
         gotoPreviousScreen();
     }
 

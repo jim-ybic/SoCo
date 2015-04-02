@@ -88,7 +88,7 @@ public class LoginActivity extends ActionBarActivity {
 
         HttpTask loginTask = new HttpTask(
                 ProfileUtil.getLoginUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_LOGIN,
-                loginEmail, loginPassword, getApplicationContext(), null, null);
+                loginEmail, loginPassword, getApplicationContext(), null, null, null, null);
         loginTask.execute();
 
         //TODO: check if login is success
@@ -126,7 +126,7 @@ public class LoginActivity extends ActionBarActivity {
 
         HttpTask registerTask = new HttpTask(
                 ProfileUtil.getRegisterUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_REGISTER,
-                loginEmail, loginPassword, getApplicationContext(), null, null);
+                loginEmail, loginPassword, getApplicationContext(), null, null, null, null);
         registerTask.execute();
 
         //wait and check login status

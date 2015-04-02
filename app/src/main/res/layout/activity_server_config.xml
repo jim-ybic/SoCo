@@ -93,6 +93,32 @@
                 android:layout_height="wrap_content"
                 android:hint="Archive Project Address not set"/>
         </TableRow>
+        <TableRow
+            android:id="@+id/tr_rnprojectaddr">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Rename Project" />
+            <EditText
+                android:id="@+id/et_rnprojectaddr"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Rename Project Address not set"/>
+        </TableRow>
+        <TableRow
+            android:id="@+id/tr_sprojattraddr">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Set Project Attribute" />
+            <EditText
+                android:id="@+id/et_sprojattraddr"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Set Project Attribute Address not set"/>
+        </TableRow>
     </TableLayout>
 
 

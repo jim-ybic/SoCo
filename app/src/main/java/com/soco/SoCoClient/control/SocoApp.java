@@ -41,6 +41,7 @@ public class SocoApp extends Application {
     public DropboxAPI<AndroidAuthSession> dropboxApi;
     public Uri uri;
     public String lat, lng, zoom, locationName;
+    public String pid_onserver;
 
     public void setDropboxDownloadUri(Uri uri){
         this.dropboxDownloadUri = uri;

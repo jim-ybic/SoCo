@@ -13,6 +13,7 @@ public class Project {
     public String pupdate_timestamp;
     public String psignature;
     public String pactive;
+    public String pid_onserver;
 
     public Project(String name) {
         this.pname = name;
@@ -28,6 +29,7 @@ public class Project {
                 DataConfig.COLUMN_PROJECT_UPDATE_TIMESTAMP));
         this.psignature = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_SIGNATURE));
         this.pactive = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_ACTIVE));
+        this.pid_onserver = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_ID_ONSERVER));
     }
 
     public String getMoreInfo() {

@@ -6,6 +6,8 @@ public class HttpConfig {
     public static String HTTP_TYPE_REGISTER = "register";
     public static String HTTP_TYPE_CREATE_PROJECT = "create_project";
     public static String HTTP_TYPE_ARCHIVE_PROJECT = "archive_project";
+    public static String HTTP_TYPE_UPDATE_PROJECT_NAME = "update_project_name";
+    public static String HTTP_TYPE_SET_PROJECT_ATTRIBUTE = "set_project_attribute";
 
     public static String JSON_KEY_USERNAME = "username";
     public static String JSON_KEY_EMAIL = "email";
@@ -18,6 +20,11 @@ public class HttpConfig {
     public static String JSON_KEY_PROJECT_SIGNATURE = "signature";
     public static String JSON_KEY_PROJECT_ID = "activity";
     public static String JSON_KEY_PROJECT_ID_ONSERVER = "id";
+
+    public static String JSON_KEY_ATTRIBUTE_NAME = "name";
+    public static String JSON_KEY_ATTRIBUTE_INDEX = "index";
+    public static String JSON_KEY_ATTRIBUTE_TYPE = "type";
+    public static String JSON_KEY_ATTRIBUTE_VALUE = "value";
 
     public static String JSON_KEY_RESPONSE_STATUS = "status";
     public static String JSON_VALUE_RESPONSE_STATUS_SUCCESS = "success";

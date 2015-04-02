@@ -13,6 +13,7 @@ public class Config {
     public static String PROJECT_PID = "project_pid";
     public static String PROJECT_PNAME = "project_pname";
     public static String PROJECT_PINFO = "project_pinfo";
+    public static String PROJECT_PID_ONSERVER = "project_pid_onserver";
 
     // Local constants
     public static String LOGIN_EMAIL = "email";
@@ -32,6 +33,9 @@ public class Config {
     public static String PROFILE_SERVER_LOGIN_ADDRESS = "server_login_address";
     public static String PROFILE_CREATE_PROJECT_ADDRESS = "create_project_address";
     public static String PROFILE_ARCHIVE_PROJECT_ADDRESS = "archive_project_address";
+    public static String PROFILE_UPDATE_PROJECT_NAME = "update_project_name";
+    public static String PROFILE_SET_PROJECT_ATTRIBUTE = "set_project_attribute";
+
     public static String PROFILE_LOGIN_EMAIL = "login_email";
     public static String PROFILE_LOGIN_PASSWORD = "login_password";
     public static String PROFILE_LAST_LOGIN_TIMESTAMP = "last_login_timestamp";

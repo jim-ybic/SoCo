@@ -147,6 +147,31 @@ public class ProfileUtil {
         editor.commit();
     }
 
+    public static String getUpdateProjectNameAddr(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        return settings.getString(Config.PROFILE_UPDATE_PROJECT_NAME, "");
+    }
+
+    public static void setUpdateProjectNameAddr(Context context, String addr){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_UPDATE_PROJECT_NAME, addr);
+        editor.commit();
+    }
+
+    public static String getSetProjectAttributeAddr(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        return settings.getString(Config.PROFILE_SET_PROJECT_ATTRIBUTE, "");
+    }
+
+    public static void setSetProjectAttributeAddr(Context context, String addr){
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Config.PROFILE_SET_PROJECT_ATTRIBUTE, addr);
+        editor.commit();
+    }
+
+
     public static String getLoginUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -186,6 +211,29 @@ public class ProfileUtil {
         Log.i(tag, "Archive project url: " + url);
         return url;
     }
+
+    public static String getUpdateProjectNameUrl(Context context){
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = getUpdateProjectNameAddr(context);
+        String token = getLoginAccessToken(context);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        Log.i(tag, "Rename project url: " + url);
+        return url;
+    }
+
+    public static String getSetProjectAttributeUrl(Context context){
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = getSetProjectAttributeAddr(context);
+        String token = getLoginAccessToken(context);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        Log.i(tag, "Set project attribute url: " + url);
+        return url;
+    }
+
 
     public static String getLoginEmail(Context context){
         SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);

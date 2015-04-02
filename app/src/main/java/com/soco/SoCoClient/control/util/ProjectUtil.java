@@ -37,16 +37,36 @@ public class ProjectUtil {
         HttpTask registerTask = new HttpTask(
                 ProfileUtil.getCreateProjectUrl(context),
                 HttpConfig.HTTP_TYPE_CREATE_PROJECT,
-                loginEmail, loginPassword, context, pname, pid);
+                loginEmail, loginPassword, context, pname, pid, null, null);
         registerTask.execute();
     }
 
-    public static void serverArchiveProject(String pid, Context context) {
+    public static void serverArchiveProject(String pid, Context context, String pid_onserver) {
         HttpTask archiveProjectTask = new HttpTask(
                 ProfileUtil.getArchiveProjectUrl(context),
                 HttpConfig.HTTP_TYPE_ARCHIVE_PROJECT,
-                null, null, null, null, pid);
+                null, null, context, null, pid, pid_onserver, null);
         archiveProjectTask.execute();
+    }
+
+    public static void serverUpdateProjectName(String pid, Context context,
+                                               String pname, String pid_onserver) {
+        HttpTask archiveProjectTask = new HttpTask(
+                ProfileUtil.getUpdateProjectNameUrl(context),
+                HttpConfig.HTTP_TYPE_UPDATE_PROJECT_NAME,
+                null, null, context, pname, pid, pid_onserver, null);
+        archiveProjectTask.execute();
+    }
+
+    public static void serverSetProjectAttribute(String pid, Context context,
+                                                 String pname, String pid_onserver,
+                                                 HashMap<String, String> attrMap) {
+        HttpTask setProjectAttributeTask = new HttpTask(
+                ProfileUtil.getSetProjectAttributeUrl(context),
+                HttpConfig.HTTP_TYPE_SET_PROJECT_ATTRIBUTE,
+                null, null, //login email/password
+                context, pname, pid, pid_onserver, attrMap);
+        setProjectAttributeTask.execute();
     }
 
     public static void addSharedFileToDb(Uri uri,
@@ -76,4 +96,7 @@ public class ProjectUtil {
 
         return map;
     }
+
+
+
 }

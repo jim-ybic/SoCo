@@ -78,6 +78,9 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                     String name = item.title;
                     int pid = ProjectUtil.findPidByPname(projects, name);
                     ((SocoApp)getApplicationContext()).pid = pid;
+                    String pid_onserver = dbmgrSoco.findProjectIdOnserver(pid);
+                    ((SocoApp)getApplicationContext()).pid_onserver = pid_onserver;
+                    Log.i(tag, "pid/pid_onserver: " + pid + ", " + pid_onserver);
 
                     Intent intent = new Intent(view.getContext(), ShowSingleProjectActivity.class);
                     startActivityForResult(intent, INTENT_SHOW_SINGLE_PROGRAM);

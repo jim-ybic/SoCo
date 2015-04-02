@@ -11,6 +11,10 @@ import com.soco.SoCoClient.control.http.task.ArchiveProjectTask;
 import com.soco.SoCoClient.control.http.task.CreateProjectTask;
 import com.soco.SoCoClient.control.http.task.LoginTask;
 import com.soco.SoCoClient.control.http.task.RegisterTask;
+import com.soco.SoCoClient.control.http.task.SetProjectAttributeTask;
+import com.soco.SoCoClient.control.http.task.UpdateProjectNameTask;
+
+import java.util.HashMap;
 
 public class HttpTask extends AsyncTask<Void, Void, Boolean> {
     static String tag = "HttpTask";
@@ -24,13 +28,20 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
     String type;
     String loginEmail, loginPassword;
     Context context;
-    String pname, pid;
+    String pname, pid, pid_onserver;
+    HashMap<String, String> attrMap;
+
     DBManagerSoco dbManagerSoco;
 
-    public HttpTask(String url, String type,
-                    String loginEmail, String loginPassword,
+    public HttpTask(String url,
+                    String type,
+                    String loginEmail,
+                    String loginPassword,
                     Context context,
-                    String pname, String pid){
+                    String pname,
+                    String pid,
+                    String pid_onserver,
+                    HashMap<String, String> attrMap){
         Log.i(tag, "Create new HttpTask: " + url + ", " + type + ", "
                 + loginEmail + ", " + loginPassword + ", " + pname);
         this.url = url;
@@ -40,6 +51,9 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
         this.context = context;
         this.pname = pname;
         this.pid = pid;
+        this.pid_onserver = pid_onserver;
+        this.attrMap = attrMap;
+
         this.dbManagerSoco = ((SocoApp)context).dbManagerSoco;
     }
 
@@ -61,7 +75,16 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
             CreateProjectTask.execute(url, pname, pid, context);
         }
         else if(type.equals(HttpConfig.HTTP_TYPE_ARCHIVE_PROJECT)) {
-            ArchiveProjectTask.execute(url, pid);
+            ArchiveProjectTask.execute(url, pid, pid_onserver);
+        }
+        else if(type.equals(HttpConfig.HTTP_TYPE_UPDATE_PROJECT_NAME)) {
+            UpdateProjectNameTask.execute(url, pname, pid, pid_onserver);
+        }
+        else if(type.equals(HttpConfig.HTTP_TYPE_SET_PROJECT_ATTRIBUTE)) {
+            SetProjectAttributeTask.execute(url, pname, pid, pid_onserver, attrMap);
+        }
+        else{
+            Log.e(tag, "Unknown http task type: " + type);
         }
 
         return true;

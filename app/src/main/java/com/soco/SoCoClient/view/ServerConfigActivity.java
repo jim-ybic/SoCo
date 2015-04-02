@@ -15,7 +15,8 @@ import com.soco.SoCoClient.control.util.ProfileUtil;
 public class ServerConfigActivity extends ActionBarActivity {
 
     static String tag = "ServerConfig";
-    EditText et_servip, et_servport, et_regiaddr, et_loginaddr, et_cprojectaddr, et_aprojectaddr;
+    EditText et_servip, et_servport, et_regiaddr, et_loginaddr;
+    EditText et_cprojectaddr, et_aprojectaddr, et_rnprojectaddr, et_sprojattraddr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,8 @@ public class ServerConfigActivity extends ActionBarActivity {
         et_loginaddr = (EditText) findViewById(R.id.et_loginaddr);
         et_cprojectaddr = (EditText) findViewById(R.id.et_cprojectaddr);
         et_aprojectaddr = (EditText) findViewById(R.id.et_aprojectaddr);
+        et_rnprojectaddr = (EditText) findViewById(R.id.et_rnprojectaddr);
+        et_sprojattraddr = (EditText) findViewById(R.id.et_sprojattraddr);
     }
 
     private void loadServerProperties(){
@@ -42,6 +45,8 @@ public class ServerConfigActivity extends ActionBarActivity {
         et_loginaddr.setText(ProfileUtil.getServerLoginAddr(this));
         et_cprojectaddr.setText(ProfileUtil.getCreateProjectAddr(this));
         et_aprojectaddr.setText(ProfileUtil.getArchiveProjectAddr(this));
+        et_rnprojectaddr.setText(ProfileUtil.getUpdateProjectNameAddr(this));
+        et_sprojattraddr.setText(ProfileUtil.getSetProjectAttributeAddr(this));
 
         Log.i(tag, "Load server config: "
                 + et_servip.getText().toString() + ", "
@@ -49,7 +54,10 @@ public class ServerConfigActivity extends ActionBarActivity {
                 + et_regiaddr.getText().toString() + ", "
                 + et_loginaddr.getText().toString() + ", "
                 + et_cprojectaddr.getText().toString() + ","
-                + et_aprojectaddr.getText().toString());
+                + et_aprojectaddr.getText().toString() + ","
+                + et_rnprojectaddr.getText().toString() + ","
+                + et_sprojattraddr.getText().toString()
+        );
     }
 
     public void cancel (View view){
@@ -63,6 +71,8 @@ public class ServerConfigActivity extends ActionBarActivity {
         ProfileUtil.setServerLoginAddr(this, et_loginaddr.getText().toString());
         ProfileUtil.setCreateProjectAddr(this, et_cprojectaddr.getText().toString());
         ProfileUtil.setArchiveProjectAddr(this, et_aprojectaddr.getText().toString());
+        ProfileUtil.setUpdateProjectNameAddr(this, et_rnprojectaddr.getText().toString());
+        ProfileUtil.setSetProjectAttributeAddr(this, et_sprojattraddr.getText().toString());
 
         Log.i(tag, "Save server config: "
                 + et_servip.getText().toString() + ", "
@@ -70,7 +80,10 @@ public class ServerConfigActivity extends ActionBarActivity {
                 + et_regiaddr.getText().toString() + ", "
                 + et_loginaddr.getText().toString() + ", "
                 + et_cprojectaddr.getText().toString() + ","
-                + et_aprojectaddr.getText().toString());
+                + et_aprojectaddr.getText().toString() + ","
+                + et_rnprojectaddr.getText().toString() + ","
+                + et_sprojattraddr.getText().toString()
+        );
         finish();
     }
 

@@ -11,17 +11,18 @@ public class UpdateProjectNameTask {
 
     public static String tag = "UpdateProjectNameTask";
 
-    public static void execute(String url, String pname, String pid){
-        Object response = request(url, pname, pid);
+    public static void execute(String url, String pname, String pid, String pid_onserver){
+        Log.i(tag, "Execute: " + url + ", " + pname + ", " + pid + ", " + pid_onserver);
+        Object response = request(url, pname, pid_onserver);
         if (response != null)
             parse(response);
     }
 
-    public static Object request(String url, String pname, String pid) {
+    public static Object request(String url, String pname, String pid_onserver) {
         JSONObject data = new JSONObject();
         try {
             data.put(HttpConfig.JSON_KEY_PROJECT_NAME, pname);
-            data.put(HttpConfig.JSON_KEY_PROJECT_ID, pid);
+            data.put(HttpConfig.JSON_KEY_PROJECT_ID, Integer.parseInt(pid_onserver));
             Log.i(tag, "Create project Json post: " + data);
         } catch (Exception e) {
             Log.e(tag, "Cannot create create project Json post data");
@@ -35,6 +36,8 @@ public class UpdateProjectNameTask {
         try {
             String str = response.toString();
             Log.i(tag, "Update project name parse string: " + str);
+
+            //TODO: server interface to be fixed
 
             JSONObject json = new JSONObject(response.toString());
             String isSuccess = json.getString(HttpConfig.JSON_KEY_RESPONSE_STATUS);
