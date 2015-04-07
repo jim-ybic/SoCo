@@ -520,9 +520,11 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         //TODO: server interface to update project tag
 
         HashMap<String, String> attrMap2 = collectProjectAttributesFromScreen();
-        dbmgrSoco.updateDbProjectAttributes(pid, attrMap2);
-        ProjectUtil.serverSetProjectAttribute(String.valueOf(pid), getApplicationContext(),
-                pname, pid_onserver, attrMap2);
+        if(attrMap2.size() > 0) {
+            dbmgrSoco.updateDbProjectAttributes(pid, attrMap2);
+            ProjectUtil.serverSetProjectAttribute(String.valueOf(pid), getApplicationContext(),
+                    pname, pid_onserver, attrMap2);
+        }
 
         Toast.makeText(getApplicationContext(), "Project saved.", Toast.LENGTH_SHORT).show();
         attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);
