@@ -41,84 +41,84 @@
                 android:layout_height="wrap_content"
                 android:hint="Server Port not set"/>
         </TableRow>
-        <TableRow
-            android:id="@+id/tr_regiaddr">
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Register Address" />
-            <EditText
-                android:id="@+id/et_regiaddr"
-                android:layout_weight="1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Register Address not set"/>
-        </TableRow>
-        <TableRow
-            android:id="@+id/tr_loginaddr">
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Login Address" />
-            <EditText
-                android:id="@+id/et_loginaddr"
-                android:layout_weight="1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Login Address not set"/>
-        </TableRow>
-        <TableRow
-            android:id="@+id/tr_cprojectaddr">
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Create Project" />
-            <EditText
-                android:id="@+id/et_cprojectaddr"
-                android:layout_weight="1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Create Project Address not set"/>
-        </TableRow>
-        <TableRow
-            android:id="@+id/tr_aprojectaddr">
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Archive Project" />
-            <EditText
-                android:id="@+id/et_aprojectaddr"
-                android:layout_weight="1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Archive Project Address not set"/>
-        </TableRow>
-        <TableRow
-            android:id="@+id/tr_rnprojectaddr">
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Rename Project" />
-            <EditText
-                android:id="@+id/et_rnprojectaddr"
-                android:layout_weight="1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Rename Project Address not set"/>
-        </TableRow>
-        <TableRow
-            android:id="@+id/tr_sprojattraddr">
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Set Project Attribute" />
-            <EditText
-                android:id="@+id/et_sprojattraddr"
-                android:layout_weight="1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Set Project Attribute Address not set"/>
-        </TableRow>
+        <!--<TableRow-->
+            <!--android:id="@+id/tr_regiaddr">-->
+            <!--<TextView-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="Register Address" />-->
+            <!--<EditText-->
+                <!--android:id="@+id/et_regiaddr"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Register Address not set"/>-->
+        <!--</TableRow>-->
+        <!--<TableRow-->
+            <!--android:id="@+id/tr_loginaddr">-->
+            <!--<TextView-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="Login Address" />-->
+            <!--<EditText-->
+                <!--android:id="@+id/et_loginaddr"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Login Address not set"/>-->
+        <!--</TableRow>-->
+        <!--<TableRow-->
+            <!--android:id="@+id/tr_cprojectaddr">-->
+            <!--<TextView-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="Create Project" />-->
+            <!--<EditText-->
+                <!--android:id="@+id/et_cprojectaddr"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Create Project Address not set"/>-->
+        <!--</TableRow>-->
+        <!--<TableRow-->
+            <!--android:id="@+id/tr_aprojectaddr">-->
+            <!--<TextView-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="Archive Project" />-->
+            <!--<EditText-->
+                <!--android:id="@+id/et_aprojectaddr"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Archive Project Address not set"/>-->
+        <!--</TableRow>-->
+        <!--<TableRow-->
+            <!--android:id="@+id/tr_rnprojectaddr">-->
+            <!--<TextView-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="Rename Project" />-->
+            <!--<EditText-->
+                <!--android:id="@+id/et_rnprojectaddr"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Rename Project Address not set"/>-->
+        <!--</TableRow>-->
+        <!--<TableRow-->
+            <!--android:id="@+id/tr_sprojattraddr">-->
+            <!--<TextView-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="Set Project Attribute" />-->
+            <!--<EditText-->
+                <!--android:id="@+id/et_sprojattraddr"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Set Project Attribute Address not set"/>-->
+        <!--</TableRow>-->
     </TableLayout>
 
 

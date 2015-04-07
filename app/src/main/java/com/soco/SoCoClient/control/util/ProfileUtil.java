@@ -100,83 +100,83 @@ public class ProfileUtil {
         editor.commit();
     }
 
-    public static String getServerRegisterAddress(Context context){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        return settings.getString(Config.PROFILE_SERVER_REGISTER_ADDRESS, "");
-    }
-
-    public static void setServerRegisterAddress(Context context, String regiAddr){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_SERVER_REGISTER_ADDRESS, regiAddr);
-        editor.commit();
-    }
-
-    public static String getServerLoginAddr(Context context){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        return settings.getString(Config.PROFILE_SERVER_LOGIN_ADDRESS, "");
-    }
-
-    public static void setServerLoginAddr(Context context, String loginAddr){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_SERVER_LOGIN_ADDRESS, loginAddr);
-        editor.commit();
-    }
-
-    public static String getCreateProjectAddr(Context context){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        return settings.getString(Config.PROFILE_CREATE_PROJECT_ADDRESS, "");
-    }
-
-    public static void setCreateProjectAddr(Context context, String addr){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_CREATE_PROJECT_ADDRESS, addr);
-        editor.commit();
-    }
-
-    public static String getArchiveProjectAddr(Context context){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        return settings.getString(Config.PROFILE_ARCHIVE_PROJECT_ADDRESS, "");
-    }
-
-    public static void setArchiveProjectAddr(Context context, String addr){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_ARCHIVE_PROJECT_ADDRESS, addr);
-        editor.commit();
-    }
-
-    public static String getUpdateProjectNameAddr(Context context){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        return settings.getString(Config.PROFILE_UPDATE_PROJECT_NAME, "");
-    }
-
-    public static void setUpdateProjectNameAddr(Context context, String addr){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_UPDATE_PROJECT_NAME, addr);
-        editor.commit();
-    }
-
-    public static String getSetProjectAttributeAddr(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        return settings.getString(Config.PROFILE_SET_PROJECT_ATTRIBUTE, "");
-    }
-
-    public static void setSetProjectAttributeAddr(Context context, String addr){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_SET_PROJECT_ATTRIBUTE, addr);
-        editor.commit();
-    }
+//    public static String getServerRegisterAddress(Context context){
+//        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+//        return settings.getString(Config.PROFILE_SERVER_REGISTER_ADDRESS, "");
+//    }
+//
+//    public static void setServerRegisterAddress(Context context, String regiAddr){
+//        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString(Config.PROFILE_SERVER_REGISTER_ADDRESS, regiAddr);
+//        editor.commit();
+//    }
+//
+//    public static String getServerLoginAddr(Context context){
+//        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+//        return settings.getString(Config.PROFILE_SERVER_LOGIN_ADDRESS, "");
+//    }
+//
+//    public static void setServerLoginAddr(Context context, String loginAddr){
+//        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString(Config.PROFILE_SERVER_LOGIN_ADDRESS, loginAddr);
+//        editor.commit();
+//    }
+//
+//    public static String getCreateProjectAddr(Context context){
+//        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+//        return settings.getString(Config.PROFILE_CREATE_PROJECT_ADDRESS, "");
+//    }
+//
+//    public static void setCreateProjectAddr(Context context, String addr){
+//        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString(Config.PROFILE_CREATE_PROJECT_ADDRESS, addr);
+//        editor.commit();
+//    }
+//
+//    public static String getArchiveProjectAddr(Context context){
+//        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+//        return settings.getString(Config.PROFILE_ARCHIVE_PROJECT_ADDRESS, "");
+//    }
+//
+//    public static void setArchiveProjectAddr(Context context, String addr){
+//        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString(Config.PROFILE_ARCHIVE_PROJECT_ADDRESS, addr);
+//        editor.commit();
+//    }
+//
+//    public static String getUpdateProjectNameAddr(Context context){
+//        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+//        return settings.getString(Config.PROFILE_UPDATE_PROJECT_NAME, "");
+//    }
+//
+//    public static void setUpdateProjectNameAddr(Context context, String addr){
+//        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString(Config.PROFILE_UPDATE_PROJECT_NAME, addr);
+//        editor.commit();
+//    }
+//
+//    public static String getSetProjectAttributeAddr(Context context) {
+//        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+//        return settings.getString(Config.PROFILE_SET_PROJECT_ATTRIBUTE, "");
+//    }
+//
+//    public static void setSetProjectAttributeAddr(Context context, String addr){
+//        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString(Config.PROFILE_SET_PROJECT_ATTRIBUTE, addr);
+//        editor.commit();
+//    }
 
 
     public static String getLoginUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
-        String path = getServerLoginAddr(context);
+        String path = HttpConfig.SERVER_PATH_LOGIN;
         String url = "http://" + ip + ":" + port + path;
         Log.i(tag, "Login url: " + url);
         return url;
@@ -185,7 +185,7 @@ public class ProfileUtil {
     public static String getRegisterUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
-        String path = getServerRegisterAddress(context);
+        String path = HttpConfig.SERVER_PATH_REGISTER;
         String url = "http://" + ip + ":" + port + path;
         Log.i(tag, "Register url: " + url);
         return url;
@@ -194,7 +194,7 @@ public class ProfileUtil {
     public static String getCreateProjectUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
-        String path = getCreateProjectAddr(context);
+        String path = HttpConfig.SERVER_PATH_CREATE_PROJECT;
         String token = getLoginAccessToken(context);
         String url = "http://" + ip + ":" + port + path;
         url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
@@ -205,7 +205,7 @@ public class ProfileUtil {
     public static String getArchiveProjectUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
-        String path = getArchiveProjectAddr(context);
+        String path = HttpConfig.SERVER_PATH_ARCHIVE_PROJECT;
         String token = getLoginAccessToken(context);
         String url = "http://" + ip + ":" + port + path;
         url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
@@ -216,7 +216,7 @@ public class ProfileUtil {
     public static String getUpdateProjectNameUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
-        String path = getUpdateProjectNameAddr(context);
+        String path = HttpConfig.SERVER_PATH_RENAME_PROJECT;
         String token = getLoginAccessToken(context);
         String url = "http://" + ip + ":" + port + path;
         url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
@@ -227,7 +227,7 @@ public class ProfileUtil {
     public static String getSetProjectAttributeUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
-        String path = getSetProjectAttributeAddr(context);
+        String path = HttpConfig.SERVER_PATH_SET_PROJECT_ATTRIBUTE;
         String token = getLoginAccessToken(context);
         String url = "http://" + ip + ":" + port + path;
         url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
