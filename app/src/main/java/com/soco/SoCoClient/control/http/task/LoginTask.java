@@ -1,10 +1,12 @@
 package com.soco.SoCoClient.control.http.task;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.http.HttpUtil;
+import com.soco.SoCoClient.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 

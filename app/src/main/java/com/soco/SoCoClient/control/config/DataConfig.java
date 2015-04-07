@@ -71,4 +71,7 @@ public class DataConfig {
 
     public static int INT_INDEX_1 = 1;
     public static String TYPE_STRING = "String";
+
+    public static final String DEFAULT_PROJECT_TYPE = "activity";
+
 }

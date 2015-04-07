@@ -33,12 +33,21 @@ public class ProjectUtil {
     }
 
     public static void serverCreateProject(String pname, Context context,
-                                           String loginEmail, String loginPassword, String pid) {
-        HttpTask registerTask = new HttpTask(
+                                           String loginEmail, String loginPassword, String pid,
+                                           String projectSignature,
+                                           String projectTag,
+                                           String projectType) {
+
+        HttpTask createProjectTask = new HttpTask(
                 ProfileUtil.getCreateProjectUrl(context),
                 HttpConfig.HTTP_TYPE_CREATE_PROJECT,
                 loginEmail, loginPassword, context, pname, pid, null, null);
-        registerTask.execute();
+
+        createProjectTask.projectSignature = projectSignature;
+        createProjectTask.projectTag = projectTag;
+        createProjectTask.projectType = projectType;
+
+        createProjectTask.execute();
     }
 
     public static void serverArchiveProject(String pid, Context context, String pid_onserver) {

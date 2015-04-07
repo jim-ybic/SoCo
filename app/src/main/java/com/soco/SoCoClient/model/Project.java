@@ -2,8 +2,10 @@ package com.soco.SoCoClient.model;
 
 
 import android.database.Cursor;
+import android.util.Log;
 
 import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.util.SignatureUtil;
 
 public class Project {
     public int pid;
@@ -15,8 +17,14 @@ public class Project {
     public String pactive;
     public String pid_onserver;
 
+    static String DEFAULT_PROJECT_TAG = "default";
+    static String tag = "Project";
+
     public Project(String name) {
         this.pname = name;
+
+        this.ptag = DEFAULT_PROJECT_TAG;
+        this.pupdate_timestamp = SignatureUtil.now();
     }
 
     public Project(Cursor c) {
@@ -30,10 +38,23 @@ public class Project {
         this.psignature = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_SIGNATURE));
         this.pactive = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_ACTIVE));
         this.pid_onserver = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_ID_ONSERVER));
+
+        this.ptag = DEFAULT_PROJECT_TAG;
     }
 
     public String getMoreInfo() {
         return "";
     }
 
+    public String getSignature(){
+        return pupdate_timestamp;
+    }
+
+    public String getTag(){
+        return ptag;
+    }
+
+    public String getType(){
+        return DataConfig.DEFAULT_PROJECT_TYPE;
+    }
 }

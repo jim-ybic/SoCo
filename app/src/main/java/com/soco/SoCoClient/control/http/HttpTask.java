@@ -13,6 +13,7 @@ import com.soco.SoCoClient.control.http.task.LoginTask;
 import com.soco.SoCoClient.control.http.task.RegisterTask;
 import com.soco.SoCoClient.control.http.task.SetProjectAttributeTask;
 import com.soco.SoCoClient.control.http.task.UpdateProjectNameTask;
+import com.soco.SoCoClient.control.util.ProfileUtil;
 
 import java.util.HashMap;
 
@@ -23,15 +24,15 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
 
     public static String KEYWORD_REGISTRATION_SUBMITTED = "Your account registration email";
 
-
     String url;
     String type;
     String loginEmail, loginPassword;
     Context context;
     String pname, pid, pid_onserver;
     HashMap<String, String> attrMap;
-
     DBManagerSoco dbManagerSoco;
+
+    public String projectSignature, projectTag, projectType;
 
     public HttpTask(String url,
                     String type,
@@ -59,10 +60,11 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        if(url == null || url.isEmpty() || type == null || type.isEmpty()){
-            Log.e(tag, "Cannot get url/type");
-            return false;
-        }
+        //todo: check below conditions
+//        if(url == null || url.isEmpty() || type == null || type.isEmpty()){
+//            Log.e(tag, "Cannot get url/type");
+//            return false;
+//        }
         Log.i(tag, "Start http task, url is " + url + ", type is " + type);
 
         if(type.equals(HttpConfig.HTTP_TYPE_LOGIN)) {
@@ -72,7 +74,8 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
             RegisterTask.execute(loginEmail, loginPassword, url, context);
         }
         else if(type.equals(HttpConfig.HTTP_TYPE_CREATE_PROJECT)) {
-            CreateProjectTask.execute(url, pname, pid, context);
+            CreateProjectTask.execute(url, pname, pid, context,
+                    projectSignature, projectTag, projectType);
         }
         else if(type.equals(HttpConfig.HTTP_TYPE_ARCHIVE_PROJECT)) {
             ArchiveProjectTask.execute(url, pid, pid_onserver);

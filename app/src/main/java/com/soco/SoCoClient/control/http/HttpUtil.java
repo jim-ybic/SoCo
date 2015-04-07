@@ -26,7 +26,7 @@ public class HttpUtil {
             httpost.setHeader("Content-type", "application/json");
             ResponseHandler responseHandler = new BasicResponseHandler();
             response = httpclient.execute(httpost, responseHandler);
-            Log.i(tag, "Post success, raw parse: " + response);
+            Log.d(tag, "Post success, raw parse: " + response);
         } catch (Exception e) {
             Log.e(tag, "Post fail: " + e.toString());
         }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.http.HttpTask;
+import com.soco.SoCoClient.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.control.util.LoginUtil;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.SocoApp;
@@ -91,13 +92,15 @@ public class LoginActivity extends ActionBarActivity {
                 loginEmail, loginPassword, getApplicationContext(), null, null, null, null);
         loginTask.execute();
 
-        //TODO: check if login is success
-
         boolean loginSuccess = LoginUtil.validateLogin(loginEmail, loginPassword);
         if(loginSuccess) {
             ProfileUtil.setLoginEmail(this, loginEmail);
             ProfileUtil.setLoginPassword(this, loginPassword);
             Log.i(tag, "Save to profile login email/password: " + loginEmail + "/" + loginPassword);
+
+            //start heartbeat service
+            Intent iHeartbeat = new Intent(this, HeartbeatService.class);
+            startService(iHeartbeat);
 
             Toast.makeText(getApplicationContext(), "Hello, " + nickname,
                     Toast.LENGTH_SHORT).show();

@@ -14,22 +14,22 @@ public class CreateProjectTask {
 
     public static String tag = "CreateProjectTask";
 
-    static String TEST_STR_TO_REMOVE = "test string - to be removed";
-
-    public static void execute(String url, String pname, String pid, Context context){
-        Object response = request(url, pname);
+    public static void execute(String url, String pname, String pid, Context context,
+                               String projectSignature, String projectTag, String projectType){
+        Object response = request(url, pname, projectSignature, projectTag, projectType);
         DBManagerSoco dbManagerSoco = ((SocoApp)context).dbManagerSoco;
         if (response != null)
             parse(response, pid, dbManagerSoco);
     }
 
-    public static Object request(String url, String pname) {
+    public static Object request(String url, String pname,
+                                 String projectSignature, String projectTag, String projectType) {
         JSONObject data = new JSONObject();
         try {
             data.put(HttpConfig.JSON_KEY_PROJECT_NAME, pname);
-            data.put(HttpConfig.JSON_KEY_PROJECT_TYPE, TEST_STR_TO_REMOVE);
-            data.put(HttpConfig.JSON_KEY_PROJECT_TAG, TEST_STR_TO_REMOVE);
-            data.put(HttpConfig.JSON_KEY_PROJECT_SIGNATURE, TEST_STR_TO_REMOVE);
+            data.put(HttpConfig.JSON_KEY_PROJECT_SIGNATURE, projectSignature);
+            data.put(HttpConfig.JSON_KEY_PROJECT_TYPE, projectType);
+            data.put(HttpConfig.JSON_KEY_PROJECT_TAG, projectTag);
             Log.i(tag, "Create project Json post: " + data);
         } catch (Exception e) {
             Log.e(tag, "Cannot create create project Json post data");

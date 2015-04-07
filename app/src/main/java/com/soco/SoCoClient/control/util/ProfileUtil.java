@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.control.config.Config;
+import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.http.HttpTask;
 import com.soco.SoCoClient.view.LoginActivity;
 import com.soco.SoCoClient.view.ShowActiveProjectsActivity;
@@ -70,7 +71,7 @@ public class ProfileUtil {
     }
 
     public static String getLoginAccessToken(Context context){
-        Log.i(tag, "Get login access token");
+        Log.d(tag, "Get login access token");
         SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
         return settings.getString(Config.PROFILE_LOGIN_ACCESS_TOKEN, "");
     }
@@ -219,7 +220,7 @@ public class ProfileUtil {
         String token = getLoginAccessToken(context);
         String url = "http://" + ip + ":" + port + path;
         url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
-        Log.i(tag, "Rename project url: " + url);
+        Log.d(tag, "Rename project url: " + url);
         return url;
     }
 
@@ -231,6 +232,17 @@ public class ProfileUtil {
         String url = "http://" + ip + ":" + port + path;
         url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
         Log.i(tag, "Set project attribute url: " + url);
+        return url;
+    }
+
+    public static String getHeartbeatUrl(Context context){
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = HttpConfig.SERVER_PATH_HEARTBEAT;
+        String token = getLoginAccessToken(context);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        Log.d(tag, "Heartbeat url: " + url);
         return url;
     }
 

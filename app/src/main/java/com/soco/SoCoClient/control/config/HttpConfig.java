@@ -8,6 +8,7 @@ public class HttpConfig {
     public static String HTTP_TYPE_ARCHIVE_PROJECT = "archive_project";
     public static String HTTP_TYPE_UPDATE_PROJECT_NAME = "update_project_name";
     public static String HTTP_TYPE_SET_PROJECT_ATTRIBUTE = "set_project_attribute";
+    public static String HTTP_TYPE_HEART_BEAT = "heartbeat";
 
     public static String JSON_KEY_USERNAME = "username";
     public static String JSON_KEY_EMAIL = "email";
@@ -28,5 +29,7 @@ public class HttpConfig {
 
     public static String JSON_KEY_RESPONSE_STATUS = "status";
     public static String JSON_VALUE_RESPONSE_STATUS_SUCCESS = "success";
+
+    public static String SERVER_PATH_HEARTBEAT = "/socoserver/mobile/HeartBeat?";
 
 }

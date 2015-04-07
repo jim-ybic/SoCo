@@ -21,7 +21,10 @@ import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
+import com.soco.SoCoClient.control.http.HttpTask;
+import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.util.ProjectUtil;
 import com.soco.SoCoClient.model.Project;
 
@@ -171,7 +174,8 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(),
                         "Project created.", Toast.LENGTH_SHORT).show();
                 ProjectUtil.serverCreateProject(n, getApplicationContext(),
-                        loginEmail, loginPassword, String.valueOf(pid));
+                        loginEmail, loginPassword, String.valueOf(pid),
+                        p.getSignature(), p.getTag(), p.getType());
                 projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
 //                listProjects(null);
                 listProjectsTest(null);
@@ -183,7 +187,8 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 Project p = new Project(n);
                 int pid = dbmgrSoco.addProject(p);
                 ProjectUtil.serverCreateProject(n, getApplicationContext(),
-                        loginEmail, loginPassword, String.valueOf(pid));
+                        loginEmail, loginPassword, String.valueOf(pid),
+                        p.getSignature(), p.getTag(), p.getType());
                 Intent intent = new Intent(getApplicationContext(), ShowSingleProjectActivity.class);
 //                intent.putExtra(Config.PROGRAM_PNAME, n);
 //                intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
@@ -281,7 +286,8 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         Toast.makeText(getApplicationContext(),
                 "Project created success.", Toast.LENGTH_SHORT).show();
         ProjectUtil.serverCreateProject(name, getApplicationContext(),
-                loginEmail, loginPassword, String.valueOf(pid));
+                loginEmail, loginPassword, String.valueOf(pid),
+                p.getSignature(), p.getTag(), p.getType());
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
 //        listProjects(null);
         listProjectsTest(null);
