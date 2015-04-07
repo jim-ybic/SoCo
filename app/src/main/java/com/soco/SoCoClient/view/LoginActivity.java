@@ -87,10 +87,16 @@ public class LoginActivity extends ActionBarActivity {
         ProfileUtil.ready(getApplicationContext(), loginEmail);
         nickname = ProfileUtil.getNickname(getApplicationContext(), loginEmail);
 
-        HttpTask loginTask = new HttpTask(
-                ProfileUtil.getLoginUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_LOGIN,
-                loginEmail, loginPassword, getApplicationContext(), null, null, null, null);
-        loginTask.execute();
+        String access_token = ProfileUtil.getLoginAccessToken(getApplicationContext());
+        if (access_token != null && !access_token.isEmpty())
+            Log.i(tag, "Load access token and skip login: " + access_token);
+        else {
+            Log.i(tag, "Cannot load access token, start login to server");
+            HttpTask loginTask = new HttpTask(
+                    ProfileUtil.getLoginUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_LOGIN,
+                    loginEmail, loginPassword, getApplicationContext(), null, null, null, null);
+            loginTask.execute();
+        }
 
         boolean loginSuccess = LoginUtil.validateLogin(loginEmail, loginPassword);
         if(loginSuccess) {
