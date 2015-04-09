@@ -18,39 +18,26 @@ public class UploaderTask extends AsyncTask<Void, Void, Boolean> {
 
     static String tag = "UploaderTask";
 
-//    Context context;
     DropboxAPI<AndroidAuthSession> dropboxApi;
-    String sigEmail, sigProgram;
-//    String remotePath;
     String remoteFilePath;
     Uri uri;
-//    String filename;
     InputStream inputStream;
     ContentResolver cr;
     Context context;
 
     public UploaderTask(//Context context,
                         DropboxAPI<AndroidAuthSession> dropboxApi,
-//                       String sigEmail, String sigProgram,
-//                        String remotePath,
                         String remoteFilePath,
                         Uri uri,
-//                        String filename,
                         InputStream is,
                         ContentResolver cr,
                         Context context) {
 
         reAuthenticateDropboxApi(dropboxApi);
 
-//        this.context = context.getApplicationContext();
         this.dropboxApi = dropboxApi;
-//        this.sigEmail = sigEmail;
-//        this.sigProgram = sigProgram;
-//        this.remotePath = "/" + sigEmail + "/" + sigProgram + "/";
-//        this.remotePath = remotePath;
         this.remoteFilePath = remoteFilePath;
         this.uri = uri;
-//        this.filename = filename;
         this.inputStream = is;
         this.cr = cr;
         this.context = context;
@@ -88,7 +75,6 @@ public class UploaderTask extends AsyncTask<Void, Void, Boolean> {
             app.setUploadStatus(SocoApp.UPLOAD_STATUS_SUCCESS);
         } catch (Exception e1) {
             e1.printStackTrace();
-//            Toast.makeText(context, "File Upload failed.", Toast.LENGTH_LONG).show();
             SocoApp app = (SocoApp) context;
             app.setUploadStatus(SocoApp.UPLOAD_STATUS_FAIL);
             return false;
@@ -98,7 +84,6 @@ public class UploaderTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean result) {
-//        Toast.makeText(context, "File Uploaded Successfully.", Toast.LENGTH_LONG).show();
     }
 
 }

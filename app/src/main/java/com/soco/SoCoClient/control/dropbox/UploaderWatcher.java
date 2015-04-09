@@ -25,16 +25,6 @@ public class UploaderWatcher extends IntentService {
         super("UploaderWatcher");
     }
 
-//    public UploaderWatcher(String name) {
-//        super(name);
-//    }
-
-//    @Override
-//    public IBinder onBind(Intent intent) {
-//        Log.i(tag, "Status service bind");
-//        return null;
-//    }
-
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.i(tag, "Handle intent:" + intent);
@@ -72,13 +62,6 @@ public class UploaderWatcher extends IntentService {
             Log.e(tag, "Status: unknown upload status");
     }
 
-//    @Override
-//    public int onStartCommand(Intent intent, int flags, int startId) {
-//        Log.i(tag, "Status service on start command");
-//        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
-//        return super.onStartCommand(intent,flags,startId);
-//    }
-
     @Override
     public void onCreate() {
         Log.d(tag, "Create uploader watcher");
@@ -92,18 +75,6 @@ public class UploaderWatcher extends IntentService {
 
         super.onCreate();
     }
-
-//    @Override
-//    public void onStart(Intent intent, int startId) {
-//        Log.d(tag, "start");
-//        Toast.makeText(this, " Service Started", Toast.LENGTH_LONG).show();
-//    }
-
-//    @Override
-//    public void onDestroy() {
-//        Log.i(tag, "Status service destroy");
-//        Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-//    }
 
 
 }

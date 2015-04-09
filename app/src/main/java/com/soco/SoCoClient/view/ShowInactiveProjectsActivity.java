@@ -18,7 +18,6 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.util.ProjectUtil;
-import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
 
 import java.util.ArrayList;

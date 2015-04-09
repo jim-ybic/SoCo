@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -42,7 +41,6 @@ import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.dropbox.DropboxUtil;
 import com.soco.SoCoClient.control.util.ProjectUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
-import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
 import com.soco.SoCoClient.view.ProjectLocationActivity;
 import com.soco.SoCoClient.view.ShowSharedFilesActivity;
@@ -73,7 +71,6 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
     ScrollView sv_sproject;
 
     DBManagerSoco dbmgrSoco = null;
-    Program program = null;
     String original_pname;
 
     Project project;
@@ -598,7 +595,7 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
                     //todo: save phone number to project
-                    program.pphone = s;
+//                    program.pphone = s;
                     Log.i("new", "Send sms");
                     Uri uri = Uri.parse("smsto:" + s);
                     try {

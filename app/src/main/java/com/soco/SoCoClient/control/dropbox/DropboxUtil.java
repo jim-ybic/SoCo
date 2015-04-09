@@ -42,10 +42,6 @@ public class DropboxUtil {
         DownloaderTask dropboxTask = new DownloaderTask(
                 dropboxApi, remoteFilePath, uri, is, null, cr, context);
         dropboxTask.execute();
-
-//        TextView tv_file_log = (TextView) showMoreActivity.findViewById(R.id.tv_file_log);
-//        tv_file_log.append("File upload success: "
-//                + FileUtils.getDisplayName(showMoreActivity.getContentResolver(), uri) + "\n");
     }
 
 
@@ -70,10 +66,6 @@ public class DropboxUtil {
         UploaderTask dropboxTask = new UploaderTask(
                 dropboxApi, remoteFilePath, uri, is, cr, context);
         dropboxTask.execute();
-
-//        TextView tv_file_log = (TextView) showMoreActivity.findViewById(R.id.tv_file_log);
-//        tv_file_log.append("File upload success: "
-//                + FileUtils.getDisplayName(showMoreActivity.getContentResolver(), uri) + "\n");
     }
 
     public static String getRemotePath(Uri uri, String loginEmail, String loginPassword,

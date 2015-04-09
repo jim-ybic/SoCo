@@ -18,20 +18,6 @@ public class DBHelperSoco extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        //todo: decommission
-//        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_PROGRAM + " (" +
-//                DataConfig.COLUMN_PID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                DataConfig.COLUMN_PNAME + " VARCHAR, " +
-//                DataConfig.COLUMN_PDATE + " VARCHAR," +
-//                DataConfig.COLUMN_PTIME + " VARCHAR," +
-//                DataConfig.COLUMN_PPLACE + " VARCHAR," +
-//                DataConfig.COLUMN_PCOMPLETE + " INTEGER," +
-//                DataConfig.COLUMN_PDESC + " VARCHAR," +
-//                DataConfig.COLUMN_PPHONE + " VARCHAR, " +
-//                DataConfig.COLUMN_PEMAIL + " VARCHAR, " +
-//                DataConfig.COLUMN_PWECHAT + " VARCHAR)");
-
-        //update: 20150206
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_PROJECT + " (" +
                 DataConfig.COLUMN_PROJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DataConfig.COLUMN_PROJECT_NAME + " VARCHAR, " +

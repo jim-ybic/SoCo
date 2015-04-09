@@ -60,11 +60,10 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        //todo: check below conditions
-//        if(url == null || url.isEmpty() || type == null || type.isEmpty()){
-//            Log.e(tag, "Cannot get url/type");
-//            return false;
-//        }
+        if(url == null || url.isEmpty() || type == null || type.isEmpty()){
+            Log.e(tag, "Cannot get url/type");
+            return false;
+        }
         Log.i(tag, "Start http task, url is " + url + ", type is " + type);
 
         if(type.equals(HttpConfig.HTTP_TYPE_LOGIN)) {

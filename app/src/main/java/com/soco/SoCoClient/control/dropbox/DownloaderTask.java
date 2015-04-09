@@ -121,14 +121,10 @@ public class DownloaderTask extends AsyncTask<Void, Void, Boolean> {
 
             intent.setDataAndType(data, type);
 
-//            context.startActivity(intent);
-
-//            Log.i(tag, "Dropbox put file status: " + parse.toString());
             SocoApp app = (SocoApp) context;
             app.setUploadStatus(SocoApp.UPLOAD_STATUS_SUCCESS);
         } catch (Exception e1) {
             e1.printStackTrace();
-//            Toast.makeText(context, "File Upload failed.", Toast.LENGTH_LONG).show();
             SocoApp app = (SocoApp) context;
             app.setUploadStatus(SocoApp.UPLOAD_STATUS_FAIL);
             return false;
