@@ -21,10 +21,7 @@ import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.Config;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
-import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
-import com.soco.SoCoClient.control.http.HttpTask;
-import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.util.ProjectUtil;
 import com.soco.SoCoClient.model.Project;
 
@@ -36,6 +33,7 @@ import com.soco.SoCoClient.view.ui.section.EntryAdapter;
 import com.soco.SoCoClient.view.ui.section.EntryItem;
 import com.soco.SoCoClient.view.ui.section.Item;
 import com.soco.SoCoClient.view.ui.section.SectionItem;
+import com.soco.SoCoClient.view.ui.tab.NewShowSingleProjectActivity;
 
 public class ShowActiveProjectsActivity extends ActionBarActivity {
 
@@ -85,10 +83,14 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                     ((SocoApp)getApplicationContext()).pid_onserver = pid_onserver;
                     Log.i(tag, "pid/pid_onserver: " + pid + ", " + pid_onserver);
 
-                    Intent intent = new Intent(view.getContext(), ShowSingleProjectActivity.class);
-                    startActivityForResult(intent, INTENT_SHOW_SINGLE_PROGRAM);
+//                    Intent intent = new Intent(view.getContext(), ShowSingleProjectActivity.class);
+//                    startActivityForResult(intent, INTENT_SHOW_SINGLE_PROGRAM);
 //                    Intent i = new Intent(view.getContext(), ShowSingleProjectNewActivity.class);
 //                    startActivityForResult(i, INTENT_SHOW_SINGLE_PROGRAM);
+
+                    //new fragment-based activity
+                    Intent i = new Intent(view.getContext(), NewShowSingleProjectActivity.class);
+                    startActivityForResult(i, INTENT_SHOW_SINGLE_PROGRAM);
                 }
 
 //                ListView listView = (ListView) parent;
@@ -304,5 +306,10 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
 //        listProjects(null);
         listProjectsTest(null);
     }
+
+//    public void test(View view){
+//        Intent i = new Intent(this, NewShowSingleProjectActivity.class);
+//        startActivity(i);
+//    }
 
 }

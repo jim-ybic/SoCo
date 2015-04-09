@@ -18,18 +18,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
-            android:onClick="saveProjectToDb"
             android:drawableLeft="@drawable/ic_action_save"
             android:layout_weight="1"
-            android:textSize="10dp"/>
+            android:textSize="10dp"
+            android:id="@+id/bt_save_project"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Done"
-            android:onClick="setProjectCompleted"
             android:drawableLeft="@drawable/ic_action_done"
             android:layout_weight="1"
-            android:textSize="10dp"/>
+            android:textSize="10dp"
+            android:id="@+id/bt_finish_project"/>
     </LinearLayout>
 
     <LinearLayout
@@ -90,11 +90,11 @@
             android:orientation="vertical">
 
             <!--<EditText-->
-                <!--android:id="@+id/et_spname"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="@dimen/abc_text_size_display_1_material"-->
-                <!--android:hint="Name not set" />-->
+            <!--android:id="@+id/et_spname"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="@dimen/abc_text_size_display_1_material"-->
+            <!--android:hint="Name not set" />-->
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -109,7 +109,8 @@
                     <EditText
                         android:id="@+id/et_spdate"
                         android:layout_height="wrap_content"
-                        android:hint="Click to set Date"/>
+                        android:hint="Click to set Date"
+                        android:onClick="clickDate"/>
                     <TextView
                         android:id="@+id/tv_sptime"
                         android:layout_height="wrap_content"
@@ -118,7 +119,8 @@
                     <EditText
                         android:id="@+id/et_sptime"
                         android:layout_height="wrap_content"
-                        android:hint="Click to set time" />
+                        android:hint="Click to set time"
+                        android:onClick="clickTime"/>
                 </TableRow>
             </TableLayout>
 
@@ -207,7 +209,8 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_action_mail"
                         android:onClick="email"
-                        android:textSize="10dp"/>
+                        android:textSize="10dp"
+                        android:id="@+id/bt_email"/>
                 </TableRow>
             </TableLayout>
 
@@ -225,7 +228,8 @@
                         android:text="Detail"
                         android:onClick="sharedFileDetails"
                         android:textSize="10dp"
-                        android:layout_alignParentRight="true"/>
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/bt_shared_file_details"/>
                 </TableRow>
                 <TableRow>
                     <TextView
@@ -277,4 +281,5 @@
 
         <!--</LinearLayout>-->
     <!--</ScrollView>-->
+
 </LinearLayout>

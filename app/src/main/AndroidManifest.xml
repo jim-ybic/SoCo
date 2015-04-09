@@ -119,20 +119,25 @@
         <service
             android:name=".control.dropbox.UploaderWatcher"
             android:enabled="true" />
-        <service android:name=".control.http.service.HeartbeatService"
+        <service
+            android:name=".control.http.service.HeartbeatService"
             android:enabled="true" />
 
         <activity
             android:name=".view.ProjectLocationActivity"
             android:label="@string/title_activity_project_location" >
         </activity>
+        <!--<activity-->
+            <!--android:name=".view.ShowSingleProjectNewActivity"-->
+            <!--android:label="@string/title_activity_show_single_project_new"-->
+            <!--android:parentActivityName=".view.ShowActiveProjectsActivity" >-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.soco.SoCoClient.view.ShowActiveProjectsActivity" />-->
+        <!--</activity>-->
         <activity
-            android:name=".view.ShowSingleProjectNewActivity"
-            android:label="@string/title_activity_show_single_project_new"
-            android:parentActivityName=".view.ShowActiveProjectsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.soco.SoCoClient.view.ShowActiveProjectsActivity" />
+            android:name=".view.ui.tab.NewShowSingleProjectActivity"
+            android:label="Project Details and Updates" >
         </activity>
     </application>
 

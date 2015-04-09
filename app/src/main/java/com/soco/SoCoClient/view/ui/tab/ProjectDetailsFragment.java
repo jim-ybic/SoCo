@@ -1,20 +1,25 @@
-package com.soco.SoCoClient.view;
+package com.soco.SoCoClient.view.ui.tab;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -39,6 +44,8 @@ import com.soco.SoCoClient.control.util.ProjectUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Program;
 import com.soco.SoCoClient.model.Project;
+import com.soco.SoCoClient.view.ProjectLocationActivity;
+import com.soco.SoCoClient.view.ShowSharedFilesActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,9 +56,11 @@ import java.util.Map;
 
 import static com.soco.SoCoClient.control.config.DataConfig.*;
 
-public class ShowSingleProjectActivity extends ActionBarActivity implements View.OnClickListener {
+public class ProjectDetailsFragment extends Fragment implements View.OnClickListener {
 
     public static String tag="ShowSingleProgram";
+
+    View rootView;
 
     // Local views
     EditText pdateEditText, ptimeEditText;
@@ -60,14 +69,14 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     EditText et_splocation, et_sptag;
     AutoCompleteTextView et_spphone_auto, et_spemail_auto;
     TableRow tr_spdatetime, tr_splocation, tr_spdesc, tr_spphone, tr_spemail, tr_sptag;
-    Button bt_clear_pdatetime, bt_splocname; //, bt_spdetails, bt_spupdates;
-    ScrollView sv_sproject; //, sv_supdates;
+    Button bt_clear_pdatetime, bt_splocname;    //, bt_spdetails, bt_spupdates;
+    ScrollView sv_sproject, sv_supdates;
 
     // Local variables
     DBManagerSoco dbmgrSoco = null;
     Program program = null;
-    String loginEmail;
-    String loginPassword;
+//    String loginEmail;
+//    String loginPassword;
     String original_pname;
 
     Project project;
@@ -84,44 +93,120 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     private ArrayList<Map<String, String>> listNamePhone, listNameEmail;
     private SimpleAdapter mAdapterPhone, mAdapterEmail;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_single_project);
-        findViewsById();
+    SocoApp socoApp = (SocoApp)(Context)getActivity();
+    //TODO: remove below test script
 
-        loginEmail = ((SocoApp)getApplicationContext()).loginEmail;
-        loginPassword = ((SocoApp)getApplicationContext()).loginPassword;
-        pid = ((SocoApp)getApplicationContext()).pid;
-        pid_onserver = ((SocoApp)getApplicationContext()).pid_onserver;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        Log.d(tag, "on create view");
+        rootView = inflater.inflate(R.layout.fragment_project_details, container, false);
+        Log.d(tag, "Found root view: " + rootView);
+
+        //moved from onCreate
+        findViewsById();
+        showProjectToScreen(project, attrMap);
+        setDateTimeField();
+        PopulatePhoneEmailList();
+
+        //set button listeners
+        rootView.findViewById(R.id.bt_save_project).setOnClickListener(this);
+        rootView.findViewById(R.id.bt_finish_project).setOnClickListener(this);
+        rootView.findViewById(R.id.et_spdate).setOnClickListener(this);
+        rootView.findViewById(R.id.et_sptime).setOnClickListener(this);
+        rootView.findViewById(R.id.bt_splocation).setOnClickListener(this);
+        rootView.findViewById(R.id.bt_shared_file_details).setOnClickListener(this);
+        rootView.findViewById(R.id.bt_call).setOnClickListener(this);
+        rootView.findViewById(R.id.bt_email).setOnClickListener(this);
+
+        return rootView;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.bt_save_project:
+                saveProjectToDb();
+                break;
+            case R.id.bt_finish_project:
+                setProjectCompleted();
+                break;
+            case R.id.et_spdate:
+                clickDate();
+                break;
+            case R.id.et_sptime:
+                clickTime();
+                break;
+            case R.id.bt_splocation:
+                showLocationDetails();
+                break;
+            case R.id.bt_shared_file_details:
+                sharedFileDetails();
+                break;
+            case R.id.bt_call:
+                call();
+                break;
+            case R.id.bt_email:
+                email();
+                break;
+        }
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+//        setContentView(R.layout.activity_show_single_project);
+//        findViewsById();
+
+//        loginEmail = ((SocoApp)getActivity()).loginEmail;
+//        loginPassword = ((SocoApp)getActivity()).loginPassword;
+//        pid = ((SocoApp)getActivity()).pid;
+
+        if(socoApp == null){
+            Log.i(tag, "socoApp object is null, creating new");
+            socoApp = (SocoApp)(getActivity().getApplication());
+            Log.i(tag, "socoApp object created: " + socoApp);
+        }
+        //todo: remove below testing script
+//        socoApp.pid = 15;
+//        socoApp.pid_onserver = "15";
+
+        pid = socoApp.pid;
+//        pid_onserver = ((SocoApp)getActivity()).pid_onserver;
+        pid_onserver = socoApp.pid_onserver;
+        Log.d(tag, "pid is " + pid + ", pid_onserver is " + pid_onserver);
 
         Log.i(tag, "onCreate, get project properties: "
-                + Config.LOGIN_EMAIL + ":" + loginEmail + ", "
-                + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
-                + Config.PROJECT_PID + ":" + pid + ","
-                + Config.PROJECT_PID_ONSERVER + ":" + pid_onserver
+//                        + Config.LOGIN_EMAIL + ":" + loginEmail + ", "
+//                        + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
+                        + Config.PROJECT_PID + ":" + pid + ","
+                        + Config.PROJECT_PID_ONSERVER + ":" + pid_onserver
         );
 
-        dbmgrSoco = new DBManagerSoco(this);
+        dbmgrSoco = new DBManagerSoco(getActivity().getApplication());
         project = dbmgrSoco.loadProjectByPid(pid);
         attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);
-        showProjectToScreen(project, attrMap);
+//        showProjectToScreen(project, attrMap);
 
         dropboxApi = DropboxUtil.initDropboxApiAuthentication(
                 Config.ACCESS_KEY, Config.ACCESS_SECRET, Config.OA2_TOKEN,
-                getApplicationContext());
-        ((SocoApp)getApplicationContext()).dropboxApi = dropboxApi;
+                getActivity().getApplication());
+        socoApp.dropboxApi = dropboxApi;
 
-        setDateTimeField();
-        PopulatePhoneEmailList();
+//        setDateTimeField();
+//        PopulatePhoneEmailList();
     }
 
     public void PopulatePhoneEmailList(){
-        SocoApp app = (SocoApp) getApplicationContext();
+        SocoApp app = socoApp;
 
         Log.i(tag, "Populate phone list");
         listNamePhone = app.loadNamePhoneList();
-        mAdapterPhone = new SimpleAdapter(this, listNamePhone, R.layout.custcontview ,
+        mAdapterPhone = new SimpleAdapter(getActivity(), listNamePhone, R.layout.custcontview ,
                 new String[] { "Key", "Value" },
                 new int[] { R.id.auto_key, R.id.auto_value});
         et_spphone_auto.setAdapter(mAdapterPhone);
@@ -136,7 +221,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
         Log.i(tag, "Populate email list");
         listNameEmail = app.loadNameEmailList();
-        mAdapterEmail = new SimpleAdapter(this, listNameEmail, R.layout.custcontview ,
+        mAdapterEmail = new SimpleAdapter(getActivity(), listNameEmail, R.layout.custcontview ,
                 new String[] { "Key", "Value" },
                 new int[] { R.id.auto_key, R.id.auto_value});
         et_spemail_auto.setAdapter(mAdapterEmail);
@@ -151,63 +236,83 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     }
 
 
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getSupportMenuInflater().inflate(R.menu.menu_show_single_program, menu);
+//        return true;
+//    }
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_show_single_program, menu);
-        return true;
+//        getMenuInflater().inflate(R.menu.menu_show_single_program, menu);
+        inflater.inflate(R.menu.menu_show_single_program, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+        return;
     }
 
 
     void findViewsById() {
-        pdateEditText = (EditText) findViewById(R.id.et_spdate);
+
+        if(rootView == null)
+            Log.e(tag, "Cannot get View object");
+        Log.i(tag, "root view is: " + rootView);
+
+        pdateEditText = (EditText) rootView.findViewById(R.id.et_spdate);
         pdateEditText.setInputType(InputType.TYPE_NULL);
-        ptimeEditText = (EditText) findViewById(R.id.et_sptime);
+        ptimeEditText = (EditText) rootView.findViewById(R.id.et_sptime);
         ptimeEditText.setInputType(InputType.TYPE_NULL);
 
-        et_spname = (EditText) findViewById(R.id.et_spname);
-        et_spdate = (EditText) findViewById(R.id.et_spdate);
-        et_sptime = (EditText) findViewById(R.id.et_sptime);
-        et_splocation = (EditText) findViewById(R.id.et_splocation);
-        et_spdesc = (EditText) findViewById(R.id.et_spdesc);
-        et_spphone_auto = (AutoCompleteTextView) findViewById(R.id.et_spphone_auto);
-        et_spemail_auto = (AutoCompleteTextView) findViewById(R.id.et_spemail_auto);
+        et_spname = (EditText) rootView.findViewById(R.id.et_spname);
+        if(et_spname == null){
+            Log.e(tag, "et_spname object cannot be found");
+            return;
+        }
+        else
+            Log.i(tag, "Found et_spname object: " + et_spdate);
 
-        tr_spdatetime = (TableRow) findViewById(R.id.tr_spdatetime);
-//        tr_sptime = (TableRow) findViewById(R.id.tr_sptime);
-        tr_splocation = (TableRow) findViewById(R.id.tr_splocation);
-        tr_spdesc = (TableRow) findViewById(R.id.tr_spdesc);
-        tr_spphone = (TableRow) findViewById(R.id.tr_spphone);
-        tr_spemail = (TableRow) findViewById(R.id.tr_spemail);
+        et_spdate = (EditText) rootView.findViewById(R.id.et_spdate);
+        et_sptime = (EditText) rootView.findViewById(R.id.et_sptime);
+        et_splocation = (EditText) rootView.findViewById(R.id.et_splocation);
+        et_spdesc = (EditText) rootView.findViewById(R.id.et_spdesc);
+        et_spphone_auto = (AutoCompleteTextView) rootView.findViewById(R.id.et_spphone_auto);
+        et_spemail_auto = (AutoCompleteTextView) rootView.findViewById(R.id.et_spemail_auto);
 
-        tv_spdate = (TextView) findViewById(R.id.tv_spdate);
-        tv_sptime = (TextView) findViewById(R.id.tv_sptime);
-        tv_splocname = (TextView) findViewById(R.id.tv_splocname);
-        tv_spdesc = (TextView) findViewById(R.id.tv_spdesc);
+        tr_spdatetime = (TableRow) rootView.findViewById(R.id.tr_spdatetime);
+//        tr_sptime = (TableRow) rootView.findViewById(R.id.tr_sptime);
+        tr_splocation = (TableRow) rootView.findViewById(R.id.tr_splocation);
+        tr_spdesc = (TableRow) rootView.findViewById(R.id.tr_spdesc);
+        tr_spphone = (TableRow) rootView.findViewById(R.id.tr_spphone);
+        tr_spemail = (TableRow) rootView.findViewById(R.id.tr_spemail);
 
-        bt_splocname = (Button) findViewById(R.id.bt_splocation);
+        tv_spdate = (TextView) rootView.findViewById(R.id.tv_spdate);
+        tv_sptime = (TextView) rootView.findViewById(R.id.tv_sptime);
+        tv_splocname = (TextView) rootView.findViewById(R.id.tv_splocname);
+        tv_spdesc = (TextView) rootView.findViewById(R.id.tv_spdesc);
 
-        tr_sptag = (TableRow) findViewById(R.id.tr_sptag);
-        tv_sptag = (TextView) findViewById(R.id.tv_sptag);
-        et_sptag = (EditText) findViewById(R.id.et_sptag);
+        bt_splocname = (Button) rootView.findViewById(R.id.bt_splocation);
 
-        sv_sproject = (ScrollView) findViewById(R.id.sv_sproject);
-//        bt_spdetails = (Button) findViewById(R.id.bt_spdetails);
-//        bt_spupdates = (Button) findViewById(R.id.bt_spupdates);
+        tr_sptag = (TableRow) rootView.findViewById(R.id.tr_sptag);
+        tv_sptag = (TextView) rootView.findViewById(R.id.tv_sptag);
+        et_sptag = (EditText) rootView.findViewById(R.id.et_sptag);
 
-//        sv_supdates = (ScrollView) findViewById(R.id.sv_supdates);
+        sv_sproject = (ScrollView) rootView.findViewById(R.id.sv_sproject);
+//        bt_spdetails = (Button) rootView.findViewById(R.id.bt_spdetails);
+//        bt_spupdates = (Button) rootView.findViewById(R.id.bt_spupdates);
 
-//        bt_clear_pdatetime = (Button) findViewById(R.id.bt_clear_pdatetime);
+//        sv_supdates = (ScrollView) rootView.findViewById(R.id.sv_supdates);
+
+//        bt_clear_pdatetime = (Button) rootView.findViewById(R.id.bt_clear_pdatetime);
     }
 
     void gotoPreviousScreen(){
-        finish();
+        getActivity().finish();
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        return super.onPrepareOptionsMenu(menu);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -218,7 +323,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                getActivity().finish();
                 break;
             case R.id.mn_datetime:
                 if (et_spdate.getText().toString().isEmpty()
@@ -338,29 +443,37 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         tr_spemail.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onBackPressed() {
-        gotoPreviousScreen();
+//    @Override
+//    public void onBackPressed() {
+//        gotoPreviousScreen();
+//    }
+
+//    @Override
+//    public void onClick(View view) {
+//        if(view == pdateEditText) {
+//            pdatePickerDialog.show();
+//        }
+//        if(view == ptimeEditText) {
+//            ptimePickerDialog.show();
+//        }
+//    }
+
+    public void clickDate(){
+        pdatePickerDialog.show();
     }
 
-    @Override
-    public void onClick(View view) {
-        if(view == pdateEditText) {
-            pdatePickerDialog.show();
-        }
-        if(view == ptimeEditText) {
-            ptimePickerDialog.show();
-        }
+    public void clickTime(){
+        ptimePickerDialog.show();
     }
 
     void setDateTimeField() {
         // Date picker
-        pdateEditText.setOnClickListener(this);
+//        pdateEditText.setOnClickListener(this);
         Calendar newCalendar = Calendar.getInstance();
         int year = newCalendar.get(Calendar.YEAR);
         int month = newCalendar.get(Calendar.MONTH);
         int day = newCalendar.get(Calendar.DAY_OF_MONTH);
-        pdatePickerDialog = new DatePickerDialog(this,
+        pdatePickerDialog = new DatePickerDialog(getActivity(),
                 new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         Calendar newDate = Calendar.getInstance();
@@ -370,10 +483,10 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 }, year, month, day);
 
         // Time picker
-        ptimeEditText.setOnClickListener(this);
+//        ptimeEditText.setOnClickListener(this);
         int hour = newCalendar.get(Calendar.HOUR_OF_DAY);
         int minute = newCalendar.get(Calendar.MINUTE);
-        ptimePickerDialog = new TimePickerDialog(this,
+        ptimePickerDialog = new TimePickerDialog(getActivity(),
                 new TimePickerDialog.OnTimeSetListener() {
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         ptimeEditText.setText( selectedHour + ":" + selectedMinute);
@@ -383,6 +496,11 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     }
 
     public void showProjectToScreen(Project p, ArrayList<HashMap<String, String>> attrMap){
+
+        if(p == null) {
+            Log.e(tag, "Project is null");
+            return;
+        }
         Log.i(tag, "Show project: " + p.pid + ", " + p.pname + ", "
                 + " total attributes: " + attrMap.size());
 
@@ -465,10 +583,16 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         ArrayList<String> sharedFileDisplayName = dbmgrSoco.getSharedFilesDisplayName(pid);
         String summary = SignatureUtil.genSharedFileSummary(sharedFileDisplayName);
         Log.i(tag, "Shared file summary: " + summary);
-        ((TextView) findViewById(R.id.tv_shared_file_summary)).setText(summary,
+        ((TextView) rootView.findViewById(R.id.tv_shared_file_summary)).setText(summary,
                 TextView.BufferType.EDITABLE);
 
+
     }
+
+//    void refreshAttrMap(){
+//        Log.i(tag, "refresh attr map");
+//        attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);
+//    }
 
     HashMap<String, String> collectProjectAttributesFromScreen(){
         HashMap<String, String> attrMap = new HashMap<String, String>();
@@ -504,15 +628,15 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 //        String tag = et_sptag.getText().toString();
 //        if (tag != null && !tag.isEmpty())
 //            attrMap.put(ATTRIBUTE_NAME_TAG, tag);
-        
+
         return attrMap;
     }
 
-    public void saveProjectToDb(View view){
+    public void saveProjectToDb(){
         Log.i(tag, "Save to db the project: " + project.pid + ", " + project.pname);
         String pname = et_spname.getText().toString();
         dbmgrSoco.updateProjectName(project.pid, pname);
-        ProjectUtil.serverUpdateProjectName(String.valueOf(pid), getApplicationContext(),
+        ProjectUtil.serverUpdateProjectName(String.valueOf(pid), getActivity().getApplication(),
                 pname, pid_onserver);
 
         String ptag = et_sptag.getText().toString();
@@ -522,30 +646,31 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         HashMap<String, String> attrMap2 = collectProjectAttributesFromScreen();
         if(attrMap2.size() > 0) {
             dbmgrSoco.updateDbProjectAttributes(pid, attrMap2);
-            ProjectUtil.serverSetProjectAttribute(String.valueOf(pid), getApplicationContext(),
+            ProjectUtil.serverSetProjectAttribute(String.valueOf(pid),
+                    getActivity().getApplication(),
                     pname, pid_onserver, attrMap2);
         }
 
-        Toast.makeText(getApplicationContext(), "Project saved.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Project saved.", Toast.LENGTH_SHORT).show();
         attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);
     }
 
-    public void setProjectCompleted(View view){
+    public void setProjectCompleted(){
         Log.i(tag, "Set project complete start");
-        saveProjectToDb(view);
+        saveProjectToDb();
         dbmgrSoco.updateProjectActiveness(pid, DataConfig.VALUE_PROJECT_INACTIVE);
-        Toast.makeText(getApplicationContext(), "Project complete, well done.",
+        Toast.makeText(getActivity(), "Project complete, well done.",
                 Toast.LENGTH_SHORT).show();
-        ProjectUtil.serverArchiveProject(String.valueOf(pid), getApplicationContext(), pid_onserver);
+        ProjectUtil.serverArchiveProject(String.valueOf(pid), getActivity().getApplication(), pid_onserver);
         gotoPreviousScreen();
     }
 
-    public void call(final View view){
+    public void call(){
         Log.i(tag, "Make a call");
         try{
             String n = et_spphone_auto.getText().toString();
             if (n.isEmpty()){
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                 alert.setTitle("Phone number is not set");
                 alert.setMessage("Input number");
                 final AutoCompleteTextView input = getAutoCompleteTextViewPhone();
@@ -555,7 +680,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String s = input.getText().toString();
                         et_spphone_auto.setText(s);
-                        saveProjectToDb(view);
+                        saveProjectToDb();
                         Log.i(tag, "New phone number saved and call: " + s);
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put(DataConfig.ATTRIBUTE_NAME_PHONE, s);
@@ -569,7 +694,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String s = input.getText().toString();
                         et_spphone_auto.setText(s);
-                        saveProjectToDb(view);
+                        saveProjectToDb();
                         Log.i(tag, "New phone number saved: " + s);
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put(DataConfig.ATTRIBUTE_NAME_PHONE, s);
@@ -590,7 +715,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     }
 
     public AutoCompleteTextView getAutoCompleteTextViewPhone() {
-        final AutoCompleteTextView input = new AutoCompleteTextView(this);
+        final AutoCompleteTextView input = new AutoCompleteTextView(getActivity());
         input.setInputType(InputType.TYPE_CLASS_PHONE);
         input.setAdapter(mAdapterPhone);
         input.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -606,7 +731,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     }
 
     public AutoCompleteTextView getAutoCompleteTextViewEmail() {
-        final AutoCompleteTextView input = new AutoCompleteTextView(this);
+        final AutoCompleteTextView input = new AutoCompleteTextView(getActivity());
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setAdapter(mAdapterEmail);
         input.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -625,7 +750,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         Log.i("sms", "Send sms");
         String n = et_spphone_auto.getText().toString();
         if (n.isEmpty()){
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
             alert.setTitle("Phone number is not set");
             alert.setMessage("Input number");
             final AutoCompleteTextView input = getAutoCompleteTextViewPhone();
@@ -673,7 +798,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         String n = et_spphone_auto.getText().toString();
 
         if (n.isEmpty()){
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
             alert.setTitle("Phone number is not set");
             alert.setMessage("Input number");
             final AutoCompleteTextView input = getAutoCompleteTextViewPhone();
@@ -716,11 +841,11 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         }
     }
 
-    public void email(final View view){
+    public void email(){
         Log.i(tag, "Send email");
         String n = et_spemail_auto.getText().toString();
         if (n.isEmpty()){
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
             alert.setTitle("Email is not set");
             alert.setMessage("Input email");
             final AutoCompleteTextView input = getAutoCompleteTextViewEmail();
@@ -729,7 +854,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
                     et_spemail_auto.setText(s);
-                    saveProjectToDb(view);
+                    saveProjectToDb();
                     Log.i(tag, "New email saved and send: " + s);
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put(DataConfig.ATTRIBUTE_NAME_EMAIL, s);
@@ -751,7 +876,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String s = input.getText().toString();
                     et_spemail_auto.setText(s);
-                    saveProjectToDb(view);
+                    saveProjectToDb();
                     Log.i(tag, "New email saved and send: " + s);
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put(DataConfig.ATTRIBUTE_NAME_EMAIL, s);
@@ -792,7 +917,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
         Log.i(tag, "onResume start, reload project attribute for pid: " + pid);
@@ -816,7 +941,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
                 Log.v(tag, "Session finish authentication complete with token: "
                         + dropboxApi.getSession().getOAuth2AccessToken());
             } catch (IllegalStateException e) {
-                Toast.makeText(this, "Error during Dropbox authentication",
+                Toast.makeText(getActivity(), "Error during Dropbox authentication",
                         Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -845,12 +970,12 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         switch(requestCode) {
             case (100) : {  //show more
                 if (resultCode == Activity.RESULT_OK) {
-                    Log.i(tag, "onActivityResult, original values: " + loginEmail + ", " + loginPassword);
-                    loginEmail = data.getStringExtra(Config.LOGIN_EMAIL);
-                    loginPassword = data.getStringExtra(Config.LOGIN_PASSWORD);
+//                    Log.i(tag, "onActivityResult, original values: " + loginEmail + ", " + loginPassword);
+//                    loginEmail = data.getStringExtra(Config.LOGIN_EMAIL);
+//                    loginPassword = data.getStringExtra(Config.LOGIN_PASSWORD);
                     original_pname = data.getStringExtra(Config.PROGRAM_PNAME);
-                    Log.i(tag, "get string extra: "
-                            + loginEmail + ", " + loginPassword + ", " + original_pname);
+//                    Log.i(tag, "get string extra: "
+//                            + loginEmail + ", " + loginPassword + ", " + original_pname);
 
                 }
                 break;
@@ -863,8 +988,8 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
 //                        Log.i(tag, "File selected with uri: " + uri.toString());
 //                        FileUtils.checkUriMeta(getContentResolver(), uri);
 //                        DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
-//                                getContentResolver(), getApplicationContext());
-//                        SocoApp app = (SocoApp) getApplicationContext();
+//                                getContentResolver(), getActivity());
+//                        SocoApp app = (SocoApp) getActivity();
 //                        app.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
 //                        // check result
 //                        boolean isSuccess = false;
@@ -906,50 +1031,23 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements View
         }
     }
 
-//    public void addFile(View view){
-//        Log.i(tag, "add file start");
-//        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-//        intent.addCategory(Intent.CATEGORY_OPENABLE);
-//        intent.setType("*/*");
-//        startActivityForResult(intent, Config.ACTIVITY_OPEN_FILE);
-//    }
-
-    public void sharedFileDetails(View view){
+    public void sharedFileDetails(){
         Log.i(tag, "Show shared file details start, set attrMap for pid=" + pid);
 
-        ((SocoApp) getApplicationContext()).setAttrMap(attrMap);
-        ((SocoApp) getApplicationContext()).setPid(pid);
-        ((SocoApp) getApplicationContext()).dbManagerSoco = dbmgrSoco;
+        socoApp.setAttrMap(attrMap);
+        socoApp.setPid(pid);
+        socoApp.dbManagerSoco = dbmgrSoco;
 
-        Intent i = new Intent(this, ShowSharedFilesActivity.class);
+        Intent i = new Intent(getActivity(), ShowSharedFilesActivity.class);
         startActivityForResult(i, -1);
     }
 
-    public void showLocationDetails(View view){
-        ((SocoApp)getApplicationContext()).setAttrMap(attrMap);
-        ((SocoApp)getApplicationContext()).dbManagerSoco = dbmgrSoco;
-        Intent i = new Intent(this, ProjectLocationActivity.class);
+    public void showLocationDetails(){
+        socoApp.setAttrMap(attrMap);
+        socoApp.dbManagerSoco = dbmgrSoco;
+        Intent i = new Intent(getActivity(), ProjectLocationActivity.class);
         startActivity(i);
     }
 
-//    public void detailsShowHide(View view){
-//        if(bt_spdetails.getText().toString().equals("HIDE")) {
-//            sv_sproject.setVisibility(View.GONE);
-//            bt_spdetails.setText("SHOW");
-//        }  else{
-//            sv_sproject.setVisibility(View.VISIBLE);
-//            bt_spdetails.setText("HIDE");
-//        }
-//    }
-//
-//    public void updatesShowHide(View view){
-//        if(bt_spupdates.getText().toString().equals("HIDE")) {
-//            sv_supdates.setVisibility(View.GONE);
-//            bt_spupdates.setText("SHOW");
-//        }  else{
-//            sv_supdates.setVisibility(View.VISIBLE);
-//            bt_spupdates.setText("HIDE");
-//        }
-//    }
 
 }

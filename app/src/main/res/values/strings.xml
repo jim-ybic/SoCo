@@ -31,5 +31,6 @@
     <string name="title_show_active_projects">List of Active Projects</string>
     <string name="title_activity_show_single_project_new">ShowSingleProjectNewActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
