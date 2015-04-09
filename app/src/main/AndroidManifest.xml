@@ -61,15 +61,6 @@
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".view.ShowSingleProjectActivity"
-            android:label="@string/title_show_single_project"
-            android:launchMode="singleTop"
-            android:parentActivityName=".view.ShowActiveProjectsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.ShowActiveProjectsActivity" />
-        </activity>
-        <activity
             android:name=".view.ShowInactiveProjectsActivity"
             android:label="@string/title_activity_show_inactive_projects"
             android:launchMode="singleTop"
@@ -136,7 +127,7 @@
                 <!--android:value="com.soco.SoCoClient.view.ShowActiveProjectsActivity" />-->
         <!--</activity>-->
         <activity
-            android:name=".view.ui.tab.NewShowSingleProjectActivity"
+            android:name=".view.ShowSingleProjectActivity"
             android:label="Project Details and Updates" >
         </activity>
     </application>

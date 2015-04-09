@@ -43,7 +43,6 @@ public class ProfileActivity extends ActionBarActivity {
     }
 
     private void findViewsById() {
-//        tv_profile_email = (TextView) findViewById(R.id.profile_email);
         et_profile_email = (EditText) findViewById(R.id.profile_email);
         et_profile_password = (EditText) findViewById(R.id.profile_password);
         et_profile_nickname = (EditText) findViewById(R.id.profile_nickname);
@@ -77,7 +76,6 @@ public class ProfileActivity extends ActionBarActivity {
         et_profile_email.setText(profile.email);
         et_profile_password.setText(profile.password);
         et_profile_nickname.setText(profile.nickname);
-//        tv_profile_email.setText(profile.email, TextView.BufferType.EDITABLE);
         et_profile_phone.setText(profile.phone);
         et_profile_wechat.setText(profile.wechat);
         tv_lastLoginTimestamp.setText(profile.lastLoginTimestamp);

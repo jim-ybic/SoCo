@@ -69,14 +69,11 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
     EditText et_splocation, et_sptag;
     AutoCompleteTextView et_spphone_auto, et_spemail_auto;
     TableRow tr_spdatetime, tr_splocation, tr_spdesc, tr_spphone, tr_spemail, tr_sptag;
-    Button bt_clear_pdatetime, bt_splocname;    //, bt_spdetails, bt_spupdates;
-    ScrollView sv_sproject, sv_supdates;
+    Button bt_clear_pdatetime, bt_splocname;
+    ScrollView sv_sproject;
 
-    // Local variables
     DBManagerSoco dbmgrSoco = null;
     Program program = null;
-//    String loginEmail;
-//    String loginPassword;
     String original_pname;
 
     Project project;
@@ -94,7 +91,6 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
     private SimpleAdapter mAdapterPhone, mAdapterEmail;
 
     SocoApp socoApp = (SocoApp)(Context)getActivity();
-    //TODO: remove below test script
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,7 +100,6 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         rootView = inflater.inflate(R.layout.fragment_project_details, container, false);
         Log.d(tag, "Found root view: " + rootView);
 
-        //moved from onCreate
         findViewsById();
         showProjectToScreen(project, attrMap);
         setDateTimeField();
@@ -134,10 +129,10 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
                 setProjectCompleted();
                 break;
             case R.id.et_spdate:
-                clickDate();
+                pdatePickerDialog.show();
                 break;
             case R.id.et_sptime:
-                clickTime();
+                ptimePickerDialog.show();
                 break;
             case R.id.bt_splocation:
                 showLocationDetails();
@@ -159,30 +154,18 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-//        setContentView(R.layout.activity_show_single_project);
-//        findViewsById();
-
-//        loginEmail = ((SocoApp)getActivity()).loginEmail;
-//        loginPassword = ((SocoApp)getActivity()).loginPassword;
-//        pid = ((SocoApp)getActivity()).pid;
 
         if(socoApp == null){
             Log.i(tag, "socoApp object is null, creating new");
             socoApp = (SocoApp)(getActivity().getApplication());
             Log.i(tag, "socoApp object created: " + socoApp);
         }
-        //todo: remove below testing script
-//        socoApp.pid = 15;
-//        socoApp.pid_onserver = "15";
 
         pid = socoApp.pid;
-//        pid_onserver = ((SocoApp)getActivity()).pid_onserver;
         pid_onserver = socoApp.pid_onserver;
         Log.d(tag, "pid is " + pid + ", pid_onserver is " + pid_onserver);
 
         Log.i(tag, "onCreate, get project properties: "
-//                        + Config.LOGIN_EMAIL + ":" + loginEmail + ", "
-//                        + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
                         + Config.PROJECT_PID + ":" + pid + ","
                         + Config.PROJECT_PID_ONSERVER + ":" + pid_onserver
         );
@@ -190,22 +173,16 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         dbmgrSoco = new DBManagerSoco(getActivity().getApplication());
         project = dbmgrSoco.loadProjectByPid(pid);
         attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);
-//        showProjectToScreen(project, attrMap);
 
         dropboxApi = DropboxUtil.initDropboxApiAuthentication(
                 Config.ACCESS_KEY, Config.ACCESS_SECRET, Config.OA2_TOKEN,
                 getActivity().getApplication());
         socoApp.dropboxApi = dropboxApi;
-
-//        setDateTimeField();
-//        PopulatePhoneEmailList();
     }
 
     public void PopulatePhoneEmailList(){
-        SocoApp app = socoApp;
-
         Log.i(tag, "Populate phone list");
-        listNamePhone = app.loadNamePhoneList();
+        listNamePhone = socoApp.loadNamePhoneList();
         mAdapterPhone = new SimpleAdapter(getActivity(), listNamePhone, R.layout.custcontview ,
                 new String[] { "Key", "Value" },
                 new int[] { R.id.auto_key, R.id.auto_value});
@@ -220,7 +197,7 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         });
 
         Log.i(tag, "Populate email list");
-        listNameEmail = app.loadNameEmailList();
+        listNameEmail = socoApp.loadNameEmailList();
         mAdapterEmail = new SimpleAdapter(getActivity(), listNameEmail, R.layout.custcontview ,
                 new String[] { "Key", "Value" },
                 new int[] { R.id.auto_key, R.id.auto_value});
@@ -235,25 +212,14 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         });
     }
 
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getSupportMenuInflater().inflate(R.menu.menu_show_single_program, menu);
-//        return true;
-//    }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_show_single_program, menu);
         inflater.inflate(R.menu.menu_show_single_program, menu);
         super.onCreateOptionsMenu(menu, inflater);
         return;
     }
 
-
     void findViewsById() {
-
         if(rootView == null)
             Log.e(tag, "Cannot get View object");
         Log.i(tag, "root view is: " + rootView);
@@ -279,7 +245,6 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         et_spemail_auto = (AutoCompleteTextView) rootView.findViewById(R.id.et_spemail_auto);
 
         tr_spdatetime = (TableRow) rootView.findViewById(R.id.tr_spdatetime);
-//        tr_sptime = (TableRow) rootView.findViewById(R.id.tr_sptime);
         tr_splocation = (TableRow) rootView.findViewById(R.id.tr_splocation);
         tr_spdesc = (TableRow) rootView.findViewById(R.id.tr_spdesc);
         tr_spphone = (TableRow) rootView.findViewById(R.id.tr_spphone);
@@ -297,28 +262,14 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         et_sptag = (EditText) rootView.findViewById(R.id.et_sptag);
 
         sv_sproject = (ScrollView) rootView.findViewById(R.id.sv_sproject);
-//        bt_spdetails = (Button) rootView.findViewById(R.id.bt_spdetails);
-//        bt_spupdates = (Button) rootView.findViewById(R.id.bt_spupdates);
-
-//        sv_supdates = (ScrollView) rootView.findViewById(R.id.sv_supdates);
-
-//        bt_clear_pdatetime = (Button) rootView.findViewById(R.id.bt_clear_pdatetime);
     }
 
     void gotoPreviousScreen(){
         getActivity().finish();
     }
 
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        return super.onPrepareOptionsMenu(menu);
-//    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         Log.i(tag, "onOptionsItemSelected");
 
         switch (item.getItemId()) {
@@ -335,33 +286,24 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
                     et_sptime.setVisibility(View.VISIBLE);
                 } else {
                     et_spdate.setText("");
-//                    tv_spdate.setVisibility(View.GONE);
-//                    et_spdate.setVisibility(View.GONE);
                     et_sptime.setText("");
                     tr_spdatetime.setVisibility(View.GONE);
-//                    et_sptime.setVisibility(View.GONE);
                 }
                 break;
             case R.id.mn_location:
                 if (et_splocation.getText().toString().isEmpty()){
                     tr_splocation.setVisibility(View.VISIBLE);
-//                    et_splocation.setVisibility(View.VISIBLE);
-//                    bt_splocname.setVisibility(View.VISIBLE);
                 } else {
                     et_splocation.setText("");
                     tr_splocation.setVisibility(View.GONE);
-//                    et_splocation.setVisibility(View.GONE);
-//                    bt_splocname.setVisibility(View.GONE);
                 }
                 break;
             case R.id.mn_desc:
                 if (et_spdesc.getText().toString().isEmpty()){
                     tr_spdesc.setVisibility(View.VISIBLE);
-//                    et_spdesc.setVisibility(View.VISIBLE);
                 } else {
                     et_spdesc.setText("");
                     tr_spdesc.setVisibility(View.GONE);
-//                    et_spdesc.setVisibility(View.GONE);
                 }
                 break;
             case R.id.mn_phone:
@@ -393,82 +335,9 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
-    public void setVisiblePdesc(View view) {
-        tr_spdesc.setVisibility(View.VISIBLE);
-        et_spdesc.requestFocus();
-    }
-
-    public void setVisibleDateTimePlace(View view) {
-        tr_spdatetime.setVisibility(View.VISIBLE);
-//        tr_sptime.setVisibility(View.VISIBLE);
-        tr_splocation.setVisibility(View.VISIBLE);
-    }
-
-    public void setVisiblePhoneEmail(View view) {
-        tr_spphone.setVisibility(View.VISIBLE);
-        tr_spemail.setVisibility(View.VISIBLE);
-    }
-
-//    public void clearPdate(View view) {
-//        et_spdate.setText("");
-//        tr_spdate.setVisibility(View.GONE);
-//    }
-
-    public void clearPdatetime(View view) {
-        et_spdate.setText("");
-//        tv_spdate.setVisibility(View.GONE);
-//        et_spdate.setVisibility(View.GONE);
-        et_sptime.setText("");
-//        tv_sptime.setVisibility(View.GONE);
-//        et_sptime.setVisibility(View.GONE);
-    }
-
-    public void clearPplace(View view) {
-        et_splocation.setText("");
-        tr_splocation.setVisibility(View.GONE);
-    }
-
-    public void clearPdesc(View view) {
-        et_spdesc.setText("");
-        tr_spdesc.setVisibility(View.GONE);
-    }
-
-    public void clearPphone(View view) {
-        et_spphone_auto.setText("");
-        tr_spphone.setVisibility(View.GONE);
-    }
-
-    public void clearPemail(View view) {
-        et_spemail_auto.setText("");
-        tr_spemail.setVisibility(View.GONE);
-    }
-
-//    @Override
-//    public void onBackPressed() {
-//        gotoPreviousScreen();
-//    }
-
-//    @Override
-//    public void onClick(View view) {
-//        if(view == pdateEditText) {
-//            pdatePickerDialog.show();
-//        }
-//        if(view == ptimeEditText) {
-//            ptimePickerDialog.show();
-//        }
-//    }
-
-    public void clickDate(){
-        pdatePickerDialog.show();
-    }
-
-    public void clickTime(){
-        ptimePickerDialog.show();
-    }
 
     void setDateTimeField() {
         // Date picker
-//        pdateEditText.setOnClickListener(this);
         Calendar newCalendar = Calendar.getInstance();
         int year = newCalendar.get(Calendar.YEAR);
         int month = newCalendar.get(Calendar.MONTH);
@@ -481,9 +350,7 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
                         pdateEditText.setText(dateFormatter.format(newDate.getTime()));
                     }
                 }, year, month, day);
-
         // Time picker
-//        ptimeEditText.setOnClickListener(this);
         int hour = newCalendar.get(Calendar.HOUR_OF_DAY);
         int minute = newCalendar.get(Calendar.MINUTE);
         ptimePickerDialog = new TimePickerDialog(getActivity(),
@@ -496,7 +363,6 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
     }
 
     public void showProjectToScreen(Project p, ArrayList<HashMap<String, String>> attrMap){
-
         if(p == null) {
             Log.e(tag, "Project is null");
             return;
@@ -513,20 +379,10 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         et_spdate.setVisibility(View.GONE);
         tv_sptime.setVisibility(View.GONE);
         et_sptime.setVisibility(View.GONE);
-//        bt_clear_pdatetime.setVisibility(View.GONE);
-
         tr_splocation.setVisibility(View.GONE);
-//        tv_splocname.setVisibility(View.GONE);
-//        et_splocation.setVisibility(View.GONE);
-//        bt_splocname.setVisibility(View.GONE);
-
         tr_spdesc.setVisibility(View.GONE);
-//        tv_spdesc.setVisibility(View.GONE);
-//        et_spdesc.setVisibility(View.GONE);
-
         tr_spphone.setVisibility(View.GONE);
         tr_spemail.setVisibility(View.GONE);
-
         tr_sptag.setVisibility(View.GONE);
 
         //show available attributes
@@ -541,22 +397,16 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
                     tv_spdate.setVisibility(View.VISIBLE);
                     et_spdate.setVisibility(View.VISIBLE);
                     et_spdate.setText(attr_value, TextView.BufferType.EDITABLE);
-//                    bt_clear_pdatetime.setVisibility(View.VISIBLE);
                 } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_TIME)) {   //time
                     tr_spdatetime.setVisibility(View.VISIBLE);
                     tv_sptime.setVisibility(View.VISIBLE);
                     et_sptime.setVisibility(View.VISIBLE);
                     et_sptime.setText(attr_value, TextView.BufferType.EDITABLE);
-//                    bt_clear_pdatetime.setVisibility(View.VISIBLE);
                 } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_LOCNAME)) {   //locname
                     tr_splocation.setVisibility(View.VISIBLE);
-//                    tv_splocname.setVisibility(View.VISIBLE);
-//                    et_splocation.setVisibility(View.VISIBLE);
                     et_splocation.setText(attr_value, TextView.BufferType.EDITABLE);
-//                    bt_splocname.setVisibility(View.VISIBLE);
                 } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_DESC)) {   //description
                     tr_spdesc.setVisibility(View.VISIBLE);
-//                    et_spdesc.setVisibility(View.VISIBLE);
                     et_spdesc.setText(attr_value, TextView.BufferType.EDITABLE);
                 } else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_PHONE)) {   //phone
                     tr_spphone.setVisibility(View.VISIBLE);
@@ -565,10 +415,6 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
                     tr_spemail.setVisibility(View.VISIBLE);
                     et_spemail_auto.setText(attr_value, TextView.BufferType.EDITABLE);
                 }
-//                else if (attr_name.equals(DataConfig.ATTRIBUTE_NAME_TAG)) {    //tag
-//                    tr_sptag.setVisibility(View.VISIBLE);
-//                    et_sptag.setText(attr_value, TextView.BufferType.EDITABLE);
-//                }
             }
         }
 
@@ -585,14 +431,7 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         Log.i(tag, "Shared file summary: " + summary);
         ((TextView) rootView.findViewById(R.id.tv_shared_file_summary)).setText(summary,
                 TextView.BufferType.EDITABLE);
-
-
     }
-
-//    void refreshAttrMap(){
-//        Log.i(tag, "refresh attr map");
-//        attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);
-//    }
 
     HashMap<String, String> collectProjectAttributesFromScreen(){
         HashMap<String, String> attrMap = new HashMap<String, String>();
@@ -970,64 +809,10 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         switch(requestCode) {
             case (100) : {  //show more
                 if (resultCode == Activity.RESULT_OK) {
-//                    Log.i(tag, "onActivityResult, original values: " + loginEmail + ", " + loginPassword);
-//                    loginEmail = data.getStringExtra(Config.LOGIN_EMAIL);
-//                    loginPassword = data.getStringExtra(Config.LOGIN_PASSWORD);
                     original_pname = data.getStringExtra(Config.PROGRAM_PNAME);
-//                    Log.i(tag, "get string extra: "
-//                            + loginEmail + ", " + loginPassword + ", " + original_pname);
-
                 }
                 break;
             }
-//            case (101) : {  //add file
-//                if (resultCode == Activity.RESULT_OK) {
-//                    Uri uri = null;
-//                    if (data != null) {
-//                        uri = data.getData();
-//                        Log.i(tag, "File selected with uri: " + uri.toString());
-//                        FileUtils.checkUriMeta(getContentResolver(), uri);
-//                        DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
-//                                getContentResolver(), getActivity());
-//                        SocoApp app = (SocoApp) getActivity();
-//                        app.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
-//                        // check result
-//                        boolean isSuccess = false;
-//                        for (int i=1; i<= Config.UPLOAD_RETRY; i++) {
-//                            Log.d(tag, "Wait for upload parse: " + i + "/" + Config.UPLOAD_RETRY);
-//                            SystemClock.sleep(Config.UPLOAD_WAIT);
-//                            Log.d(tag, "Current upload status is: " + app.getUploadStatus());
-//                            if(app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_SUCCESS)) {
-//                                isSuccess = true;
-//                                break;
-//                            }
-//                            else if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_FAIL)){
-//                                isSuccess = false;
-//                                break;
-//                            }
-//                        }
-//                        if(isSuccess) {
-//                            Log.i(tag, "File upload success");
-//                            new AlertDialog.Builder(this)
-//                                    .setTitle("File upload success")
-//                                    .setMessage("File has been saved in the cloud")
-//                                    .setPositiveButton("OK", null)
-//                                    .show();
-//                            ProjectUtil.addSharedFileToDb(uri, loginEmail, loginPassword, pid,
-//                                    getContentResolver(), dbmgrSoco);
-//                        }
-//                        else {
-//                            Log.i(tag, "File upload failed");
-//                            new AlertDialog.Builder(this)
-//                                    .setTitle("File upload failed")
-//                                    .setMessage("Review upload details and try again")
-//                                    .setPositiveButton("OK", null)
-//                                    .show();
-//                        }
-//                    }
-//                }
-//                break;
-//            }
         }
     }
 

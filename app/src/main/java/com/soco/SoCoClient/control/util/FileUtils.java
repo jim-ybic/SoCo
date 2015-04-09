@@ -14,7 +14,6 @@ import android.provider.OpenableColumns;
 import android.util.Log;
 
 import com.soco.SoCoClient.control.config.Config;
-import com.soco.SoCoClient.view.ShowSingleProjectActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
