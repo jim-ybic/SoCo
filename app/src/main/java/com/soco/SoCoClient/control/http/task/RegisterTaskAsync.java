@@ -1,18 +1,47 @@
 package com.soco.SoCoClient.control.http.task;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.HttpConfig;
-import com.soco.SoCoClient.control.http.HttpTask;
 import com.soco.SoCoClient.control.http.HttpUtil;
 
 import org.json.JSONObject;
 
-public class RegisterTask {
+public class RegisterTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
-    public static String tag = "RegisterTask";
+    static String tag = "LoginTaskAsync";
+
+    String loginEmail, loginPassword;
+    String url;
+    Context context;
+
+    public RegisterTaskAsync(
+            String loginEmail,
+            String loginPassword,
+            String url,
+            Context context
+    ){
+        Log.i(tag, "Create new HttpTask: " + url);
+        this.loginEmail = loginEmail;
+        this.loginPassword = loginPassword;
+        this.url = url;
+        this.context = context;
+    }
+
+    @Override
+    protected Boolean doInBackground(Void... params) {
+        if(url == null || url.isEmpty()){
+            Log.e(tag, "Cannot get url/type");
+            return false;
+        }
+
+        execute(loginEmail, loginPassword, url, context);
+        return true;
+    }
+
 
     public static void execute(String loginEmail, String loginPassword, String url,
                                Context context){
@@ -41,7 +70,7 @@ public class RegisterTask {
         Log.d(tag, "Process register parse: " + response.toString());
         try {
             String str = response.toString();
-            if (str.contains(HttpTask.KEYWORD_REGISTRATION_SUBMITTED)){
+            if (str.contains(HttpConfig.KEYWORD_REGISTRATION_SUBMITTED)){
                 SocoApp app = (SocoApp) context;
                 app.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_SUCCESS);
                 Log.i(tag, "Set registration status: success");
@@ -59,4 +88,5 @@ public class RegisterTask {
             return false;
         }
     }
+
 }

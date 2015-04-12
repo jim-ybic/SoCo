@@ -69,7 +69,13 @@ public class DBManagerSoco {
     public ArrayList<Project> loadProjectsByActiveness(String pactive) {
         Log.i(tag, "Load projects which are: " + pactive);
         ArrayList<Project> projects = new ArrayList<>();
-        Cursor c = queryProjectByActiveness(pactive);
+
+        Log.d(tag, "Query project: select * from " + DataConfig.TABLE_PROJECT
+                + " where " + DataConfig.COLUMN_PROJECT_ACTIVE + " = " + pactive);
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROJECT +
+                        " where " + DataConfig.COLUMN_PROJECT_ACTIVE + " = ?",
+                new String[]{pactive});
+
         while (c.moveToNext()) {
             Project p = new Project(c);
             projects.add(p);
@@ -81,7 +87,13 @@ public class DBManagerSoco {
     public Project loadProjectByPid(int pid) {
         Log.i(tag, "Load project for pid: " + pid);
         Project p = null;
-        Cursor c = queryProjectByPid(pid);
+
+        Log.d(tag, "Query project: select * from " + DataConfig.TABLE_PROJECT
+                + " where " + DataConfig.COLUMN_PROJECT_ID + " = " + pid);
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROJECT +
+                        " where " + DataConfig.COLUMN_PROJECT_ID + " = ?",
+                new String[] {String.valueOf(pid)});
+
         while (c.moveToNext()) {
             p = new Project(c);
         }
@@ -97,7 +109,13 @@ public class DBManagerSoco {
     public ArrayList<HashMap<String, String>> loadProjectAttributesByPid(int pid){
         Log.i(tag, "Load project attributes for pid: " + pid);
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
-        Cursor c = queryProjectAttributesByPid(pid);
+
+        Log.d(tag, "Query project attributes: select * from " + DataConfig.TABLE_ATTRIBUTE
+                + " where " + DataConfig.COLUMN_PROJECT_ID + " = " + pid);
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ATTRIBUTE +
+                        " where " + DataConfig.COLUMN_PROJECT_ID + " = ?",
+                new String[]{String.valueOf(pid)});
+
         int count = 0;
         while (c.moveToNext()){
             String attr_name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ATTRIBUTE_NAME));
@@ -110,30 +128,6 @@ public class DBManagerSoco {
         }
         Log.i(tag, count + " attributes loaded for pid " + pid);
         return list;
-    }
-
-    public Cursor queryProjectAttributesByPid(int pid) {
-        Log.d(tag, "Query project attributes: select * from " + DataConfig.TABLE_ATTRIBUTE
-                + " where " + DataConfig.COLUMN_PROJECT_ID + " = " + pid);
-        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ATTRIBUTE +
-                        " where " + DataConfig.COLUMN_PROJECT_ID + " = ?",
-                new String[] {String.valueOf(pid)});
-    }
-
-    public Cursor queryProjectByPid(int pid) {
-        Log.d(tag, "Query project: select * from " + DataConfig.TABLE_PROJECT
-                + " where " + DataConfig.COLUMN_PROJECT_ID + " = " + pid);
-        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROJECT +
-                        " where " + DataConfig.COLUMN_PROJECT_ID + " = ?",
-                new String[] {String.valueOf(pid)});
-    }
-
-    public Cursor queryProjectByActiveness(String pactive) {
-        Log.d(tag, "Query project: select * from " + DataConfig.TABLE_PROJECT
-                + " where " + DataConfig.COLUMN_PROJECT_ACTIVE + " = " + pactive);
-        return db.rawQuery("SELECT * FROM " + DataConfig.TABLE_PROJECT +
-                        " where " + DataConfig.COLUMN_PROJECT_ACTIVE + " = ?",
-                new String[] {pactive});
     }
 
     public void clearProjectAttributesExceptLocation(int pid){

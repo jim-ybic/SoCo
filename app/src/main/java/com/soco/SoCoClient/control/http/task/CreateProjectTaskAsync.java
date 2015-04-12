@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.control.http.task;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.soco.SoCoClient.control.SocoApp;
@@ -10,9 +11,44 @@ import com.soco.SoCoClient.control.http.HttpUtil;
 
 import org.json.JSONObject;
 
-public class CreateProjectTask {
+public class CreateProjectTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
-    public static String tag = "CreateProjectTask";
+    static String tag = "ArchiveProjectTask";
+
+    String url, pname;
+    String pid;
+    Context context;
+    String projectSignature, projectTag, projectType;
+
+    public CreateProjectTaskAsync(
+            String url,
+            String pname,
+            String pid,
+            Context context,
+            String projectSignature,
+            String projectTag,
+            String projectType
+    ){
+        Log.i(tag, "Create new HttpTask: " + url);
+        this.url = url;
+        this.pname = pname;
+        this.pid = pid;
+        this.context = context;
+        this.projectSignature = projectSignature;
+        this.projectTag = projectTag;
+        this.projectType = projectType;
+    }
+
+    @Override
+    protected Boolean doInBackground(Void... params) {
+        if(url == null || url.isEmpty()){
+            Log.e(tag, "Cannot get url/type");
+            return false;
+        }
+
+        execute(url, pname, pid, context, projectSignature, projectTag, projectType);
+        return true;
+    }
 
     public static void execute(String url, String pname, String pid, Context context,
                                String projectSignature, String projectTag, String projectType){

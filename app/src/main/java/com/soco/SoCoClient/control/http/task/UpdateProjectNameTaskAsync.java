@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.control.http.task;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.soco.SoCoClient.control.config.HttpConfig;
@@ -7,22 +8,49 @@ import com.soco.SoCoClient.control.http.HttpUtil;
 
 import org.json.JSONObject;
 
-public class InviteProjectMemberTask {
+public class UpdateProjectNameTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
-    public static String tag = "InviteMemberToProjectTask";
+    static String tag = "ArchiveProjectTask";
 
-    public static void execute(String url, String pid, String pid_onserver, String inviteEmail){
-        Object response = request(url, pid, pid_onserver, inviteEmail);
+    String url;
+    String pname, pid_onserver;
+
+    public UpdateProjectNameTaskAsync(
+            String url,
+            String pname,
+            String pid_onserver
+    ){
+        Log.i(tag, "Create new HttpTask: "
+                + url + ", " + pid_onserver);
+        this.url = url;
+        this.pname = pname;
+        this.pid_onserver = pid_onserver;
+    }
+
+    @Override
+    protected Boolean doInBackground(Void... params) {
+        if(url == null || url.isEmpty() || pid_onserver == null){
+            Log.e(tag, "Cannot get url/type");
+            return false;
+        }
+
+        execute(url, pname, pid_onserver);
+        return true;
+    }
+
+    public static void execute(String url, String pname, String pid_onserver){
+        Log.i(tag, "Execute: " + url + ", " + pname + ", " + pid_onserver);
+        Object response = request(url, pname, pid_onserver);
         if (response != null)
             parse(response);
     }
 
-    public static Object request(String url, String pid, String pid_onserver, String inviteEmail) {
+    public static Object request(String url, String pname, String pid_onserver) {
         JSONObject data = new JSONObject();
         try {
+            data.put(HttpConfig.JSON_KEY_PROJECT_NAME, pname);
             data.put(HttpConfig.JSON_KEY_PROJECT_ID, Integer.parseInt(pid_onserver));
-            data.put(HttpConfig.JSON_KEY_EMAIL, inviteEmail);
-            Log.i(tag, "Post Json: " + data);
+            Log.i(tag, "Create project Json post: " + data);
         } catch (Exception e) {
             Log.e(tag, "Cannot create create project Json post data");
             e.printStackTrace();
@@ -34,7 +62,9 @@ public class InviteProjectMemberTask {
     public static boolean parse(Object response) {
         try {
             String str = response.toString();
-            Log.i(tag, "Server response string: " + str);
+            Log.i(tag, "Update project name parse string: " + str);
+
+            //TODO: server interface to be fixed
 
             JSONObject json = new JSONObject(response.toString());
             String isSuccess = json.getString(HttpConfig.JSON_KEY_RESPONSE_STATUS);
@@ -53,4 +83,5 @@ public class InviteProjectMemberTask {
             return false;
         }
     }
+
 }

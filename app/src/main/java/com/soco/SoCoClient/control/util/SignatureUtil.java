@@ -4,14 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Formatter;
-import java.util.HashMap;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.model.Project;
 
 public class SignatureUtil {

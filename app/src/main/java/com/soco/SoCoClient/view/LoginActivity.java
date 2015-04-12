@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.view;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
@@ -13,9 +14,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.HttpConfig;
-import com.soco.SoCoClient.control.http.HttpTask;
 import com.soco.SoCoClient.control.http.service.HeartbeatService;
+import com.soco.SoCoClient.control.http.task.LoginTaskAsync;
+import com.soco.SoCoClient.control.http.task.RegisterTaskAsync;
 import com.soco.SoCoClient.control.util.LoginUtil;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.SocoApp;
@@ -92,11 +93,15 @@ public class LoginActivity extends ActionBarActivity {
             Log.i(tag, "Load access token and skip login: " + access_token);
         else {
             Log.i(tag, "Cannot load access token, start login to server");
-            HttpTask loginTask = new HttpTask(
-                    ProfileUtil.getLoginUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_LOGIN,
-                    loginEmail, loginPassword, getApplicationContext(),
-                    null, null, null, null, null);
-            loginTask.execute();
+//            HttpTask loginTask = new HttpTask(
+//                    ProfileUtil.getLoginUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_LOGIN,
+//                    loginEmail, loginPassword, getApplicationContext(),
+//                    null, null, null, null, null);
+//            loginTask.execute();
+            String url = ProfileUtil.getLoginUrl(getApplicationContext());
+            LoginTaskAsync task = new LoginTaskAsync(loginEmail, loginPassword, url,
+                    getApplicationContext());
+            task.execute();
         }
 
         boolean loginSuccess = LoginUtil.validateLogin(loginEmail, loginPassword);
@@ -134,11 +139,15 @@ public class LoginActivity extends ActionBarActivity {
         final SocoApp app = (SocoApp) getApplicationContext();
         app.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_START);
 
-        HttpTask registerTask = new HttpTask(
-                ProfileUtil.getRegisterUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_REGISTER,
-                loginEmail, loginPassword, getApplicationContext(),
-                null, null, null, null, null);
-        registerTask.execute();
+//        HttpTask registerTask = new HttpTask(
+//                ProfileUtil.getRegisterUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_REGISTER,
+//                loginEmail, loginPassword, getApplicationContext(),
+//                null, null, null, null, null);
+//        registerTask.execute();
+        Context context = getApplicationContext();
+        String url = ProfileUtil.getRegisterUrl(context);
+        RegisterTaskAsync task = new RegisterTaskAsync(loginEmail, loginPassword, url, context);
+        task.execute();
 
         //wait and check login status
         boolean isSuccess = false;

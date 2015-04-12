@@ -1,6 +1,6 @@
 package com.soco.SoCoClient.control.config;
 
-public class Config {
+public class GeneralConfig {
 
     public static final String APP_FOLDER_NAME = "SoCo";
     // Program details

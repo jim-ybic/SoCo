@@ -6,10 +6,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.dropbox.DropboxUtil;
-import com.soco.SoCoClient.control.http.HttpTask;
+import com.soco.SoCoClient.control.http.task.ArchiveProjectTaskAsync;
+import com.soco.SoCoClient.control.http.task.CreateProjectTaskAsync;
+import com.soco.SoCoClient.control.http.task.SetProjectAttributeTaskAsync;
+import com.soco.SoCoClient.control.http.task.UpdateProjectNameTaskAsync;
 import com.soco.SoCoClient.model.Project;
 
 import java.util.ArrayList;
@@ -38,44 +40,62 @@ public class ProjectUtil {
                                            String projectTag,
                                            String projectType) {
 
-        HttpTask createProjectTask = new HttpTask(
-                ProfileUtil.getCreateProjectUrl(context),
-                HttpConfig.HTTP_TYPE_CREATE_PROJECT,
-                loginEmail, loginPassword, context, pname, pid, null, null, null);
+//        HttpTask createProjectTask = new HttpTask(
+//                ProfileUtil.getCreateProjectUrl(context),
+//                HttpConfig.HTTP_TYPE_CREATE_PROJECT,
+//                loginEmail, loginPassword, context, pname, pid, null, null, null);
+//
+//        createProjectTask.projectSignature = projectSignature;
+//        createProjectTask.projectTag = projectTag;
+//        createProjectTask.projectType = projectType;
+//
+//        createProjectTask.execute();
 
-        createProjectTask.projectSignature = projectSignature;
-        createProjectTask.projectTag = projectTag;
-        createProjectTask.projectType = projectType;
-
-        createProjectTask.execute();
+        String url = ProfileUtil.getCreateProjectUrl(context);
+        CreateProjectTaskAsync task = new CreateProjectTaskAsync(
+                url, pname, pid, context,
+                projectSignature, projectTag, projectType);
+        task.execute();
     }
 
     public static void serverArchiveProject(String pid, Context context, String pid_onserver) {
-        HttpTask archiveProjectTask = new HttpTask(
-                ProfileUtil.getArchiveProjectUrl(context),
-                HttpConfig.HTTP_TYPE_ARCHIVE_PROJECT,
-                null, null, context, null, pid, pid_onserver, null, null);
-        archiveProjectTask.execute();
+//        HttpTask archiveProjectTask = new HttpTask(
+//                ProfileUtil.getArchiveProjectUrl(context),
+//                HttpConfig.HTTP_TYPE_ARCHIVE_PROJECT,
+//                null, null, context, null, pid, pid_onserver, null, null);
+//        archiveProjectTask.execute();
+        String url = ProfileUtil.getArchiveProjectUrl(context);
+        ArchiveProjectTaskAsync task = new ArchiveProjectTaskAsync(
+                url, pid_onserver);
+        task.execute();
     }
 
     public static void serverUpdateProjectName(String pid, Context context,
                                                String pname, String pid_onserver) {
-        HttpTask archiveProjectTask = new HttpTask(
-                ProfileUtil.getUpdateProjectNameUrl(context),
-                HttpConfig.HTTP_TYPE_UPDATE_PROJECT_NAME,
-                null, null, context, pname, pid, pid_onserver, null, null);
-        archiveProjectTask.execute();
+//        HttpTask archiveProjectTask = new HttpTask(
+//                ProfileUtil.getUpdateProjectNameUrl(context),
+//                HttpConfig.HTTP_TYPE_UPDATE_PROJECT_NAME,
+//                null, null, context, pname, pid, pid_onserver, null, null);
+//        archiveProjectTask.execute();
+        String url = ProfileUtil.getUpdateProjectNameUrl(context);
+        UpdateProjectNameTaskAsync task = new UpdateProjectNameTaskAsync(url, pname, pid_onserver);
+        task.execute();
     }
 
     public static void serverSetProjectAttribute(String pid, Context context,
                                                  String pname, String pid_onserver,
                                                  HashMap<String, String> attrMap) {
-        HttpTask setProjectAttributeTask = new HttpTask(
-                ProfileUtil.getSetProjectAttributeUrl(context),
-                HttpConfig.HTTP_TYPE_SET_PROJECT_ATTRIBUTE,
-                null, null, //login email/password
-                context, pname, pid, pid_onserver, attrMap, null);
-        setProjectAttributeTask.execute();
+//        HttpTask setProjectAttributeTask = new HttpTask(
+//                ProfileUtil.getSetProjectAttributeUrl(context),
+//                HttpConfig.HTTP_TYPE_SET_PROJECT_ATTRIBUTE,
+//                null, null, //login email/password
+//                context, pname, pid, pid_onserver, attrMap, null);
+//        setProjectAttributeTask.execute();
+
+        String url = ProfileUtil.getSetProjectAttributeUrl(context);
+        SetProjectAttributeTaskAsync task = new SetProjectAttributeTaskAsync(
+                url, pid_onserver, attrMap);
+        task.execute();
     }
 
     public static void addSharedFileToDb(Uri uri,

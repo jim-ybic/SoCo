@@ -18,9 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.control.SocoApp;
-import com.soco.SoCoClient.control.config.Config;
-import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.config.GeneralConfig;
+import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.util.ProjectUtil;
 import com.soco.SoCoClient.model.Project;
@@ -119,8 +119,8 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         if (id == R.id.action_profile) {
             Log.i("setting", "Click on Profile.");
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+            intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
+            intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
             startActivity(intent);
         }
 
@@ -191,8 +191,8 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
 
     public void showCompletedProjects(View view) {
         Intent intent = new Intent(this, ShowInactiveProjectsActivity.class);
-        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-        intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
+        intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
+        intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
         startActivity(intent);
     }
 

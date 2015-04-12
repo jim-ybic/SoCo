@@ -2,7 +2,6 @@ package com.soco.SoCoClient.model;
 
 
 import android.database.Cursor;
-import android.util.Log;
 
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.util.SignatureUtil;

@@ -2,7 +2,6 @@ package com.soco.SoCoClient.view.ui.tab;
 
 //import info.androidhive.tabsswipe.R;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,21 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.SimpleAdapter;
 
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.SocoApp;
-import com.soco.SoCoClient.control.config.Config;
-import com.soco.SoCoClient.control.config.HttpConfig;
-import com.soco.SoCoClient.control.db.DBManagerSoco;
-import com.soco.SoCoClient.control.dropbox.DropboxUtil;
-import com.soco.SoCoClient.control.http.HttpTask;
+import com.soco.SoCoClient.control.http.task.InviteProjectMemberTaskAsync;
 import com.soco.SoCoClient.control.util.ProfileUtil;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 public class ProjectMembersFragment extends Fragment implements View.OnClickListener {
 
@@ -73,14 +62,15 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
 
     public void add(){
         String email = ((EditText) rootView.findViewById(R.id.et_add_member)).getText().toString();
-        HttpTask httpTask = new HttpTask(
+        InviteProjectMemberTaskAsync httpTask = new InviteProjectMemberTaskAsync(
                         ProfileUtil.getInviteProjectMemberUrl(getActivity()),     //url
-                        HttpConfig.HTTP_TYPE_INVITE_PROJECT_MEMBER,               //type
-                        "", "",                                     //login email & password
-                        getActivity().getApplicationContext(),      //context
-                        null,                                       //project name
-                        String.valueOf(pid), pid_onserver,          //local & remote pid
-                        null,                                       //attribute map
+//                        HttpConfig.HTTP_TYPE_INVITE_PROJECT_MEMBER,               //type
+//                        "", "",                                     //login email & password
+//                        getActivity().getApplicationContext(),      //context
+//                        null,                                       //project name
+                        String.valueOf(pid),
+//                        pid_onserver,          //local & remote pid
+//                        null,                                       //attribute map
                         email                                       //invite email
         );
         httpTask.execute();

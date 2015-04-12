@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.control.http.task;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.soco.SoCoClient.control.config.HttpConfig;
@@ -7,17 +8,41 @@ import com.soco.SoCoClient.control.http.HttpUtil;
 
 import org.json.JSONObject;
 
-public class ArchiveProjectTask {
+public class ArchiveProjectTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
-    public static String tag = "ArchiveProjectTask";
+    static String tag = "ArchiveProjectTask";
 
-    public static void execute(String url, String pid, String pid_onserver){
-        Object response = request(url, pid, pid_onserver);
+    String url;
+    String pid_onserver;
+
+    public ArchiveProjectTaskAsync(
+            String url,
+            String pid_onserver
+    ){
+        Log.i(tag, "Create new HttpTask: "
+                + url + ", " + pid_onserver);
+        this.url = url;
+        this.pid_onserver = pid_onserver;
+    }
+
+    @Override
+    protected Boolean doInBackground(Void... params) {
+        if(url == null || url.isEmpty() || pid_onserver == null){
+            Log.e(tag, "Cannot get url/type");
+            return false;
+        }
+
+        execute(url, pid_onserver);
+        return true;
+    }
+
+    public static void execute(String url, String pid_onserver){
+        Object response = request(url, pid_onserver);
         if (response != null)
             parse(response);
     }
 
-    public static Object request(String url, String pid, String pid_onserver) {
+    public static Object request(String url, String pid_onserver) {
         JSONObject data = new JSONObject();
         try {
             data.put(HttpConfig.JSON_KEY_PROJECT_ID, Integer.parseInt(pid_onserver));
@@ -52,4 +77,5 @@ public class ArchiveProjectTask {
             return false;
         }
     }
+
 }

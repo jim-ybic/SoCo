@@ -1,21 +1,49 @@
 package com.soco.SoCoClient.control.http.task;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 
+import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.HttpConfig;
+import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.HttpUtil;
-import com.soco.SoCoClient.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 
 import org.json.JSONObject;
 
+public class LoginTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
-public class LoginTask {
+    static String tag = "LoginTaskAsync";
 
-    public static String tag = "LoginTask";
+    String loginEmail, loginPassword;
+    String url;
+    Context context;
+
+    public LoginTaskAsync(
+            String loginEmail,
+            String loginPassword,
+            String url,
+            Context context
+    ){
+        Log.i(tag, "Create new HttpTask: " + url);
+        this.loginEmail = loginEmail;
+        this.loginPassword = loginPassword;
+        this.url = url;
+        this.context = context;
+    }
+
+    @Override
+    protected Boolean doInBackground(Void... params) {
+        if(url == null || url.isEmpty()){
+            Log.e(tag, "Cannot get url/type");
+            return false;
+        }
+
+        execute(loginEmail, loginPassword, url, context);
+        return true;
+    }
 
     public static void execute(String loginEmail, String loginPassword,
                                String url, Context context) {
@@ -54,4 +82,5 @@ public class LoginTask {
             return false;
         }
     }
+
 }

@@ -1,10 +1,8 @@
 package com.soco.SoCoClient.view;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -21,12 +19,11 @@ import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.SocoApp;
-import com.soco.SoCoClient.control.config.Config;
+import com.soco.SoCoClient.control.config.GeneralConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.dropbox.DropboxUtil;
 import com.soco.SoCoClient.control.dropbox.UploaderWatcher;
 import com.soco.SoCoClient.control.util.FileUtils;
-import com.soco.SoCoClient.control.util.ProjectUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -68,7 +65,7 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
                 ListView listView = (ListView) parent;
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
-                String name = map.get(Config.PROJECT_PNAME);
+                String name = map.get(GeneralConfig.PROJECT_PNAME);
                 Log.i(tag, "Click on shared file list: " + name);
                 String localPath = sharedFilesLocalPath.get(position);
                 Log.i(tag, "Shared file local path: " + localPath);
@@ -89,7 +86,7 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
         SocoApp app = (SocoApp) getApplicationContext();
 
         //add file
-        if (requestCode == Config.ACTIVITY_OPEN_FILE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == GeneralConfig.ACTIVITY_OPEN_FILE && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             Log.i(tag, "File selected with uri: " + uri.toString());
             FileUtils.checkUriMeta(getContentResolver(), uri);
@@ -104,7 +101,7 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
         }
 
         //take picture
-        if (requestCode == Config.ACTIVITY_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
+        if (requestCode == GeneralConfig.ACTIVITY_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             Log.d(tag, "Photo uri: " + uri);
             FileUtils.checkUriMeta(getContentResolver(), uri);
@@ -204,15 +201,15 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
         for (String filename : sharedFiles) {
             Log.d(tag, "Shared file list adding: " + filename);
             HashMap<String, String> map = new HashMap<>();
-            map.put(Config.PROJECT_PNAME, filename);
-            map.put(Config.PROJECT_PINFO, "no more info");
+            map.put(GeneralConfig.PROJECT_PNAME, filename);
+            map.put(GeneralConfig.PROJECT_PINFO, "no more info");
             list.add(map);
         }
 
         ListView lv_files = (ListView) findViewById(R.id.lv_files);
         SimpleAdapter adapter = new SimpleAdapter(this, list,
                 android.R.layout.simple_list_item_2,
-                new String[]{Config.PROJECT_PNAME, Config.PROJECT_PINFO},
+                new String[]{GeneralConfig.PROJECT_PNAME, GeneralConfig.PROJECT_PINFO},
                 new int[]{android.R.id.text1, android.R.id.text2});
         lv_files.setAdapter(adapter);
     }
@@ -222,13 +219,13 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
-        startActivityForResult(intent, Config.ACTIVITY_OPEN_FILE);
+        startActivityForResult(intent, GeneralConfig.ACTIVITY_OPEN_FILE);
     }
 
     public void takePicture(View view){
         Log.i(tag, "Start activity: take picture");
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null)
-            startActivityForResult(intent, Config.ACTIVITY_TAKE_PHOTO);
+            startActivityForResult(intent, GeneralConfig.ACTIVITY_TAKE_PHOTO);
     }
 }

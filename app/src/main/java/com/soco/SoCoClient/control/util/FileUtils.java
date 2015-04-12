@@ -13,7 +13,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config.Config;
+import com.soco.SoCoClient.control.config.GeneralConfig;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -228,7 +228,7 @@ public class FileUtils {
         String displayName = getDisplayName(cr, uri);
 
         String destinationFilename = Environment.getExternalStorageDirectory().getPath()
-                + File.separatorChar + Config.APP_FOLDER_NAME
+                + File.separatorChar + GeneralConfig.APP_FOLDER_NAME
                 + File.separator + displayName;
         Log.i(tag, "Copy to: " + destinationFilename);
 

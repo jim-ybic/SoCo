@@ -33,9 +33,9 @@ import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.soco.SoCoClient.control.config.Config;
-import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.config.GeneralConfig;
+import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.dropbox.DropboxUtil;
@@ -163,8 +163,8 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         Log.d(tag, "pid is " + pid + ", pid_onserver is " + pid_onserver);
 
         Log.i(tag, "onCreate, get project properties: "
-                        + Config.PROJECT_PID + ":" + pid + ","
-                        + Config.PROJECT_PID_ONSERVER + ":" + pid_onserver
+                        + GeneralConfig.PROJECT_PID + ":" + pid + ","
+                        + GeneralConfig.PROJECT_PID_ONSERVER + ":" + pid_onserver
         );
 
         dbmgrSoco = new DBManagerSoco(getActivity().getApplication());
@@ -172,7 +172,7 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         attrMap = dbmgrSoco.loadProjectAttributesByPid(pid);
 
         dropboxApi = DropboxUtil.initDropboxApiAuthentication(
-                Config.ACCESS_KEY, Config.ACCESS_SECRET, Config.OA2_TOKEN,
+                GeneralConfig.ACCESS_KEY, GeneralConfig.ACCESS_SECRET, GeneralConfig.OA2_TOKEN,
                 getActivity().getApplication());
         socoApp.dropboxApi = dropboxApi;
     }
@@ -806,7 +806,7 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         switch(requestCode) {
             case (100) : {  //show more
                 if (resultCode == Activity.RESULT_OK) {
-                    original_pname = data.getStringExtra(Config.PROGRAM_PNAME);
+                    original_pname = data.getStringExtra(GeneralConfig.PROGRAM_PNAME);
                 }
                 break;
             }

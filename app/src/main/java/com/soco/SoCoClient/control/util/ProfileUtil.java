@@ -2,15 +2,11 @@ package com.soco.SoCoClient.control.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.control.config.Config;
+import com.soco.SoCoClient.control.config.GeneralConfig;
 import com.soco.SoCoClient.control.config.HttpConfig;
-import com.soco.SoCoClient.control.http.HttpTask;
-import com.soco.SoCoClient.view.LoginActivity;
-import com.soco.SoCoClient.view.ShowActiveProjectsActivity;
 
 public class ProfileUtil {
 
@@ -19,13 +15,13 @@ public class ProfileUtil {
     public static void ready(Context context, String loginEmail) {
         Log.i(tag, "Check if profile is ready for: " + loginEmail);
 
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        String email = settings.getString(Config.PROFILE_EMAIL, "");
+        String email = settings.getString(GeneralConfig.PROFILE_EMAIL, "");
         if(email.isEmpty()) {
-            Log.i(tag, "Create new profile, " + Config.PROFILE_EMAIL + ":" + loginEmail);
-            editor.putString(Config.PROFILE_EMAIL, loginEmail);
+            Log.i(tag, "Create new profile, " + GeneralConfig.PROFILE_EMAIL + ":" + loginEmail);
+            editor.putString(GeneralConfig.PROFILE_EMAIL, loginEmail);
             editor.commit();
         } else
             Log.i(tag, "Profile is ready for: " + loginEmail);
@@ -34,10 +30,10 @@ public class ProfileUtil {
     public static String getNickname(Context context, String loginEmail) {
         Log.i(tag, "Get nickname for: " + loginEmail);
 
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        String n = settings.getString(Config.PROFILE_NICKNAME, "");
+        String n = settings.getString(GeneralConfig.PROFILE_NICKNAME, "");
         String nickname;
         if (n.isEmpty())
             nickname =  loginEmail;
@@ -49,14 +45,14 @@ public class ProfileUtil {
     }
 
     public static void save(Context context, String nickname, String phone, String wechat){
-        Log.i(tag, "Save profile to " + Config.PROFILE_FILENAME);
+        Log.i(tag, "Save profile to " + GeneralConfig.PROFILE_FILENAME);
 
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        editor.putString(Config.PROFILE_NICKNAME, nickname);
-        editor.putString(Config.PROFILE_PHONE, phone);
-        editor.putString(Config.PROFILE_WECHAT, wechat);
+        editor.putString(GeneralConfig.PROFILE_NICKNAME, nickname);
+        editor.putString(GeneralConfig.PROFILE_PHONE, phone);
+        editor.putString(GeneralConfig.PROFILE_WECHAT, wechat);
         editor.commit();
         Toast.makeText(context.getApplicationContext(), "Profile saved.",
                 Toast.LENGTH_SHORT).show();
@@ -64,40 +60,40 @@ public class ProfileUtil {
 
     public static void saveLoginAccessToken(Context context, String token){
         Log.i(tag, "Save login access token: " + token);
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_LOGIN_ACCESS_TOKEN, token);
+        editor.putString(GeneralConfig.PROFILE_LOGIN_ACCESS_TOKEN, token);
         editor.commit();
         Log.i(tag, "Save complete");
     }
 
     public static String getLoginAccessToken(Context context){
         Log.d(tag, "Get login access token");
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        return settings.getString(Config.PROFILE_LOGIN_ACCESS_TOKEN, "");
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        return settings.getString(GeneralConfig.PROFILE_LOGIN_ACCESS_TOKEN, "");
     }
 
     public static String getServerIp(Context context){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        return settings.getString(Config.PROFILE_SERVER_IP, "");
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        return settings.getString(GeneralConfig.PROFILE_SERVER_IP, "");
     }
 
     public static void setServerIp(Context context, String servIp){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_SERVER_IP, servIp);
+        editor.putString(GeneralConfig.PROFILE_SERVER_IP, servIp);
         editor.commit();
     }
 
     public static String getServerPort(Context context){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        return settings.getString(Config.PROFILE_SERVER_PORT, "");
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        return settings.getString(GeneralConfig.PROFILE_SERVER_PORT, "");
     }
 
     public static void setServerPort(Context context, String servPort){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_SERVER_PORT, servPort);
+        editor.putString(GeneralConfig.PROFILE_SERVER_PORT, servPort);
         editor.commit();
     }
 
@@ -125,7 +121,7 @@ public class ProfileUtil {
         String path = HttpConfig.SERVER_PATH_CREATE_PROJECT;
         String token = getLoginAccessToken(context);
         String url = "http://" + ip + ":" + port + path;
-        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
         Log.i(tag, "Create project url: " + url);
         return url;
     }
@@ -136,7 +132,7 @@ public class ProfileUtil {
         String path = HttpConfig.SERVER_PATH_ARCHIVE_PROJECT;
         String token = getLoginAccessToken(context);
         String url = "http://" + ip + ":" + port + path;
-        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
         Log.i(tag, "Archive project url: " + url);
         return url;
     }
@@ -147,7 +143,7 @@ public class ProfileUtil {
         String path = HttpConfig.SERVER_PATH_RENAME_PROJECT;
         String token = getLoginAccessToken(context);
         String url = "http://" + ip + ":" + port + path;
-        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
         Log.d(tag, "Rename project url: " + url);
         return url;
     }
@@ -158,7 +154,7 @@ public class ProfileUtil {
         String path = HttpConfig.SERVER_PATH_SET_PROJECT_ATTRIBUTE;
         String token = getLoginAccessToken(context);
         String url = "http://" + ip + ":" + port + path;
-        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
         Log.i(tag, "Set project attribute url: " + url);
         return url;
     }
@@ -169,7 +165,7 @@ public class ProfileUtil {
         String path = HttpConfig.SERVER_PATH_HEARTBEAT;
         String token = getLoginAccessToken(context);
         String url = "http://" + ip + ":" + port + path;
-        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
         Log.d(tag, "Heartbeat url: " + url);
         return url;
     }
@@ -180,55 +176,55 @@ public class ProfileUtil {
         String path = HttpConfig.SERVER_PATH_INVITE_PROJECT_MEMBER;
         String token = getLoginAccessToken(context);
         String url = "http://" + ip + ":" + port + path;
-        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
         Log.d(tag, "Invite project member url: " + url);
         return url;
     }
 
     public static String getLoginEmail(Context context){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        return settings.getString(Config.PROFILE_LOGIN_EMAIL, "");
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        return settings.getString(GeneralConfig.PROFILE_LOGIN_EMAIL, "");
     }
 
     public static void setLoginEmail(Context context, String loginEmail){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_LOGIN_EMAIL, loginEmail);
+        editor.putString(GeneralConfig.PROFILE_LOGIN_EMAIL, loginEmail);
         editor.commit();
     }
 
     public static String getLoginPassword(Context context){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        return settings.getString(Config.PROFILE_LOGIN_PASSWORD, "");
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        return settings.getString(GeneralConfig.PROFILE_LOGIN_PASSWORD, "");
     }
 
     public static void setLoginPassword(Context context, String loginPassword){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_LOGIN_PASSWORD, loginPassword);
+        editor.putString(GeneralConfig.PROFILE_LOGIN_PASSWORD, loginPassword);
         editor.commit();
     }
 
     public static String getLastLoginTimestamp(Context context){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
-        return settings.getString(Config.PROFILE_LAST_LOGIN_TIMESTAMP, "");
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        return settings.getString(GeneralConfig.PROFILE_LAST_LOGIN_TIMESTAMP, "");
     }
 
     public static void setLastLoginTimestamp(Context context, String timestamp){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_LAST_LOGIN_TIMESTAMP, timestamp);
+        editor.putString(GeneralConfig.PROFILE_LAST_LOGIN_TIMESTAMP, timestamp);
         editor.commit();
     }
 
     public static void clearUserInfo(Context context){
-        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(Config.PROFILE_LOGIN_EMAIL, "");
-        editor.putString(Config.PROFILE_LOGIN_PASSWORD, "");
-        editor.putString(Config.PROFILE_NICKNAME, "");
-        editor.putString(Config.PROFILE_PHONE, "");
-        editor.putString(Config.PROFILE_WECHAT, "");
+        editor.putString(GeneralConfig.PROFILE_LOGIN_EMAIL, "");
+        editor.putString(GeneralConfig.PROFILE_LOGIN_PASSWORD, "");
+        editor.putString(GeneralConfig.PROFILE_NICKNAME, "");
+        editor.putString(GeneralConfig.PROFILE_PHONE, "");
+        editor.putString(GeneralConfig.PROFILE_WECHAT, "");
         editor.commit();
     }
 

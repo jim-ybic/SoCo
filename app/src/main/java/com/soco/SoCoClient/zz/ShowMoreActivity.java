@@ -18,7 +18,7 @@ import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.Config;
+import com.soco.SoCoClient.control.config.GeneralConfig;
 import com.soco.SoCoClient.control.dropbox.DropboxUtil;
 import com.soco.SoCoClient.control.util.FileUtils;
 import com.soco.SoCoClient.control.SocoApp;
@@ -46,9 +46,9 @@ public class ShowMoreActivity extends ActionBarActivity {
 
         if (loginEmail == null) {
             Intent intent = getIntent();
-            loginEmail = intent.getStringExtra(Config.LOGIN_EMAIL);
-            loginPassword = intent.getStringExtra(Config.LOGIN_PASSWORD);
-            pid = intent.getIntExtra(Config.PROJECT_PID, -1);
+            loginEmail = intent.getStringExtra(GeneralConfig.LOGIN_EMAIL);
+            loginPassword = intent.getStringExtra(GeneralConfig.LOGIN_PASSWORD);
+            pid = intent.getIntExtra(GeneralConfig.PROJECT_PID, -1);
             Log.i(tag, "ShowMoreActivity get extra: " +
                     loginEmail + ", " + loginPassword + ", " + pid);
         }
@@ -61,25 +61,25 @@ public class ShowMoreActivity extends ActionBarActivity {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
-        startActivityForResult(intent, Config.READ_REQUEST_CODE);
+        startActivityForResult(intent, GeneralConfig.READ_REQUEST_CODE);
     }
 
     public void takePicture(View view){
         Log.i(tag, "Start activity: take picture");
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null)
-            startActivityForResult(takePictureIntent, Config.ACTIVITY_TAKE_PHOTO);
+            startActivityForResult(takePictureIntent, GeneralConfig.ACTIVITY_TAKE_PHOTO);
     }
 
     void gotoPreviousScreen() {
         Intent intent = new Intent();
-        intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
-        intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
-        intent.putExtra(Config.PROJECT_PID, pid);
+        intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
+        intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
+        intent.putExtra(GeneralConfig.PROJECT_PID, pid);
         Log.i(tag, "gotoPreviousScreen, put extra: "
-                + Config.LOGIN_EMAIL + ":" + loginEmail + ", "
-                + Config.LOGIN_PASSWORD + ":" + loginPassword + ", "
-                + Config.PROJECT_PID + ":" + pid);
+                + GeneralConfig.LOGIN_EMAIL + ":" + loginEmail + ", "
+                + GeneralConfig.LOGIN_PASSWORD + ":" + loginPassword + ", "
+                + GeneralConfig.PROJECT_PID + ":" + pid);
 
         setResult(Activity.RESULT_OK, intent);
         finish();
@@ -104,7 +104,7 @@ public class ShowMoreActivity extends ActionBarActivity {
                 + ", result code: " + resultCode
                 + ", result data: " + resultData);
 
-        if (requestCode == Config.READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == GeneralConfig.READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = null;
             if (resultData != null) {
                 uri = resultData.getData();
@@ -115,7 +115,7 @@ public class ShowMoreActivity extends ActionBarActivity {
                         getContentResolver(), getApplicationContext());
             }
         }
-        else if (requestCode == Config.ACTIVITY_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
+        else if (requestCode == GeneralConfig.ACTIVITY_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             SocoApp socoApp = (SocoApp) getApplicationContext();
             if (resultData != null){
                 Uri uri = resultData.getData();

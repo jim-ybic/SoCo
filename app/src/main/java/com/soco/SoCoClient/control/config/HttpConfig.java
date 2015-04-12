@@ -43,4 +43,6 @@ public class HttpConfig {
             "/socoserver/mobile/inviteFriendShareActivity?";
 
 
+    public static String HTTP_TOKEN_TYPE = "access_token";
+    public static String KEYWORD_REGISTRATION_SUBMITTED = "Your account registration email";
 }

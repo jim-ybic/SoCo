@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.control.http.task;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.soco.SoCoClient.control.config.DataConfig;
@@ -11,20 +12,46 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class SetProjectAttributeTask {
+public class SetProjectAttributeTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
-    public static String tag = "SetProjectAttributeTask";
+    static String tag = "ArchiveProjectTask";
 
-    public static void execute(String url, String pname, String pid, String pid_onserver,
-                                HashMap<String, String> attrMap){
-        Log.i(tag, "Execute: " + url + ", " + pname + ", " + pid + ", " + pid_onserver + ", "
-                                + attrMap);
-        Object response = request(url, pname, pid_onserver, attrMap);
+    String url;
+    String pid_onserver;
+    HashMap<String, String> attrMap;
+
+    public SetProjectAttributeTaskAsync(
+            String url,
+            String pid_onserver,
+            HashMap<String, String> attrMap
+    ){
+        Log.i(tag, "Create new HttpTask: " + url);
+        this.url = url;
+        this.pid_onserver = pid_onserver;
+        this.attrMap = attrMap;
+    }
+
+    @Override
+    protected Boolean doInBackground(Void... params) {
+        if(url == null || url.isEmpty()){
+            Log.e(tag, "Cannot get url/type");
+            return false;
+        }
+
+        execute(url, pid_onserver, attrMap);
+        return true;
+    }
+
+    public static void execute(String url, String pid_onserver,
+                               HashMap<String, String> attrMap){
+        Log.i(tag, "Execute: " + url + ", " + pid_onserver + ", "
+                + attrMap);
+        Object response = request(url, pid_onserver, attrMap);
         if (response != null)
             parse(response);
     }
 
-    public static Object request(String url, String pname, String pid_onserver,
+    public static Object request(String url, String pid_onserver,
                                  HashMap<String, String> attrMap) {
         JSONObject data = new JSONObject();
         try {
