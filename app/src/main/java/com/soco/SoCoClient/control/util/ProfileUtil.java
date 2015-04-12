@@ -2,6 +2,7 @@ package com.soco.SoCoClient.control.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -173,6 +174,16 @@ public class ProfileUtil {
         return url;
     }
 
+    public static String getInviteProjectMemberUrl(Context context) {
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = HttpConfig.SERVER_PATH_INVITE_PROJECT_MEMBER;
+        String token = getLoginAccessToken(context);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpTask.HTTP_TOKEN_TYPE + "=" + token;
+        Log.d(tag, "Invite project member url: " + url);
+        return url;
+    }
 
     public static String getLoginEmail(Context context){
         SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
@@ -220,4 +231,5 @@ public class ProfileUtil {
         editor.putString(Config.PROFILE_WECHAT, "");
         editor.commit();
     }
+
 }

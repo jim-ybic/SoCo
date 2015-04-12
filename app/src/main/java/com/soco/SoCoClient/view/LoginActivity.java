@@ -94,7 +94,8 @@ public class LoginActivity extends ActionBarActivity {
             Log.i(tag, "Cannot load access token, start login to server");
             HttpTask loginTask = new HttpTask(
                     ProfileUtil.getLoginUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_LOGIN,
-                    loginEmail, loginPassword, getApplicationContext(), null, null, null, null);
+                    loginEmail, loginPassword, getApplicationContext(),
+                    null, null, null, null, null);
             loginTask.execute();
         }
 
@@ -135,7 +136,8 @@ public class LoginActivity extends ActionBarActivity {
 
         HttpTask registerTask = new HttpTask(
                 ProfileUtil.getRegisterUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_REGISTER,
-                loginEmail, loginPassword, getApplicationContext(), null, null, null, null);
+                loginEmail, loginPassword, getApplicationContext(),
+                null, null, null, null, null);
         registerTask.execute();
 
         //wait and check login status

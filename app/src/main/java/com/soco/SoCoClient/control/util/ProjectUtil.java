@@ -41,7 +41,7 @@ public class ProjectUtil {
         HttpTask createProjectTask = new HttpTask(
                 ProfileUtil.getCreateProjectUrl(context),
                 HttpConfig.HTTP_TYPE_CREATE_PROJECT,
-                loginEmail, loginPassword, context, pname, pid, null, null);
+                loginEmail, loginPassword, context, pname, pid, null, null, null);
 
         createProjectTask.projectSignature = projectSignature;
         createProjectTask.projectTag = projectTag;
@@ -54,7 +54,7 @@ public class ProjectUtil {
         HttpTask archiveProjectTask = new HttpTask(
                 ProfileUtil.getArchiveProjectUrl(context),
                 HttpConfig.HTTP_TYPE_ARCHIVE_PROJECT,
-                null, null, context, null, pid, pid_onserver, null);
+                null, null, context, null, pid, pid_onserver, null, null);
         archiveProjectTask.execute();
     }
 
@@ -63,7 +63,7 @@ public class ProjectUtil {
         HttpTask archiveProjectTask = new HttpTask(
                 ProfileUtil.getUpdateProjectNameUrl(context),
                 HttpConfig.HTTP_TYPE_UPDATE_PROJECT_NAME,
-                null, null, context, pname, pid, pid_onserver, null);
+                null, null, context, pname, pid, pid_onserver, null, null);
         archiveProjectTask.execute();
     }
 
@@ -74,7 +74,7 @@ public class ProjectUtil {
                 ProfileUtil.getSetProjectAttributeUrl(context),
                 HttpConfig.HTTP_TYPE_SET_PROJECT_ATTRIBUTE,
                 null, null, //login email/password
-                context, pname, pid, pid_onserver, attrMap);
+                context, pname, pid, pid_onserver, attrMap, null);
         setProjectAttributeTask.execute();
     }
 

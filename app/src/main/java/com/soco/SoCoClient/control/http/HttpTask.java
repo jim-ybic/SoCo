@@ -9,11 +9,11 @@ import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task.ArchiveProjectTask;
 import com.soco.SoCoClient.control.http.task.CreateProjectTask;
+import com.soco.SoCoClient.control.http.task.InviteProjectMemberTask;
 import com.soco.SoCoClient.control.http.task.LoginTask;
 import com.soco.SoCoClient.control.http.task.RegisterTask;
 import com.soco.SoCoClient.control.http.task.SetProjectAttributeTask;
 import com.soco.SoCoClient.control.http.task.UpdateProjectNameTask;
-import com.soco.SoCoClient.control.util.ProfileUtil;
 
 import java.util.HashMap;
 
@@ -31,6 +31,7 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
     String pname, pid, pid_onserver;
     HashMap<String, String> attrMap;
     DBManagerSoco dbManagerSoco;
+    String inviteEmail;
 
     public String projectSignature, projectTag, projectType;
 
@@ -42,7 +43,9 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
                     String pname,
                     String pid,
                     String pid_onserver,
-                    HashMap<String, String> attrMap){
+                    HashMap<String, String> attrMap,
+                    String inviteEmail
+    ){
         Log.i(tag, "Create new HttpTask: " + url + ", " + type + ", "
                 + loginEmail + ", " + loginPassword + ", " + pname);
         this.url = url;
@@ -54,6 +57,7 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
         this.pid = pid;
         this.pid_onserver = pid_onserver;
         this.attrMap = attrMap;
+        this.inviteEmail = inviteEmail;
 
         this.dbManagerSoco = ((SocoApp)context).dbManagerSoco;
     }
@@ -84,6 +88,9 @@ public class HttpTask extends AsyncTask<Void, Void, Boolean> {
         }
         else if(type.equals(HttpConfig.HTTP_TYPE_SET_PROJECT_ATTRIBUTE)) {
             SetProjectAttributeTask.execute(url, pname, pid, pid_onserver, attrMap);
+        }
+        else if(type.equals(HttpConfig.HTTP_TYPE_INVITE_PROJECT_MEMBER)) {
+            InviteProjectMemberTask.execute(url, pid, pid_onserver, inviteEmail);
         }
         else{
             Log.e(tag, "Unknown http task type: " + type);

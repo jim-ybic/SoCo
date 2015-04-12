@@ -3,7 +3,7 @@ package com.soco.SoCoClient.view;
 //import info.androidhive.tabsswipe.adapter.TabsPagerAdapter;
 //import info.androidhive.tabsswipe.R;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.view.ui.tab.TabsPagerAdapter;
+import com.soco.SoCoClient.view.ui.tab.SingleProjectTabsPagerAdapter;
 
 import android.app.ActionBar;
 import android.os.Bundle;
@@ -14,11 +14,14 @@ import android.util.Log;
 public class ShowSingleProjectActivity extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener {
 
+    String tag = "ShowSingleProjectActivity";
+
     private ViewPager viewPager;
-    private TabsPagerAdapter mAdapter;
+    private SingleProjectTabsPagerAdapter mAdapter;
     private android.support.v7.app.ActionBar actionBar;
+
     // Tab titles
-    private String[] tabs = {"Details" , "Updates"};
+    private String[] tabs = {"Details" , "Updates", "Members", "Resources"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +40,18 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements
 //        getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         if(actionBar == null){
-            Log.e("TEST", "Cannot get action bar object");
+            Log.e(tag, "Cannot get action bar object");
             return;
         }
-        mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
-        Log.i("TEST", "Get mAdapter");
+        mAdapter = new SingleProjectTabsPagerAdapter(getSupportFragmentManager());
+        Log.i(tag, "Get mAdapter");
 
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         // Adding Tabs
-        Log.i("TEST", "Adding tabs");
+        Log.d(tag, "Adding tabs");
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)
                     .setTabListener(this));
@@ -64,7 +67,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements
             public void onPageSelected(int position) {
                 // on changing the page
                 // make respected tab selected
-                Log.i("TEST", "position is " + position);
+                Log.d(tag, "position is " + position);
                 actionBar.setSelectedNavigationItem(position);
             }
 
@@ -81,7 +84,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements
     @Override
     public void onTabSelected(android.support.v7.app.ActionBar.Tab tab,
                               android.support.v4.app.FragmentTransaction fragmentTransaction) {
-        Log.i("TEST", "get position: " + tab.getPosition());
+        Log.d(tag, "get position: " + tab.getPosition());
         viewPager.setCurrentItem(tab.getPosition());
     }
 
