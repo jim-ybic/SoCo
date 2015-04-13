@@ -1,16 +1,20 @@
 package com.soco.SoCoClient.control.http.service;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.util.Log;
 
+import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.HttpConfig;
+import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.HttpUtil;
+import com.soco.SoCoClient.control.http.task.JoinProjectByInviteTaskAsync;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
+import com.soco.SoCoClient.model.Project;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Timer;
@@ -88,6 +92,32 @@ public class HeartbeatService extends Service {
 
             if(isSuccess.equals(HttpConfig.JSON_VALUE_RESPONSE_STATUS_SUCCESS)) {
                 Log.i(tag, "Parse result: " + HttpConfig.JSON_VALUE_RESPONSE_STATUS_SUCCESS);
+
+                //retrieve all invitations, if any
+                if(json.has(HttpConfig.JSON_KEY_INVITATION)) {
+                        JSONArray invitationArray = new JSONArray(json.getString("invitation"));
+                        for (int i = 0; i < invitationArray.length(); i++) {
+                            JSONObject invitation = invitationArray.getJSONObject(i);
+                            String inviter = invitation.getString("inviter");
+                            String pid_onserver = invitation.getString("activity");
+                            String date = invitation.getString("date");
+                            Log.i(tag, "Get invitation: " + inviter + ", " + pid_onserver + ", " + date);
+
+                            //add project into database
+                            DBManagerSoco dbManagerSoco = ((SocoApp) getApplication()).dbManagerSoco;
+                            Project p = new Project("");
+                            p.pid_onserver = pid_onserver;
+                            int pid = dbManagerSoco.addProject(p);
+                            Log.i(tag, "New project added to database, pid_onserver is " + pid_onserver);
+
+                            //retrieve project details
+                            String url = ProfileUtil.getJoinProjectByInviteUrl(getApplicationContext());
+                            JoinProjectByInviteTaskAsync task = new JoinProjectByInviteTaskAsync(
+                                    url, String.valueOf(pid), pid_onserver, getApplicationContext());
+                            task.execute();
+                        }
+                }
+
                 return true;
             }
             else {

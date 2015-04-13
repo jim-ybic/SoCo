@@ -22,6 +22,9 @@ public class HttpConfig {
     public static String JSON_KEY_PROJECT_SIGNATURE = "signature";
     public static String JSON_KEY_PROJECT_ID = "activity";
     public static String JSON_KEY_PROJECT_ID_ONSERVER = "id";
+    public static String JSON_KEY_INVITATION = "invitation";
+    public static String JSON_KEY_ATTRIBUTES = "attributes";
+    public static String JSON_KEY_PROJECT = "activity";
 
     public static String JSON_KEY_ATTRIBUTE_NAME = "name";
     public static String JSON_KEY_ATTRIBUTE_INDEX = "index";
@@ -37,11 +40,12 @@ public class HttpConfig {
     public static String SERVER_PATH_ARCHIVE_PROJECT = "/socoserver/mobile/archiveActivity?";
     public static String SERVER_PATH_RENAME_PROJECT = "/socoserver/mobile/updateActivity?";
     public static String SERVER_PATH_SET_PROJECT_ATTRIBUTE =
-            "/socoserver/mobile/addUpdateAttributeByActivityID?";
+            "/socoserver/mobile/addAttributeByActivityID?";
     public static String SERVER_PATH_HEARTBEAT = "/socoserver/mobile/HeartBeat?";
     public static String SERVER_PATH_INVITE_PROJECT_MEMBER =
             "/socoserver/mobile/inviteFriendShareActivity?";
-
+    public static String SERVER_PATH_JOIN_PROJECT_BY_INVITE =
+            "/socoserver/mobile/joinActivityByInvite?";
 
     public static String HTTP_TOKEN_TYPE = "access_token";
     public static String KEYWORD_REGISTRATION_SUBMITTED = "Your account registration email";

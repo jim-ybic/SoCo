@@ -30,7 +30,6 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements
 
         setContentView(R.layout.activity_show_single_project_new);
 
-
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);
 

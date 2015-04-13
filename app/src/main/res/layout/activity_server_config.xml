@@ -26,8 +26,7 @@
                 android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Server IP not set"
-                android:inputType="number"/>
+                android:hint="Server IP not set"/>
         </TableRow>
         <TableRow
             android:id="@+id/tr_servport">

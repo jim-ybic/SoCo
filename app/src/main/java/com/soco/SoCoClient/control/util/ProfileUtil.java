@@ -228,4 +228,14 @@ public class ProfileUtil {
         editor.commit();
     }
 
+    public static String getJoinProjectByInviteUrl(Context context) {
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = HttpConfig.SERVER_PATH_JOIN_PROJECT_BY_INVITE;
+        String token = getLoginAccessToken(context);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
+        Log.d(tag, "Join project by invite url: " + url);
+        return url;
+    }
 }

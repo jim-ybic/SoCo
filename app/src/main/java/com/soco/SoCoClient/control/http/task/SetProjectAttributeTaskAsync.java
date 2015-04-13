@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public class SetProjectAttributeTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
-    static String tag = "ArchiveProjectTask";
+    static String tag = "SetProjectAttributeTaskAsync";
 
     String url;
     String pid_onserver;
@@ -29,6 +29,12 @@ public class SetProjectAttributeTaskAsync extends AsyncTask<Void, Void, Boolean>
         this.url = url;
         this.pid_onserver = pid_onserver;
         this.attrMap = attrMap;
+
+        //todo: remove testing script
+        if(pid_onserver == null){
+            Log.e(tag, "pid_onserver is null");
+            this.pid_onserver = "1";
+        }
     }
 
     @Override

@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 public class UpdateProjectNameTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
-    static String tag = "ArchiveProjectTask";
+    static String tag = "UpdateProjectNameTaskAsync";
 
     String url;
     String pname, pid_onserver;

@@ -56,7 +56,7 @@ import static com.soco.SoCoClient.control.config.DataConfig.*;
 
 public class ProjectDetailsFragment extends Fragment implements View.OnClickListener {
 
-    public static String tag="ShowSingleProgram";
+    public static String tag="ProjectDetailsFragment";
 
     View rootView;
 
@@ -469,7 +469,8 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
     }
 
     public void saveProjectToDb(){
-        Log.i(tag, "Save to db the project: " + project.pid + ", " + project.pname);
+        Log.i(tag, "Save to db the project: " + project.pid + ", " + project.pid_onserver + ", "
+                + project.pname);
         String pname = et_spname.getText().toString();
         dbmgrSoco.updateProjectName(project.pid, pname);
         ProjectUtil.serverUpdateProjectName(String.valueOf(pid), getActivity().getApplication(),
