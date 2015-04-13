@@ -34,7 +34,7 @@ public class HttpConfig {
     public static String SERVER_PATH_REGISTER = "/socoserver/register/register";
     public static String SERVER_PATH_LOGIN = "/socoserver/api/login";
     public static String SERVER_PATH_CREATE_PROJECT = "/socoserver/mobile/createActivity?";
-    public static String SERVER_PATH_ARCHIVE_PROJECT = "/socoserver/mobile/archieveActivity?";
+    public static String SERVER_PATH_ARCHIVE_PROJECT = "/socoserver/mobile/archiveActivity?";
     public static String SERVER_PATH_RENAME_PROJECT = "/socoserver/mobile/updateActivity?";
     public static String SERVER_PATH_SET_PROJECT_ATTRIBUTE =
             "/socoserver/mobile/addUpdateAttributeByActivityID?";

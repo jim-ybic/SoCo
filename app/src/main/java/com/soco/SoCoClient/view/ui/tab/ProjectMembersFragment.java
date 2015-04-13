@@ -68,7 +68,7 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
 //                        "", "",                                     //login email & password
 //                        getActivity().getApplicationContext(),      //context
 //                        null,                                       //project name
-                        String.valueOf(pid),
+                        String.valueOf(pid_onserver),
 //                        pid_onserver,          //local & remote pid
 //                        null,                                       //attribute map
                         email                                       //invite email

@@ -26,7 +26,8 @@
                 android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Server IP not set"/>
+                android:hint="Server IP not set"
+                android:inputType="number"/>
         </TableRow>
         <TableRow
             android:id="@+id/tr_servport">
@@ -39,7 +40,8 @@
                 android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Server Port not set"/>
+                android:hint="Server Port not set"
+                android:inputType="number"/>
         </TableRow>
         <!--<TableRow-->
             <!--android:id="@+id/tr_regiaddr">-->
