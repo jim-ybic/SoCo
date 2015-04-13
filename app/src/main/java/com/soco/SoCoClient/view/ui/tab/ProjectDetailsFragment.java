@@ -495,7 +495,7 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
     public void setProjectCompleted(){
         Log.i(tag, "Set project complete start");
         saveProjectToDb();
-        dbmgrSoco.updateProjectActiveness(pid, DataConfig.VALUE_PROJECT_INACTIVE);
+        dbmgrSoco.updateProjectActiveness(pid, DataConfig.VALUE_ACTIVITY_INACTIVE);
         Toast.makeText(getActivity(), "Project complete, well done.",
                 Toast.LENGTH_SHORT).show();
         ProjectUtil.serverArchiveProject(String.valueOf(pid), getActivity().getApplication(), pid_onserver);

@@ -48,7 +48,7 @@ public class ShowInactiveProjectsActivity extends ActionBarActivity {
         loginPassword = intent.getStringExtra(GeneralConfig.LOGIN_PASSWORD);
 
         dbmgrSoco = new DBManagerSoco(this);
-        projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_INACTIVE);
+        projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_INACTIVE);
 
         listProjects(lv_inactive_projects, projects);
 
@@ -69,9 +69,9 @@ public class ShowInactiveProjectsActivity extends ActionBarActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 int pid = ProjectUtil.findPidByPname(projects, name);
                                 dbmgrSoco.updateProjectActiveness(pid,
-                                        DataConfig.VALUE_PROJECT_ACTIVE);
+                                        DataConfig.VALUE_ACTIVITY_ACTIVE);
                                 projects = dbmgrSoco.loadProjectsByActiveness(
-                                        DataConfig.VALUE_PROJECT_INACTIVE);
+                                        DataConfig.VALUE_ACTIVITY_INACTIVE);
                                 listProjects(lv_inactive_projects, projects);
                             }
                         })
@@ -81,7 +81,7 @@ public class ShowInactiveProjectsActivity extends ActionBarActivity {
                                 int pid = ProjectUtil.findPidByPname(projects, name);
                                 dbmgrSoco.deleteProjectByPid(pid);
                                 projects = dbmgrSoco.loadProjectsByActiveness(
-                                        DataConfig.VALUE_PROJECT_INACTIVE);
+                                        DataConfig.VALUE_ACTIVITY_INACTIVE);
                                 listProjects(lv_inactive_projects, projects);
                             }
                         })

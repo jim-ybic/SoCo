@@ -27,16 +27,16 @@ public class Project {
     }
 
     public Project(Cursor c) {
-        this.pid = c.getInt(c.getColumnIndex(DataConfig.COLUMN_PROJECT_ID));
-        this.pname = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_NAME));
-        this.ptag = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_TAG));
+        this.pid = c.getInt(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ID));
+        this.pname = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_NAME));
+        this.ptag = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_TAG));
         this.pcreate_timestamp = c.getString(c.getColumnIndex(
-                DataConfig.COLUMN_PROJECT_CREATE_TIMESTAMP));
+                DataConfig.COLUMN_ACTIVITY_CREATE_TIMESTAMP));
         this.pupdate_timestamp = c.getString(c.getColumnIndex(
-                DataConfig.COLUMN_PROJECT_UPDATE_TIMESTAMP));
-        this.psignature = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_SIGNATURE));
-        this.pactive = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_ACTIVE));
-        this.pid_onserver = c.getString(c.getColumnIndex(DataConfig.COLUMN_PROJECT_ID_ONSERVER));
+                DataConfig.COLUMN_ACTIVITY_UPDATE_TIMESTAMP));
+        this.psignature = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_SIGNATURE));
+        this.pactive = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ACTIVE));
+        this.pid_onserver = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ID_ONSERVER));
 
         this.ptag = DEFAULT_PROJECT_TAG;
     }

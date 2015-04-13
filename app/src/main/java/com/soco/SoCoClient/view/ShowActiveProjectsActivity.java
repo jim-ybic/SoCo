@@ -61,7 +61,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
 
         dbmgrSoco = new DBManagerSoco(this);
         ((SocoApp)getApplicationContext()).dbManagerSoco = dbmgrSoco;
-        projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
+        projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
 
         listProjects(null);
 
@@ -96,7 +96,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
             case (101): {
                 Log.i(tag, "onActivityResult, return from ShowSingleProject");
                 Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
-                projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
+                projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
                 listProjects(null);
                 break;
             }
@@ -144,7 +144,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 ProjectUtil.serverCreateProject(n, getApplicationContext(),
                         loginEmail, loginPassword, String.valueOf(pid),
                         p.getSignature(), p.getTag(), p.getType());
-                projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
+                projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
                 listProjects(null);
             }
         });
@@ -212,7 +212,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         ProjectUtil.serverCreateProject(name, getApplicationContext(),
                 loginEmail, loginPassword, String.valueOf(pid),
                 p.getSignature(), p.getTag(), p.getType());
-        projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
+        projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
         listProjects(null);
         ((EditText)findViewById(R.id.et_quickadd)).setText("", TextView.BufferType.EDITABLE);
         InputMethodManager imm = (InputMethodManager)getSystemService(
@@ -223,7 +223,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         Log.i(tag, "onResume start, reload active projects");
-        projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_PROJECT_ACTIVE);
+        projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
         listProjects(null);
     }
 

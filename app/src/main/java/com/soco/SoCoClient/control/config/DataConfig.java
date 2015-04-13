@@ -3,32 +3,32 @@ package com.soco.SoCoClient.control.config;
 public class DataConfig {
 
     // Database
-    public static String TABLE_PROGRAM = "program";
-    public static String COLUMN_PID = "pid";
-    public static String COLUMN_PNAME = "pname";
-    public static String COLUMN_PDATE = "pdate";
-    public static String COLUMN_PTIME = "ptime";
-    public static String COLUMN_PPLACE = "pplace";
-    public static String COLUMN_PCOMPLETE = "pcomplete";
-    public static String COLUMN_PDESC = "pdesc";
-    public static String COLUMN_PPHONE = "pphone";
-    public static String COLUMN_PEMAIL = "pemail";
-    public static String COLUMN_PWECHAT = "pwechat";
+//    public static String TABLE_PROGRAM = "program";
+//    public static String COLUMN_PID = "pid";
+//    public static String COLUMN_PNAME = "pname";
+//    public static String COLUMN_PDATE = "pdate";
+//    public static String COLUMN_PTIME = "ptime";
+//    public static String COLUMN_PPLACE = "pplace";
+//    public static String COLUMN_PCOMPLETE = "pcomplete";
+//    public static String COLUMN_PDESC = "pdesc";
+//    public static String COLUMN_PPHONE = "pphone";
+//    public static String COLUMN_PEMAIL = "pemail";
+//    public static String COLUMN_PWECHAT = "pwechat";
 
     //update: 20150206
-    public static String TABLE_PROJECT = "project";
-    public static String COLUMN_PROJECT_ID = "pid";
-    public static String COLUMN_PROJECT_NAME = "pname";
-    public static String COLUMN_PROJECT_TAG = "ptag";
-    public static String COLUMN_PROJECT_CREATE_TIMESTAMP = "pcreate_timestamp";
-    public static String COLUMN_PROJECT_UPDATE_TIMESTAMP = "pupdate_timestamp";
-    public static String COLUMN_PROJECT_SIGNATURE = "psignature";
-    public static String COLUMN_PROJECT_ACTIVE = "pactive";
+    public static String TABLE_ACTIVITY = "activity";
+    public static String COLUMN_ACTIVITY_ID = "id";
+    public static String COLUMN_ACTIVITY_NAME = "name";
+    public static String COLUMN_ACTIVITY_TAG = "tag";
+    public static String COLUMN_ACTIVITY_CREATE_TIMESTAMP = "create_timestamp";
+    public static String COLUMN_ACTIVITY_UPDATE_TIMESTAMP = "update_timestamp";
+    public static String COLUMN_ACTIVITY_SIGNATURE = "signature";
+    public static String COLUMN_ACTIVITY_ACTIVE = "active";
     //update: 20150402
-    public static String COLUMN_PROJECT_ID_ONSERVER = "pid_onserver";
+    public static String COLUMN_ACTIVITY_ID_ONSERVER = "id_onserver";
 
-    public static String VALUE_PROJECT_ACTIVE = "active";
-    public static String VALUE_PROJECT_INACTIVE = "inactive";
+    public static String VALUE_ACTIVITY_ACTIVE = "active";
+    public static String VALUE_ACTIVITY_INACTIVE = "inactive";
 
     public static String TABLE_ATTRIBUTE = "attribute";
     public static String COLUMN_ATTRIBUTE_ID = "aid";

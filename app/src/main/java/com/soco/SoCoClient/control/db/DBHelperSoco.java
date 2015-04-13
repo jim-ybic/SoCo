@@ -18,15 +18,15 @@ public class DBHelperSoco extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_PROJECT + " (" +
-                DataConfig.COLUMN_PROJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                DataConfig.COLUMN_PROJECT_NAME + " VARCHAR, " +
-                DataConfig.COLUMN_PROJECT_TAG + " VARCHAR," +
-                DataConfig.COLUMN_PROJECT_CREATE_TIMESTAMP + " VARCHAR," +
-                DataConfig.COLUMN_PROJECT_UPDATE_TIMESTAMP + " VARCHAR," +
-                DataConfig.COLUMN_PROJECT_SIGNATURE + " VARCHAR, " +
-                DataConfig.COLUMN_PROJECT_ACTIVE + " VARCHAR, " +
-                DataConfig.COLUMN_PROJECT_ID_ONSERVER +")");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_ACTIVITY + " (" +
+                DataConfig.COLUMN_ACTIVITY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DataConfig.COLUMN_ACTIVITY_NAME + " VARCHAR, " +
+                DataConfig.COLUMN_ACTIVITY_TAG + " VARCHAR," +
+                DataConfig.COLUMN_ACTIVITY_CREATE_TIMESTAMP + " VARCHAR," +
+                DataConfig.COLUMN_ACTIVITY_UPDATE_TIMESTAMP + " VARCHAR," +
+                DataConfig.COLUMN_ACTIVITY_SIGNATURE + " VARCHAR, " +
+                DataConfig.COLUMN_ACTIVITY_ACTIVE + " VARCHAR, " +
+                DataConfig.COLUMN_ACTIVITY_ID_ONSERVER +")");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_ATTRIBUTE + " (" +
                 DataConfig.COLUMN_ATTRIBUTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -51,7 +51,7 @@ public class DBHelperSoco extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("ALTER TABLE " + DataConfig.TABLE_PROGRAM + " ADD COLUMN other STRING");
+//        db.execSQL("ALTER TABLE " + DataConfig.TABLE_PROGRAM + " ADD COLUMN other STRING");
     }
 }
 
