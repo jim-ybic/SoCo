@@ -85,7 +85,7 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
                 if(json.has(HttpConfig.JSON_KEY_PROJECT)){
                     String projectStr = json.getString(HttpConfig.JSON_KEY_PROJECT);
                     Log.i(tag, "Project str:" + projectStr);
-                    JSONObject p = json.getJSONObject(HttpConfig.JSON_KEY_PROJECT);
+                    JSONObject p = new JSONObject(projectStr);
                     String name = p.getString(HttpConfig.JSON_KEY_PROJECT_NAME);
                     String tag = p.getString(HttpConfig.JSON_KEY_PROJECT_TAG);
                     String signature = p.getString(HttpConfig.JSON_KEY_PROJECT_SIGNATURE);
