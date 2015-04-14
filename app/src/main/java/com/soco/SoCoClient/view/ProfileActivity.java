@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.GeneralConfig;
@@ -18,6 +19,7 @@ import com.soco.SoCoClient.model.Profile;
 
 public class ProfileActivity extends ActionBarActivity {
     static String tag = "ProfileActivity";
+    static String EMPTY_STRING = "";
 
     // Local views
 //    TextView tv_profile_email;
@@ -70,6 +72,20 @@ public class ProfileActivity extends ActionBarActivity {
 //        finish();
         Log.i(tag, "Logout from current user");
         ProfileUtil.clearUserInfo(this);
+        Toast.makeText(getApplicationContext(), "Logout complete.", Toast.LENGTH_SHORT).show();
+
+        Log.d(tag, "clear UI");
+        et_profile_email.setText(EMPTY_STRING);
+        et_profile_password.setText(EMPTY_STRING);
+        et_profile_nickname.setText(EMPTY_STRING);
+        et_profile_phone.setText(EMPTY_STRING);
+        et_profile_wechat.setText(EMPTY_STRING);
+        tv_lastLoginTimestamp.setText(EMPTY_STRING);
+
+        Log.d(tag, "return to login screen");
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     public void showProfile(Profile profile){

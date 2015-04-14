@@ -218,13 +218,21 @@ public class ProfileUtil {
     }
 
     public static void clearUserInfo(Context context){
+        Log.d(tag, "clean user info from profile");
         SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(GeneralConfig.PROFILE_LOGIN_EMAIL, "");
-        editor.putString(GeneralConfig.PROFILE_LOGIN_PASSWORD, "");
-        editor.putString(GeneralConfig.PROFILE_NICKNAME, "");
-        editor.putString(GeneralConfig.PROFILE_PHONE, "");
-        editor.putString(GeneralConfig.PROFILE_WECHAT, "");
+//        editor.putString(GeneralConfig.PROFILE_LOGIN_EMAIL, "");
+//        editor.putString(GeneralConfig.PROFILE_LOGIN_PASSWORD, "");
+//        editor.putString(GeneralConfig.PROFILE_NICKNAME, "");
+//        editor.putString(GeneralConfig.PROFILE_PHONE, "");
+//        editor.putString(GeneralConfig.PROFILE_WECHAT, "");
+//        editor.putString(GeneralConfig.PROFILE_LOGIN_ACCESS_TOKEN, "");
+        editor.remove(GeneralConfig.PROFILE_LOGIN_EMAIL);
+        editor.remove(GeneralConfig.PROFILE_LOGIN_PASSWORD);
+        editor.remove(GeneralConfig.PROFILE_NICKNAME);
+        editor.remove(GeneralConfig.PROFILE_PHONE);
+        editor.remove(GeneralConfig.PROFILE_WECHAT);
+        editor.remove(GeneralConfig.PROFILE_LOGIN_ACCESS_TOKEN);
         editor.commit();
     }
 
