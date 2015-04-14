@@ -20,17 +20,16 @@
     <!-- <string name="title_activity_display_message">Project Details</string> -->
     <!-- <string name="title_activity_read_file">ReadFileActivity</string> -->
     <!-- <string name="title_activity_create_program">CreateProgramActivity</string> -->
-    <string name="title_activity_show_inactive_projects">List Inactive Projects</string>
+    <string name="title_activity_show_inactive_projects">Archive</string>
     <string name="title_activity_login">SoCo</string>
     <string name="title_activity_profile">Profile</string>
     <!-- <string name="title_activity_show_more">ShowMoreActivity</string> -->
     <string name="title_activity_server_config">Server Config</string>
-    <string name="title_activity_show_shared_files">List of Shared Files</string>
-    <string name="title_activity_project_location">Set Project Location</string>
-    <string name="title_show_single_project">Project Details</string>
-    <string name="title_show_active_projects">List of Active Projects</string>
-    <string name="title_activity_show_single_project_new">ShowSingleProjectNewActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_show_shared_files">Shared Files</string>
+    <string name="title_activity_project_location">Location</string>
+    <string name="title_show_single_project">Project</string>
+    <string name="title_show_active_projects">Agenda</string>
+    <!--<string name="title_activity_show_single_project_new">ShowSingleProjectNewActivity</string>-->
     <string name="title_activity_main">MainActivity</string>
 
 </resources>

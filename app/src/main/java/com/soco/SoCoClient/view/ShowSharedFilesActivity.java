@@ -113,36 +113,6 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
             Log.i(tag, "Start status service");
             Intent intent = new Intent(this, UploaderWatcher.class);
             startService(intent);
-//            boolean isSuccess = false;
-//            for (int i = 1; i <= Config.UPLOAD_RETRY; i++) {
-//                Log.d(tag, "Wait for upload parse: " + i + "/" + Config.UPLOAD_RETRY);
-//                SystemClock.sleep(Config.UPLOAD_WAIT);
-//                Log.d(tag, "Current upload status is: " + app.getUploadStatus());
-//                if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_SUCCESS)) {
-//                    isSuccess = true;
-//                    break;
-//                } else if (app.getUploadStatus().equals(SocoApp.UPLOAD_STATUS_FAIL)) {
-//                    isSuccess = false;
-//                    break;
-//                }
-//            }
-//            if (isSuccess) {
-//                Log.i(tag, "File upload success");
-//                new AlertDialog.Builder(this)
-//                        .setTitle("File upload success")
-//                        .setMessage("File has been saved in the cloud")
-//                        .setPositiveButton("OK", null)
-//                        .show();
-//                ProjectUtil.addSharedFileToDb(uri, loginEmail, loginPassword, pid,
-//                        getContentResolver(), dbManagerSoco);
-//            } else {
-//                Log.i(tag, "File upload failed");
-//                new AlertDialog.Builder(this)
-//                        .setTitle("File upload failed")
-//                        .setMessage("Review upload details and try again")
-//                        .setPositiveButton("OK", null)
-//                        .show();
-//            }
         }
 
         //always refresh the list view in the end

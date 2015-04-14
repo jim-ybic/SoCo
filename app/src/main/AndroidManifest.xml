@@ -128,7 +128,7 @@
         <!--</activity>-->
         <activity
             android:name=".view.ShowSingleProjectActivity"
-            android:label="Project Details and Updates" >
+            android:label="@string/title_show_single_project" >
         </activity>
     </application>
 
