@@ -82,7 +82,7 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
                 if(json.has(HttpConfig.JSON_KEY_PROJECT)){
                     String projectStr = json.getString(HttpConfig.JSON_KEY_PROJECT);
                     Log.i(tag, "Project str:" + projectStr);
-                    JSONObject p = new JSONObject(projectStr);
+                    JSONObject p = json.getJSONObject(HttpConfig.JSON_KEY_PROJECT);
                     String name = p.getString(HttpConfig.JSON_KEY_PROJECT_NAME);
                     String tag = p.getString(HttpConfig.JSON_KEY_PROJECT_TAG);
                     String signature = p.getString(HttpConfig.JSON_KEY_PROJECT_SIGNATURE);
@@ -115,6 +115,8 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
                 }
                 else
                     Log.i(tag, "No attribute string is found");
+
+                //todo:send ack to server
 
                 return true;
             }

@@ -76,7 +76,7 @@ public class InviteProjectMemberTaskAsync extends AsyncTask<Void, Void, Boolean>
                 return true;
             }
             else {
-                Log.e(tag, "Cannot receive parse from server");
+                Log.e(tag, "Parse result not in success status");
                 return false;
             }
         } catch (Exception e) {

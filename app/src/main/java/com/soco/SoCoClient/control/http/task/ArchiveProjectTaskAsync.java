@@ -28,7 +28,7 @@ public class ArchiveProjectTaskAsync extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         if(url == null || url.isEmpty() || pid_onserver == null){
-            Log.e(tag, "Cannot get url/type");
+            Log.e(tag, "Cannot get url/pid_onserver");
             return false;
         }
 

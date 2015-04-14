@@ -17,8 +17,8 @@ public class DataConfig {
 
     //update: 20150206
     public static String TABLE_ACTIVITY = "activity";
-    public static String COLUMN_ACTIVITY_ID = "id";
-    public static String COLUMN_ACTIVITY_NAME = "name";
+    public static String COLUMN_ACTIVITY_ID = "aid";
+    public static String COLUMN_ACTIVITY_NAME = "aname";
     public static String COLUMN_ACTIVITY_TAG = "tag";
     public static String COLUMN_ACTIVITY_CREATE_TIMESTAMP = "create_timestamp";
     public static String COLUMN_ACTIVITY_UPDATE_TIMESTAMP = "update_timestamp";
@@ -73,5 +73,12 @@ public class DataConfig {
     public static String TYPE_STRING = "String";
 
     public static final String DEFAULT_PROJECT_TYPE = "activity";
+
+    public static String TABLE_ACTIVITY_MEMBER = "activity_member";
+    public static String COLUMN_ACTIVITY_MEMBER_AID = "aid";
+    public static String COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL = "email";
+    public static String COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME = "username";
+    public static String COLUMN_ACTIVITY_MEMBER_MEMBER_STATUS = "status";
+    public static String COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP = "join_timestamp";
 
 }

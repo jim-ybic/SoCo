@@ -8,7 +8,7 @@ import com.soco.SoCoClient.control.config.DataConfig;
 
 public class DBHelperSoco extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "soco.0.1.5.db";
+    public static String DATABASE_NAME = "soco.0.1.8.db";
     public static int DATABASE_VERSION = 1;
 
     public DBHelperSoco(Context context) {
@@ -47,6 +47,14 @@ public class DBHelperSoco extends SQLiteOpenHelper {
                 DataConfig.COLUMN_SHARED_FILE_USER + " VARCHAR, " +
                 DataConfig.COLUMN_SHARED_FILE_CREATE_TIMESTAMP + " VARCHAR, " +
                 DataConfig.COLUMN_SHARED_FILE_UPDATE_TIMESTAMP + " VARCHAR)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_ACTIVITY_MEMBER + " (" +
+                DataConfig.COLUMN_ACTIVITY_MEMBER_AID + " VARCHAR, " +
+                DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL + " VARCHAR, " +
+                DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME + " VARCHAR, " +
+                DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_STATUS + " VARCHAR, " +
+                DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP + " VARCHAR)");
+
     }
 
     @Override

@@ -60,6 +60,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         Log.i(tag, "onCreate, get login info: " + loginEmail + ", " + loginPassword);
 
         dbmgrSoco = new DBManagerSoco(this);
+        dbmgrSoco.context = getApplicationContext();
         ((SocoApp)getApplicationContext()).dbManagerSoco = dbmgrSoco;
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
 

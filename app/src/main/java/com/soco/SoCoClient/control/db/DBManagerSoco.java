@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
+import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Project;
@@ -18,6 +19,7 @@ import com.soco.SoCoClient.model.Project;
 public class DBManagerSoco {
     private DBHelperSoco helper;
     private SQLiteDatabase db;
+    public Context context;
 
     public static String tag = "DBManagerSoco";
 
@@ -27,10 +29,13 @@ public class DBManagerSoco {
     }
 
     public int addProject(Project p){
-        Log.i(tag, "Add new project (update 20150206): " + p.pname);
+        Log.i(tag, "Add new project: " + p.pname);
         int pid = -1;
+        String userEmail = ((SocoApp)context).loginEmail;
         try {
             db.beginTransaction();
+
+            //add into activity table
             Log.i(tag, "Insert into db: " + p.pname + ", "
                     + SignatureUtil.now() + ", " + SignatureUtil.now() + ", "
                     + SignatureUtil.genSHA1(p) + ", " + DataConfig.VALUE_ACTIVITY_ACTIVE);
@@ -40,6 +45,7 @@ public class DBManagerSoco {
                             SignatureUtil.now(), SignatureUtil.now(), SignatureUtil.genSHA1(p),
                             DataConfig.VALUE_ACTIVITY_ACTIVE, null});
 
+            //get pid
             String query = "SELECT MAX(" + DataConfig.COLUMN_ACTIVITY_ID
                     + ") FROM " + DataConfig.TABLE_ACTIVITY;
             Cursor cursor = db.rawQuery(query, null);
@@ -48,6 +54,12 @@ public class DBManagerSoco {
                     pid = cursor.getInt(0);
                 } while(cursor.moveToNext());
             }
+
+            //add into activity_user table
+            Log.i(tag, "insert activity_user table entry: " + pid + ", " + userEmail);
+            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_MEMBER + " VALUES (" +
+                    "?, ?, ?, ?, ?)", new Object[]{
+                    pid, userEmail, "", SignatureUtil.now(), ""});    //todo: add more details
 
             db.setTransactionSuccessful();
         } finally {
