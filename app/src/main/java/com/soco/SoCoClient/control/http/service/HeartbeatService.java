@@ -45,7 +45,7 @@ public class HeartbeatService extends Service {
                         Object response = request();
                         if (response != null)
                             parse(response);
-                        }
+                    }
                 },
                 0,      //delay start time (ms)
                 2*60*1000    //frequency (ms)
@@ -95,27 +95,29 @@ public class HeartbeatService extends Service {
 
                 //retrieve all invitations, if any
                 if(json.has(HttpConfig.JSON_KEY_INVITATION)) {
-                        JSONArray invitationArray = new JSONArray(json.getString("invitation"));
-                        for (int i = 0; i < invitationArray.length(); i++) {
-                            JSONObject invitation = invitationArray.getJSONObject(i);
-                            String inviter = invitation.getString("inviter");
-                            String pid_onserver = invitation.getString("activity");
-                            String date = invitation.getString("date");
-                            Log.i(tag, "Get invitation: " + inviter + ", " + pid_onserver + ", " + date);
+                    JSONArray invitationArray = new JSONArray(json.getString("invitation"));
+                    Log.i(tag, "Invitation str: " + json.getString(HttpConfig.JSON_KEY_INVITATION));
+                    for (int i = 0; i < invitationArray.length(); i++) {
+                        JSONObject invitation = invitationArray.getJSONObject(i);
+                        String inviter = invitation.getString("inviter");
+                        String pid_onserver = invitation.getString("activity");
+                        String date = invitation.getString("date");
+                        Log.i(tag, "Get invitation: " + inviter + ", " + pid_onserver + ", " + date);
 
-                            //add project into database
-                            DBManagerSoco dbManagerSoco = ((SocoApp) getApplication()).dbManagerSoco;
-                            Project p = new Project("");
-                            p.pid_onserver = pid_onserver;
-                            int pid = dbManagerSoco.addProject(p);
-                            Log.i(tag, "New project added to database, pid_onserver is " + pid_onserver);
+                        //add project into database
+                        DBManagerSoco dbManagerSoco = ((SocoApp) getApplication()).dbManagerSoco;
+                        Project p = new Project("");
+                        p.pid_onserver = pid_onserver;
+                        int pid = dbManagerSoco.addProject(p);
+                        Log.i(tag, "New project added to database, pid_onserver is " + pid_onserver);
 
-                            //retrieve project details
-                            String url = ProfileUtil.getJoinProjectByInviteUrl(getApplicationContext());
-                            JoinProjectByInviteTaskAsync task = new JoinProjectByInviteTaskAsync(
-                                    url, String.valueOf(pid), pid_onserver, getApplicationContext());
-                            task.execute();
-                        }
+                        //retrieve project details
+                        String url = ProfileUtil.getJoinProjectByInviteUrl(getApplicationContext());
+                        JoinProjectByInviteTaskAsync task = new JoinProjectByInviteTaskAsync(
+                                url, String.valueOf(pid), pid_onserver,
+                                getApplicationContext(), inviter);
+                        task.execute();
+                    }
                 }
 
                 return true;

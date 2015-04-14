@@ -21,12 +21,14 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
     String url;
     String pid, pid_onserver;
     Context context;
+    String inviter;
 
     public JoinProjectByInviteTaskAsync(
             String url,
             String pid,
             String pid_onserver,
-            Context context
+            Context context,
+            String inviter
     ){
         Log.i(tag, "Create new HttpTask: "
                 + url + ", " + pid_onserver);
@@ -34,6 +36,7 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
         this.pid = pid;
         this.pid_onserver = pid_onserver;
         this.context = context;
+        this.inviter = inviter;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
         return true;
     }
 
-    public static void execute(String url, String pid, String pid_onserver, Context context){
+    public void execute(String url, String pid, String pid_onserver, Context context){
         Log.i(tag, "Execute: " + url  + ", " + pid_onserver);
         Object response = request(url, pid_onserver);
         if (response != null)
@@ -67,7 +70,7 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
         return HttpUtil.executeHttpPost(url, data);
     }
 
-    public static boolean parse(Object response, String pid, Context context) {
+    public boolean parse(Object response, String pid, Context context) {
         try {
             String str = response.toString();
             Log.i(tag, "Update project name parse string: " + str);
@@ -116,7 +119,9 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
                 else
                     Log.i(tag, "No attribute string is found");
 
-                //todo:send ack to server
+                //add inviter to project memberlist
+                DBManagerSoco dbManagerSoco = ((SocoApp)context).dbManagerSoco;
+                dbManagerSoco.addMemberToProject(inviter, Integer.valueOf(pid));
 
                 return true;
             }

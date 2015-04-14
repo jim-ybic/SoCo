@@ -22,10 +22,46 @@ public class DBManagerSoco {
     public Context context;
 
     public static String tag = "DBManagerSoco";
+    public static String TEST_NONAME = "test_noname";
+    public static String TEST_NOEMAIL = "test_noemail";
 
     public DBManagerSoco(Context context) {
         helper = new DBHelperSoco(context);
         db = helper.getWritableDatabase();
+    }
+
+    public void addMemberToProject(String userName, int pid){
+        Log.d(tag, "Adding member " + userName + " into project pid " + pid);
+
+        try {
+            db.beginTransaction();
+            Log.i(tag, "insert activity_user table entry: " + pid + ", " + userName);
+            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_MEMBER + " VALUES (" +
+                    "?, ?, ?, ?, ?)", new Object[]{
+                    pid, TEST_NOEMAIL, userName, SignatureUtil.now(), ""});    //todo: add more details
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    public HashMap<String, String> getMembersOfProject(int pid){
+        Log.d(tag, "get members of project " + pid);
+        HashMap<String, String> userNameEmail = new HashMap<>();
+
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ACTIVITY_MEMBER +
+                        " where " + DataConfig.COLUMN_ACTIVITY_MEMBER_AID + " = ?",
+                new String[] {String.valueOf(pid)});
+
+        String name, email;
+        while (c.moveToNext()) {
+            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME));
+            email = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL));
+            Log.d(tag, "Found user " + name + "/" + email);
+            userNameEmail.put(email, name);
+        }
+        c.close();
+        return userNameEmail;
     }
 
     public int addProject(Project p){
@@ -59,7 +95,7 @@ public class DBManagerSoco {
             Log.i(tag, "insert activity_user table entry: " + pid + ", " + userEmail);
             db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_MEMBER + " VALUES (" +
                     "?, ?, ?, ?, ?)", new Object[]{
-                    pid, userEmail, "", SignatureUtil.now(), ""});    //todo: add more details
+                    pid, userEmail, TEST_NONAME, SignatureUtil.now(), ""});    //todo: add more details
 
             db.setTransactionSuccessful();
         } finally {

@@ -9,11 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.SocoApp;
+import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task.InviteProjectMemberTaskAsync;
 import com.soco.SoCoClient.control.util.ProfileUtil;
+import com.soco.SoCoClient.view.ui.section.EntryAdapter;
+import com.soco.SoCoClient.view.ui.section.EntryItem;
+import com.soco.SoCoClient.view.ui.section.Item;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProjectMembersFragment extends Fragment implements View.OnClickListener {
 
@@ -47,6 +56,7 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
         rootView = inflater.inflate(R.layout.fragment_project_members, container, false);
 
         rootView.findViewById(R.id.bt_add).setOnClickListener(this);
+        listMembers();
 
         return rootView;
     }
@@ -74,6 +84,22 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
                         email                                       //invite email
         );
         httpTask.execute();
+    }
+
+    public void listMembers() {
+        Log.d(tag, "List project members");
+        ArrayList<Item> memberItems = new ArrayList<Item>();
+        DBManagerSoco dbManagerSoco = ((SocoApp)getActivity().getApplicationContext()).dbManagerSoco;
+        HashMap<String, String> map = dbManagerSoco.getMembersOfProject(pid);
+
+        for(Map.Entry<String, String> e : map.entrySet()){
+            Log.d(tag, "found member: " + e.getValue() + ", " + e.getKey());
+            memberItems.add(new EntryItem(e.getValue(), e.getKey()));
+        }
+
+        EntryAdapter adapter = new EntryAdapter(getActivity(), memberItems);
+        ListView lv = (ListView) rootView.findViewById(R.id.listview_members);
+        lv.setAdapter(adapter);
     }
 
 }
