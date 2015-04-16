@@ -91,6 +91,10 @@ public class LoginActivity extends ActionBarActivity {
 
         ProfileUtil.ready(getApplicationContext(), loginEmail);
         nickname = ProfileUtil.getNickname(getApplicationContext(), loginEmail);
+        Log.d(tag, "save current login email/password into profile: " +
+                loginEmail + ", " + loginPassword);
+        ProfileUtil.setLoginEmail(this, loginEmail);
+        ProfileUtil.setLoginPassword(this, loginPassword);
 
         String access_token = ProfileUtil.getLoginAccessToken(getApplicationContext());
         if (access_token != null && !access_token.isEmpty())
@@ -203,6 +207,18 @@ public class LoginActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.i(tag, "onResume");
+        String savedLoginEmail = ProfileUtil.getLoginEmail(this);
+        String savedLoginPassword = ProfileUtil.getLoginPassword(this);
+        Log.d(tag, "load saved login email/password: "
+                + savedLoginEmail + ", " + savedLoginPassword);
+        et_login_email.setText(savedLoginEmail);
+        et_login_password.setText(savedLoginPassword);
+    }
 
 
 }
