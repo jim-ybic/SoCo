@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.GeneralConfig;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.model.Profile;
@@ -66,6 +67,10 @@ public class ProfileActivity extends ActionBarActivity {
                 et_profile_wechat.getText().toString());
         ProfileUtil.setLoginEmail(this, et_profile_email.getText().toString());
         ProfileUtil.setLoginPassword(this, et_profile_password.getText().toString());
+
+        String name = et_profile_nickname.getText().toString();
+        if(!name.isEmpty())
+            ((SocoApp)getApplication()).nickname = name;
     }
 
     public void logout(View view) {

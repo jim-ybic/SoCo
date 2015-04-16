@@ -45,6 +45,31 @@ public class DBManagerSoco {
         }
     }
 
+    public ArrayList<ArrayList<String>> getUpdatesOfActivity(int aid) {
+        Log.d(tag, "get comments of activity " + aid);
+//        HashMap<String, String> userComment = new HashMap<>();
+        ArrayList<ArrayList<String>> comments = new ArrayList<>();
+
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ACTIVITY_UPDATES +
+                        " where " + DataConfig.COLUMN_ACTIVITY_UPDATES_AID + " = ?",
+                new String[] {String.valueOf(aid)});
+
+        String name, comment, timestamp;
+        while (c.moveToNext()) {
+            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_UPDATES_USER));
+            comment = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_UPDATES_COMMENT));
+            timestamp = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_UPDATES_TIMESTAMP));
+            Log.d(tag, "Found user " + name + " and comment " + comment + " at " + timestamp);
+            ArrayList<String> e = new ArrayList<>();
+            e.add(name);
+            e.add(comment);
+            e.add(timestamp);
+            comments.add(e);
+        }
+        c.close();
+        return comments;
+    }
+
     public HashMap<String, String> getMembersOfProject(int pid){
         Log.d(tag, "get members of project " + pid);
         HashMap<String, String> userNameEmail = new HashMap<>();
@@ -399,6 +424,22 @@ public class DBManagerSoco {
                     new Object[]{pid, DataConfig.ATTRIBUTE_NAME_LOCNAME, name, "", now, now});
             db.setTransactionSuccessful();
         } finally{
+            db.endTransaction();
+        }
+    }
+
+    public void addCommentToProject(String comment, int pid, String user) {
+        Log.d(tag, "Adding comment: " + comment + ", into project pid " + pid);
+
+        try {
+            db.beginTransaction();
+            Log.i(tag, "insert " + DataConfig.TABLE_ACTIVITY_UPDATES
+                    + " table entry: " + pid + ", " + comment + ", " + user);
+            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_UPDATES + " VALUES (" +
+                    "null, ?, ?, ?, ?)", new Object[]{
+                    pid, comment, user, SignatureUtil.now()});
+            db.setTransactionSuccessful();
+        } finally {
             db.endTransaction();
         }
     }

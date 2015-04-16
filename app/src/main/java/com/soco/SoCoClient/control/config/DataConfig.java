@@ -53,7 +53,6 @@ public class DataConfig {
     public static String ATTRIBUTE_NAME_LOC_PREFIX = "loc";
     public static String ATTRIBUTE_NAME_TAG = "tag";
 
-
     public static String TABLE_SHARED_FILE = "shared_files";
     public static String COLUMN_SHARED_FILE_ID = "fid";
     public static String COLUMN_SHARED_FILE_PID = "pid";
@@ -81,4 +80,14 @@ public class DataConfig {
     public static String COLUMN_ACTIVITY_MEMBER_MEMBER_STATUS = "status";
     public static String COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP = "join_timestamp";
 
+    public static String TABLE_ACTIVITY_UPDATES = "activity_update";
+    public static String COLUMN_ACTIVITY_UPDATES_UID = "uid";
+    public static String COLUMN_ACTIVITY_UPDATES_AID = "aid";
+    public static String COLUMN_ACTIVITY_UPDATES_COMMENT = "content";
+    public static String COLUMN_ACTIVITY_UPDATES_USER = "user";
+    public static String COLUMN_ACTIVITY_UPDATES_TIMESTAMP = "timestamp";
+
+    public static int UPDATE_INDEX_NAME = 0;
+    public static int UPDATE_INDEX_COMMENT = 1;
+    public static int UPDATE_INDEX_TIMESTAMP = 2;
 }

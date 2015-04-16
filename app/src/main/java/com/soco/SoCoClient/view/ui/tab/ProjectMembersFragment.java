@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.SocoApp;
@@ -44,8 +45,8 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
         Log.d(tag, "pid is " + pid + ", pid_onserver is " + pid_onserver);
 
         //todo: test script
-        if(pid_onserver == null)
-            pid_onserver = "1";
+//        if(pid_onserver == null)
+//            pid_onserver = "1";
     }
 
     @Override
@@ -84,6 +85,10 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
                         email                                       //invite email
         );
         httpTask.execute();
+
+        Toast.makeText(getActivity().getApplicationContext(), "Sent invitation success",
+                Toast.LENGTH_SHORT).show();
+
     }
 
     public void listMembers() {

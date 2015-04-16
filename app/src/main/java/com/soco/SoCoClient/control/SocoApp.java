@@ -42,6 +42,7 @@ public class SocoApp extends Application {
     public Uri uri;
     public String lat, lng, zoom, locationName;
     public String pid_onserver;
+    public String nickname;
 
     public void setDropboxDownloadUri(Uri uri){
         this.dropboxDownloadUri = uri;
