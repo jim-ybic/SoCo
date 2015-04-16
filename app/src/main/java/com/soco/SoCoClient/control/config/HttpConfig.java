@@ -31,6 +31,15 @@ public class HttpConfig {
     public static String JSON_KEY_ATTRIBUTE_TYPE = "type";
     public static String JSON_KEY_ATTRIBUTE_VALUE = "value";
 
+    public static String JSON_KEY_FROM_TYPE = "from_type";
+    public static String JSON_KEY_FROM_ID = "from_id";
+    public static String JSON_KEY_TO_TYPE = "to_type";
+    public static String JSON_KEY_TO_ID = "to_id";
+    public static String JSON_KEY_SEND_DATE_TIME = "send_date_time";
+    public static String JSON_KEY_FROM_DEVICE = "from_device";
+    public static String JSON_KEY_CONTENT_TYPE = "context_type";
+    public static String JSON_KEY_CONTENT = "context";
+
     public static String JSON_KEY_RESPONSE_STATUS = "status";
     public static String JSON_VALUE_RESPONSE_STATUS_SUCCESS = "success";
 
@@ -46,6 +55,7 @@ public class HttpConfig {
             "/socoserver/mobile/inviteFriendShareActivity?";
     public static String SERVER_PATH_JOIN_PROJECT_BY_INVITE =
             "/socoserver/mobile/joinActivityByInvite?";
+    public static String SERVER_PATH_SEND_MESSAGE = "/socoserver/exchange/sendOut?";
 
     public static String HTTP_TOKEN_TYPE = "access_token";
     public static String KEYWORD_REGISTRATION_SUBMITTED = "Your account registration email";
