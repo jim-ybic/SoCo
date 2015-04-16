@@ -15,7 +15,7 @@ public class HttpUtil {
 
     public static Object executeHttpPost(String url, JSONObject data) {
         Object response = null;
-        Log.d(tag, "executeHttpPost, url: " + url + ", data" + data);
+        Log.d(tag, "executeHttpPost, url: " + url + ", data: " + data);
 
         try {
             DefaultHttpClient httpclient = new DefaultHttpClient();

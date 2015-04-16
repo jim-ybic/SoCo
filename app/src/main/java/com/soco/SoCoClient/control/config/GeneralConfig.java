@@ -39,6 +39,8 @@ public class GeneralConfig {
     public static String PROFILE_LOGIN_EMAIL = "login_email";
     public static String PROFILE_LOGIN_PASSWORD = "login_password";
     public static String PROFILE_LAST_LOGIN_TIMESTAMP = "last_login_timestamp";
+//    public static String PROFILE_LAST_LOGIN_EMAIL = "last_login_email";
+//    public static String PROFILE_LAST_LOGIN_PASSWORD = "last_login_password";
 
     public static String ACCESS_KEY = "7cfm4ur90xw54pv";
     public static String ACCESS_SECRET = "9rou23wi8t4htkz";

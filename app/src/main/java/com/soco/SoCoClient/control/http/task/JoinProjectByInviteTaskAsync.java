@@ -60,7 +60,7 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
     public static Object request(String url, String pid_onserver) {
         JSONObject data = new JSONObject();
         try {
-            data.put(HttpConfig.JSON_KEY_PROJECT_ID, Integer.parseInt(pid_onserver));
+            data.put(HttpConfig.JSON_KEY_PROJECT_ID, Long.parseLong(pid_onserver));
             Log.i(tag, "Create project Json post: " + data);
         } catch (Exception e) {
             Log.e(tag, "Cannot create create project Json post data");
@@ -126,7 +126,7 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
                 return true;
             }
             else {
-                Log.e(tag, "Cannot receive parse from server");
+                Log.e(tag, "Server did not return success response");
                 return false;
             }
         } catch (Exception e) {
