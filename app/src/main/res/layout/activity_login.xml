@@ -33,11 +33,11 @@
                     android:text="Email: "/>
                 <EditText
                     android:id="@+id/et_login_email"
-                    android:hint="Email"
+                    android:hint="Email Address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="jim.ybic@gmail.com"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:inputType="textEmailAddress"/>
             </TableRow>
             <TableRow>
                 <TextView
@@ -48,7 +48,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:hint="Password"
-                    android:text="Pass@123"
                     android:layout_weight="1"/>
             </TableRow>
         </TableLayout>

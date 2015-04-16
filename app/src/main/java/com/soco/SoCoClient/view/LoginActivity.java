@@ -37,8 +37,8 @@ public class LoginActivity extends ActionBarActivity {
     public String REGISTER_SOCO_SERVER_URL = "http://"
             + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + REGISTER_PATH;
 
-    public static String TEST_EMAIL = "jim.ybic@gmail.com";
-    public static String TEST_PASSWORD = "Pass@123";
+//    public static String TEST_EMAIL = "jim.ybic@gmail.com";
+//    public static String TEST_PASSWORD = "Pass@123";
 
     public static int REGISTER_RETRY = 10;
     public static int REGISTER_WAIT = 1000;    //ms
@@ -64,10 +64,14 @@ public class LoginActivity extends ActionBarActivity {
         //check if login credential exists
         String savedLoginEmail = ProfileUtil.getLoginEmail(this);
         String savedLoginPassword = ProfileUtil.getLoginPassword(this);
-        Log.i(tag, "Get saved login email/password: " + savedLoginEmail + "/" + savedLoginPassword);
-        if(!savedLoginEmail.isEmpty())
-            login(null);
+        String savedLoginAccessToken = ProfileUtil.getLoginAccessToken(this);
+        Log.i(tag, "Get saved login email/password/token: "
+                + savedLoginEmail + ", " + savedLoginPassword + ", " + savedLoginAccessToken);
 
+        if(!savedLoginAccessToken.isEmpty()) {
+            Log.i(tag, "Saved login access token can be used, skip login screen");
+            login(null);
+        }
     }
 
     private void findViewsById() {

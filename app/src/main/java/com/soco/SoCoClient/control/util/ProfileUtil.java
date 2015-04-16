@@ -193,6 +193,30 @@ public class ProfileUtil {
         editor.commit();
     }
 
+//    public static String getLastLoginEmail(Context context){
+//        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+//        return settings.getString(GeneralConfig.PROFILE_LAST_LOGIN_EMAIL, "");
+//    }
+//
+//    public static void setLastLoginEmail(Context context, String loginEmail){
+//        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString(GeneralConfig.PROFILE_LAST_LOGIN_EMAIL, loginEmail);
+//        editor.commit();
+//    }
+
+//    public static String getLastLoginPassword(Context context){
+//        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+//        return settings.getString(GeneralConfig.PROFILE_LAST_LOGIN_PASSWORD, "");
+//    }
+//
+//    public static void setLASTLoginPassword(Context context, String loginPassword){
+//        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString(GeneralConfig.PROFILE_LAST_LOGIN_PASSWORD, loginPassword);
+//        editor.commit();
+//    }
+
     public static String getLoginPassword(Context context){
         SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         return settings.getString(GeneralConfig.PROFILE_LOGIN_PASSWORD, "");
@@ -217,8 +241,8 @@ public class ProfileUtil {
         editor.commit();
     }
 
-    public static void clearUserInfo(Context context){
-        Log.d(tag, "clean user info from profile");
+    public static void logout(Context context){
+        Log.d(tag, "delete user login access token");
         SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 //        editor.putString(GeneralConfig.PROFILE_LOGIN_EMAIL, "");
@@ -227,11 +251,11 @@ public class ProfileUtil {
 //        editor.putString(GeneralConfig.PROFILE_PHONE, "");
 //        editor.putString(GeneralConfig.PROFILE_WECHAT, "");
 //        editor.putString(GeneralConfig.PROFILE_LOGIN_ACCESS_TOKEN, "");
-        editor.remove(GeneralConfig.PROFILE_LOGIN_EMAIL);
-        editor.remove(GeneralConfig.PROFILE_LOGIN_PASSWORD);
-        editor.remove(GeneralConfig.PROFILE_NICKNAME);
-        editor.remove(GeneralConfig.PROFILE_PHONE);
-        editor.remove(GeneralConfig.PROFILE_WECHAT);
+//        editor.remove(GeneralConfig.PROFILE_LOGIN_EMAIL);
+//        editor.remove(GeneralConfig.PROFILE_LOGIN_PASSWORD);
+//        editor.remove(GeneralConfig.PROFILE_NICKNAME);
+//        editor.remove(GeneralConfig.PROFILE_PHONE);
+//        editor.remove(GeneralConfig.PROFILE_WECHAT);
         editor.remove(GeneralConfig.PROFILE_LOGIN_ACCESS_TOKEN);
         editor.commit();
     }

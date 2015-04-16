@@ -71,16 +71,16 @@ public class ProfileActivity extends ActionBarActivity {
     public void logout(View view) {
 //        finish();
         Log.i(tag, "Logout from current user");
-        ProfileUtil.clearUserInfo(this);
+        ProfileUtil.logout(this);
         Toast.makeText(getApplicationContext(), "Logout complete.", Toast.LENGTH_SHORT).show();
 
-        Log.d(tag, "clear UI");
-        et_profile_email.setText(EMPTY_STRING);
-        et_profile_password.setText(EMPTY_STRING);
-        et_profile_nickname.setText(EMPTY_STRING);
-        et_profile_phone.setText(EMPTY_STRING);
-        et_profile_wechat.setText(EMPTY_STRING);
-        tv_lastLoginTimestamp.setText(EMPTY_STRING);
+//        Log.d(tag, "clear UI");
+//        et_profile_email.setText(EMPTY_STRING);
+//        et_profile_password.setText(EMPTY_STRING);
+//        et_profile_nickname.setText(EMPTY_STRING);
+//        et_profile_phone.setText(EMPTY_STRING);
+//        et_profile_wechat.setText(EMPTY_STRING);
+//        tv_lastLoginTimestamp.setText(EMPTY_STRING);
 
         Log.d(tag, "return to login screen");
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
