@@ -199,9 +199,9 @@ public class DBManagerSoco {
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
 
         Log.d(tag, "Query project attributes: select * from " + DataConfig.TABLE_ATTRIBUTE
-                + " where " + DataConfig.COLUMN_ACTIVITY_ID + " = " + pid);
+                + " where " + DataConfig.COLUMN_ATTRIBUTE_PID + " = " + pid);
         Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ATTRIBUTE +
-                        " where " + DataConfig.COLUMN_ACTIVITY_ID + " = ?",
+                        " where " + DataConfig.COLUMN_ATTRIBUTE_PID + " = ?",
                 new String[]{String.valueOf(pid)});
 
         int count = 0;
