@@ -107,6 +107,8 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
                     if(to_type == HttpConfig.MESSAGE_TO_TYPE_2) {   //type 2: send to activity
                         DBManagerSoco dbManagerSoco = ((SocoApp) context).dbManagerSoco;
                         int aid_local = dbManagerSoco.findLocalAidByServerAid(Integer.parseInt(to_id));
+                        if(aid_local == -1)
+                            Log.e(tag, "cannot find local activity with remote id " + to_id);
                         Log.i(tag, "add comment to project: " + aid_local + ", " + content
                                 + ", " + from_id);
                         dbManagerSoco.addCommentToProject(content, aid_local, from_id);

@@ -99,12 +99,13 @@ public class DBManagerSoco {
             //add into activity table
             Log.i(tag, "Insert into db: " + p.pname + ", "
                     + SignatureUtil.now() + ", " + SignatureUtil.now() + ", "
-                    + SignatureUtil.genSHA1(p) + ", " + DataConfig.VALUE_ACTIVITY_ACTIVE);
+                    + SignatureUtil.genSHA1(p) + ", " + DataConfig.VALUE_ACTIVITY_ACTIVE + ", "
+                    + p.pid_onserver);
             db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY
                             + " VALUES(null, ?, ?, ?, ?, ?, ?, ?)",
                     new Object[]{p.pname, "",
                             SignatureUtil.now(), SignatureUtil.now(), SignatureUtil.genSHA1(p),
-                            DataConfig.VALUE_ACTIVITY_ACTIVE, null});
+                            DataConfig.VALUE_ACTIVITY_ACTIVE, p.pid_onserver});
 
             //get pid
             String query = "SELECT MAX(" + DataConfig.COLUMN_ACTIVITY_ID

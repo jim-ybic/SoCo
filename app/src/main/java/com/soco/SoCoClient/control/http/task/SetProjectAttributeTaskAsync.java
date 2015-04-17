@@ -31,10 +31,10 @@ public class SetProjectAttributeTaskAsync extends AsyncTask<Void, Void, Boolean>
         this.attrMap = attrMap;
 
         //todo: remove testing script
-        if(pid_onserver == null){
-            Log.e(tag, "pid_onserver is null");
-            this.pid_onserver = "1";
-        }
+//        if(pid_onserver == null){
+//            Log.e(tag, "pid_onserver is null");
+//            this.pid_onserver = "1";
+//        }
     }
 
     @Override

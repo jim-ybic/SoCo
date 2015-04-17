@@ -46,7 +46,7 @@ public class SignatureUtil {
         String data = p.pid + ", " + p.pname + ", "
                         + p.pcreate_timestamp + ", " + p.pupdate_timestamp;
         String s = genSHA1(data, SIGNATURE_KEY);
-        Log.i(tag, "Gen SHA1 signature for project " + p.pname + " is: " + s);
+        Log.d(tag, "Gen SHA1 signature for project " + p.pname + " is: " + s);
         return s;
     }
 
