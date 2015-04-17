@@ -14,15 +14,18 @@ public class SendMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
     static String tag = "SendMessageTask";
 
     String url;
-    String from_type, from_id, to_type, to_id;
+    int from_type, to_type;
+    String from_id, to_id;
     String timestamp, device;
-    String content, content_type;
+    String content;
+    int content_type;
 
     public SendMessageTaskAsync(
             String url,
-            String from_type, String from_id, String to_type, String to_id,
+            int from_type, String from_id,
+            int to_type, String to_id,
             String timestamp, String device,
-            String content_type, String content
+            int content_type, String content
     ){
         Log.i(tag, "Create new HttpTask: "
                 + url + ", " + from_type + ", " + from_id + ", " + to_type + ", " + to_id
@@ -51,9 +54,10 @@ public class SendMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
     }
 
     public void execute(String url,
-                        String from_type, String from_id, String to_type, String to_id,
+                        int from_type, String from_id,
+                        int to_type, String to_id,
                         String timestamp, String device,
-                        String content_type, String content){
+                        int content_type, String content){
         Object response = request(url, from_type, from_id, to_type,to_id,
                 timestamp, device, content_type, content);
         if (response != null)
@@ -61,18 +65,19 @@ public class SendMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
     }
 
     public Object request(String url,
-                                 String from_type, String from_id, String to_type, String to_id,
+                                 int from_type, String from_id,
+                                 int to_type, String to_id,
                                  String timestamp, String device,
-                                 String content_type, String content) {
+                                 int content_type, String content) {
         JSONObject data = new JSONObject();
         try {
-            data.put(HttpConfig.JSON_KEY_FROM_TYPE, Integer.parseInt(from_type));
+            data.put(HttpConfig.JSON_KEY_FROM_TYPE, from_type);
             data.put(HttpConfig.JSON_KEY_FROM_ID, from_id);
-            data.put(HttpConfig.JSON_KEY_TO_TYPE, Integer.parseInt(to_type));
+            data.put(HttpConfig.JSON_KEY_TO_TYPE, to_type);
             data.put(HttpConfig.JSON_KEY_TO_ID, to_id);
             data.put(HttpConfig.JSON_KEY_SEND_DATE_TIME, timestamp);
-            data.put(HttpConfig.JSON_KEY_FROM_DEVICE, TEST_DEVICE_NAME);
-            data.put(HttpConfig.JSON_KEY_CONTENT_TYPE, Integer.parseInt(content_type));
+            data.put(HttpConfig.JSON_KEY_FROM_DEVICE, device);
+            data.put(HttpConfig.JSON_KEY_CONTENT_TYPE, content_type);
             data.put(HttpConfig.JSON_KEY_CONTENT, content);
 
             Log.i(tag, "Post Json: " + data);

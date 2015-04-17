@@ -174,6 +174,21 @@ public class DBManagerSoco {
         return p;
     }
 
+    public int findLocalAidByServerAid(int aid_onserver){
+        Log.d(tag, "select * from " + DataConfig.TABLE_ACTIVITY
+                + " where " + DataConfig.COLUMN_ACTIVITY_ID_ONSERVER + " = " + aid_onserver);
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ACTIVITY +
+                        " where " + DataConfig.COLUMN_ACTIVITY_ID_ONSERVER + " = ?",
+                new String[] {String.valueOf(aid_onserver)});
+
+        int aid = -1;
+        while (c.moveToNext()){
+            aid = c.getInt(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ID));
+        }
+
+        return aid;
+    }
+
     public String findProjectIdOnserver(int pid){
         Project p = loadProjectByPid(pid);
         return p.pid_onserver;

@@ -10,11 +10,13 @@ import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.HttpUtil;
 import com.soco.SoCoClient.control.http.task.JoinProjectByInviteTaskAsync;
+import com.soco.SoCoClient.control.http.task.RetrieveMessageTaskAsync;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Project;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Timer;
@@ -94,36 +96,16 @@ public class HeartbeatService extends Service {
                 Log.i(tag, "Parse result: " + HttpConfig.JSON_VALUE_RESPONSE_STATUS_SUCCESS);
 
                 //retrieve all invitations, if any
-                if(json.has(HttpConfig.JSON_KEY_INVITATION)) {
-                    JSONArray invitationArray = new JSONArray(json.getString("invitation"));
-                    Log.i(tag, "Invitation str: " + json.getString(HttpConfig.JSON_KEY_INVITATION));
-                    for (int i = 0; i < invitationArray.length(); i++) {
-                        JSONObject invitation = invitationArray.getJSONObject(i);
-                        String inviter = invitation.getString("inviter");
-                        String pid_onserver = invitation.getString("activity");
-                        String date = invitation.getString("date");
-                        Log.i(tag, "Get invitation: " + inviter + ", " + pid_onserver + ", " + date);
+                if(json.has(HttpConfig.JSON_KEY_INVITATION))
+                    return joinActivititiesByInvite(json);
 
-                        //add project into database
-                        DBManagerSoco dbManagerSoco = ((SocoApp) getApplication()).dbManagerSoco;
-                        Project p = new Project("");
-                        p.pid_onserver = pid_onserver;
-                        int pid = dbManagerSoco.addProject(p);
-                        Log.i(tag, "New project added to database, pid_onserver is " + pid_onserver);
+                //check if there is any new message
+                if(json.has(HttpConfig.JSON_KEY_MESSAGE))
+                    retrieveMessage(json);
 
-                        //retrieve project details
-                        String url = ProfileUtil.getJoinProjectByInviteUrl(getApplicationContext());
-                        JoinProjectByInviteTaskAsync task = new JoinProjectByInviteTaskAsync(
-                                url, String.valueOf(pid), pid_onserver,
-                                getApplicationContext(), inviter);
-                        task.execute();
-                    }
-                }
-
-                return true;
             }
             else {
-                Log.e(tag, "Cannot receive parse from server");
+                Log.e(tag, "Server response status is failure");
                 return false;
             }
         } catch (Exception e) {
@@ -131,6 +113,63 @@ public class HeartbeatService extends Service {
             e.printStackTrace();
             return false;
         }
+
+        return true;
+    }
+
+    private boolean retrieveMessage(JSONObject json) {
+        try {
+            String status = json.getString(HttpConfig.JSON_KEY_MESSAGE);
+            Log.i(tag, "new message status: " + status);
+            //retrieve message
+            String url = ProfileUtil.getRetrieveMessageUrl(getApplicationContext());
+            RetrieveMessageTaskAsync task = new RetrieveMessageTaskAsync(
+                    url, getApplicationContext());
+            task.execute();
+        } catch (Exception e) {
+            Log.e(tag, "Cannot convert parse to Json object: " + e.toString());
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean joinActivititiesByInvite(JSONObject json) {
+        try {
+            Log.i(tag, "Invitation str: " + json.getString(HttpConfig.JSON_KEY_INVITATION));
+            JSONArray invitationArray = new JSONArray(
+                    json.getString(HttpConfig.JSON_KEY_INVITATION));
+
+            //process each activity invitation
+            for (int i = 0; i < invitationArray.length(); i++) {
+                JSONObject invitation = invitationArray.getJSONObject(i);
+                String inviter = invitation.getString(HttpConfig.JSON_KEY_INVITER);
+                String pid_onserver = invitation.getString(HttpConfig.JSON_KEY_PROJECT_ID);
+                String date = invitation.getString(HttpConfig.JSON_KEY_DATE);
+                Log.i(tag, "Get invitation: " + inviter + ", " + pid_onserver + ", " + date);
+
+                //add project into database
+                DBManagerSoco dbManagerSoco = ((SocoApp) getApplication()).dbManagerSoco;
+                Project p = new Project("");
+                p.pid_onserver = pid_onserver;
+                int pid = dbManagerSoco.addProject(p);
+                Log.i(tag, "New project added to database, pid_onserver is " + pid_onserver);
+
+                //retrieve project details
+                String url = ProfileUtil.getJoinProjectByInviteUrl(getApplicationContext());
+                JoinProjectByInviteTaskAsync task = new JoinProjectByInviteTaskAsync(
+                        url, String.valueOf(pid), pid_onserver,
+                        getApplicationContext(), inviter);
+                task.execute();
+            }
+        } catch (Exception e) {
+            Log.e(tag, "Cannot convert parse to Json object: " + e.toString());
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
 }

@@ -37,7 +37,6 @@
             android:layout_below="@id/list_item_entry_title"
             android:layout_alignLeft="@id/list_item_entry_title"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:singleLine="true"
             android:textColor="?android:attr/textColorSecondary" />
 
     </RelativeLayout>

@@ -70,6 +70,8 @@ public class LoginActivity extends ActionBarActivity {
 
         if(!savedLoginAccessToken.isEmpty()) {
             Log.i(tag, "Saved login access token can be used, skip login screen");
+            et_login_email.setText(savedLoginEmail);
+            et_login_password.setText(savedLoginPassword);
             login(null);
         }
     }

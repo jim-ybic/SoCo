@@ -4,8 +4,8 @@ package com.soco.SoCoClient.view.ui.tab;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
-import com.soco.SoCoClient.control.http.task.ArchiveProjectTaskAsync;
 import com.soco.SoCoClient.control.http.task.SendMessageTaskAsync;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
@@ -27,9 +27,6 @@ import java.util.ArrayList;
 
 public class ProjectUpdatesFragment extends Fragment implements View.OnClickListener  {
 
-    public static String MESSAGE_CONTENT_TYPE_1 = "1";
-    public static String MESSAGE_FROM_TYPE_1 = "1";
-    public static String MESSAGE_TO_TYPE_2 = "2";
     public static String TEST_DEVICE_SAMSUNG = "TEST DEVICE SAMSUNG";
 
     String tag = "ProjectUpdatesFragment";
@@ -65,8 +62,8 @@ public class ProjectUpdatesFragment extends Fragment implements View.OnClickList
         rootView = inflater.inflate(R.layout.fragment_project_updates, container, false);
         lv_updates = (ListView) rootView.findViewById(R.id.list_comments);
 
-
         rootView.findViewById(R.id.send).setOnClickListener(this);
+//        rootView.findViewById(R.id.sendToJim).setOnClickListener(this);
         listComments();
 
         return rootView;
@@ -78,8 +75,41 @@ public class ProjectUpdatesFragment extends Fragment implements View.OnClickList
             case R.id.send:
                 add();
                 break;
+//            case R.id.sendToJim:
+//                addToJim();
+//                break;
         }
     }
+
+//    public void addToJim(){
+//        EditText et_comment = (EditText)rootView.findViewById(R.id.commentToJim);
+//        String comment = et_comment.getText().toString();
+//        Log.d(tag, "add comment into database: " + comment);
+//
+//        String user = socoApp.nickname;
+//        String email = socoApp.loginEmail;
+//        if(user == null || user.isEmpty())
+//            user = socoApp.loginEmail;
+//        Log.i(tag, "current user: " + user);
+//
+//        DBManagerSoco dbManagerSoco = socoApp.dbManagerSoco;
+//        dbManagerSoco.addCommentToProject(comment, pid, user);
+//
+//        Toast.makeText(getActivity().getApplicationContext(), "Comment added",
+//                Toast.LENGTH_SHORT).show();
+//
+//        String url = ProfileUtil.getSendMessageUrl(getActivity());
+//        SendMessageTaskAsync task = new SendMessageTaskAsync(url,
+//                HttpConfig.MESSAGE_FROM_TYPE_1, email,
+//                HttpConfig.MESSAGE_TO_TYPE_1, "jim.ybic@gmail.com",
+//                SignatureUtil.now(), TEST_DEVICE_SAMSUNG,
+//                HttpConfig.MESSAGE_CONTENT_TYPE_1, comment);
+//        task.execute();
+//
+//        //refresh UI
+//        et_comment.setText("");
+//        listComments();
+//    }
 
     public void add(){
         EditText et_comment = (EditText)rootView.findViewById(R.id.comment);
@@ -100,16 +130,17 @@ public class ProjectUpdatesFragment extends Fragment implements View.OnClickList
 
         String url = ProfileUtil.getSendMessageUrl(getActivity());
         SendMessageTaskAsync task = new SendMessageTaskAsync(url,
-                MESSAGE_FROM_TYPE_1, email,
-                MESSAGE_TO_TYPE_2, pid_onserver,
+                HttpConfig.MESSAGE_FROM_TYPE_1, email,
+                HttpConfig.MESSAGE_TO_TYPE_2, pid_onserver,
                 SignatureUtil.now(), TEST_DEVICE_SAMSUNG,
-                MESSAGE_CONTENT_TYPE_1, comment);
+                HttpConfig.MESSAGE_CONTENT_TYPE_1, comment);
         task.execute();
 
         //refresh UI
         et_comment.setText("");
         listComments();
     }
+
 
     public void listComments() {
         Log.d(tag, "List project comments");

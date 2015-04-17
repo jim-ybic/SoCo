@@ -283,4 +283,14 @@ public class ProfileUtil {
     }
 
 
+    public static String getRetrieveMessageUrl(Context context) {
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = HttpConfig.SERVER_PATH_RECEIVE_MESSAGE;
+        String token = getLoginAccessToken(context);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
+        Log.d(tag, "Receive message url: " + url);
+        return url;
+    }
 }
