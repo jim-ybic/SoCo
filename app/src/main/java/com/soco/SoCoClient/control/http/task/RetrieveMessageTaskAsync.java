@@ -96,11 +96,14 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
                     String send_date_time = message.getString(HttpConfig.JSON_KEY_SEND_DATE_TIME);
                     Log.i(tag, "Get message, timestamp: " + send_date_time);
 
+                    String signature = message.getString(HttpConfig.JSON_KEY_SIGNATURE);
+                    Log.i(tag, "Get message, signature: " + signature);
+
                     int content_type = message.getInt(HttpConfig.JSON_KEY_CONTENT_TYPE);
                     String content = message.getString(HttpConfig.JSON_KEY_CONTENT);
                     Log.i(tag, "Get message, content: " + content_type + ", " + content);
 
-                    //todo: add message into database
+                    Log.d(tag, "add message into database");
                     if(to_type == HttpConfig.MESSAGE_TO_TYPE_2) {   //type 2: send to activity
                         DBManagerSoco dbManagerSoco = ((SocoApp) context).dbManagerSoco;
                         int aid_local = dbManagerSoco.findLocalAidByServerAid(Integer.parseInt(to_id));
@@ -112,7 +115,11 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
                         Log.e(tag, "no available function yet for sending message to member");
                     }
 
-                    //todo: send ack to server
+                    Log.d(tag, "send ack to server");
+                    String url = ProfileUtil.getAckRetrieveMessageUrl(context);
+                    AckRetrieveMessageTaskAsync task = new AckRetrieveMessageTaskAsync(
+                            url, signature);
+                    task.execute();
                 }
             }
             else {

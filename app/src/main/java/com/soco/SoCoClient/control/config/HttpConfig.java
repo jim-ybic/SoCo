@@ -28,7 +28,8 @@ public class HttpConfig {
     public static String JSON_KEY_INVITER = "inviter";
     public static String JSON_KEY_DATE = "date";
     public static String JSON_KEY_MESSAGE = "message";
-
+    public static String JSON_KEY_ACK = "ack";
+    public static String JSON_KEY_SIGNATURE = "signature";
 
     public static String JSON_KEY_ATTRIBUTE_NAME = "name";
     public static String JSON_KEY_ATTRIBUTE_INDEX = "index";
@@ -61,6 +62,8 @@ public class HttpConfig {
             "/socoserver/mobile/joinActivityByInvite?";
     public static String SERVER_PATH_SEND_MESSAGE = "/socoserver/exchange/sendOut?";
     public static String SERVER_PATH_RECEIVE_MESSAGE = "/socoserver/exchange/receiveMsg?";
+    public static String SERVER_PATH_ACK_RECEIVE_MESSAGE = "/socoserver/exchange/ackReceivedMsg?";
+
 
     public static String HTTP_TOKEN_TYPE = "access_token";
     public static String KEYWORD_REGISTRATION_SUBMITTED = "Your account registration email";
