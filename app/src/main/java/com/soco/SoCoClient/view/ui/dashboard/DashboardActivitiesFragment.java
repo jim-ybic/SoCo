@@ -1,15 +1,19 @@
-package com.soco.SoCoClient.view;
+package com.soco.SoCoClient.view.ui.dashboard;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -29,17 +33,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.soco.SoCoClient.view.LoginActivity;
+import com.soco.SoCoClient.view.ProfileActivity;
+import com.soco.SoCoClient.view.ShowInactiveProjectsActivity;
 import com.soco.SoCoClient.view.ui.project.ShowSingleProjectActivity;
 import com.soco.SoCoClient.view.ui.section.EntryAdapter;
 import com.soco.SoCoClient.view.ui.section.EntryItem;
 import com.soco.SoCoClient.view.ui.section.Item;
 import com.soco.SoCoClient.view.ui.section.SectionItem;
 
-public class ShowActiveProjectsActivity extends ActionBarActivity {
+public class DashboardActivitiesFragment extends Fragment implements View.OnClickListener {
 
     // Local view
     private ListView lv_active_programs;
-    public static String tag = "ShowActivePrograms";
+    public static String tag = "DashboardActivities";
 
     public static int INTENT_SHOW_SINGLE_PROGRAM = 101;
 
@@ -49,23 +56,43 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
     private String loginEmail, loginPassword;
     ArrayList<Item> activeProjectItems;
 
+    View rootView;
+    SocoApp socoApp;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_active_projects);
-        findViewsById();
+//        setContentView(R.layout.activity_show_active_projects);
 
-        loginEmail = ((SocoApp)getApplicationContext()).loginEmail;
-        loginPassword = ((SocoApp)getApplicationContext()).loginPassword;
+        socoApp = (SocoApp) getActivity().getApplication();
+
+        loginEmail = socoApp.loginEmail;
+        loginPassword = socoApp.loginPassword;
         Log.i(tag, "onCreate, get login info: " + loginEmail + ", " + loginPassword);
 
-        dbmgrSoco = new DBManagerSoco(this);
-        dbmgrSoco.context = getApplicationContext();
-        ((SocoApp)getApplicationContext()).dbManagerSoco = dbmgrSoco;
+        dbmgrSoco = new DBManagerSoco(getActivity());
+        dbmgrSoco.context = getActivity().getApplicationContext();
+        socoApp.dbManagerSoco = dbmgrSoco;
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+    }
 
-        listProjects(null);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        Log.d(tag, "on create view");
+        rootView = inflater.inflate(R.layout.fragment_dashboard_activities, container, false);
+        Log.d(tag, "Found root view: " + rootView);
+
+        lv_active_programs = (ListView) rootView.findViewById(R.id.lv_active_programs);
+
+        //set button listeners
+        rootView.findViewById(R.id.add).setOnClickListener(this);
+        rootView.findViewById(R.id.create).setOnClickListener(this);
+        rootView.findViewById(R.id.archive).setOnClickListener(this);
+//        rootView.findViewById(R.id.exit).setOnClickListener(this);
+
+        listProjects();
 
         lv_active_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")
@@ -78,9 +105,9 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
 
                     String name = item.title;
                     int pid = ProjectUtil.findPidByPname(projects, name);
-                    ((SocoApp)getApplicationContext()).pid = pid;
+                    socoApp.pid = pid;
                     String pid_onserver = dbmgrSoco.findProjectIdOnserver(pid);
-                    ((SocoApp)getApplicationContext()).pid_onserver = pid_onserver;
+                    socoApp.pid_onserver = pid_onserver;
                     Log.i(tag, "pid/pid_onserver: " + pid + ", " + pid_onserver);
 
                     //new fragment-based activity
@@ -89,7 +116,10 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 }
             }
         });
+
+        return rootView;
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -99,20 +129,17 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 Log.i(tag, "onActivityResult, return from ShowSingleProject");
                 Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
                 projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
-                listProjects(null);
+                listProjects();
                 break;
             }
         }
     }
 
-    private void findViewsById() {
-        lv_active_programs = (ListView) findViewById(R.id.lv_active_programs);
-    }
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_show_active_programs, menu);
-        return true;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_show_active_programs, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+        return;
     }
 
     @Override
@@ -120,7 +147,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         int id = item.getItemId();
         if (id == R.id.action_profile) {
             Log.i("setting", "Click on Profile.");
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            Intent intent = new Intent(getActivity().getApplicationContext(), ProfileActivity.class);
             intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
             intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
             startActivity(intent);
@@ -129,11 +156,11 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void createProject(View view) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+    public void createProject() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle("Create new project");
         alert.setMessage("So I want to ...");
-        final EditText input = new EditText(this);
+        final EditText input = new EditText(getActivity());
         alert.setView(input);
 
         alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
@@ -141,13 +168,13 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 String n = input.getText().toString();
                 Project p = new Project(n);
                 int pid = dbmgrSoco.addProject(p);
-                Toast.makeText(getApplicationContext(),
+                Toast.makeText(getActivity().getApplicationContext(),
                         "Project created.", Toast.LENGTH_SHORT).show();
-                ProjectUtil.serverCreateProject(n, getApplicationContext(),
+                ProjectUtil.serverCreateProject(n, getActivity().getApplicationContext(),
                         loginEmail, loginPassword, String.valueOf(pid),
                         p.getSignature(), p.getTag(), p.getType());
                 projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
-                listProjects(null);
+                listProjects();
             }
         });
         alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
@@ -155,11 +182,11 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 String n = input.getText().toString();
                 Project p = new Project(n);
                 int pid = dbmgrSoco.addProject(p);
-                ProjectUtil.serverCreateProject(n, getApplicationContext(),
+                ProjectUtil.serverCreateProject(n, getActivity().getApplicationContext(),
                         loginEmail, loginPassword, String.valueOf(pid),
                         p.getSignature(), p.getTag(), p.getType());
-                Intent intent = new Intent(getApplicationContext(), ShowSingleProjectActivity.class);
-                ((SocoApp)getApplicationContext()).pid = pid;
+                Intent intent = new Intent(getActivity().getApplicationContext(), ShowSingleProjectActivity.class);
+                socoApp.pid = pid;
                 Log.i(tag, "Start activity to view programName details");
                 startActivityForResult(intent, -1);
             }
@@ -172,7 +199,7 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
         alert.show();
     }
 
-    public void listProjects(View view) {
+    public void listProjects() {
         Log.d(tag, "List projects test");
         activeProjectItems = new ArrayList<Item>();
 
@@ -186,47 +213,65 @@ public class ShowActiveProjectsActivity extends ActionBarActivity {
                 activeProjectItems.add(new EntryItem(p.pname, p.getMoreInfo()));
         }
 
-        EntryAdapter adapter = new EntryAdapter(this, activeProjectItems);
+        EntryAdapter adapter = new EntryAdapter(getActivity(), activeProjectItems);
         lv_active_programs.setAdapter(adapter);
-
     }
 
-    public void showCompletedProjects(View view) {
-        Intent intent = new Intent(this, ShowInactiveProjectsActivity.class);
+    public void showCompletedProjects() {
+        Intent intent = new Intent(getActivity(), ShowInactiveProjectsActivity.class);
         intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
         intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
         startActivity(intent);
     }
 
 //    public void exit(View view) {
-//        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //        intent.putExtra(LoginActivity.FLAG_EXIT, true);
 //        startActivity(intent);
 //    }
 
-    public void quickAdd(View view){
-        String name = ((EditText)findViewById(R.id.et_quickadd)).getText().toString();
+    public void quickAdd(){
+        String name = ((EditText)rootView.findViewById(R.id.et_quickadd)).getText().toString();
         Project p = new Project(name);
         int pid = dbmgrSoco.addProject(p);
-        Toast.makeText(getApplicationContext(),
+        Toast.makeText(getActivity().getApplicationContext(),
                 "Project created success.", Toast.LENGTH_SHORT).show();
-        ProjectUtil.serverCreateProject(name, getApplicationContext(),
+        ProjectUtil.serverCreateProject(name, getActivity().getApplicationContext(),
                 loginEmail, loginPassword, String.valueOf(pid),
                 p.getSignature(), p.getTag(), p.getType());
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
-        listProjects(null);
-        ((EditText)findViewById(R.id.et_quickadd)).setText("", TextView.BufferType.EDITABLE);
-        InputMethodManager imm = (InputMethodManager)getSystemService(
+        listProjects();
+        ((EditText)rootView.findViewById(R.id.et_quickadd)).setText("", TextView.BufferType.EDITABLE);
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
                 Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow((findViewById(R.id.et_quickadd)).getWindowToken(), 0);
+        imm.hideSoftInputFromWindow((rootView.findViewById(R.id.et_quickadd)).getWindowToken(), 0);
     }
 
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         Log.i(tag, "onResume start, reload active projects");
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
-        listProjects(null);
+        listProjects();
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.add:
+                quickAdd();
+                break;
+            case R.id.create:
+                createProject();
+                break;
+            case R.id.archive:
+                showCompletedProjects();
+                break;
+//            case R.id.exit:
+//                exit(v);
+//                break;
+        }
     }
 
 }

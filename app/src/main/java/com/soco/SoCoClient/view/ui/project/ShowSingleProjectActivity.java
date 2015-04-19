@@ -1,9 +1,9 @@
-package com.soco.SoCoClient.view;
+package com.soco.SoCoClient.view.ui.project;
 
 //import info.androidhive.tabsswipe.adapter.TabsPagerAdapter;
 //import info.androidhive.tabsswipe.R;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.view.ui.tab.SingleProjectTabsPagerAdapter;
+import com.soco.SoCoClient.view.ui.project.SingleProjectTabsPagerAdapter;
 
 import android.app.ActionBar;
 import android.os.Bundle;

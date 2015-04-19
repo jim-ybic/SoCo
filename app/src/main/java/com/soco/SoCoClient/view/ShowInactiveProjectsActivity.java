@@ -94,26 +94,26 @@ public class ShowInactiveProjectsActivity extends ActionBarActivity {
         lv_inactive_projects = (ListView) findViewById(R.id.lv_completed_programs);
     }
 
-    void gotoPreviousScreen(){
-        Intent intent = new Intent(this, ShowActiveProjectsActivity.class);
-        intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
-        intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
-        startActivity(intent);
-    }
+//    void gotoPreviousScreen(){
+//        Intent intent = new Intent(this, ShowActiveProjectsActivity.class);
+//        intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
+//        intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
+//        startActivity(intent);
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                gotoPreviousScreen();
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                gotoPreviousScreen();
+//        }
+//        return true;
+//    }
 
-    @Override
-    public void onBackPressed() {
-        gotoPreviousScreen();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        gotoPreviousScreen();
+//    }
 
     public void listProjects(ListView listView, List<Project> projects) {
         ArrayList<Map<String, String>> data = new ArrayList<>();

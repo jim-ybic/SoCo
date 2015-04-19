@@ -20,6 +20,7 @@ import com.soco.SoCoClient.control.http.task.RegisterTaskAsync;
 import com.soco.SoCoClient.control.util.LoginUtil;
 import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.SocoApp;
+import com.soco.SoCoClient.view.ui.dashboard.DashboardActivity;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -126,11 +127,16 @@ public class LoginActivity extends ActionBarActivity {
 
             Toast.makeText(getApplicationContext(), "Hello, " + nickname,
                     Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, ShowActiveProjectsActivity.class);
+
+            //todo: testing script
+//            Intent intent = new Intent(this, ShowActiveProjectsActivity.class);
+            Intent intent = new Intent(this, DashboardActivity.class);
+
 //            intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
 //            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
             ((SocoApp)getApplicationContext()).loginEmail = loginEmail;
             ((SocoApp)getApplicationContext()).loginPassword = loginPassword;
+
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Oops, login failed.",

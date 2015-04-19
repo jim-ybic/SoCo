@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.view.ui.tab;
+package com.soco.SoCoClient.view.ui.project;
 
 import android.app.Activity;
 import android.app.AlertDialog;

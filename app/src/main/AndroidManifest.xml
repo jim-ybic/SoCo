@@ -61,6 +61,11 @@
             android:launchMode="singleTop" >
         </activity>
         <activity
+            android:name=".view.ui.dashboard.DashboardActivity"
+            android:label="@string/title_dashboard"
+            android:launchMode="singleTop" >
+        </activity>
+        <activity
             android:name=".view.ShowInactiveProjectsActivity"
             android:label="@string/title_activity_show_inactive_projects"
             android:launchMode="singleTop"
@@ -101,10 +106,10 @@
         <activity
             android:name=".view.ShowSharedFilesActivity"
             android:label="@string/title_activity_show_shared_files"
-            android:parentActivityName=".view.ShowSingleProjectActivity" >
+            android:parentActivityName=".view.ui.project.ShowSingleProjectActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.soco.SoCoClient.view.ShowSingleProjectActivity" />
+                android:value=".view.ui.project.ShowSingleProjectActivity" />
         </activity>
 
         <service
@@ -127,7 +132,7 @@
                 <!--android:value="com.soco.SoCoClient.view.ShowActiveProjectsActivity" />-->
         <!--</activity>-->
         <activity
-            android:name=".view.ShowSingleProjectActivity"
+            android:name=".view.ui.project.ShowSingleProjectActivity"
             android:label="@string/title_show_single_project" >
         </activity>
     </application>
