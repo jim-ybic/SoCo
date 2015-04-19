@@ -2,14 +2,14 @@ package com.soco.SoCoClient.control.config;
 
 public class HttpConfig {
 
-    public static String HTTP_TYPE_LOGIN = "login";
-    public static String HTTP_TYPE_REGISTER = "register";
-    public static String HTTP_TYPE_CREATE_PROJECT = "create_project";
-    public static String HTTP_TYPE_ARCHIVE_PROJECT = "archive_project";
-    public static String HTTP_TYPE_UPDATE_PROJECT_NAME = "update_project_name";
-    public static String HTTP_TYPE_SET_PROJECT_ATTRIBUTE = "set_project_attribute";
-    public static String HTTP_TYPE_HEART_BEAT = "heartbeat";
-    public static String HTTP_TYPE_INVITE_PROJECT_MEMBER = "invite_project_member";
+//    public static String HTTP_TYPE_LOGIN = "login";
+//    public static String HTTP_TYPE_REGISTER = "register";
+//    public static String HTTP_TYPE_CREATE_PROJECT = "create_project";
+//    public static String HTTP_TYPE_ARCHIVE_PROJECT = "archive_project";
+//    public static String HTTP_TYPE_UPDATE_PROJECT_NAME = "update_project_name";
+//    public static String HTTP_TYPE_SET_PROJECT_ATTRIBUTE = "set_project_attribute";
+//    public static String HTTP_TYPE_HEART_BEAT = "heartbeat";
+//    public static String HTTP_TYPE_INVITE_PROJECT_MEMBER = "invite_project_member";
 
     public static String JSON_KEY_USERNAME = "username";
     public static String JSON_KEY_EMAIL = "email";
@@ -32,7 +32,7 @@ public class HttpConfig {
     public static String JSON_KEY_SIGNATURE = "signature";
 
     public static String JSON_KEY_ATTRIBUTE_NAME = "name";
-    public static String JSON_KEY_ATTRIBUTE_INDEX = "index";
+//    public static String JSON_KEY_ATTRIBUTE_INDEX = "index";
     public static String JSON_KEY_ATTRIBUTE_TYPE = "type";
     public static String JSON_KEY_ATTRIBUTE_VALUE = "value";
 

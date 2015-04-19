@@ -1,6 +1,5 @@
-package com.soco.SoCoClient.view.ui.project;
+package com.soco.SoCoClient.view.ui.project.single;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -42,8 +41,6 @@ import com.soco.SoCoClient.control.dropbox.DropboxUtil;
 import com.soco.SoCoClient.control.util.ProjectUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Project;
-import com.soco.SoCoClient.view.ProjectLocationActivity;
-import com.soco.SoCoClient.view.ShowSharedFilesActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,7 +68,7 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
     ScrollView sv_sproject;
 
     DBManagerSoco dbmgrSoco = null;
-    String original_pname;
+//    String original_pname;
 
     Project project;
     ArrayList<HashMap<String, String>> attrMap;
@@ -108,7 +105,7 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         rootView.findViewById(R.id.et_spdate).setOnClickListener(this);
         rootView.findViewById(R.id.et_sptime).setOnClickListener(this);
         rootView.findViewById(R.id.bt_splocation).setOnClickListener(this);
-        rootView.findViewById(R.id.bt_shared_file_details).setOnClickListener(this);
+//        rootView.findViewById(R.id.bt_shared_file_details).setOnClickListener(this);
         rootView.findViewById(R.id.bt_call).setOnClickListener(this);
         rootView.findViewById(R.id.bt_email).setOnClickListener(this);
 
@@ -134,9 +131,9 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
             case R.id.bt_splocation:
                 showLocationDetails();
                 break;
-            case R.id.bt_shared_file_details:
-                sharedFileDetails();
-                break;
+//            case R.id.bt_shared_file_details:
+//                sharedFileDetails();
+//                break;
             case R.id.bt_call:
                 call();
                 break;
@@ -211,7 +208,7 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_show_single_program, menu);
+        inflater.inflate(R.menu.menu_show_single_project, menu);
         super.onCreateOptionsMenu(menu, inflater);
         return;
     }
@@ -426,8 +423,8 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         ArrayList<String> sharedFileDisplayName = dbmgrSoco.getSharedFilesDisplayName(pid);
         String summary = SignatureUtil.genSharedFileSummary(sharedFileDisplayName);
         Log.i(tag, "Shared file summary: " + summary);
-        ((TextView) rootView.findViewById(R.id.tv_shared_file_summary)).setText(summary,
-                TextView.BufferType.EDITABLE);
+//        ((TextView) rootView.findViewById(R.id.tv_shared_file_summary)).setText(summary,
+//                TextView.BufferType.EDITABLE);
     }
 
     HashMap<String, String> collectProjectAttributesFromScreen(){
@@ -801,29 +798,29 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
 //        startActivityForResult(i, Config.ACTIVITY_SHOW_MORE);
 //    }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case (100) : {  //show more
-                if (resultCode == Activity.RESULT_OK) {
-                    original_pname = data.getStringExtra(GeneralConfig.PROGRAM_PNAME);
-                }
-                break;
-            }
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        switch(requestCode) {
+//            case (100) : {  //show more
+//                if (resultCode == Activity.RESULT_OK) {
+//                    original_pname = data.getStringExtra(GeneralConfig.PROJECT_PNAME);
+//                }
+//                break;
+//            }
+//        }
+//    }
 
-    public void sharedFileDetails(){
-        Log.i(tag, "Show shared file details start, set attrMap for pid=" + pid);
-
-        socoApp.setAttrMap(attrMap);
-        socoApp.setPid(pid);
-        socoApp.dbManagerSoco = dbmgrSoco;
-
-        Intent i = new Intent(getActivity(), ShowSharedFilesActivity.class);
-        startActivityForResult(i, -1);
-    }
+//    public void sharedFileDetails(){
+//        Log.i(tag, "Show shared file details start, set attrMap for pid=" + pid);
+//
+//        socoApp.setAttrMap(attrMap);
+//        socoApp.setPid(pid);
+//        socoApp.dbManagerSoco = dbmgrSoco;
+//
+//        Intent i = new Intent(getActivity(), ShowSharedFilesActivity.class);
+//        startActivityForResult(i, -1);
+//    }
 
     public void showLocationDetails(){
         socoApp.setAttrMap(attrMap);

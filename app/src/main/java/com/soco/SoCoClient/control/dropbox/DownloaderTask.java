@@ -33,7 +33,7 @@ public class DownloaderTask extends AsyncTask<Void, Void, Boolean> {
     ContentResolver cr;
     Context context;
 
-    public DownloaderTask(//Context context,
+    public DownloaderTask(
                         DropboxAPI<AndroidAuthSession> dropboxApi,
                         String remoteFilePath,
                         Uri uri,
@@ -94,7 +94,7 @@ public class DownloaderTask extends AsyncTask<Void, Void, Boolean> {
 
             DropboxAPI.DropboxFileInfo info = null;
             try {
-                //todo: testing
+                //todo: testing, download function not ready yet
                 Log.d(tag, "Start to get file from dropbox");
                 info = dropboxApi.getFile("/c1025defa913032715d4aac356ebd44f8eab30c4" +
                         "/c2b605fb03833b5d739373b28d43d68c493f75c5" +

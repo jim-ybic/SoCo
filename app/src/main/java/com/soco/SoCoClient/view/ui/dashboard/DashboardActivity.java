@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.view.ui.project.SingleProjectTabsPagerAdapter;
 
 public class DashboardActivity extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener {

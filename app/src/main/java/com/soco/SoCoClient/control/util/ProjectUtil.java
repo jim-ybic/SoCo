@@ -113,6 +113,7 @@ public class ProjectUtil {
         dbmgrSoco.addSharedFile(pid, displayName, uri, remotePath, localPath);
     }
 
+
     public static HashMap<String, ArrayList<Project>> groupingProjectsByTag(List<Project> projects){
         HashMap<String, ArrayList<Project>> map = new HashMap<String, ArrayList<Project>>();
         for(Project p : projects){

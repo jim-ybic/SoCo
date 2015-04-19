@@ -19,6 +19,7 @@ import com.soco.SoCoClient.control.http.task.LoginTaskAsync;
 import com.soco.SoCoClient.control.http.task.RegisterTaskAsync;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.model.Profile;
+import com.soco.SoCoClient.view.ui.config.ServerConfigActivity;
 import com.soco.SoCoClient.view.ui.dashboard.DashboardActivity;
 
 

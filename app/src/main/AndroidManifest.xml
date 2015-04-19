@@ -56,23 +56,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.ShowActiveProjectsActivity"
-            android:label="@string/title_show_active_projects"
-            android:launchMode="singleTop" >
-        </activity>
-        <activity
             android:name=".view.ui.dashboard.DashboardActivity"
             android:label="@string/title_dashboard"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".view.ShowInactiveProjectsActivity"
+            android:name=".view.ui.project.list.ShowInactiveProjectsActivity"
             android:label="@string/title_activity_show_inactive_projects"
-            android:launchMode="singleTop"
-            android:parentActivityName=".view.ShowActiveProjectsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.ShowActiveProjectsActivity" />
+            android:launchMode="singleTop" >
         </activity>
 
         <meta-data
@@ -83,33 +74,16 @@
             android:value="AIzaSyCZmxbgzgDM4ncl6A8BWtw5AujhuAGPZ60" />
 
         <activity
-            android:name=".view.ProfileActivity"
-            android:label="@string/title_activity_profile"
-            android:parentActivityName=".view.ShowActiveProjectsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.ShowActiveProjectsActivity" />
+            android:name=".view.ui.config.ProfileActivity"
+            android:label="@string/title_activity_profile">
         </activity>
-        <!-- <activity -->
-        <!-- android:name=".zz.ShowMoreActivity" -->
-        <!-- android:label="@string/title_activity_show_more" -->
-        <!-- android:launchMode="singleTop" -->
-        <!-- android:parentActivityName=".view.ShowSingleProjectActivity" > -->
-        <!-- <meta-data -->
-        <!-- android:name="android.support.PARENT_ACTIVITY" -->
-        <!-- android:value=".view.ShowSingleProjectActivity" /> -->
-        <!-- </activity> -->
         <activity
-            android:name=".view.ServerConfigActivity"
+            android:name=".view.ui.config.ServerConfigActivity"
             android:label="@string/title_activity_server_config" >
         </activity>
         <activity
-            android:name=".view.ShowSharedFilesActivity"
-            android:label="@string/title_activity_show_shared_files"
-            android:parentActivityName=".view.ui.project.ShowSingleProjectActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.ui.project.ShowSingleProjectActivity" />
+            android:name=".zz.ShowSharedFilesActivity"
+            android:label="@string/title_activity_show_shared_files" >
         </activity>
 
         <service
@@ -120,19 +94,11 @@
             android:enabled="true" />
 
         <activity
-            android:name=".view.ProjectLocationActivity"
+            android:name=".view.ui.project.single.ProjectLocationActivity"
             android:label="@string/title_activity_project_location" >
         </activity>
-        <!--<activity-->
-            <!--android:name=".view.ShowSingleProjectNewActivity"-->
-            <!--android:label="@string/title_activity_show_single_project_new"-->
-            <!--android:parentActivityName=".view.ShowActiveProjectsActivity" >-->
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value="com.soco.SoCoClient.view.ShowActiveProjectsActivity" />-->
-        <!--</activity>-->
         <activity
-            android:name=".view.ui.project.ShowSingleProjectActivity"
+            android:name=".view.ui.project.single.ShowSingleProjectActivity"
             android:label="@string/title_show_single_project" >
         </activity>
     </application>

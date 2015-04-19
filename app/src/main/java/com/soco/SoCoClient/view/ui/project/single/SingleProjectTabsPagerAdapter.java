@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.view.ui.project;
+package com.soco.SoCoClient.view.ui.project.single;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

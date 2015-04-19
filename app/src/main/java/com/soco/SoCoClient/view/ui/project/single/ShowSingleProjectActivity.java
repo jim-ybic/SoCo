@@ -1,9 +1,8 @@
-package com.soco.SoCoClient.view.ui.project;
+package com.soco.SoCoClient.view.ui.project.single;
 
 //import info.androidhive.tabsswipe.adapter.TabsPagerAdapter;
 //import info.androidhive.tabsswipe.R;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.view.ui.project.SingleProjectTabsPagerAdapter;
 
 import android.app.ActionBar;
 import android.os.Bundle;
@@ -28,7 +27,7 @@ public class ShowSingleProjectActivity extends ActionBarActivity implements
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_show_single_project_new);
+        setContentView(R.layout.activity_show_single_project);
 
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);

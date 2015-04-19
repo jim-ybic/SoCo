@@ -214,32 +214,32 @@
                 </TableRow>
             </TableLayout>
 
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Shared Files: "/>
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Detail"
-                        android:onClick="sharedFileDetails"
-                        android:textSize="10dp"
-                        android:layout_alignParentRight="true"
-                        android:id="@+id/bt_shared_file_details"/>
-                </TableRow>
-                <TableRow>
-                    <TextView
-                        android:id="@id/tv_shared_file_summary"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="No shared file found"
-                        android:layout_weight="1"/>
-                </TableRow>
-            </TableLayout>
+            <!--<TableLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<TableRow>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="Shared Files: "/>-->
+                    <!--<Button-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Detail"-->
+                        <!--android:onClick="sharedFileDetails"-->
+                        <!--android:textSize="10dp"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:id="@+id/bt_shared_file_details"/>-->
+                <!--</TableRow>-->
+                <!--<TableRow>-->
+                    <!--<TextView-->
+                        <!--android:id="@id/tv_shared_file_summary"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="No shared file found"-->
+                        <!--android:layout_weight="1"/>-->
+                <!--</TableRow>-->
+            <!--</TableLayout>-->
 
             <TableLayout
                 android:layout_width="match_parent"

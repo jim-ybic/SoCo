@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.view.ui.project;
+package com.soco.SoCoClient.view.ui.project.single;
 
 //import info.androidhive.tabsswipe.R;
 
@@ -17,7 +17,7 @@ import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task.InviteProjectMemberTaskAsync;
 import com.soco.SoCoClient.model.Profile;
-import com.soco.SoCoClient.view.ui.section.EntryAdapter;
+import com.soco.SoCoClient.view.ui.section.SectionEntryListAdapter;
 import com.soco.SoCoClient.view.ui.section.EntryItem;
 import com.soco.SoCoClient.view.ui.section.Item;
 
@@ -105,7 +105,7 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
             memberItems.add(new EntryItem(e.getValue(), e.getKey()));
         }
 
-        EntryAdapter adapter = new EntryAdapter(getActivity(), memberItems);
+        SectionEntryListAdapter adapter = new SectionEntryListAdapter(getActivity(), memberItems);
         ListView lv = (ListView) rootView.findViewById(R.id.listview_members);
         lv.setAdapter(adapter);
     }

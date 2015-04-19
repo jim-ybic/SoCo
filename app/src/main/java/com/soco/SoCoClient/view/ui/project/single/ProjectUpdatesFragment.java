@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.view.ui.project;
+package com.soco.SoCoClient.view.ui.project.single;
 
 //import info.androidhive.tabsswipe.R;
 import com.soco.SoCoClient.R;
@@ -9,7 +9,7 @@ import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task.SendMessageTaskAsync;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Profile;
-import com.soco.SoCoClient.view.ui.section.EntryAdapter;
+import com.soco.SoCoClient.view.ui.section.SectionEntryListAdapter;
 import com.soco.SoCoClient.view.ui.section.EntryItem;
 import com.soco.SoCoClient.view.ui.section.Item;
 
@@ -32,7 +32,7 @@ public class ProjectUpdatesFragment extends Fragment implements View.OnClickList
     String tag = "ProjectUpdatesFragment";
     View rootView;
     ListView lv_updates;
-    EntryAdapter adapter_updates;
+    SectionEntryListAdapter adapter_updates;
 
     int pid;
     String pid_onserver;
@@ -162,7 +162,7 @@ public class ProjectUpdatesFragment extends Fragment implements View.OnClickList
 //            memberItems.add(new EntryItem(e.getValue(), e.getKey()));
 //        }
 
-        adapter_updates = new EntryAdapter(getActivity(), updateItems);
+        adapter_updates = new SectionEntryListAdapter(getActivity(), updateItems);
         lv_updates.setAdapter(adapter_updates);
 
         scrollMyListViewToBottom();

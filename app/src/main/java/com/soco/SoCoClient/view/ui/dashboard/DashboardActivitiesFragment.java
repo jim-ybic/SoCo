@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,11 +32,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.soco.SoCoClient.view.LoginActivity;
-import com.soco.SoCoClient.view.ProfileActivity;
-import com.soco.SoCoClient.view.ShowInactiveProjectsActivity;
-import com.soco.SoCoClient.view.ui.project.ShowSingleProjectActivity;
-import com.soco.SoCoClient.view.ui.section.EntryAdapter;
+import com.soco.SoCoClient.view.ui.config.ProfileActivity;
+import com.soco.SoCoClient.view.ui.project.list.ShowInactiveProjectsActivity;
+import com.soco.SoCoClient.view.ui.project.single.ShowSingleProjectActivity;
+import com.soco.SoCoClient.view.ui.section.SectionEntryListAdapter;
 import com.soco.SoCoClient.view.ui.section.EntryItem;
 import com.soco.SoCoClient.view.ui.section.Item;
 import com.soco.SoCoClient.view.ui.section.SectionItem;
@@ -63,6 +61,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_show_active_projects);
+        setHasOptionsMenu(true);
 
         socoApp = (SocoApp) getActivity().getApplication();
 
@@ -137,7 +136,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_show_active_programs, menu);
+        inflater.inflate(R.menu.menu_show_active_projects, menu);
         super.onCreateOptionsMenu(menu, inflater);
         return;
     }
@@ -213,7 +212,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
                 activeProjectItems.add(new EntryItem(p.pname, p.getMoreInfo()));
         }
 
-        EntryAdapter adapter = new EntryAdapter(getActivity(), activeProjectItems);
+        SectionEntryListAdapter adapter = new SectionEntryListAdapter(getActivity(), activeProjectItems);
         lv_active_programs.setAdapter(adapter);
     }
 

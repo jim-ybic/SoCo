@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.view;
+package com.soco.SoCoClient.view.ui.project.list;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -59,7 +58,7 @@ public class ShowInactiveProjectsActivity extends ActionBarActivity {
                 ListView listView = (ListView) parent;
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
-                final String name = map.get(GeneralConfig.PROGRAM_PNAME);
+                final String name = map.get(GeneralConfig.PROJECT_PNAME);
 
                 Log.i(tag, "Click on completed programName.");
                 new AlertDialog.Builder(ShowInactiveProjectsActivity.this)
@@ -119,23 +118,23 @@ public class ShowInactiveProjectsActivity extends ActionBarActivity {
         ArrayList<Map<String, String>> data = new ArrayList<>();
         for (Project project : projects) {
             HashMap<String, String> map = new HashMap<>();
-            map.put(GeneralConfig.PROGRAM_PNAME, project.pname);
-            map.put(GeneralConfig.PROGRAM_PINFO, project.getMoreInfo());
+            map.put(GeneralConfig.PROJECT_PNAME, project.pname);
+            map.put(GeneralConfig.PROJECT_PINFO, project.getMoreInfo());
             data.add(map);
         }
 
         SimpleAdapter adapter = new SimpleAdapter(this, data,
                 android.R.layout.simple_list_item_2,
-                new String[]{GeneralConfig.PROGRAM_PNAME, GeneralConfig.PROGRAM_PINFO},
+                new String[]{GeneralConfig.PROJECT_PNAME, GeneralConfig.PROJECT_PINFO},
                 new int[]{android.R.id.text1, android.R.id.text2});
         listView.setAdapter(adapter);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_show_completed_programs, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_show_completed_programs, menu);
+//        return true;
+//    }
 
 
 }

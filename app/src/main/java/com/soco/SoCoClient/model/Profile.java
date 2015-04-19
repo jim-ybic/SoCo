@@ -297,7 +297,6 @@ public class Profile {
         return url;
     }
 
-
     public String getRetrieveMessageUrl(Context context) {
         String ip = getServerIp(context);
         String port = getServerPort(context);

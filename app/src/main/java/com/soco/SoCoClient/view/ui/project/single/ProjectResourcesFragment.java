@@ -1,22 +1,23 @@
-package com.soco.SoCoClient.view;
+package com.soco.SoCoClient.view.ui.project.single;
+
+//import info.androidhive.tabsswipe.R;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.GeneralConfig;
@@ -30,34 +31,39 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+public class ProjectResourcesFragment extends Fragment implements View.OnClickListener {
 
-public class ShowSharedFilesActivity extends ActionBarActivity {
-
-    String tag = "ShowSharedFiles";
-    int pid;
+    String tag = "ProjectResourcesFragment";
+    View rootView;
     String loginEmail, loginPassword;
-    DropboxAPI<AndroidAuthSession> dropboxApi;
+    int pid;
+    DropboxAPI dropboxApi;
     DBManagerSoco dbManagerSoco;
-    ArrayList<String> displayFilenames;
     ArrayList<String> sharedFilesLocalPath;
-//    HashMap<String, String> attrMap;
+    ArrayList<String> displayFilenames;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_shared_files);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        pid = ((SocoApp) getApplicationContext()).getPid();
-        loginEmail = ((SocoApp)getApplicationContext()).loginEmail;
-        loginPassword = ((SocoApp)getApplicationContext()).loginPassword;
-        dropboxApi = ((SocoApp)getApplicationContext()).dropboxApi;
+        Log.d(tag, "create project resources fragment view");
+        rootView = inflater.inflate(R.layout.fragment_project_resources, container, false);
+        if(rootView == null)
+            Log.e(tag, "cannot find rootview");
+        else
+            Log.d(tag, "find rootview " + rootView);
 
-        dbManagerSoco = ((SocoApp) getApplicationContext()).dbManagerSoco;
+        Log.d(tag, "add listeners");
+        rootView.findViewById(R.id.add).setOnClickListener(this);
+        rootView.findViewById(R.id.camera).setOnClickListener(this);
+
+        Log.d(tag, "show project resources");
+        dbManagerSoco = ((SocoApp) getActivity().getApplicationContext()).dbManagerSoco;
         sharedFilesLocalPath = dbManagerSoco.getSharedFilesLocalPath(pid);
         displayFilenames = dbManagerSoco.getSharedFilesDisplayName(pid);
         showSharedFiles(displayFilenames);
 
-        ListView lv_files = (ListView) findViewById(R.id.lv_files);
+        ListView lv_files = (ListView) rootView.findViewById(R.id.lv_files);
         lv_files.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")
             @Override
@@ -72,6 +78,21 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
                 viewFile(localPath);
             }
         });
+
+        return rootView;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_show_shared_files);
+        Log.d(tag, "on create: project resources fragment");
+
+        SocoApp socoApp = (SocoApp) getActivity().getApplication();
+        pid = socoApp.getPid();
+        loginEmail = socoApp.loginEmail;
+        loginPassword = socoApp.loginPassword;
+        dropboxApi = socoApp.dropboxApi;
     }
 
     @Override
@@ -83,36 +104,36 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
             return;
         }
 
-        SocoApp app = (SocoApp) getApplicationContext();
+        SocoApp socoApp = (SocoApp) getActivity().getApplication();
 
         //add file
         if (requestCode == GeneralConfig.ACTIVITY_OPEN_FILE && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             Log.i(tag, "File selected with uri: " + uri.toString());
-            FileUtils.checkUriMeta(getContentResolver(), uri);
+//            FileUtils.checkUriMeta(getActivity().getContentResolver(), uri);
             DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
-                    getContentResolver(), getApplicationContext());
-            app.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
+                    getActivity().getContentResolver(), getActivity().getApplicationContext());
+            socoApp.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
             // check status
-            ((SocoApp)getApplicationContext()).uri = uri;
+            ((SocoApp)getActivity().getApplicationContext()).uri = uri;
             Log.i(tag, "Start status service");
-            Intent intent = new Intent(this, UploaderWatcher.class);
-            startService(intent);
+            Intent intent = new Intent(getActivity(), UploaderWatcher.class);
+            getActivity().startService(intent);
         }
 
         //take picture
         if (requestCode == GeneralConfig.ACTIVITY_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             Log.d(tag, "Photo uri: " + uri);
-            FileUtils.checkUriMeta(getContentResolver(), uri);
+//            FileUtils.checkUriMeta(getActivity().getContentResolver(), uri);
             DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
-                    getContentResolver(), getApplicationContext());
-            app.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
+                    getActivity().getContentResolver(), getActivity().getApplicationContext());
+            socoApp.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
             // check status
-            ((SocoApp)getApplicationContext()).uri = uri;
+            socoApp.uri = uri;
             Log.i(tag, "Start status service");
-            Intent intent = new Intent(this, UploaderWatcher.class);
-            startService(intent);
+            Intent intent = new Intent(getActivity(), UploaderWatcher.class);
+            getActivity().startService(intent);
         }
 
         //always refresh the list view in the end
@@ -142,29 +163,6 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_show_shared_files, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
     public void showSharedFiles(ArrayList<String> sharedFiles) {
         Log.d(tag, "refresh shared files start");
         ArrayList<Map<String, String>> list = new ArrayList<>();
@@ -176,15 +174,15 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
             list.add(map);
         }
 
-        ListView lv_files = (ListView) findViewById(R.id.lv_files);
-        SimpleAdapter adapter = new SimpleAdapter(this, list,
+        ListView lv_files = (ListView) rootView.findViewById(R.id.lv_files);
+        SimpleAdapter adapter = new SimpleAdapter(getActivity(), list,
                 android.R.layout.simple_list_item_2,
                 new String[]{GeneralConfig.PROJECT_PNAME, GeneralConfig.PROJECT_PINFO},
                 new int[]{android.R.id.text1, android.R.id.text2});
         lv_files.setAdapter(adapter);
     }
 
-    public void addFile(View view){
+    public void addFile(){
         Log.d(tag, "add file start");
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -192,10 +190,23 @@ public class ShowSharedFilesActivity extends ActionBarActivity {
         startActivityForResult(intent, GeneralConfig.ACTIVITY_OPEN_FILE);
     }
 
-    public void takePicture(View view){
+    public void takePicture(){
         Log.i(tag, "Start activity: take picture");
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null)
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null)
             startActivityForResult(intent, GeneralConfig.ACTIVITY_TAKE_PHOTO);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.d(tag, "click on " + v.getId());
+        switch (v.getId()) {
+            case R.id.add:
+                addFile();
+                break;
+            case R.id.camera:
+                takePicture();
+                break;
+        }
     }
 }

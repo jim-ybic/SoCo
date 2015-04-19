@@ -11,13 +11,13 @@ import android.widget.TextView;
 //import at.bartinger.list.R;
 import com.soco.SoCoClient.R;
 
-public class EntryAdapter extends ArrayAdapter<Item> {
+public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 
 	private Context context;
 	private ArrayList<Item> items;
 	private LayoutInflater vi;
 
-	public EntryAdapter(Context context,ArrayList<Item> items) {
+	public SectionEntryListAdapter(Context context, ArrayList<Item> items) {
 		super(context,0, items);
 		this.context = context;
 		this.items = items;

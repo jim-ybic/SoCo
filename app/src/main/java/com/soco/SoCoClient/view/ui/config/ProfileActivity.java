@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.view;
+package com.soco.SoCoClient.view.ui.config;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +15,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.GeneralConfig;
 import com.soco.SoCoClient.model.Profile;
+import com.soco.SoCoClient.view.LoginActivity;
 
 
 public class ProfileActivity extends ActionBarActivity {
@@ -106,20 +107,20 @@ public class ProfileActivity extends ActionBarActivity {
         tv_lastLoginTimestamp.setText(profile.lastLoginTimestamp);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_profile, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_profile, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
 
 }
