@@ -70,8 +70,8 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
         Log.i(tag, "onCreate, get login info: " + loginEmail + ", " + loginPassword);
 
         dbmgrSoco = new DBManagerSoco(getActivity());
-        dbmgrSoco.context = getActivity().getApplicationContext();
-        socoApp.dbManagerSoco = dbmgrSoco;
+//        dbmgrSoco.context = getActivity().getApplicationContext();
+//        socoApp.dbManagerSoco = dbmgrSoco;
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
     }
 

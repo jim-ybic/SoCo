@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.control.http.task.LoginTaskAsync;
 import com.soco.SoCoClient.control.http.task.RegisterTaskAsync;
@@ -54,6 +55,8 @@ public class LoginActivity extends ActionBarActivity {
     String nickname;
     SocoApp socoApp;
     Profile profile;
+    DBManagerSoco dbmgrSoco;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +64,13 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
 
         socoApp = (SocoApp) getApplicationContext();
+
         profile = new Profile(getApplicationContext());
         socoApp.profile = profile;
+
+        dbmgrSoco = new DBManagerSoco(getApplicationContext());
+        dbmgrSoco.context = getApplicationContext();
+        socoApp.dbManagerSoco = dbmgrSoco;
 
         findViewsById();
 
