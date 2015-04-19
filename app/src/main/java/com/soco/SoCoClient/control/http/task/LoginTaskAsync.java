@@ -6,10 +6,9 @@ import android.util.Log;
 
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.HttpConfig;
-import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.HttpUtil;
-import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
+import com.soco.SoCoClient.model.Profile;
 
 import org.json.JSONObject;
 
@@ -20,6 +19,7 @@ public class LoginTaskAsync extends AsyncTask<Void, Void, Boolean> {
     String loginEmail, loginPassword;
     String url;
     Context context;
+    Profile profile;
 
     public LoginTaskAsync(
             String loginEmail,
@@ -32,6 +32,8 @@ public class LoginTaskAsync extends AsyncTask<Void, Void, Boolean> {
         this.loginPassword = loginPassword;
         this.url = url;
         this.context = context;
+
+        profile = ((SocoApp)context).profile;
     }
 
     @Override
@@ -45,14 +47,14 @@ public class LoginTaskAsync extends AsyncTask<Void, Void, Boolean> {
         return true;
     }
 
-    public static void execute(String loginEmail, String loginPassword,
+    public void execute(String loginEmail, String loginPassword,
                                String url, Context context) {
         Object response = request(loginEmail, loginPassword, url);
         if (response != null)
             parse(response, context);
     }
 
-    public static Object request(String loginEmail, String loginPassword, String url) {
+    public Object request(String loginEmail, String loginPassword, String url) {
         JSONObject data = new JSONObject();
         try {
             data.put(HttpConfig.JSON_KEY_USERNAME, loginEmail);
@@ -66,15 +68,15 @@ public class LoginTaskAsync extends AsyncTask<Void, Void, Boolean> {
         return HttpUtil.executeHttpPost(url, data);
     }
 
-    public static boolean parse(Object response, Context context) {
+    public boolean parse(Object response, Context context) {
         Log.d(tag, "Process login parse: " + response.toString());
         try {
             JSONObject json = new JSONObject(response.toString());
             String access_token = json.getString(HttpConfig.JSON_KEY_ACCESS_TOKEN);
             Log.i(tag, "Login success. Get access token: " + access_token);
-            ProfileUtil.saveLoginAccessToken(context, access_token);
+            profile.saveLoginAccessToken(context, access_token);
             String now = SignatureUtil.now();
-            ProfileUtil.setLastLoginTimestamp(context, now);
+            profile.setLastLoginTimestamp(context, now);
             return true;
         } catch (Exception e) {
             Log.e(tag, "Cannot convert parse to Json object: " + e.toString());

@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.util.ProfileUtil;
+import com.soco.SoCoClient.control.SocoApp;
+import com.soco.SoCoClient.model.Profile;
 
 
 public class ServerConfigActivity extends ActionBarActivity {
@@ -19,10 +20,16 @@ public class ServerConfigActivity extends ActionBarActivity {
 //    EditText et_regiaddr, et_loginaddr;
 //    EditText et_cprojectaddr, et_aprojectaddr, et_rnprojectaddr, et_sprojattraddr;
 
+    SocoApp socoApp;
+    Profile profile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_config);
+
+        socoApp = (SocoApp)getApplicationContext();
+        profile = socoApp.profile;
 
         findViewsById();
         loadServerProperties();
@@ -34,8 +41,8 @@ public class ServerConfigActivity extends ActionBarActivity {
     }
 
     private void loadServerProperties(){
-        et_servip.setText(ProfileUtil.getServerIp(this));
-        et_servport.setText(ProfileUtil.getServerPort(this));
+        et_servip.setText(profile.getServerIp(this));
+        et_servport.setText(profile.getServerPort(this));
 
         Log.i(tag, "Load server config: "
                 + et_servip.getText().toString() + ", "
@@ -43,13 +50,13 @@ public class ServerConfigActivity extends ActionBarActivity {
         );
     }
 
-    public void cancel (View view){
-        finish();
-    }
+//    public void cancel (View view){
+//        finish();
+//    }
 
     public void save (View view){
-        ProfileUtil.setServerIp(this, et_servip.getText().toString());
-        ProfileUtil.setServerPort(this, et_servport.getText().toString());
+        profile.setServerIp(this, et_servip.getText().toString());
+        profile.setServerPort(this, et_servport.getText().toString());
 
         Log.i(tag, "Save server config: "
                 + et_servip.getText().toString() + ", "

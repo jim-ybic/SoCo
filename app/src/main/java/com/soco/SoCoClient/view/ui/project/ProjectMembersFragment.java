@@ -16,7 +16,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task.InviteProjectMemberTaskAsync;
-import com.soco.SoCoClient.control.util.ProfileUtil;
+import com.soco.SoCoClient.model.Profile;
 import com.soco.SoCoClient.view.ui.section.EntryAdapter;
 import com.soco.SoCoClient.view.ui.section.EntryItem;
 import com.soco.SoCoClient.view.ui.section.Item;
@@ -33,6 +33,7 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
     int pid;
     String pid_onserver;
     SocoApp socoApp;
+    Profile profile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,8 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
         setHasOptionsMenu(true);
 
         socoApp = (SocoApp)(getActivity().getApplication());
+        profile = socoApp.profile;
+
         pid = socoApp.pid;
         pid_onserver = socoApp.pid_onserver;
         Log.d(tag, "pid is " + pid + ", pid_onserver is " + pid_onserver);
@@ -74,7 +77,7 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
     public void add(){
         String email = ((EditText) rootView.findViewById(R.id.et_add_member)).getText().toString();
         InviteProjectMemberTaskAsync httpTask = new InviteProjectMemberTaskAsync(
-                        ProfileUtil.getInviteProjectMemberUrl(getActivity()),     //url
+                        profile.getInviteProjectMemberUrl(getActivity()),     //url
 //                        HttpConfig.HTTP_TYPE_INVITE_PROJECT_MEMBER,               //type
 //                        "", "",                                     //login email & password
 //                        getActivity().getApplicationContext(),      //context

@@ -8,8 +8,7 @@ import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.HttpUtil;
-import com.soco.SoCoClient.control.util.ProfileUtil;
-import com.soco.SoCoClient.model.Project;
+import com.soco.SoCoClient.model.Profile;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,6 +19,7 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
     String url;
     Context context;
+    Profile profile;
 
     public RetrieveMessageTaskAsync(
             String url,
@@ -28,6 +28,8 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
         Log.i(tag, "Create new HttpTask: " + url);
         this.url = url;
         this.context = context;
+
+        profile = ((SocoApp)context).profile;
     }
 
     @Override
@@ -66,7 +68,7 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
     Sample response - failure:
         {status:"failure"}
     */
-    public static boolean parse(Object response, Context context) {
+    public boolean parse(Object response, Context context) {
         try {
             String str = response.toString();
             Log.i(tag, "Server response string: " + str);
@@ -118,7 +120,7 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
                     }
 
                     Log.d(tag, "send ack to server");
-                    String url = ProfileUtil.getAckRetrieveMessageUrl(context);
+                    String url = profile.getAckRetrieveMessageUrl(context);
                     AckRetrieveMessageTaskAsync task = new AckRetrieveMessageTaskAsync(
                             url, signature);
                     task.execute();

@@ -6,12 +6,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.dropbox.DropboxUtil;
 import com.soco.SoCoClient.control.http.task.ArchiveProjectTaskAsync;
 import com.soco.SoCoClient.control.http.task.CreateProjectTaskAsync;
 import com.soco.SoCoClient.control.http.task.SetProjectAttributeTaskAsync;
 import com.soco.SoCoClient.control.http.task.UpdateProjectNameTaskAsync;
+import com.soco.SoCoClient.model.Profile;
 import com.soco.SoCoClient.model.Project;
 
 import java.util.ArrayList;
@@ -50,8 +52,8 @@ public class ProjectUtil {
 //        createProjectTask.projectType = projectType;
 //
 //        createProjectTask.execute();
-
-        String url = ProfileUtil.getCreateProjectUrl(context);
+        Profile profile = ((SocoApp)context).profile;
+        String url = profile.getCreateProjectUrl(context);
         CreateProjectTaskAsync task = new CreateProjectTaskAsync(
                 url, pname, pid, context,
                 projectSignature, projectTag, projectType);
@@ -64,7 +66,8 @@ public class ProjectUtil {
 //                HttpConfig.HTTP_TYPE_ARCHIVE_PROJECT,
 //                null, null, context, null, pid, pid_onserver, null, null);
 //        archiveProjectTask.execute();
-        String url = ProfileUtil.getArchiveProjectUrl(context);
+        Profile profile = ((SocoApp)context).profile;
+        String url = profile.getArchiveProjectUrl(context);
         ArchiveProjectTaskAsync task = new ArchiveProjectTaskAsync(
                 url, pid_onserver);
         task.execute();
@@ -77,7 +80,8 @@ public class ProjectUtil {
 //                HttpConfig.HTTP_TYPE_UPDATE_PROJECT_NAME,
 //                null, null, context, pname, pid, pid_onserver, null, null);
 //        archiveProjectTask.execute();
-        String url = ProfileUtil.getUpdateProjectNameUrl(context);
+        Profile profile = ((SocoApp)context).profile;
+        String url = profile.getUpdateProjectNameUrl(context);
         UpdateProjectNameTaskAsync task = new UpdateProjectNameTaskAsync(url, pname, pid_onserver);
         task.execute();
     }
@@ -92,7 +96,8 @@ public class ProjectUtil {
 //                context, pname, pid, pid_onserver, attrMap, null);
 //        setProjectAttributeTask.execute();
 
-        String url = ProfileUtil.getSetProjectAttributeUrl(context);
+        Profile profile = ((SocoApp)context).profile;
+        String url = profile.getSetProjectAttributeUrl(context);
         SetProjectAttributeTaskAsync task = new SetProjectAttributeTaskAsync(
                 url, pid_onserver, attrMap);
         task.execute();

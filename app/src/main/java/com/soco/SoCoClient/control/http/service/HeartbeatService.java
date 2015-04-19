@@ -11,12 +11,11 @@ import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.HttpUtil;
 import com.soco.SoCoClient.control.http.task.JoinProjectByInviteTaskAsync;
 import com.soco.SoCoClient.control.http.task.RetrieveMessageTaskAsync;
-import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
+import com.soco.SoCoClient.model.Profile;
 import com.soco.SoCoClient.model.Project;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Timer;
@@ -27,11 +26,18 @@ public class HeartbeatService extends Service {
     public static final String tag = "HeartbeatService";
 
     Timer timer;
+    SocoApp socoApp;
+    Profile profile;
+    DBManagerSoco dbManagerSoco;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.i(tag, "onCreate() executed");
+
+        socoApp = (SocoApp)getApplication();
+        profile = socoApp.profile;
+        dbManagerSoco = socoApp.dbManagerSoco;
     }
 
     @Override
@@ -78,7 +84,7 @@ public class HeartbeatService extends Service {
             Log.e(tag, "Cannot create request");
             e.printStackTrace();
         }
-        String url = ProfileUtil.getHeartbeatUrl(getApplicationContext());
+        String url = profile.getHeartbeatUrl(getApplicationContext());
         Log.d(tag, "Sending heartbeat to " + url);
 
         return HttpUtil.executeHttpPost(url, data);
@@ -122,7 +128,7 @@ public class HeartbeatService extends Service {
             String status = json.getString(HttpConfig.JSON_KEY_MESSAGE);
             Log.i(tag, "new message status: " + status);
             //retrieve message
-            String url = ProfileUtil.getRetrieveMessageUrl(getApplicationContext());
+            String url = profile.getRetrieveMessageUrl(getApplicationContext());
             RetrieveMessageTaskAsync task = new RetrieveMessageTaskAsync(
                     url, getApplicationContext());
             task.execute();
@@ -150,14 +156,14 @@ public class HeartbeatService extends Service {
                 Log.i(tag, "Get invitation: " + inviter + ", " + pid_onserver + ", " + date);
 
                 //add project into database
-                DBManagerSoco dbManagerSoco = ((SocoApp) getApplication()).dbManagerSoco;
+
                 Project p = new Project("");
                 p.pid_onserver = pid_onserver;
                 int pid = dbManagerSoco.addProject(p);
                 Log.i(tag, "New project added to database, pid_onserver is " + pid_onserver);
 
                 //retrieve project details
-                String url = ProfileUtil.getJoinProjectByInviteUrl(getApplicationContext());
+                String url = profile.getJoinProjectByInviteUrl(getApplicationContext());
                 JoinProjectByInviteTaskAsync task = new JoinProjectByInviteTaskAsync(
                         url, String.valueOf(pid), pid_onserver,
                         getApplicationContext(), inviter);

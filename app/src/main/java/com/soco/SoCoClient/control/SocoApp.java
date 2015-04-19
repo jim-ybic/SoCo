@@ -9,6 +9,7 @@ import android.util.Log;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
+import com.soco.SoCoClient.model.Profile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class SocoApp extends Application {
     public String lat, lng, zoom, locationName;
     public String pid_onserver;
     public String nickname;
+    public Profile profile;
 
     public void setDropboxDownloadUri(Uri uri){
         this.dropboxDownloadUri = uri;

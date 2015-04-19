@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.GeneralConfig;
-import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.model.Profile;
 
 
@@ -29,19 +28,24 @@ public class ProfileActivity extends ActionBarActivity {
     TextView tv_lastLoginTimestamp;
 
     String loginEmail, loginPassword;
+    SocoApp socoApp;
     Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        socoApp = (SocoApp)getApplicationContext();
+        profile = socoApp.profile;
+        
         findViewsById();;
 
         Intent intent = getIntent();
         loginEmail = intent.getStringExtra(GeneralConfig.LOGIN_EMAIL);
         loginPassword = intent.getStringExtra(GeneralConfig.LOGIN_PASSWORD);
 
-        profile = loadProfile();
+//        profile = loadProfile();
         showProfile(profile);
     }
 
@@ -54,19 +58,19 @@ public class ProfileActivity extends ActionBarActivity {
         tv_lastLoginTimestamp = (TextView) findViewById(R.id.tv_last_login_timestamp);
     }
 
-    Profile loadProfile() {
-        Log.i(tag, "Load profile from " + GeneralConfig.PROFILE_FILENAME);
-        return new Profile(getApplicationContext());
-    }
+//    Profile loadProfile() {
+//        Log.i(tag, "Load profile from " + GeneralConfig.PROFILE_FILENAME);
+//        return new Profile(getApplicationContext());
+//    }
 
     public void saveProfile(View view) {
         Log.i(tag, "Save profile to " + GeneralConfig.PROFILE_FILENAME);
-        ProfileUtil.save(getApplicationContext(),
+        profile.save(getApplicationContext(),
                 et_profile_nickname.getText().toString(),
                 et_profile_phone.getText().toString(),
                 et_profile_wechat.getText().toString());
-        ProfileUtil.setLoginEmail(this, et_profile_email.getText().toString());
-        ProfileUtil.setLoginPassword(this, et_profile_password.getText().toString());
+        profile.setLoginEmail(this, et_profile_email.getText().toString());
+        profile.setLoginPassword(this, et_profile_password.getText().toString());
 
         String name = et_profile_nickname.getText().toString();
         if(!name.isEmpty())
@@ -76,7 +80,7 @@ public class ProfileActivity extends ActionBarActivity {
     public void logout(View view) {
 //        finish();
         Log.i(tag, "Logout from current user");
-        ProfileUtil.logout(this);
+        profile.logout(this);
         Toast.makeText(getApplicationContext(), "Logout complete.", Toast.LENGTH_SHORT).show();
 
 //        Log.d(tag, "clear UI");

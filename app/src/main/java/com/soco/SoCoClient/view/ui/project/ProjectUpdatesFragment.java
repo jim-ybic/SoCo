@@ -7,8 +7,8 @@ import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task.SendMessageTaskAsync;
-import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.util.SignatureUtil;
+import com.soco.SoCoClient.model.Profile;
 import com.soco.SoCoClient.view.ui.section.EntryAdapter;
 import com.soco.SoCoClient.view.ui.section.EntryItem;
 import com.soco.SoCoClient.view.ui.section.Item;
@@ -37,7 +37,7 @@ public class ProjectUpdatesFragment extends Fragment implements View.OnClickList
     int pid;
     String pid_onserver;
     SocoApp socoApp;
-
+    Profile profile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class ProjectUpdatesFragment extends Fragment implements View.OnClickList
         setHasOptionsMenu(true);
 
         socoApp = (SocoApp)(getActivity().getApplication());
+        profile = socoApp.profile;
         pid = socoApp.pid;
         pid_onserver = socoApp.pid_onserver;
         Log.d(tag, "pid is " + pid + ", pid_onserver is " + pid_onserver);
@@ -128,7 +129,7 @@ public class ProjectUpdatesFragment extends Fragment implements View.OnClickList
         Toast.makeText(getActivity().getApplicationContext(), "Comment added",
                 Toast.LENGTH_SHORT).show();
 
-        String url = ProfileUtil.getSendMessageUrl(getActivity());
+        String url = profile.getSendMessageUrl(getActivity());
         SendMessageTaskAsync task = new SendMessageTaskAsync(url,
                 HttpConfig.MESSAGE_FROM_TYPE_1, email,
                 HttpConfig.MESSAGE_TO_TYPE_2, pid_onserver,

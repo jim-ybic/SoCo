@@ -17,9 +17,8 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.control.http.task.LoginTaskAsync;
 import com.soco.SoCoClient.control.http.task.RegisterTaskAsync;
-import com.soco.SoCoClient.control.util.LoginUtil;
-import com.soco.SoCoClient.control.util.ProfileUtil;
 import com.soco.SoCoClient.control.SocoApp;
+import com.soco.SoCoClient.model.Profile;
 import com.soco.SoCoClient.view.ui.dashboard.DashboardActivity;
 
 
@@ -52,20 +51,27 @@ public class LoginActivity extends ActionBarActivity {
     String loginEmail;
     String loginPassword;
     String nickname;
+    SocoApp socoApp;
+    Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        socoApp = (SocoApp) getApplicationContext();
+        profile = new Profile(getApplicationContext());
+        socoApp.profile = profile;
+
         findViewsById();
 
         if (getIntent().getBooleanExtra(FLAG_EXIT, false))
             finish();
 
         //check if login credential exists
-        String savedLoginEmail = ProfileUtil.getLoginEmail(this);
-        String savedLoginPassword = ProfileUtil.getLoginPassword(this);
-        String savedLoginAccessToken = ProfileUtil.getLoginAccessToken(this);
+        String savedLoginEmail = profile.getLoginEmail(this);
+        String savedLoginPassword = profile.getLoginPassword(this);
+        String savedLoginAccessToken = profile.getLoginAccessToken(this);
         Log.i(tag, "Get saved login email/password/token: "
                 + savedLoginEmail + ", " + savedLoginPassword + ", " + savedLoginAccessToken);
 
@@ -92,33 +98,33 @@ public class LoginActivity extends ActionBarActivity {
         loginEmail = et_login_email.getText().toString();
         loginPassword = et_login_password.getText().toString();
 
-        ProfileUtil.ready(getApplicationContext(), loginEmail);
-        nickname = ProfileUtil.getNickname(getApplicationContext(), loginEmail);
+        profile.ready(getApplicationContext(), loginEmail);
+        nickname = profile.getNickname(getApplicationContext(), loginEmail);
         Log.d(tag, "save current login email/password into profile: " +
                 loginEmail + ", " + loginPassword);
-        ProfileUtil.setLoginEmail(this, loginEmail);
-        ProfileUtil.setLoginPassword(this, loginPassword);
+        profile.setLoginEmail(this, loginEmail);
+        profile.setLoginPassword(this, loginPassword);
 
-        String access_token = ProfileUtil.getLoginAccessToken(getApplicationContext());
+        String access_token = profile.getLoginAccessToken(getApplicationContext());
         if (access_token != null && !access_token.isEmpty())
             Log.i(tag, "Load access token and skip login: " + access_token);
         else {
             Log.i(tag, "Cannot load access token, start login to server");
 //            HttpTask loginTask = new HttpTask(
-//                    ProfileUtil.getLoginUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_LOGIN,
+//                    profile.getLoginUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_LOGIN,
 //                    loginEmail, loginPassword, getApplicationContext(),
 //                    null, null, null, null, null);
 //            loginTask.execute();
-            String url = ProfileUtil.getLoginUrl(getApplicationContext());
+            String url = profile.getLoginUrl(getApplicationContext());
             LoginTaskAsync task = new LoginTaskAsync(loginEmail, loginPassword, url,
                     getApplicationContext());
             task.execute();
         }
 
-        boolean loginSuccess = LoginUtil.validateLogin(loginEmail, loginPassword);
+        boolean loginSuccess = validateLogin(loginEmail, loginPassword);
         if(loginSuccess) {
-            ProfileUtil.setLoginEmail(this, loginEmail);
-            ProfileUtil.setLoginPassword(this, loginPassword);
+            profile.setLoginEmail(this, loginEmail);
+            profile.setLoginPassword(this, loginPassword);
             Log.i(tag, "Save to profile login email/password: " + loginEmail + "/" + loginPassword);
 
             //start heartbeat service
@@ -134,8 +140,11 @@ public class LoginActivity extends ActionBarActivity {
 
 //            intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
 //            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
-            ((SocoApp)getApplicationContext()).loginEmail = loginEmail;
-            ((SocoApp)getApplicationContext()).loginPassword = loginPassword;
+
+            //set global variable
+            socoApp.loginEmail = loginEmail;
+            socoApp.loginPassword = loginPassword;
+            socoApp.profile = profile;
 
             startActivity(intent);
         } else {
@@ -148,20 +157,19 @@ public class LoginActivity extends ActionBarActivity {
         loginEmail = et_login_email.getText().toString();
         loginPassword = et_login_password.getText().toString();
 
-        ProfileUtil.ready(getApplicationContext(), loginEmail);
-        nickname = ProfileUtil.getNickname(getApplicationContext(), loginEmail);
+        profile.ready(getApplicationContext(), loginEmail);
+        nickname = profile.getNickname(getApplicationContext(), loginEmail);
 
         //set initial status and start login
-        final SocoApp app = (SocoApp) getApplicationContext();
-        app.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_START);
+        socoApp.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_START);
 
 //        HttpTask registerTask = new HttpTask(
-//                ProfileUtil.getRegisterUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_REGISTER,
+//                profile.getRegisterUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_REGISTER,
 //                loginEmail, loginPassword, getApplicationContext(),
 //                null, null, null, null, null);
 //        registerTask.execute();
         Context context = getApplicationContext();
-        String url = ProfileUtil.getRegisterUrl(context);
+        String url = profile.getRegisterUrl(context);
         RegisterTaskAsync task = new RegisterTaskAsync(loginEmail, loginPassword, url, context);
         task.execute();
 
@@ -170,12 +178,12 @@ public class LoginActivity extends ActionBarActivity {
         for (int i=1; i<= REGISTER_RETRY; i++) {
             Log.d(tag, "Wait for registration parse: " + i + "/" + REGISTER_RETRY);
             SystemClock.sleep(REGISTER_WAIT);;
-            Log.d(tag, "Current registration status is: " + app.getRegistationStatus());
-            if(app.getRegistationStatus().equals(SocoApp.REGISTRATION_STATUS_SUCCESS)) {
+            Log.d(tag, "Current registration status is: " + socoApp.getRegistationStatus());
+            if(socoApp.getRegistationStatus().equals(SocoApp.REGISTRATION_STATUS_SUCCESS)) {
                 isSuccess = true;
                 break;
             }
-            else if (app.getRegistationStatus().equals(SocoApp.REGISTRATION_STATUS_FAIL)){
+            else if (socoApp.getRegistationStatus().equals(SocoApp.REGISTRATION_STATUS_FAIL)){
                 isSuccess = false;
                 break;
             }
@@ -220,12 +228,20 @@ public class LoginActivity extends ActionBarActivity {
         super.onResume();
 
         Log.i(tag, "onResume");
-        String savedLoginEmail = ProfileUtil.getLoginEmail(this);
-        String savedLoginPassword = ProfileUtil.getLoginPassword(this);
+        String savedLoginEmail = profile.getLoginEmail(this);
+        String savedLoginPassword = profile.getLoginPassword(this);
         Log.d(tag, "load saved login email/password: "
                 + savedLoginEmail + ", " + savedLoginPassword);
         et_login_email.setText(savedLoginEmail);
         et_login_password.setText(savedLoginPassword);
+    }
+
+    public boolean validateLogin(String loginEmail, String loginPassword) {
+        Log.i("login", "Validate login for: " + loginEmail + "/" + loginPassword);
+
+        //TODO: add login validation logic here
+
+        return true;
     }
 
 
