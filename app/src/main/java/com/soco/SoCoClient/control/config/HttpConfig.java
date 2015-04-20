@@ -2,6 +2,8 @@ package com.soco.SoCoClient.control.config;
 
 public class HttpConfig {
 
+    public static String TEST_NO_INVITER_EMAIL = "NO EMAIL RECEIVED FROM SERVER";
+
 //    public static String HTTP_TYPE_LOGIN = "login";
 //    public static String HTTP_TYPE_REGISTER = "register";
 //    public static String HTTP_TYPE_CREATE_PROJECT = "create_project";

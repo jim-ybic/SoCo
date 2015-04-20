@@ -47,7 +47,7 @@ public class DBManagerSoco {
             cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME, userName);
             cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_STATUS, "");
             cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP, "");
-            db.insert(DataConfig.TABLE_ACTIVITY, null, cv);
+            db.insert(DataConfig.TABLE_ACTIVITY_MEMBER, null, cv);
 
             db.setTransactionSuccessful();
         } finally {

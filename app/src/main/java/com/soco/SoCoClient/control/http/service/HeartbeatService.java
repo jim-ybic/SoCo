@@ -46,15 +46,23 @@ public class HeartbeatService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(tag, "onStartCommand() executed");
 
+
         timer = new Timer();
         timer.schedule(
                 new TimerTask() {
                     @Override
                     public void run(){
                         Log.i(tag, ">>> Heartbeat:" + SignatureUtil.now());
-                        Object response = request();
-                        if (response != null)
-                            parse(response);
+
+                        String access_token = profile.getLoginAccessToken(getApplicationContext());
+                        if(access_token == null || access_token.isEmpty()){
+                            Log.i(tag, "access token is not available, skip heart check");
+                        }
+                        else {
+                            Object response = request();
+                            if (response != null)
+                                parse(response);
+                        }
                     }
                 },
                 0,      //delay start time (ms)
