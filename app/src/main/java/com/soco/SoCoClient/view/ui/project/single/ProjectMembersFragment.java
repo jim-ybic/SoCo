@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.SocoApp;
+import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task.InviteProjectMemberTaskAsync;
 import com.soco.SoCoClient.model.Profile;
@@ -34,6 +35,7 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
     String pid_onserver;
     SocoApp socoApp;
     Profile profile;
+    DBManagerSoco dbManagerSoco;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
 
         socoApp = (SocoApp)(getActivity().getApplication());
         profile = socoApp.profile;
+        dbManagerSoco = socoApp.dbManagerSoco;
 
         pid = socoApp.pid;
         pid_onserver = socoApp.pid_onserver;
@@ -84,11 +87,16 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
         );
         httpTask.execute();
 
-        //todo: add member into database
-
-
         Toast.makeText(getActivity().getApplicationContext(), "Sent invitation success",
                 Toast.LENGTH_SHORT).show();
+
+//        String userEmail = profile.email;
+//        String userName = profile.username;
+        Log.i(tag, "save into db new member " + email + "/" + HttpConfig.TEST_UNKNOWN_USERNAME
+                + " into project " + pid);
+        dbManagerSoco.addMemberToProject(email, HttpConfig.TEST_UNKNOWN_USERNAME, pid);
+        listMembers();
+
     }
 
     public void listMembers() {
