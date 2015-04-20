@@ -43,7 +43,7 @@ public class SocoApp extends Application {
     public Uri uri;
     public String lat, lng, zoom, locationName;
     public String pid_onserver;
-    public String nickname;
+    public String username;
     public Profile profile;
 
     public void setDropboxDownloadUri(Uri uri){

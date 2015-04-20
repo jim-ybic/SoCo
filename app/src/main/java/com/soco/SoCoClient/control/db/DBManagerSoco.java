@@ -30,15 +30,25 @@ public class DBManagerSoco {
         db = helper.getWritableDatabase();
     }
 
-    public void addMemberToProject(String userName, int pid){
-        Log.d(tag, "Adding member " + userName + " into project pid " + pid);
+    public void addMemberToProject(String userEmail, String userName, int pid){
+        Log.d(tag, "Adding member " + userEmail + ", " + userName
+                + " into project pid " + pid);
 
         try {
             db.beginTransaction();
             Log.i(tag, "insert activity_user table entry: " + pid + ", " + userName);
-            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_MEMBER + " VALUES (" +
-                    "?, ?, ?, ?, ?)", new Object[]{
-                    pid, TEST_NOEMAIL, userName, SignatureUtil.now(), ""});    //todo: add more details
+//            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_MEMBER + " VALUES (" +
+//                    "?, ?, ?, ?, ?)", new Object[]{
+//                    pid, TEST_NOEMAIL, userName, SignatureUtil.now(), ""});
+
+            ContentValues cv = new ContentValues();
+            cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_AID, pid);
+            cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL, userEmail);
+            cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME, userName);
+            cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_STATUS, "");
+            cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP, "");
+            db.insert(DataConfig.TABLE_ACTIVITY, null, cv);
+
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -94,6 +104,7 @@ public class DBManagerSoco {
         int pid = -1;
         Log.i(tag, "dbmanager context: " + context);
         String userEmail = ((SocoApp)context).loginEmail;
+        String userName = ((SocoApp)context).profile.getNickname(context);
         try {
             db.beginTransaction();
 
@@ -132,11 +143,12 @@ public class DBManagerSoco {
                 } while(cursor.moveToNext());
             }
 
-            //add into activity_user table
+            //add into activity_member table
             Log.i(tag, "insert activity_user table entry: " + pid + ", " + userEmail);
             db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_MEMBER + " VALUES (" +
                     "?, ?, ?, ?, ?)", new Object[]{
-                    pid, userEmail, TEST_NONAME, SignatureUtil.now(), ""});    //todo: add more details
+                    pid, userEmail, userName, SignatureUtil.now(), ""});
+            //todo: replace the above into db.insert()
 
             db.setTransactionSuccessful();
         } finally {

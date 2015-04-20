@@ -22,7 +22,7 @@ public class GeneralConfig {
     // Config file
     public static String PROFILE_FILENAME = "SoCo.config";
     public static String PROFILE_EMAIL = "email";
-    public static String PROFILE_NICKNAME = "nickname";
+    public static String PROFILE_USERNAME = "username";
     public static String PROFILE_PHONE = "phone";
     public static String PROFILE_WECHAT = "wechat";
 //    public static String PROFILE_PNAME = "pname";

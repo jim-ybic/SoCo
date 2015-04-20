@@ -87,7 +87,7 @@ public class ProjectUpdatesFragment extends Fragment implements View.OnClickList
 //        String comment = et_comment.getText().toString();
 //        Log.d(tag, "add comment into database: " + comment);
 //
-//        String user = socoApp.nickname;
+//        String user = socoApp.username;
 //        String email = socoApp.loginEmail;
 //        if(user == null || user.isEmpty())
 //            user = socoApp.loginEmail;
@@ -117,7 +117,7 @@ public class ProjectUpdatesFragment extends Fragment implements View.OnClickList
         String comment = et_comment.getText().toString();
         Log.d(tag, "add comment into database: " + comment);
 
-        String user = socoApp.nickname;
+        String user = socoApp.username;
         String email = socoApp.loginEmail;
         if(user == null || user.isEmpty())
             user = socoApp.loginEmail;

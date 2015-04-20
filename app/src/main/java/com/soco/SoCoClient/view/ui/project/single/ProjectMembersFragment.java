@@ -75,23 +75,20 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
     }
 
     public void add(){
+        String url = profile.getInviteProjectMemberUrl(getActivity());
         String email = ((EditText) rootView.findViewById(R.id.et_add_member)).getText().toString();
         InviteProjectMemberTaskAsync httpTask = new InviteProjectMemberTaskAsync(
-                        profile.getInviteProjectMemberUrl(getActivity()),     //url
-//                        HttpConfig.HTTP_TYPE_INVITE_PROJECT_MEMBER,               //type
-//                        "", "",                                     //login email & password
-//                        getActivity().getApplicationContext(),      //context
-//                        null,                                       //project name
+                        url,
                         String.valueOf(pid_onserver),
-//                        pid_onserver,          //local & remote pid
-//                        null,                                       //attribute map
                         email                                       //invite email
         );
         httpTask.execute();
 
+        //todo: add member into database
+
+
         Toast.makeText(getActivity().getApplicationContext(), "Sent invitation success",
                 Toast.LENGTH_SHORT).show();
-
     }
 
     public void listMembers() {

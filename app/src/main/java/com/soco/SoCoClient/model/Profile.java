@@ -9,10 +9,11 @@ import com.soco.SoCoClient.control.config.GeneralConfig;
 import com.soco.SoCoClient.control.config.HttpConfig;
 
 public class Profile {
+    private static final String NICKNAME_NOT_SET = "NICKNAME NOT SET";
     static String tag = "Profile";
 
     public String email, password;
-    public String nickname;
+    public String username;
     public String phone, wechat, lastLoginTimestamp;
 
     public Profile(Context context) {
@@ -21,7 +22,7 @@ public class Profile {
 
         this.email = settings.getString(GeneralConfig.PROFILE_LOGIN_EMAIL,"");
         this.password = settings.getString(GeneralConfig.PROFILE_LOGIN_PASSWORD,"");
-        this.nickname = settings.getString(GeneralConfig.PROFILE_NICKNAME,"");
+        this.username = settings.getString(GeneralConfig.PROFILE_USERNAME,"");
         this.phone = settings.getString(GeneralConfig.PROFILE_PHONE,"");
         this.wechat = settings.getString(GeneralConfig.PROFILE_WECHAT,"");
         this.lastLoginTimestamp = settings.getString(GeneralConfig.PROFILE_LAST_LOGIN_TIMESTAMP,"");
@@ -42,35 +43,44 @@ public class Profile {
             Log.i(tag, "Profile is ready for: " + loginEmail);
     }
 
-    public String getNickname(Context context, String loginEmail) {
-        Log.i(tag, "Get nickname for: " + loginEmail);
+    public String getUsername(Context context, String loginEmail) {
+        Log.i(tag, "Get username for: " + loginEmail);
 
         SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        String n = settings.getString(GeneralConfig.PROFILE_NICKNAME, "");
-        String nickname;
+        String n = settings.getString(GeneralConfig.PROFILE_USERNAME, "");
+        String username;
         if (n.isEmpty())
-            nickname =  loginEmail;
+            username =  loginEmail;
         else
-            nickname = n;
+            username = n;
 
-        Log.i("profile", "Found nickname: " + nickname);
-        return nickname;
+        Log.i(tag, "Found username: " + username);
+        return username;
     }
 
-    public void save(Context context, String nickname, String phone, String wechat){
+    public void save(
+            Context context,
+            String username,
+            String phone,
+            String wechat
+    ){
         Log.i(tag, "Save profile to " + GeneralConfig.PROFILE_FILENAME);
 
         SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        editor.putString(GeneralConfig.PROFILE_NICKNAME, nickname);
+        editor.putString(GeneralConfig.PROFILE_USERNAME, username);
         editor.putString(GeneralConfig.PROFILE_PHONE, phone);
         editor.putString(GeneralConfig.PROFILE_WECHAT, wechat);
         editor.commit();
         Toast.makeText(context.getApplicationContext(), "Profile saved.",
                 Toast.LENGTH_SHORT).show();
+
+        this.username = username;
+        this.phone = phone;
+        this.wechat = wechat;
     }
 
     public void saveLoginAccessToken(Context context, String token){
@@ -201,6 +211,14 @@ public class Profile {
         return settings.getString(GeneralConfig.PROFILE_LOGIN_EMAIL, "");
     }
 
+    public String getNickname(Context context){
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        String name = settings.getString(GeneralConfig.PROFILE_USERNAME, "");
+        if(name == null || name.isEmpty())
+            name = NICKNAME_NOT_SET;
+        return name;
+    }
+
     public void setLoginEmail(Context context, String loginEmail){
         SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -262,13 +280,13 @@ public class Profile {
         SharedPreferences.Editor editor = settings.edit();
 //        editor.putString(GeneralConfig.PROFILE_LOGIN_EMAIL, "");
 //        editor.putString(GeneralConfig.PROFILE_LOGIN_PASSWORD, "");
-//        editor.putString(GeneralConfig.PROFILE_NICKNAME, "");
+//        editor.putString(GeneralConfig.PROFILE_USERNAME, "");
 //        editor.putString(GeneralConfig.PROFILE_PHONE, "");
 //        editor.putString(GeneralConfig.PROFILE_WECHAT, "");
 //        editor.putString(GeneralConfig.PROFILE_LOGIN_ACCESS_TOKEN, "");
 //        editor.remove(GeneralConfig.PROFILE_LOGIN_EMAIL);
 //        editor.remove(GeneralConfig.PROFILE_LOGIN_PASSWORD);
-//        editor.remove(GeneralConfig.PROFILE_NICKNAME);
+//        editor.remove(GeneralConfig.PROFILE_USERNAME);
 //        editor.remove(GeneralConfig.PROFILE_PHONE);
 //        editor.remove(GeneralConfig.PROFILE_WECHAT);
         editor.remove(GeneralConfig.PROFILE_LOGIN_ACCESS_TOKEN);

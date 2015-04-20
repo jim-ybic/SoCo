@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,7 +23,7 @@ public class ProfileActivity extends ActionBarActivity {
     // Local views
 //    TextView tv_profile_email;
     EditText et_profile_email, et_profile_password;
-    EditText et_profile_nickname, et_profile_phone, et_profile_wechat;
+    EditText et_profile_username, et_profile_phone, et_profile_wechat;
     TextView tv_lastLoginTimestamp;
 
     String loginEmail, loginPassword;
@@ -53,7 +51,7 @@ public class ProfileActivity extends ActionBarActivity {
     private void findViewsById() {
         et_profile_email = (EditText) findViewById(R.id.profile_email);
         et_profile_password = (EditText) findViewById(R.id.profile_password);
-        et_profile_nickname = (EditText) findViewById(R.id.profile_nickname);
+        et_profile_username = (EditText) findViewById(R.id.profile_username);
         et_profile_phone = (EditText) findViewById(R.id.profile_phone);
         et_profile_wechat = (EditText) findViewById(R.id.profile_wechat);
         tv_lastLoginTimestamp = (TextView) findViewById(R.id.tv_last_login_timestamp);
@@ -66,16 +64,17 @@ public class ProfileActivity extends ActionBarActivity {
 
     public void saveProfile(View view) {
         Log.i(tag, "Save profile to " + GeneralConfig.PROFILE_FILENAME);
-        profile.save(getApplicationContext(),
-                et_profile_nickname.getText().toString(),
+        profile.save(
+                getApplicationContext(),
+                et_profile_username.getText().toString(),
                 et_profile_phone.getText().toString(),
                 et_profile_wechat.getText().toString());
         profile.setLoginEmail(this, et_profile_email.getText().toString());
         profile.setLoginPassword(this, et_profile_password.getText().toString());
 
-        String name = et_profile_nickname.getText().toString();
+        String name = et_profile_username.getText().toString();
         if(!name.isEmpty())
-            ((SocoApp)getApplication()).nickname = name;
+            socoApp.username = name;
     }
 
     public void logout(View view) {
@@ -87,7 +86,7 @@ public class ProfileActivity extends ActionBarActivity {
 //        Log.d(tag, "clear UI");
 //        et_profile_email.setText(EMPTY_STRING);
 //        et_profile_password.setText(EMPTY_STRING);
-//        et_profile_nickname.setText(EMPTY_STRING);
+//        et_profile_username.setText(EMPTY_STRING);
 //        et_profile_phone.setText(EMPTY_STRING);
 //        et_profile_wechat.setText(EMPTY_STRING);
 //        tv_lastLoginTimestamp.setText(EMPTY_STRING);
@@ -101,7 +100,7 @@ public class ProfileActivity extends ActionBarActivity {
     public void showProfile(Profile profile){
         et_profile_email.setText(profile.email);
         et_profile_password.setText(profile.password);
-        et_profile_nickname.setText(profile.nickname);
+        et_profile_username.setText(profile.username);
         et_profile_phone.setText(profile.phone);
         et_profile_wechat.setText(profile.wechat);
         tv_lastLoginTimestamp.setText(profile.lastLoginTimestamp);

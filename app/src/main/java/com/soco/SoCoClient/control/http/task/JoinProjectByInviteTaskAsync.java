@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
+    private static final String TEST_NO_INVITER_EMAIL = "TEST_NO_INVITER_EMAIL";
     static String tag = "JoinProjectByInviteTask";
 
     String url;
@@ -122,7 +123,7 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
 
                 //add inviter to project memberlist
                 DBManagerSoco dbManagerSoco = ((SocoApp)context).dbManagerSoco;
-                dbManagerSoco.addMemberToProject(inviter, Integer.valueOf(pid));
+                dbManagerSoco.addMemberToProject(inviter, TEST_NO_INVITER_EMAIL, Integer.valueOf(pid));
 
                 return true;
             }

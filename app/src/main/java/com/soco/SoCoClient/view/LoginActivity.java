@@ -109,7 +109,7 @@ public class LoginActivity extends ActionBarActivity {
         loginPassword = et_login_password.getText().toString();
 
         profile.ready(getApplicationContext(), loginEmail);
-        nickname = profile.getNickname(getApplicationContext(), loginEmail);
+        nickname = profile.getUsername(getApplicationContext(), loginEmail);
         Log.d(tag, "save current login email/password into profile: " +
                 loginEmail + ", " + loginPassword);
         profile.setLoginEmail(this, loginEmail);
@@ -168,7 +168,7 @@ public class LoginActivity extends ActionBarActivity {
         loginPassword = et_login_password.getText().toString();
 
         profile.ready(getApplicationContext(), loginEmail);
-        nickname = profile.getNickname(getApplicationContext(), loginEmail);
+        nickname = profile.getUsername(getApplicationContext(), loginEmail);
 
         //set initial status and start login
         socoApp.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_START);
