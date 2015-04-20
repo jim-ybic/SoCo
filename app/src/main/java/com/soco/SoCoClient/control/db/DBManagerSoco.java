@@ -501,4 +501,40 @@ public class DBManagerSoco {
 
         Log.d(tag, "Updated project complete");
     }
+
+    public HashMap<String, String> getContacts() {
+        Log.d(tag, "get contacts");
+        HashMap<String, String> contactEmailName = new HashMap<>();
+
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_CONTACT,
+                null);
+
+        String email, name;
+        while (c.moveToNext()) {
+            email = c.getString(c.getColumnIndex(DataConfig.COLUMN_CONTACT_EMAIL));
+            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_CONTACT_NAME));
+            Log.d(tag, "Found user " + name + "/" + email);
+            contactEmailName.put(email, name);
+        }
+        c.close();
+        return contactEmailName;
+
+    }
+
+    public void saveContact(String email) {
+        Log.d(tag, "Adding contact " + email);
+        try {
+            db.beginTransaction();
+
+            Log.i(tag, "insert into contacts: " + email);
+            ContentValues cv = new ContentValues();
+            cv.put(DataConfig.COLUMN_CONTACT_EMAIL, email);
+            cv.put(DataConfig.COLUMN_CONTACT_NAME, TEST_NONAME);
+
+            db.insert(DataConfig.TABLE_CONTACT, null, cv);
+        } finally {
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+    }
 }

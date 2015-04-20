@@ -102,7 +102,6 @@ public class ProjectMembersFragment extends Fragment implements View.OnClickList
     public void listMembers() {
         Log.d(tag, "List project members");
         ArrayList<Item> memberItems = new ArrayList<Item>();
-        DBManagerSoco dbManagerSoco = ((SocoApp)getActivity().getApplicationContext()).dbManagerSoco;
         HashMap<String, String> map = dbManagerSoco.getMembersOfProject(pid);
 
         for(Map.Entry<String, String> e : map.entrySet()){

@@ -23,7 +23,7 @@ public class DashboardTabsPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new DashboardContactsFragment();
             case 2:
-                return new DashboardContactsFragment();
+                return new DashboardCalendarFragment();
             case 3:
                 return new DashboardContactsFragment();
         }

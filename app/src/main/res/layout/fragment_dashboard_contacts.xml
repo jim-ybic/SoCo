@@ -4,9 +4,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow>
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Input Email to Invite"
+                android:layout_weight="1"
+                android:inputType="textEmailAddress"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:textSize="25dp"
+                android:id="@+id/add"/>
+        </TableRow>
+    </TableLayout>
+
+    <ListView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="List of Contacts"/>
+        android:id="@+id/listview_contacts" />
 
 </LinearLayout>

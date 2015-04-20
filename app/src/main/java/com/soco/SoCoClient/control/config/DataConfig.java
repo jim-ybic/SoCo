@@ -2,6 +2,8 @@ package com.soco.SoCoClient.control.config;
 
 public class DataConfig {
 
+    public static String TEST_NO_NAME = "TEST NO NAME";
+
     public static String TABLE_ACTIVITY = "activity";
     public static String COLUMN_ACTIVITY_ID = "aid";
     public static String COLUMN_ACTIVITY_NAME = "aname";
@@ -75,4 +77,18 @@ public class DataConfig {
 
     public static int ACTIVITY_INVITATION_STATUS_COMPLETE = 1;
     public static int ACTIVITY_INVITATION_STATUS_INCOMPLETE = 0;
+
+    public static String TABLE_CONTACT = "contact";
+    public static String COLUMN_CONTACT_ID = "contact_id";
+    public static String COLUMN_CONTACT_EMAIL = "contact_email";
+    public static String COLUMN_CONTACT_NAME = "contact_name";
+
+    public static String TABLE_CHAT = "chat";
+    public static String COLUMN_CHAT_ID = "chat_id";
+    public static String COLUMN_CHAT_CONTACT_ID = "chat_contact_id";
+    public static String COLUMN_CHAT_CONTENT = "chat_content";
+    public static String COLUMN_CHAT_TIMESTAMP = "chat_timestamp";
+    public static String COLUMN_CHAT_TYPE = "chat_type";
+
+
 }

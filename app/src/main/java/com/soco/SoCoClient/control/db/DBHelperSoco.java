@@ -8,7 +8,7 @@ import com.soco.SoCoClient.control.config.DataConfig;
 
 public class DBHelperSoco extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "soco.0.1.13.db";
+    public static String DATABASE_NAME = "soco.0.1.14.db";
     public static int DATABASE_VERSION = 1;
 
     public DBHelperSoco(Context context) {
@@ -62,6 +62,18 @@ public class DBHelperSoco extends SQLiteOpenHelper {
                 DataConfig.COLUMN_ACTIVITY_UPDATES_COMMENT + " VARCHAR, " +
                 DataConfig.COLUMN_ACTIVITY_UPDATES_USER + " VARCHAR, " +
                 DataConfig.COLUMN_ACTIVITY_UPDATES_TIMESTAMP + " VARCHAR)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_CONTACT + " (" +
+                DataConfig.COLUMN_CONTACT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DataConfig.COLUMN_CONTACT_EMAIL + " VARCHAR, " +
+                DataConfig.COLUMN_CONTACT_NAME + " VARCHAR)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_CHAT + " (" +
+                DataConfig.COLUMN_CHAT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DataConfig.COLUMN_CHAT_CONTACT_ID + " INTEGER, " +
+                DataConfig.COLUMN_CHAT_CONTENT + " VARCHAR, " +
+                DataConfig.COLUMN_CHAT_TIMESTAMP + " VARCHAR, " +
+                DataConfig.COLUMN_CHAT_TYPE + " VARCHAR)");
 
     }
 
