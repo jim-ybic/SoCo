@@ -21,7 +21,7 @@ public class DashboardActivity extends ActionBarActivity implements
     private android.support.v7.app.ActionBar actionBar;
 
     // Tab titles
-    private String[] tabs = {"Activities" , "Contacts", "Calendar", "Discovery"};
+    private String[] tabs = {"Activities" , "Contacts", "Calendar", "Discover"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

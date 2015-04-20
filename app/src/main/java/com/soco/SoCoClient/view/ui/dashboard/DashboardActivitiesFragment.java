@@ -69,7 +69,8 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
         loginPassword = socoApp.loginPassword;
         Log.i(tag, "onCreate, get login info: " + loginEmail + ", " + loginPassword);
 
-        dbmgrSoco = new DBManagerSoco(getActivity());
+//        dbmgrSoco = new DBManagerSoco(getActivity());
+        dbmgrSoco = socoApp.dbManagerSoco;
 //        dbmgrSoco.context = getActivity().getApplicationContext();
 //        socoApp.dbManagerSoco = dbmgrSoco;
         projects = dbmgrSoco.loadProjectsByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
@@ -208,8 +209,13 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
             ArrayList<Project> pp = e.getValue();
 
             activeProjectItems.add(new SectionItem(tag));
-            for(Project p : pp)
-                activeProjectItems.add(new EntryItem(p.pname, p.getMoreInfo()));
+            for(Project p : pp) {
+                //fix Bug #4 new activity created from invitation has delay in showing activity title
+                if(p.invitation_status == DataConfig.ACTIVITY_INVITATION_STATUS_COMPLETE)
+                    activeProjectItems.add(new EntryItem(p.pname, p.getMoreInfo()));
+                else
+                    Log.i(tag, "skip showing project that pending invitation complete: " + p.pid);
+            }
         }
 
         SectionEntryListAdapter adapter = new SectionEntryListAdapter(getActivity(), activeProjectItems);

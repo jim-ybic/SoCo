@@ -11,6 +11,7 @@ public class DataConfig {
     public static String COLUMN_ACTIVITY_SIGNATURE = "signature";
     public static String COLUMN_ACTIVITY_ACTIVE = "active";
     public static String COLUMN_ACTIVITY_ID_ONSERVER = "id_onserver";
+    public static String COLUMN_ACTIVITY_INVITATION_STATUS = "invitation_status";
 
     public static String VALUE_ACTIVITY_ACTIVE = "active";
     public static String VALUE_ACTIVITY_INACTIVE = "inactive";
@@ -71,4 +72,7 @@ public class DataConfig {
     public static int UPDATE_INDEX_NAME = 0;
     public static int UPDATE_INDEX_COMMENT = 1;
     public static int UPDATE_INDEX_TIMESTAMP = 2;
+
+    public static int ACTIVITY_INVITATION_STATUS_COMPLETE = 1;
+    public static int ACTIVITY_INVITATION_STATUS_INCOMPLETE = 0;
 }

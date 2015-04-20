@@ -70,6 +70,7 @@ public class LoginActivity extends ActionBarActivity {
 
         dbmgrSoco = new DBManagerSoco(getApplicationContext());
         dbmgrSoco.context = getApplicationContext();
+        Log.i(tag, "login activity: get application context " + dbmgrSoco.context);
         socoApp.dbManagerSoco = dbmgrSoco;
 
         findViewsById();

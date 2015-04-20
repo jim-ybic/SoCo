@@ -99,7 +99,7 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
                 else
                     Log.i(tag, "No project str is found");
 
-                //retrieve all attributes
+                //add all attributes to database
                 if(json.has(HttpConfig.JSON_KEY_ATTRIBUTES)) {
                     String attrStr = json.getString(HttpConfig.JSON_KEY_ATTRIBUTES);
                     Log.i(tag, "Attribute str: " + attrStr);
@@ -115,6 +115,7 @@ public class JoinProjectByInviteTaskAsync extends AsyncTask<Void, Void, Boolean>
                     }
                     DBManagerSoco dbManagerSoco = ((SocoApp) context).dbManagerSoco;
                     dbManagerSoco.updateDbProjectAttributes(Integer.valueOf(pid), attrMap);
+                    dbManagerSoco.setInvitationStatusCompleted(Integer.valueOf(pid));
                 }
                 else
                     Log.i(tag, "No attribute string is found");

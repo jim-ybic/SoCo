@@ -92,20 +92,35 @@ public class DBManagerSoco {
     public int addProject(Project p){
         Log.i(tag, "Add new project: " + p.pname);
         int pid = -1;
+        Log.i(tag, "dbmanager context: " + context);
         String userEmail = ((SocoApp)context).loginEmail;
         try {
             db.beginTransaction();
 
             //add into activity table
-            Log.i(tag, "Insert into db: " + p.pname + ", "
+            Log.i(tag, "Insert into db: " + p.pname + ", , "
                     + SignatureUtil.now() + ", " + SignatureUtil.now() + ", "
                     + SignatureUtil.genSHA1(p) + ", " + DataConfig.VALUE_ACTIVITY_ACTIVE + ", "
-                    + p.pid_onserver);
-            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY
-                            + " VALUES(null, ?, ?, ?, ?, ?, ?, ?)",
-                    new Object[]{p.pname, "",
-                            SignatureUtil.now(), SignatureUtil.now(), SignatureUtil.genSHA1(p),
-                            DataConfig.VALUE_ACTIVITY_ACTIVE, p.pid_onserver});
+                    + p.pid_onserver + ", " + p.invitation_status);
+
+//            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY
+//                            + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?)",
+//                    new Object[]{p.pname, "",
+//                            SignatureUtil.now(), SignatureUtil.now(), SignatureUtil.genSHA1(p),
+//                            DataConfig.VALUE_ACTIVITY_ACTIVE, p.pid_onserver, p.invitation_status});
+
+            ContentValues cv = new ContentValues();
+            cv.put(DataConfig.COLUMN_ACTIVITY_NAME, p.pname);
+            cv.put(DataConfig.COLUMN_ACTIVITY_CREATE_TIMESTAMP, SignatureUtil.now());
+            cv.put(DataConfig.COLUMN_ACTIVITY_UPDATE_TIMESTAMP, SignatureUtil.now());
+            cv.put(DataConfig.COLUMN_ACTIVITY_SIGNATURE, SignatureUtil.genSHA1(p));
+            cv.put(DataConfig.COLUMN_ACTIVITY_ACTIVE, DataConfig.VALUE_ACTIVITY_ACTIVE);
+            cv.put(DataConfig.COLUMN_ACTIVITY_ID_ONSERVER, p.pid_onserver);
+            cv.put(DataConfig.COLUMN_ACTIVITY_INVITATION_STATUS, p.invitation_status);
+            db.insert(DataConfig.TABLE_ACTIVITY, null, cv);
+//            cv.put("photoName", photoName);
+//            cv.put("title", title);
+//            return db.insert(mTUserPhoto, null, cv);
 
             //get pid
             String query = "SELECT MAX(" + DataConfig.COLUMN_ACTIVITY_ID
@@ -460,4 +475,18 @@ public class DBManagerSoco {
         }
     }
 
+    public void setInvitationStatusCompleted(int pid) {
+        Log.i(tag, "Set invitation status for project: " + pid);
+
+        ContentValues cv = new ContentValues();
+        cv.put(DataConfig.COLUMN_ACTIVITY_INVITATION_STATUS,
+                DataConfig.ACTIVITY_INVITATION_STATUS_COMPLETE);
+        String now = SignatureUtil.now();
+        cv.put(DataConfig.COLUMN_ACTIVITY_UPDATE_TIMESTAMP, now);
+
+        db.update(DataConfig.TABLE_ACTIVITY, cv, DataConfig.COLUMN_ACTIVITY_ID + " = ?",
+                new String[]{String.valueOf(pid)});
+
+        Log.d(tag, "Updated project complete");
+    }
 }

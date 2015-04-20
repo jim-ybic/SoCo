@@ -15,6 +15,7 @@ public class Project {
     public String psignature;
     public String pactive;
     public String pid_onserver;
+    public int invitation_status;
 
     static String DEFAULT_PROJECT_TAG = "default";
     static String tag = "Project";
@@ -24,6 +25,7 @@ public class Project {
 
         this.ptag = DEFAULT_PROJECT_TAG;
         this.pupdate_timestamp = SignatureUtil.now();
+        this.invitation_status = 1;
     }
 
     public Project(Cursor c) {
@@ -37,6 +39,7 @@ public class Project {
         this.psignature = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_SIGNATURE));
         this.pactive = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ACTIVE));
         this.pid_onserver = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ID_ONSERVER));
+        this.invitation_status = c.getInt(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_INVITATION_STATUS));
 
         this.ptag = DEFAULT_PROJECT_TAG;
     }

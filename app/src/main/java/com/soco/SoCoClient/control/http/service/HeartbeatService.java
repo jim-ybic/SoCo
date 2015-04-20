@@ -3,9 +3,11 @@ package com.soco.SoCoClient.control.http.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.soco.SoCoClient.control.SocoApp;
+import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.HttpUtil;
@@ -141,6 +143,15 @@ public class HeartbeatService extends Service {
         return true;
     }
 
+    /*
+    Sample message:
+        "invitation"":"[
+            {inviter:test@test.com,
+            activity:1,
+            date:2015-05-05 11:1:11},
+            {another invitation}
+        ]"}
+     */
     private boolean joinActivititiesByInvite(JSONObject json) {
         try {
             Log.i(tag, "Invitation str: " + json.getString(HttpConfig.JSON_KEY_INVITATION));
@@ -156,9 +167,9 @@ public class HeartbeatService extends Service {
                 Log.i(tag, "Get invitation: " + inviter + ", " + pid_onserver + ", " + date);
 
                 //add project into database
-
                 Project p = new Project("");
                 p.pid_onserver = pid_onserver;
+                p.invitation_status = DataConfig.ACTIVITY_INVITATION_STATUS_INCOMPLETE;
                 int pid = dbManagerSoco.addProject(p);
                 Log.i(tag, "New project added to database, pid_onserver is " + pid_onserver);
 
