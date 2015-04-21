@@ -128,6 +128,7 @@ public class DBManagerSoco {
             cv.put(DataConfig.COLUMN_ACTIVITY_ACTIVE, DataConfig.VALUE_ACTIVITY_ACTIVE);
             cv.put(DataConfig.COLUMN_ACTIVITY_ID_ONSERVER, p.pid_onserver);
             cv.put(DataConfig.COLUMN_ACTIVITY_INVITATION_STATUS, p.invitation_status);
+            cv.put(DataConfig.COLUMN_ACTIVITY_TAG, p.ptag);
             db.insert(DataConfig.TABLE_ACTIVITY, null, cv);
 //            cv.put("photoName", photoName);
 //            cv.put("title", title);
@@ -312,7 +313,7 @@ public class DBManagerSoco {
     }
 
     public void updateProjectTag(int pid, String ptag){
-        Log.i(tag, "Update database for project: " + pid);
+        Log.i(tag, "Update project tag for pid: " + pid + ", " + ptag);
 
         ContentValues cv = new ContentValues();
         cv.put(DataConfig.COLUMN_ACTIVITY_TAG, ptag);
@@ -322,8 +323,7 @@ public class DBManagerSoco {
         db.update(DataConfig.TABLE_ACTIVITY, cv, DataConfig.COLUMN_ACTIVITY_ID + " = ?",
                 new String[]{String.valueOf(pid)});
 
-        Log.i(tag, "Updated project " + pid + " tag: " + ptag);
-        Log.i(tag, "Updated project " + pid + " update timestamp: " + now);
+        Log.d(tag, "Updated project " + pid + " tag: " + ptag);
     }
 
     public void updateProjectActiveness(int pid, String activeness) {
@@ -536,5 +536,19 @@ public class DBManagerSoco {
             db.setTransactionSuccessful();
             db.endTransaction();
         }
+    }
+
+    public void updateContactName(String email, String name) {
+        Log.i(tag, "Update contact name: " + email + ", " + name);
+
+        ContentValues cv = new ContentValues();
+        cv.put(DataConfig.COLUMN_CONTACT_EMAIL, email);
+        cv.put(DataConfig.COLUMN_CONTACT_NAME, name);
+
+        db.update(DataConfig.TABLE_CONTACT, cv,
+                DataConfig.COLUMN_CONTACT_EMAIL + " = ?",
+                new String[]{email});
+
+        Log.d(tag, "Updated contact name ");
     }
 }

@@ -2,8 +2,10 @@ package com.soco.SoCoClient.model;
 
 
 import android.database.Cursor;
+import android.util.Log;
 
 import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.config.GeneralConfig;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 
 public class Project {
@@ -17,13 +19,14 @@ public class Project {
     public String pid_onserver;
     public int invitation_status;
 
-    static String DEFAULT_PROJECT_TAG = "default";
     static String tag = "Project";
 
     public Project(String name) {
-        this.pname = name;
+        Log.d(tag, "create new project with name " + name
+                + ", default tag is " + GeneralConfig.DEFAULT_PROJECT_TAG);
 
-        this.ptag = DEFAULT_PROJECT_TAG;
+        this.pname = name;
+        this.ptag = GeneralConfig.DEFAULT_PROJECT_TAG;
         this.pupdate_timestamp = SignatureUtil.now();
         this.invitation_status = 1;
     }
@@ -40,8 +43,7 @@ public class Project {
         this.pactive = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ACTIVE));
         this.pid_onserver = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ID_ONSERVER));
         this.invitation_status = c.getInt(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_INVITATION_STATUS));
-
-        this.ptag = DEFAULT_PROJECT_TAG;
+        this.ptag = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_TAG));;
     }
 
     public String getMoreInfo() {

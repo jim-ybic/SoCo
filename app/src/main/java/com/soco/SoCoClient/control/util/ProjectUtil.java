@@ -115,8 +115,10 @@ public class ProjectUtil {
 
 
     public static HashMap<String, ArrayList<Project>> groupingProjectsByTag(List<Project> projects){
+        Log.d(tag, "grouping project by tag");
         HashMap<String, ArrayList<Project>> map = new HashMap<String, ArrayList<Project>>();
         for(Project p : projects){
+            Log.d(tag, "processing project " + p.pname + " with tag " + p.ptag);
             String tag = p.ptag;
             if (map.containsKey(tag)) {
                 Log.d(tag, "Add " + p.pname + " into existing group " + tag);

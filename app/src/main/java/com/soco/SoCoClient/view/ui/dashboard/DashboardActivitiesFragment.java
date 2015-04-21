@@ -200,7 +200,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
     }
 
     public void listProjects() {
-        Log.d(tag, "List projects test");
+        Log.d(tag, "List projects");
         activeProjectItems = new ArrayList<Item>();
 
         HashMap<String, ArrayList<Project>> map = ProjectUtil.groupingProjectsByTag(projects);
@@ -238,6 +238,8 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
 
     public void quickAdd(){
         String name = ((EditText)rootView.findViewById(R.id.et_quickadd)).getText().toString();
+        Log.d(tag, "quick add activity " + name);
+
         Project p = new Project(name);
         int pid = dbmgrSoco.addProject(p);
         Toast.makeText(getActivity().getApplicationContext(),

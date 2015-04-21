@@ -2,7 +2,9 @@ package com.soco.SoCoClient.control.config;
 
 public class GeneralConfig {
 
-    public static final String APP_FOLDER_NAME = "SoCo";
+    public static String DEFAULT_PROJECT_TAG = "default";
+
+    public static String APP_FOLDER_NAME = "SoCo";
 
 //    public static String PROGRAM_PNAME = "PROGRAM_PNAME";
 //    public static String PROGRAM_PINFO = "PROGRAM_PINFO";
