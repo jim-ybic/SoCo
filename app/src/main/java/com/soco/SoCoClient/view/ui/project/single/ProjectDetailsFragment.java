@@ -100,8 +100,8 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
         PopulatePhoneEmailList();
 
         //set button listeners
-        rootView.findViewById(R.id.bt_save_project).setOnClickListener(this);
-        rootView.findViewById(R.id.bt_finish_project).setOnClickListener(this);
+//        rootView.findViewById(R.id.bt_save_project).setOnClickListener(this);
+//        rootView.findViewById(R.id.bt_finish_project).setOnClickListener(this);
         rootView.findViewById(R.id.et_spdate).setOnClickListener(this);
         rootView.findViewById(R.id.et_sptime).setOnClickListener(this);
         rootView.findViewById(R.id.bt_splocation).setOnClickListener(this);
@@ -116,12 +116,12 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bt_save_project:
-                saveProjectToDb();
-                break;
-            case R.id.bt_finish_project:
-                setProjectCompleted();
-                break;
+//            case R.id.bt_save_project:
+//                saveProjectToDb();
+//                break;
+//            case R.id.bt_finish_project:
+//                setProjectCompleted();
+//                break;
             case R.id.et_spdate:
                 pdatePickerDialog.show();
                 break;
@@ -264,7 +264,7 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.i(tag, "onOptionsItemSelected");
+        Log.i(tag, "onOptionsItemSelected:" + item.getItemId());
 
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -323,6 +323,12 @@ public class ProjectDetailsFragment extends Fragment implements View.OnClickList
                     et_sptag.setText("");
                     tr_sptag.setVisibility(View.GONE);
                 }
+                break;
+            case R.id.save_activity:
+                saveProjectToDb();
+                break;
+            case R.id.delete_activity:
+                setProjectCompleted();
                 break;
         }
 

@@ -4,6 +4,24 @@
     tools:context="com.soco.SoCoClient.view.ui.project.single.ShowSingleProjectActivity">
 
     <item
+        android:id="@+id/delete_activity"
+        android:icon="@drawable/ic_action_delete"
+        app:showAsAction="always"
+        android:title="Delete"/>
+
+    <item
+        android:id="@+id/save_activity"
+        android:icon="@drawable/ic_action_save_dark"
+        app:showAsAction="always"
+        android:title="Save"/>
+
+    <item
+        android:id="@+id/add_field"
+        android:icon="@drawable/ic_action_edit"
+        app:showAsAction="always"
+        android:title="Edit"/>
+
+    <item
         android:id="@+id/mn_datetime"
         android:title="+/- date, time"
         android:orderInCategory="100"
