@@ -32,6 +32,7 @@ public class ProfileActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(tag, "on create");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
