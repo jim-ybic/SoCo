@@ -247,7 +247,7 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public boolean validateLogin(String loginEmail, String loginPassword) {
-        Log.i("login", "Validate login for: " + loginEmail + "/" + loginPassword);
+        Log.i("login", "22Validate login for: " + loginEmail + "/" + loginPassword);
 
         //TODO: add login validation logic here
 
