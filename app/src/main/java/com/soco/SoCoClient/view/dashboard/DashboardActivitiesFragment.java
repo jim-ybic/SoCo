@@ -90,7 +90,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
         //set button listeners
         rootView.findViewById(R.id.add).setOnClickListener(this);
         rootView.findViewById(R.id.create).setOnClickListener(this);
-        rootView.findViewById(R.id.archive).setOnClickListener(this);
+//        rootView.findViewById(R.id.archive).setOnClickListener(this);
 //        rootView.findViewById(R.id.exit).setOnClickListener(this);
 
         listProjects();
@@ -138,9 +138,8 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_show_active_activities, menu);
+        inflater.inflate(R.menu.menu_dashboard__activities, menu);
         super.onCreateOptionsMenu(menu, inflater);
-        return;
     }
 
     @Override
@@ -152,6 +151,9 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
             intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
             intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
             startActivity(intent);
+        }
+        else if (id == R.id.archive) {
+            showCompletedProjects();
         }
 
         return super.onOptionsItemSelected(item);
@@ -202,7 +204,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
 
     public void listProjects() {
         Log.d(tag, "List projects");
-        activeProjectItems = new ArrayList<Item>();
+        activeProjectItems = new ArrayList<>();
 
         HashMap<String, ArrayList<Activity>> map = ActivityUtil.groupingActivitiesByTag(activities);
         for(Map.Entry<String, ArrayList<Activity>> e : map.entrySet()){

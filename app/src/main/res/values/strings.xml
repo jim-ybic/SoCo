@@ -20,7 +20,7 @@
     <!-- <string name="title_activity_display_message">Project Details</string> -->
     <!-- <string name="title_activity_read_file">ReadFileActivity</string> -->
     <!-- <string name="title_activity_create_program">CreateProgramActivity</string> -->
-    <string name="title_activity_show_inactive_projects">Archive</string>
+    <string name="title_activity_show_inactive_projects">Completed Activities</string>
     <string name="title_activity_login">SoCo</string>
     <string name="title_activity_profile">Profile</string>
     <!-- <string name="title_activity_show_more">ShowMoreActivity</string> -->

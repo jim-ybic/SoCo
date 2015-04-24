@@ -63,7 +63,8 @@
         <activity
             android:name=".view.activities.CompletedActivitiessActivity"
             android:label="@string/title_activity_show_inactive_projects"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            android:parentActivityName=".view.dashboard.DashboardActivity">
         </activity>
 
         <meta-data
@@ -75,7 +76,8 @@
 
         <activity
             android:name=".view.config.ProfileActivity"
-            android:label="@string/title_activity_profile" >
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".view.dashboard.DashboardActivity">
         </activity>
         <activity
             android:name=".view.config.ServerConfigActivity"

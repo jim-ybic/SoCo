@@ -14,7 +14,7 @@
                 android:id="@+id/et_quickadd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Quick Add Project"
+                android:hint="Quick Add New Activity"
                 android:layout_weight="1"/>
             <Button
                 android:layout_width="wrap_content"
@@ -37,22 +37,21 @@
         android:gravity="center|bottom"
         android:orientation="horizontal" >
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New"
+            android:text="  Create New Activity  "
             android:id="@+id/create"
             android:drawableLeft="@drawable/ic_action_new"
-            android:layout_weight="1"
             android:textSize="10dp"/>
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Archive"
-            android:id="@+id/archive"
-            android:onClick="showCompletedProjects"
-            android:drawableLeft="@drawable/ic_action_collection"
-            android:layout_weight="1"
-            android:textSize="10dp"/>
+        <!--<Button-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Archive"-->
+            <!--android:id="@+id/archive"-->
+            <!--android:onClick="showCompletedProjects"-->
+            <!--android:drawableLeft="@drawable/ic_action_collection"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textSize="10dp"/>-->
         <!--<Button-->
             <!--android:layout_width="fill_parent"-->
             <!--android:layout_height="wrap_content"-->
