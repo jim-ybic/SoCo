@@ -48,9 +48,9 @@ public class ServerConfigActivity extends ActionBarActivity {
         );
     }
 
-//    public void cancel (View view){
-//        finish();
-//    }
+    public void cancel (View view){
+        finish();
+    }
 
     public void save (View view){
         profile.setServerIp(this, et_servip.getText().toString());

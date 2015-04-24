@@ -56,12 +56,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.ui.dashboard.DashboardActivity"
+            android:name=".view.dashboard.DashboardActivity"
             android:label="@string/title_dashboard"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".view.ui.project.list.ShowInactiveProjectsActivity"
+            android:name=".view.activities.CompletedActivitiessActivity"
             android:label="@string/title_activity_show_inactive_projects"
             android:launchMode="singleTop" >
         </activity>
@@ -74,16 +74,12 @@
             android:value="AIzaSyCZmxbgzgDM4ncl6A8BWtw5AujhuAGPZ60" />
 
         <activity
-            android:name=".view.ui.config.ProfileActivity"
-            android:label="@string/title_activity_profile">
+            android:name=".view.config.ProfileActivity"
+            android:label="@string/title_activity_profile" >
         </activity>
         <activity
-            android:name=".view.ui.config.ServerConfigActivity"
+            android:name=".view.config.ServerConfigActivity"
             android:label="@string/title_activity_server_config" >
-        </activity>
-        <activity
-            android:name=".zz.ShowSharedFilesActivity"
-            android:label="@string/title_activity_show_shared_files" >
         </activity>
 
         <service
@@ -94,12 +90,21 @@
             android:enabled="true" />
 
         <activity
-            android:name=".view.ui.project.single.ProjectLocationActivity"
+            android:name=".view.activities.ActivityLocationActivity"
             android:label="@string/title_activity_project_location" >
         </activity>
         <activity
-            android:name=".view.ui.project.single.ShowSingleProjectActivity"
+            android:name=".view.activities.SingleActivityActivity"
             android:label="@string/title_show_single_project" >
+        </activity>
+        <activity
+            android:name=".view.contacts.ContactDetailsActivity"
+            android:label="@string/title_activity_contact_details"
+            android:parentActivityName=".view.dashboard.DashboardActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.dashboard.DashboardActivity" />
         </activity>
     </application>
 
