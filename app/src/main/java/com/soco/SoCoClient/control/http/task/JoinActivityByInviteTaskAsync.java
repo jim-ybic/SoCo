@@ -92,7 +92,7 @@ public class JoinActivityByInviteTaskAsync extends AsyncTask<Void, Void, Boolean
                     String type = p.getString(HttpConfig.JSON_KEY_PROJECT_TYPE);
                     //update project details in database
                     DBManagerSoco dbManagerSoco = ((SocoApp)context).dbManagerSoco;
-                    dbManagerSoco.updateProjectName(Integer.valueOf(pid), name);
+                    dbManagerSoco.updateActivityName(Integer.valueOf(pid), name);
                     dbManagerSoco.updateAcivityTag(Integer.valueOf(pid), tag);
                     //todo: add project signature and type
                 }

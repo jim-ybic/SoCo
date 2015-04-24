@@ -55,7 +55,7 @@ public class DataConfig {
 
     public static String TYPE_STRING = "String";
 
-    public static final String DEFAULT_PROJECT_TYPE = "activity";
+    public static String DEFAULT_PROJECT_TYPE = "activity";
 
     public static String TABLE_ACTIVITY_MEMBER = "activity_member";
     public static String COLUMN_ACTIVITY_MEMBER_AID = "aid";

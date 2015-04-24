@@ -159,13 +159,13 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
         pid_onserver = socoApp.pid_onserver;
         Log.d(tag, "pid is " + pid + ", pid_onserver is " + pid_onserver);
 
-        Log.i(tag, "onCreate, get project properties: "
-                        + GeneralConfig.PROJECT_PID + ":" + pid + ","
-                        + GeneralConfig.PROJECT_PID_ONSERVER + ":" + pid_onserver
-        );
+//        Log.i(tag, "onCreate, get project properties: "
+//                        + GeneralConfig.PROJECT_PID + ":" + pid + ","
+//                        + GeneralConfig.PROJECT_PID_ONSERVER + ":" + pid_onserver
+//        );
 
         dbmgrSoco = new DBManagerSoco(getActivity().getApplication());
-        activity = dbmgrSoco.loadProjectByPid(pid);
+        activity = dbmgrSoco.loadActivityByAid(pid);
         attrMap = dbmgrSoco.loadActivityAttributesByPid(pid);
 
         dropboxApi = DropboxUtil.initDropboxApiAuthentication(
@@ -475,7 +475,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
         Log.i(tag, "Save to db the project: " + activity.pid + ", " + activity.pid_onserver + ", "
                 + activity.pname);
         String pname = et_spname.getText().toString();
-        dbmgrSoco.updateProjectName(activity.pid, pname);
+        dbmgrSoco.updateActivityName(activity.pid, pname);
         ActivityUtil.serverUpdateActivityName(String.valueOf(pid), getActivity().getApplication(),
                 pname, pid_onserver);
 
@@ -810,7 +810,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
 //        switch(requestCode) {
 //            case (100) : {  //show more
 //                if (resultCode == Activity.RESULT_OK) {
-//                    original_pname = data.getStringExtra(GeneralConfig.PROJECT_PNAME);
+//                    original_pname = data.getStringExtra(GeneralConfig.ACTIVITY_NAME);
 //                }
 //                break;
 //            }

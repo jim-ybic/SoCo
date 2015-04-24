@@ -46,7 +46,7 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.d(tag, "create project resources fragment view");
+        Log.d(tag, "create activity resources fragment view");
         rootView = inflater.inflate(R.layout.fragment_activity_resources, container, false);
         if(rootView == null)
             Log.e(tag, "cannot find rootview");
@@ -71,7 +71,7 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
                 ListView listView = (ListView) parent;
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
-                String name = map.get(GeneralConfig.PROJECT_PNAME);
+                String name = map.get(GeneralConfig.ACTIVITY_NAME);
                 Log.i(tag, "Click on shared file list: " + name);
                 String localPath = sharedFilesLocalPath.get(position);
                 Log.i(tag, "Shared file local path: " + localPath);
@@ -169,15 +169,15 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
         for (String filename : sharedFiles) {
             Log.d(tag, "Shared file list adding: " + filename);
             HashMap<String, String> map = new HashMap<>();
-            map.put(GeneralConfig.PROJECT_PNAME, filename);
-            map.put(GeneralConfig.PROJECT_PINFO, "no more info");
+            map.put(GeneralConfig.ACTIVITY_NAME, filename);
+            map.put(GeneralConfig.ACTIVITY_INFO, "no more info");
             list.add(map);
         }
 
         ListView lv_files = (ListView) rootView.findViewById(R.id.lv_files);
         resourcesAdapter = new SimpleAdapter(getActivity(), list,
                 android.R.layout.simple_list_item_2,
-                new String[]{GeneralConfig.PROJECT_PNAME, GeneralConfig.PROJECT_PINFO},
+                new String[]{GeneralConfig.ACTIVITY_NAME, GeneralConfig.ACTIVITY_INFO},
                 new int[]{android.R.id.text1, android.R.id.text2});
         lv_files.setAdapter(resourcesAdapter);
     }

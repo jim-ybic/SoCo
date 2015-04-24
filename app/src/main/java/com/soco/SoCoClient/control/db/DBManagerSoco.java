@@ -37,9 +37,6 @@ public class DBManagerSoco {
         try {
             db.beginTransaction();
             Log.i(tag, "insert activity_user table entry: " + aid + ", " + userName);
-//            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_MEMBER + " VALUES (" +
-//                    "?, ?, ?, ?, ?)", new Object[]{
-//                    pid, TEST_NOEMAIL, userName, SignatureUtil.now(), ""});
 
             ContentValues cv = new ContentValues();
             cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_AID, aid);
@@ -57,7 +54,6 @@ public class DBManagerSoco {
 
     public ArrayList<ArrayList<String>> getUpdatesOfActivity(int aid) {
         Log.d(tag, "get comments of activity " + aid);
-//        HashMap<String, String> userComment = new HashMap<>();
         ArrayList<ArrayList<String>> comments = new ArrayList<>();
 
         Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ACTIVITY_UPDATES +
@@ -108,17 +104,10 @@ public class DBManagerSoco {
         try {
             db.beginTransaction();
 
-            //add into activity table
             Log.i(tag, "Insert into db: " + p.pname + ", , "
                     + SignatureUtil.now() + ", " + SignatureUtil.now() + ", "
                     + SignatureUtil.genSHA1(p) + ", " + DataConfig.VALUE_ACTIVITY_ACTIVE + ", "
                     + p.pid_onserver + ", " + p.invitation_status);
-
-//            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY
-//                            + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?)",
-//                    new Object[]{p.pname, "",
-//                            SignatureUtil.now(), SignatureUtil.now(), SignatureUtil.genSHA1(p),
-//                            DataConfig.VALUE_ACTIVITY_ACTIVE, p.pid_onserver, p.invitation_status});
 
             ContentValues cv = new ContentValues();
             cv.put(DataConfig.COLUMN_ACTIVITY_NAME, p.pname);
@@ -130,9 +119,6 @@ public class DBManagerSoco {
             cv.put(DataConfig.COLUMN_ACTIVITY_INVITATION_STATUS, p.invitation_status);
             cv.put(DataConfig.COLUMN_ACTIVITY_TAG, p.ptag);
             db.insert(DataConfig.TABLE_ACTIVITY, null, cv);
-//            cv.put("photoName", photoName);
-//            cv.put("title", title);
-//            return db.insert(mTUserPhoto, null, cv);
 
             //get pid
             String query = "SELECT MAX(" + DataConfig.COLUMN_ACTIVITY_ID
@@ -144,7 +130,6 @@ public class DBManagerSoco {
                 } while(cursor.moveToNext());
             }
 
-            //add into activity_member table
             Log.i(tag, "insert activity_user table entry: " + pid + ", " + userEmail);
             db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_MEMBER + " VALUES (" +
                     "?, ?, ?, ?, ?)", new Object[]{
@@ -186,7 +171,7 @@ public class DBManagerSoco {
         return activities;
     }
 
-    public Activity loadProjectByPid(int pid) {
+    public Activity loadActivityByAid(int pid) {
         Log.i(tag, "Load project for pid: " + pid);
         Activity p = null;
 
@@ -219,7 +204,7 @@ public class DBManagerSoco {
     }
 
     public String findActivityIdOnserver(int pid){
-        Activity p = loadProjectByPid(pid);
+        Activity p = loadActivityByAid(pid);
         return p.pid_onserver;
     }
 
@@ -247,7 +232,7 @@ public class DBManagerSoco {
         return list;
     }
 
-    public void clearProjectAttributesExceptLocation(int pid){
+    public void clearActivityAttributesExceptLocation(int pid){
         try {
             db.beginTransaction();
             Log.d(tag, "DELETE FROM " + DataConfig.TABLE_ATTRIBUTE
@@ -274,7 +259,7 @@ public class DBManagerSoco {
     }
 
     public void updateDbActivityAttributes(int pid, HashMap<String, String> attrMap){
-        clearProjectAttributesExceptLocation(pid);
+        clearActivityAttributesExceptLocation(pid);
 
         for(Map.Entry<String, String> entry : attrMap.entrySet()){
             String attr_name = entry.getKey();
@@ -297,7 +282,7 @@ public class DBManagerSoco {
         }
     }
 
-    public void updateProjectName(int pid, String pname){
+    public void updateActivityName(int pid, String pname){
         Log.i(tag, "Update database for project: " + pid);
 
         ContentValues cv = new ContentValues();

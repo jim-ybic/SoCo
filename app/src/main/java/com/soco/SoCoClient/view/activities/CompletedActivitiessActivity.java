@@ -57,7 +57,7 @@ public class CompletedActivitiessActivity extends ActionBarActivity {
                 ListView listView = (ListView) parent;
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
-                final String name = map.get(GeneralConfig.PROJECT_PNAME);
+                final String name = map.get(GeneralConfig.ACTIVITY_NAME);
 
                 Log.i(tag, "Click on completed programName.");
                 new AlertDialog.Builder(CompletedActivitiessActivity.this)
@@ -117,14 +117,14 @@ public class CompletedActivitiessActivity extends ActionBarActivity {
         ArrayList<Map<String, String>> data = new ArrayList<>();
         for (Activity activity : activities) {
             HashMap<String, String> map = new HashMap<>();
-            map.put(GeneralConfig.PROJECT_PNAME, activity.pname);
-            map.put(GeneralConfig.PROJECT_PINFO, activity.getMoreInfo());
+            map.put(GeneralConfig.ACTIVITY_NAME, activity.pname);
+            map.put(GeneralConfig.ACTIVITY_INFO, activity.getMoreInfo());
             data.add(map);
         }
 
         SimpleAdapter adapter = new SimpleAdapter(this, data,
                 android.R.layout.simple_list_item_2,
-                new String[]{GeneralConfig.PROJECT_PNAME, GeneralConfig.PROJECT_PINFO},
+                new String[]{GeneralConfig.ACTIVITY_NAME, GeneralConfig.ACTIVITY_INFO},
                 new int[]{android.R.id.text1, android.R.id.text2});
         listView.setAdapter(adapter);
     }
