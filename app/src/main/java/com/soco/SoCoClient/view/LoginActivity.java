@@ -20,8 +20,8 @@ import com.soco.SoCoClient.control.http.task.LoginTaskAsync;
 import com.soco.SoCoClient.control.http.task.RegisterTaskAsync;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.model.Profile;
-import com.soco.SoCoClient.view.ui.config.ServerConfigActivity;
-import com.soco.SoCoClient.view.ui.dashboard.DashboardActivity;
+import com.soco.SoCoClient.view.config.ServerConfigActivity;
+import com.soco.SoCoClient.view.dashboard.DashboardActivity;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -70,7 +70,7 @@ public class LoginActivity extends ActionBarActivity {
 
         dbmgrSoco = new DBManagerSoco(getApplicationContext());
         dbmgrSoco.context = getApplicationContext();
-        Log.i(tag, "login activity: get application context " + dbmgrSoco.context);
+        Log.i(tag, "login activity: 2 get application context " + dbmgrSoco.context);
         socoApp.dbManagerSoco = dbmgrSoco;
 
         findViewsById();
@@ -247,7 +247,7 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public boolean validateLogin(String loginEmail, String loginPassword) {
-        Log.i("login", "22Validate login for: " + loginEmail + "/" + loginPassword);
+        Log.i("login", "Validate login for: " + loginEmail + "/" + loginPassword);
 
         //TODO: add login validation logic here
 

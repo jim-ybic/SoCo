@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 public class SendMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
-    private static final String TEST_DEVICE_NAME = "TEST DEVICE NAME";
     static String tag = "SendMessageTask";
 
     String url;

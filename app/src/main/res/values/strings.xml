@@ -29,8 +29,10 @@
     <string name="title_activity_project_location">Location</string>
     <string name="title_show_single_project">Project</string>
     <string name="title_show_active_projects">Agenda</string>
-    <!--<string name="title_activity_show_single_project_new">ShowSingleProjectNewActivity</string>-->
+    <!-- <string name="title_activity_show_single_project_new">ShowSingleProjectNewActivity</string> -->
     <string name="title_activity_main">MainActivity</string>
     <string name="title_dashboard">Dashboard</string>
+    <string name="title_activity_contact_details">Contact</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

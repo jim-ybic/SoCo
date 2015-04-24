@@ -75,6 +75,13 @@ public class DataConfig {
     public static int UPDATE_INDEX_COMMENT = 1;
     public static int UPDATE_INDEX_TIMESTAMP = 2;
 
+    public static int CHAT_INDEX_CONTENT = 0;
+    public static int CHAT_INDEX_TIMESTAMP = 1;
+    public static int CHAT_INDEX_TYPE = 2;
+
+    public static int CHAT_TYPE_SEND = 0;
+    public static int CHAT_TYPE_RECEIVE = 1;
+
     public static int ACTIVITY_INVITATION_STATUS_COMPLETE = 1;
     public static int ACTIVITY_INVITATION_STATUS_INCOMPLETE = 0;
 
@@ -82,6 +89,8 @@ public class DataConfig {
     public static String COLUMN_CONTACT_ID = "contact_id";
     public static String COLUMN_CONTACT_EMAIL = "contact_email";
     public static String COLUMN_CONTACT_NAME = "contact_name";
+    public static String COLUMN_CONTACT_PHONE = "contact_phone";
+    public static String COLUMN_CONTACT_ID_ONSERVER = "contact_id_onserver";
 
     public static String TABLE_CHAT = "chat";
     public static String COLUMN_CHAT_ID = "chat_id";

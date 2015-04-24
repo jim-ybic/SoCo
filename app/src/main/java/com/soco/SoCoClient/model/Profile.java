@@ -2,6 +2,7 @@ package com.soco.SoCoClient.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -334,6 +335,28 @@ public class Profile {
         String url = "http://" + ip + ":" + port + path;
         url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
         Log.d(tag, "Ack receive message url: " + url);
+        return url;
+    }
+
+    public String getAddFriendUrl(Context context) {
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = HttpConfig.SERVER_PATH_ADD_FRIEND;
+        String token = getLoginAccessToken(context);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
+        Log.d(tag, "add friend url: " + url);
+        return url;
+    }
+
+    public String getQueryUserUrl(Context context) {
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = HttpConfig.SERVER_PATH_QUERY_USER;
+        String token = getLoginAccessToken(context);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
+        Log.d(tag, "query user url: " + url);
         return url;
     }
 }

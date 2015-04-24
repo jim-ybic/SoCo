@@ -1,16 +1,14 @@
 package com.soco.SoCoClient.control.dropbox;
 
 import android.app.IntentService;
-import android.app.Service;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
-import com.soco.SoCoClient.control.util.ProjectUtil;
+import com.soco.SoCoClient.control.util.ActivityUtil;
 
 
 public class UploaderWatcher extends IntentService {
@@ -50,7 +48,7 @@ public class UploaderWatcher extends IntentService {
         if(status.equals(SocoApp.UPLOAD_STATUS_SUCCESS)){
             Log.i(tag, "Status: upload success");
             Toast.makeText(this, "File upload success", Toast.LENGTH_SHORT).show();
-            ProjectUtil.addSharedFileToDb(uri, loginEmail, loginPassword, pid,
+            ActivityUtil.addSharedFileToDb(uri, loginEmail, loginPassword, pid,
                     getContentResolver(), dbManagerSoco);
         }
         else if(status.equals(SocoApp.UPLOAD_STATUS_FAIL)){

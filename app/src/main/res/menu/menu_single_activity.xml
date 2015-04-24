@@ -1,0 +1,60 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.soco.SoCoClient.view.activities.SingleActivityActivity">
+
+    <item
+        android:id="@+id/delete_activity"
+        android:icon="@drawable/ic_action_delete"
+        app:showAsAction="always"
+        android:title="Delete"/>
+
+    <item
+        android:id="@+id/save"
+        android:icon="@drawable/ic_action_save_dark"
+        app:showAsAction="always"
+        android:title="Save"/>
+
+    <!--<item-->
+        <!--android:id="@+id/add_field"-->
+        <!--android:icon="@drawable/ic_action_edit"-->
+        <!--app:showAsAction="always"-->
+        <!--android:title="Edit"/>-->
+
+    <item
+        android:id="@+id/mn_datetime"
+        android:title="+/- date, time"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mn_location"
+        android:title="+/- location, map"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mn_desc"
+        android:title="+/- description"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mn_phone"
+        android:title="+/- phone"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mn_email"
+        android:title="+/- email"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mn_tag"
+        android:title="+/- tag"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+</menu>

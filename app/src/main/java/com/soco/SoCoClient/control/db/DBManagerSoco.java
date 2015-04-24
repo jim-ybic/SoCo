@@ -14,7 +14,7 @@ import android.util.Log;
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.util.SignatureUtil;
-import com.soco.SoCoClient.model.Project;
+import com.soco.SoCoClient.model.Activity;
 
 public class DBManagerSoco {
     private DBHelperSoco helper;
@@ -30,19 +30,19 @@ public class DBManagerSoco {
         db = helper.getWritableDatabase();
     }
 
-    public void addMemberToProject(String userEmail, String userName, int pid){
+    public void addMemberToActivity(String userEmail, String userName, int aid){
         Log.d(tag, "Adding member " + userEmail + ", " + userName
-                + " into project pid " + pid);
+                + " into project pid " + aid);
 
         try {
             db.beginTransaction();
-            Log.i(tag, "insert activity_user table entry: " + pid + ", " + userName);
+            Log.i(tag, "insert activity_user table entry: " + aid + ", " + userName);
 //            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_MEMBER + " VALUES (" +
 //                    "?, ?, ?, ?, ?)", new Object[]{
 //                    pid, TEST_NOEMAIL, userName, SignatureUtil.now(), ""});
 
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_AID, pid);
+            cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_AID, aid);
             cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL, userEmail);
             cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME, userName);
             cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_STATUS, "");
@@ -80,13 +80,13 @@ public class DBManagerSoco {
         return comments;
     }
 
-    public HashMap<String, String> getMembersOfProject(int pid){
-        Log.d(tag, "get members of project " + pid);
+    public HashMap<String, String> getMembersOfActivity(int aid){
+        Log.d(tag, "get members of project " + aid);
         HashMap<String, String> userNameEmail = new HashMap<>();
 
         Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ACTIVITY_MEMBER +
                         " where " + DataConfig.COLUMN_ACTIVITY_MEMBER_AID + " = ?",
-                new String[] {String.valueOf(pid)});
+                new String[] {String.valueOf(aid)});
 
         String name, email;
         while (c.moveToNext()) {
@@ -99,7 +99,7 @@ public class DBManagerSoco {
         return userNameEmail;
     }
 
-    public int addProject(Project p){
+    public int addActivity(Activity p){
         Log.i(tag, "Add new project: " + p.pname);
         int pid = -1;
         Log.i(tag, "dbmanager context: " + context);
@@ -160,17 +160,17 @@ public class DBManagerSoco {
         return pid;
     }
 
-    public void deleteProjectByPid(int pid){
-        Log.i(tag, "Delete project by pid: " + pid);
+    public void deleteActivityByPid(int pid){
+        Log.i(tag, "Delete activity by pid: " + pid);
         db.delete(DataConfig.TABLE_ACTIVITY, DataConfig.COLUMN_ACTIVITY_ID + " = ?",
                 new String[]{String.valueOf(pid)});
         db.delete(DataConfig.TABLE_ATTRIBUTE, DataConfig.COLUMN_ATTRIBUTE_PID + " = ?",
                 new String[]{String.valueOf(pid)});
     }
 
-    public ArrayList<Project> loadProjectsByActiveness(String pactive) {
+    public ArrayList<Activity> loadActivitiessByActiveness(String pactive) {
         Log.i(tag, "Load projects which are: " + pactive);
-        ArrayList<Project> projects = new ArrayList<>();
+        ArrayList<Activity> activities = new ArrayList<>();
 
         Log.d(tag, "Query project: select * from " + DataConfig.TABLE_ACTIVITY
                 + " where " + DataConfig.COLUMN_ACTIVITY_ACTIVE + " = " + pactive);
@@ -179,16 +179,16 @@ public class DBManagerSoco {
                 new String[]{pactive});
 
         while (c.moveToNext()) {
-            Project p = new Project(c);
-            projects.add(p);
+            Activity p = new Activity(c);
+            activities.add(p);
         }
         c.close();
-        return projects;
+        return activities;
     }
 
-    public Project loadProjectByPid(int pid) {
+    public Activity loadProjectByPid(int pid) {
         Log.i(tag, "Load project for pid: " + pid);
-        Project p = null;
+        Activity p = null;
 
         Log.d(tag, "Query project: select * from " + DataConfig.TABLE_ACTIVITY
                 + " where " + DataConfig.COLUMN_ACTIVITY_ID + " = " + pid);
@@ -197,7 +197,7 @@ public class DBManagerSoco {
                 new String[] {String.valueOf(pid)});
 
         while (c.moveToNext()) {
-            p = new Project(c);
+            p = new Activity(c);
         }
         c.close();
         return p;
@@ -218,12 +218,12 @@ public class DBManagerSoco {
         return aid;
     }
 
-    public String findProjectIdOnserver(int pid){
-        Project p = loadProjectByPid(pid);
+    public String findActivityIdOnserver(int pid){
+        Activity p = loadProjectByPid(pid);
         return p.pid_onserver;
     }
 
-    public ArrayList<HashMap<String, String>> loadProjectAttributesByPid(int pid){
+    public ArrayList<HashMap<String, String>> loadActivityAttributesByPid(int pid){
         Log.i(tag, "Load project attributes for pid: " + pid);
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
 
@@ -273,7 +273,7 @@ public class DBManagerSoco {
         }
     }
 
-    public void updateDbProjectAttributes(int pid, HashMap<String, String> attrMap){
+    public void updateDbActivityAttributes(int pid, HashMap<String, String> attrMap){
         clearProjectAttributesExceptLocation(pid);
 
         for(Map.Entry<String, String> entry : attrMap.entrySet()){
@@ -312,7 +312,7 @@ public class DBManagerSoco {
         Log.i(tag, "Updated project " + pid + " update timestamp: " + now);
     }
 
-    public void updateProjectTag(int pid, String ptag){
+    public void updateAcivityTag(int pid, String ptag){
         Log.i(tag, "Update project tag for pid: " + pid + ", " + ptag);
 
         ContentValues cv = new ContentValues();
@@ -326,7 +326,7 @@ public class DBManagerSoco {
         Log.d(tag, "Updated project " + pid + " tag: " + ptag);
     }
 
-    public void updateProjectActiveness(int pid, String activeness) {
+    public void updateActivityActiveness(int pid, String activeness) {
         Log.i(tag, "Update project " + pid + " status: " + activeness);
         ContentValues cv = new ContentValues();
         cv.put(DataConfig.COLUMN_ACTIVITY_ACTIVE, activeness);
@@ -334,7 +334,7 @@ public class DBManagerSoco {
                 new String[]{String.valueOf(pid)});
     }
 
-    public void updateProjectIdOnserver(int pid, String pid_onserver) {
+    public void updateActivityIdOnserver(int pid, String pid_onserver) {
         Log.i(tag, "Update project " + pid + " pid_onserver: " + pid_onserver);
         ContentValues cv = new ContentValues();
         cv.put(DataConfig.COLUMN_ACTIVITY_ID_ONSERVER, pid_onserver);
@@ -550,5 +550,113 @@ public class DBManagerSoco {
                 new String[]{email});
 
         Log.d(tag, "Updated contact name ");
+    }
+
+    public void updateContactNameIdOnserver(String email, String name, int contactIdOnserver) {
+        Log.i(tag, "Update contact in onserver: " + email + ", " + name + ", " + contactIdOnserver);
+
+        ContentValues cv = new ContentValues();
+//        cv.put(DataConfig.COLUMN_CONTACT_EMAIL, email);
+        cv.put(DataConfig.COLUMN_CONTACT_NAME, name);
+        cv.put(DataConfig.COLUMN_CONTACT_ID_ONSERVER, contactIdOnserver);
+
+        db.update(DataConfig.TABLE_CONTACT, cv,
+                DataConfig.COLUMN_CONTACT_EMAIL + " = ?",
+                new String[]{email});
+
+//        Log.d(tag, "Updated contact id onserver " + email + ", " + name + ", " + contactIdOnserver);
+    }
+
+    public String getPhoneByContactEmail(String email) {
+        Log.d(tag, "get phone of contact email " + email);
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_CONTACT +
+                        " where " + DataConfig.COLUMN_CONTACT_EMAIL + " = ?",
+                new String[] {email});
+        String phone = new String();
+        while (c.moveToNext()) {
+            phone = c.getString(c.getColumnIndex(DataConfig.COLUMN_CONTACT_PHONE));
+        }
+        c.close();
+        return phone;
+    }
+
+    public int getContactIdByEmail(String email) {
+        Log.d(tag, "get contact id of contact email " + email);
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_CONTACT +
+                        " where " + DataConfig.COLUMN_CONTACT_EMAIL + " = ?",
+                new String[] {email});
+        int id = -1;
+        while (c.moveToNext()) {
+            id = c.getInt(c.getColumnIndex(DataConfig.COLUMN_CONTACT_ID));
+        }
+        c.close();
+        if(id == -1)
+            Log.e(tag, "cannot find contact id for email " + email);
+        else
+            Log.d(tag, "find contact id on server " + id);
+
+        return id;
+    }
+
+    public int getContactIdOnserverByEmail(String email) {
+        Log.d(tag, "get contact id onserver of contact email " + email);
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_CONTACT +
+                        " where " + DataConfig.COLUMN_CONTACT_EMAIL + " = ?",
+                new String[] {email});
+        int id = -1;
+        while (c.moveToNext()) {
+            id = c.getInt(c.getColumnIndex(DataConfig.COLUMN_CONTACT_ID_ONSERVER));
+        }
+        c.close();
+        if(id == -1)
+            Log.e(tag, "cannot find contact id on server for email " + email);
+        else
+            Log.d(tag, "find contact id on server " + id);
+
+        return id;
+    }
+
+    public ArrayList<ArrayList<String>> getChatHistoryByContactId(int contactId) {
+        Log.d(tag, "get chat history of contact id " + contactId);
+        ArrayList<ArrayList<String>> chatHist = new ArrayList<>();
+
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_CHAT +
+                        " where " + DataConfig.COLUMN_CHAT_CONTACT_ID + " = ?",
+                new String[] {String.valueOf(contactId)});
+
+        String content, timestamp, type;
+        while (c.moveToNext()) {
+            content = c.getString(c.getColumnIndex(DataConfig.COLUMN_CHAT_CONTENT));
+            timestamp = c.getString(c.getColumnIndex(DataConfig.COLUMN_CHAT_TIMESTAMP));
+            type = c.getString(c.getColumnIndex(DataConfig.COLUMN_CHAT_TYPE));
+            Log.d(tag, "Found chat: " + content + ", " + type + " at " + timestamp);
+
+            ArrayList<String> e = new ArrayList<>();
+            e.add(content);
+            e.add(timestamp);
+            e.add(type);
+            chatHist.add(e);
+        }
+        c.close();
+        return chatHist;
+    }
+
+    public void addMessage(int contactId, String message, int chat_type) {
+        Log.d(tag, "Adding message: " + message + ", into contact pid " + contactId
+                + ", of type " + chat_type);
+
+        try {
+            db.beginTransaction();
+            ContentValues cv = new ContentValues();
+            cv.put(DataConfig.COLUMN_CHAT_CONTACT_ID, contactId);
+            cv.put(DataConfig.COLUMN_CHAT_CONTENT, message);
+            cv.put(DataConfig.COLUMN_CHAT_TIMESTAMP, SignatureUtil.now());
+            cv.put(DataConfig.COLUMN_CHAT_TYPE, chat_type);
+            db.insert(DataConfig.TABLE_CHAT, null, cv);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+
     }
 }

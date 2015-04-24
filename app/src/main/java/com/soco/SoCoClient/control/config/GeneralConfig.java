@@ -53,6 +53,10 @@ public class GeneralConfig {
     public static int ACTIVITY_TAKE_PHOTO = 102;
     public static int READ_REQUEST_CODE = 42;
 
+    public static String INTENT_KEY_NAME = "name";
+    public static String INTENT_KEY_EMAIL = "email";
+    public static String TEST_DEVICE_SAMSUNG = "TEST DEVICE SAMSUNG";
+
 //    public static int UPLOAD_RETRY = 120;
 //    public static int UPLOAD_WAIT = 1000;    //ms
 

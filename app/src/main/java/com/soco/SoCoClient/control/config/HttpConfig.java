@@ -19,7 +19,7 @@ public class HttpConfig {
     public static String JSON_KEY_PASSWORD = "password";
     public static String JSON_KEY_PASSWORD2 = "password2";
     public static String JSON_KEY_ACCESS_TOKEN = "access_token";
-    public static String JSON_KEY_PROJECT_NAME = "name";
+    public static String JSON_KEY_NAME = "name";
     public static String JSON_KEY_PROJECT_TYPE = "type";
     public static String JSON_KEY_PROJECT_TAG = "tag";
     public static String JSON_KEY_PROJECT_SIGNATURE = "signature";
@@ -47,6 +47,8 @@ public class HttpConfig {
     public static String JSON_KEY_FROM_DEVICE = "from_device";
     public static String JSON_KEY_CONTENT_TYPE = "context_type";
     public static String JSON_KEY_CONTENT = "context";
+    public static String JSON_KEY_USER = "user";
+    public static String JSON_KEY_ID = "id";
 
     public static String JSON_KEY_RESPONSE_STATUS = "status";
     public static String JSON_VALUE_RESPONSE_STATUS_SUCCESS = "success";
@@ -66,6 +68,8 @@ public class HttpConfig {
     public static String SERVER_PATH_SEND_MESSAGE = "/socoserver/exchange/sendOut?";
     public static String SERVER_PATH_RECEIVE_MESSAGE = "/socoserver/exchange/receiveMsg?";
     public static String SERVER_PATH_ACK_RECEIVE_MESSAGE = "/socoserver/exchange/ackReceivedMsg?";
+    public static String SERVER_PATH_ADD_FRIEND = "/socoserver/mobile/addFriend?";
+    public static String SERVER_PATH_QUERY_USER = "/socoserver/mobile/queryUserByEmailOrUsername?";
 
 
     public static String HTTP_TOKEN_TYPE = "access_token";

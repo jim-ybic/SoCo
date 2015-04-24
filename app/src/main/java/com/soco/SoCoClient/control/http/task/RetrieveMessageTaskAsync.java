@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.soco.SoCoClient.control.SocoApp;
+import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.HttpUtil;
@@ -19,7 +20,9 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
     String url;
     Context context;
+    SocoApp socoApp;
     Profile profile;
+    DBManagerSoco dbManagerSoco;
 
     public RetrieveMessageTaskAsync(
             String url,
@@ -29,7 +32,9 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
         this.url = url;
         this.context = context;
 
-        profile = ((SocoApp)context).profile;
+        socoApp = (SocoApp)context;
+        profile = socoApp.profile;
+        dbManagerSoco = socoApp.dbManagerSoco;
     }
 
     @Override
@@ -61,7 +66,7 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
         message:[
             {from_type:1, from_id:"test@test.com", to_type:2, to_id:1,
             send_date_time:"2015-04-05 12:12:12", content_type:1, signature:"XYZABC123",
-            content:"hi how are you"},
+            email:"hi how are you"},
             {another message}
         ],
         finish:1}
@@ -103,11 +108,10 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
                     int content_type = message.getInt(HttpConfig.JSON_KEY_CONTENT_TYPE);
                     String content = message.getString(HttpConfig.JSON_KEY_CONTENT);
-                    Log.i(tag, "Get message, content: " + content_type + ", " + content);
+                    Log.i(tag, "Get message, email: " + content_type + ", " + content);
 
-                    Log.d(tag, "add message into database");
-                    if(to_type == HttpConfig.MESSAGE_TO_TYPE_2) {   //type 2: send to activity
-                        DBManagerSoco dbManagerSoco = ((SocoApp) context).dbManagerSoco;
+                    Log.d(tag, "add message into database, msg type is " + to_type);
+                    if(to_type == HttpConfig.MESSAGE_TO_TYPE_2) {       //type 2: send to activity
                         int aid_local = dbManagerSoco.findLocalAidByServerAid(Integer.parseInt(to_id));
                         if(aid_local == -1)
                             Log.e(tag, "cannot find local activity with remote id " + to_id);
@@ -116,7 +120,12 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
                         dbManagerSoco.addCommentToProject(content, aid_local, from_id);
                     }
                     else if(to_type == HttpConfig.MESSAGE_TO_TYPE_1){   //type 1: send to member
-                        Log.e(tag, "no available function yet for sending message to member");
+                        Log.i(tag, "add message into database: " + message + ", from " +from_id);
+
+                        //todo: need to get contactId for a given contact email (from_id)
+                        int contactId = 4;  //todo: for testing only
+                        dbManagerSoco.addMessage(
+                                contactId, content, DataConfig.CHAT_TYPE_RECEIVE);
                     }
 
                     Log.d(tag, "send ack to server");

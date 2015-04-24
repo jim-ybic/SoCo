@@ -3,7 +3,6 @@ package com.soco.SoCoClient.control.http.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.soco.SoCoClient.control.SocoApp;
@@ -11,11 +10,11 @@ import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.HttpUtil;
-import com.soco.SoCoClient.control.http.task.JoinProjectByInviteTaskAsync;
+import com.soco.SoCoClient.control.http.task.JoinActivityByInviteTaskAsync;
 import com.soco.SoCoClient.control.http.task.RetrieveMessageTaskAsync;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Profile;
-import com.soco.SoCoClient.model.Project;
+import com.soco.SoCoClient.model.Activity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -175,15 +174,15 @@ public class HeartbeatService extends Service {
                 Log.i(tag, "Get invitation: " + inviter + ", " + pid_onserver + ", " + date);
 
                 //add project into database
-                Project p = new Project("");
+                Activity p = new Activity("");
                 p.pid_onserver = pid_onserver;
                 p.invitation_status = DataConfig.ACTIVITY_INVITATION_STATUS_INCOMPLETE;
-                int pid = dbManagerSoco.addProject(p);
+                int pid = dbManagerSoco.addActivity(p);
                 Log.i(tag, "New project added to database, pid_onserver is " + pid_onserver);
 
                 //retrieve project details
                 String url = profile.getJoinProjectByInviteUrl(getApplicationContext());
-                JoinProjectByInviteTaskAsync task = new JoinProjectByInviteTaskAsync(
+                JoinActivityByInviteTaskAsync task = new JoinActivityByInviteTaskAsync(
                         url, String.valueOf(pid), pid_onserver,
                         getApplicationContext(), inviter);
                 task.execute();

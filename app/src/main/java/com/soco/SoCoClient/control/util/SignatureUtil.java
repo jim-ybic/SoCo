@@ -10,7 +10,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import android.util.Log;
 
-import com.soco.SoCoClient.model.Project;
+import com.soco.SoCoClient.model.Activity;
 
 public class SignatureUtil {
 
@@ -42,7 +42,7 @@ public class SignatureUtil {
         return s;
     }
 
-    public static String genSHA1(Project p){
+    public static String genSHA1(Activity p){
         String data = p.pid + ", " + p.pname + ", "
                         + p.pcreate_timestamp + ", " + p.pupdate_timestamp;
         String s = genSHA1(data, SIGNATURE_KEY);
