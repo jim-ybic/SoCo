@@ -27,7 +27,6 @@ public class DashboardActivity extends ActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_dashboard);
 
         // Initilization
@@ -43,7 +42,6 @@ public class DashboardActivity extends ActionBarActivity implements
             return;
         }
 
-        //todo: testing scripts
 //        mAdapter = new SingleProjectTabsPagerAdapter(getSupportFragmentManager());
         mAdapter = new DashboardTabsPagerAdapter(getSupportFragmentManager());
         Log.i(tag, "Get mAdapter");
@@ -101,4 +99,8 @@ public class DashboardActivity extends ActionBarActivity implements
                                 android.support.v4.app.FragmentTransaction fragmentTransaction) {
 
     }
+
+
+
+
 }

@@ -138,7 +138,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_dashboard__activities, menu);
+        inflater.inflate(R.menu.menu_dashboard_activities, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

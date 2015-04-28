@@ -2,11 +2,17 @@ package com.soco.SoCoClient.view.dashboard;
 
 //import info.androidhive.tabsswipe.R;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,16 +20,16 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.control.config.GeneralConfig;
-import com.soco.SoCoClient.control.http.task.AddFriendTaskAsync;
-import com.soco.SoCoClient.view.contacts.ContactDetailsActivity;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.SocoApp;
+import com.soco.SoCoClient.control.config.GeneralConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
+import com.soco.SoCoClient.control.http.task.AddFriendTaskAsync;
 import com.soco.SoCoClient.model.Profile;
 import com.soco.SoCoClient.view.common.sectionlist.EntryItem;
 import com.soco.SoCoClient.view.common.sectionlist.Item;
 import com.soco.SoCoClient.view.common.sectionlist.SectionEntryListAdapter;
+import com.soco.SoCoClient.view.contacts.ContactDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,8 +40,8 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
     String tag = "ContactsFragment";
     View rootView;
 
-    int pid;
-    String pid_onserver;
+//    int pid;
+//    String pid_onserver;
     SocoApp socoApp;
     Profile profile;
     DBManagerSoco dbManagerSoco;
@@ -85,7 +91,7 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
             }
         });
 
-        rootView.findViewById(R.id.add).setOnClickListener(this);
+//        rootView.findViewById(R.id.add).setOnClickListener(this);
         listContacts();
 
         return rootView;
@@ -111,16 +117,16 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.add:
-                add();
-                break;
-        }
+//        switch (v.getId()) {
+//            case R.id.add:
+//                add();
+//                break;
+//        }
     }
 
 
-    public void add(){
-        String email = ((EditText) rootView.findViewById(R.id.email)).getText().toString();
+    public void add(String email){
+//        String email = ((EditText) rootView.findViewById(R.id.email)).getText().toString();
         Log.i(tag, "save into db new member " + email);
         dbManagerSoco.saveContact(email);
 
@@ -139,7 +145,7 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
     public void listContacts() {
         Log.d(tag, "List contacts");
 
-        contactItems = new ArrayList<Item>();
+        contactItems = new ArrayList<>();
         HashMap<String, String> map = dbManagerSoco.getContacts();
 
         for(Map.Entry<String, String> e : map.entrySet()){
@@ -158,5 +164,50 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
 
         Log.i(tag, "onResume start, reload project attribute for pid: ");
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_dashboard_contacts, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    public void addContact() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("Add new contact");
+        alert.setMessage("Email address:");
+        final EditText input = new EditText(getActivity());
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS );
+        alert.setView(input);
+
+        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String email = input.getText().toString();
+                add(email);
+//                Toast.makeText(getActivity().getApplicationContext(),
+//                        "Invited contact complete.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+
+        alert.show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.add) {
+            Log.i(tag, "Click on add.");
+            addContact();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
 }

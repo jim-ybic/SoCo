@@ -18,7 +18,7 @@ import com.soco.SoCoClient.view.LoginActivity;
 
 public class ProfileActivity extends ActionBarActivity {
     static String tag = "ProfileActivity";
-    static String EMPTY_STRING = "";
+//    static String EMPTY_STRING = "";
 
     // Local views
 //    TextView tv_profile_email;
@@ -38,11 +38,13 @@ public class ProfileActivity extends ActionBarActivity {
         socoApp = (SocoApp)getApplicationContext();
         profile = socoApp.profile;
         
-        findViewsById();;
+        findViewsById();
 
-        Intent intent = getIntent();
-        loginEmail = intent.getStringExtra(GeneralConfig.LOGIN_EMAIL);
-        loginPassword = intent.getStringExtra(GeneralConfig.LOGIN_PASSWORD);
+//        Intent intent = getIntent();
+        loginEmail = socoApp.loginEmail;
+        loginPassword = socoApp.loginPassword;
+//        loginEmail = intent.getStringExtra(GeneralConfig.LOGIN_EMAIL);
+//        loginPassword = intent.getStringExtra(GeneralConfig.LOGIN_PASSWORD);
 
 //        profile = loadProfile();
         showProfile(profile);
