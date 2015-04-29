@@ -168,10 +168,10 @@ public class HeartbeatService extends Service {
             //process each activity invitation
             for (int i = 0; i < invitationArray.length(); i++) {
                 JSONObject invitation = invitationArray.getJSONObject(i);
-                String inviter = invitation.getString(HttpConfig.JSON_KEY_INVITER);
+                String inviterEmail = invitation.getString(HttpConfig.JSON_KEY_INVITER);
                 String pid_onserver = invitation.getString(HttpConfig.JSON_KEY_PROJECT_ID);
                 String date = invitation.getString(HttpConfig.JSON_KEY_DATE);
-                Log.i(tag, "Get invitation: " + inviter + ", " + pid_onserver + ", " + date);
+                Log.i(tag, "Get invitation: " + inviterEmail + ", " + pid_onserver + ", " + date);
 
                 //add project into database
                 Activity p = new Activity("");
@@ -184,7 +184,7 @@ public class HeartbeatService extends Service {
                 String url = profile.getJoinProjectByInviteUrl(getApplicationContext());
                 JoinActivityByInviteTaskAsync task = new JoinActivityByInviteTaskAsync(
                         url, String.valueOf(pid), pid_onserver,
-                        getApplicationContext(), inviter);
+                        getApplicationContext(), inviterEmail);
                 task.execute();
             }
         } catch (Exception e) {

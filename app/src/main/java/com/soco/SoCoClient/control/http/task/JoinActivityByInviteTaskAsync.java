@@ -21,14 +21,14 @@ public class JoinActivityByInviteTaskAsync extends AsyncTask<Void, Void, Boolean
     String url;
     String pid, pid_onserver;
     Context context;
-    String inviter;
+    String inviterEmail;
 
     public JoinActivityByInviteTaskAsync(
             String url,
             String pid,
             String pid_onserver,
             Context context,
-            String inviter
+            String inviterEmail
     ){
         Log.i(tag, "Create new HttpTask: "
                 + url + ", " + pid_onserver);
@@ -36,7 +36,7 @@ public class JoinActivityByInviteTaskAsync extends AsyncTask<Void, Void, Boolean
         this.pid = pid;
         this.pid_onserver = pid_onserver;
         this.context = context;
-        this.inviter = inviter;
+        this.inviterEmail = inviterEmail;
     }
 
     @Override
@@ -120,9 +120,13 @@ public class JoinActivityByInviteTaskAsync extends AsyncTask<Void, Void, Boolean
                 else
                     Log.i(tag, "No attribute string is found");
 
-                //add inviter to project memberlist
+                //add inviterEmail to project memberlist
                 DBManagerSoco dbManagerSoco = ((SocoApp)context).dbManagerSoco;
-                dbManagerSoco.addMemberToActivity(inviter, HttpConfig.TEST_NO_INVITER_EMAIL, Integer.valueOf(pid));
+                dbManagerSoco.addMemberToActivity(
+                        inviterEmail,
+                        "",             //todo: get username
+                        "",             //todo: set nickname
+                        Integer.valueOf(pid));
 
                 return true;
             }

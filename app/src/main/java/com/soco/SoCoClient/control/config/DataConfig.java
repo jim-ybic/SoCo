@@ -61,6 +61,7 @@ public class DataConfig {
     public static String COLUMN_ACTIVITY_MEMBER_AID = "aid";
     public static String COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL = "email";
     public static String COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME = "username";
+    public static String COLUMN_ACTIVITY_MEMBER_MEMBER_NICKNAME = "nickname";
     public static String COLUMN_ACTIVITY_MEMBER_MEMBER_STATUS = "status";
     public static String COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP = "join_timestamp";
 
@@ -88,7 +89,8 @@ public class DataConfig {
     public static String TABLE_CONTACT = "contact";
     public static String COLUMN_CONTACT_ID = "contact_id";
     public static String COLUMN_CONTACT_EMAIL = "contact_email";
-    public static String COLUMN_CONTACT_NAME = "contact_name";
+    public static String COLUMN_CONTACT_USERNAME = "contact_username";
+    public static String COLUMN_CONTACT_NICKNAME = "contact_nickname";
     public static String COLUMN_CONTACT_PHONE = "contact_phone";
     public static String COLUMN_CONTACT_ID_ONSERVER = "contact_id_onserver";
 

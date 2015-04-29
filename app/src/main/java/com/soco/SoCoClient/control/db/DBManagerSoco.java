@@ -30,8 +30,8 @@ public class DBManagerSoco {
         db = helper.getWritableDatabase();
     }
 
-    public void addMemberToActivity(String userEmail, String userName, int aid){
-        Log.d(tag, "Adding member " + userEmail + ", " + userName
+    public void addMemberToActivity(String userEmail, String userName, String nickName, int aid){
+        Log.d(tag, "Adding member " + userEmail + ", " + userName + ", " + nickName
                 + " into project pid " + aid);
 
         try {
@@ -41,7 +41,12 @@ public class DBManagerSoco {
             ContentValues cv = new ContentValues();
             cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_AID, aid);
             cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL, userEmail);
-            cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME, userName);
+
+            if(userName != null && !userName.isEmpty())
+                cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME, userName);
+            if(nickName != null && !nickName.isEmpty())
+                cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_NICKNAME, nickName);
+
             cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_STATUS, "");
             cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP, "");
             db.insert(DataConfig.TABLE_ACTIVITY_MEMBER, null, cv);
@@ -86,7 +91,8 @@ public class DBManagerSoco {
 
         String name, email;
         while (c.moveToNext()) {
-            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME));
+//            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME));
+            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_NICKNAME));
             email = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL));
             Log.d(tag, "Found user " + name + "/" + email);
             userNameEmail.put(email, name);
@@ -104,7 +110,7 @@ public class DBManagerSoco {
         try {
             db.beginTransaction();
 
-            Log.i(tag, "Insert into db: " + p.pname + ", , "
+            Log.i(tag, "Insert into db activity: " + p.pname + ", , "
                     + SignatureUtil.now() + ", " + SignatureUtil.now() + ", "
                     + SignatureUtil.genSHA1(p) + ", " + DataConfig.VALUE_ACTIVITY_ACTIVE + ", "
                     + p.pid_onserver + ", " + p.invitation_status);
@@ -130,11 +136,21 @@ public class DBManagerSoco {
                 } while(cursor.moveToNext());
             }
 
-            Log.i(tag, "insert activity_user table entry: " + pid + ", " + userEmail);
-            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_MEMBER + " VALUES (" +
-                    "?, ?, ?, ?, ?)", new Object[]{
-                    pid, userEmail, userName, SignatureUtil.now(), ""});
-            //todo: replace the above into db.insert()
+//            Log.i(tag, "insert activity_user table entry: " + pid + ", " + userEmail);
+//            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_MEMBER + " VALUES (" +
+//                    "?, ?, ?, ?, ?, ?)", new Object[]{
+//                    pid, userEmail, userName,
+//                    "",
+//                    SignatureUtil.now(), ""});
+            Log.i(tag, "insert into db activity members: " + pid + ", " + userEmail + ", " + userName);
+            ContentValues cvMember = new ContentValues();
+            cvMember.put(DataConfig.COLUMN_ACTIVITY_MEMBER_AID, pid);
+            cvMember.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL, userEmail);
+            cvMember.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME, userName);
+            //todo: add nickname
+            cvMember.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP, SignatureUtil.now());
+            db.insert(DataConfig.TABLE_CONTACT, null, cvMember);
+
 
             db.setTransactionSuccessful();
         } finally {
@@ -497,7 +513,7 @@ public class DBManagerSoco {
         String email, name;
         while (c.moveToNext()) {
             email = c.getString(c.getColumnIndex(DataConfig.COLUMN_CONTACT_EMAIL));
-            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_CONTACT_NAME));
+            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_CONTACT_NICKNAME));
             Log.d(tag, "Found user " + name + "/" + email);
             contactEmailName.put(email, name);
         }
@@ -506,15 +522,16 @@ public class DBManagerSoco {
 
     }
 
-    public void saveContact(String email) {
-        Log.d(tag, "Adding contact " + email);
+    public void saveContact(String email, String nickname) {
+        Log.d(tag, "Adding contact " + email + ", " + nickname);
         try {
             db.beginTransaction();
 
             Log.i(tag, "insert into contacts: " + email);
             ContentValues cv = new ContentValues();
             cv.put(DataConfig.COLUMN_CONTACT_EMAIL, email);
-            cv.put(DataConfig.COLUMN_CONTACT_NAME, TEST_NONAME);
+            cv.put(DataConfig.COLUMN_CONTACT_USERNAME, TEST_NONAME);
+            cv.put(DataConfig.COLUMN_CONTACT_NICKNAME, nickname);
 
             db.insert(DataConfig.TABLE_CONTACT, null, cv);
         } finally {
@@ -523,12 +540,13 @@ public class DBManagerSoco {
         }
     }
 
-    public void updateContactName(String email, String name) {
-        Log.i(tag, "Update contact name: " + email + ", " + name);
+    public void updateContactName(String email, String username, String nickname) {
+        Log.i(tag, "Update contact name: " + email + ", " + username + ", " + nickname);
 
         ContentValues cv = new ContentValues();
         cv.put(DataConfig.COLUMN_CONTACT_EMAIL, email);
-        cv.put(DataConfig.COLUMN_CONTACT_NAME, name);
+        cv.put(DataConfig.COLUMN_CONTACT_USERNAME, username);
+        cv.put(DataConfig.COLUMN_CONTACT_NICKNAME, nickname);
 
         db.update(DataConfig.TABLE_CONTACT, cv,
                 DataConfig.COLUMN_CONTACT_EMAIL + " = ?",
@@ -542,7 +560,7 @@ public class DBManagerSoco {
 
         ContentValues cv = new ContentValues();
 //        cv.put(DataConfig.COLUMN_CONTACT_EMAIL, email);
-        cv.put(DataConfig.COLUMN_CONTACT_NAME, name);
+        cv.put(DataConfig.COLUMN_CONTACT_USERNAME, name);
         cv.put(DataConfig.COLUMN_CONTACT_ID_ONSERVER, contactIdOnserver);
 
         db.update(DataConfig.TABLE_CONTACT, cv,

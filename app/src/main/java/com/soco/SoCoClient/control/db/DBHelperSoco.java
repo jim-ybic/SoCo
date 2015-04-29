@@ -8,7 +8,7 @@ import com.soco.SoCoClient.control.config.DataConfig;
 
 public class DBHelperSoco extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "soco.0.1.16.db";
+    public static String DATABASE_NAME = "soco.0.1.18.db";
     public static int DATABASE_VERSION = 1;
 
     public DBHelperSoco(Context context) {
@@ -53,6 +53,7 @@ public class DBHelperSoco extends SQLiteOpenHelper {
                 DataConfig.COLUMN_ACTIVITY_MEMBER_AID + " VARCHAR, " +
                 DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL + " VARCHAR, " +
                 DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME + " VARCHAR, " +
+                DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_NICKNAME + " VARCHAR, " +
                 DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_STATUS + " VARCHAR, " +
                 DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP + " VARCHAR)");
 
@@ -66,7 +67,8 @@ public class DBHelperSoco extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_CONTACT + " (" +
                 DataConfig.COLUMN_CONTACT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DataConfig.COLUMN_CONTACT_EMAIL + " VARCHAR, " +
-                DataConfig.COLUMN_CONTACT_NAME + " VARCHAR, " +
+                DataConfig.COLUMN_CONTACT_USERNAME + " VARCHAR, " +
+                DataConfig.COLUMN_CONTACT_NICKNAME + " VARCHAR, " +
                 DataConfig.COLUMN_CONTACT_PHONE + " VARCHAR, " +
                 DataConfig.COLUMN_CONTACT_ID_ONSERVER + " INTEGER" +
         ")");

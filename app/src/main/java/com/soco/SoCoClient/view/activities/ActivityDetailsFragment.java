@@ -208,7 +208,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_single_activity, menu);
+        inflater.inflate(R.menu.menu_activity_details, menu);
         super.onCreateOptionsMenu(menu, inflater);
         return;
     }
