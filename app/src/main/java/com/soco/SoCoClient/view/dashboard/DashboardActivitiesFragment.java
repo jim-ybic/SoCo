@@ -89,7 +89,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
 
         //set button listeners
         rootView.findViewById(R.id.add).setOnClickListener(this);
-        rootView.findViewById(R.id.create).setOnClickListener(this);
+//        rootView.findViewById(R.id.create).setOnClickListener(this);
 //        rootView.findViewById(R.id.archive).setOnClickListener(this);
 //        rootView.findViewById(R.id.exit).setOnClickListener(this);
 
@@ -154,6 +154,9 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
         }
         else if (id == R.id.archive) {
             showCompletedProjects();
+        }
+        else if (id == R.id.add) {
+            createProject();
         }
 
         return super.onOptionsItemSelected(item);
@@ -272,15 +275,12 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
             case R.id.add:
                 quickAdd();
                 break;
-            case R.id.create:
-                createProject();
-                break;
+//            case R.id.create:
+//                createProject();
+//                break;
             case R.id.archive:
                 showCompletedProjects();
                 break;
-//            case R.id.exit:
-//                exit(v);
-//                break;
         }
     }
 

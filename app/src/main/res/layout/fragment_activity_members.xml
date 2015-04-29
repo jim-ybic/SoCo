@@ -4,26 +4,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow>
-            <EditText
-                android:id="@+id/et_add_member"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Input Email to Invite"
-                android:layout_weight="1"
-                android:inputType="textEmailAddress"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="add"
-                android:text="+"
-                android:textSize="25dp"
-                android:id="@+id/bt_add"/>
-        </TableRow>
-    </TableLayout>
+    <!--<TableLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<TableRow>-->
+            <!--<EditText-->
+                <!--android:id="@+id/et_add_member"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Input Email to Invite"-->
+                <!--android:layout_weight="1"-->
+                <!--android:inputType="textEmailAddress"/>-->
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:onClick="add"-->
+                <!--android:text="+"-->
+                <!--android:textSize="25dp"-->
+                <!--android:id="@+id/bt_add"/>-->
+        <!--</TableRow>-->
+    <!--</TableLayout>-->
 
     <ListView
         android:layout_width="match_parent"

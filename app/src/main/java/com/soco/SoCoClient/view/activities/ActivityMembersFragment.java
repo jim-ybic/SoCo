@@ -2,13 +2,21 @@ package com.soco.SoCoClient.view.activities;
 
 //import info.androidhive.tabsswipe.R;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -63,7 +71,7 @@ public class ActivityMembersFragment extends Fragment implements View.OnClickLis
         Log.d(tag, "create project members fragment view");
         rootView = inflater.inflate(R.layout.fragment_activity_members, container, false);
 
-        rootView.findViewById(R.id.bt_add).setOnClickListener(this);
+//        rootView.findViewById(R.id.bt_add).setOnClickListener(this);
         listMembers();
 
         return rootView;
@@ -71,16 +79,16 @@ public class ActivityMembersFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bt_add:
-                add();
-                break;
-        }
+//        switch (v.getId()) {
+//            case R.id.bt_add:
+//                add();
+//                break;
+//        }
     }
 
-    public void add(){
+    public void add(String email, String nickname){
         String url = profile.getInviteProjectMemberUrl(getActivity());
-        String email = ((EditText) rootView.findViewById(R.id.et_add_member)).getText().toString();
+//        String email = ((EditText) rootView.findViewById(R.id.et_add_member)).getText().toString();
         InviteActivityMemberTaskAsync httpTask = new InviteActivityMemberTaskAsync(
                         url,
                         String.valueOf(pid_onserver),
@@ -95,14 +103,19 @@ public class ActivityMembersFragment extends Fragment implements View.OnClickLis
 //        String userName = profile.username;
         Log.i(tag, "save into db new member " + email + "/" + HttpConfig.TEST_UNKNOWN_USERNAME
                 + " into project " + pid);
-        dbManagerSoco.addMemberToActivity(email, HttpConfig.TEST_UNKNOWN_USERNAME, pid);
+        dbManagerSoco.addMemberToActivity(
+                email,
+                "",         //todo: add username
+                nickname,
+                pid);
         listMembers();
 
+        //todo: set member invitation status (invited, accepted, rejected)
     }
 
     public void listMembers() {
         Log.d(tag, "List project members");
-        ArrayList<Item> memberItems = new ArrayList<Item>();
+        ArrayList<Item> memberItems = new ArrayList<>();
         HashMap<String, String> map = dbManagerSoco.getMembersOfActivity(pid);
 
         for(Map.Entry<String, String> e : map.entrySet()){
@@ -114,5 +127,67 @@ public class ActivityMembersFragment extends Fragment implements View.OnClickLis
         ListView lv = (ListView) rootView.findViewById(R.id.listview_members);
         lv.setAdapter(membersAdapter);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_activity_members, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+//        return;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.i(tag, "onOptionsItemSelected:" + item.getItemId());
+
+        switch (item.getItemId()) {
+            case R.id.add:
+                addMember();
+                break;
+              }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void addMember() {
+        Context context = getActivity();
+        LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText emailBox = new EditText(context);
+        emailBox.setHint("Email address");
+        emailBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        layout.addView(emailBox);
+
+        final EditText nicknameBox = new EditText(context);
+        nicknameBox.setHint("Nick name");
+        layout.addView(nicknameBox);
+
+//        dialog.setView(layout);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("Invite new member");
+//        alert.setMessage("Email address:");
+//        final EditText input = new EditText(getActivity());
+        alert.setView(layout);
+
+        alert.setPositiveButton("Invite", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String email = emailBox.getText().toString();
+                String nickname = nicknameBox.getText().toString();
+                add(email, nickname);
+//                Toast.makeText(getActivity().getApplicationContext(),
+//                        "Invited contact complete.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+
+        alert.show();
+    }
+
 
 }

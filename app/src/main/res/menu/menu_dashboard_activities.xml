@@ -15,6 +15,13 @@
         <!--android:icon="@drawable/ic_action_user"/>-->
 
     <item
+        android:id="@+id/add"
+        android:title="New"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_new_white"/>
+
+    <item
         android:id="@+id/archive"
         android:title="Archive"
         android:orderInCategory="100"

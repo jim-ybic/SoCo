@@ -48,11 +48,10 @@ public class DashboardCalendarFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bt_add:
-                //todo: do something
-                break;
-        }
+//        switch (v.getId()) {
+//            case R.id.bt_add:
+//                break;
+//        }
     }
 
 

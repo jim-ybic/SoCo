@@ -10,6 +10,9 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
@@ -48,14 +51,14 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
 
         Log.d(tag, "create activity resources fragment view");
         rootView = inflater.inflate(R.layout.fragment_activity_resources, container, false);
-        if(rootView == null)
-            Log.e(tag, "cannot find rootview");
-        else
-            Log.d(tag, "find rootview " + rootView);
+//        if(rootView == null)
+//            Log.e(tag, "cannot find rootview");
+//        else
+//            Log.d(tag, "find rootview " + rootView);
 
-        Log.d(tag, "add listeners");
-        rootView.findViewById(R.id.add).setOnClickListener(this);
-        rootView.findViewById(R.id.camera).setOnClickListener(this);
+//        Log.d(tag, "add listeners");
+//        rootView.findViewById(R.id.add).setOnClickListener(this);
+//        rootView.findViewById(R.id.camera).setOnClickListener(this);
 
         Log.d(tag, "show project resources");
         dbManagerSoco = ((SocoApp) getActivity().getApplicationContext()).dbManagerSoco;
@@ -85,6 +88,7 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 //        setContentView(R.layout.activity_show_shared_files);
         Log.d(tag, "on create: project resources fragment");
 
@@ -140,8 +144,9 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
         sharedFilesLocalPath = dbManagerSoco.getSharedFilesLocalPath(pid);
         displayFilenames = dbManagerSoco.getSharedFilesDisplayName(pid);
         showSharedFiles(displayFilenames);
+        //todo: add photo description
 
-        return;
+//        return;
     }
 
     public void viewFile(String localPath){
@@ -200,13 +205,39 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
     @Override
     public void onClick(View v) {
         Log.d(tag, "click on " + v.getId());
-        switch (v.getId()) {
-            case R.id.add:
+//        switch (v.getId()) {
+//            case R.id.add:
+//                addFile();
+//                break;
+//            case R.id.camera:
+//                takePicture();
+//                break;
+//        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_activity_resources, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+//        return;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.i(tag, "onOptionsItemSelected:" + item.getItemId());
+
+        switch (item.getItemId()) {
+            case R.id.attach:
                 addFile();
                 break;
-            case R.id.camera:
+            case R.id.photo:
                 takePicture();
                 break;
         }
+
+        return super.onOptionsItemSelected(item);
     }
+
+
 }

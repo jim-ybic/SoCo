@@ -3,6 +3,7 @@ package com.soco.SoCoClient.view.dashboard;
 //import info.androidhive.tabsswipe.R;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -125,10 +127,10 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
     }
 
 
-    public void add(String email){
+    public void add(String email, String nickname){
 //        String email = ((EditText) rootView.findViewById(R.id.email)).getText().toString();
         Log.i(tag, "save into db new member " + email);
-        dbManagerSoco.saveContact(email);
+        dbManagerSoco.saveContact(email, nickname);
 
         //todo: send invitation to server and save contact id onserver
         Log.d(tag, "send add friend request to server: " + email);
@@ -173,18 +175,33 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
 
 
     public void addContact() {
+        Context context = getActivity();
+        LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText emailBox = new EditText(context);
+        emailBox.setHint("Email address");
+        emailBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        layout.addView(emailBox);
+
+        final EditText nicknameBox = new EditText(context);
+        nicknameBox.setHint("Nick name");
+        layout.addView(nicknameBox);
+
+//        dialog.setView(layout);
+
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle("Add new contact");
-        alert.setMessage("Email address:");
-        final EditText input = new EditText(getActivity());
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-                | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS );
-        alert.setView(input);
+//        alert.setMessage("Email address:");
+//        final EditText input = new EditText(getActivity());
+        alert.setView(layout);
 
         alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                String email = input.getText().toString();
-                add(email);
+                String email = emailBox.getText().toString();
+                String nickname = nicknameBox.getText().toString();
+                add(email, nickname);
 //                Toast.makeText(getActivity().getApplicationContext(),
 //                        "Invited contact complete.", Toast.LENGTH_SHORT).show();
             }
