@@ -3,6 +3,7 @@ package com.soco.SoCoClient.view.common.sectionlist;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,15 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 //import at.bartinger.list.R;
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.control.config.GeneralConfig;
 
 public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 
 	private Context context;
 	private ArrayList<Item> items;
 	private LayoutInflater vi;
+
+    String tag = "SectionEntryListAdapter";
 
 	public SectionEntryListAdapter(Context context, ArrayList<Item> items) {
 		super(context,0, items);
@@ -27,12 +31,16 @@ public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+        Log.d(tag, "getView: " + position);
 		View v = convertView;
 
 		final Item i = items.get(position);
 		if (i != null) {
-			if(i.isSection()){
+            Log.d(tag, "item type: " + i.getType() + ", " + i.toString());
+
+			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_SECTION)){
 				SectionItem si = (SectionItem)i;
+                Log.d(tag, "item title: " + si.getTitle());
 				v = vi.inflate(R.layout.list_item_section, null);
 
 				v.setOnClickListener(null);
@@ -41,8 +49,9 @@ public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 				
 				final TextView sectionView = (TextView) v.findViewById(R.id.list_item_section_text);
 				sectionView.setText(si.getTitle());
-			}else{
+			}else if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){
 				EntryItem ei = (EntryItem)i;
+                Log.d(tag, "item title: " + ei.title);
 				v = vi.inflate(R.layout.list_item_entry, null);
 				final TextView title = (TextView)v.findViewById(R.id.list_item_entry_title);
 				final TextView subtitle = (TextView)v.findViewById(R.id.list_item_entry_summary);
@@ -51,7 +60,18 @@ public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 					title.setText(ei.title);
 				if(subtitle != null)
 					subtitle.setText(ei.subtitle);
-			}
+			}else if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)){
+                FolderItem fi = (FolderItem)i;
+                Log.d(tag, "item title: " + fi.title);
+                v = vi.inflate(R.layout.list_item_folder, null);
+                final TextView title = (TextView)v.findViewById(R.id.list_item_entry_title);
+                final TextView subtitle = (TextView)v.findViewById(R.id.list_item_entry_summary);
+
+                if (title != null)
+                    title.setText(fi.title);
+                if(subtitle != null)
+                    subtitle.setText(fi.subtitle);
+            }
 		}
 		return v;
 	}

@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.soco.SoCoClient.view.activities.CompletedActivitiessActivity;
+import com.soco.SoCoClient.view.common.sectionlist.FolderItem;
 import com.soco.SoCoClient.view.config.ProfileActivity;
 import com.soco.SoCoClient.view.activities.SingleActivityActivity;
 import com.soco.SoCoClient.view.common.sectionlist.SectionEntryListAdapter;
@@ -99,12 +100,11 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
             @SuppressWarnings("unchecked")
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //new
-                if(!activeProjectItems.get(position).isSection()) {
-                    EntryItem item = (EntryItem) activeProjectItems.get(position);
-                    Log.d(tag, "You clicked: " + item.title);
+                if(activeProjectItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)) {
+                    EntryItem ei = (EntryItem) activeProjectItems.get(position);
+                    Log.d(tag, "You clicked: " + ei.title);
 
-                    String name = item.title;
+                    String name = ei.title;
                     int pid = ActivityUtil.findPidByPname(activities, name);
                     socoApp.pid = pid;
                     String pid_onserver = dbmgrSoco.findActivityIdOnserver(pid);
@@ -115,10 +115,38 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
                     Intent i = new Intent(view.getContext(), SingleActivityActivity.class);
                     startActivityForResult(i, INTENT_SHOW_SINGLE_PROGRAM);
                 }
+                else if(activeProjectItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)) {
+                    FolderItem fi = (FolderItem) activeProjectItems.get(position);
+                    Log.d(tag, "You clicked: " + fi.title);
+
+                    //todo: test start
+                    ArrayList<Item> testItems = getTestingItems();
+                    activitiesAdapter = new SectionEntryListAdapter(getActivity(), testItems);
+                    lv_active_programs.setAdapter(activitiesAdapter);
+                    //todo: test end
+
+//                    String name = fi.title;
+//                    int pid = ActivityUtil.findPidByPname(activities, name);
+//                    socoApp.pid = pid;
+//                    String pid_onserver = dbmgrSoco.findActivityIdOnserver(pid);
+//                    socoApp.pid_onserver = pid_onserver;
+//                    Log.i(tag, "pid/pid_onserver: " + pid + ", " + pid_onserver);
+//
+//                    Intent i = new Intent(view.getContext(), SingleActivityActivity.class);
+//                    startActivityForResult(i, INTENT_SHOW_SINGLE_PROGRAM);
+                }
             }
         });
 
         return rootView;
+    }
+
+    ArrayList<Item> getTestingItems(){
+        ArrayList<Item> items = new ArrayList<>();
+        items.add(new SectionItem("Section ABC"));
+        items.add(new EntryItem("Entry DDD", "This is ddd"));
+        items.add(new FolderItem("Folder BBB", "This is folder bbb"));
+        return items;
     }
 
 
@@ -205,6 +233,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
         alert.show();
     }
 
+
     public void listProjects() {
         Log.d(tag, "List projects");
         activeProjectItems = new ArrayList<>();
@@ -223,6 +252,11 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
                     Log.i(tag, "skip showing project that pending invitation complete: " + p.pid);
             }
         }
+
+        //todo: test begin
+        Log.d(tag, "Add testing folder");
+        activeProjectItems.add(new FolderItem("Folder AAA", "This is folder AAA"));
+        //todo: test end
 
         activitiesAdapter = new SectionEntryListAdapter(getActivity(), activeProjectItems);
         lv_active_programs.setAdapter(activitiesAdapter);

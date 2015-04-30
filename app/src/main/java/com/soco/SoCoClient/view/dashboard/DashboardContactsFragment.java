@@ -155,6 +155,7 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
             contactItems.add(new EntryItem(e.getValue(), e.getKey()));
         }
 
+        Log.d(tag, "set contacts adapter");
         contactsAdapter = new SectionEntryListAdapter(getActivity(), contactItems);
         ListView lv = (ListView) rootView.findViewById(R.id.listview_contacts);
         lv.setAdapter(contactsAdapter);
@@ -164,7 +165,7 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
     public void onResume() {
         super.onResume();
 
-        Log.i(tag, "onResume start, reload project attribute for pid: ");
+//        Log.i(tag, "onResume start, reload project attribute for pid: ");
     }
 
     @Override

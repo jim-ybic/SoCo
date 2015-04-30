@@ -40,4 +40,8 @@ public class GeneralConfig {
     public static String INTENT_KEY_EMAIL = "email";
     public static String TEST_DEVICE_SAMSUNG = "TEST DEVICE SAMSUNG";
 
+    public static String LIST_ITEM_TYPE_ENTRY = "entry";
+    public static String LIST_ITEM_TYPE_FOLDER = "folder";
+    public static String LIST_ITEM_TYPE_SECTION = "section";
+
 }
