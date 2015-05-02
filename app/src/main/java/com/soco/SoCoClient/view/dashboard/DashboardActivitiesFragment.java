@@ -1,5 +1,10 @@
 package com.soco.SoCoClient.view.dashboard;
 
+//todo: a bug to be fixed, steps to replicate-
+//1) go inside a folder, 2) quick create an activity, 3) press android Back button
+//expected: return to the up level
+//actual: return to login acreen
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -125,29 +130,15 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
                     Log.d(tag, "You clicked on folder: " + fi.title);
 
                     socoApp.currentPath += fi.title + "/";
-                    Log.d(tag, "new current path " + socoApp.currentPath);
-
-                    //todo: load activities of folders
-//                    activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+                    Log.d(tag, "reload activities and folders from new current path " + socoApp.currentPath);
                     activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
                     folders = dbmgrSoco.loadFolders(socoApp.currentPath);
                     refreshList();
 
-                    //todo: test start
-//                    ArrayList<Item> testItems = getTestingItems();
-//                    activitiesAdapter = new SectionEntryListAdapter(getActivity(), testItems);
-//                    lv_active_programs.setAdapter(activitiesAdapter);
-                    //todo: test end
-
-//                    String name = fi.title;
-//                    int pid = ActivityUtil.findPidByPname(activities, name);
-//                    socoApp.pid = pid;
-//                    String pid_onserver = dbmgrSoco.findActivityIdOnserver(pid);
-//                    socoApp.pid_onserver = pid_onserver;
-//                    Log.i(tag, "pid/pid_onserver: " + pid + ", " + pid_onserver);
-//
-//                    Intent i = new Intent(view.getContext(), SingleActivityActivity.class);
-//                    startActivityForResult(i, INTENT_SHOW_SINGLE_PROGRAM);
+                    if(socoApp.currentPath.equals(GeneralConfig.PATH_ROOT))
+                        getActivity().setTitle("Dashboard");
+                    else
+                        getActivity().setTitle(fi.title);
                 }
             }
         });
@@ -172,12 +163,26 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
                         path = path.substring(0, path.length()-1);
                         int pos = path.lastIndexOf("/");
                         path = path.substring(0, pos+1);
-                        Log.d(tag, "new current path " + path + ", refresh UI");
+                        Log.d(tag, "new current path " + path + ", reload data and refresh UI");
                         socoApp.currentPath = path;
                         activities = dbmgrSoco.loadActiveActivitiesByPath(path);
                         folders = dbmgrSoco.loadFolders(path);
                         refreshList();
                     }
+
+                    String title = "Dashboard";
+                    if(!socoApp.currentPath.equals(GeneralConfig.PATH_ROOT)){
+                        //e.g. currentPath = /Folder1/Folder2/
+                        String path = socoApp.currentPath.substring(0, socoApp.currentPath.length()-1);
+                        Log.d(tag, "path: " + path);
+                        int pos = path.lastIndexOf("/");
+                        Log.d(tag, "pos: " + pos);
+                        title = path.substring(pos+1, path.length());
+                        Log.d(tag, "title: " + title);
+//                        getActivity().setTitle(folder);
+                    }
+                    Log.d(tag, "set activity title: " + title);
+                    getActivity().setTitle(title);
 //                    Log.d(tag, "current path: " + socoApp.currentPath);
                     return true;
                 } else {
@@ -185,6 +190,9 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
                 }
             }
         });
+
+//        Log.v(tag, "set activity title: " + socoApp.currentPath);
+//        getActivity().setTitle(socoApp.currentPath);
 
         return rootView;
     }

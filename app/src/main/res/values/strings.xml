@@ -27,8 +27,8 @@
     <string name="title_activity_server_config">Server Config</string>
     <string name="title_activity_show_shared_files">Shared Files</string>
     <string name="title_activity_project_location">Location</string>
-    <string name="title_show_single_project">Project</string>
-    <string name="title_show_active_projects">Agenda</string>
+    <string name="title_show_single_activity">Activity</string>
+    <string name="title_show_active_activities">Agenda</string>
     <!-- <string name="title_activity_show_single_project_new">ShowSingleProjectNewActivity</string> -->
     <string name="title_activity_main">MainActivity</string>
     <string name="title_dashboard">Dashboard</string>
