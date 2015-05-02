@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +56,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
     private ArrayList<Activity> activities;
     private String loginEmail, loginPassword;
     ArrayList<Item> activeProjectItems;
+    HashMap<String, String> folders; //name, desc
 
     View rootView;
     SocoApp socoApp;
@@ -75,7 +78,9 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
         dbmgrSoco = socoApp.dbManagerSoco;
 //        dbmgrSoco.context = getActivity().getApplicationContext();
 //        socoApp.dbManagerSoco = dbmgrSoco;
-        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
+        folders = dbmgrSoco.loadFolders(socoApp.currentPath);
     }
 
     @Override
@@ -94,7 +99,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
 //        rootView.findViewById(R.id.archive).setOnClickListener(this);
 //        rootView.findViewById(R.id.exit).setOnClickListener(this);
 
-        listProjects();
+        refreshList();
 
         lv_active_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")
@@ -102,7 +107,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(activeProjectItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)) {
                     EntryItem ei = (EntryItem) activeProjectItems.get(position);
-                    Log.d(tag, "You clicked: " + ei.title);
+                    Log.d(tag, "You clicked on activity: " + ei.title);
 
                     String name = ei.title;
                     int pid = ActivityUtil.findPidByPname(activities, name);
@@ -117,12 +122,21 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
                 }
                 else if(activeProjectItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)) {
                     FolderItem fi = (FolderItem) activeProjectItems.get(position);
-                    Log.d(tag, "You clicked: " + fi.title);
+                    Log.d(tag, "You clicked on folder: " + fi.title);
+
+                    socoApp.currentPath += fi.title + "/";
+                    Log.d(tag, "new current path " + socoApp.currentPath);
+
+                    //todo: load activities of folders
+//                    activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+                    activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
+                    folders = dbmgrSoco.loadFolders(socoApp.currentPath);
+                    refreshList();
 
                     //todo: test start
-                    ArrayList<Item> testItems = getTestingItems();
-                    activitiesAdapter = new SectionEntryListAdapter(getActivity(), testItems);
-                    lv_active_programs.setAdapter(activitiesAdapter);
+//                    ArrayList<Item> testItems = getTestingItems();
+//                    activitiesAdapter = new SectionEntryListAdapter(getActivity(), testItems);
+//                    lv_active_programs.setAdapter(activitiesAdapter);
                     //todo: test end
 
 //                    String name = fi.title;
@@ -138,16 +152,50 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
             }
         });
 
+        rootView.setFocusableInTouchMode(true);
+        rootView.requestFocus();
+        rootView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                Log.d(tag, "keyCode: " + keyCode + ", eventAction: " + event.getAction());
+                if (event.getAction() != KeyEvent.ACTION_DOWN)      //only process key down event
+                    return true;
+
+                if( keyCode == KeyEvent.KEYCODE_BACK ) {
+                    Log.i(tag, "onKey Back listener");
+//                    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    if(socoApp.currentPath.equals(GeneralConfig.PATH_ROOT))
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Top level already, click again to exit", Toast.LENGTH_SHORT).show();
+                    else {
+                        String path = socoApp.currentPath;
+                        path = path.substring(0, path.length()-1);
+                        int pos = path.lastIndexOf("/");
+                        path = path.substring(0, pos+1);
+                        Log.d(tag, "new current path " + path + ", refresh UI");
+                        socoApp.currentPath = path;
+                        activities = dbmgrSoco.loadActiveActivitiesByPath(path);
+                        folders = dbmgrSoco.loadFolders(path);
+                        refreshList();
+                    }
+//                    Log.d(tag, "current path: " + socoApp.currentPath);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
         return rootView;
     }
 
-    ArrayList<Item> getTestingItems(){
-        ArrayList<Item> items = new ArrayList<>();
-        items.add(new SectionItem("Section ABC"));
-        items.add(new EntryItem("Entry DDD", "This is ddd"));
-        items.add(new FolderItem("Folder BBB", "This is folder bbb"));
-        return items;
-    }
+//    ArrayList<Item> getTestingItems(){
+//        ArrayList<Item> items = new ArrayList<>();
+//        items.add(new SectionItem("Section ABC"));
+//        items.add(new EntryItem("Entry DDD", "This is ddd"));
+//        items.add(new FolderItem("Folder BBB", "This is folder bbb"));
+//        return items;
+//    }
 
 
     @Override
@@ -156,9 +204,10 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
         switch (requestCode) {
             case (101): {
                 Log.i(tag, "onActivityResult, return from ShowSingleProject");
-                Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
-                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
-                listProjects();
+//                Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
+//                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+                activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
+                refreshList();
                 break;
             }
         }
@@ -184,47 +233,79 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
             showCompletedProjects();
         }
         else if (id == R.id.add) {
-            createProject();
+            createActivity();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void createProject() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setTitle("Create new project");
-        alert.setMessage("So I want to ...");
-        final EditText input = new EditText(getActivity());
-        alert.setView(input);
+    public void createActivity() {
 
-        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+        Log.d(tag, "create dialog elements");
+        Context context = getActivity();
+        LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        final EditText nameBox = new EditText(context);
+        nameBox.setHint("Name");
+        layout.addView(nameBox);
+        final EditText descBox = new EditText(context);
+        descBox.setHint("Description (Optional)");
+        layout.addView(descBox);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("New");
+//        alert.setMessage("Task description: ");
+//        final EditText input = new EditText(getActivity());
+        alert.setView(layout);
+
+        alert.setPositiveButton("Add Task", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                String n = input.getText().toString();
-                Activity p = new Activity(n);
+                String name = nameBox.getText().toString();
+//                String desc = descBox.getText().toString();
+                Log.d(tag, "create activity and insert into database: " + name);
+                Activity p = new Activity(name, socoApp.currentPath);
                 int pid = dbmgrSoco.addActivity(p);
                 Toast.makeText(getActivity().getApplicationContext(),
                         "Project created.", Toast.LENGTH_SHORT).show();
-                ActivityUtil.serverCreateActivity(n, getActivity().getApplicationContext(),
+                Log.d(tag, "send new activity to server: " + name + ", pid " + pid);
+                ActivityUtil.serverCreateActivity(name, getActivity().getApplicationContext(),
                         loginEmail, loginPassword, String.valueOf(pid),
                         p.getSignature(), p.getTag(), p.getType());
-                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
-                listProjects();
+//                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+                Log.d(tag, "add into active list and refresh UI");
+                activities.add(p);
+                refreshList();
             }
         });
-        alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
+        alert.setNeutralButton("Add Folder", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                String n = input.getText().toString();
-                Activity p = new Activity(n);
-                int pid = dbmgrSoco.addActivity(p);
-                ActivityUtil.serverCreateActivity(n, getActivity().getApplicationContext(),
-                        loginEmail, loginPassword, String.valueOf(pid),
-                        p.getSignature(), p.getTag(), p.getType());
-                Intent intent = new Intent(getActivity().getApplicationContext(), SingleActivityActivity.class);
-                socoApp.pid = pid;
-                Log.i(tag, "Start activity to view programName details");
-                startActivityForResult(intent, -1);
+                String name = nameBox.getText().toString();
+                String desc = descBox.getText().toString();
+                String path = socoApp.currentPath;
+                Log.d(tag, "create folder and insert into database: " + name);
+                int fid = dbmgrSoco.addFolder(name, desc, socoApp.currentPath);
+//                activeProjectItems.add(new FolderItem(name, desc));
+                Log.d(tag, "send new folder to server");
+                //todo
+                Log.d(tag, "add into active list and refresh UI");
+                folders.put(name, desc);
+                refreshList();
             }
         });
+//        alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                String n = input.getText().toString();
+//                Activity p = new Activity(n);
+//                int pid = dbmgrSoco.addActivity(p);
+//                ActivityUtil.serverCreateActivity(n, getActivity().getApplicationContext(),
+//                        loginEmail, loginPassword, String.valueOf(pid),
+//                        p.getSignature(), p.getTag(), p.getType());
+//                Intent intent = new Intent(getActivity().getApplicationContext(), SingleActivityActivity.class);
+//                socoApp.pid = pid;
+//                Log.i(tag, "Start activity to view programName details");
+//                startActivityForResult(intent, -1);
+//            }
+//        });
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
             }
@@ -234,10 +315,11 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
     }
 
 
-    public void listProjects() {
+    public void refreshList() {
         Log.d(tag, "List projects");
         activeProjectItems = new ArrayList<>();
 
+        Log.d(tag, "Add activities");
         HashMap<String, ArrayList<Activity>> map = ActivityUtil.groupingActivitiesByTag(activities);
         for(Map.Entry<String, ArrayList<Activity>> e : map.entrySet()){
             String tag = e.getKey();
@@ -253,11 +335,12 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
             }
         }
 
-        //todo: test begin
-        Log.d(tag, "Add testing folder");
-        activeProjectItems.add(new FolderItem("Folder AAA", "This is folder AAA"));
-        //todo: test end
+        Log.d(tag, "Add folders");
+        for(Map.Entry<String, String> e : folders.entrySet()){
+            activeProjectItems.add(new FolderItem(e.getKey(), e.getValue()));
+        }
 
+        Log.d(tag, "refresh UI");
         activitiesAdapter = new SectionEntryListAdapter(getActivity(), activeProjectItems);
         lv_active_programs.setAdapter(activitiesAdapter);
     }
@@ -280,15 +363,16 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
         String name = ((EditText)rootView.findViewById(R.id.et_quickadd)).getText().toString();
         Log.d(tag, "quick add activity " + name);
 
-        Activity p = new Activity(name);
+        Activity p = new Activity(name, socoApp.currentPath);
         int pid = dbmgrSoco.addActivity(p);
         Toast.makeText(getActivity().getApplicationContext(),
                 "Project created success.", Toast.LENGTH_SHORT).show();
         ActivityUtil.serverCreateActivity(name, getActivity().getApplicationContext(),
                 loginEmail, loginPassword, String.valueOf(pid),
                 p.getSignature(), p.getTag(), p.getType());
-        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
-        listProjects();
+//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
+        refreshList();
         ((EditText)rootView.findViewById(R.id.et_quickadd)).setText("", TextView.BufferType.EDITABLE);
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
                 Context.INPUT_METHOD_SERVICE);
@@ -298,8 +382,9 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
     public void onResume() {
         super.onResume();
         Log.i(tag, "onResume start, reload active projects");
-        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
-        listProjects();
+//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
+        refreshList();
     }
 
 
@@ -310,12 +395,17 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
                 quickAdd();
                 break;
 //            case R.id.create:
-//                createProject();
+//                createActivity();
 //                break;
             case R.id.archive:
                 showCompletedProjects();
                 break;
+            case R.id.home:
+                Log.d(tag, "click on home");
+                break;
         }
     }
+
+
 
 }

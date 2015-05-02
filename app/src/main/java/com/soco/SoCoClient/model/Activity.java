@@ -18,15 +18,18 @@ public class Activity {
     public String pactive;
     public String pid_onserver;
     public int invitation_status;
+    public String path;
 
     static String tag = "Project";
 
-    public Activity(String name) {
-        Log.d(tag, "create new project with name " + name
-                + ", default tag is " + GeneralConfig.DEFAULT_PROJECT_TAG);
+    public Activity(String name, String path) {
+        Log.d(tag, "create new project: " + name
+                + ", tag: " + GeneralConfig.DEFAULT_PROJECT_TAG
+                + ", path: " + path);
 
         this.pname = name;
         this.ptag = GeneralConfig.DEFAULT_PROJECT_TAG;
+        this.path = path;
         this.pupdate_timestamp = SignatureUtil.now();
         this.invitation_status = 1;
     }
@@ -44,6 +47,7 @@ public class Activity {
         this.pid_onserver = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ID_ONSERVER));
         this.invitation_status = c.getInt(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_INVITATION_STATUS));
         this.ptag = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_TAG));;
+        this.path = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_PATH));;
     }
 
     public String getMoreInfo() {

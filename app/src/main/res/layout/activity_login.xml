@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:layout_weight="1">
         <TextView
-            android:text="SoCo - get things done together!"
+            android:text="TeamGo - get things done together!"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"

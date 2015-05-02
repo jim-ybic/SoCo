@@ -35,4 +35,11 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_action_search"/>
 
+    <item
+        android:id="@+id/delete"
+        android:title="Delete"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_delete"/>
+
 </menu>

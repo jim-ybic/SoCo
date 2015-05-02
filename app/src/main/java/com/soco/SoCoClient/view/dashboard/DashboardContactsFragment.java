@@ -176,6 +176,7 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
 
 
     public void addContact() {
+        Log.d(tag, "create dialog elements");
         Context context = getActivity();
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);

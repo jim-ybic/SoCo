@@ -14,6 +14,7 @@ public class DataConfig {
     public static String COLUMN_ACTIVITY_ACTIVE = "active";
     public static String COLUMN_ACTIVITY_ID_ONSERVER = "id_onserver";
     public static String COLUMN_ACTIVITY_INVITATION_STATUS = "invitation_status";
+    public static String COLUMN_ACTIVITY_PATH = "activity_path";
 
     public static String VALUE_ACTIVITY_ACTIVE = "active";
     public static String VALUE_ACTIVITY_INACTIVE = "inactive";
@@ -100,6 +101,12 @@ public class DataConfig {
     public static String COLUMN_CHAT_CONTENT = "chat_content";
     public static String COLUMN_CHAT_TIMESTAMP = "chat_timestamp";
     public static String COLUMN_CHAT_TYPE = "chat_type";
+
+    public static String TABLE_FOLDER = "folder";
+    public static String COLUMN_FOLDER_ID = "folder_id";
+    public static String COLUMN_FOLDER_NAME = "folder_name";
+    public static String COLUMN_FOLDER_DESC = "folder_desc";
+    public static String COLUMN_FOLDER_PATH = "folder_path";
 
 
 }

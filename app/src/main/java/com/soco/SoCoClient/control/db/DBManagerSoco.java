@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.soco.SoCoClient.control.SocoApp;
 import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.config.GeneralConfig;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Activity;
 
@@ -111,9 +112,10 @@ public class DBManagerSoco {
             db.beginTransaction();
 
             Log.i(tag, "Insert into db activity: " + p.pname + ", , "
-                    + SignatureUtil.now() + ", " + SignatureUtil.now() + ", "
-                    + SignatureUtil.genSHA1(p) + ", " + DataConfig.VALUE_ACTIVITY_ACTIVE + ", "
-                    + p.pid_onserver + ", " + p.invitation_status);
+//                    + SignatureUtil.now() + ", " + SignatureUtil.now() + ", "
+//                    + SignatureUtil.genSHA1(p) + ", " + DataConfig.VALUE_ACTIVITY_ACTIVE + ", "
+                    + p.pid_onserver + ", " + p.invitation_status
+                    + ", " + p.path);
 
             ContentValues cv = new ContentValues();
             cv.put(DataConfig.COLUMN_ACTIVITY_NAME, p.pname);
@@ -124,6 +126,8 @@ public class DBManagerSoco {
             cv.put(DataConfig.COLUMN_ACTIVITY_ID_ONSERVER, p.pid_onserver);
             cv.put(DataConfig.COLUMN_ACTIVITY_INVITATION_STATUS, p.invitation_status);
             cv.put(DataConfig.COLUMN_ACTIVITY_TAG, p.ptag);
+            cv.put(DataConfig.COLUMN_ACTIVITY_PATH, p.path);
+
             db.insert(DataConfig.TABLE_ACTIVITY, null, cv);
 
             //get pid
@@ -149,7 +153,7 @@ public class DBManagerSoco {
             cvMember.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME, userName);
             //todo: add nickname
             cvMember.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP, SignatureUtil.now());
-            db.insert(DataConfig.TABLE_CONTACT, null, cvMember);
+            db.insert(DataConfig.TABLE_ACTIVITY_MEMBER, null, cvMember);
 
 
             db.setTransactionSuccessful();
@@ -660,6 +664,77 @@ public class DBManagerSoco {
         } finally {
             db.endTransaction();
         }
+
+    }
+
+    public int addFolder(String name, String desc, String path) {
+        Log.d(tag, "Adding folder into database: " + name + ", " + desc + ", " + path);
+
+        int fid = -1;
+        try {
+            db.beginTransaction();
+
+            ContentValues cv = new ContentValues();
+            cv.put(DataConfig.COLUMN_FOLDER_NAME, name);
+            cv.put(DataConfig.COLUMN_FOLDER_DESC, desc);
+            cv.put(DataConfig.COLUMN_FOLDER_PATH, path);
+
+            db.insert(DataConfig.TABLE_FOLDER, null, cv);
+
+            Log.d(tag, "get fid of new folder");
+            String query = "SELECT MAX(" + DataConfig.COLUMN_FOLDER_ID
+                    + ") FROM " + DataConfig.TABLE_FOLDER;
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()){
+                do {
+                    fid = cursor.getInt(0);
+                } while(cursor.moveToNext());
+            }
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+
+        return fid;
+    }
+
+    public HashMap<String, String> loadFolders(String currentPath) {
+        Log.d(tag, "load folders at path: " + currentPath);
+
+        HashMap<String, String> folders = new HashMap<>();
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_FOLDER
+                    + " WHERE " + DataConfig.COLUMN_FOLDER_PATH + " = ?",
+                new String[]{currentPath});
+
+        String name, desc;
+        while (c.moveToNext()) {
+            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_FOLDER_NAME));
+            desc = c.getString(c.getColumnIndex(DataConfig.COLUMN_FOLDER_DESC));
+            Log.d(tag, "found folder: " + name + ", " + desc);
+            folders.put(name, desc);
+        }
+        c.close();
+
+        return folders;
+    }
+
+
+    public ArrayList<Activity> loadActiveActivitiesByPath(String currentPath) {
+        Log.i(tag, "Load active activities on path: " + currentPath);
+        ArrayList<Activity> activities = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ACTIVITY +
+                        " where " + DataConfig.COLUMN_ACTIVITY_ACTIVE + " = ? " +
+                        " and " + DataConfig.COLUMN_ACTIVITY_PATH + " = ? ",
+                new String[]{DataConfig.VALUE_ACTIVITY_ACTIVE, currentPath});
+
+        while (c.moveToNext()) {
+            Activity p = new Activity(c);
+            Log.d(tag, "found activity: " + p.pname);
+            activities.add(p);
+        }
+        c.close();
+        return activities;
 
     }
 }

@@ -27,14 +27,14 @@ public class SignatureUtil {
     }
 
     public static String genSHA1(String data, String key) {
-        Log.d(tag, "Generate SHA1 signature of data: " + data + ", key: " + key);
+        Log.v(tag, "Generate SHA1 signature of data: " + data + ", key: " + key);
         String s = null;
         try {
             SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), HMAC_SHA1_ALGORITHM);
             Mac mac = Mac.getInstance(HMAC_SHA1_ALGORITHM);
             mac.init(signingKey);
             s = toHexString(mac.doFinal(data.getBytes()));
-            Log.d(tag, "Signature generated: " + s);
+            Log.v(tag, "Signature generated: " + s);
         } catch (Exception e) {
             Log.e(tag, "Error generating SHA1 signature");
             e.printStackTrace();
@@ -46,7 +46,7 @@ public class SignatureUtil {
         String data = p.pid + ", " + p.pname + ", "
                         + p.pcreate_timestamp + ", " + p.pupdate_timestamp;
         String s = genSHA1(data, SIGNATURE_KEY);
-        Log.d(tag, "Gen SHA1 signature for project " + p.pname + " is: " + s);
+        Log.v(tag, "Gen SHA1 signature for project " + p.pname + " is: " + s);
         return s;
     }
 

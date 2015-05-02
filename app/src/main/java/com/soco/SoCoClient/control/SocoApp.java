@@ -45,6 +45,7 @@ public class SocoApp extends Application {
     public String pid_onserver;
     public String username;
     public Profile profile;
+    public String currentPath;
 
     public void setDropboxDownloadUri(Uri uri){
         this.dropboxDownloadUri = uri;

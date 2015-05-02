@@ -44,4 +44,7 @@ public class GeneralConfig {
     public static String LIST_ITEM_TYPE_FOLDER = "folder";
     public static String LIST_ITEM_TYPE_SECTION = "section";
 
+    public static final String PATH_ROOT = "/";
+
+
 }

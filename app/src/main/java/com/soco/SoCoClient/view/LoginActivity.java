@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.control.config.GeneralConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.control.http.task.LoginTaskAsync;
@@ -155,6 +156,7 @@ public class LoginActivity extends ActionBarActivity {
             socoApp.loginEmail = loginEmail;
             socoApp.loginPassword = loginPassword;
             socoApp.profile = profile;
+            socoApp.currentPath = GeneralConfig.PATH_ROOT;
 
             startActivity(intent);
         } else {
