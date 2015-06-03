@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.control;
 
 import android.app.Application;
+import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -32,7 +33,7 @@ public class SocoApp extends Application {
     public boolean listNamePhoneReady = false, listNameEmailReady = false;
     public String currPicturePath;
     public ArrayList<String> sharedFileNames = new ArrayList<>();
-    public int pid;
+    public int pid, pid_onserver;
     public ArrayList<HashMap<String, String>> attrMap;
     public Uri dropboxDownloadUri;
     public String dropboxDownloadType;
@@ -42,10 +43,11 @@ public class SocoApp extends Application {
     public DropboxAPI<AndroidAuthSession> dropboxApi;
     public Uri uri;
     public String lat, lng, zoom, locationName;
-    public String pid_onserver;
+//    public String pid_onserver;
     public String username;
     public Profile profile;
     public String currentPath;
+    public ContentResolver cr;
 
     public void setDropboxDownloadUri(Uri uri){
         this.dropboxDownloadUri = uri;

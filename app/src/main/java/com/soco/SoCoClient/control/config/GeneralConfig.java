@@ -2,7 +2,7 @@ package com.soco.SoCoClient.control.config;
 
 public class GeneralConfig {
 
-    public static String DEFAULT_PROJECT_TAG = "default";
+    public static String DEFAULT_TAG = "default";
 
     public static String APP_FOLDER_NAME = "SoCo";
 
@@ -45,6 +45,8 @@ public class GeneralConfig {
     public static String LIST_ITEM_TYPE_SECTION = "section";
 
     public static final String PATH_ROOT = "/";
+    public static final String TEST_LOCAL_PATH = "TEST_LOCAL_PATH";
+    public static final String TEST_USER = "TEST_USER";
 
 
 }

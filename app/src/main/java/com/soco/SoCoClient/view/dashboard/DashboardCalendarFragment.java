@@ -17,8 +17,7 @@ public class DashboardCalendarFragment extends Fragment implements View.OnClickL
     String tag = "CalendarFragment";
     View rootView;
 
-    int pid;
-    String pid_onserver;
+    int pid, pid_onserver;
     SocoApp socoApp;
 
     @Override

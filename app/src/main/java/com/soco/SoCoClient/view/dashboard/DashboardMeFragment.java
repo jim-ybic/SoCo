@@ -22,8 +22,7 @@ public class DashboardMeFragment extends Fragment implements View.OnClickListene
     String tag = "MeFragment";
     View rootView;
 
-    int pid;
-    String pid_onserver;
+    int pid, pid_onserver;
     SocoApp socoApp;
 
     @Override

@@ -36,7 +36,7 @@ public class ContactDetailsActivity extends ActionBarActivity {
     DBManagerSoco dbManagerSoco;
     Profile profile;
     SectionEntryListAdapter adapter_chat;
-    int contactId;
+    int contactId, contactIdOnserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,7 @@ public class ContactDetailsActivity extends ActionBarActivity {
         name = i.getStringExtra(GeneralConfig.INTENT_KEY_NAME);
         email = i.getStringExtra(GeneralConfig.INTENT_KEY_EMAIL);
         contactId = dbManagerSoco.getContactIdByEmail(email);
+        contactIdOnserver = dbManagerSoco.getContactIdOnserverByEmail(email);
         Log.d(tag, "get extra on name: " + name);
 
         //todo: show contact details
@@ -146,10 +147,15 @@ public class ContactDetailsActivity extends ActionBarActivity {
         Log.i(tag, "send message to server: " + message);
 
         SendMessageTaskAsync task = new SendMessageTaskAsync(url,
-                HttpConfig.MESSAGE_FROM_TYPE_1, ownEmail,
-                HttpConfig.MESSAGE_TO_TYPE_1, email,
-                SignatureUtil.now(), GeneralConfig.TEST_DEVICE_SAMSUNG,
-                HttpConfig.MESSAGE_CONTENT_TYPE_1, message);
+                HttpConfig.MESSAGE_FROM_TYPE_1,     //from type 1: individual
+                ownEmail,                           //individual email
+                HttpConfig.MESSAGE_TO_TYPE_1,       //to type 1: individual
+                String.valueOf(contactIdOnserver),          //individual id
+                SignatureUtil.now(),                //timestamp
+                GeneralConfig.TEST_DEVICE_SAMSUNG,  //device name
+                HttpConfig.MESSAGE_CONTENT_TYPE_1,  //content type
+                message                             //message
+        );
         task.execute();
 
         Log.d(tag, "refresh UI");

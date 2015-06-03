@@ -53,7 +53,7 @@ import static com.soco.SoCoClient.control.config.DataConfig.*;
 
 public class ActivityDetailsFragment extends Fragment implements View.OnClickListener {
 
-    public static String tag="ProjectDetailsFragment";
+    public static String tag="ActivityDetailsFragment";
 
     View rootView;
 
@@ -78,8 +78,8 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
     SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
     DropboxAPI<AndroidAuthSession> dropboxApi;
-    int pid;
-    String pid_onserver;
+    int pid, pid_onserver;
+//    String pid_onserver;
 
     private ArrayList<Map<String, String>> listNamePhone, listNameEmail;
     private SimpleAdapter mAdapterPhone, mAdapterEmail;
@@ -477,7 +477,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
         String pname = et_spname.getText().toString();
         dbmgrSoco.updateActivityName(activity.pid, pname);
         ActivityUtil.serverUpdateActivityName(String.valueOf(pid), getActivity().getApplication(),
-                pname, pid_onserver);
+                pname, String.valueOf(pid_onserver));
 
         String ptag = et_sptag.getText().toString();
         dbmgrSoco.updateAcivityTag(activity.pid, ptag);
@@ -488,7 +488,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
             dbmgrSoco.updateDbActivityAttributes(pid, attrMap2);
             ActivityUtil.serverSetActivityAttribute(String.valueOf(pid),
                     getActivity().getApplication(),
-                    pname, pid_onserver, attrMap2);
+                    pname, String.valueOf(pid_onserver), attrMap2);
         }
 
         Toast.makeText(getActivity(), "Project saved.", Toast.LENGTH_SHORT).show();
@@ -501,7 +501,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
         dbmgrSoco.updateActivityActiveness(pid, DataConfig.VALUE_ACTIVITY_INACTIVE);
         Toast.makeText(getActivity(), "Project complete, well done.",
                 Toast.LENGTH_SHORT).show();
-        ActivityUtil.serverArchiveActivity(String.valueOf(pid), getActivity().getApplication(), pid_onserver);
+        ActivityUtil.serverArchiveActivity(String.valueOf(pid), getActivity().getApplication(), String.valueOf(pid_onserver));
         gotoPreviousScreen();
     }
 

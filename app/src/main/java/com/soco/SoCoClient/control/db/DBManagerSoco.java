@@ -16,6 +16,7 @@ import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.control.config.GeneralConfig;
 import com.soco.SoCoClient.control.util.SignatureUtil;
 import com.soco.SoCoClient.model.Activity;
+import com.soco.SoCoClient.model.Folder;
 
 public class DBManagerSoco {
     private DBHelperSoco helper;
@@ -356,16 +357,27 @@ public class DBManagerSoco {
         String now = SignatureUtil.now();
         try{
             db.beginTransaction();
-            Log.i(tag, "INSERT INTO " + DataConfig.TABLE_SHARED_FILE
-                    + " VALUES(null, " + pid + ", " + displayName + ", "
-                    + uri + ", " + remotePath + ", " + localPath
-                    + ",, " + now + ", " + now);
-            db.execSQL("INSERT INTO " + DataConfig.TABLE_SHARED_FILE
-                            + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    new Object[]{pid, displayName, uri, remotePath, localPath,
-                            "", now, now});
-            db.setTransactionSuccessful();
+//            Log.i(tag, "INSERT INTO " + DataConfig.TABLE_SHARED_FILE
+//                    + " VALUES(null, " + pid + ", " + displayName + ", "
+//                    + uri + ", " + remotePath + ", " + localPath
+//                    + ",, " + now + ", " + now);
+//            db.execSQL("INSERT INTO " + DataConfig.TABLE_SHARED_FILE
+//                            + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?)",
+//                    new Object[]{pid, displayName, uri, remotePath, localPath,
+//                            "", now, now});
+
+            ContentValues cv = new ContentValues();
+            cv.put(DataConfig.COLUMN_SHARED_FILE_PID, pid);
+            cv.put(DataConfig.COLUMN_SHARED_FILE_DISPLAY_NAME, displayName);
+            cv.put(DataConfig.COLUMN_SHARED_FILE_URI, uri.toString());
+            cv.put(DataConfig.COLUMN_SHARED_FILE_REMOTE_PATH, remotePath);
+            cv.put(DataConfig.COLUMN_SHARED_FILE_LOCAL_PATH, localPath);
+            cv.put(DataConfig.COLUMN_SHARED_FILE_CREATE_TIMESTAMP, now);
+            cv.put(DataConfig.COLUMN_SHARED_FILE_UPDATE_TIMESTAMP, now);
+
+            db.insert(DataConfig.TABLE_SHARED_FILE, null, cv);
         } finally{
+            db.setTransactionSuccessful();
             db.endTransaction();
         }
     }
@@ -560,7 +572,7 @@ public class DBManagerSoco {
     }
 
     public void updateContactNameIdOnserver(String email, String name, int contactIdOnserver) {
-        Log.i(tag, "Update contact in onserver: " + email + ", " + name + ", " + contactIdOnserver);
+        Log.i(tag, "Update contact id onserver: " + email + ", " + name + ", " + contactIdOnserver);
 
         ContentValues cv = new ContentValues();
 //        cv.put(DataConfig.COLUMN_CONTACT_EMAIL, email);
@@ -678,6 +690,7 @@ public class DBManagerSoco {
             cv.put(DataConfig.COLUMN_FOLDER_NAME, name);
             cv.put(DataConfig.COLUMN_FOLDER_DESC, desc);
             cv.put(DataConfig.COLUMN_FOLDER_PATH, path);
+            cv.put(DataConfig.COLUMN_FOLDER_TAG, GeneralConfig.DEFAULT_TAG);
 
             db.insert(DataConfig.TABLE_FOLDER, null, cv);
 
@@ -699,26 +712,41 @@ public class DBManagerSoco {
         return fid;
     }
 
-    public HashMap<String, String> loadFolders(String currentPath) {
-        Log.d(tag, "load folders at path: " + currentPath);
+//    public HashMap<String, String> loadFolders(String currentPath) {
+//        Log.d(tag, "load folders at path: " + currentPath);
+//
+//        HashMap<String, String> folders = new HashMap<>();
+//        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_FOLDER
+//                    + " WHERE " + DataConfig.COLUMN_FOLDER_PATH + " = ?",
+//                new String[]{currentPath});
+//
+//        String name, desc;
+//        while (c.moveToNext()) {
+//            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_FOLDER_NAME));
+//            desc = c.getString(c.getColumnIndex(DataConfig.COLUMN_FOLDER_DESC));
+//            Log.d(tag, "found folder: " + name + ", " + desc);
+//            folders.put(name, desc);
+//        }
+//        c.close();
+//
+//        return folders;
+//    }
 
-        HashMap<String, String> folders = new HashMap<>();
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_FOLDER
-                    + " WHERE " + DataConfig.COLUMN_FOLDER_PATH + " = ?",
+    public ArrayList<Folder> loadFoldersByPath(String currentPath) {
+        Log.i(tag, "Load folders on path: " + currentPath);
+        ArrayList<Folder> folders = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_FOLDER +
+                        " where " + DataConfig.COLUMN_FOLDER_PATH + " = ? ",
                 new String[]{currentPath});
 
-        String name, desc;
         while (c.moveToNext()) {
-            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_FOLDER_NAME));
-            desc = c.getString(c.getColumnIndex(DataConfig.COLUMN_FOLDER_DESC));
-            Log.d(tag, "found folder: " + name + ", " + desc);
-            folders.put(name, desc);
+            Folder p = new Folder(c);
+            Log.d(tag, "found folder: " + p.fname + ", " + p.fdesc + ", " + p.ftag + ", " + p.fpath);
+            folders.add(p);
         }
         c.close();
-
         return folders;
     }
-
 
     public ArrayList<Activity> loadActiveActivitiesByPath(String currentPath) {
         Log.i(tag, "Load active activities on path: " + currentPath);
@@ -735,6 +763,5 @@ public class DBManagerSoco {
         }
         c.close();
         return activities;
-
     }
 }

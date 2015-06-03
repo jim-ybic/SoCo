@@ -39,8 +39,7 @@ public class ActivityMembersFragment extends Fragment implements View.OnClickLis
     String tag = "ProjectMembersFragment";
     View rootView;
 
-    int pid;
-    String pid_onserver;
+    int pid, pid_onserver;
     SocoApp socoApp;
     Profile profile;
     DBManagerSoco dbManagerSoco;

@@ -187,14 +187,14 @@ public class FileUtils {
             if (cursor != null && cursor.moveToFirst()) {
                 name = cursor.getString(
                         cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                Log.d(tag, "Found display Name: " + name);
+                Log.v(tag, "Found display Name: " + name);
             }
         } finally {
             if (cursor != null)
                 cursor.close();
         }
 
-        Log.i(tag, "Display name to return: " + name);
+        Log.d(tag, "Display name to return: " + name);
         return name;
     }
 

@@ -11,6 +11,7 @@ import com.soco.SoCoClient.control.config.GeneralConfig;
 import com.soco.SoCoClient.control.config.HttpConfig;
 import com.soco.SoCoClient.control.db.DBManagerSoco;
 import com.soco.SoCoClient.control.http.HttpUtil;
+import com.soco.SoCoClient.control.http.task.GetActivityEventTaskAsync;
 import com.soco.SoCoClient.control.http.task.JoinActivityByInviteTaskAsync;
 import com.soco.SoCoClient.control.http.task.RetrieveMessageTaskAsync;
 import com.soco.SoCoClient.control.util.SignatureUtil;
@@ -52,21 +53,24 @@ public class HeartbeatService extends Service {
                 new TimerTask() {
                     @Override
                     public void run(){
-                        Log.i(tag, ">>> Heartbeat:" + SignatureUtil.now());
+                        Log.d(tag, ">>> Heartbeat:" + SignatureUtil.now());
 
-                        String access_token = profile.getLoginAccessToken(getApplicationContext());
-                        if(access_token == null || access_token.isEmpty()){
-                            Log.i(tag, "access token is not available, skip heart check");
-                        }
+                        if(profile == null)
+                            Log.e(tag, "process has died");
                         else {
-                            Object response = request();
-                            if (response != null)
-                                parse(response);
+                            String access_token = profile.getLoginAccessToken(getApplicationContext());
+                            if (access_token == null || access_token.isEmpty()) {
+                                Log.i(tag, "access token is not available, skip heart check");
+                            } else {
+                                Object response = request();
+                                if (response != null)
+                                    parse(response);
+                            }
                         }
                     }
                 },
-                0,      //delay start time (ms)
-                2*60*1000    //frequency (ms)
+                0,          //delay start time (ms)
+                10*1000     //frequency (ms)
         );
 
         return super.onStartCommand(intent, flags, startId);
@@ -103,27 +107,49 @@ public class HeartbeatService extends Service {
     public boolean parse(Object response) {
         try {
             String str = response.toString();
-            Log.i(tag, "Heartbeat response: " + str);
+            Log.i(tag, ">>> Heartbeat response: " + str);
 
             JSONObject json = new JSONObject(response.toString());
             String isSuccess = json.getString(HttpConfig.JSON_KEY_RESPONSE_STATUS);
 
             if(isSuccess.equals(HttpConfig.JSON_VALUE_RESPONSE_STATUS_SUCCESS)) {
-                Log.i(tag, "Parse result: " + HttpConfig.JSON_VALUE_RESPONSE_STATUS_SUCCESS);
+                Log.d(tag, "Parse result: " + HttpConfig.JSON_VALUE_RESPONSE_STATUS_SUCCESS);
 
-                //retrieve all invitations, if any
+                Log.d(tag, "retrieve all invitations, if any");
                 if(json.has(HttpConfig.JSON_KEY_INVITATION))
                     return joinActivititiesByInvite(json);
 
-                //check if there is any new message
+                Log.d(tag, "check if there is any new message");
                 if(json.has(HttpConfig.JSON_KEY_MESSAGE))
-                    retrieveMessage(json);
+                    return retrieveMessage(json);
 
+                Log.d(tag, "check if there is any activity event");
+                if(json.has(HttpConfig.JSON_KEY_ACTIVITY_EVENT))
+                    return getActivityEvent(json);
             }
             else {
                 Log.e(tag, "Server response status is failure");
                 return false;
             }
+        } catch (Exception e) {
+            Log.e(tag, "Cannot convert parse to Json object: " + e.toString());
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    //todo
+    private boolean getActivityEvent(JSONObject json) {
+        try {
+            String status = json.getString(HttpConfig.JSON_KEY_ACTIVITY_EVENT);
+            Log.i(tag, "new activity event status: " + status + " (must be true)");
+
+            String url = profile.getGetActivityEventUrl(getApplicationContext());
+            GetActivityEventTaskAsync task = new GetActivityEventTaskAsync(
+                    url, getApplicationContext());
+            task.execute();
         } catch (Exception e) {
             Log.e(tag, "Cannot convert parse to Json object: " + e.toString());
             e.printStackTrace();

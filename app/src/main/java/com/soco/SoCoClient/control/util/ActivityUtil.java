@@ -13,16 +13,18 @@ import com.soco.SoCoClient.control.http.task.ArchiveActivityTaskAsync;
 import com.soco.SoCoClient.control.http.task.CreateActivityTaskAsync;
 import com.soco.SoCoClient.control.http.task.SetActivityAttributeTaskAsync;
 import com.soco.SoCoClient.control.http.task.UpdateActivityNameTaskAsync;
+import com.soco.SoCoClient.model.Folder;
 import com.soco.SoCoClient.model.Profile;
 import com.soco.SoCoClient.model.Activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ActivityUtil {
 
-    static String tag = "ProjectUtil";
+    static String tag = "ActivityUtil";
 
     public static int findPidByPname(List<Activity> activities, String pname) {
         int pid = -1;
@@ -134,6 +136,23 @@ public class ActivityUtil {
         return map;
     }
 
+
+    public static HashMap<String, ArrayList<Folder>> groupingFoldersByTag(List<Folder> folders) {
+        Log.d(tag, "grouping folders by tag");
+        HashMap<String, ArrayList<Folder>> map = new HashMap<>();
+        for (Folder f : folders) {
+            Log.d(tag, "processing folder: " + f.fname + ", " + f.ftag + ", " + f.ftag);
+            String tag = f.ftag;
+            if (map.containsKey(tag))
+                map.get(tag).add(f);
+            else {
+                ArrayList<Folder> ff = new ArrayList<>();
+                ff.add(f);
+                map.put(tag, ff);
+            }
+        }
+        return map;
+    }
 
 
 }

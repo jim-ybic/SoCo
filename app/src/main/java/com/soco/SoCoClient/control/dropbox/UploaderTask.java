@@ -45,9 +45,9 @@ public class UploaderTask extends AsyncTask<Void, Void, Boolean> {
 
     void reAuthenticateDropboxApi(DropboxAPI<AndroidAuthSession> dropbox){
         if (dropbox != null && dropbox.getSession() != null)
-            Log.i(tag, "DropboxAPI and Session success with existing token");
+            Log.d(tag, "DropboxAPI and Session success with existing token");
         else if (dropbox.getSession().authenticationSuccessful()) {
-            Log.i(tag, "Session authentication successful");
+            Log.d(tag, "Session authentication successful");
             try {
                 Log.d(tag, "Session finish authentication");
                 dropbox.getSession().finishAuthentication();
@@ -66,11 +66,11 @@ public class UploaderTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         Long len = Long.valueOf(FileUtils.checkUriSize(cr, uri));
         try {
-            Log.i(tag, "Dropbox put file to remote: " + remoteFilePath + ", "
+            Log.i(tag, "Upload to remote: " + remoteFilePath + ", "
                     + inputStream + ", " + len);
             DropboxAPI.Entry response = dropboxApi.putFile(
                     remoteFilePath, inputStream, len, null, null);
-            Log.i(tag, "Dropbox put file status: " + response.toString());
+            Log.i(tag, "Upload file status: " + response.toString());
             SocoApp app = (SocoApp) context;
             app.setUploadStatus(SocoApp.UPLOAD_STATUS_SUCCESS);
         } catch (Exception e1) {

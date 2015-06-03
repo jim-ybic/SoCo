@@ -24,6 +24,11 @@ public class HttpConfig {
     public static String JSON_KEY_MESSAGE = "message";
     public static String JSON_KEY_ACK = "ack";
     public static String JSON_KEY_SIGNATURE = "signature";
+    public static String JSON_KEY_FILE_NAME = "file_name";
+    public static String JSON_KEY_URI = "uri";
+    public static String JSON_KEY_REMOTE_PATH = "remote_path";
+    public static String JSON_KEY_LOCAL_PATH = "local_path";
+    public static final String JSON_KEY_ACTIVITY_EVENT = "activity_event";
 
     public static String JSON_KEY_ATTRIBUTE_NAME = "name";
 //    public static String JSON_KEY_ATTRIBUTE_INDEX = "index";
@@ -61,7 +66,8 @@ public class HttpConfig {
     public static String SERVER_PATH_ACK_RECEIVE_MESSAGE = "/socoserver/exchange/ackReceivedMsg?";
     public static String SERVER_PATH_ADD_FRIEND = "/socoserver/mobile/addFriend?";
     public static String SERVER_PATH_QUERY_USER = "/socoserver/mobile/queryUserByEmailOrUsername?";
-
+    public static final String SERVER_PATH_ADD_FILE_TO_ACTIVITY = "/socoserver/mobile/addFileToActivity?";
+    public static final String SERVER_PATH_GET_ACTIVITY_EVENT = "/socoserver/mobile/getActivityEvent?";
 
     public static String HTTP_TOKEN_TYPE = "access_token";
     public static String KEYWORD_REGISTRATION_SUBMITTED = "Your account registration email";

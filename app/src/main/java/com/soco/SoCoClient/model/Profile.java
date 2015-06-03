@@ -359,4 +359,26 @@ public class Profile {
         Log.d(tag, "query user url: " + url);
         return url;
     }
+
+    public String getAddFileToActivityUrl(Context context) {
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = HttpConfig.SERVER_PATH_ADD_FILE_TO_ACTIVITY;
+        String token = getLoginAccessToken(context);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
+        Log.d(tag, "add file to activity url: " + url);
+        return url;
+    }
+
+    public String getGetActivityEventUrl(Context context) {
+        String ip = getServerIp(context);
+        String port = getServerPort(context);
+        String path = HttpConfig.SERVER_PATH_GET_ACTIVITY_EVENT;
+        String token = getLoginAccessToken(context);
+        String url = "http://" + ip + ":" + port + path;
+        url += HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
+        Log.d(tag, "get activity event url: " + url);
+        return url;
+    }
 }

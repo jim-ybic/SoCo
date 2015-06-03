@@ -33,8 +33,7 @@ public class ActivityUpdatesFragment extends Fragment implements View.OnClickLis
     ListView lv_updates;
     SectionEntryListAdapter adapter_updates;
 
-    int pid;
-    String pid_onserver;
+    int pid, pid_onserver;
     SocoApp socoApp;
     Profile profile;
 
@@ -131,7 +130,7 @@ public class ActivityUpdatesFragment extends Fragment implements View.OnClickLis
         String url = profile.getSendMessageUrl(getActivity());
         SendMessageTaskAsync task = new SendMessageTaskAsync(url,
                 HttpConfig.MESSAGE_FROM_TYPE_1, email,
-                HttpConfig.MESSAGE_TO_TYPE_2, pid_onserver,
+                HttpConfig.MESSAGE_TO_TYPE_2, String.valueOf(pid_onserver),
                 SignatureUtil.now(), GeneralConfig.TEST_DEVICE_SAMSUNG,
                 HttpConfig.MESSAGE_CONTENT_TYPE_1, comment);
         task.execute();

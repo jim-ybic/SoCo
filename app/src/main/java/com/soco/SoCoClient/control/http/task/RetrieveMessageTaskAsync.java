@@ -110,7 +110,7 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
                     String content = message.getString(HttpConfig.JSON_KEY_CONTENT);
                     Log.i(tag, "Get message, email: " + content_type + ", " + content);
 
-                    Log.d(tag, "add message into database, msg type is " + to_type);
+                    Log.d(tag, "save message into database, msg type is " + to_type);
                     if(to_type == HttpConfig.MESSAGE_TO_TYPE_2) {       //type 2: send to activity
                         int aid_local = dbManagerSoco.findLocalAidByServerAid(Integer.parseInt(to_id));
                         if(aid_local == -1)
@@ -120,7 +120,7 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
                         dbManagerSoco.addCommentToProject(content, aid_local, from_id);
                     }
                     else if(to_type == HttpConfig.MESSAGE_TO_TYPE_1){   //type 1: send to member
-                        Log.i(tag, "add message into database: " + message + ", from " +from_id);
+                        Log.i(tag, "save message into database: " + message + ", from " +from_id);
 
                         //todo: need to get contactId for a given contact email (from_id)
                         int contactId = 4;  //todo: for testing only

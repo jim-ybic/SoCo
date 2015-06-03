@@ -69,7 +69,7 @@ public class QueryUserTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
     /*
     Sample response:
-        {“status”:"success","user":"{'id':1,'name':john,'email':"test@gmail.com}"}
+        {“status”:"success","user":"{'id':1,'name':john,’email’:”test@gmail.com}"}
     Or
         {status:’failure’}
      */

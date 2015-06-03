@@ -107,6 +107,7 @@ public class DataConfig {
     public static String COLUMN_FOLDER_NAME = "folder_name";
     public static String COLUMN_FOLDER_DESC = "folder_desc";
     public static String COLUMN_FOLDER_PATH = "folder_path";
+    public static String COLUMN_FOLDER_TAG = "folder_tag";
 
 
 }

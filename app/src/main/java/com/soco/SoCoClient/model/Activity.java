@@ -24,11 +24,11 @@ public class Activity {
 
     public Activity(String name, String path) {
         Log.d(tag, "create new project: " + name
-                + ", tag: " + GeneralConfig.DEFAULT_PROJECT_TAG
+                + ", tag: " + GeneralConfig.DEFAULT_TAG
                 + ", path: " + path);
 
         this.pname = name;
-        this.ptag = GeneralConfig.DEFAULT_PROJECT_TAG;
+        this.ptag = GeneralConfig.DEFAULT_TAG;
         this.path = path;
         this.pupdate_timestamp = SignatureUtil.now();
         this.invitation_status = 1;

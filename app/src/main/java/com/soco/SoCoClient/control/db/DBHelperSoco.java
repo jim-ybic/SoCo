@@ -8,7 +8,7 @@ import com.soco.SoCoClient.control.config.DataConfig;
 
 public class DBHelperSoco extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "soco-db.0.1.21";
+    public static String DATABASE_NAME = "soco-db.0.1.25";
     public static int DATABASE_VERSION = 1;
 
     public DBHelperSoco(Context context) {
@@ -86,7 +86,9 @@ public class DBHelperSoco extends SQLiteOpenHelper {
                 DataConfig.COLUMN_FOLDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DataConfig.COLUMN_FOLDER_NAME + " VARCHAR, " +
                 DataConfig.COLUMN_FOLDER_DESC + " VARCHAR, " +
-                DataConfig.COLUMN_FOLDER_PATH + " VARCHAR)");
+                DataConfig.COLUMN_FOLDER_PATH + " VARCHAR, " +
+                DataConfig.COLUMN_FOLDER_TAG + " VARCHAR" +
+        ")");
 
 
     }

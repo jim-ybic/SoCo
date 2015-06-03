@@ -38,12 +38,31 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
     String tag = "ProjectResourcesFragment";
     View rootView;
     String loginEmail, loginPassword;
-    int pid;
+
+    SocoApp socoApp;
+    int pid, pid_onserver;
     DropboxAPI dropboxApi;
     DBManagerSoco dbManagerSoco;
     ArrayList<String> sharedFilesLocalPath;
     ArrayList<String> displayFilenames;
     SimpleAdapter resourcesAdapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+//        setContentView(R.layout.activity_show_shared_files);
+        Log.d(tag, "on create: project resources fragment");
+
+        socoApp = (SocoApp) getActivity().getApplication();
+        pid = socoApp.pid;
+        pid_onserver = socoApp.pid_onserver;
+        loginEmail = socoApp.loginEmail;
+        loginPassword = socoApp.loginPassword;
+        dropboxApi = socoApp.dropboxApi;
+
+        socoApp.cr = getActivity().getContentResolver();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,20 +105,6 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-//        setContentView(R.layout.activity_show_shared_files);
-        Log.d(tag, "on create: project resources fragment");
-
-        SocoApp socoApp = (SocoApp) getActivity().getApplication();
-        pid = socoApp.getPid();
-        loginEmail = socoApp.loginEmail;
-        loginPassword = socoApp.loginPassword;
-        dropboxApi = socoApp.dropboxApi;
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -120,7 +125,7 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
             socoApp.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
             // check status
             ((SocoApp)getActivity().getApplicationContext()).uri = uri;
-            Log.i(tag, "Start status service");
+            Log.d(tag, "Start upload watcher");
             Intent intent = new Intent(getActivity(), UploaderWatcher.class);
             getActivity().startService(intent);
         }
@@ -140,7 +145,7 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
             getActivity().startService(intent);
         }
 
-        //always refresh the list view in the end
+        Log.d(tag, "reload resource details from database and refresh UI");
         sharedFilesLocalPath = dbManagerSoco.getSharedFilesLocalPath(pid);
         displayFilenames = dbManagerSoco.getSharedFilesDisplayName(pid);
         showSharedFiles(displayFilenames);

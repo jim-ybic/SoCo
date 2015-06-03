@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.soco.SoCoClient.model.Folder;
 import com.soco.SoCoClient.view.activities.CompletedActivitiessActivity;
 import com.soco.SoCoClient.view.common.sectionlist.FolderItem;
 import com.soco.SoCoClient.view.config.ProfileActivity;
@@ -60,8 +61,8 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
     private DBManagerSoco dbmgrSoco;
     private ArrayList<Activity> activities;
     private String loginEmail, loginPassword;
-    ArrayList<Item> activeProjectItems;
-    HashMap<String, String> folders; //name, desc
+    ArrayList<Item> allListItems;
+    ArrayList<Folder> folders; //name, desc
 
     View rootView;
     SocoApp socoApp;
@@ -85,7 +86,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
 //        socoApp.dbManagerSoco = dbmgrSoco;
 //        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
         activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
-        folders = dbmgrSoco.loadFolders(socoApp.currentPath);
+        folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
     }
 
     @Override
@@ -110,29 +111,32 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
             @SuppressWarnings("unchecked")
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(activeProjectItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)) {
-                    EntryItem ei = (EntryItem) activeProjectItems.get(position);
+                if(allListItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)) {
+                    EntryItem ei = (EntryItem) allListItems.get(position);
                     Log.d(tag, "You clicked on activity: " + ei.title);
 
                     String name = ei.title;
                     int pid = ActivityUtil.findPidByPname(activities, name);
                     socoApp.pid = pid;
                     String pid_onserver = dbmgrSoco.findActivityIdOnserver(pid);
-                    socoApp.pid_onserver = pid_onserver;
+                    if(pid_onserver == null)
+                        Log.e(tag, "cannot find activity remote id ");
+                    else
+                        socoApp.pid_onserver = Integer.parseInt(pid_onserver);
                     Log.i(tag, "pid/pid_onserver: " + pid + ", " + pid_onserver);
 
                     //new fragment-based activity
                     Intent i = new Intent(view.getContext(), SingleActivityActivity.class);
                     startActivityForResult(i, INTENT_SHOW_SINGLE_PROGRAM);
                 }
-                else if(activeProjectItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)) {
-                    FolderItem fi = (FolderItem) activeProjectItems.get(position);
+                else if(allListItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)) {
+                    FolderItem fi = (FolderItem) allListItems.get(position);
                     Log.d(tag, "You clicked on folder: " + fi.title);
 
                     socoApp.currentPath += fi.title + "/";
                     Log.d(tag, "reload activities and folders from new current path " + socoApp.currentPath);
                     activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
-                    folders = dbmgrSoco.loadFolders(socoApp.currentPath);
+                    folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
                     refreshList();
 
                     if(socoApp.currentPath.equals(GeneralConfig.PATH_ROOT))
@@ -166,7 +170,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
                         Log.d(tag, "new current path " + path + ", reload data and refresh UI");
                         socoApp.currentPath = path;
                         activities = dbmgrSoco.loadActiveActivitiesByPath(path);
-                        folders = dbmgrSoco.loadFolders(path);
+                        folders = dbmgrSoco.loadFoldersByPath(path);
                         refreshList();
                     }
 
@@ -292,11 +296,11 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
                 String path = socoApp.currentPath;
                 Log.d(tag, "create folder and insert into database: " + name);
                 int fid = dbmgrSoco.addFolder(name, desc, socoApp.currentPath);
-//                activeProjectItems.add(new FolderItem(name, desc));
+//                allListItems.add(new FolderItem(name, desc));
                 Log.d(tag, "send new folder to server");
                 //todo
                 Log.d(tag, "add into active list and refresh UI");
-                folders.put(name, desc);
+                folders.add(new Folder(name, desc, socoApp.currentPath));
                 refreshList();
             }
         });
@@ -324,32 +328,39 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
 
 
     public void refreshList() {
-        Log.d(tag, "List projects");
-        activeProjectItems = new ArrayList<>();
+        allListItems = new ArrayList<>();
+        HashMap<String, String> tags = new HashMap<>();
 
-        Log.d(tag, "Add activities");
-        HashMap<String, ArrayList<Activity>> map = ActivityUtil.groupingActivitiesByTag(activities);
-        for(Map.Entry<String, ArrayList<Activity>> e : map.entrySet()){
+        Log.d(tag, "grouping activities and add into list");
+        HashMap<String, ArrayList<Activity>> activitiesMap = ActivityUtil.groupingActivitiesByTag(activities);
+        for(Map.Entry<String, ArrayList<Activity>> e : activitiesMap.entrySet()){
             String tag = e.getKey();
+            tags.put(tag, tag);
             ArrayList<Activity> pp = e.getValue();
-
-            activeProjectItems.add(new SectionItem(tag));
-            for(Activity p : pp) {
+            allListItems.add(new SectionItem(tag));   //add section
+            for(Activity p : pp) {  //add activity
                 //fix Bug #4 new activity created from invitation has delay in showing activity title
                 if(p.invitation_status == DataConfig.ACTIVITY_INVITATION_STATUS_COMPLETE)
-                    activeProjectItems.add(new EntryItem(p.pname, p.getMoreInfo()));
+                    allListItems.add(new EntryItem(p.pname, p.getMoreInfo()));
                 else
-                    Log.i(tag, "skip showing project that pending invitation complete: " + p.pid);
+                    Log.d(tag, "skip showing project that pending invitation complete: " + p.pid);
             }
         }
 
-        Log.d(tag, "Add folders");
-        for(Map.Entry<String, String> e : folders.entrySet()){
-            activeProjectItems.add(new FolderItem(e.getKey(), e.getValue()));
+        Log.d(tag, "grouping folders and add into list");
+        HashMap<String, ArrayList<Folder>> foldersMap = ActivityUtil.groupingFoldersByTag(folders);
+        for(Map.Entry<String, ArrayList<Folder>> e : foldersMap.entrySet()){
+            String tag = e.getKey();
+            ArrayList<Folder> ff = e.getValue();
+            if(!tags.containsKey(tag))  //new tag for folders only (i.e. no activities)
+                allListItems.add(new SectionItem(tag));
+            for(Folder f : ff){
+                allListItems.add(new FolderItem(f.fname, f.fdesc));
+            }
         }
 
         Log.d(tag, "refresh UI");
-        activitiesAdapter = new SectionEntryListAdapter(getActivity(), activeProjectItems);
+        activitiesAdapter = new SectionEntryListAdapter(getActivity(), allListItems);
         lv_active_programs.setAdapter(activitiesAdapter);
     }
 
