@@ -1,13 +1,10 @@
 package com.soco.SoCoClient._v2.businesslogic.config;
 
-import com.soco.SoCoClient._v2.businesslogic.database.DbManager;
+import com.soco.SoCoClient._v2.businesslogic.database.DataLoader;
 
-/**
- * Created by jenny on 3/6/15.
- */
 public class SocoClient {
 
-    DbManager dbManager;
+    DataLoader dataLoader;
 
     public SocoClient(){};
 

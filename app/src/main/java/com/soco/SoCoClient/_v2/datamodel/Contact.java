@@ -1,6 +1,8 @@
 package com.soco.SoCoClient._v2.datamodel;
 
 
+import java.util.ArrayList;
+
 public class Contact {
 
     int contactIdLocal;
@@ -13,5 +15,11 @@ public class Contact {
     }
 
     public void save(){};
+
+    public void addMessage(Message message){}
+
+    public ArrayList<Message> loadMessages(){
+        return null;
+    }
 
 }

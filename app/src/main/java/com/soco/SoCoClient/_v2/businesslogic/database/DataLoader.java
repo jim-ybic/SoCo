@@ -3,33 +3,20 @@ package com.soco.SoCoClient._v2.businesslogic.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.soco.SoCoClient._v2.datamodel.Attachment;
-import com.soco.SoCoClient._v2.datamodel.Attribute;
-import com.soco.SoCoClient._v2.datamodel.Comment;
 import com.soco.SoCoClient._v2.datamodel.Contact;
 import com.soco.SoCoClient._v2.datamodel.Task;
 import com.soco.SoCoClient.control.db.DBHelperSoco;
 
 import java.util.ArrayList;
 
-public class DbManager {
+public class DataLoader {
 
     DBHelperSoco helper;
     SQLiteDatabase db;
     Context context;
 
-    public DbManager(Context context){
+    public DataLoader(Context context){
         this.context = context;
-    }
-
-    public void addMemberToTask(Contact contact, Task task){}
-
-    public ArrayList<Contact> getMembersOfTask(Task task){
-        return null;
-    }
-
-    public ArrayList<Comment> getCommentsOfTask(Task task){
-        return null;
     }
 
     public ArrayList<Task> loadActiveTasks(){
@@ -40,11 +27,15 @@ public class DbManager {
         return null;
     }
 
-    public Task getTaskByIdLocal(int idLocal){
+    public Task loadTaskByIdLocal(int idLocal){
         return null;
     }
 
-    public Task getTaskByIdServer(int idServer){
+    public Task loadTaskByIdServer(int idServer){
+        return null;
+    }
+
+    public Task loadTaskByPath(String path){
         return null;
     }
 

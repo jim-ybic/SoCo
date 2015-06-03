@@ -1,6 +1,8 @@
 package com.soco.SoCoClient._v2.datamodel;
 
 
+import com.soco.SoCoClient._v2.businesslogic.config.DbConfig;
+
 import java.util.ArrayList;
 
 public class Task {
@@ -12,14 +14,17 @@ public class Task {
     int isTaskActive;
 
     public Task(){
-        this.taskIdLocal = -1;
+        this.taskIdLocal = DbConfig.ENTITIY_ID_NOT_READY;
+        this.taskIdServer = DbConfig.ENTITIY_ID_NOT_READY;
     }
 
     public void save(){}
 
     public void delete(){}
 
-    public ArrayList<Attribute> loadAttributes(){
+    public void addMember(Contact contact){}
+
+    public ArrayList<Contact> loadMembers(){
         return null;
     }
 
@@ -27,17 +32,22 @@ public class Task {
 
     public void clearAttributes(){}
 
-    public ArrayList<Comment> loadComments(){
+    public ArrayList<Attribute> loadAttributes(){
         return null;
     }
 
     public void addComment(Comment comment){}
 
-    public ArrayList<Attachment> loadAttachments(){
+    public ArrayList<Comment> loadComments(){
         return null;
     }
 
     public void addAttachment(Attachment attachment){}
+
+    public ArrayList<Attachment> loadAttachments(){
+        return null;
+    }
+
 
 
 

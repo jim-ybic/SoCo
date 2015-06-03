@@ -57,7 +57,7 @@ public class DbConfig {
     public static final String COLUMN_CONTACTGROUP_CONTACTGROUPIDSERVER = "contactGroupIdServer";
     public static final String COLUMN_CONTACTGROUP_CONTACTGROUPNAME = "contactGroupName";
 
-
+    public static final int ENTITIY_ID_NOT_READY = -1;
 
 
 }
