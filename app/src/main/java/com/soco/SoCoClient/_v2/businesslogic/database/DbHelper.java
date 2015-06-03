@@ -1,7 +1,23 @@
 package com.soco.SoCoClient._v2.businesslogic.database;
 
-/**
- * Created by jenny on 3/6/15.
- */
-public class DbHelper {
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DbHelper extends SQLiteOpenHelper {
+
+    public static String DATABASE_NAME = "socodb.0.1.25";
+    public static int DATABASE_VERSION = 1;
+
+    public DbHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {}
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
+
+
 }

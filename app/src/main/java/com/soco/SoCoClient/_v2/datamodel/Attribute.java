@@ -1,7 +1,16 @@
 package com.soco.SoCoClient._v2.datamodel;
 
-/**
- * Created by jenny on 3/6/15.
- */
 public class Attribute {
+
+    int attrIdLocal;
+    int attrIdServer;
+    String activityType;
+    int activityId;
+    String attrName;
+    String attrValue;
+    String attrLastUpdateUser;
+    String attrLastUpdateTimestamp;
+
+
+
 }

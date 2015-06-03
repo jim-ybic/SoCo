@@ -1,7 +1,14 @@
 package com.soco.SoCoClient._v2.datamodel;
 
-/**
- * Created by jenny on 3/6/15.
- */
 public class Comment {
+
+    int commentIdLocal;
+    int commentIdServer;
+    String activityType;
+    int activityId;
+    String commentContent;
+    String commentUsername;
+    String commentTimestamp;
+
+
 }
