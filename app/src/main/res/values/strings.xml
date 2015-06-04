@@ -34,5 +34,6 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_activity_contact_details">Contact</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_test">TestActivity</string>
 
 </resources>

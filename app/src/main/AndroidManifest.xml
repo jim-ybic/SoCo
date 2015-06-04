@@ -49,10 +49,11 @@
             android:name=".view.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateHidden" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".view.dashboard.DashboardActivity"
@@ -63,7 +64,7 @@
             android:name=".view.activities.CompletedActivitiessActivity"
             android:label="@string/title_activity_show_inactive_projects"
             android:launchMode="singleTop"
-            android:parentActivityName=".view.dashboard.DashboardActivity">
+            android:parentActivityName=".view.dashboard.DashboardActivity" >
         </activity>
 
         <meta-data
@@ -76,7 +77,7 @@
         <activity
             android:name=".view.config.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:parentActivityName=".view.dashboard.DashboardActivity">
+            android:parentActivityName=".view.dashboard.DashboardActivity" >
         </activity>
         <activity
             android:name=".view.config.ServerConfigActivity"
@@ -96,8 +97,8 @@
         </activity>
         <activity
             android:name=".view.activities.SingleActivityActivity"
-            android:parentActivityName=".view.dashboard.DashboardActivity"
-            android:label="@string/title_show_single_activity" >
+            android:label="@string/title_show_single_activity"
+            android:parentActivityName=".view.dashboard.DashboardActivity" >
         </activity>
         <activity
             android:name=".view.contacts.ContactDetailsActivity"
@@ -107,6 +108,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.dashboard.DashboardActivity" />
+        </activity>
+        <activity
+            android:name="._v2.unittest.TestActivity"
+            android:label="@string/title_activity_test" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

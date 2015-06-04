@@ -20,11 +20,10 @@ public class DbConfig {
     public static final String COLUMN_ATTRIBUTE_ATTRIDLOCAL = "attrIdLocal";
     public static final String COLUMN_ATTRIBUTE_ATTRIDSERVER = "attrIdServer";
     public static final String COLUMN_ATTRIBUTE_ACTIVITYTYPE = "activityType";
-    public static final String COLUMN_ATTRIBUTE_ACTIVITYID = "activityId";
+    public static final String COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL = "activityIdLocal";
+    public static final String COLUMN_ATTRIBUTE_ACTIVITYIDSERVER = "activityIdServer";
     public static final String COLUMN_ATTRIBUTE_ATTRNAME = "attrName";
     public static final String COLUMN_ATTRIBUTE_ATTRVALUE = "attrValue";
-    public static final String COLUMN_ATTRIBUTE_ATTRLASTUPDATEUSER = "attrLastUpdateUser";
-    public static final String COLUMN_ATTRIBUTE_ATTRLASTUPDATETIMESTAMP = "attrLastUpdateTimestamp";
 
     public static final String TABLE_COMMENT = "comment";
     public static final String COLUMN_COMMENT_IDLOCAL = "commentIdLocal";
@@ -58,6 +57,12 @@ public class DbConfig {
     public static final String COLUMN_CONTACTGROUP_CONTACTGROUPNAME = "contactGroupName";
 
     public static final int ENTITIY_ID_NOT_READY = -1;
+    public static final int TASK_IS_ACTIVE = 1;
+    public static final int TASK_IS_INACTIVE = 0;
+
+    public static final String ATTRIBUTE_ACTION_NEW = "new";
+    public static final String ATTRIBUTE_ACTION_UPDATE = "update";
+    public static final String ATTRIBUTE_ACTION_DELETE = "delete";
 
 
 }
