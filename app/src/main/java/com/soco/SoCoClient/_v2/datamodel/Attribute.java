@@ -1,12 +1,17 @@
 package com.soco.SoCoClient._v2.datamodel;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.soco.SoCoClient._v2.businesslogic.config.DbConfig;
 import com.soco.SoCoClient._v2.businesslogic.database.DbHelper;
 
 public class Attribute {
+
+    String tag = "Attribute";
 
     //fields saved to db
     int attrIdLocal;
@@ -16,13 +21,9 @@ public class Attribute {
     int activityIdServer;
     String attrName;
     String attrValue;
-    String attrLastUpdateUser;
-    String attrLastUpdateTimestamp;
 
     //fields saved to db
     SQLiteDatabase db;
-    boolean isUpdated;
-    String action;      //new, update, delete
 
     public Attribute(Context context,
                      String activityType, int activityIdLocal, int activityIdServer){
@@ -37,9 +38,107 @@ public class Attribute {
         this.db = dbHelper.getWritableDatabase();
     }
 
-    public void save(){}
+    public Attribute(Cursor cursor){
+        Log.d(tag, "create attribute from cursor");
+        this.attrIdLocal = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ATTRIDLOCAL));
+        this.attrIdServer = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ATTRIDSERVER));
+        this.activityType = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYTYPE));
+        this.activityIdLocal = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL));
+        this.activityIdServer = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER));
+        this.attrName = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ATTRNAME));
+        this.attrValue = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ATTRVALUE));
+    }
+
+    public void save(){
+        if(attrIdLocal == DbConfig.ENTITIY_ID_NOT_READY){
+            Log.d(tag, "save new attribute");
+            saveNew();
+        }else{
+            Log.d(tag, "update existing attribute");
+            update();
+        }
+    }
 
 
+    void saveNew(){
+        Log.v(tag, "save new attribute into database");
+        try{
+            db.beginTransaction();
+            ContentValues cv = new ContentValues();
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRIDSERVER, attrIdServer);
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYTYPE, activityType);
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL, activityIdLocal);
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER, activityIdServer);
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRNAME, attrName);
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRVALUE, attrValue);
+            db.insert(DbConfig.TABLE_ATTRIBUTE, null, cv);
+            db.setTransactionSuccessful();
+            Log.d(tag, "new attribute inserted into database: " + toString());
+        }finally {
+            db.endTransaction();
+        }
+
+        Log.v(tag, "task attribute id local from database");
+        int aidLocal = -1;
+        String query = "select max (" + DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL
+                + ") from " + DbConfig.TABLE_ATTRIBUTE;
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.moveToFirst()) {
+            aidLocal = cursor.getInt(0);
+            Log.d(tag, "update attribute id local: " + aidLocal);
+            attrIdLocal = aidLocal;
+        }
+
+        //todo: save new attribute to server
+    }
+
+    void update(){
+        Log.v(tag, "update existing attribute to local database");
+        try{
+            db.beginTransaction();
+            ContentValues cv = new ContentValues();
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRIDLOCAL, attrIdLocal);
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRIDSERVER, attrIdServer);
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYTYPE, activityType);
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL, activityIdLocal);
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER, activityIdServer);
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRNAME, attrName);
+            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRVALUE, attrValue);
+            db.update(DbConfig.TABLE_ATTRIBUTE, cv,
+                    DbConfig.COLUMN_ATTRIBUTE_ATTRIDLOCAL + " = ?",
+                    new String[]{String.valueOf(attrIdLocal)});
+            db.setTransactionSuccessful();
+            Log.d(tag, "attribute updated into database: " + toString());
+        }finally {
+            db.endTransaction();
+        }
+
+        //todo: update attribute to server
+    }
+
+    public void delete(){
+        Log.v(tag, "delete existing task");
+        if(attrIdLocal == DbConfig.ENTITIY_ID_NOT_READY){
+            Log.e(tag, "cannot delete a non-existing attribute");
+        }else{
+            db.delete(DbConfig.TABLE_ATTRIBUTE,
+                    DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " = ?",
+                    new String[]{String.valueOf(attrIdLocal)});
+            Log.d(tag, "attribute deleted from database: " + toString());
+        }
+    }
+
+    public String toString() {
+        return "Attribute{" +
+                "attrIdLocal=" + attrIdLocal +
+                ", attrIdServer=" + attrIdServer +
+                ", activityType='" + activityType + '\'' +
+                ", activityIdLocal=" + activityIdLocal +
+                ", activityIdServer=" + activityIdServer +
+                ", attrName='" + attrName + '\'' +
+                ", attrValue='" + attrValue + '\'' +
+                '}';
+    }
 
     public int getAttrIdLocal() {
         return attrIdLocal;
@@ -97,19 +196,5 @@ public class Attribute {
         this.attrValue = attrValue;
     }
 
-    public String getAttrLastUpdateUser() {
-        return attrLastUpdateUser;
-    }
 
-    public void setAttrLastUpdateUser(String attrLastUpdateUser) {
-        this.attrLastUpdateUser = attrLastUpdateUser;
-    }
-
-    public String getAttrLastUpdateTimestamp() {
-        return attrLastUpdateTimestamp;
-    }
-
-    public void setAttrLastUpdateTimestamp(String attrLastUpdateTimestamp) {
-        this.attrLastUpdateTimestamp = attrLastUpdateTimestamp;
-    }
 }

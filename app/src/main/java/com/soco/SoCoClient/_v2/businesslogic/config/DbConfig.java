@@ -60,9 +60,6 @@ public class DbConfig {
     public static final int TASK_IS_ACTIVE = 1;
     public static final int TASK_IS_INACTIVE = 0;
 
-    public static final String ATTRIBUTE_ACTION_NEW = "new";
-    public static final String ATTRIBUTE_ACTION_UPDATE = "update";
-    public static final String ATTRIBUTE_ACTION_DELETE = "delete";
 
 
 }

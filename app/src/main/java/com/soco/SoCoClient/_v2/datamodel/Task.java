@@ -38,6 +38,7 @@ public class Task {
     }
 
     public Task(Cursor cursor){
+        Log.d(tag, "create task from cursor");
         this.taskIdLocal = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_TASK_TASKIDLOCAL));
         this.taskIdServer = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_TASK_TASKIDSERVER));
         this.taskName = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_TASK_TASKNAME));
@@ -56,28 +57,28 @@ public class Task {
     }
 
     void saveNew(){
-        Log.d(tag, "save new task to local database");
+        Log.v(tag, "save new task to local database");
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
+            cv.put(DbConfig.COLUMN_TASK_TASKIDSERVER, taskIdServer);
             cv.put(DbConfig.COLUMN_TASK_TASKNAME, taskName);
             cv.put(DbConfig.COLUMN_TASK_TASKPATH, taskPath);
             cv.put(DbConfig.COLUMN_TASK_ISTASKACTIVE, isTaskActive);
             db.insert(DbConfig.TABLE_TASK, null, cv);
             db.setTransactionSuccessful();
-            Log.d(tag, "new task inserted into database");
+            Log.d(tag, "new task inserted into database: " + toString());
         } finally {
             db.endTransaction();
         }
 
-        Log.d(tag, "get task id local from database");
+        Log.v(tag, "get task id local from database");
         int tidLocal = -1;
         String query = "select max (" + DbConfig.COLUMN_TASK_TASKIDLOCAL
                 + ") from " + DbConfig.TABLE_TASK;
         Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst())
+        if (cursor.moveToFirst()){
             tidLocal = cursor.getInt(0);
-        if (taskIdLocal == DbConfig.ENTITIY_ID_NOT_READY){
             Log.d(tag, "update task id local: " + tidLocal);
             taskIdLocal = tidLocal;
         }
@@ -86,7 +87,7 @@ public class Task {
     }
 
     void update(){
-        Log.d(tag, "update existing task to local database");
+        Log.v(tag, "update existing task to local database");
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
@@ -99,7 +100,7 @@ public class Task {
                     DbConfig.COLUMN_TASK_TASKIDLOCAL + " = ?",
                     new String[]{String.valueOf(taskIdLocal)});
             db.setTransactionSuccessful();
-            Log.d(tag, "task updated into database");
+            Log.d(tag, "task updated into database: " + toString());
         } finally {
             db.endTransaction();
         }
@@ -109,14 +110,14 @@ public class Task {
     }
 
     public void delete(){
-        Log.d(tag, "delete existing task");
+        Log.v(tag, "delete existing task");
         if(taskIdLocal == DbConfig.ENTITIY_ID_NOT_READY){
             Log.e(tag, "cannot delete a non-existing task");
         } else {
             db.delete(DbConfig.TABLE_TASK,
                     DbConfig.COLUMN_TASK_TASKIDLOCAL + " = ?",
                     new String[]{String.valueOf(taskIdLocal)});
-            Log.d(tag, "task deleted from database");
+            Log.d(tag, "task deleted from database: " + toString());
         }
 
         //todo: delete task from server

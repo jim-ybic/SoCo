@@ -45,6 +45,8 @@ public class TestActivity extends ActionBarActivity {
 
         Log.i(tag, ">>>load tasks from db");
         dataLoader.loadActiveTasks();
+
+        Log.i(tag, ">>>test1 complete success");
     }
 
     public void test2 (View view){
