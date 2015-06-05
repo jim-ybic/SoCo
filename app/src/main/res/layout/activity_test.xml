@@ -5,16 +5,21 @@
     android:orientation="vertical">
 
     <Button
-        android:text="TEST 1"
+        android:text="TEST 1: task basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="test1"/>
 
     <Button
-        android:text="TEST 2"
+        android:text="TEST 2: attribute basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="test2"/>
 
+    <Button
+        android:text="TEST 3: task remote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test3"/>
 
 </LinearLayout>

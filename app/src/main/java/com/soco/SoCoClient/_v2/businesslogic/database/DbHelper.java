@@ -4,8 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.soco.SoCoClient._v2.businesslogic.config.DbConfig;
-import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient._v2.businesslogic.config.DataConfig2;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -18,22 +17,22 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + DbConfig.TABLE_TASK + " ("
-                + DbConfig.COLUMN_TASK_TASKIDLOCAL + " INTEGER PRIMARY KEY AUTOINCREMENT"
-                + ", " + DbConfig.COLUMN_TASK_TASKIDSERVER + " INTEGER"
-                + ", " + DbConfig.COLUMN_TASK_TASKNAME + " VARCHAR"
-                + ", " + DbConfig.COLUMN_TASK_TASKPATH + " VARCHAR"
-                + ", " + DbConfig.COLUMN_TASK_ISTASKACTIVE + " INTEGER"
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig2.TABLE_TASK + " ("
+                + DataConfig2.COLUMN_TASK_TASKIDLOCAL + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                + ", " + DataConfig2.COLUMN_TASK_TASKIDSERVER + " INTEGER"
+                + ", " + DataConfig2.COLUMN_TASK_TASKNAME + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_TASK_TASKPATH + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_TASK_ISTASKACTIVE + " INTEGER"
                 + ")");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + DbConfig.TABLE_ATTRIBUTE + " ("
-                + DbConfig.COLUMN_ATTRIBUTE_ATTRIDLOCAL + " INTEGER PRIMARY KEY AUTOINCREMENT"
-                + ", " + DbConfig.COLUMN_ATTRIBUTE_ATTRIDSERVER + " INTEGER"
-                + ", " + DbConfig.COLUMN_ATTRIBUTE_ACTIVITYTYPE + " VARCHAR"
-                + ", " + DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " INTEGER"
-                + ", " + DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER + " INTEGER"
-                + ", " + DbConfig.COLUMN_ATTRIBUTE_ATTRNAME + " VARCHAR"
-                + ", " + DbConfig.COLUMN_ATTRIBUTE_ATTRVALUE + " VARCHAR"
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig2.TABLE_ATTRIBUTE + " ("
+                + DataConfig2.COLUMN_ATTRIBUTE_ATTRIDLOCAL + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                + ", " + DataConfig2.COLUMN_ATTRIBUTE_ATTRIDSERVER + " INTEGER"
+                + ", " + DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYTYPE + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " INTEGER"
+                + ", " + DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER + " INTEGER"
+                + ", " + DataConfig2.COLUMN_ATTRIBUTE_ATTRNAME + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_ATTRIBUTE_ATTRVALUE + " VARCHAR"
                 + ")");
 
     }

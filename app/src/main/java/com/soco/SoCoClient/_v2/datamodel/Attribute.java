@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient._v2.businesslogic.config.DbConfig;
+import com.soco.SoCoClient._v2.businesslogic.config.DataConfig2;
 import com.soco.SoCoClient._v2.businesslogic.database.DbHelper;
 
 public class Attribute {
@@ -31,8 +31,8 @@ public class Attribute {
         this.activityIdLocal = activityIdLocal;
         this.activityIdServer = activityIdServer;
 
-        this.attrIdLocal = DbConfig.ENTITIY_ID_NOT_READY;
-        this.attrIdServer = DbConfig.ENTITIY_ID_NOT_READY;
+        this.attrIdLocal = DataConfig2.ENTITIY_ID_NOT_READY;
+        this.attrIdServer = DataConfig2.ENTITIY_ID_NOT_READY;
 
         DbHelper dbHelper= new DbHelper(context);
         this.db = dbHelper.getWritableDatabase();
@@ -40,18 +40,18 @@ public class Attribute {
 
     public Attribute(Cursor cursor){
         Log.v(tag, "create attribute from cursor");
-        this.attrIdLocal = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ATTRIDLOCAL));
-        this.attrIdServer = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ATTRIDSERVER));
-        this.activityType = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYTYPE));
-        this.activityIdLocal = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL));
-        this.activityIdServer = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER));
-        this.attrName = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ATTRNAME));
-        this.attrValue = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ATTRVALUE));
+        this.attrIdLocal = cursor.getInt(cursor.getColumnIndex(DataConfig2.COLUMN_ATTRIBUTE_ATTRIDLOCAL));
+        this.attrIdServer = cursor.getInt(cursor.getColumnIndex(DataConfig2.COLUMN_ATTRIBUTE_ATTRIDSERVER));
+        this.activityType = cursor.getString(cursor.getColumnIndex(DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYTYPE));
+        this.activityIdLocal = cursor.getInt(cursor.getColumnIndex(DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL));
+        this.activityIdServer = cursor.getInt(cursor.getColumnIndex(DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER));
+        this.attrName = cursor.getString(cursor.getColumnIndex(DataConfig2.COLUMN_ATTRIBUTE_ATTRNAME));
+        this.attrValue = cursor.getString(cursor.getColumnIndex(DataConfig2.COLUMN_ATTRIBUTE_ATTRVALUE));
         Log.d(tag, "created attribute from cursor: " + toString());
     }
 
     public void save(){
-        if(attrIdLocal == DbConfig.ENTITIY_ID_NOT_READY){
+        if(attrIdLocal == DataConfig2.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new attribute");
             saveNew();
         }else{
@@ -65,13 +65,13 @@ public class Attribute {
         try{
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRIDSERVER, attrIdServer);
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYTYPE, activityType);
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL, activityIdLocal);
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER, activityIdServer);
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRNAME, attrName);
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRVALUE, attrValue);
-            db.insert(DbConfig.TABLE_ATTRIBUTE, null, cv);
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ATTRIDSERVER, attrIdServer);
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYTYPE, activityType);
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL, activityIdLocal);
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER, activityIdServer);
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ATTRNAME, attrName);
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ATTRVALUE, attrValue);
+            db.insert(DataConfig2.TABLE_ATTRIBUTE, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new attribute inserted into database: " + toString());
         }finally {
@@ -80,8 +80,8 @@ public class Attribute {
 
         Log.v(tag, "task attribute id local from database");
         int aidLocal = -1;
-        String query = "select max (" + DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL
-                + ") from " + DbConfig.TABLE_ATTRIBUTE;
+        String query = "select max (" + DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL
+                + ") from " + DataConfig2.TABLE_ATTRIBUTE;
         Cursor cursor = db.rawQuery(query, null);
         if(cursor.moveToFirst()) {
             aidLocal = cursor.getInt(0);
@@ -97,15 +97,15 @@ public class Attribute {
         try{
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRIDLOCAL, attrIdLocal);
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRIDSERVER, attrIdServer);
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYTYPE, activityType);
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL, activityIdLocal);
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER, activityIdServer);
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRNAME, attrName);
-            cv.put(DbConfig.COLUMN_ATTRIBUTE_ATTRVALUE, attrValue);
-            db.update(DbConfig.TABLE_ATTRIBUTE, cv,
-                    DbConfig.COLUMN_ATTRIBUTE_ATTRIDLOCAL + " = ?",
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ATTRIDLOCAL, attrIdLocal);
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ATTRIDSERVER, attrIdServer);
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYTYPE, activityType);
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL, activityIdLocal);
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER, activityIdServer);
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ATTRNAME, attrName);
+            cv.put(DataConfig2.COLUMN_ATTRIBUTE_ATTRVALUE, attrValue);
+            db.update(DataConfig2.TABLE_ATTRIBUTE, cv,
+                    DataConfig2.COLUMN_ATTRIBUTE_ATTRIDLOCAL + " = ?",
                     new String[]{String.valueOf(attrIdLocal)});
             db.setTransactionSuccessful();
             Log.d(tag, "attribute updated into database: " + toString());
@@ -118,11 +118,11 @@ public class Attribute {
 
     public void delete(){
         Log.v(tag, "delete existing task");
-        if(attrIdLocal == DbConfig.ENTITIY_ID_NOT_READY){
+        if(attrIdLocal == DataConfig2.ENTITIY_ID_NOT_READY){
             Log.e(tag, "cannot delete a non-existing attribute");
         }else{
-            db.delete(DbConfig.TABLE_ATTRIBUTE,
-                    DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " = ?",
+            db.delete(DataConfig2.TABLE_ATTRIBUTE,
+                    DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " = ?",
                     new String[]{String.valueOf(attrIdLocal)});
             Log.d(tag, "attribute deleted from database: " + toString());
         }

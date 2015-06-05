@@ -7,9 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient._v2.businesslogic.config.DbConfig;
+import com.soco.SoCoClient._v2.businesslogic.config.DataConfig2;
 import com.soco.SoCoClient._v2.businesslogic.database.DbHelper;
-import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient._v2.businesslogic.http.task.CreateTaskOnServerJob;
 
 import java.util.ArrayList;
 
@@ -25,31 +25,34 @@ public class Task {
     int isTaskActive;
 
     //fields not saved to db
+    Context context;
     SQLiteDatabase db;
 
-    public Task(Context context){
+    public Task(Context context) {
         Log.v(tag, "create new task object");
 
-        this.taskIdLocal = DbConfig.ENTITIY_ID_NOT_READY;
-        this.taskIdServer = DbConfig.ENTITIY_ID_NOT_READY;
-        this.isTaskActive = DbConfig.TASK_IS_ACTIVE;
+        this.context = context;
 
-        DbHelper dbHelper= new DbHelper(context);
+        this.taskIdLocal = DataConfig2.ENTITIY_ID_NOT_READY;
+        this.taskIdServer = DataConfig2.ENTITIY_ID_NOT_READY;
+        this.isTaskActive = DataConfig2.TASK_IS_ACTIVE;
+
+        DbHelper dbHelper = new DbHelper(context);
         this.db = dbHelper.getWritableDatabase();
     }
 
     public Task(Cursor cursor){
         Log.v(tag, "create task from cursor");
-        this.taskIdLocal = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_TASK_TASKIDLOCAL));
-        this.taskIdServer = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_TASK_TASKIDSERVER));
-        this.taskName = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_TASK_TASKNAME));
-        this.taskPath = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_TASK_TASKPATH));
-        this.isTaskActive = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_TASK_ISTASKACTIVE));
-        Log.d(tag, "created task from cursor: " + toString());
+        this.taskIdLocal = cursor.getInt(cursor.getColumnIndex(DataConfig2.COLUMN_TASK_TASKIDLOCAL));
+        this.taskIdServer = cursor.getInt(cursor.getColumnIndex(DataConfig2.COLUMN_TASK_TASKIDSERVER));
+        this.taskName = cursor.getString(cursor.getColumnIndex(DataConfig2.COLUMN_TASK_TASKNAME));
+        this.taskPath = cursor.getString(cursor.getColumnIndex(DataConfig2.COLUMN_TASK_TASKPATH));
+        this.isTaskActive = cursor.getInt(cursor.getColumnIndex(DataConfig2.COLUMN_TASK_ISTASKACTIVE));
+        Log.v(tag, "created task from cursor: " + toString());
     }
 
     public void save(){
-        if(taskIdLocal == DbConfig.ENTITIY_ID_NOT_READY) {
+        if(taskIdLocal == DataConfig2.ENTITIY_ID_NOT_READY) {
             Log.v(tag, "save new task");
             saveNew();
         }else{
@@ -63,11 +66,11 @@ public class Task {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DbConfig.COLUMN_TASK_TASKIDSERVER, taskIdServer);
-            cv.put(DbConfig.COLUMN_TASK_TASKNAME, taskName);
-            cv.put(DbConfig.COLUMN_TASK_TASKPATH, taskPath);
-            cv.put(DbConfig.COLUMN_TASK_ISTASKACTIVE, isTaskActive);
-            db.insert(DbConfig.TABLE_TASK, null, cv);
+            cv.put(DataConfig2.COLUMN_TASK_TASKIDSERVER, taskIdServer);
+            cv.put(DataConfig2.COLUMN_TASK_TASKNAME, taskName);
+            cv.put(DataConfig2.COLUMN_TASK_TASKPATH, taskPath);
+            cv.put(DataConfig2.COLUMN_TASK_ISTASKACTIVE, isTaskActive);
+            db.insert(DataConfig2.TABLE_TASK, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new task inserted into database: " + toString());
         } finally {
@@ -76,8 +79,8 @@ public class Task {
 
         Log.v(tag, "get task id local from database");
         int tidLocal = -1;
-        String query = "select max (" + DbConfig.COLUMN_TASK_TASKIDLOCAL
-                + ") from " + DbConfig.TABLE_TASK;
+        String query = "select max (" + DataConfig2.COLUMN_TASK_TASKIDLOCAL
+                + ") from " + DataConfig2.TABLE_TASK;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){
             tidLocal = cursor.getInt(0);
@@ -85,7 +88,9 @@ public class Task {
             taskIdLocal = tidLocal;
         }
 
-        //todo: save new task to server
+        Log.v(tag, "save new task to server: " + toString());
+        CreateTaskOnServerJob job = new CreateTaskOnServerJob(context, this);
+        job.execute();
     }
 
     void update(){
@@ -93,13 +98,13 @@ public class Task {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DbConfig.COLUMN_TASK_TASKIDLOCAL, taskIdLocal);
-            cv.put(DbConfig.COLUMN_TASK_TASKIDSERVER, taskIdServer);
-            cv.put(DbConfig.COLUMN_TASK_TASKNAME, taskName);
-            cv.put(DbConfig.COLUMN_TASK_TASKPATH, taskPath);
-            cv.put(DbConfig.COLUMN_TASK_ISTASKACTIVE, isTaskActive);
-            db.update(DbConfig.TABLE_TASK, cv,
-                    DbConfig.COLUMN_TASK_TASKIDLOCAL + " = ?",
+            cv.put(DataConfig2.COLUMN_TASK_TASKIDLOCAL, taskIdLocal);
+            cv.put(DataConfig2.COLUMN_TASK_TASKIDSERVER, taskIdServer);
+            cv.put(DataConfig2.COLUMN_TASK_TASKNAME, taskName);
+            cv.put(DataConfig2.COLUMN_TASK_TASKPATH, taskPath);
+            cv.put(DataConfig2.COLUMN_TASK_ISTASKACTIVE, isTaskActive);
+            db.update(DataConfig2.TABLE_TASK, cv,
+                    DataConfig2.COLUMN_TASK_TASKIDLOCAL + " = ?",
                     new String[]{String.valueOf(taskIdLocal)});
             db.setTransactionSuccessful();
             Log.d(tag, "task updated into database: " + toString());
@@ -111,13 +116,37 @@ public class Task {
 
     }
 
+    //todo
+    public void refresh(){
+        Log.v(tag, "refresh from database for task: " + toString());
+        String query = "select * from " + DataConfig2.TABLE_TASK
+                + " where " + DataConfig2.COLUMN_TASK_TASKIDLOCAL + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(taskIdLocal)});
+
+        Task task = null;
+        while(cursor.moveToNext()) {
+            task = new Task(cursor);
+            Log.d(tag, "found task from database: " + toString());
+        }
+
+        if(task == null)
+            Log.e(tag, "unexpected error, cannot refresh task from database");
+        else{
+            taskIdServer = task.taskIdServer;
+            taskName = task.taskName;
+            taskPath = task.taskPath;
+            isTaskActive = task.isTaskActive;
+            Log.v(tag, "refresh complete");
+        }
+    }
+
     public void delete(){
         Log.v(tag, "delete existing task");
-        if(taskIdLocal == DbConfig.ENTITIY_ID_NOT_READY){
+        if(taskIdLocal == DataConfig2.ENTITIY_ID_NOT_READY){
             Log.e(tag, "cannot delete a non-existing task");
         } else {
-            db.delete(DbConfig.TABLE_TASK,
-                    DbConfig.COLUMN_TASK_TASKIDLOCAL + " = ?",
+            db.delete(DataConfig2.TABLE_TASK,
+                    DataConfig2.COLUMN_TASK_TASKIDLOCAL + " = ?",
                     new String[]{String.valueOf(taskIdLocal)});
             Log.d(tag, "task deleted from database: " + toString());
         }
@@ -139,11 +168,11 @@ public class Task {
         Log.v(tag, "load attribute for task: " + toString());
         ArrayList<Attribute> attributes = new ArrayList<>();
 
-        String query = "select * from " + DbConfig.TABLE_ATTRIBUTE
-                + " where " + DbConfig.COLUMN_ATTRIBUTE_ACTIVITYTYPE + " = ? "
-                + " and " + DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " = ?";
+        String query = "select * from " + DataConfig2.TABLE_ATTRIBUTE
+                + " where " + DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYTYPE + " = ? "
+                + " and " + DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " = ?";
         Cursor cursor = db.rawQuery(query,
-                new String[]{DbConfig.ACTIVITY_TYPE_TASK, String.valueOf(taskIdLocal)});
+                new String[]{DataConfig2.ACTIVITY_TYPE_TASK, String.valueOf(taskIdLocal)});
 
         while(cursor.moveToNext()){
             Attribute attr = new Attribute(cursor);

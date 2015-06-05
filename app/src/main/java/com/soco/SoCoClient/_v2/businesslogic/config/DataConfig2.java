@@ -1,6 +1,6 @@
 package com.soco.SoCoClient._v2.businesslogic.config;
 
-public class DbConfig {
+public class DataConfig2 {
 
     public static final String TABLE_TASK = "task";
     public static final String COLUMN_TASK_TASKIDLOCAL = "taskIdLocal";
@@ -57,6 +57,8 @@ public class DbConfig {
     public static final String COLUMN_CONTACTGROUP_CONTACTGROUPNAME = "contactGroupName";
 
     public static final int ENTITIY_ID_NOT_READY = -1;
+    public static final String ENTITY_VALUE_EMPTY = "empty";
+
     public static final int TASK_IS_ACTIVE = 1;
     public static final int TASK_IS_INACTIVE = 0;
 

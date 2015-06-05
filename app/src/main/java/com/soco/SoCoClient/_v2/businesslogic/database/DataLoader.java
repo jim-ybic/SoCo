@@ -5,11 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient._v2.businesslogic.config.DbConfig;
+import com.soco.SoCoClient._v2.businesslogic.config.DataConfig2;
 import com.soco.SoCoClient._v2.datamodel.Contact;
 import com.soco.SoCoClient._v2.datamodel.Task;
-import com.soco.SoCoClient.control.config.DataConfig;
-import com.soco.SoCoClient.control.db.DBHelperSoco;
 
 import java.util.ArrayList;
 
@@ -28,9 +26,9 @@ public class DataLoader {
         Log.v(tag, "load active tasks from database");
         ArrayList<Task> tasks = new ArrayList<>();
         Cursor cursor = db.rawQuery(
-                "select * from " + DbConfig.TABLE_TASK
-                        + " where " + DbConfig.COLUMN_TASK_ISTASKACTIVE + " = ?",
-                new String[]{String.valueOf(DbConfig.TASK_IS_ACTIVE)});
+                "select * from " + DataConfig2.TABLE_TASK
+                        + " where " + DataConfig2.COLUMN_TASK_ISTASKACTIVE + " = ?",
+                new String[]{String.valueOf(DataConfig2.TASK_IS_ACTIVE)});
 
         while(cursor.moveToNext()){
             Task task = new Task(cursor);
