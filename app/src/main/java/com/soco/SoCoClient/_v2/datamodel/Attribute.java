@@ -39,7 +39,7 @@ public class Attribute {
     }
 
     public Attribute(Cursor cursor){
-        Log.d(tag, "create attribute from cursor");
+        Log.v(tag, "create attribute from cursor");
         this.attrIdLocal = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ATTRIDLOCAL));
         this.attrIdServer = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ATTRIDSERVER));
         this.activityType = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYTYPE));
@@ -47,18 +47,18 @@ public class Attribute {
         this.activityIdServer = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER));
         this.attrName = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ATTRNAME));
         this.attrValue = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_ATTRIBUTE_ATTRVALUE));
+        Log.d(tag, "created attribute from cursor: " + toString());
     }
 
     public void save(){
         if(attrIdLocal == DbConfig.ENTITIY_ID_NOT_READY){
-            Log.d(tag, "save new attribute");
+            Log.v(tag, "save new attribute");
             saveNew();
         }else{
-            Log.d(tag, "update existing attribute");
+            Log.v(tag, "update existing attribute");
             update();
         }
     }
-
 
     void saveNew(){
         Log.v(tag, "save new attribute into database");
@@ -139,6 +139,7 @@ public class Attribute {
                 ", attrValue='" + attrValue + '\'' +
                 '}';
     }
+
 
     public int getAttrIdLocal() {
         return attrIdLocal;

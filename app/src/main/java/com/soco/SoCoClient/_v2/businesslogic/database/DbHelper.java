@@ -9,7 +9,7 @@ import com.soco.SoCoClient.control.config.DataConfig;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "socodb.v2.1";
+    public static String DATABASE_NAME = "socodb.v2.2";
     public static int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {

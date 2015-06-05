@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.soco.SoCoClient._v2.businesslogic.config.DbConfig;
 import com.soco.SoCoClient._v2.businesslogic.database.DbHelper;
+import com.soco.SoCoClient.control.config.DataConfig;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ public class Task {
     SQLiteDatabase db;
 
     public Task(Context context){
-        Log.d(tag, "create new task object");
+        Log.v(tag, "create new task object");
 
         this.taskIdLocal = DbConfig.ENTITIY_ID_NOT_READY;
         this.taskIdServer = DbConfig.ENTITIY_ID_NOT_READY;
@@ -38,20 +39,21 @@ public class Task {
     }
 
     public Task(Cursor cursor){
-        Log.d(tag, "create task from cursor");
+        Log.v(tag, "create task from cursor");
         this.taskIdLocal = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_TASK_TASKIDLOCAL));
         this.taskIdServer = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_TASK_TASKIDSERVER));
         this.taskName = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_TASK_TASKNAME));
         this.taskPath = cursor.getString(cursor.getColumnIndex(DbConfig.COLUMN_TASK_TASKPATH));
         this.isTaskActive = cursor.getInt(cursor.getColumnIndex(DbConfig.COLUMN_TASK_ISTASKACTIVE));
+        Log.d(tag, "created task from cursor: " + toString());
     }
 
     public void save(){
         if(taskIdLocal == DbConfig.ENTITIY_ID_NOT_READY) {
-            Log.d(tag, "save new task");
+            Log.v(tag, "save new task");
             saveNew();
         }else{
-            Log.d(tag, "update existing task");
+            Log.v(tag, "update existing task");
             update();
         }
     }
@@ -134,7 +136,22 @@ public class Task {
     public void clearAttributes(){}
 
     public ArrayList<Attribute> loadAttributes(){
-        return null;
+        Log.v(tag, "load attribute for task: " + toString());
+        ArrayList<Attribute> attributes = new ArrayList<>();
+
+        String query = "select * from " + DbConfig.TABLE_ATTRIBUTE
+                + " where " + DbConfig.COLUMN_ATTRIBUTE_ACTIVITYTYPE + " = ? "
+                + " and " + DbConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " = ?";
+        Cursor cursor = db.rawQuery(query,
+                new String[]{DbConfig.ACTIVITY_TYPE_TASK, String.valueOf(taskIdLocal)});
+
+        while(cursor.moveToNext()){
+            Attribute attr = new Attribute(cursor);
+            attributes.add(attr);
+        }
+
+        Log.d(tag, attributes.size() + " attributes loaded for task: " + toString());
+        return attributes;
     }
 
     public void addComment(Comment comment){}

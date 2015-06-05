@@ -60,6 +60,13 @@ public class DbConfig {
     public static final int TASK_IS_ACTIVE = 1;
     public static final int TASK_IS_INACTIVE = 0;
 
+    public static final String ACTIVITY_TYPE_TASK = "t";
+    public static final String ACTIVITY_TYPE_PROJECT = "p";
+
+    public static final String ATTRIBUTE_NAME_DATE = "date";
+    public static final String ATTRIBUTE_NAME_TIME = "time";
+    public static final String ATTRIBUTE_NAME_LOCATION = "location";
+    public static final String ATTRIBUTE_NAME_DESCRIPTION = "desc";
 
 
 }

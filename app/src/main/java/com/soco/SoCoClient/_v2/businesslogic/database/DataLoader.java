@@ -25,7 +25,7 @@ public class DataLoader {
     }
 
     public ArrayList<Task> loadActiveTasks(){
-        Log.d(tag, "load active tasks from database");
+        Log.v(tag, "load active tasks from database");
         ArrayList<Task> tasks = new ArrayList<>();
         Cursor cursor = db.rawQuery(
                 "select * from " + DbConfig.TABLE_TASK
