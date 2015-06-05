@@ -90,6 +90,9 @@
         <service
             android:name=".v1.control.http.service.HeartbeatService"
             android:enabled="true" />
+        <service
+            android:name=".v2.businesslogic.http.Heartbeat2"
+            android:enabled="true" />
 
         <activity
             android:name=".v1.view.activities.ActivityLocationActivity"
@@ -117,6 +120,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

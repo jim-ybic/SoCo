@@ -8,7 +8,7 @@ import com.soco.SoCoClient.v2.businesslogic.config.DataConfig2;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "socodb.v2.4";
+    public static String DATABASE_NAME = "socodb.v2.6";
     public static int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {
@@ -57,6 +57,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + ", " + DataConfig2.COLUMN_MESSAGE_CONTENTTYPE + " INTEGER"
                 + ", " + DataConfig2.COLUMN_MESSAGE_CONTENT + " VARCHAR"
                 + ", " + DataConfig2.COLUMN_MESSAGE_STATUS + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_MESSAGE_SIGNATURE + " VARCHAR"
                 + ")");
 
     }

@@ -29,6 +29,7 @@ public class Message {
     int contentType;
     String content;
     String status;
+    String signature;
 
     //fields not saved to db
     Context context;
@@ -64,6 +65,7 @@ public class Message {
         this.contentType = cursor.getInt(cursor.getColumnIndex(DataConfig2.COLUMN_MESSAGE_CONTENTTYPE));
         this.content = cursor.getString(cursor.getColumnIndex(DataConfig2.COLUMN_MESSAGE_CONTENT));
         this.status = cursor.getString(cursor.getColumnIndex(DataConfig2.COLUMN_MESSAGE_STATUS));
+        this.signature = cursor.getString(cursor.getColumnIndex(DataConfig2.COLUMN_MESSAGE_SIGNATURE));
         Log.v(tag, "created message from cursor: " + toString());
     }
 
@@ -85,7 +87,8 @@ public class Message {
             cv.put(DataConfig2.COLUMN_MESSAGE_MSGIDSERVER, msgIdServer);
             cv.put(DataConfig2.COLUMN_MESSAGE_FROMTYPE, fromType);
             cv.put(DataConfig2.COLUMN_MESSAGE_FROMID, fromId);
-            cv.put(DataConfig2.COLUMN_MESSAGE_TOTYPE, toId);
+            cv.put(DataConfig2.COLUMN_MESSAGE_TOTYPE, toType);
+            cv.put(DataConfig2.COLUMN_MESSAGE_TOID, toId);
             cv.put(DataConfig2.COLUMN_MESSAGE_CREATETIMESTAMP, createTimestamp);
             cv.put(DataConfig2.COLUMN_MESSAGE_SENDTIMESTAMP, sendTimestamp);
             cv.put(DataConfig2.COLUMN_MESSAGE_RECEIVETIMESTAMP, receiveTimestamp);
@@ -93,6 +96,7 @@ public class Message {
             cv.put(DataConfig2.COLUMN_MESSAGE_CONTENTTYPE, contentType);
             cv.put(DataConfig2.COLUMN_MESSAGE_CONTENT, content);
             cv.put(DataConfig2.COLUMN_MESSAGE_STATUS, status);
+            cv.put(DataConfig2.COLUMN_MESSAGE_SIGNATURE, signature);
             db.insert(DataConfig2.TABLE_MESSAGE, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new message inserted to database: " + toString());
@@ -124,7 +128,8 @@ public class Message {
             cv.put(DataConfig2.COLUMN_MESSAGE_MSGIDSERVER, msgIdServer);
             cv.put(DataConfig2.COLUMN_MESSAGE_FROMTYPE, fromType);
             cv.put(DataConfig2.COLUMN_MESSAGE_FROMID, fromId);
-            cv.put(DataConfig2.COLUMN_MESSAGE_TOTYPE, toId);
+            cv.put(DataConfig2.COLUMN_MESSAGE_TOTYPE, toType);
+            cv.put(DataConfig2.COLUMN_MESSAGE_TOID, toId);
             cv.put(DataConfig2.COLUMN_MESSAGE_CREATETIMESTAMP, createTimestamp);
             cv.put(DataConfig2.COLUMN_MESSAGE_SENDTIMESTAMP, sendTimestamp);
             cv.put(DataConfig2.COLUMN_MESSAGE_RECEIVETIMESTAMP, receiveTimestamp);
@@ -132,6 +137,7 @@ public class Message {
             cv.put(DataConfig2.COLUMN_MESSAGE_CONTENTTYPE, contentType);
             cv.put(DataConfig2.COLUMN_MESSAGE_CONTENT, content);
             cv.put(DataConfig2.COLUMN_MESSAGE_STATUS, status);
+            cv.put(DataConfig2.COLUMN_MESSAGE_SIGNATURE, signature);
             db.update(DataConfig2.TABLE_MESSAGE, cv,
                     DataConfig2.COLUMN_MESSAGE_MSGIDLOCAL + " = ?",
                     new String[]{String.valueOf(msgIdLocal)});
@@ -173,6 +179,7 @@ public class Message {
                 ", contentType=" + contentType +
                 ", content='" + content + '\'' +
                 ", status='" + status + '\'' +
+                ", signature='" + signature + '\'' +
                 '}';
     }
 
@@ -278,5 +285,13 @@ public class Message {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 }

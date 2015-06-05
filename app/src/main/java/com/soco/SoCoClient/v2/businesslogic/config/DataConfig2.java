@@ -71,6 +71,7 @@ public class DataConfig2 {
     public static final String COLUMN_MESSAGE_CONTENTTYPE = "contentType";
     public static final String COLUMN_MESSAGE_CONTENT = "content";
     public static final String COLUMN_MESSAGE_STATUS = "status";
+    public static final String COLUMN_MESSAGE_SIGNATURE = "signature";
 
     public static final int ENTITIY_ID_NOT_READY = -1;
     public static final String ENTITY_VALUE_EMPTY = "empty";

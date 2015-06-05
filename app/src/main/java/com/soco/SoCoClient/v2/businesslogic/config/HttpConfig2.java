@@ -10,6 +10,9 @@ public class HttpConfig2 {
     public static final String SERVER_PATH_CREATE_CONTACT = "/socoserver/mobile/addFriend";
     public static final String SERVER_PATH_QUERY_CONTACT_DETAIL = "/socoserver/mobile/queryUserByEmailOrUsername";
     public static final String SERVER_PATH_SEND_MESSAGE = "/socoserver/exchange/sendOut";
+    public static final String SERVER_PATH_RECEIVE_MESSAGE = "/socoserver/exchange/receiveMsg";
+    public static final String SERVER_PATH_ACK_RECEIVE_MESSAGE = "/socoserver/exchange/ackReceivedMsg";
+    public static final String SERVER_PATH_HEARTBEAT = "/socoserver/mobile/HeartBeat";
 
     public static final String JSON_KEY_USERNAME = "username";
     public static final String JSON_KEY_USER = "user";

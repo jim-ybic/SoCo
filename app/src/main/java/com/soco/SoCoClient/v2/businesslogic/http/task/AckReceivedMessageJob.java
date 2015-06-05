@@ -12,20 +12,20 @@ import com.soco.SoCoClient.v2.businesslogic.config.GeneralConfig2;
 import com.soco.SoCoClient.v2.businesslogic.config.HttpConfig2;
 import com.soco.SoCoClient.v2.businesslogic.http.HttpUtil2;
 import com.soco.SoCoClient.v2.businesslogic.util.TimeUtil;
-import com.soco.SoCoClient.v2.datamodel.Contact;
 import com.soco.SoCoClient.v2.datamodel.Message;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class SendMessageJob extends AsyncTask<Void, Void, Boolean>{
+public class AckReceivedMessageJob extends AsyncTask<Void, Void, Boolean>{
 
-    String tag = "SendMessageJob";
+    String tag = "AckReceivedMessageJob";
 
     Context context;
     Message message;
 
-    public SendMessageJob(Context context, Message message){
-        Log.v(tag, "send message: " + message.toString());
+    public AckReceivedMessageJob(Context context, Message message){
+        Log.v(tag, "ack received message: " + message.toString());
         this.context = context;
         this.message = message;
     }
@@ -49,7 +49,7 @@ public class SendMessageJob extends AsyncTask<Void, Void, Boolean>{
             return "";
         }
 
-        String path = HttpConfig2.SERVER_PATH_SEND_MESSAGE;
+        String path = HttpConfig2.SERVER_PATH_ACK_RECEIVE_MESSAGE;
         String url = "http://" + ip + ":" + port + path + "?"
                 + HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
 
@@ -60,14 +60,11 @@ public class SendMessageJob extends AsyncTask<Void, Void, Boolean>{
     JSONObject getJsonData(){
         JSONObject data = new JSONObject();
         try{
-            data.put(HttpConfig2.JSON_KEY_FROM_TYPE, message.getFromType());
-            data.put(HttpConfig2.JSON_KEY_FROM_ID, message.getFromId());
-            data.put(HttpConfig2.JSON_KEY_TO_TYPE, message.getToType());
-            data.put(HttpConfig2.JSON_KEY_TO_ID, message.getToId());
-            data.put(HttpConfig2.JSON_KEY_SEND_DATE_TIME, message.getCreateTimestamp());
-            data.put(HttpConfig2.JSON_KEY_FROM_DEVICE, message.getFromDevice());
-            data.put(HttpConfig2.JSON_KEY_CONTENT_TYPE, message.getContentType());
-            data.put(HttpConfig2.JSON_KEY_CONTENT, message.getContent());
+            JSONObject obj = new JSONObject();
+            obj.put(HttpConfig2.JSON_KEY_SIGNATURE, message.getSignature());
+            JSONArray array = new JSONArray();
+            array.put(obj);
+            data.put(HttpConfig2.JSON_KEY_ACK, array);
         }catch(Exception e){
             Log.e(tag, "cannot create json data: " + e);
             e.printStackTrace();
@@ -83,11 +80,11 @@ public class SendMessageJob extends AsyncTask<Void, Void, Boolean>{
             JSONObject data = new JSONObject(response.toString());
             String isSuccess = data.getString(HttpConfig2.JSON_KEY_STATUS);
             if(isSuccess.equals(HttpConfig2.JSON_VALUE_SUCCESS)){
-                Log.v(tag, "server response success, update message status");
-                message.setStatus(DataConfig2.MESSAGE_STATUS_SENT);
-                message.setSendTimestamp(TimeUtil.now());
+                Log.v(tag, "server response success");
+                message.setStatus(DataConfig2.MESSAGE_STATUS_RECEIVED);
+                message.setReceiveTimestamp(TimeUtil.now());
                 message.save();
-                Log.d(tag, "udpated message details with server response: " + message.toString());
+                Log.d(tag, "updated message details with server response: " + message.toString());
             }else {
                 Log.e(tag, "cannot receive success response from server");
                 return false;

@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.v2.unittest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,10 +10,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.v1.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.v2.businesslogic.config.DataConfig2;
 import com.soco.SoCoClient.v2.businesslogic.config.GeneralConfig2;
 import com.soco.SoCoClient.v2.businesslogic.config.HttpConfig2;
 import com.soco.SoCoClient.v2.businesslogic.database.DataLoader;
+import com.soco.SoCoClient.v2.businesslogic.http.Heartbeat2;
 import com.soco.SoCoClient.v2.businesslogic.http.task.SendMessageJob;
 import com.soco.SoCoClient.v2.datamodel.Attribute;
 import com.soco.SoCoClient.v2.datamodel.Contact;
@@ -24,6 +27,7 @@ public class TestActivity extends ActionBarActivity {
     String tag = "TestActivity";
 
     Context context;
+    DataLoader dataLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,7 @@ public class TestActivity extends ActionBarActivity {
         setContentView(R.layout.activity_test);
 
         context = getApplicationContext();
+        dataLoader = new DataLoader(context);
     }
 
     public void test1 (View view){
@@ -106,7 +111,7 @@ public class TestActivity extends ActionBarActivity {
     public void test3(View view){
         Log.i(tag, ">>>test3 start: task remote");
 
-        Log.i(tag, ">>>setup profile");
+        Log.i(tag, ">>>setup profile: jim.ybic@gmail.com");
         SharedPreferences settings = context.getSharedPreferences(GeneralConfig2.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(HttpConfig2.PROFILE_SERVER_IP, "192.168.0.100");
@@ -177,6 +182,41 @@ public class TestActivity extends ActionBarActivity {
 
         Log.i(tag, ">>>test5 success");
         Toast.makeText(context, "test5 success", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void test6(View view) {
+        Log.i(tag, ">>>test6: message exchange");
+
+        Log.i(tag, ">>>start heartbeat service");
+        Intent heartbeat = new Intent(this, Heartbeat2.class);
+        startService(heartbeat);
+
+        Log.i(tag, ">>>setup profile: jim.ybic@gmail.com");
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfig2.PROFILE_FILENAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(HttpConfig2.PROFILE_SERVER_IP, "192.168.0.100");
+        editor.putString(HttpConfig2.PROFILE_SERVER_PORT, "8080");
+        editor.putString(HttpConfig2.PROFILE_LOGIN_ACCESS_TOKEN, "49bugba6gfkoqpc2fho92tc4ajfi7aaj");
+        editor.commit();
+
+        Log.i(tag, ">>>create new message");
+        Message msg1 = new Message(context);
+        msg1.setFromType(1);
+        msg1.setFromId("jim.ybic@gmail.com");
+        msg1.setToType(1);
+        msg1.setToId("voljin.g@gmail.com");
+        msg1.setContent("hello world");
+        msg1.save();
+
+        Log.i(tag, ">>>send to server");
+        SendMessageJob job = new SendMessageJob(context, msg1);
+        job.execute();
+
+        Log.i(tag, ">>>setup profile: voljin.g@gmail.com");
+        editor.putString(HttpConfig2.PROFILE_LOGIN_ACCESS_TOKEN, "mrqq9v1e4901vn065vfufep1f9iu9ejk");
+        editor.commit();
+
 
     }
 

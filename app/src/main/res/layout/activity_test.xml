@@ -34,5 +34,10 @@
         android:layout_height="wrap_content"
         android:onClick="test5"/>
 
+    <Button
+        android:text="TEST 6: message and heartbeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test6"/>
 
 </LinearLayout>
