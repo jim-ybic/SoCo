@@ -9,6 +9,7 @@ public class HttpConfig2 {
     public static final String SERVER_PATH_CREATE_TASK = "/socoserver/mobile/createActivity";
     public static final String SERVER_PATH_CREATE_CONTACT = "/socoserver/mobile/addFriend";
     public static final String SERVER_PATH_QUERY_CONTACT_DETAIL = "/socoserver/mobile/queryUserByEmailOrUsername";
+    public static final String SERVER_PATH_SEND_MESSAGE = "/socoserver/exchange/sendOut";
 
     public static final String JSON_KEY_USERNAME = "username";
     public static final String JSON_KEY_USER = "user";
@@ -34,6 +35,14 @@ public class HttpConfig2 {
     public static final String JSON_KEY_LOCAL_PATH = "local_path";
     public static final String JSON_KEY_ACTIVITY_EVENT = "activity_event";
     public static final String JSON_KEY_STATUS = "status";
+    public static final String JSON_KEY_FROM_TYPE = "from_type";
+    public static final String JSON_KEY_FROM_ID = "from_id";
+    public static final String JSON_KEY_TO_TYPE = "to_type";
+    public static final String JSON_KEY_TO_ID = "to_id";
+    public static final String JSON_KEY_SEND_DATE_TIME = "send_date_time";
+    public static final String JSON_KEY_FROM_DEVICE = "from_device";
+    public static final String JSON_KEY_CONTENT_TYPE = "context_type";
+    public static final String JSON_KEY_CONTENT = "context";
 
     public static final String JSON_VALUE_SUCCESS = "success";
 

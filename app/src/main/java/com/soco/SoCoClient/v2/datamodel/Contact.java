@@ -66,10 +66,10 @@ public class Contact {
         try{
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig2.COLUMN_CONTACT_CONTACTIDSERVER, contactIdServer);;
-            cv.put(DataConfig2.COLUMN_CONTACT_CONTACTEMAIL, contactEmail);;
-            cv.put(DataConfig2.COLUMN_CONTACT_CONTACTUSERNAME, contactUsername);;
-            cv.put(DataConfig2.COLUMN_CONTACT_CONTACTSERVERSTATUS, contactServerStatus);;
+            cv.put(DataConfig2.COLUMN_CONTACT_CONTACTIDSERVER, contactIdServer);
+            cv.put(DataConfig2.COLUMN_CONTACT_CONTACTEMAIL, contactEmail);
+            cv.put(DataConfig2.COLUMN_CONTACT_CONTACTUSERNAME, contactUsername);
+            cv.put(DataConfig2.COLUMN_CONTACT_CONTACTSERVERSTATUS, contactServerStatus);
             db.insert(DataConfig2.TABLE_CONTACT, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new contact inserted to database: " + toString());

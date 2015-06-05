@@ -57,6 +57,21 @@ public class DataConfig2 {
     public static final String COLUMN_CONTACTGROUP_CONTACTGROUPIDSERVER = "contactGroupIdServer";
     public static final String COLUMN_CONTACTGROUP_CONTACTGROUPNAME = "contactGroupName";
 
+    public static final String TABLE_MESSAGE = "message";
+    public static final String COLUMN_MESSAGE_MSGIDLOCAL = "msgIdLocal";
+    public static final String COLUMN_MESSAGE_MSGIDSERVER = "msgIdServer";
+    public static final String COLUMN_MESSAGE_FROMTYPE = "fromType";
+    public static final String COLUMN_MESSAGE_FROMID = "fromId";
+    public static final String COLUMN_MESSAGE_TOTYPE = "toType";
+    public static final String COLUMN_MESSAGE_TOID = "toId";
+    public static final String COLUMN_MESSAGE_CREATETIMESTAMP = "createTimestamp";
+    public static final String COLUMN_MESSAGE_SENDTIMESTAMP = "sendTimestamp";
+    public static final String COLUMN_MESSAGE_RECEIVETIMESTAMP = "receiveTimestamp";
+    public static final String COLUMN_MESSAGE_FROMDEVICE = "fromDevice";
+    public static final String COLUMN_MESSAGE_CONTENTTYPE = "contentType";
+    public static final String COLUMN_MESSAGE_CONTENT = "content";
+    public static final String COLUMN_MESSAGE_STATUS = "status";
+
     public static final int ENTITIY_ID_NOT_READY = -1;
     public static final String ENTITY_VALUE_EMPTY = "empty";
 
@@ -74,5 +89,9 @@ public class DataConfig2 {
     public static final String CONTACT_SERVER_STATUS_UNKNOWN = "unknown";
     public static final String CONTACT_SERVER_STATUS_VALID = "valid";
     public static final String CONTACT_SERVER_STATUS_INVALID = "invalid";
+
+    public static final String MESSAGE_STATUS_NEW = "new";
+    public static final String MESSAGE_STATUS_SENT = "sent";
+    public static final String MESSAGE_STATUS_RECEIVED = "received";
 
 }

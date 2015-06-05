@@ -28,6 +28,11 @@
         android:layout_height="wrap_content"
         android:onClick="test4"/>
 
+    <Button
+        android:text="TEST 5: message basic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test5"/>
 
 
 </LinearLayout>

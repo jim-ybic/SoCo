@@ -13,8 +13,10 @@ import com.soco.SoCoClient.v2.businesslogic.config.DataConfig2;
 import com.soco.SoCoClient.v2.businesslogic.config.GeneralConfig2;
 import com.soco.SoCoClient.v2.businesslogic.config.HttpConfig2;
 import com.soco.SoCoClient.v2.businesslogic.database.DataLoader;
+import com.soco.SoCoClient.v2.businesslogic.http.task.SendMessageJob;
 import com.soco.SoCoClient.v2.datamodel.Attribute;
 import com.soco.SoCoClient.v2.datamodel.Contact;
+import com.soco.SoCoClient.v2.datamodel.Message;
 import com.soco.SoCoClient.v2.datamodel.Task;
 
 public class TestActivity extends ActionBarActivity {
@@ -147,6 +149,35 @@ public class TestActivity extends ActionBarActivity {
 
         Log.i(tag, ">>>test4 success");
         Toast.makeText(context, "test4 success", Toast.LENGTH_SHORT).show();
+    }
+
+    public void test5(View view){
+        Log.i(tag, ">>>test5: message basic");
+        DataLoader dataLoader = new DataLoader(context);
+
+        Log.i(tag, ">>>create new message");
+        Message msg1 = new Message(context);
+        msg1.setFromType(1);
+        msg1.setFromId("jim.ybic@gmail.com");
+        msg1.setToType(1);
+        msg1.setToId("voljin.g@gmail.com");
+        msg1.setContent("hello world");
+
+        Log.i(tag, ">>>save to local");
+        msg1.save();
+        dataLoader.loadMessages();
+
+        Log.i(tag, ">>>send to server");
+        SendMessageJob job = new SendMessageJob(context, msg1);
+        job.execute();
+
+        Log.i(tag, ">>>delete message");
+        msg1.delete();
+        dataLoader.loadMessages();
+
+        Log.i(tag, ">>>test5 success");
+        Toast.makeText(context, "test5 success", Toast.LENGTH_SHORT).show();
+
     }
 
 }

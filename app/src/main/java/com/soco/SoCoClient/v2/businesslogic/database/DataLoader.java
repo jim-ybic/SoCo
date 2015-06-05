@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.soco.SoCoClient.v2.businesslogic.config.DataConfig2;
 import com.soco.SoCoClient.v2.datamodel.Contact;
+import com.soco.SoCoClient.v2.datamodel.Message;
 import com.soco.SoCoClient.v2.datamodel.Task;
 
 import java.util.ArrayList;
@@ -72,5 +73,20 @@ public class DataLoader {
         return contacts;
     }
 
+    public ArrayList<Message> loadMessages(){
+        Log.v(tag, "load messages from database");
+        ArrayList<Message> messages = new ArrayList<>();
+        String query =  "select * from " + DataConfig2.TABLE_MESSAGE;
+        Cursor cursor = db.rawQuery(query, null);
+
+        while(cursor.moveToNext()){
+            Message message = new Message(cursor);
+            Log.d(tag, "load message from database: " + message.toString());
+            messages.add(message);
+        }
+
+        Log.d(tag, messages.size() + " message loaded from database");
+        return messages;
+    }
 
 }

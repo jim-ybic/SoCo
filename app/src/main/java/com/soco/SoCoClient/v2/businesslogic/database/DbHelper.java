@@ -8,7 +8,7 @@ import com.soco.SoCoClient.v2.businesslogic.config.DataConfig2;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "socodb.v2.3";
+    public static String DATABASE_NAME = "socodb.v2.4";
     public static int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {
@@ -41,6 +41,22 @@ public class DbHelper extends SQLiteOpenHelper {
                 + ", " + DataConfig2.COLUMN_CONTACT_CONTACTEMAIL + " VARCHAR"
                 + ", " + DataConfig2.COLUMN_CONTACT_CONTACTUSERNAME + " VARCHAR"
                 + ", " + DataConfig2.COLUMN_CONTACT_CONTACTSERVERSTATUS + " VARCHAR"
+                + ")");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig2.TABLE_MESSAGE + " ("
+                + DataConfig2.COLUMN_MESSAGE_MSGIDLOCAL + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                + ", " + DataConfig2.COLUMN_MESSAGE_MSGIDSERVER + " INTEGER"
+                + ", " + DataConfig2.COLUMN_MESSAGE_FROMTYPE + " INTEGER"
+                + ", " + DataConfig2.COLUMN_MESSAGE_FROMID+ " VARCHAR"
+                + ", " + DataConfig2.COLUMN_MESSAGE_TOTYPE + " INTEGER"
+                + ", " + DataConfig2.COLUMN_MESSAGE_TOID + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_MESSAGE_CREATETIMESTAMP + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_MESSAGE_SENDTIMESTAMP + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_MESSAGE_RECEIVETIMESTAMP + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_MESSAGE_FROMDEVICE + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_MESSAGE_CONTENTTYPE + " INTEGER"
+                + ", " + DataConfig2.COLUMN_MESSAGE_CONTENT + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_MESSAGE_STATUS + " VARCHAR"
                 + ")");
 
     }
