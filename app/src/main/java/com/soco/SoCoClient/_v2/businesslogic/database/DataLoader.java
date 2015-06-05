@@ -35,6 +35,8 @@ public class DataLoader {
             Log.d(tag, "load task from database: " + task.toString());
             tasks.add(task);
         }
+
+        Log.d(tag, tasks.size() + " tasks loaded from database");
         return tasks;
     }
 
@@ -55,7 +57,19 @@ public class DataLoader {
     }
 
     public ArrayList<Contact> loadContacts(){
-        return null;
+        Log.v(tag, "load contacts from database");
+        ArrayList<Contact> contacts = new ArrayList<>();
+        String query =  "select * from " + DataConfig2.TABLE_CONTACT;
+        Cursor cursor = db.rawQuery(query, null);
+
+        while(cursor.moveToNext()){
+            Contact contact = new Contact(cursor);
+            Log.d(tag, "load contact from database: " + contact.toString());
+            contacts.add(contact);
+        }
+
+        Log.d(tag, contacts.size() + " contacts loaded from database");
+        return contacts;
     }
 
 

@@ -116,7 +116,6 @@ public class Task {
 
     }
 
-    //todo
     public void refresh(){
         Log.v(tag, "refresh from database for task: " + toString());
         String query = "select * from " + DataConfig2.TABLE_TASK

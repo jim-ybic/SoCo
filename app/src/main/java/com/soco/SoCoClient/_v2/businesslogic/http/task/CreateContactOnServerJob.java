@@ -10,22 +10,23 @@ import com.soco.SoCoClient._v2.businesslogic.config.DataConfig2;
 import com.soco.SoCoClient._v2.businesslogic.config.GeneralConfig2;
 import com.soco.SoCoClient._v2.businesslogic.config.HttpConfig2;
 import com.soco.SoCoClient._v2.businesslogic.http.HttpUtil2;
-import com.soco.SoCoClient._v2.datamodel.Task;
+import com.soco.SoCoClient._v2.datamodel.Contact;
 import com.soco.SoCoClient.control.config.HttpConfig;
+import com.soco.SoCoClient.control.http.task.QueryUserTaskAsync;
 
 import org.json.JSONObject;
 
-public class CreateTaskOnServerJob extends AsyncTask<Void, Void, Boolean>{
+public class CreateContactOnServerJob extends AsyncTask<Void, Void, Boolean>{
 
-    String tag = "CreateTaskOnServerJob";
+    String tag = "CreateContactOnServerJob";
 
     Context context;
-    Task task;
+    Contact contact;
 
-    public CreateTaskOnServerJob(Context context, Task task){
-        Log.v(tag, "create task on server: " + task.toString());
+    public CreateContactOnServerJob(Context context, Contact contact){
+        Log.v(tag, "create contact on server: " + contact.toString());
         this.context = context;
-        this.task = task;
+        this.contact = contact;
     }
 
     protected Boolean doInBackground(Void... params) {
@@ -47,7 +48,7 @@ public class CreateTaskOnServerJob extends AsyncTask<Void, Void, Boolean>{
             return "";
         }
 
-        String path = HttpConfig2.SERVER_PATH_CREATE_TASK;
+        String path = HttpConfig2.SERVER_PATH_CREATE_CONTACT;
         String url = "http://" + ip + ":" + port + path + "?"
                 + HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
 
@@ -58,10 +59,7 @@ public class CreateTaskOnServerJob extends AsyncTask<Void, Void, Boolean>{
     JSONObject getJsonData(){
         JSONObject data = new JSONObject();
         try{
-            data.put(HttpConfig2.JSON_KEY_NAME, task.getTaskName());
-            data.put(HttpConfig2.JSON_KEY_SIGNATURE, DataConfig2.ENTITY_VALUE_EMPTY);
-            data.put(HttpConfig2.JSON_KEY_TYPE, DataConfig2.ENTITY_VALUE_EMPTY);
-            data.put(HttpConfig2.JSON_KEY_TAG, DataConfig2.ENTITY_VALUE_EMPTY);
+            data.put(HttpConfig2.JSON_KEY_EMAIL, contact.getContactEmail());
         }catch(Exception e){
             Log.e(tag, "cannot create json data: " + e);
             e.printStackTrace();
@@ -77,13 +75,14 @@ public class CreateTaskOnServerJob extends AsyncTask<Void, Void, Boolean>{
             JSONObject data = new JSONObject(response.toString());
             String isSuccess = data.getString(HttpConfig2.JSON_KEY_STATUS);
             if(isSuccess.equals(HttpConfig2.JSON_VALUE_SUCCESS)){
-                int tidServer = Integer.parseInt(data.getString(HttpConfig2.JSON_KEY_ID));
-                task.refresh();
-                task.setTaskIdServer(tidServer);
-                task.save();
-                Log.d(tag, "updated task id server: " + task.toString());
+                Log.d(tag, "server response success, query user details");
+                QueryContactDetailsJob job = new QueryContactDetailsJob(context, contact);
+                job.execute();
             }else {
                 Log.e(tag, "cannot receive success response from server");
+                contact.setContactServerStatus(DataConfig2.CONTACT_SERVER_STATUS_VALID);
+                contact.save();
+                Log.d(tag, "updated contact details with server response: " + contact.toString());
                 return false;
             }
         }catch (Exception e){

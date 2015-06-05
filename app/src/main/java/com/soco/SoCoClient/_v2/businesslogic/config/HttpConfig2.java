@@ -6,9 +6,12 @@ public class HttpConfig2 {
     public static final String PROFILE_SERVER_PORT = "server_port";
     public static final String PROFILE_LOGIN_ACCESS_TOKEN = "access_token";
 
-    public static final String SERVER_PATH_CREATE_PROJECT = "/socoserver/mobile/createActivity";
+    public static final String SERVER_PATH_CREATE_TASK = "/socoserver/mobile/createActivity";
+    public static final String SERVER_PATH_CREATE_CONTACT = "/socoserver/mobile/addFriend";
+    public static final String SERVER_PATH_QUERY_CONTACT_DETAIL = "/socoserver/mobile/queryUserByEmailOrUsername";
 
     public static final String JSON_KEY_USERNAME = "username";
+    public static final String JSON_KEY_USER = "user";
     public static final String JSON_KEY_EMAIL = "email";
     public static final String JSON_KEY_PASSWORD = "password";
     public static final String JSON_KEY_PASSWORD2 = "password2";

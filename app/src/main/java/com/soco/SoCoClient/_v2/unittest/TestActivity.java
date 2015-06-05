@@ -14,6 +14,7 @@ import com.soco.SoCoClient._v2.businesslogic.config.GeneralConfig2;
 import com.soco.SoCoClient._v2.businesslogic.config.HttpConfig2;
 import com.soco.SoCoClient._v2.businesslogic.database.DataLoader;
 import com.soco.SoCoClient._v2.datamodel.Attribute;
+import com.soco.SoCoClient._v2.datamodel.Contact;
 import com.soco.SoCoClient._v2.datamodel.Task;
 import com.soco.SoCoClient.control.config.GeneralConfig;
 
@@ -121,6 +122,32 @@ public class TestActivity extends ActionBarActivity {
 
         Log.i(tag, ">>>test3 success local");
         Toast.makeText(context, "test3 success local", Toast.LENGTH_SHORT).show();
+    }
+
+    public void test4(View view){
+        Log.i(tag, ">>>test4: contact basic");
+        DataLoader dataLoader = new DataLoader(context);
+
+        Log.i(tag, ">>>create new contact");
+        Contact contact1 = new Contact(context);
+        contact1.setContactEmail("jim.ybic@gmail.com");
+        contact1.setContactUsername("jim1");
+
+        Log.i(tag, ">>>save to local");
+        contact1.save();
+        dataLoader.loadContacts();
+
+        Log.i(tag, ">>>update and save");
+        contact1.setContactUsername("jim2");
+        contact1.save();
+        dataLoader.loadContacts();
+
+        Log.i(tag, ">>>delete contact");
+        contact1.delete();
+        dataLoader.loadContacts();
+
+        Log.i(tag, ">>>test4 success");
+        Toast.makeText(context, "test4 success", Toast.LENGTH_SHORT).show();
     }
 
 }

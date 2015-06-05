@@ -8,7 +8,7 @@ import com.soco.SoCoClient._v2.businesslogic.config.DataConfig2;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "socodb.v2.2";
+    public static String DATABASE_NAME = "socodb.v2.3";
     public static int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {
@@ -33,6 +33,14 @@ public class DbHelper extends SQLiteOpenHelper {
                 + ", " + DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDSERVER + " INTEGER"
                 + ", " + DataConfig2.COLUMN_ATTRIBUTE_ATTRNAME + " VARCHAR"
                 + ", " + DataConfig2.COLUMN_ATTRIBUTE_ATTRVALUE + " VARCHAR"
+                + ")");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig2.TABLE_CONTACT + " ("
+                + DataConfig2.COLUMN_CONTACT_CONTACTIDLOCAL + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                + ", " + DataConfig2.COLUMN_CONTACT_CONTACTIDSERVER + " INTEGER"
+                + ", " + DataConfig2.COLUMN_CONTACT_CONTACTEMAIL + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_CONTACT_CONTACTUSERNAME + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_CONTACT_CONTACTSERVERSTATUS + " VARCHAR"
                 + ")");
 
     }

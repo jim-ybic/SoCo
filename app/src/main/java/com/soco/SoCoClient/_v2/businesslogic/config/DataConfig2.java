@@ -50,6 +50,7 @@ public class DataConfig2 {
     public static final String COLUMN_CONTACT_CONTACTIDSERVER = "contactIdServer";
     public static final String COLUMN_CONTACT_CONTACTEMAIL = "contactEmail";
     public static final String COLUMN_CONTACT_CONTACTUSERNAME = "contactUser";
+    public static final String COLUMN_CONTACT_CONTACTSERVERSTATUS = "contactServerStatus";
 
     public static final String TABLE_CONTACTGROUP = "contactGroup";
     public static final String COLUMN_CONTACTGROUP_CONTACTGROUPIDLOCAL = "contactGroupIdLocal";
@@ -70,5 +71,8 @@ public class DataConfig2 {
     public static final String ATTRIBUTE_NAME_LOCATION = "location";
     public static final String ATTRIBUTE_NAME_DESCRIPTION = "desc";
 
+    public static final String CONTACT_SERVER_STATUS_UNKNOWN = "unknown";
+    public static final String CONTACT_SERVER_STATUS_VALID = "valid";
+    public static final String CONTACT_SERVER_STATUS_INVALID = "invalid";
 
 }
