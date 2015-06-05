@@ -25,7 +25,7 @@
         android:required="false" />
 
     <application
-        android:name=".control.SocoApp"
+        android:name=".v1.control.SocoApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".v1.view.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateHidden" >
 
@@ -56,15 +56,15 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".view.dashboard.DashboardActivity"
+            android:name=".v1.view.dashboard.DashboardActivity"
             android:label="@string/title_dashboard"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".view.activities.CompletedActivitiessActivity"
+            android:name=".v1.view.activities.CompletedActivitiessActivity"
             android:label="@string/title_activity_show_inactive_projects"
             android:launchMode="singleTop"
-            android:parentActivityName=".view.dashboard.DashboardActivity" >
+            android:parentActivityName=".v1.view.dashboard.DashboardActivity" >
         </activity>
 
         <meta-data
@@ -75,42 +75,42 @@
             android:value="AIzaSyCZmxbgzgDM4ncl6A8BWtw5AujhuAGPZ60" />
 
         <activity
-            android:name=".view.config.ProfileActivity"
+            android:name=".v1.view.config.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:parentActivityName=".view.dashboard.DashboardActivity" >
+            android:parentActivityName=".v1.view.dashboard.DashboardActivity" >
         </activity>
         <activity
-            android:name=".view.config.ServerConfigActivity"
+            android:name=".v1.view.config.ServerConfigActivity"
             android:label="@string/title_activity_server_config" >
         </activity>
 
         <service
-            android:name=".control.dropbox.UploaderWatcher"
+            android:name=".v1.control.dropbox.UploaderWatcher"
             android:enabled="true" />
         <service
-            android:name=".control.http.service.HeartbeatService"
+            android:name=".v1.control.http.service.HeartbeatService"
             android:enabled="true" />
 
         <activity
-            android:name=".view.activities.ActivityLocationActivity"
+            android:name=".v1.view.activities.ActivityLocationActivity"
             android:label="@string/title_activity_project_location" >
         </activity>
         <activity
-            android:name=".view.activities.SingleActivityActivity"
+            android:name=".v1.view.activities.SingleActivityActivity"
             android:label="@string/title_show_single_activity"
-            android:parentActivityName=".view.dashboard.DashboardActivity" >
+            android:parentActivityName=".v1.view.dashboard.DashboardActivity" >
         </activity>
         <activity
-            android:name=".view.contacts.ContactDetailsActivity"
+            android:name=".v1.view.contacts.ContactDetailsActivity"
             android:label="@string/title_activity_contact_details"
-            android:parentActivityName=".view.dashboard.DashboardActivity"
+            android:parentActivityName=".v1.view.dashboard.DashboardActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.dashboard.DashboardActivity" />
+                android:value=".v1.view.dashboard.DashboardActivity" />
         </activity>
         <activity
-            android:name="._v2.unittest.TestActivity"
+            android:name=".v2.unittest.TestActivity"
             android:label="@string/title_activity_test" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
