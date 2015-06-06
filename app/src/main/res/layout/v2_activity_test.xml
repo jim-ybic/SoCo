@@ -4,6 +4,27 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:text="Jim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="jim"
+            android:layout_weight="1"/>
+
+        <Button
+            android:text="Voljin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="voljin"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
     <Button
         android:text="TEST 1: task basic"
         android:layout_width="match_parent"

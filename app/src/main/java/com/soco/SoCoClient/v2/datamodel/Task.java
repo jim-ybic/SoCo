@@ -90,9 +90,12 @@ public class Task {
             taskIdLocal = tidLocal;
         }
 
-        Log.v(tag, "save new task to server: " + toString());
-        CreateTaskOnServerJob job = new CreateTaskOnServerJob(context, this);
-        job.execute();
+        if(taskIdServer == DataConfig2.ENTITIY_ID_NOT_READY) {
+            Log.v(tag, "save new task to server: " + toString());
+            CreateTaskOnServerJob job = new CreateTaskOnServerJob(context, this);
+            job.execute();
+        }else
+            Log.v(tag, "task already saved on server");
     }
 
     void update(){

@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.v1.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.v2.businesslogic.config.DataConfig2;
 import com.soco.SoCoClient.v2.businesslogic.config.GeneralConfig2;
 import com.soco.SoCoClient.v2.businesslogic.config.HttpConfig2;
@@ -35,12 +34,32 @@ public class TestActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.v2_activity_test);
 
         context = getApplicationContext();
         dataLoader = new DataLoader(context);
         settings = context.getSharedPreferences(GeneralConfig2.PROFILE_FILENAME, 0);
         editor = settings.edit();
+    }
+
+    public void jim(View view){
+        Log.i(tag, ">>>setup profile: jim.ybic@gmail.com");
+        editor.putString(HttpConfig2.PROFILE_LOGIN_ACCESS_TOKEN, "49bugba6gfkoqpc2fho92tc4ajfi7aaj");
+        editor.commit();
+
+        Log.i(tag, ">>>start heartbeat service");
+        Intent heartbeat = new Intent(this, Heartbeat2.class);
+        startService(heartbeat);
+    }
+
+    public void voljin(View view){
+        Log.i(tag, ">>>setup profile: voljin.g@gmail.com");
+        editor.putString(HttpConfig2.PROFILE_LOGIN_ACCESS_TOKEN, "mrqq9v1e4901vn065vfufep1f9iu9ejk");
+        editor.commit();
+
+        Log.i(tag, ">>>start heartbeat service");
+        Intent heartbeat = new Intent(this, Heartbeat2.class);
+        startService(heartbeat);
     }
 
     public void test1 (View view){
@@ -224,10 +243,6 @@ public class TestActivity extends ActionBarActivity {
     public void test7(View view){
         Log.i(tag, ">>>test7: member");
 
-        Log.i(tag, ">>>setup profile: jim.ybic@gmail.com");
-        editor.putString(HttpConfig2.PROFILE_LOGIN_ACCESS_TOKEN, "49bugba6gfkoqpc2fho92tc4ajfi7aaj");
-        editor.commit();
-
         Log.i(tag, ">>>create new task");
         Task task = new Task(context);
         task.setTaskName("Test task to server");
@@ -237,11 +252,9 @@ public class TestActivity extends ActionBarActivity {
         Contact contact1 = new Contact(context);
         contact1.setContactEmail("voljin.g@gmail.com");
         contact1.setContactUsername("voljin1");
-        contact1.save();
 
-        Log.i(tag, ">>>add contact into task");
-        task.addMember(contact1, "owner", "accepted");
-
+        Log.i(tag, ">>>invite contact into task");
+        task.addMember(contact1, "member", "new");
     }
 
 }

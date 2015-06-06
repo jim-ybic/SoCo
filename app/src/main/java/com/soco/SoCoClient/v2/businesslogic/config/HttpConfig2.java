@@ -21,7 +21,7 @@ public class HttpConfig2 {
     public static final String SERVER_PATH_ARCHIVE_PROJECT = "/socoserver/mobile/archiveActivity";
     public static final String SERVER_PATH_RENAME_PROJECT = "/socoserver/mobile/updateActivity";
     public static final String SERVER_PATH_SET_PROJECT_ATTRIBUTE = "/socoserver/mobile/addAttributeByActivityID";
-    public static final String SERVER_PATH_JOIN_PROJECT_BY_INVITE = "/socoserver/mobile/joinActivityByInvite";
+    public static final String SERVER_PATH_JOIN_TASK_BY_INVITE = "/socoserver/mobile/joinActivityByInvite";
     public static final String SERVER_PATH_ADD_FRIEND = "/socoserver/mobile/addFriend";
     public static final String SERVER_PATH_QUERY_USER = "/socoserver/mobile/queryUserByEmailOrUsername";
     public static final String SERVER_PATH_ADD_FILE_TO_ACTIVITY = "/socoserver/mobile/addFileToActivity";
@@ -60,6 +60,7 @@ public class HttpConfig2 {
     public static final String JSON_KEY_FROM_DEVICE = "from_device";
     public static final String JSON_KEY_CONTENT_TYPE = "context_type";
     public static final String JSON_KEY_CONTENT = "context";
+    public static final String JSON_KEY_VALUE = "value";
 
     public static final String JSON_VALUE_SUCCESS = "success";
 

@@ -9,11 +9,15 @@ import android.util.Log;
 
 import com.soco.SoCoClient.v1.control.SocoApp;
 import com.soco.SoCoClient.v1.control.config.HttpConfig;
+import com.soco.SoCoClient.v2.businesslogic.config.DataConfig2;
 import com.soco.SoCoClient.v2.businesslogic.config.GeneralConfig2;
 import com.soco.SoCoClient.v2.businesslogic.config.HttpConfig2;
+import com.soco.SoCoClient.v2.businesslogic.http.task.JoinTaskByInviteJob;
 import com.soco.SoCoClient.v2.businesslogic.http.task.ReceiveMessageJob;
 import com.soco.SoCoClient.v2.businesslogic.util.TimeUtil;
+import com.soco.SoCoClient.v2.datamodel.Task;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Timer;
@@ -83,8 +87,14 @@ public class Heartbeat2 extends Service {
             JSONObject data = new JSONObject(response.toString());
             String isSuccess = data.getString(HttpConfig2.JSON_KEY_STATUS);
             if(isSuccess.equals(HttpConfig2.JSON_VALUE_SUCCESS)){
-                if(data.has(HttpConfig2.JSON_KEY_MESSAGE))
+                if(data.has(HttpConfig2.JSON_KEY_MESSAGE)) {
+                    Log.d(tag, "new message on server, start retrieve message job");
                     retrieveMessage();
+                }
+                if(data.has(HttpConfig2.JSON_KEY_INVITATION)){
+                    Log.d(tag, "new invitation on server, start join task job");
+                    joinTask(data);
+                }
 
                 //todo: handle other flags
             }
@@ -100,5 +110,31 @@ public class Heartbeat2 extends Service {
     void retrieveMessage(){
         ReceiveMessageJob job = new ReceiveMessageJob(context);
         job.execute();
+    }
+
+    void joinTask(JSONObject data){
+        Log.v(tag, "join task via response data: " + data);
+        try{
+            JSONArray invitations = new JSONArray(data.getString(HttpConfig2.JSON_KEY_INVITATION));
+            for(int i=0; i<invitations.length(); i++){
+                JSONObject invitation = invitations.getJSONObject(i);
+                Log.d(tag, "get invitation: " + invitation);
+                int taskIdServer = Integer.parseInt(invitation.getString(HttpConfig2.JSON_KEY_ACTIVITY));
+                String date = invitation.getString(HttpConfig2.JSON_KEY_DATE);
+                Task task = new Task(context);
+                task.setTaskIdServer(taskIdServer);
+                task.setTaskName(DataConfig2.ENTITY_VALUE_EMPTY);
+                task.save();
+                Log.d(tag, "saved new task into database: " + task.toString());
+
+                Log.v(tag, "get task details via JoinTaskByInviteJob");
+                JoinTaskByInviteJob job = new JoinTaskByInviteJob(context, task);
+                job.execute();
+            }
+
+        }catch (Exception e){
+            Log.e(tag, "cannot parse json data: " + e);
+            e.printStackTrace();
+        }
     }
 }
