@@ -22,6 +22,8 @@ import com.soco.SoCoClient.v2.datamodel.Contact;
 import com.soco.SoCoClient.v2.datamodel.Message;
 import com.soco.SoCoClient.v2.datamodel.Task;
 
+import java.util.ArrayList;
+
 public class TestActivity extends ActionBarActivity {
 
     String tag = "TestActivity";
@@ -252,9 +254,13 @@ public class TestActivity extends ActionBarActivity {
         Contact contact1 = new Contact(context);
         contact1.setContactEmail("voljin.g@gmail.com");
         contact1.setContactUsername("voljin1");
+        contact1.save();
 
         Log.i(tag, ">>>invite contact into task");
+        task.refresh();
         task.addMember(contact1, "member", "new");
+
+        ArrayList<Contact> members = task.loadMembers();
     }
 
 }

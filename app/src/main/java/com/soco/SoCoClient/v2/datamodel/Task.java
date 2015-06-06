@@ -8,12 +8,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.soco.SoCoClient.v2.businesslogic.config.DataConfig2;
+import com.soco.SoCoClient.v2.businesslogic.database.DataLoader;
 import com.soco.SoCoClient.v2.businesslogic.database.DbHelper;
 import com.soco.SoCoClient.v2.businesslogic.http.task.CreateTaskOnServerJob;
 import com.soco.SoCoClient.v2.businesslogic.http.task.InviteContactJoinTaskJob;
 import com.soco.SoCoClient.v2.businesslogic.util.TimeUtil;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Task {
 
@@ -140,7 +142,7 @@ public class Task {
             taskName = task.taskName;
             taskPath = task.taskPath;
             isTaskActive = task.isTaskActive;
-            Log.v(tag, "refresh complete");
+            Log.d(tag, "refresh complete: " + toString());
         }
     }
 
@@ -174,7 +176,8 @@ public class Task {
             cv.put(DataConfig2.COLUMN_PARTYJOINACTIVITY_JOINTIMESTAMP, TimeUtil.now());
             db.insert(DataConfig2.TABLE_PARTYJOINACTIVITY, null, cv);
             db.setTransactionSuccessful();
-            Log.d(tag, "new member added to task [" + taskName + "]: " + contact.toString()
+            Log.d(tag, "new member [" + contact.toString() + "] added to task ["
+                    + taskName + "]: " + toString()
                     + ", role is " + role + ", status is " + status);
         }finally{
             db.endTransaction();
@@ -212,7 +215,25 @@ public class Task {
     }
 
     public ArrayList<Contact> loadMembers(){
-        return null;
+        String query = "select " + DataConfig2.COLUMN_PARTYJOINACTIVITY_PARTYIDLOCAL
+                        + " from " + DataConfig2.TABLE_PARTYJOINACTIVITY
+                        + " where " + DataConfig2.COLUMN_ATTACHMENT_ACTIVITYTYPE + " = ?"
+                        + " and " + DataConfig2.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " = ?";
+        Cursor cursor = db.rawQuery(query,
+                new String[]{DataConfig2.ACTIVITY_TYPE_TASK, String.valueOf(taskIdLocal)});
+
+        HashSet<Integer> contactIdLocalSet = new HashSet<>();
+        while(cursor.moveToNext()){
+            int idLocal = cursor.getInt(0);
+            Log.v(tag, "get id local: " + idLocal);
+            contactIdLocalSet.add(idLocal);
+        }
+
+        DataLoader dataLoader = new DataLoader(context);
+        ArrayList<Contact> contacts = dataLoader.loadContacts(contactIdLocalSet);
+
+        Log.d(tag, contacts.size() + " contact loaded for task: " + toString());
+        return contacts;
     }
 
     public void updateAttribute(Attribute attr){}
