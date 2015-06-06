@@ -94,7 +94,7 @@ public class DashboardActivitiesFragment extends Fragment implements View.OnClic
                              Bundle savedInstanceState) {
 
         Log.d(tag, "on create view");
-        rootView = inflater.inflate(R.layout.fragment_dashboard_activities, container, false);
+        rootView = inflater.inflate(R.layout.v1_fragment_dashboard_activities, container, false);
         Log.d(tag, "Found root view: " + rootView);
 
         lv_active_programs = (ListView) rootView.findViewById(R.id.lv_active_programs);

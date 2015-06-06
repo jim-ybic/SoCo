@@ -65,7 +65,7 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
                              Bundle savedInstanceState) {
 
         Log.d(tag, "create project members fragment view.....");
-        rootView = inflater.inflate(R.layout.fragment_dashboard_contacts, container, false);
+        rootView = inflater.inflate(R.layout.v1_fragment_dashboard_contacts, container, false);
 
         ((ListView)rootView.findViewById(R.id.listview_contacts)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")

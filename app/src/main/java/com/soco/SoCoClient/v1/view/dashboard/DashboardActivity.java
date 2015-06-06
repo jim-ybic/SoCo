@@ -27,7 +27,7 @@ public class DashboardActivity extends ActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.v1_activity_dashboard);
 
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);

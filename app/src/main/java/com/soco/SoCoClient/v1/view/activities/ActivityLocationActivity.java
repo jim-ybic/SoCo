@@ -35,7 +35,7 @@ public class ActivityLocationActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_activity_location);
+        setContentView(R.layout.v1_activity_activity_location);
 
         attrMap = ((SocoApp)getApplicationContext()).getAttrMap();
 

@@ -27,7 +27,7 @@ public class SingleActivityActivity extends ActionBarActivity implements
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_show_single_activity);
+        setContentView(R.layout.v1_activity_show_single_activity);
 
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);

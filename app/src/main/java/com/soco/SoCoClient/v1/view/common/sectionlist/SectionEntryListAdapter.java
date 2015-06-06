@@ -41,7 +41,7 @@ public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_SECTION)){
 				SectionItem si = (SectionItem)i;
                 Log.v(tag, "item title: " + si.getTitle());
-				v = vi.inflate(R.layout.list_item_section, null);
+				v = vi.inflate(R.layout.v1_list_item_section, null);
 
 				v.setOnClickListener(null);
 				v.setOnLongClickListener(null);
@@ -52,7 +52,7 @@ public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 			}else if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){
 				EntryItem ei = (EntryItem)i;
                 Log.v(tag, "item title: " + ei.title);
-				v = vi.inflate(R.layout.list_item_entry, null);
+				v = vi.inflate(R.layout.v1_list_item_entry, null);
 				final TextView title = (TextView)v.findViewById(R.id.list_item_entry_title);
 				final TextView subtitle = (TextView)v.findViewById(R.id.list_item_entry_summary);
 				
@@ -63,7 +63,7 @@ public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 			}else if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)){
                 FolderItem fi = (FolderItem)i;
                 Log.v(tag, "item title: " + fi.title);
-                v = vi.inflate(R.layout.list_item_folder, null);
+                v = vi.inflate(R.layout.v1_list_item_folder, null);
                 final TextView title = (TextView)v.findViewById(R.id.list_item_entry_title);
                 final TextView subtitle = (TextView)v.findViewById(R.id.list_item_entry_summary);
 

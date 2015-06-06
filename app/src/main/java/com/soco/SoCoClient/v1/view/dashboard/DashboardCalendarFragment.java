@@ -37,7 +37,7 @@ public class DashboardCalendarFragment extends Fragment implements View.OnClickL
                              Bundle savedInstanceState) {
 
         Log.d(tag, "create calendar fragment view");
-        rootView = inflater.inflate(R.layout.fragment_dashboard_calendar, container, false);
+        rootView = inflater.inflate(R.layout.v1_fragment_dashboard_calendar, container, false);
 
 //        rootView.findViewById(R.id.bt_add).setOnClickListener(this);
 //        listMembers();

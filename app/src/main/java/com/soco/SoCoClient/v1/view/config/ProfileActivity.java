@@ -33,7 +33,7 @@ public class ProfileActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.v1_activity_profile);
 
         socoApp = (SocoApp)getApplicationContext();
         profile = socoApp.profile;

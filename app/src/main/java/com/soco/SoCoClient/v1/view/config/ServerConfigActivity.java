@@ -24,7 +24,7 @@ public class ServerConfigActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_server_config);
+        setContentView(R.layout.v1_activity_server_config);
 
         socoApp = (SocoApp)getApplicationContext();
         profile = socoApp.profile;
