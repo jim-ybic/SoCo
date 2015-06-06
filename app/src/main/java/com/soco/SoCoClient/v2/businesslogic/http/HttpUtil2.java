@@ -28,7 +28,7 @@ public class HttpUtil2 {
             httpost.setHeader("Content-type", "application/json");
             ResponseHandler responseHandler = new BasicResponseHandler();
             response = httpclient.execute(httpost, responseHandler);
-            Log.d(tag, "Post success, response: " + response);
+            Log.v(tag, "Post success, response: " + response);
         } catch (Exception e) {
             Log.e(tag, "Post fail: " + e.toString());
         }

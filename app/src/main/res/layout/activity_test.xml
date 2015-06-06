@@ -40,4 +40,10 @@
         android:layout_height="wrap_content"
         android:onClick="test6"/>
 
+    <Button
+        android:text="TEST 7: member"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test7"/>
+
 </LinearLayout>

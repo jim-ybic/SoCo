@@ -6,25 +6,28 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.soco.SoCoClient.v1.control.config.HttpConfig;
 import com.soco.SoCoClient.v2.businesslogic.config.DataConfig2;
 import com.soco.SoCoClient.v2.businesslogic.config.GeneralConfig2;
 import com.soco.SoCoClient.v2.businesslogic.config.HttpConfig2;
 import com.soco.SoCoClient.v2.businesslogic.http.HttpUtil2;
+import com.soco.SoCoClient.v2.datamodel.Contact;
 import com.soco.SoCoClient.v2.datamodel.Task;
-import com.soco.SoCoClient.v1.control.config.HttpConfig;
 
 import org.json.JSONObject;
 
-public class CreateTaskOnServerJob extends AsyncTask<Void, Void, Boolean>{
+public class InviteContactJoinTaskJob extends AsyncTask<Void, Void, Boolean>{
 
-    String tag = "CreateTaskOnServerJob";
+    String tag = "InviteContactJoinTaskJob";
 
     Context context;
+    Contact contact;
     Task task;
 
-    public CreateTaskOnServerJob(Context context, Task task){
-        Log.v(tag, "create task on server: " + task.toString());
+    public InviteContactJoinTaskJob(Context context, Contact contact, Task task){
+        Log.v(tag, "invite contact " + contact.toString() + " join task " + task.toString());
         this.context = context;
+        this.contact = contact;
         this.task = task;
     }
 
@@ -47,21 +50,19 @@ public class CreateTaskOnServerJob extends AsyncTask<Void, Void, Boolean>{
             return "";
         }
 
-        String path = HttpConfig2.SERVER_PATH_CREATE_TASK;
+        String path = HttpConfig2.SERVER_PATH_INVITE_CONTACT_JOIN_TASK;
         String url = "http://" + ip + ":" + port + path + "?"
                 + HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
 
-        Log.d(tag, "get url [CreateTaskOnServerJob]: " + url);
+        Log.d(tag, "get url [InviteContactJoinTaskJob]: " + url);
         return url;
     }
 
     JSONObject getJsonData(){
         JSONObject data = new JSONObject();
         try{
-            data.put(HttpConfig2.JSON_KEY_NAME, task.getTaskName());
-            data.put(HttpConfig2.JSON_KEY_SIGNATURE, DataConfig2.ENTITY_VALUE_EMPTY);
-            data.put(HttpConfig2.JSON_KEY_TYPE, DataConfig2.ENTITY_VALUE_EMPTY);
-            data.put(HttpConfig2.JSON_KEY_TAG, DataConfig2.ENTITY_VALUE_EMPTY);
+            data.put(HttpConfig2.JSON_KEY_EMAIL, contact.getContactEmail());
+            data.put(HttpConfig2.JSON_KEY_ACTIVITY, task.getTaskIdServer());
         }catch(Exception e){
             Log.e(tag, "cannot create json data: " + e);
             e.printStackTrace();
@@ -77,11 +78,9 @@ public class CreateTaskOnServerJob extends AsyncTask<Void, Void, Boolean>{
             JSONObject data = new JSONObject(response.toString());
             String isSuccess = data.getString(HttpConfig2.JSON_KEY_STATUS);
             if(isSuccess.equals(HttpConfig2.JSON_VALUE_SUCCESS)){
-                int tidServer = Integer.parseInt(data.getString(HttpConfig2.JSON_KEY_ID));
-                task.refresh();
-                task.setTaskIdServer(tidServer);
+                task.setMemberStatus(contact, DataConfig2.PARTY_JOIN_ACTIVITY_STATUS_INVITED);
                 task.save();
-                Log.d(tag, "updated task id server: " + task.toString());
+                Log.d(tag, "server response success, update member [" + contact.toString() + "] status: " + DataConfig2.PARTY_JOIN_ACTIVITY_STATUS_INVITED);
             }else {
                 Log.e(tag, "cannot receive success response from server");
                 return false;

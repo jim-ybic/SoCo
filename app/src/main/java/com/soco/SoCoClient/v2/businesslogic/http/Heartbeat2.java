@@ -78,9 +78,7 @@ public class Heartbeat2 extends Service {
         return url;
     }
 
-    //todo
     public boolean parse(Object response) {
-
         try{
             JSONObject data = new JSONObject(response.toString());
             String isSuccess = data.getString(HttpConfig2.JSON_KEY_STATUS);
@@ -88,14 +86,13 @@ public class Heartbeat2 extends Service {
                 if(data.has(HttpConfig2.JSON_KEY_MESSAGE))
                     retrieveMessage();
 
-                //todo: other flags
+                //todo: handle other flags
             }
         }catch (Exception e){
             Log.e(tag, "cannot parse json data:" + e);
             e.printStackTrace();
             return false;
         }
-
 
         return true;
     }

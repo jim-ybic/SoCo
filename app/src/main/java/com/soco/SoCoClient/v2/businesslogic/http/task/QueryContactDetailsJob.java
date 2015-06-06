@@ -51,7 +51,7 @@ public class QueryContactDetailsJob extends AsyncTask<Void, Void, Boolean>{
         String url = "http://" + ip + ":" + port + path + "?"
                 + HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
 
-        Log.d(tag, "get url: " + url);
+        Log.d(tag, "get url [QueryContactDetailsJob]: " + url);
         return url;
     }
 
@@ -69,7 +69,7 @@ public class QueryContactDetailsJob extends AsyncTask<Void, Void, Boolean>{
     }
 
     boolean parse(Object response){
-        Log.v(tag, "parse server response: " + response);
+        Log.d(tag, "parse server response: " + response);
         try {
             JSONObject data = new JSONObject(response.toString());
             String isSuccess = data.getString(HttpConfig2.JSON_KEY_STATUS);

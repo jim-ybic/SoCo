@@ -13,6 +13,20 @@ public class HttpConfig2 {
     public static final String SERVER_PATH_RECEIVE_MESSAGE = "/socoserver/exchange/receiveMsg";
     public static final String SERVER_PATH_ACK_RECEIVE_MESSAGE = "/socoserver/exchange/ackReceivedMsg";
     public static final String SERVER_PATH_HEARTBEAT = "/socoserver/mobile/HeartBeat";
+    public static final String SERVER_PATH_INVITE_CONTACT_JOIN_TASK = "/socoserver/mobile/inviteFriendShareActivity";
+
+    public static final String SERVER_PATH_REGISTER = "/socoserver/register/register";
+    public static final String SERVER_PATH_LOGIN = "/socoserver/api/login";
+    public static final String SERVER_PATH_CREATE_PROJECT = "/socoserver/mobile/createActivity";
+    public static final String SERVER_PATH_ARCHIVE_PROJECT = "/socoserver/mobile/archiveActivity";
+    public static final String SERVER_PATH_RENAME_PROJECT = "/socoserver/mobile/updateActivity";
+    public static final String SERVER_PATH_SET_PROJECT_ATTRIBUTE = "/socoserver/mobile/addAttributeByActivityID";
+    public static final String SERVER_PATH_JOIN_PROJECT_BY_INVITE = "/socoserver/mobile/joinActivityByInvite";
+    public static final String SERVER_PATH_ADD_FRIEND = "/socoserver/mobile/addFriend";
+    public static final String SERVER_PATH_QUERY_USER = "/socoserver/mobile/queryUserByEmailOrUsername";
+    public static final String SERVER_PATH_ADD_FILE_TO_ACTIVITY = "/socoserver/mobile/addFileToActivity";
+    public static final String SERVER_PATH_GET_ACTIVITY_EVENT = "/socoserver/mobile/getActivityEvent";
+
 
     public static final String JSON_KEY_USERNAME = "username";
     public static final String JSON_KEY_USER = "user";

@@ -8,7 +8,7 @@ import com.soco.SoCoClient.v2.businesslogic.config.DataConfig2;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "socodb.v2.6";
+    public static String DATABASE_NAME = "socodb.v2.7";
     public static int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {
@@ -59,6 +59,21 @@ public class DbHelper extends SQLiteOpenHelper {
                 + ", " + DataConfig2.COLUMN_MESSAGE_STATUS + " VARCHAR"
                 + ", " + DataConfig2.COLUMN_MESSAGE_SIGNATURE + " VARCHAR"
                 + ")");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig2.TABLE_PARTYJOINACTIVITY + " ("
+                + DataConfig2.COLUMN_PARTYJOINACTIVITY_IDLOCAL + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                + ", " + DataConfig2.COLUMN_PARTYJOINACTIVITY_IDSERVER + " INTEGER"
+                + ", " + DataConfig2.COLUMN_PARTYJOINACTIVITY_PARTYTYPE + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_PARTYJOINACTIVITY_PARTYIDLOCAL + " INTEGER"
+                + ", " + DataConfig2.COLUMN_PARTYJOINACTIVITY_PARTYIDSERVER + " INTEGER"
+                + ", " + DataConfig2.COLUMN_PARTYJOINACTIVITY_ACTIVITYTYPE + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_PARTYJOINACTIVITY_ACTIVITYIDLOCAL + " INTEGER"
+                + ", " + DataConfig2.COLUMN_PARTYJOINACTIVITY_ACTIVITYIDSERVER + " INTEGER"
+                + ", " + DataConfig2.COLUMN_PARTYJOINACTIVITY_ROLE + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_PARTYJOINACTIVITY_STATUS + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_PARTYJOINACTIVITY_JOINTIMESTAMP + " VARCHAR"
+                + ")");
+
 
     }
 

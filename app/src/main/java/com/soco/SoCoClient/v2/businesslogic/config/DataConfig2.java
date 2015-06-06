@@ -73,14 +73,29 @@ public class DataConfig2 {
     public static final String COLUMN_MESSAGE_STATUS = "status";
     public static final String COLUMN_MESSAGE_SIGNATURE = "signature";
 
+    public static final String TABLE_PARTYJOINACTIVITY = "partyJoinActivity";
+    public static final String COLUMN_PARTYJOINACTIVITY_IDLOCAL = "idLocal";
+    public static final String COLUMN_PARTYJOINACTIVITY_IDSERVER = "idServer";
+    public static final String COLUMN_PARTYJOINACTIVITY_PARTYTYPE = "partyType";
+    public static final String COLUMN_PARTYJOINACTIVITY_PARTYIDLOCAL = "partyIdLocal";
+    public static final String COLUMN_PARTYJOINACTIVITY_PARTYIDSERVER = "partyIdServer";
+    public static final String COLUMN_PARTYJOINACTIVITY_ACTIVITYTYPE = "activityType";
+    public static final String COLUMN_PARTYJOINACTIVITY_ACTIVITYIDLOCAL = "activityIdLocal";
+    public static final String COLUMN_PARTYJOINACTIVITY_ACTIVITYIDSERVER = "activityIdServer";
+    public static final String COLUMN_PARTYJOINACTIVITY_ROLE = "role";
+    public static final String COLUMN_PARTYJOINACTIVITY_STATUS = "status";
+    public static final String COLUMN_PARTYJOINACTIVITY_JOINTIMESTAMP = "joinTimestamp";
+
     public static final int ENTITIY_ID_NOT_READY = -1;
     public static final String ENTITY_VALUE_EMPTY = "empty";
 
     public static final int TASK_IS_ACTIVE = 1;
     public static final int TASK_IS_INACTIVE = 0;
 
-    public static final String ACTIVITY_TYPE_TASK = "t";
-    public static final String ACTIVITY_TYPE_PROJECT = "p";
+    public static final String ACTIVITY_TYPE_TASK = "t";        //task
+    public static final String ACTIVITY_TYPE_PROJECT = "p";     //project
+    public static final String PARTY_TYPE_INDIVIDUAL = "i";     //individual
+    public static final String PARTY_TYPE_GROUP = "g";          //group
 
     public static final String ATTRIBUTE_NAME_DATE = "date";
     public static final String ATTRIBUTE_NAME_TIME = "time";
@@ -91,8 +106,16 @@ public class DataConfig2 {
     public static final String CONTACT_SERVER_STATUS_VALID = "valid";
     public static final String CONTACT_SERVER_STATUS_INVALID = "invalid";
 
-    public static final String MESSAGE_STATUS_NEW = "new";
-    public static final String MESSAGE_STATUS_SENT = "sent";
-    public static final String MESSAGE_STATUS_RECEIVED = "received";
+    public static final String MESSAGE_STATUS_NEW = "n";        //new
+    public static final String MESSAGE_STATUS_SENT = "s";       //sent
+    public static final String MESSAGE_STATUS_RECEIVED = "r";   //received
+
+    public static final String PARTY_JOIN_ACTIVITY_STATUS_INVITED = "i";
+    public static final String PARTY_JOIN_ACTIVITY_STATUS_ACCEPTED = "a";
+    public static final String PARTY_JOIN_ACTIVITY_STATUS_REJECTED = "r";
+
+    public static final String PARTY_JOIN_ACTIVITY_ROLE_OWNER = "o";
+    public static final String PARTY_JOIN_ACTIVITY_ROLE_MEMBER = "m";
+    public static final String PARTY_JOIN_ACTIVITY_ROLE_FOLLOWER = "f";
 
 }

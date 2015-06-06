@@ -3,6 +3,7 @@ package com.soco.SoCoClient.v2.unittest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,8 @@ public class TestActivity extends ActionBarActivity {
 
     Context context;
     DataLoader dataLoader;
+    SharedPreferences settings;
+    Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class TestActivity extends ActionBarActivity {
 
         context = getApplicationContext();
         dataLoader = new DataLoader(context);
+        settings = context.getSharedPreferences(GeneralConfig2.PROFILE_FILENAME, 0);
+        editor = settings.edit();
     }
 
     public void test1 (View view){
@@ -195,8 +200,6 @@ public class TestActivity extends ActionBarActivity {
         Log.i(tag, ">>>setup profile: jim.ybic@gmail.com");
         SharedPreferences settings = context.getSharedPreferences(GeneralConfig2.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(HttpConfig2.PROFILE_SERVER_IP, "192.168.0.100");
-        editor.putString(HttpConfig2.PROFILE_SERVER_PORT, "8080");
         editor.putString(HttpConfig2.PROFILE_LOGIN_ACCESS_TOKEN, "49bugba6gfkoqpc2fho92tc4ajfi7aaj");
         editor.commit();
 
@@ -216,7 +219,28 @@ public class TestActivity extends ActionBarActivity {
         Log.i(tag, ">>>setup profile: voljin.g@gmail.com");
         editor.putString(HttpConfig2.PROFILE_LOGIN_ACCESS_TOKEN, "mrqq9v1e4901vn065vfufep1f9iu9ejk");
         editor.commit();
+    }
 
+    public void test7(View view){
+        Log.i(tag, ">>>test7: member");
+
+        Log.i(tag, ">>>setup profile: jim.ybic@gmail.com");
+        editor.putString(HttpConfig2.PROFILE_LOGIN_ACCESS_TOKEN, "49bugba6gfkoqpc2fho92tc4ajfi7aaj");
+        editor.commit();
+
+        Log.i(tag, ">>>create new task");
+        Task task = new Task(context);
+        task.setTaskName("Test task to server");
+        task.save();
+
+        Log.i(tag, ">>>create new contact");
+        Contact contact1 = new Contact(context);
+        contact1.setContactEmail("voljin.g@gmail.com");
+        contact1.setContactUsername("voljin1");
+        contact1.save();
+
+        Log.i(tag, ">>>add contact into task");
+        task.addMember(contact1, "owner", "accepted");
 
     }
 

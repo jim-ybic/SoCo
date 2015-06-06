@@ -10,6 +10,8 @@ import android.util.Log;
 import com.soco.SoCoClient.v2.businesslogic.config.DataConfig2;
 import com.soco.SoCoClient.v2.businesslogic.database.DbHelper;
 import com.soco.SoCoClient.v2.businesslogic.http.task.CreateTaskOnServerJob;
+import com.soco.SoCoClient.v2.businesslogic.http.task.InviteContactJoinTaskJob;
+import com.soco.SoCoClient.v2.businesslogic.util.TimeUtil;
 
 import java.util.ArrayList;
 
@@ -153,7 +155,58 @@ public class Task {
         //todo: delete task from server
     }
 
-    public void addMember(Contact contact){}
+    public void addMember(Contact contact, String role, String status){
+        Log.v(tag, "add individual party as task member: " + contact.toString());
+        try{
+            db.beginTransaction();
+            ContentValues cv = new ContentValues();
+            cv.put(DataConfig2.COLUMN_PARTYJOINACTIVITY_PARTYTYPE, DataConfig2.PARTY_TYPE_INDIVIDUAL);
+            cv.put(DataConfig2.COLUMN_PARTYJOINACTIVITY_PARTYIDLOCAL, contact.getContactIdLocal());
+            cv.put(DataConfig2.COLUMN_PARTYJOINACTIVITY_PARTYIDSERVER, contact.getContactIdServer());
+            cv.put(DataConfig2.COLUMN_PARTYJOINACTIVITY_ACTIVITYTYPE, DataConfig2.ACTIVITY_TYPE_TASK);
+            cv.put(DataConfig2.COLUMN_PARTYJOINACTIVITY_ACTIVITYIDLOCAL, taskIdLocal);
+            cv.put(DataConfig2.COLUMN_PARTYJOINACTIVITY_ACTIVITYIDSERVER, taskIdServer);
+            cv.put(DataConfig2.COLUMN_PARTYJOINACTIVITY_ROLE, role);
+            cv.put(DataConfig2.COLUMN_PARTYJOINACTIVITY_STATUS, status);
+            cv.put(DataConfig2.COLUMN_PARTYJOINACTIVITY_JOINTIMESTAMP, TimeUtil.now());
+            db.insert(DataConfig2.TABLE_PARTYJOINACTIVITY, null, cv);
+            db.setTransactionSuccessful();
+            Log.d(tag, "new member added to task [" + taskName + "]: " + contact.toString()
+                    + ", role is " + role + ", status is " + status);
+        }finally{
+            db.endTransaction();
+        }
+
+        //todo: save to server
+
+        Log.v(tag, "send request to server");
+        InviteContactJoinTaskJob job = new InviteContactJoinTaskJob(context, contact, this);
+        job.execute();
+    }
+
+    public void setMemberStatus(Contact contact, String status){
+        Log.v(tag, "set member [" + contact.toString() + "] status to: " + status);
+        try{
+            db.beginTransaction();
+            ContentValues cv = new ContentValues();
+            cv.put(DataConfig2.COLUMN_PARTYJOINACTIVITY_STATUS, status);
+            db.update(DataConfig2.TABLE_PARTYJOINACTIVITY, cv,
+                            DataConfig2.COLUMN_PARTYJOINACTIVITY_PARTYTYPE + " = ? "
+                            + " and " + DataConfig2.COLUMN_PARTYJOINACTIVITY_PARTYIDLOCAL + " = ? "
+                            + " and " + DataConfig2.COLUMN_PARTYJOINACTIVITY_ACTIVITYTYPE + " = ? "
+                            + " and " + DataConfig2.COLUMN_PARTYJOINACTIVITY_ACTIVITYIDLOCAL + " = ?",
+                    new String[]{
+                            DataConfig2.PARTY_TYPE_INDIVIDUAL,
+                            String.valueOf(contact.contactIdLocal),
+                            DataConfig2.ACTIVITY_TYPE_TASK,
+                            String.valueOf(taskIdLocal)
+                    });
+            db.setTransactionSuccessful();
+            Log.v(tag, "set member [" + contact.toString() + "] status to: " + status);
+        }finally{
+            db.endTransaction();
+        }
+    }
 
     public ArrayList<Contact> loadMembers(){
         return null;
