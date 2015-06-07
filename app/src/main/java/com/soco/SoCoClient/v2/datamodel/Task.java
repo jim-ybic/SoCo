@@ -236,6 +236,13 @@ public class Task {
         return contacts;
     }
 
+    public Attribute newAttribute(){
+        Attribute attr = new Attribute(context, DataConfig2.ACTIVITY_TYPE_TASK,
+                taskIdLocal, taskIdServer);
+        Log.d(tag, "created new attribute [" + attr.toString()
+                + "] for task [" + toString() + "]");
+        return attr;
+    }
     public void updateAttribute(Attribute attr){}
 
     public void clearAttributes(){}
@@ -259,13 +266,19 @@ public class Task {
         return attributes;
     }
 
-    public void addComment(Comment comment){}
+    public Message newMessage(){return null;}
 
-    public ArrayList<Comment> loadComments(){
+    public ArrayList<Message> loadMessages(){
         return null;
     }
 
-    public void addAttachment(Attachment attachment){}
+    public Attachment newAttachment(){
+        Attachment attachment = new Attachment(context, DataConfig2.ACTIVITY_TYPE_TASK,
+                taskIdLocal, taskIdServer);
+        Log.d(tag, "created new attacment [" + attachment.toString()
+                + "] for task [" + toString() + "]");
+        return attachment;
+    }
 
     public ArrayList<Attachment> loadAttachments(){
         return null;

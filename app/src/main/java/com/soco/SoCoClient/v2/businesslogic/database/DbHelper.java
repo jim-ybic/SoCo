@@ -8,7 +8,7 @@ import com.soco.SoCoClient.v2.businesslogic.config.DataConfig2;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "socodb.v2.7";
+    public static String DATABASE_NAME = "socodb.v2.8";
     public static int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {
@@ -74,6 +74,19 @@ public class DbHelper extends SQLiteOpenHelper {
                 + ", " + DataConfig2.COLUMN_PARTYJOINACTIVITY_JOINTIMESTAMP + " VARCHAR"
                 + ")");
 
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig2.TABLE_ATTACHMENT + " ("
+                + DataConfig2.COLUMN_ATTACHMENT_ATTACHMENTIDLOCAL + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                + ", " + DataConfig2.COLUMN_ATTACHMENT_ATTACHMENTIDSERVER + " INTEGER"
+                + ", " + DataConfig2.COLUMN_ATTACHMENT_ACTIVITYTYPE + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_ATTACHMENT_ACTIVITYIDLOCAL + " INTEGER"
+                + ", " + DataConfig2.COLUMN_ATTACHMENT_ACTIVITYIDSERVER + " INTEGER"
+                + ", " + DataConfig2.COLUMN_ATTACHMENT_DISPLAYNAME + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_ATTACHMENT_URI + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_ATTACHMENT_REMOTEPATH + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_ATTACHMENT_LOCALPATH + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_ATTACHMENT_USER + " VARCHAR"
+                + ", " + DataConfig2.COLUMN_ATTACHMENT_CREATETIMESTAMP + " VARCHAR"
+                + ")");
 
     }
 

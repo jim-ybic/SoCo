@@ -67,4 +67,11 @@
         android:layout_height="wrap_content"
         android:onClick="test7"/>
 
+    <Button
+        android:text="TEST 8: attachment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test8"/>
+
+
 </LinearLayout>

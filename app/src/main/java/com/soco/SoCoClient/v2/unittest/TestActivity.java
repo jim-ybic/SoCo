@@ -17,6 +17,7 @@ import com.soco.SoCoClient.v2.businesslogic.config.HttpConfig2;
 import com.soco.SoCoClient.v2.businesslogic.database.DataLoader;
 import com.soco.SoCoClient.v2.businesslogic.http.Heartbeat2;
 import com.soco.SoCoClient.v2.businesslogic.http.task.SendMessageJob;
+import com.soco.SoCoClient.v2.datamodel.Attachment;
 import com.soco.SoCoClient.v2.datamodel.Attribute;
 import com.soco.SoCoClient.v2.datamodel.Contact;
 import com.soco.SoCoClient.v2.datamodel.Message;
@@ -261,6 +262,19 @@ public class TestActivity extends ActionBarActivity {
         task.addMember(contact1, "member", "new");
 
         ArrayList<Contact> members = task.loadMembers();
+    }
+
+    public void test8(View view){
+        Log.i(tag, ">>>test8: attachment");
+
+        Log.i(tag, ">>>create task and attachment");
+        Task task1 = new Task(context);
+        task1.setTaskName("task with attachment");
+        task1.save();
+        Attachment attachment1 = task1.newAttachment();
+        attachment1.save();
+
+        Log.i(tag, ">>>test8: success");
     }
 
 }

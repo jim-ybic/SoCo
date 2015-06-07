@@ -117,7 +117,7 @@ public class Attribute {
     }
 
     public void delete(){
-        Log.v(tag, "delete existing task");
+        Log.v(tag, "delete existing attribute");
         if(attrIdLocal == DataConfig2.ENTITIY_ID_NOT_READY){
             Log.e(tag, "cannot delete a non-existing attribute");
         }else{
