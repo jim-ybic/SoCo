@@ -40,9 +40,6 @@ public class LoginActivity3 extends ActionBarActivity {
     public String REGISTER_SOCO_SERVER_URL = "http://"
             + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + REGISTER_PATH;
 
-//    public static String TEST_EMAIL = "jim.ybic@gmail.com";
-//    public static String TEST_PASSWORD = "Pass@123";
-
     public static int REGISTER_RETRY = 10;
     public static int REGISTER_WAIT = 1000;    //ms
 
