@@ -14,6 +14,7 @@ import com.soco.SoCoClient.v1.control.SocoApp;
 import com.soco.SoCoClient.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.v1.model.Profile;
 import com.soco.SoCoClient.v1.view.LoginActivity;
+import com.soco.SoCoClient.v3.LoginActivity3;
 
 
 public class ProfileActivity extends ActionBarActivity {
@@ -94,7 +95,7 @@ public class ProfileActivity extends ActionBarActivity {
 //        tv_lastLoginTimestamp.setText(EMPTY_STRING);
 
         Log.d(tag, "return to login screen");
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        Intent intent = new Intent(getApplicationContext(), LoginActivity3.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
