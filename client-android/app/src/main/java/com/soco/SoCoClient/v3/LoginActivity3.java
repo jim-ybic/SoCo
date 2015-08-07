@@ -7,22 +7,20 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.v1.control.SocoApp;
-import com.soco.SoCoClient.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.v1.control.http.service.HeartbeatService;
-import com.soco.SoCoClient.v1.control.http.task.LoginTaskAsync;
-import com.soco.SoCoClient.v1.control.http.task.RegisterTaskAsync;
-import com.soco.SoCoClient.v1.model.Profile;
-import com.soco.SoCoClient.v1.view.config.ServerConfigActivity;
-import com.soco.SoCoClient.v1.view.dashboard.DashboardActivity;
+import com.soco.SoCoClient.obsolete.v1.control.SocoApp;
+import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
+import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
+import com.soco.SoCoClient.obsolete.v1.control.http.service.HeartbeatService;
+import com.soco.SoCoClient.obsolete.v1.control.http.task.LoginTaskAsync;
+import com.soco.SoCoClient.obsolete.v1.control.http.task.RegisterTaskAsync;
+import com.soco.SoCoClient.obsolete.v1.model.Profile;
+import com.soco.SoCoClient.obsolete.v1.view.config.ServerConfigActivity;
+import com.soco.SoCoClient.obsolete.v1.view.dashboard.DashboardActivity;
 
 
 public class LoginActivity3 extends ActionBarActivity {

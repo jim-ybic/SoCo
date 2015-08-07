@@ -52,7 +52,7 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 		ADDED from AndroidManifest.xml:19:9
 	android:theme
 		ADDED from AndroidManifest.xml:21:9
-activity#com.soco.SoCoClient.v1.view.LoginActivity
+activity#com.soco.SoCoClient.obsolete.v1.view.LoginActivity
 ADDED from AndroidManifest.xml:22:9
 	android:label
 		ADDED from AndroidManifest.xml:24:13
@@ -70,13 +70,13 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:29:17
 	android:name
 		ADDED from AndroidManifest.xml:29:27
-activity#com.soco.SoCoClient.v1.view.ShowActiveProgramsActivity
+activity#com.soco.SoCoClient.obsolete.v1.view.ShowActiveProgramsActivity
 ADDED from AndroidManifest.xml:32:9
 	android:label
 		ADDED from AndroidManifest.xml:34:13
 	android:name
 		ADDED from AndroidManifest.xml:33:13
-activity#com.soco.SoCoClient.v1.view.ShowSingleProgramActivity
+activity#com.soco.SoCoClient.obsolete.v1.view.ShowSingleProgramActivity
 ADDED from AndroidManifest.xml:43:9
 	android:label
 		ADDED from AndroidManifest.xml:45:13
@@ -90,7 +90,7 @@ ADDED from AndroidManifest.xml:47:13
 		ADDED from AndroidManifest.xml:49:17
 	android:name
 		ADDED from AndroidManifest.xml:48:17
-activity#com.soco.SoCoClient.v1.view.ShowCompletedProgramsActivity
+activity#com.soco.SoCoClient.obsolete.v1.view.ShowCompletedProgramsActivity
 ADDED from AndroidManifest.xml:51:9
 	android:label
 		ADDED from AndroidManifest.xml:53:13
@@ -105,7 +105,7 @@ MERGED from com.google.android.gms:play-services:6.5.87:21:9
 		ADDED from AndroidManifest.xml:62:13
 	android:name
 		ADDED from AndroidManifest.xml:61:13
-activity#com.soco.SoCoClient.v1.view.ui.config.ProfileActivity
+activity#com.soco.SoCoClient.obsolete.v1.view.ui.config.ProfileActivity
 ADDED from AndroidManifest.xml:64:9
 	android:label
 		ADDED from AndroidManifest.xml:66:13
