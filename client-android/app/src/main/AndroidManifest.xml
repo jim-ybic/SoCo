@@ -91,7 +91,7 @@
             android:name=".obsolete.v1.control.http.service.HeartbeatService"
             android:enabled="true" />
         <service
-            android:name=".obsolete.v2.businesslogic.http.Heartbeat2"
+            android:name=".v2.control.http.Heartbeat"
             android:enabled="true" />
 
         <activity
@@ -113,7 +113,7 @@
                 android:value=".obsolete.v1.view.dashboard.DashboardActivity" />
         </activity>
         <activity
-            android:name=".obsolete.v2.unittest.TestActivity"
+            android:name=".v2.test.TestActivity"
             android:label="@string/title_activity_test" >
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
@@ -121,15 +121,13 @@
             <!--</intent-filter>-->
         </activity>
         <activity
-            android:name=".v3.LoginActivity3"
+            android:name=".v2.view.LoginActivity3"
             android:label="@string/title_activity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>

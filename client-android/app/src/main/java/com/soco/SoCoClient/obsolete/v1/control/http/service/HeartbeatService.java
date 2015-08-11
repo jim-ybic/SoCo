@@ -15,8 +15,8 @@ import com.soco.SoCoClient.obsolete.v1.control.http.task.GetActivityEventTaskAsy
 import com.soco.SoCoClient.obsolete.v1.control.http.task.JoinActivityByInviteTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.RetrieveMessageTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.util.SignatureUtil;
-import com.soco.SoCoClient.obsolete.v1.model.Profile;
 import com.soco.SoCoClient.obsolete.v1.model.Activity;
+import com.soco.SoCoClient.v2.model.Profile;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

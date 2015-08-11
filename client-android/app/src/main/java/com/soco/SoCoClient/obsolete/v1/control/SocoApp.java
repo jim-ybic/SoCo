@@ -10,7 +10,7 @@ import android.util.Log;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.obsolete.v1.model.Profile;
+import com.soco.SoCoClient.v2.model.Profile;
 
 import java.util.ArrayList;
 import java.util.HashMap;

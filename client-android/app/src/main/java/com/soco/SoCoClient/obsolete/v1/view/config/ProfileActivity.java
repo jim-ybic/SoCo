@@ -12,8 +12,8 @@ import android.widget.Toast;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.obsolete.v1.control.SocoApp;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.obsolete.v1.model.Profile;
-import com.soco.SoCoClient.v3.LoginActivity3;
+import com.soco.SoCoClient.v2.view.LoginActivity3;
+import com.soco.SoCoClient.v2.model.Profile;
 
 
 public class ProfileActivity extends ActionBarActivity {

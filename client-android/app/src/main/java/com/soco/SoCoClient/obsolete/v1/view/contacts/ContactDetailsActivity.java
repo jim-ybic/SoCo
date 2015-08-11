@@ -20,10 +20,10 @@ import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.SendMessageTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.util.SignatureUtil;
-import com.soco.SoCoClient.obsolete.v1.model.Profile;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.EntryItem;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.Item;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.SectionEntryListAdapter;
+import com.soco.SoCoClient.v2.model.Profile;
 
 import java.util.ArrayList;
 

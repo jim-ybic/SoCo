@@ -20,9 +20,9 @@ import com.soco.SoCoClient.obsolete.v1.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.LoginTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.RegisterTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.model.Profile;
 import com.soco.SoCoClient.obsolete.v1.view.config.ServerConfigActivity;
 import com.soco.SoCoClient.obsolete.v1.view.dashboard.DashboardActivity;
+import com.soco.SoCoClient.v2.model.Profile;
 
 
 public class LoginActivity extends ActionBarActivity {

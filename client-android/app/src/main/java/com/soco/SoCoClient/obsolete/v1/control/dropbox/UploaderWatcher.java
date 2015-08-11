@@ -13,7 +13,7 @@ import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.AddFileToActivityTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.util.ActivityUtil;
 import com.soco.SoCoClient.obsolete.v1.control.util.FileUtils;
-import com.soco.SoCoClient.obsolete.v1.model.Profile;
+import com.soco.SoCoClient.v2.model.Profile;
 
 
 public class UploaderWatcher extends IntentService {

@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.obsolete.v1.control.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.model.Profile;
+import com.soco.SoCoClient.v2.model.Profile;
 
 
 public class ServerConfigActivity extends ActionBarActivity {

@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.v3;
+package com.soco.SoCoClient.v2.view;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,15 +18,16 @@ import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
 import com.soco.SoCoClient.obsolete.v1.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.LoginTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.RegisterTaskAsync;
-import com.soco.SoCoClient.obsolete.v1.model.Profile;
 import com.soco.SoCoClient.obsolete.v1.view.config.ServerConfigActivity;
 import com.soco.SoCoClient.obsolete.v1.view.dashboard.DashboardActivity;
+import com.soco.SoCoClient.v2.model.Profile;
 
 
 public class LoginActivity3 extends ActionBarActivity {
 
+    public static String tag = "LoginActivity3";
+
     public static String FLAG_EXIT = "exit";
-    public static String tag = "Login";
     public String SOCO_SERVER_IP = "192.168.0.104";
     public String SOCO_SERVER_PORT = "8080";
 
@@ -37,6 +38,9 @@ public class LoginActivity3 extends ActionBarActivity {
             + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + LOGIN_PATH;
     public String REGISTER_SOCO_SERVER_URL = "http://"
             + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + REGISTER_PATH;
+
+    public static String TEST_EMAIL = "jim.ybic@gmail.com";
+    public static String TEST_PASSWORD = "Pass@123";
 
     public static int REGISTER_RETRY = 10;
     public static int REGISTER_WAIT = 1000;    //ms
@@ -57,7 +61,7 @@ public class LoginActivity3 extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.v3_activity_login);
+        setContentView(R.layout.v2_activity_login);
 
         socoApp = (SocoApp) getApplicationContext();
 
@@ -70,6 +74,10 @@ public class LoginActivity3 extends ActionBarActivity {
         socoApp.dbManagerSoco = dbmgrSoco;
 
         findViewsById();
+
+        //test
+        et_login_email.setText(TEST_EMAIL);
+        et_login_password.setText(TEST_PASSWORD);
 
         if (getIntent().getBooleanExtra(FLAG_EXIT, false))
             finish();

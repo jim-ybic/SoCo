@@ -14,8 +14,8 @@ import com.soco.SoCoClient.obsolete.v1.control.http.task.CreateActivityTaskAsync
 import com.soco.SoCoClient.obsolete.v1.control.http.task.SetActivityAttributeTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.UpdateActivityNameTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.model.Folder;
-import com.soco.SoCoClient.obsolete.v1.model.Profile;
 import com.soco.SoCoClient.obsolete.v1.model.Activity;
+import com.soco.SoCoClient.v2.model.Profile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
