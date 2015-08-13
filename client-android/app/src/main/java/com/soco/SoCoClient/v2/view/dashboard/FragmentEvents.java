@@ -32,6 +32,7 @@ import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.database.DataLoader;
 import com.soco.SoCoClient.v2.control.util.ActivityUtil;
 import com.soco.SoCoClient.obsolete.v1.model.Activity;
 
@@ -40,6 +41,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.soco.SoCoClient.obsolete.v1.model.Folder;
+import com.soco.SoCoClient.v2.model.Event;
 import com.soco.SoCoClient.v2.view.activities.CompletedActivitiessActivity;
 import com.soco.SoCoClient.v2.view.sectionlist.FolderItem;
 import com.soco.SoCoClient.v2.view.config.ProfileActivity;
@@ -51,9 +53,11 @@ import com.soco.SoCoClient.v2.view.sectionlist.SectionItem;
 
 public class FragmentEvents extends Fragment implements View.OnClickListener {
 
-    // Local view
-    private ListView lv_active_programs;
-    public static String tag = "DashboardActivities";
+    static String tag = "FragmentEvents";
+
+    //local variable
+    ListView lv_active_programs;
+    EditText et_quick_add;
 
     public static int INTENT_SHOW_SINGLE_PROGRAM = 101;
 
@@ -67,12 +71,15 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
     View rootView;
     SocoApp socoApp;
     SectionEntryListAdapter activitiesAdapter;
+    Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_show_active_projects);
         setHasOptionsMenu(true);
+
+        context = getActivity().getApplicationContext();
 
         socoApp = (SocoApp) getActivity().getApplication();
 
@@ -98,6 +105,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
         Log.d(tag, "Found root view: " + rootView);
 
         lv_active_programs = (ListView) rootView.findViewById(R.id.lv_active_programs);
+        et_quick_add = ((EditText)rootView.findViewById(R.id.et_quickadd));
 
         //set button listeners
         rootView.findViewById(R.id.add).setOnClickListener(this);
@@ -244,87 +252,87 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
         else if (id == R.id.archive) {
             showCompletedProjects();
         }
-        else if (id == R.id.add) {
-            createActivity();
-        }
+//        else if (id == R.id.add) {
+//            createActivity(null);
+//        }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void createActivity() {
-
-        Log.d(tag, "create dialog elements");
-        Context context = getActivity();
-        LinearLayout layout = new LinearLayout(context);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        final EditText nameBox = new EditText(context);
-        nameBox.setHint("Name");
-        layout.addView(nameBox);
-        final EditText descBox = new EditText(context);
-        descBox.setHint("Description (Optional)");
-        layout.addView(descBox);
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setTitle("New");
-//        alert.setMessage("Task description: ");
-//        final EditText input = new EditText(getActivity());
-        alert.setView(layout);
-
-        alert.setPositiveButton("Add Task", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String name = nameBox.getText().toString();
-//                String desc = descBox.getText().toString();
-                Log.d(tag, "create activity and insert into database: " + name);
-                Activity p = new Activity(name, socoApp.currentPath);
-                int pid = dbmgrSoco.addActivity(p);
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Project created.", Toast.LENGTH_SHORT).show();
-                Log.d(tag, "send new activity to server: " + name + ", pid " + pid);
-                ActivityUtil.serverCreateActivity(name, getActivity().getApplicationContext(),
-                        loginEmail, loginPassword, String.valueOf(pid),
-                        p.getSignature(), p.getTag(), p.getType());
-//                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
-                Log.d(tag, "add into active list and refresh UI");
-                activities.add(p);
-                refreshList();
-            }
-        });
-        alert.setNeutralButton("Add Folder", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String name = nameBox.getText().toString();
-                String desc = descBox.getText().toString();
-                String path = socoApp.currentPath;
-                Log.d(tag, "create folder and insert into database: " + name);
-                int fid = dbmgrSoco.addFolder(name, desc, socoApp.currentPath);
-//                allListItems.add(new FolderItem(name, desc));
-                Log.d(tag, "send new folder to server");
-                //todo
-                Log.d(tag, "add into active list and refresh UI");
-                folders.add(new Folder(name, desc, socoApp.currentPath));
-                refreshList();
-            }
-        });
-//        alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
+//    public void createActivity() {
+//
+//        Log.d(tag, "create dialog elements");
+//        Context context = getActivity();
+//        LinearLayout layout = new LinearLayout(context);
+//        layout.setOrientation(LinearLayout.VERTICAL);
+//        final EditText nameBox = new EditText(context);
+//        nameBox.setHint("Name");
+//        layout.addView(nameBox);
+//        final EditText descBox = new EditText(context);
+//        descBox.setHint("Description (Optional)");
+//        layout.addView(descBox);
+//
+//        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+//        alert.setTitle("New");
+////        alert.setMessage("Task description: ");
+////        final EditText input = new EditText(getActivity());
+//        alert.setView(layout);
+//
+//        alert.setPositiveButton("Add Task", new DialogInterface.OnClickListener() {
 //            public void onClick(DialogInterface dialog, int whichButton) {
-//                String n = input.getText().toString();
-//                Activity p = new Activity(n);
+//                String name = nameBox.getText().toString();
+////                String desc = descBox.getText().toString();
+//                Log.d(tag, "create activity and insert into database: " + name);
+//                Activity p = new Activity(name, socoApp.currentPath);
 //                int pid = dbmgrSoco.addActivity(p);
-//                ActivityUtil.serverCreateActivity(n, getActivity().getApplicationContext(),
+//                Toast.makeText(getActivity().getApplicationContext(),
+//                        "Project created.", Toast.LENGTH_SHORT).show();
+//                Log.d(tag, "send new activity to server: " + name + ", pid " + pid);
+//                ActivityUtil.serverCreateActivity(name, getActivity().getApplicationContext(),
 //                        loginEmail, loginPassword, String.valueOf(pid),
 //                        p.getSignature(), p.getTag(), p.getType());
-//                Intent intent = new Intent(getActivity().getApplicationContext(), SingleActivityActivity.class);
-//                socoApp.pid = pid;
-//                Log.i(tag, "Start activity to view programName details");
-//                startActivityForResult(intent, -1);
+////                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+//                Log.d(tag, "add into active list and refresh UI");
+//                activities.add(p);
+//                refreshList();
 //            }
 //        });
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-            }
-        });
-
-        alert.show();
-    }
+//        alert.setNeutralButton("Add Folder", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                String name = nameBox.getText().toString();
+//                String desc = descBox.getText().toString();
+//                String path = socoApp.currentPath;
+//                Log.d(tag, "create folder and insert into database: " + name);
+//                int fid = dbmgrSoco.addFolder(name, desc, socoApp.currentPath);
+////                allListItems.add(new FolderItem(name, desc));
+//                Log.d(tag, "send new folder to server");
+//                //todo
+//                Log.d(tag, "add into active list and refresh UI");
+//                folders.add(new Folder(name, desc, socoApp.currentPath));
+//                refreshList();
+//            }
+//        });
+////        alert.setNeutralButton("Details", new DialogInterface.OnClickListener() {
+////            public void onClick(DialogInterface dialog, int whichButton) {
+////                String n = input.getText().toString();
+////                Activity p = new Activity(n);
+////                int pid = dbmgrSoco.addActivity(p);
+////                ActivityUtil.serverCreateActivity(n, getActivity().getApplicationContext(),
+////                        loginEmail, loginPassword, String.valueOf(pid),
+////                        p.getSignature(), p.getTag(), p.getType());
+////                Intent intent = new Intent(getActivity().getApplicationContext(), SingleActivityActivity.class);
+////                socoApp.pid = pid;
+////                Log.i(tag, "Start activity to view programName details");
+////                startActivityForResult(intent, -1);
+////            }
+////        });
+//        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//            }
+//        });
+//
+//        alert.show();
+//    }
 
 
     public void refreshList() {
@@ -364,6 +372,35 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
         lv_active_programs.setAdapter(activitiesAdapter);
     }
 
+    public void show(ArrayList<Event> events) {
+        allListItems = new ArrayList<>();
+
+        for(Event e : events){
+            allListItems.add(new EntryItem(e.getName(), e.getInfo()));
+        }
+//        HashMap<String, String> tags = new HashMap<>();
+
+//        Log.d(tag, "grouping activities and add into list");
+//        HashMap<String, ArrayList<Activity>> activitiesMap = ActivityUtil.groupingActivitiesByTag(activities);
+//        for(Map.Entry<String, ArrayList<Activity>> e : activitiesMap.entrySet()){
+//            String tag = e.getKey();
+////            tags.put(tag, tag);
+//            ArrayList<Activity> pp = e.getValue();
+//            allListItems.add(new SectionItem(tag));   //add section
+//            for(Activity p : pp) {  //add activity
+//                //fix Bug #4 new activity created from invitation has delay in showing activity title
+//                if(p.invitation_status == DataConfig.ACTIVITY_INVITATION_STATUS_COMPLETE)
+//                    allListItems.add(new EntryItem(p.pname, p.getMoreInfo()));
+//                else
+//                    Log.d(tag, "skip showing project that pending invitation complete: " + p.pid);
+//            }
+//        }
+
+        Log.d(tag, "refresh UI");
+        activitiesAdapter = new SectionEntryListAdapter(getActivity(), allListItems);
+        lv_active_programs.setAdapter(activitiesAdapter);
+    }
+
     public void showCompletedProjects() {
         Intent intent = new Intent(getActivity(), CompletedActivitiessActivity.class);
         intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
@@ -378,23 +415,22 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
 //        startActivity(intent);
 //    }
 
-    public void quickAdd(){
-        String name = ((EditText)rootView.findViewById(R.id.et_quickadd)).getText().toString();
-        Log.d(tag, "quick add activity " + name);
+    public void add(){
+        String name = et_quick_add.getText().toString();
+        Log.d(tag, "quick add event: " + name);
 
-        Activity p = new Activity(name, socoApp.currentPath);
-        int pid = dbmgrSoco.addActivity(p);
-        Toast.makeText(getActivity().getApplicationContext(),
-                "Project created success.", Toast.LENGTH_SHORT).show();
-        ActivityUtil.serverCreateActivity(name, getActivity().getApplicationContext(),
-                loginEmail, loginPassword, String.valueOf(pid),
-                p.getSignature(), p.getTag(), p.getType());
-//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
-        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
-        refreshList();
-        ((EditText)rootView.findViewById(R.id.et_quickadd)).setText("", TextView.BufferType.EDITABLE);
-        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
-                Context.INPUT_METHOD_SERVICE);
+        Log.v(tag, "create new event");
+        Event e = new Event(getActivity().getApplicationContext());
+        e.setName(name);
+        e.save();
+
+        DataLoader dataLoader = new DataLoader(context);
+        ArrayList<Event> events = dataLoader.loadEvents();
+        show(events);
+
+        //clean up
+        et_quick_add.setText("", TextView.BufferType.EDITABLE);
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow((rootView.findViewById(R.id.et_quickadd)).getWindowToken(), 0);
     }
 
@@ -411,7 +447,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add:
-                quickAdd();
+                add();
                 break;
 //            case R.id.create:
 //                createActivity();

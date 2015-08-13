@@ -8,7 +8,7 @@ import com.soco.SoCoClient.v2.control.config.DataConfig;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "socodb.v2.8";
+    public static String DATABASE_NAME = "socodb.v2.9";
     public static int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {
@@ -26,7 +26,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 + ")");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_EVENT + " ("
-                + DataConfig.COLUMN_EVENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                + DataConfig.COLUMN_EVENT_SEQ + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                + ", " + DataConfig.COLUMN_EVENT_ID + " INTEGER"
                 + ", " + DataConfig.COLUMN_EVENT_NAME + " VARCHAR"
                 + ", " + DataConfig.COLUMN_EVENT_ISDRAFT + " VARCHAR"
                 + ", " + DataConfig.COLUMN_EVENT_ISDONE + " VARCHAR"

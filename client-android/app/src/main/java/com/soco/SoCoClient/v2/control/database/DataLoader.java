@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.model.Contact;
+import com.soco.SoCoClient.v2.model.Event;
 import com.soco.SoCoClient.v2.model.Message;
 import com.soco.SoCoClient.v2.model.Task;
 
@@ -40,6 +41,22 @@ public class DataLoader {
 
         Log.d(tag, tasks.size() + " tasks loaded from database");
         return tasks;
+    }
+
+    public ArrayList<Event> loadEvents(){
+        Log.v(tag, "load all event from db");
+        String query = "select * from " + DataConfig.TABLE_EVENT;
+        Cursor cursor = db.rawQuery(query, null);
+
+        ArrayList<Event> events = new ArrayList<>();
+        while(cursor.moveToNext()){
+            Event e = new Event(cursor);
+            Log.d(tag, "load event from db: " + e.toString());
+            events.add(e);
+        }
+
+        Log.d(tag, events.size() + " events loaded from db");
+        return events;
     }
 
     public ArrayList<Task> loadInactiveTasks(){

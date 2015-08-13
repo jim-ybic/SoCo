@@ -40,7 +40,7 @@ import java.util.Map;
 
 public class FragmentChats extends Fragment implements View.OnClickListener {
 
-    String tag = "ContactsFragment";
+    String tag = "FragmentChats";
     View rootView;
 
 //    int pid;

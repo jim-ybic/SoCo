@@ -120,13 +120,13 @@ public class ActivityUtil {
         Log.d(tag, "grouping project by tag");
         HashMap<String, ArrayList<Activity>> map = new HashMap<String, ArrayList<Activity>>();
         for(Activity p : activities){
-            Log.d(tag, "processing project " + p.pname + " with tag " + p.ptag);
+            Log.v(tag, "processing project " + p.pname + " with tag " + p.ptag);
             String tag = p.ptag;
             if (map.containsKey(tag)) {
-                Log.d(tag, "Add " + p.pname + " into existing group " + tag);
+                Log.v(tag, "Add " + p.pname + " into existing group " + tag);
                 map.get(tag).add(p);
             } else {
-                Log.d(tag, "Create new group " + p.ptag + " for " + p.pname);
+                Log.v(tag, "Create new group " + p.ptag + " for " + p.pname);
                 ArrayList<Activity> pp = new ArrayList<Activity>();
                 pp.add(p);
                 map.put(tag, pp);

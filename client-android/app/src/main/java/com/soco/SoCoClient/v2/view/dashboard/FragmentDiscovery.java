@@ -19,7 +19,7 @@ import com.soco.SoCoClient.v2.view.config.ProfileActivity;
 
 public class FragmentDiscovery extends Fragment implements View.OnClickListener {
 
-    String tag = "DiscoveryFragment";
+    String tag = "FragmentDiscovery";
     View rootView;
 
     int pid, pid_onserver;

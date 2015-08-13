@@ -10,7 +10,8 @@ public class DataConfig {
     public static final String COLUMN_TASK_ISTASKACTIVE = "isTaskActive";
 
     public static final String TABLE_EVENT = "event";
-    public static final String COLUMN_EVENT_ID = "id";
+    public static final String COLUMN_EVENT_SEQ = "seq";
+    public static final String COLUMN_EVENT_ID = "id";    //global id
     public static final String COLUMN_EVENT_NAME = "name";
     public static final String COLUMN_EVENT_ISDRAFT = "isdraft";
     public static final String COLUMN_EVENT_ISDONE = "isdone";

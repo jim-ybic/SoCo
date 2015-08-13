@@ -142,9 +142,9 @@ public class LoginActivity extends ActionBarActivity {
             profile.setLoginPassword(this, loginPassword);
             Log.i(tag, "Save to profile login email/password: " + loginEmail + "/" + loginPassword);
 
-            //start heartbeat service
-            Intent iHeartbeat = new Intent(this, HeartbeatService.class);
-            startService(iHeartbeat);
+            //start heartbeat service - comment for testing
+//            Intent iHeartbeat = new Intent(this, HeartbeatService.class);
+//            startService(iHeartbeat);
 
             Toast.makeText(getApplicationContext(), "Hello, " + nickname,
                     Toast.LENGTH_SHORT).show();
