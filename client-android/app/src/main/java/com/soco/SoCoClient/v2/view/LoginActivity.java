@@ -24,9 +24,9 @@ import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 
-public class LoginActivity3 extends ActionBarActivity {
+public class LoginActivity extends ActionBarActivity {
 
-    public static String tag = "LoginActivity3";
+    public static String tag = "LoginActivity";
 
     public static String FLAG_EXIT = "exit";
     public String SOCO_SERVER_IP = "192.168.0.104";
