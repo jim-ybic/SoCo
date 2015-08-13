@@ -18,14 +18,14 @@ public class DashboardTabsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int index) {
         Log.d(tag, "get item from index " + index);
         switch (index) {
-            case 0:
-                return new DashboardActivitiesFragment();
             case 1:
-                return new DashboardContactsFragment();
+                return new FragmentEvents();
             case 2:
-                return new DashboardCalendarFragment();
+                return new FragmentChats();
+            case 0:
+                return new FragmentStream();
             case 3:
-                return new DashboardMeFragment();
+                return new FragmentDiscovery();
         }
 
         return null;

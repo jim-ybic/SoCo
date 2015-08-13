@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:id="@+id/ll_sproject">-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Save"-->
+            <!--android:drawableLeft="@drawable/ic_action_save"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textSize="10dp"-->
+            <!--android:id="@+id/bt_save_project"/>-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Done"-->
+            <!--android:drawableLeft="@drawable/ic_action_done"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textSize="10dp"-->
+            <!--android:id="@+id/bt_finish_project"/>-->
+    <!--</LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:id="@+id/ll_sprojectname">
+        <TextView
+            android:id="@+id/et_spname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/abc_text_size_display_1_material"
+            android:text="New Event"
+            android:gravity="center_horizontal" />
+        <!--<TableLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+            <!--<TableRow >-->
+                <!--<TextView-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:text="Details: " />-->
+                <!--<Button-->
+                    <!--android:id="@+id/bt_spdetails"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="HIDE"-->
+                    <!--android:onClick="detailsShowHide"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:textSize="10dp"/>-->
+                <!--<TextView-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:text="\tUpdates: " />-->
+                <!--<Button-->
+                    <!--android:id="@+id/bt_spupdates"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="HIDE"-->
+                    <!--android:onClick="updatesShowHide"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:textSize="10dp"/>-->
+            <!--</TableRow>-->
+        <!--</TableLayout>-->
+    </LinearLayout>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@id/sv_sproject"
+        android:layout_below="@id/ll_sproject">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--<EditText-->
+            <!--android:id="@+id/et_spname"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="@dimen/abc_text_size_display_1_material"-->
+            <!--android:hint="Name not set" />-->
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TableRow>
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <Button
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:textSize="10dp"
+                            android:drawableTop="@drawable/ic_action_user"/>
+                        <TextView
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:text="Jim"
+                            android:gravity="center_horizontal"/>
+                    </LinearLayout>
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <Button
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:textSize="10dp"
+                            android:drawableTop="@drawable/ic_action_new"/>
+                    </LinearLayout>
+                </TableRow>
+            </TableLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="TITLE" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="e.g. Group Outing / Wedding Plan "/>
+        </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="DESCRIPTION" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Type in the details of the event"/>
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="TIME &amp; DATE" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Set up a time"/>
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="LOCATION" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Add a location"/>
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="UPLOAD FILES" />
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:textSize="10dp"
+                    android:drawableTop="@drawable/ic_action_new"/>
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="MORE OPTIONS" />
+                <Button
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:textSize="10dp"
+                    android:text="..."/>
+            </LinearLayout>
+
+             <!--<TableLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<TableRow-->
+                    <!--android:id="@+id/tr_spdatetime" >-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_spdate"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:text="Date: " />-->
+                    <!--<EditText-->
+                        <!--android:id="@+id/et_spdate"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="Click to set Date"-->
+                        <!--android:onClick="clickDate"/>-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_sptime"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:text="\tTime: " />-->
+                    <!--<EditText-->
+                        <!--android:id="@+id/et_sptime"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="Click to set time"-->
+                        <!--android:onClick="clickTime"/>-->
+                <!--</TableRow>-->
+            <!--</TableLayout>-->
+
+            <!--<TableLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal" >-->
+                <!--<TableRow-->
+                    <!--android:id="@+id/tr_splocation" >-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_splocname"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="Location: " />-->
+                    <!--<EditText-->
+                        <!--android:id="@+id/et_splocation"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="Click to set location"/>-->
+                    <!--<Button-->
+                        <!--android:id="@+id/bt_splocation"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Map"-->
+                        <!--android:onClick="showLocationDetails"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:textSize="10dp"/>-->
+                <!--</TableRow>-->
+            <!--</TableLayout>-->
+
+
+
+            <!--<TableLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<TableRow-->
+                    <!--android:id="@+id/tr_spphone">-->
+                    <!--<TextView-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:text="Phone: " />-->
+                    <!--<AutoCompleteTextView-->
+                        <!--android:id="@+id/et_spphone_auto"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:hint="Click to set phone number"-->
+                        <!--android:inputType="phone" />-->
+                    <!--<ImageButton-->
+                        <!--android:id="@+id/bt_call"-->
+                        <!--android:src="@drawable/ic_action_call"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:onClick="call"-->
+                        <!--android:textSize="10dp"/>-->
+                <!--</TableRow>-->
+                <!--<TableRow-->
+                    <!--android:id="@+id/tr_spemail">-->
+                    <!--<TextView-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:text="Email: " />-->
+                    <!--<AutoCompleteTextView-->
+                        <!--android:id="@+id/et_spemail_auto"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:hint="Click to set email address"-->
+                        <!--android:inputType="textEmailAddress"  />-->
+                    <!--<ImageButton-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:src="@drawable/ic_action_mail"-->
+                        <!--android:onClick="email"-->
+                        <!--android:textSize="10dp"-->
+                        <!--android:id="@+id/bt_email"/>-->
+                <!--</TableRow>-->
+            <!--</TableLayout>-->
+
+            <!--<TableLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<TableRow>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="Shared Files: "/>-->
+                    <!--<Button-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Detail"-->
+                        <!--android:onClick="sharedFileDetails"-->
+                        <!--android:textSize="10dp"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:id="@+id/bt_shared_file_details"/>-->
+                <!--</TableRow>-->
+                <!--<TableRow>-->
+                    <!--<TextView-->
+                        <!--android:id="@id/tv_shared_file_summary"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="No shared file found"-->
+                        <!--android:layout_weight="1"/>-->
+                <!--</TableRow>-->
+            <!--</TableLayout>-->
+
+            <!--<TableLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<TableRow-->
+                    <!--android:id="@+id/tr_sptag">-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_sptag"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:text="Tag: " />-->
+                    <!--<EditText-->
+                        <!--android:id="@+id/et_sptag"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="Click to set tag"/>-->
+                <!--</TableRow>-->
+            <!--</TableLayout>-->
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:id="@+id/sv_supdates"-->
+        <!--android:layout_below="@+id/ll_supdates">-->
+
+        <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Updates: "/>-->
+
+        <!--</LinearLayout>-->
+    <!--</ScrollView>-->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10dp"
+            android:text="Save Changes"/>
+    </LinearLayout>
+
+</LinearLayout>

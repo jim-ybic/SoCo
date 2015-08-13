@@ -19,6 +19,8 @@ public class TestEntryScreen extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_entry_screen);
+
+        dev(null);  //quick dev mode
     }
 
     @Override

@@ -25,6 +25,13 @@ public class DbHelper extends SQLiteOpenHelper {
                 + ", " + DataConfig.COLUMN_TASK_ISTASKACTIVE + " INTEGER"
                 + ")");
 
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_EVENT + " ("
+                + DataConfig.COLUMN_EVENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                + ", " + DataConfig.COLUMN_EVENT_NAME + " VARCHAR"
+                + ", " + DataConfig.COLUMN_EVENT_ISDRAFT + " VARCHAR"
+                + ", " + DataConfig.COLUMN_EVENT_ISDONE + " VARCHAR"
+                + ")");
+
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_ATTRIBUTE + " ("
                 + DataConfig.COLUMN_ATTRIBUTE_ATTRIDLOCAL + " INTEGER PRIMARY KEY AUTOINCREMENT"
                 + ", " + DataConfig.COLUMN_ATTRIBUTE_ATTRIDSERVER + " INTEGER"

@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DashboardContactsFragment extends Fragment implements View.OnClickListener {
+public class FragmentChats extends Fragment implements View.OnClickListener {
 
     String tag = "ContactsFragment";
     View rootView;
@@ -66,7 +66,7 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
                              Bundle savedInstanceState) {
 
         Log.d(tag, "create project members fragment view.....");
-        rootView = inflater.inflate(R.layout.v1_fragment_dashboard_contacts, container, false);
+        rootView = inflater.inflate(R.layout.fragment_chats, container, false);
 
         ((ListView)rootView.findViewById(R.id.listview_contacts)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")

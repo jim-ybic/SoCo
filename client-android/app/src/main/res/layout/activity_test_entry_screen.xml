@@ -12,6 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="10dp"
-        android:text="Test"
+        android:text="Test: event detail"
         android:onClick="test"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:text="Test: new event"
+        android:onClick="test"/>
+
 </LinearLayout>

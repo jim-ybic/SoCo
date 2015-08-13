@@ -12,7 +12,7 @@ public class TestEventDetail extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.v2_fragment_event_details);
+        setContentView(R.layout.v2_event_details);
     }
 
     @Override

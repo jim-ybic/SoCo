@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
 
-public class DashboardCalendarFragment extends Fragment implements View.OnClickListener {
+public class FragmentStream extends Fragment implements View.OnClickListener {
 
-    String tag = "CalendarFragment";
+    String tag = "StreamFragment";
     View rootView;
 
     int pid, pid_onserver;
@@ -36,11 +36,8 @@ public class DashboardCalendarFragment extends Fragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.d(tag, "create calendar fragment view");
-        rootView = inflater.inflate(R.layout.v1_fragment_dashboard_calendar, container, false);
-
-//        rootView.findViewById(R.id.bt_add).setOnClickListener(this);
-//        listMembers();
+        Log.d(tag, "create stream fragment view");
+        rootView = inflater.inflate(R.layout.fragment_stream, container, false);
 
         return rootView;
     }

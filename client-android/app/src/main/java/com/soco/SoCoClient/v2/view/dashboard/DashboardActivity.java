@@ -21,7 +21,7 @@ public class DashboardActivity extends ActionBarActivity implements
     private android.support.v7.app.ActionBar actionBar;
 
     // Tab titles
-    private String[] tabs = {"Activities" , "Contacts", "Calendar", "@me"};
+    private String[] tabs = {"Stream", "Events" , "Chats", "Discovery"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,45 +29,31 @@ public class DashboardActivity extends ActionBarActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.v1_activity_dashboard);
 
-        // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);
 
-//        actionBar = getActionBar();
         actionBar = getSupportActionBar();
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        getSupportActionBar().setDisplayShowHomeEnabled(false);
-
         if(actionBar == null){
             Log.e(tag, "Cannot get action bar object");
             return;
         }
 
-//        mAdapter = new SingleProjectTabsPagerAdapter(getSupportFragmentManager());
         mAdapter = new DashboardTabsPagerAdapter(getSupportFragmentManager());
-        Log.i(tag, "Get mAdapter");
-
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        // Adding Tabs
         Log.d(tag, "Adding tabs");
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)
                     .setTabListener(this));
         }
 
-        Log.d(tag, "Set listener");
-        /**
-         * on swiping the viewpager make respective tab selected
-         * */
+        Log.v(tag, "Set listener");
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
-                // on changing the page
-                // make respected tab selected
-                Log.d(tag, "position is " + position);
+                Log.v(tag, "position is " + position);
                 actionBar.setSelectedNavigationItem(position);
             }
 

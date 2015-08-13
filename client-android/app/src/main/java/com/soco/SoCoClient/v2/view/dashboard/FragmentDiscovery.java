@@ -17,9 +17,9 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.v2.view.config.ProfileActivity;
 
-public class DashboardMeFragment extends Fragment implements View.OnClickListener {
+public class FragmentDiscovery extends Fragment implements View.OnClickListener {
 
-    String tag = "MeFragment";
+    String tag = "DiscoveryFragment";
     View rootView;
 
     int pid, pid_onserver;
@@ -41,11 +41,8 @@ public class DashboardMeFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.d(tag, "create calendar fragment view");
-        rootView = inflater.inflate(R.layout.v1_fragment_dashboard_me, container, false);
-
-//        rootView.findViewById(R.id.bt_add).setOnClickListener(this);
-//        listMembers();
+        Log.d(tag, "create discovery fragment view");
+        rootView = inflater.inflate(R.layout.fragment_discovery, container, false);
 
         return rootView;
     }
