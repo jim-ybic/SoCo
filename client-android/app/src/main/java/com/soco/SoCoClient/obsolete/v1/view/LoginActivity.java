@@ -19,9 +19,9 @@ import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
 import com.soco.SoCoClient.obsolete.v1.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.LoginTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.RegisterTaskAsync;
-import com.soco.SoCoClient.obsolete.v1.control.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.view.config.ServerConfigActivity;
-import com.soco.SoCoClient.obsolete.v1.view.dashboard.DashboardActivity;
+import com.soco.SoCoClient.v2.control.config.SocoApp;
+import com.soco.SoCoClient.v2.view.config.ServerConfigActivity;
+import com.soco.SoCoClient.v2.view.dashboard.DashboardActivity;
 import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 

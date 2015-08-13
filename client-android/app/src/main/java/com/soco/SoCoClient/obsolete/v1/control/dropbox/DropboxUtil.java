@@ -11,8 +11,10 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
-import com.soco.SoCoClient.obsolete.v1.control.util.FileUtils;
-import com.soco.SoCoClient.obsolete.v1.control.util.SignatureUtil;
+import com.soco.SoCoClient.v2.control.util.FileUtils;
+import com.soco.SoCoClient.v2.control.util.SignatureUtil;
+import com.soco.SoCoClient.v2.control.dropbox.DownloaderTask;
+import com.soco.SoCoClient.v2.control.dropbox.UploaderTask;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;

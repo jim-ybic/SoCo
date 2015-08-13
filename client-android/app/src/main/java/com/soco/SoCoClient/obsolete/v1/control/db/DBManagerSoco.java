@@ -11,10 +11,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
-import com.soco.SoCoClient.obsolete.v1.control.SocoApp;
 import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.obsolete.v1.control.util.SignatureUtil;
+import com.soco.SoCoClient.v2.control.config.SocoApp;
+import com.soco.SoCoClient.v2.control.util.SignatureUtil;
 import com.soco.SoCoClient.obsolete.v1.model.Activity;
 import com.soco.SoCoClient.obsolete.v1.model.Folder;
 

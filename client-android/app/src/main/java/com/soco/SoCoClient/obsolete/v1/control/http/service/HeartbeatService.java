@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.util.Log;
 
-import com.soco.SoCoClient.obsolete.v1.control.SocoApp;
+import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
@@ -14,7 +14,7 @@ import com.soco.SoCoClient.obsolete.v1.control.http.HttpUtil;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.GetActivityEventTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.JoinActivityByInviteTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.RetrieveMessageTaskAsync;
-import com.soco.SoCoClient.obsolete.v1.control.util.SignatureUtil;
+import com.soco.SoCoClient.v2.control.util.SignatureUtil;
 import com.soco.SoCoClient.obsolete.v1.model.Activity;
 import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;

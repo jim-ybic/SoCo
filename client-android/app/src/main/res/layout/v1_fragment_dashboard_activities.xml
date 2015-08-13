@@ -14,8 +14,10 @@
                 android:id="@+id/et_quickadd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Quick Add New Activity"
-                android:layout_weight="1"/>
+                android:hint="Quick Add New Event"
+                android:layout_weight="1"
+                android:autoText="true"
+                android:textColor="#232323" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
