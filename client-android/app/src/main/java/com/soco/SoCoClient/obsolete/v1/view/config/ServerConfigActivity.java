@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.obsolete.v1.control.SocoApp;
+import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 
@@ -39,8 +40,8 @@ public class ServerConfigActivity extends ActionBarActivity {
     }
 
     private void loadServerProperties(){
-        et_servip.setText(profile.getServerIp(this));
-        et_servport.setText(profile.getServerPort(this));
+        et_servip.setText(UrlUtil.getServerIp(this));
+        et_servport.setText(UrlUtil.getServerPort(this));
 
         Log.i(tag, "Load server config: "
                 + et_servip.getText().toString() + ", "
@@ -53,8 +54,8 @@ public class ServerConfigActivity extends ActionBarActivity {
     }
 
     public void save (View view){
-        profile.setServerIp(this, et_servip.getText().toString());
-        profile.setServerPort(this, et_servport.getText().toString());
+        UrlUtil.setServerIp(this, et_servip.getText().toString());
+        UrlUtil.setServerPort(this, et_servport.getText().toString());
 
         Log.i(tag, "Save server config: "
                 + et_servip.getText().toString() + ", "

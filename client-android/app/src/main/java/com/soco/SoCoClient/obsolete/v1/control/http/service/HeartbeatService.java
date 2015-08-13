@@ -16,6 +16,7 @@ import com.soco.SoCoClient.obsolete.v1.control.http.task.JoinActivityByInviteTas
 import com.soco.SoCoClient.obsolete.v1.control.http.task.RetrieveMessageTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.util.SignatureUtil;
 import com.soco.SoCoClient.obsolete.v1.model.Activity;
+import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 import org.json.JSONArray;
@@ -98,7 +99,7 @@ public class HeartbeatService extends Service {
             Log.e(tag, "Cannot create request");
             e.printStackTrace();
         }
-        String url = profile.getHeartbeatUrl(getApplicationContext());
+        String url = UrlUtil.getHeartbeatUrl(getApplicationContext());
         Log.d(tag, "Sending heartbeat to " + url);
 
         return HttpUtil.executeHttpPost(url, data);
@@ -146,7 +147,7 @@ public class HeartbeatService extends Service {
             String status = json.getString(HttpConfig.JSON_KEY_ACTIVITY_EVENT);
             Log.i(tag, "new activity event status: " + status + " (must be true)");
 
-            String url = profile.getGetActivityEventUrl(getApplicationContext());
+            String url = UrlUtil.getGetActivityEventUrl(getApplicationContext());
             GetActivityEventTaskAsync task = new GetActivityEventTaskAsync(
                     url, getApplicationContext());
             task.execute();
@@ -164,7 +165,7 @@ public class HeartbeatService extends Service {
             String status = json.getString(HttpConfig.JSON_KEY_MESSAGE);
             Log.i(tag, "new message status: " + status);
             //retrieve message
-            String url = profile.getRetrieveMessageUrl(getApplicationContext());
+            String url = UrlUtil.getRetrieveMessageUrl(getApplicationContext());
             RetrieveMessageTaskAsync task = new RetrieveMessageTaskAsync(
                     url, getApplicationContext());
             task.execute();
@@ -208,7 +209,7 @@ public class HeartbeatService extends Service {
                 Log.i(tag, "New project added to database, pid_onserver is " + pid_onserver);
 
                 //retrieve project details
-                String url = profile.getJoinProjectByInviteUrl(getApplicationContext());
+                String url = UrlUtil.getJoinProjectByInviteUrl(getApplicationContext());
                 JoinActivityByInviteTaskAsync task = new JoinActivityByInviteTaskAsync(
                         url, String.valueOf(pid), pid_onserver,
                         getApplicationContext(), inviterEmail);

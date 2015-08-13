@@ -23,6 +23,7 @@ import com.soco.SoCoClient.obsolete.v1.control.util.SignatureUtil;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.EntryItem;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.Item;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.SectionEntryListAdapter;
+import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 import java.util.ArrayList;
@@ -141,7 +142,7 @@ public class ContactDetailsActivity extends ActionBarActivity {
         Toast.makeText(getApplicationContext(), "Message sent",
                 Toast.LENGTH_SHORT).show();
 
-        String url = profile.getSendMessageUrl(this);
+        String url = UrlUtil.getSendMessageUrl(this);
         String ownEmail = socoApp.loginEmail;
         Log.i(tag, "send message to server: " + "from " + ownEmail + ", to " + email);
         Log.i(tag, "send message to server: " + message);

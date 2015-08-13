@@ -22,6 +22,7 @@ import com.soco.SoCoClient.obsolete.v1.control.http.task.RegisterTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.SocoApp;
 import com.soco.SoCoClient.obsolete.v1.view.config.ServerConfigActivity;
 import com.soco.SoCoClient.obsolete.v1.view.dashboard.DashboardActivity;
+import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 
@@ -126,7 +127,7 @@ public class LoginActivity extends ActionBarActivity {
 //                    loginEmail, loginPassword, getApplicationContext(),
 //                    null, null, null, null, null);
 //            loginTask.execute();
-            String url = profile.getLoginUrl(getApplicationContext());
+            String url = UrlUtil.getLoginUrl(getApplicationContext());
             LoginTaskAsync task = new LoginTaskAsync(loginEmail, loginPassword, url,
                     getApplicationContext());
             task.execute();
@@ -181,7 +182,7 @@ public class LoginActivity extends ActionBarActivity {
 //                null, null, null, null, null);
 //        registerTask.execute();
         Context context = getApplicationContext();
-        String url = profile.getRegisterUrl(context);
+        String url = UrlUtil.getRegisterUrl(context);
         RegisterTaskAsync task = new RegisterTaskAsync(loginEmail, loginPassword, url, context);
         task.execute();
 

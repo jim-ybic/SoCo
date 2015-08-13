@@ -15,6 +15,7 @@ import com.soco.SoCoClient.obsolete.v1.control.http.task.SetActivityAttributeTas
 import com.soco.SoCoClient.obsolete.v1.control.http.task.UpdateActivityNameTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.model.Folder;
 import com.soco.SoCoClient.obsolete.v1.model.Activity;
+import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class ActivityUtil {
 //
 //        createProjectTask.execute();
         Profile profile = ((SocoApp)context).profile;
-        String url = profile.getCreateProjectUrl(context);
+        String url = UrlUtil.getCreateProjectUrl(context);
         CreateActivityTaskAsync task = new CreateActivityTaskAsync(
                 url, pname, pid, context,
                 projectSignature, projectTag, projectType);
@@ -68,7 +69,7 @@ public class ActivityUtil {
 //                null, null, context, null, pid, pid_onserver, null, null);
 //        archiveProjectTask.execute();
         Profile profile = ((SocoApp)context).profile;
-        String url = profile.getArchiveProjectUrl(context);
+        String url = UrlUtil.getArchiveProjectUrl(context);
         ArchiveActivityTaskAsync task = new ArchiveActivityTaskAsync(
                 url, pid_onserver);
         task.execute();
@@ -82,7 +83,7 @@ public class ActivityUtil {
 //                null, null, context, pname, pid, pid_onserver, null, null);
 //        archiveProjectTask.execute();
         Profile profile = ((SocoApp)context).profile;
-        String url = profile.getUpdateProjectNameUrl(context);
+        String url = UrlUtil.getUpdateProjectNameUrl(context);
         UpdateActivityNameTaskAsync task = new UpdateActivityNameTaskAsync(url, pname, pid_onserver);
         task.execute();
     }
@@ -98,7 +99,7 @@ public class ActivityUtil {
 //        setProjectAttributeTask.execute();
 
         Profile profile = ((SocoApp)context).profile;
-        String url = profile.getSetProjectAttributeUrl(context);
+        String url = UrlUtil.getSetProjectAttributeUrl(context);
         SetActivityAttributeTaskAsync task = new SetActivityAttributeTaskAsync(
                 url, pid_onserver, attrMap);
         task.execute();

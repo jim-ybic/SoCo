@@ -31,6 +31,7 @@ import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.EntryItem;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.Item;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.SectionEntryListAdapter;
 import com.soco.SoCoClient.obsolete.v1.view.contacts.ContactDetailsActivity;
+import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 import java.util.ArrayList;
@@ -134,7 +135,7 @@ public class DashboardContactsFragment extends Fragment implements View.OnClickL
 
         //todo: send invitation to server and save contact id onserver
         Log.d(tag, "send add friend request to server: " + email);
-        String url = profile.getAddFriendUrl(getActivity());
+        String url = UrlUtil.getAddFriendUrl(getActivity());
         AddFriendTaskAsync task = new AddFriendTaskAsync(url, email, getActivity().getApplicationContext());
         task.execute();
 

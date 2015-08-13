@@ -13,6 +13,7 @@ import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.AddFileToActivityTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.util.ActivityUtil;
 import com.soco.SoCoClient.obsolete.v1.control.util.FileUtils;
+import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 
@@ -81,7 +82,7 @@ public class UploaderWatcher extends IntentService {
             Toast.makeText(this, "File upload success", Toast.LENGTH_SHORT).show();
 
             Log.d(tag, "send resource details to server");
-            String url = profile.getAddFileToActivityUrl(getApplicationContext());
+            String url = UrlUtil.getAddFileToActivityUrl(getApplicationContext());
             String displayName = FileUtils.getDisplayName(cr, uri);
             String remotePath = DropboxUtil.getRemotePath(uri,
                     loginEmail, loginPassword, pid, cr);

@@ -7,6 +7,7 @@ import android.util.Log;
 import com.soco.SoCoClient.obsolete.v1.control.SocoApp;
 import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
 import com.soco.SoCoClient.obsolete.v1.control.http.HttpUtil;
+import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 import org.json.JSONObject;
@@ -78,7 +79,7 @@ public class AddFriendTaskAsync extends AsyncTask<Void, Void, Boolean> {
                 Log.i(tag, "Server parse: " + HttpConfig.JSON_VALUE_RESPONSE_STATUS_SUCCESS);
 
                 Log.i(tag, "send query user request to server");
-                String url = profile.getQueryUserUrl(context);
+                String url = UrlUtil.getQueryUserUrl(context);
                 QueryUserTaskAsync task = new QueryUserTaskAsync(url, context, email);
                 task.execute();
 

@@ -12,6 +12,7 @@ import com.soco.SoCoClient.obsolete.v1.control.util.SignatureUtil;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.SectionEntryListAdapter;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.EntryItem;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.Item;
+import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 import android.os.Bundle;
@@ -127,7 +128,7 @@ public class ActivityUpdatesFragment extends Fragment implements View.OnClickLis
         Toast.makeText(getActivity().getApplicationContext(), "Comment added",
                 Toast.LENGTH_SHORT).show();
 
-        String url = profile.getSendMessageUrl(getActivity());
+        String url = UrlUtil.getSendMessageUrl(getActivity());
         SendMessageTaskAsync task = new SendMessageTaskAsync(url,
                 HttpConfig.MESSAGE_FROM_TYPE_1, email,
                 HttpConfig.MESSAGE_TO_TYPE_2, String.valueOf(pid_onserver),

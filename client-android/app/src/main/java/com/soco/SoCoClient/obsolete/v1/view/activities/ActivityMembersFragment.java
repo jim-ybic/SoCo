@@ -28,6 +28,7 @@ import com.soco.SoCoClient.obsolete.v1.control.http.task.InviteActivityMemberTas
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.SectionEntryListAdapter;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.EntryItem;
 import com.soco.SoCoClient.obsolete.v1.view.common.sectionlist.Item;
+import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class ActivityMembersFragment extends Fragment implements View.OnClickLis
     }
 
     public void add(String email, String nickname){
-        String url = profile.getInviteProjectMemberUrl(getActivity());
+        String url = UrlUtil.getInviteProjectMemberUrl(getActivity());
 //        String email = ((EditText) rootView.findViewById(R.id.et_add_member)).getText().toString();
         InviteActivityMemberTaskAsync httpTask = new InviteActivityMemberTaskAsync(
                         url,

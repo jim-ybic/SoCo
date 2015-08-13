@@ -9,6 +9,7 @@ import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
 import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
 import com.soco.SoCoClient.obsolete.v1.control.http.HttpUtil;
+import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 import org.json.JSONArray;
@@ -129,7 +130,7 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
                     }
 
                     Log.d(tag, "send ack to server");
-                    String url = profile.getAckRetrieveMessageUrl(context);
+                    String url = UrlUtil.getAckRetrieveMessageUrl(context);
                     AckRetrieveMessageTaskAsync task = new AckRetrieveMessageTaskAsync(
                             url, signature);
                     task.execute();
