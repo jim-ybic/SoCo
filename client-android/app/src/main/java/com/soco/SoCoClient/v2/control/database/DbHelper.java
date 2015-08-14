@@ -8,7 +8,7 @@ import com.soco.SoCoClient.v2.control.config.DataConfig;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "socodb.v2.9";
+    public static String DATABASE_NAME = "socodb.v2.10";
     public static int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {
@@ -29,6 +29,10 @@ public class DbHelper extends SQLiteOpenHelper {
                 + DataConfig.COLUMN_EVENT_SEQ + " INTEGER PRIMARY KEY AUTOINCREMENT"
                 + ", " + DataConfig.COLUMN_EVENT_ID + " INTEGER"
                 + ", " + DataConfig.COLUMN_EVENT_NAME + " VARCHAR"
+                + ", " + DataConfig.COLUMN_EVENT_DESC + " VARCHAR"
+                + ", " + DataConfig.COLUMN_EVENT_DATE + " VARCHAR"
+                + ", " + DataConfig.COLUMN_EVENT_TIME + " VARCHAR"
+                + ", " + DataConfig.COLUMN_EVENT_LOCATION + " VARCHAR"
                 + ", " + DataConfig.COLUMN_EVENT_ISDRAFT + " VARCHAR"
                 + ", " + DataConfig.COLUMN_EVENT_ISDONE + " VARCHAR"
                 + ")");

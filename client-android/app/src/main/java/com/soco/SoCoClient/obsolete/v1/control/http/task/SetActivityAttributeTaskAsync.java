@@ -3,7 +3,7 @@ package com.soco.SoCoClient.obsolete.v1.control.http.task;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
+import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
 import com.soco.SoCoClient.obsolete.v1.control.http.HttpUtil;
 
@@ -67,8 +67,8 @@ public class SetActivityAttributeTaskAsync extends AsyncTask<Void, Void, Boolean
             for(HashMap.Entry<String, String> e : attrMap.entrySet()){
                 JSONObject attr = new JSONObject();
                 attr.put(HttpConfig.JSON_KEY_ATTRIBUTE_NAME, e.getKey());
-//                attr.put(HttpConfig.JSON_KEY_ATTRIBUTE_INDEX, DataConfig.INT_INDEX_1);
-                attr.put(HttpConfig.JSON_KEY_ATTRIBUTE_TYPE, DataConfig.TYPE_STRING);
+//                attr.put(HttpConfig.JSON_KEY_ATTRIBUTE_INDEX, DataConfigObs.INT_INDEX_1);
+                attr.put(HttpConfig.JSON_KEY_ATTRIBUTE_TYPE, DataConfigObs.TYPE_STRING);
                 attr.put(HttpConfig.JSON_KEY_ATTRIBUTE_VALUE, e.getValue());
                 attrArray.put(attr);
             }

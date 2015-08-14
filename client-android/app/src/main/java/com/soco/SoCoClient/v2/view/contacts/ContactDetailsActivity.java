@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
@@ -76,13 +76,13 @@ public class ContactDetailsActivity extends ActionBarActivity {
 
         ArrayList<Item> chatItems = new ArrayList<Item>();
         for(ArrayList<String> u : chatHistory){
-            String content = u.get(DataConfig.CHAT_INDEX_CONTENT);
-            String timestamp = u.get(DataConfig.CHAT_INDEX_TIMESTAMP);
-            String type = u.get(DataConfig.CHAT_INDEX_TYPE);
+            String content = u.get(DataConfigObs.CHAT_INDEX_CONTENT);
+            String timestamp = u.get(DataConfigObs.CHAT_INDEX_TIMESTAMP);
+            String type = u.get(DataConfigObs.CHAT_INDEX_TYPE);
             Log.d(tag, "get a chat: " + content + ", " + timestamp + ", " + type);
 
             String sender;
-            if(type.equals(String.valueOf(DataConfig.CHAT_TYPE_SEND)))
+            if(type.equals(String.valueOf(DataConfigObs.CHAT_TYPE_SEND)))
                 sender = socoApp.loginEmail;
             else
                 sender = email;
@@ -138,7 +138,7 @@ public class ContactDetailsActivity extends ActionBarActivity {
         EditText et_message = (EditText)findViewById(R.id.message);
         String message = et_message.getText().toString();
         Log.i(tag, "add message into database: " + message);
-        dbManagerSoco.addMessage(contactId, message, DataConfig.CHAT_TYPE_SEND);
+        dbManagerSoco.addMessage(contactId, message, DataConfigObs.CHAT_TYPE_SEND);
         Toast.makeText(getApplicationContext(), "Message sent",
                 Toast.LENGTH_SHORT).show();
 

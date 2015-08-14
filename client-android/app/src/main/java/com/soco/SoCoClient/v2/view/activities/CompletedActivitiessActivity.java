@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
+import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
@@ -46,7 +46,7 @@ public class CompletedActivitiessActivity extends ActionBarActivity {
         loginPassword = intent.getStringExtra(GeneralConfig.LOGIN_PASSWORD);
 
         dbmgrSoco = new DBManagerSoco(this);
-        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_INACTIVE);
+        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigObs.VALUE_ACTIVITY_INACTIVE);
 
         listProjects(lv_inactive_projects, activities);
 
@@ -67,9 +67,9 @@ public class CompletedActivitiessActivity extends ActionBarActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 int pid = ActivityUtil.findPidByPname(activities, name);
                                 dbmgrSoco.updateActivityActiveness(pid,
-                                        DataConfig.VALUE_ACTIVITY_ACTIVE);
+                                        DataConfigObs.VALUE_ACTIVITY_ACTIVE);
                                 activities = dbmgrSoco.loadActivitiessByActiveness(
-                                        DataConfig.VALUE_ACTIVITY_INACTIVE);
+                                        DataConfigObs.VALUE_ACTIVITY_INACTIVE);
                                 listProjects(lv_inactive_projects, activities);
                             }
                         })
@@ -79,7 +79,7 @@ public class CompletedActivitiessActivity extends ActionBarActivity {
                                 int pid = ActivityUtil.findPidByPname(activities, name);
                                 dbmgrSoco.deleteActivityByPid(pid);
                                 activities = dbmgrSoco.loadActivitiessByActiveness(
-                                        DataConfig.VALUE_ACTIVITY_INACTIVE);
+                                        DataConfigObs.VALUE_ACTIVITY_INACTIVE);
                                 listProjects(lv_inactive_projects, activities);
                             }
                         })

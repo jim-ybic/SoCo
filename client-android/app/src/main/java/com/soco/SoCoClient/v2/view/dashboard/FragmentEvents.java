@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-//import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
+//import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
@@ -44,7 +44,6 @@ import com.soco.SoCoClient.v2.view.activities.CompletedActivitiessActivity;
 import com.soco.SoCoClient.v2.view.event.EventDetail;
 import com.soco.SoCoClient.v2.view.sectionlist.FolderItem;
 import com.soco.SoCoClient.v2.view.config.ProfileActivity;
-import com.soco.SoCoClient.v2.view.activities.SingleActivityActivity;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionEntryListAdapter;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
@@ -92,7 +91,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
         dbmgrSoco = socoApp.dbManagerSoco;
 //        dbmgrSoco.context = getActivity().getApplicationContext();
 //        socoApp.dbManagerSoco = dbmgrSoco;
-//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigObs.VALUE_ACTIVITY_ACTIVE);
         activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
         folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
 
@@ -157,7 +156,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
 
                     //new fragment-based activity
 //                    Intent i = new Intent(view.getContext(), SingleActivityActivity.class);
-//                    startActivityForResult(i, com.soco.SoCoClient.v2.control.config.DataConfig.INTENT_SHOW_EVENT_DETAIL);
+//                    startActivityForResult(i, com.soco.SoCoClient.v2.control.config.DataConfigObs.INTENT_SHOW_EVENT_DETAIL);
 
 
 
@@ -247,10 +246,10 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 //        switch (requestCode) {
-//            case com.soco.SoCoClient.v2.control.config.DataConfig.INTENT_SHOW_EVENT_DETAIL: {
+//            case com.soco.SoCoClient.v2.control.config.DataConfigObs.INTENT_SHOW_EVENT_DETAIL: {
 //                Log.i(tag, "return from event details");
 //                Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
-//                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+//                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigObs.VALUE_ACTIVITY_ACTIVE);
 //                activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
 //                refreshList();
 //                events = dataLoader.loadEvents();
@@ -318,7 +317,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
 //                ActivityUtil.serverCreateActivity(name, getActivity().getApplicationContext(),
 //                        loginEmail, loginPassword, String.valueOf(pid),
 //                        p.getSignature(), p.getTag(), p.getType());
-////                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+////                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigObs.VALUE_ACTIVITY_ACTIVE);
 //                Log.d(tag, "add into active list and refresh UI");
 //                activities.add(p);
 //                refreshList();
@@ -406,7 +405,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
         allListItems = new ArrayList<>();
 
         for(Event e : events){
-            allListItems.add(new EntryItem(e.getName(), e.getInfo()));
+            allListItems.add(new EntryItem(e.getName(), e.getDesc()));
         }
 //        HashMap<String, String> tags = new HashMap<>();
 
@@ -419,7 +418,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
 //            allListItems.add(new SectionItem(tag));   //add section
 //            for(Activity p : pp) {  //add activity
 //                //fix Bug #4 new activity created from invitation has delay in showing activity title
-//                if(p.invitation_status == DataConfig.ACTIVITY_INVITATION_STATUS_COMPLETE)
+//                if(p.invitation_status == DataConfigObs.ACTIVITY_INVITATION_STATUS_COMPLETE)
 //                    allListItems.add(new EntryItem(p.pname, p.getMoreInfo()));
 //                else
 //                    Log.d(tag, "skip showing project that pending invitation complete: " + p.pid);
@@ -467,7 +466,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
 //        Log.i(tag, "onResume start, reload active projects");
-//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
+//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigObs.VALUE_ACTIVITY_ACTIVE);
 //        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
 //        refreshList();
         events = dataLoader.loadEvents();

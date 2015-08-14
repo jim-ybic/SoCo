@@ -4,7 +4,7 @@ package com.soco.SoCoClient.obsolete.v1.model;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
+import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 
 public class Folder {
@@ -25,11 +25,11 @@ public class Folder {
     }
 
     public Folder(Cursor c) {
-        this.fid = c.getInt(c.getColumnIndex(DataConfig.COLUMN_FOLDER_ID));
-        this.fname = c.getString(c.getColumnIndex(DataConfig.COLUMN_FOLDER_NAME));
-        this.fdesc = c.getString(c.getColumnIndex(DataConfig.COLUMN_FOLDER_DESC));
-        this.ftag = c.getString(c.getColumnIndex(DataConfig.COLUMN_FOLDER_TAG));
-        this.fpath = c.getString(c.getColumnIndex(DataConfig.COLUMN_FOLDER_PATH));
+        this.fid = c.getInt(c.getColumnIndex(DataConfigObs.COLUMN_FOLDER_ID));
+        this.fname = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_FOLDER_NAME));
+        this.fdesc = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_FOLDER_DESC));
+        this.ftag = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_FOLDER_TAG));
+        this.fpath = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_FOLDER_PATH));
     }
 
 }

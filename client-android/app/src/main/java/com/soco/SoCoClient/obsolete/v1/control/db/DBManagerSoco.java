@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
+import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.v2.control.util.SignatureUtil;
@@ -19,7 +19,7 @@ import com.soco.SoCoClient.obsolete.v1.model.Activity;
 import com.soco.SoCoClient.obsolete.v1.model.Folder;
 
 public class DBManagerSoco {
-    private DBHelperSoco helper;
+    private DBHelperSocoObs helper;
     private SQLiteDatabase db;
     public Context context;
 
@@ -28,7 +28,7 @@ public class DBManagerSoco {
     public static String TEST_NOEMAIL = "test_noemail";
 
     public DBManagerSoco(Context context) {
-        helper = new DBHelperSoco(context);
+        helper = new DBHelperSocoObs(context);
         db = helper.getWritableDatabase();
     }
 
@@ -41,17 +41,17 @@ public class DBManagerSoco {
             Log.i(tag, "insert activity_user table entry: " + aid + ", " + userName);
 
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_AID, aid);
-            cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL, userEmail);
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_MEMBER_AID, aid);
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL, userEmail);
 
             if(userName != null && !userName.isEmpty())
-                cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME, userName);
+                cv.put(DataConfigObs.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME, userName);
             if(nickName != null && !nickName.isEmpty())
-                cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_NICKNAME, nickName);
+                cv.put(DataConfigObs.COLUMN_ACTIVITY_MEMBER_MEMBER_NICKNAME, nickName);
 
-            cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_STATUS, "");
-            cv.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP, "");
-            db.insert(DataConfig.TABLE_ACTIVITY_MEMBER, null, cv);
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_MEMBER_MEMBER_STATUS, "");
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP, "");
+            db.insert(DataConfigObs.TABLE_ACTIVITY_MEMBER, null, cv);
 
             db.setTransactionSuccessful();
         } finally {
@@ -63,15 +63,15 @@ public class DBManagerSoco {
         Log.d(tag, "get comments of activity " + aid);
         ArrayList<ArrayList<String>> comments = new ArrayList<>();
 
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ACTIVITY_UPDATES +
-                        " where " + DataConfig.COLUMN_ACTIVITY_UPDATES_AID + " = ?",
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_ACTIVITY_UPDATES +
+                        " where " + DataConfigObs.COLUMN_ACTIVITY_UPDATES_AID + " = ?",
                 new String[] {String.valueOf(aid)});
 
         String name, comment, timestamp;
         while (c.moveToNext()) {
-            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_UPDATES_USER));
-            comment = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_UPDATES_COMMENT));
-            timestamp = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_UPDATES_TIMESTAMP));
+            name = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_UPDATES_USER));
+            comment = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_UPDATES_COMMENT));
+            timestamp = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_UPDATES_TIMESTAMP));
             Log.d(tag, "Found user " + name + " and comment " + comment + " at " + timestamp);
             ArrayList<String> e = new ArrayList<>();
             e.add(name);
@@ -87,15 +87,15 @@ public class DBManagerSoco {
         Log.d(tag, "get members of project " + aid);
         HashMap<String, String> userNameEmail = new HashMap<>();
 
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ACTIVITY_MEMBER +
-                        " where " + DataConfig.COLUMN_ACTIVITY_MEMBER_AID + " = ?",
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_ACTIVITY_MEMBER +
+                        " where " + DataConfigObs.COLUMN_ACTIVITY_MEMBER_AID + " = ?",
                 new String[] {String.valueOf(aid)});
 
         String name, email;
         while (c.moveToNext()) {
-//            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME));
-            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_NICKNAME));
-            email = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL));
+//            name = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME));
+            name = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_MEMBER_MEMBER_NICKNAME));
+            email = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL));
             Log.d(tag, "Found user " + name + "/" + email);
             userNameEmail.put(email, name);
         }
@@ -114,26 +114,26 @@ public class DBManagerSoco {
 
             Log.i(tag, "Insert into db activity: " + p.pname + ", , "
 //                    + SignatureUtil.now() + ", " + SignatureUtil.now() + ", "
-//                    + SignatureUtil.genSHA1(p) + ", " + DataConfig.VALUE_ACTIVITY_ACTIVE + ", "
+//                    + SignatureUtil.genSHA1(p) + ", " + DataConfigObs.VALUE_ACTIVITY_ACTIVE + ", "
                     + p.pid_onserver + ", " + p.invitation_status
                     + ", " + p.path);
 
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_ACTIVITY_NAME, p.pname);
-            cv.put(DataConfig.COLUMN_ACTIVITY_CREATE_TIMESTAMP, SignatureUtil.now());
-            cv.put(DataConfig.COLUMN_ACTIVITY_UPDATE_TIMESTAMP, SignatureUtil.now());
-            cv.put(DataConfig.COLUMN_ACTIVITY_SIGNATURE, SignatureUtil.genSHA1(p));
-            cv.put(DataConfig.COLUMN_ACTIVITY_ACTIVE, DataConfig.VALUE_ACTIVITY_ACTIVE);
-            cv.put(DataConfig.COLUMN_ACTIVITY_ID_ONSERVER, p.pid_onserver);
-            cv.put(DataConfig.COLUMN_ACTIVITY_INVITATION_STATUS, p.invitation_status);
-            cv.put(DataConfig.COLUMN_ACTIVITY_TAG, p.ptag);
-            cv.put(DataConfig.COLUMN_ACTIVITY_PATH, p.path);
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_NAME, p.pname);
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_CREATE_TIMESTAMP, SignatureUtil.now());
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_UPDATE_TIMESTAMP, SignatureUtil.now());
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_SIGNATURE, SignatureUtil.genSHA1(p));
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_ACTIVE, DataConfigObs.VALUE_ACTIVITY_ACTIVE);
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_ID_ONSERVER, p.pid_onserver);
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_INVITATION_STATUS, p.invitation_status);
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_TAG, p.ptag);
+            cv.put(DataConfigObs.COLUMN_ACTIVITY_PATH, p.path);
 
-            db.insert(DataConfig.TABLE_ACTIVITY, null, cv);
+            db.insert(DataConfigObs.TABLE_ACTIVITY, null, cv);
 
             //get pid
-            String query = "SELECT MAX(" + DataConfig.COLUMN_ACTIVITY_ID
-                    + ") FROM " + DataConfig.TABLE_ACTIVITY;
+            String query = "SELECT MAX(" + DataConfigObs.COLUMN_ACTIVITY_ID
+                    + ") FROM " + DataConfigObs.TABLE_ACTIVITY;
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()){
                 do {
@@ -142,19 +142,19 @@ public class DBManagerSoco {
             }
 
 //            Log.i(tag, "insert activity_user table entry: " + pid + ", " + userEmail);
-//            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_MEMBER + " VALUES (" +
+//            db.execSQL("INSERT INTO " + DataConfigObs.TABLE_ACTIVITY_MEMBER + " VALUES (" +
 //                    "?, ?, ?, ?, ?, ?)", new Object[]{
 //                    pid, userEmail, userName,
 //                    "",
 //                    SignatureUtil.now(), ""});
             Log.i(tag, "insert into db activity members: " + pid + ", " + userEmail + ", " + userName);
             ContentValues cvMember = new ContentValues();
-            cvMember.put(DataConfig.COLUMN_ACTIVITY_MEMBER_AID, pid);
-            cvMember.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL, userEmail);
-            cvMember.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME, userName);
+            cvMember.put(DataConfigObs.COLUMN_ACTIVITY_MEMBER_AID, pid);
+            cvMember.put(DataConfigObs.COLUMN_ACTIVITY_MEMBER_MEMBER_EMAIL, userEmail);
+            cvMember.put(DataConfigObs.COLUMN_ACTIVITY_MEMBER_MEMBER_USERNAME, userName);
             //todo: add nickname
-            cvMember.put(DataConfig.COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP, SignatureUtil.now());
-            db.insert(DataConfig.TABLE_ACTIVITY_MEMBER, null, cvMember);
+            cvMember.put(DataConfigObs.COLUMN_ACTIVITY_MEMBER_MEMBER_JOIN_TIMESTAMP, SignatureUtil.now());
+            db.insert(DataConfigObs.TABLE_ACTIVITY_MEMBER, null, cvMember);
 
 
             db.setTransactionSuccessful();
@@ -168,9 +168,9 @@ public class DBManagerSoco {
 
     public void deleteActivityByPid(int pid){
         Log.i(tag, "Delete activity by pid: " + pid);
-        db.delete(DataConfig.TABLE_ACTIVITY, DataConfig.COLUMN_ACTIVITY_ID + " = ?",
+        db.delete(DataConfigObs.TABLE_ACTIVITY, DataConfigObs.COLUMN_ACTIVITY_ID + " = ?",
                 new String[]{String.valueOf(pid)});
-        db.delete(DataConfig.TABLE_ATTRIBUTE, DataConfig.COLUMN_ATTRIBUTE_PID + " = ?",
+        db.delete(DataConfigObs.TABLE_ATTRIBUTE, DataConfigObs.COLUMN_ATTRIBUTE_PID + " = ?",
                 new String[]{String.valueOf(pid)});
     }
 
@@ -178,10 +178,10 @@ public class DBManagerSoco {
         Log.i(tag, "Load projects which are: " + pactive);
         ArrayList<Activity> activities = new ArrayList<>();
 
-        Log.d(tag, "Query project: select * from " + DataConfig.TABLE_ACTIVITY
-                + " where " + DataConfig.COLUMN_ACTIVITY_ACTIVE + " = " + pactive);
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ACTIVITY +
-                        " where " + DataConfig.COLUMN_ACTIVITY_ACTIVE + " = ?",
+        Log.d(tag, "Query project: select * from " + DataConfigObs.TABLE_ACTIVITY
+                + " where " + DataConfigObs.COLUMN_ACTIVITY_ACTIVE + " = " + pactive);
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_ACTIVITY +
+                        " where " + DataConfigObs.COLUMN_ACTIVITY_ACTIVE + " = ?",
                 new String[]{pactive});
 
         while (c.moveToNext()) {
@@ -196,10 +196,10 @@ public class DBManagerSoco {
         Log.i(tag, "Load project for pid: " + pid);
         Activity p = null;
 
-        Log.d(tag, "Query project: select * from " + DataConfig.TABLE_ACTIVITY
-                + " where " + DataConfig.COLUMN_ACTIVITY_ID + " = " + pid);
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ACTIVITY +
-                        " where " + DataConfig.COLUMN_ACTIVITY_ID + " = ?",
+        Log.d(tag, "Query project: select * from " + DataConfigObs.TABLE_ACTIVITY
+                + " where " + DataConfigObs.COLUMN_ACTIVITY_ID + " = " + pid);
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_ACTIVITY +
+                        " where " + DataConfigObs.COLUMN_ACTIVITY_ID + " = ?",
                 new String[] {String.valueOf(pid)});
 
         while (c.moveToNext()) {
@@ -210,15 +210,15 @@ public class DBManagerSoco {
     }
 
     public int findLocalAidByServerAid(int aid_onserver){
-        Log.d(tag, "select * from " + DataConfig.TABLE_ACTIVITY
-                + " where " + DataConfig.COLUMN_ACTIVITY_ID_ONSERVER + " = " + aid_onserver);
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ACTIVITY +
-                        " where " + DataConfig.COLUMN_ACTIVITY_ID_ONSERVER + " = ?",
+        Log.d(tag, "select * from " + DataConfigObs.TABLE_ACTIVITY
+                + " where " + DataConfigObs.COLUMN_ACTIVITY_ID_ONSERVER + " = " + aid_onserver);
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_ACTIVITY +
+                        " where " + DataConfigObs.COLUMN_ACTIVITY_ID_ONSERVER + " = ?",
                 new String[] {String.valueOf(aid_onserver)});
 
         int aid = -1;
         while (c.moveToNext()){
-            aid = c.getInt(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ID));
+            aid = c.getInt(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_ID));
         }
 
         return aid;
@@ -233,16 +233,16 @@ public class DBManagerSoco {
         Log.i(tag, "Load project attributes for pid: " + pid);
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
 
-        Log.d(tag, "Query project attributes: select * from " + DataConfig.TABLE_ATTRIBUTE
-                + " where " + DataConfig.COLUMN_ATTRIBUTE_PID + " = " + pid);
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ATTRIBUTE +
-                        " where " + DataConfig.COLUMN_ATTRIBUTE_PID + " = ?",
+        Log.d(tag, "Query project attributes: select * from " + DataConfigObs.TABLE_ATTRIBUTE
+                + " where " + DataConfigObs.COLUMN_ATTRIBUTE_PID + " = " + pid);
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_ATTRIBUTE +
+                        " where " + DataConfigObs.COLUMN_ATTRIBUTE_PID + " = ?",
                 new String[]{String.valueOf(pid)});
 
         int count = 0;
         while (c.moveToNext()){
-            String attr_name = c.getString(c.getColumnIndex(DataConfig.COLUMN_ATTRIBUTE_NAME));
-            String attr_value = c.getString(c.getColumnIndex(DataConfig.COLUMN_ATTRIBUTE_VALUE));
+            String attr_name = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ATTRIBUTE_NAME));
+            String attr_value = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ATTRIBUTE_VALUE));
             Log.d(tag, "Found attribute: " + attr_name + ", " + attr_value);
             HashMap<String, String> attrMap = new HashMap<>();
             attrMap.put(attr_name, attr_value);
@@ -256,22 +256,22 @@ public class DBManagerSoco {
     public void clearActivityAttributesExceptLocation(int pid){
         try {
             db.beginTransaction();
-            Log.d(tag, "DELETE FROM " + DataConfig.TABLE_ATTRIBUTE
-                    + " WHERE " + DataConfig.COLUMN_ATTRIBUTE_PID + " = " + pid
-                    + " AND " + DataConfig.COLUMN_ATTRIBUTE_NAME + " NOT IN ("
-                    + DataConfig.ATTRIBUTE_NAME_LOCLAT + ","
-                    + DataConfig.ATTRIBUTE_NAME_LOCLNG + ","
-                    + DataConfig.ATTRIBUTE_NAME_LOCZOOM + ","
-//                    + DataConfig.ATTRIBUTE_NAME_LOCNAME
+            Log.d(tag, "DELETE FROM " + DataConfigObs.TABLE_ATTRIBUTE
+                    + " WHERE " + DataConfigObs.COLUMN_ATTRIBUTE_PID + " = " + pid
+                    + " AND " + DataConfigObs.COLUMN_ATTRIBUTE_NAME + " NOT IN ("
+                    + DataConfigObs.ATTRIBUTE_NAME_LOCLAT + ","
+                    + DataConfigObs.ATTRIBUTE_NAME_LOCLNG + ","
+                    + DataConfigObs.ATTRIBUTE_NAME_LOCZOOM + ","
+//                    + DataConfigObs.ATTRIBUTE_NAME_LOCNAME
                     + ")");
-            db.execSQL("DELETE FROM " + DataConfig.TABLE_ATTRIBUTE
-                            + " WHERE " + DataConfig.COLUMN_ATTRIBUTE_PID + " = ?"
-                            + " AND " + DataConfig.COLUMN_ATTRIBUTE_NAME + " NOT IN (?, ?, ?)",
+            db.execSQL("DELETE FROM " + DataConfigObs.TABLE_ATTRIBUTE
+                            + " WHERE " + DataConfigObs.COLUMN_ATTRIBUTE_PID + " = ?"
+                            + " AND " + DataConfigObs.COLUMN_ATTRIBUTE_NAME + " NOT IN (?, ?, ?)",
                     new Object[]{pid,
-                            DataConfig.ATTRIBUTE_NAME_LOCLAT,
-                            DataConfig.ATTRIBUTE_NAME_LOCLNG,
-                            DataConfig.ATTRIBUTE_NAME_LOCZOOM
-//                            ,DataConfig.ATTRIBUTE_NAME_LOCNAME
+                            DataConfigObs.ATTRIBUTE_NAME_LOCLAT,
+                            DataConfigObs.ATTRIBUTE_NAME_LOCLNG,
+                            DataConfigObs.ATTRIBUTE_NAME_LOCZOOM
+//                            ,DataConfigObs.ATTRIBUTE_NAME_LOCNAME
                     });
             db.setTransactionSuccessful();
         } finally {
@@ -290,10 +290,10 @@ public class DBManagerSoco {
 
             try {
                 db.beginTransaction();
-                Log.i(tag, "Add project attribute: INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                Log.i(tag, "Add project attribute: INSERT INTO " + DataConfigObs.TABLE_ATTRIBUTE
                         + " VALUES(null, " + pid + ", " + attr_name + ", " + attr_value + ", "
                         + ", " + now + ", " + now);
-                db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+                db.execSQL("INSERT INTO " + DataConfigObs.TABLE_ATTRIBUTE
                                 + " VALUES(null, ?, ?, ?, ?, ?, ?)",
                         new Object[]{pid, attr_name, attr_value, "", now, now});
                 db.setTransactionSuccessful();
@@ -307,11 +307,11 @@ public class DBManagerSoco {
         Log.i(tag, "Update database for project: " + pid);
 
         ContentValues cv = new ContentValues();
-        cv.put(DataConfig.COLUMN_ACTIVITY_NAME, pname);
+        cv.put(DataConfigObs.COLUMN_ACTIVITY_NAME, pname);
         String now = SignatureUtil.now();
-        cv.put(DataConfig.COLUMN_ACTIVITY_UPDATE_TIMESTAMP, now);
+        cv.put(DataConfigObs.COLUMN_ACTIVITY_UPDATE_TIMESTAMP, now);
 
-        db.update(DataConfig.TABLE_ACTIVITY, cv, DataConfig.COLUMN_ACTIVITY_ID + " = ?",
+        db.update(DataConfigObs.TABLE_ACTIVITY, cv, DataConfigObs.COLUMN_ACTIVITY_ID + " = ?",
                 new String[]{String.valueOf(pid)});
 
         Log.i(tag, "Updated project " + pid + " name: " + pname);
@@ -322,11 +322,11 @@ public class DBManagerSoco {
         Log.i(tag, "Update project tag for pid: " + pid + ", " + ptag);
 
         ContentValues cv = new ContentValues();
-        cv.put(DataConfig.COLUMN_ACTIVITY_TAG, ptag);
+        cv.put(DataConfigObs.COLUMN_ACTIVITY_TAG, ptag);
         String now = SignatureUtil.now();
-        cv.put(DataConfig.COLUMN_ACTIVITY_UPDATE_TIMESTAMP, now);
+        cv.put(DataConfigObs.COLUMN_ACTIVITY_UPDATE_TIMESTAMP, now);
 
-        db.update(DataConfig.TABLE_ACTIVITY, cv, DataConfig.COLUMN_ACTIVITY_ID + " = ?",
+        db.update(DataConfigObs.TABLE_ACTIVITY, cv, DataConfigObs.COLUMN_ACTIVITY_ID + " = ?",
                 new String[]{String.valueOf(pid)});
 
         Log.d(tag, "Updated project " + pid + " tag: " + ptag);
@@ -335,17 +335,17 @@ public class DBManagerSoco {
     public void updateActivityActiveness(int pid, String activeness) {
         Log.i(tag, "Update project " + pid + " status: " + activeness);
         ContentValues cv = new ContentValues();
-        cv.put(DataConfig.COLUMN_ACTIVITY_ACTIVE, activeness);
-        db.update(DataConfig.TABLE_ACTIVITY, cv, DataConfig.COLUMN_ACTIVITY_ID + " = ?",
+        cv.put(DataConfigObs.COLUMN_ACTIVITY_ACTIVE, activeness);
+        db.update(DataConfigObs.TABLE_ACTIVITY, cv, DataConfigObs.COLUMN_ACTIVITY_ID + " = ?",
                 new String[]{String.valueOf(pid)});
     }
 
     public void updateActivityIdOnserver(int pid, String pid_onserver) {
         Log.i(tag, "Update project " + pid + " pid_onserver: " + pid_onserver);
         ContentValues cv = new ContentValues();
-        cv.put(DataConfig.COLUMN_ACTIVITY_ID_ONSERVER, pid_onserver);
-        db.update(DataConfig.TABLE_ACTIVITY, cv,
-                DataConfig.COLUMN_ACTIVITY_ID + " = ?",
+        cv.put(DataConfigObs.COLUMN_ACTIVITY_ID_ONSERVER, pid_onserver);
+        db.update(DataConfigObs.TABLE_ACTIVITY, cv,
+                DataConfigObs.COLUMN_ACTIVITY_ID + " = ?",
                 new String[]{String.valueOf(pid)});
     }
 
@@ -357,25 +357,25 @@ public class DBManagerSoco {
         String now = SignatureUtil.now();
         try{
             db.beginTransaction();
-//            Log.i(tag, "INSERT INTO " + DataConfig.TABLE_SHARED_FILE
+//            Log.i(tag, "INSERT INTO " + DataConfigObs.TABLE_SHARED_FILE
 //                    + " VALUES(null, " + pid + ", " + displayName + ", "
 //                    + uri + ", " + remotePath + ", " + localPath
 //                    + ",, " + now + ", " + now);
-//            db.execSQL("INSERT INTO " + DataConfig.TABLE_SHARED_FILE
+//            db.execSQL("INSERT INTO " + DataConfigObs.TABLE_SHARED_FILE
 //                            + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?)",
 //                    new Object[]{pid, displayName, uri, remotePath, localPath,
 //                            "", now, now});
 
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_SHARED_FILE_PID, pid);
-            cv.put(DataConfig.COLUMN_SHARED_FILE_DISPLAY_NAME, displayName);
-            cv.put(DataConfig.COLUMN_SHARED_FILE_URI, uri.toString());
-            cv.put(DataConfig.COLUMN_SHARED_FILE_REMOTE_PATH, remotePath);
-            cv.put(DataConfig.COLUMN_SHARED_FILE_LOCAL_PATH, localPath);
-            cv.put(DataConfig.COLUMN_SHARED_FILE_CREATE_TIMESTAMP, now);
-            cv.put(DataConfig.COLUMN_SHARED_FILE_UPDATE_TIMESTAMP, now);
+            cv.put(DataConfigObs.COLUMN_SHARED_FILE_PID, pid);
+            cv.put(DataConfigObs.COLUMN_SHARED_FILE_DISPLAY_NAME, displayName);
+            cv.put(DataConfigObs.COLUMN_SHARED_FILE_URI, uri.toString());
+            cv.put(DataConfigObs.COLUMN_SHARED_FILE_REMOTE_PATH, remotePath);
+            cv.put(DataConfigObs.COLUMN_SHARED_FILE_LOCAL_PATH, localPath);
+            cv.put(DataConfigObs.COLUMN_SHARED_FILE_CREATE_TIMESTAMP, now);
+            cv.put(DataConfigObs.COLUMN_SHARED_FILE_UPDATE_TIMESTAMP, now);
 
-            db.insert(DataConfig.TABLE_SHARED_FILE, null, cv);
+            db.insert(DataConfigObs.TABLE_SHARED_FILE, null, cv);
         } finally{
             db.setTransactionSuccessful();
             db.endTransaction();
@@ -386,18 +386,18 @@ public class DBManagerSoco {
         Log.d(tag, "Get shared file local path for pid: " + pid);
         ArrayList<String> list = new ArrayList<>();
 
-        Log.d(tag, "SELECT " + DataConfig.COLUMN_SHARED_FILE_LOCAL_PATH
-                + " FROM " + DataConfig.TABLE_SHARED_FILE
-                + " WHERE " + DataConfig.COLUMN_SHARED_FILE_PID + " = " + pid);
-        Cursor c =  db.rawQuery("SELECT " + DataConfig.COLUMN_SHARED_FILE_LOCAL_PATH
-                        + " FROM " + DataConfig.TABLE_SHARED_FILE
-                        + " WHERE " + DataConfig.COLUMN_SHARED_FILE_PID + " = ?",
+        Log.d(tag, "SELECT " + DataConfigObs.COLUMN_SHARED_FILE_LOCAL_PATH
+                + " FROM " + DataConfigObs.TABLE_SHARED_FILE
+                + " WHERE " + DataConfigObs.COLUMN_SHARED_FILE_PID + " = " + pid);
+        Cursor c =  db.rawQuery("SELECT " + DataConfigObs.COLUMN_SHARED_FILE_LOCAL_PATH
+                        + " FROM " + DataConfigObs.TABLE_SHARED_FILE
+                        + " WHERE " + DataConfigObs.COLUMN_SHARED_FILE_PID + " = ?",
                 new String[] {String.valueOf(pid)});
 
         int count = 0;
         while (c.moveToNext()){
             String path = c.getString(c.getColumnIndex(
-                    DataConfig.COLUMN_SHARED_FILE_LOCAL_PATH));
+                    DataConfigObs.COLUMN_SHARED_FILE_LOCAL_PATH));
             Log.d(tag, "Found path: " + path);
             list.add(path);
             count ++;
@@ -410,18 +410,18 @@ public class DBManagerSoco {
         Log.d(tag, "Get shared file display name for pid: " + pid);
         ArrayList<String> list = new ArrayList<>();
 
-        Log.d(tag, "SELECT " + DataConfig.COLUMN_SHARED_FILE_DISPLAY_NAME
-                + " FROM " + DataConfig.TABLE_SHARED_FILE
-                + " WHERE " + DataConfig.COLUMN_SHARED_FILE_PID + " = " + pid);
-        Cursor c =  db.rawQuery("SELECT " + DataConfig.COLUMN_SHARED_FILE_DISPLAY_NAME
-                        + " FROM " + DataConfig.TABLE_SHARED_FILE
-                        + " WHERE " + DataConfig.COLUMN_SHARED_FILE_PID + " = ?",
+        Log.d(tag, "SELECT " + DataConfigObs.COLUMN_SHARED_FILE_DISPLAY_NAME
+                + " FROM " + DataConfigObs.TABLE_SHARED_FILE
+                + " WHERE " + DataConfigObs.COLUMN_SHARED_FILE_PID + " = " + pid);
+        Cursor c =  db.rawQuery("SELECT " + DataConfigObs.COLUMN_SHARED_FILE_DISPLAY_NAME
+                        + " FROM " + DataConfigObs.TABLE_SHARED_FILE
+                        + " WHERE " + DataConfigObs.COLUMN_SHARED_FILE_PID + " = ?",
                 new String[] {String.valueOf(pid)});
 
         int count = 0;
         while (c.moveToNext()){
             String name = c.getString(c.getColumnIndex(
-                    DataConfig.COLUMN_SHARED_FILE_DISPLAY_NAME));
+                    DataConfigObs.COLUMN_SHARED_FILE_DISPLAY_NAME));
             Log.d(tag, "Found display name: " + name);
             list.add(name);
             count ++;
@@ -438,50 +438,50 @@ public class DBManagerSoco {
         try{
             db.beginTransaction();
 
-            Log.i(tag, "DELETE FROM " + DataConfig.TABLE_ATTRIBUTE
-                    + " WHERE " + DataConfig.COLUMN_ATTRIBUTE_PID + " = " + pid
-                    + " AND " + DataConfig.COLUMN_ATTRIBUTE_NAME + " IN ("
-                    + DataConfig.ATTRIBUTE_NAME_LOCLAT + ","
-                    + DataConfig.ATTRIBUTE_NAME_LOCLNG + ","
-                    + DataConfig.ATTRIBUTE_NAME_LOCZOOM + ","
-                    + DataConfig.ATTRIBUTE_NAME_LOCNAME + ")");
-            db.delete(DataConfig.TABLE_ATTRIBUTE,
-                    DataConfig.COLUMN_ATTRIBUTE_PID + " = ? AND "
-                            + DataConfig.COLUMN_ATTRIBUTE_NAME + " IN (?, ?, ?, ?)",
+            Log.i(tag, "DELETE FROM " + DataConfigObs.TABLE_ATTRIBUTE
+                    + " WHERE " + DataConfigObs.COLUMN_ATTRIBUTE_PID + " = " + pid
+                    + " AND " + DataConfigObs.COLUMN_ATTRIBUTE_NAME + " IN ("
+                    + DataConfigObs.ATTRIBUTE_NAME_LOCLAT + ","
+                    + DataConfigObs.ATTRIBUTE_NAME_LOCLNG + ","
+                    + DataConfigObs.ATTRIBUTE_NAME_LOCZOOM + ","
+                    + DataConfigObs.ATTRIBUTE_NAME_LOCNAME + ")");
+            db.delete(DataConfigObs.TABLE_ATTRIBUTE,
+                    DataConfigObs.COLUMN_ATTRIBUTE_PID + " = ? AND "
+                            + DataConfigObs.COLUMN_ATTRIBUTE_NAME + " IN (?, ?, ?, ?)",
                     new String[]{String.valueOf(pid),
-                            DataConfig.ATTRIBUTE_NAME_LOCLAT,
-                            DataConfig.ATTRIBUTE_NAME_LOCLNG,
-                            DataConfig.ATTRIBUTE_NAME_LOCZOOM,
-                            DataConfig.ATTRIBUTE_NAME_LOCNAME});
+                            DataConfigObs.ATTRIBUTE_NAME_LOCLAT,
+                            DataConfigObs.ATTRIBUTE_NAME_LOCLNG,
+                            DataConfigObs.ATTRIBUTE_NAME_LOCZOOM,
+                            DataConfigObs.ATTRIBUTE_NAME_LOCNAME});
 
 
-            Log.i(tag, "INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
-                    + " VALUES(null, " + pid + ", " + DataConfig.ATTRIBUTE_NAME_LOCLAT + ", "
+            Log.i(tag, "INSERT INTO " + DataConfigObs.TABLE_ATTRIBUTE
+                    + " VALUES(null, " + pid + ", " + DataConfigObs.ATTRIBUTE_NAME_LOCLAT + ", "
                     + lat + ", , " + now + ", " + now);
-            db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+            db.execSQL("INSERT INTO " + DataConfigObs.TABLE_ATTRIBUTE
                             + " VALUES(null, ?, ?, ?, ?, ?, ?)",
-                    new Object[]{pid, DataConfig.ATTRIBUTE_NAME_LOCLAT, lat, "", now, now});
+                    new Object[]{pid, DataConfigObs.ATTRIBUTE_NAME_LOCLAT, lat, "", now, now});
 
-            Log.i(tag, "INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
-                    + " VALUES(null, " + pid + ", " + DataConfig.ATTRIBUTE_NAME_LOCLNG + ", "
+            Log.i(tag, "INSERT INTO " + DataConfigObs.TABLE_ATTRIBUTE
+                    + " VALUES(null, " + pid + ", " + DataConfigObs.ATTRIBUTE_NAME_LOCLNG + ", "
                     + lng + ", , " + now + ", " + now);
-            db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+            db.execSQL("INSERT INTO " + DataConfigObs.TABLE_ATTRIBUTE
                             + " VALUES(null, ?, ?, ?, ?, ?, ?)",
-                    new Object[]{pid, DataConfig.ATTRIBUTE_NAME_LOCLNG, lng, "", now, now});
+                    new Object[]{pid, DataConfigObs.ATTRIBUTE_NAME_LOCLNG, lng, "", now, now});
 
-            Log.i(tag, "INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
-                    + " VALUES(null, " + pid + ", " + DataConfig.ATTRIBUTE_NAME_LOCZOOM + ", "
+            Log.i(tag, "INSERT INTO " + DataConfigObs.TABLE_ATTRIBUTE
+                    + " VALUES(null, " + pid + ", " + DataConfigObs.ATTRIBUTE_NAME_LOCZOOM + ", "
                     + zoom + ", , " + now + ", " + now);
-            db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+            db.execSQL("INSERT INTO " + DataConfigObs.TABLE_ATTRIBUTE
                             + " VALUES(null, ?, ?, ?, ?, ?, ?)",
-                    new Object[]{pid, DataConfig.ATTRIBUTE_NAME_LOCZOOM, zoom, "", now, now});
+                    new Object[]{pid, DataConfigObs.ATTRIBUTE_NAME_LOCZOOM, zoom, "", now, now});
 
-            Log.i(tag, "INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
-                    + " VALUES(null, " + pid + ", " + DataConfig.ATTRIBUTE_NAME_LOCNAME + ", "
+            Log.i(tag, "INSERT INTO " + DataConfigObs.TABLE_ATTRIBUTE
+                    + " VALUES(null, " + pid + ", " + DataConfigObs.ATTRIBUTE_NAME_LOCNAME + ", "
                     + name + ", , " + now + ", " + now);
-            db.execSQL("INSERT INTO " + DataConfig.TABLE_ATTRIBUTE
+            db.execSQL("INSERT INTO " + DataConfigObs.TABLE_ATTRIBUTE
                             + " VALUES(null, ?, ?, ?, ?, ?, ?)",
-                    new Object[]{pid, DataConfig.ATTRIBUTE_NAME_LOCNAME, name, "", now, now});
+                    new Object[]{pid, DataConfigObs.ATTRIBUTE_NAME_LOCNAME, name, "", now, now});
             db.setTransactionSuccessful();
         } finally{
             db.endTransaction();
@@ -493,9 +493,9 @@ public class DBManagerSoco {
 
         try {
             db.beginTransaction();
-            Log.i(tag, "insert " + DataConfig.TABLE_ACTIVITY_UPDATES
+            Log.i(tag, "insert " + DataConfigObs.TABLE_ACTIVITY_UPDATES
                     + " table entry: " + pid + ", " + comment + ", " + user);
-            db.execSQL("INSERT INTO " + DataConfig.TABLE_ACTIVITY_UPDATES + " VALUES (" +
+            db.execSQL("INSERT INTO " + DataConfigObs.TABLE_ACTIVITY_UPDATES + " VALUES (" +
                     "null, ?, ?, ?, ?)", new Object[]{
                     pid, comment, user, SignatureUtil.now()});
             db.setTransactionSuccessful();
@@ -508,12 +508,12 @@ public class DBManagerSoco {
         Log.i(tag, "Set invitation status for project: " + pid);
 
         ContentValues cv = new ContentValues();
-        cv.put(DataConfig.COLUMN_ACTIVITY_INVITATION_STATUS,
-                DataConfig.ACTIVITY_INVITATION_STATUS_COMPLETE);
+        cv.put(DataConfigObs.COLUMN_ACTIVITY_INVITATION_STATUS,
+                DataConfigObs.ACTIVITY_INVITATION_STATUS_COMPLETE);
         String now = SignatureUtil.now();
-        cv.put(DataConfig.COLUMN_ACTIVITY_UPDATE_TIMESTAMP, now);
+        cv.put(DataConfigObs.COLUMN_ACTIVITY_UPDATE_TIMESTAMP, now);
 
-        db.update(DataConfig.TABLE_ACTIVITY, cv, DataConfig.COLUMN_ACTIVITY_ID + " = ?",
+        db.update(DataConfigObs.TABLE_ACTIVITY, cv, DataConfigObs.COLUMN_ACTIVITY_ID + " = ?",
                 new String[]{String.valueOf(pid)});
 
         Log.d(tag, "Updated project complete");
@@ -523,13 +523,13 @@ public class DBManagerSoco {
         Log.d(tag, "get contacts");
         HashMap<String, String> contactEmailName = new HashMap<>();
 
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_CONTACT,
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_CONTACT,
                 null);
 
         String email, name;
         while (c.moveToNext()) {
-            email = c.getString(c.getColumnIndex(DataConfig.COLUMN_CONTACT_EMAIL));
-            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_CONTACT_NICKNAME));
+            email = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_CONTACT_EMAIL));
+            name = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_CONTACT_NICKNAME));
             Log.d(tag, "Found user " + name + "/" + email);
             contactEmailName.put(email, name);
         }
@@ -545,11 +545,11 @@ public class DBManagerSoco {
 
             Log.i(tag, "insert into contacts: " + email);
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_CONTACT_EMAIL, email);
-            cv.put(DataConfig.COLUMN_CONTACT_USERNAME, TEST_NONAME);
-            cv.put(DataConfig.COLUMN_CONTACT_NICKNAME, nickname);
+            cv.put(DataConfigObs.COLUMN_CONTACT_EMAIL, email);
+            cv.put(DataConfigObs.COLUMN_CONTACT_USERNAME, TEST_NONAME);
+            cv.put(DataConfigObs.COLUMN_CONTACT_NICKNAME, nickname);
 
-            db.insert(DataConfig.TABLE_CONTACT, null, cv);
+            db.insert(DataConfigObs.TABLE_CONTACT, null, cv);
         } finally {
             db.setTransactionSuccessful();
             db.endTransaction();
@@ -560,12 +560,12 @@ public class DBManagerSoco {
         Log.i(tag, "Update contact name: " + email + ", " + username + ", " + nickname);
 
         ContentValues cv = new ContentValues();
-        cv.put(DataConfig.COLUMN_CONTACT_EMAIL, email);
-        cv.put(DataConfig.COLUMN_CONTACT_USERNAME, username);
-        cv.put(DataConfig.COLUMN_CONTACT_NICKNAME, nickname);
+        cv.put(DataConfigObs.COLUMN_CONTACT_EMAIL, email);
+        cv.put(DataConfigObs.COLUMN_CONTACT_USERNAME, username);
+        cv.put(DataConfigObs.COLUMN_CONTACT_NICKNAME, nickname);
 
-        db.update(DataConfig.TABLE_CONTACT, cv,
-                DataConfig.COLUMN_CONTACT_EMAIL + " = ?",
+        db.update(DataConfigObs.TABLE_CONTACT, cv,
+                DataConfigObs.COLUMN_CONTACT_EMAIL + " = ?",
                 new String[]{email});
 
         Log.d(tag, "Updated contact name ");
@@ -575,12 +575,12 @@ public class DBManagerSoco {
         Log.i(tag, "Update contact id onserver: " + email + ", " + name + ", " + contactIdOnserver);
 
         ContentValues cv = new ContentValues();
-//        cv.put(DataConfig.COLUMN_CONTACT_EMAIL, email);
-        cv.put(DataConfig.COLUMN_CONTACT_USERNAME, name);
-        cv.put(DataConfig.COLUMN_CONTACT_ID_ONSERVER, contactIdOnserver);
+//        cv.put(DataConfigObs.COLUMN_CONTACT_EMAIL, email);
+        cv.put(DataConfigObs.COLUMN_CONTACT_USERNAME, name);
+        cv.put(DataConfigObs.COLUMN_CONTACT_ID_ONSERVER, contactIdOnserver);
 
-        db.update(DataConfig.TABLE_CONTACT, cv,
-                DataConfig.COLUMN_CONTACT_EMAIL + " = ?",
+        db.update(DataConfigObs.TABLE_CONTACT, cv,
+                DataConfigObs.COLUMN_CONTACT_EMAIL + " = ?",
                 new String[]{email});
 
 //        Log.d(tag, "Updated contact id onserver " + email + ", " + name + ", " + contactIdOnserver);
@@ -588,12 +588,12 @@ public class DBManagerSoco {
 
     public String getPhoneByContactEmail(String email) {
         Log.d(tag, "get phone of contact email " + email);
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_CONTACT +
-                        " where " + DataConfig.COLUMN_CONTACT_EMAIL + " = ?",
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_CONTACT +
+                        " where " + DataConfigObs.COLUMN_CONTACT_EMAIL + " = ?",
                 new String[] {email});
         String phone = new String();
         while (c.moveToNext()) {
-            phone = c.getString(c.getColumnIndex(DataConfig.COLUMN_CONTACT_PHONE));
+            phone = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_CONTACT_PHONE));
         }
         c.close();
         return phone;
@@ -601,12 +601,12 @@ public class DBManagerSoco {
 
     public int getContactIdByEmail(String email) {
         Log.d(tag, "get contact id of contact email " + email);
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_CONTACT +
-                        " where " + DataConfig.COLUMN_CONTACT_EMAIL + " = ?",
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_CONTACT +
+                        " where " + DataConfigObs.COLUMN_CONTACT_EMAIL + " = ?",
                 new String[] {email});
         int id = -1;
         while (c.moveToNext()) {
-            id = c.getInt(c.getColumnIndex(DataConfig.COLUMN_CONTACT_ID));
+            id = c.getInt(c.getColumnIndex(DataConfigObs.COLUMN_CONTACT_ID));
         }
         c.close();
         if(id == -1)
@@ -619,12 +619,12 @@ public class DBManagerSoco {
 
     public int getContactIdOnserverByEmail(String email) {
         Log.d(tag, "get contact id onserver of contact email " + email);
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_CONTACT +
-                        " where " + DataConfig.COLUMN_CONTACT_EMAIL + " = ?",
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_CONTACT +
+                        " where " + DataConfigObs.COLUMN_CONTACT_EMAIL + " = ?",
                 new String[] {email});
         int id = -1;
         while (c.moveToNext()) {
-            id = c.getInt(c.getColumnIndex(DataConfig.COLUMN_CONTACT_ID_ONSERVER));
+            id = c.getInt(c.getColumnIndex(DataConfigObs.COLUMN_CONTACT_ID_ONSERVER));
         }
         c.close();
         if(id == -1)
@@ -639,15 +639,15 @@ public class DBManagerSoco {
         Log.d(tag, "get chat history of contact id " + contactId);
         ArrayList<ArrayList<String>> chatHist = new ArrayList<>();
 
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_CHAT +
-                        " where " + DataConfig.COLUMN_CHAT_CONTACT_ID + " = ?",
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_CHAT +
+                        " where " + DataConfigObs.COLUMN_CHAT_CONTACT_ID + " = ?",
                 new String[] {String.valueOf(contactId)});
 
         String content, timestamp, type;
         while (c.moveToNext()) {
-            content = c.getString(c.getColumnIndex(DataConfig.COLUMN_CHAT_CONTENT));
-            timestamp = c.getString(c.getColumnIndex(DataConfig.COLUMN_CHAT_TIMESTAMP));
-            type = c.getString(c.getColumnIndex(DataConfig.COLUMN_CHAT_TYPE));
+            content = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_CHAT_CONTENT));
+            timestamp = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_CHAT_TIMESTAMP));
+            type = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_CHAT_TYPE));
             Log.d(tag, "Found chat: " + content + ", " + type + " at " + timestamp);
 
             ArrayList<String> e = new ArrayList<>();
@@ -667,11 +667,11 @@ public class DBManagerSoco {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_CHAT_CONTACT_ID, contactId);
-            cv.put(DataConfig.COLUMN_CHAT_CONTENT, message);
-            cv.put(DataConfig.COLUMN_CHAT_TIMESTAMP, SignatureUtil.now());
-            cv.put(DataConfig.COLUMN_CHAT_TYPE, chat_type);
-            db.insert(DataConfig.TABLE_CHAT, null, cv);
+            cv.put(DataConfigObs.COLUMN_CHAT_CONTACT_ID, contactId);
+            cv.put(DataConfigObs.COLUMN_CHAT_CONTENT, message);
+            cv.put(DataConfigObs.COLUMN_CHAT_TIMESTAMP, SignatureUtil.now());
+            cv.put(DataConfigObs.COLUMN_CHAT_TYPE, chat_type);
+            db.insert(DataConfigObs.TABLE_CHAT, null, cv);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -687,16 +687,16 @@ public class DBManagerSoco {
             db.beginTransaction();
 
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_FOLDER_NAME, name);
-            cv.put(DataConfig.COLUMN_FOLDER_DESC, desc);
-            cv.put(DataConfig.COLUMN_FOLDER_PATH, path);
-            cv.put(DataConfig.COLUMN_FOLDER_TAG, GeneralConfig.DEFAULT_TAG);
+            cv.put(DataConfigObs.COLUMN_FOLDER_NAME, name);
+            cv.put(DataConfigObs.COLUMN_FOLDER_DESC, desc);
+            cv.put(DataConfigObs.COLUMN_FOLDER_PATH, path);
+            cv.put(DataConfigObs.COLUMN_FOLDER_TAG, GeneralConfig.DEFAULT_TAG);
 
-            db.insert(DataConfig.TABLE_FOLDER, null, cv);
+            db.insert(DataConfigObs.TABLE_FOLDER, null, cv);
 
             Log.d(tag, "get fid of new folder");
-            String query = "SELECT MAX(" + DataConfig.COLUMN_FOLDER_ID
-                    + ") FROM " + DataConfig.TABLE_FOLDER;
+            String query = "SELECT MAX(" + DataConfigObs.COLUMN_FOLDER_ID
+                    + ") FROM " + DataConfigObs.TABLE_FOLDER;
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()){
                 do {
@@ -716,14 +716,14 @@ public class DBManagerSoco {
 //        Log.d(tag, "load folders at path: " + currentPath);
 //
 //        HashMap<String, String> folders = new HashMap<>();
-//        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_FOLDER
-//                    + " WHERE " + DataConfig.COLUMN_FOLDER_PATH + " = ?",
+//        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_FOLDER
+//                    + " WHERE " + DataConfigObs.COLUMN_FOLDER_PATH + " = ?",
 //                new String[]{currentPath});
 //
 //        String name, desc;
 //        while (c.moveToNext()) {
-//            name = c.getString(c.getColumnIndex(DataConfig.COLUMN_FOLDER_NAME));
-//            desc = c.getString(c.getColumnIndex(DataConfig.COLUMN_FOLDER_DESC));
+//            name = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_FOLDER_NAME));
+//            desc = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_FOLDER_DESC));
 //            Log.d(tag, "found folder: " + name + ", " + desc);
 //            folders.put(name, desc);
 //        }
@@ -735,8 +735,8 @@ public class DBManagerSoco {
     public ArrayList<Folder> loadFoldersByPath(String currentPath) {
         Log.i(tag, "Load folders on path: " + currentPath);
         ArrayList<Folder> folders = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_FOLDER +
-                        " where " + DataConfig.COLUMN_FOLDER_PATH + " = ? ",
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_FOLDER +
+                        " where " + DataConfigObs.COLUMN_FOLDER_PATH + " = ? ",
                 new String[]{currentPath});
 
         while (c.moveToNext()) {
@@ -751,10 +751,10 @@ public class DBManagerSoco {
     public ArrayList<Activity> loadActiveActivitiesByPath(String currentPath) {
         Log.i(tag, "Load active activities on path: " + currentPath);
         ArrayList<Activity> activities = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT * FROM " + DataConfig.TABLE_ACTIVITY +
-                        " where " + DataConfig.COLUMN_ACTIVITY_ACTIVE + " = ? " +
-                        " and " + DataConfig.COLUMN_ACTIVITY_PATH + " = ? ",
-                new String[]{DataConfig.VALUE_ACTIVITY_ACTIVE, currentPath});
+        Cursor c = db.rawQuery("SELECT * FROM " + DataConfigObs.TABLE_ACTIVITY +
+                        " where " + DataConfigObs.COLUMN_ACTIVITY_ACTIVE + " = ? " +
+                        " and " + DataConfigObs.COLUMN_ACTIVITY_PATH + " = ? ",
+                new String[]{DataConfigObs.VALUE_ACTIVITY_ACTIVE, currentPath});
 
         while (c.moveToNext()) {
             Activity p = new Activity(c);

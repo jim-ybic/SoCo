@@ -4,7 +4,7 @@ package com.soco.SoCoClient.obsolete.v1.model;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
+import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.v2.control.util.SignatureUtil;
 
@@ -35,19 +35,19 @@ public class Activity {
     }
 
     public Activity(Cursor c) {
-        this.pid = c.getInt(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ID));
-        this.pname = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_NAME));
-        this.ptag = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_TAG));
+        this.pid = c.getInt(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_ID));
+        this.pname = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_NAME));
+        this.ptag = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_TAG));
         this.pcreate_timestamp = c.getString(c.getColumnIndex(
-                DataConfig.COLUMN_ACTIVITY_CREATE_TIMESTAMP));
+                DataConfigObs.COLUMN_ACTIVITY_CREATE_TIMESTAMP));
         this.pupdate_timestamp = c.getString(c.getColumnIndex(
-                DataConfig.COLUMN_ACTIVITY_UPDATE_TIMESTAMP));
-        this.psignature = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_SIGNATURE));
-        this.pactive = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ACTIVE));
-        this.pid_onserver = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_ID_ONSERVER));
-        this.invitation_status = c.getInt(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_INVITATION_STATUS));
-        this.ptag = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_TAG));;
-        this.path = c.getString(c.getColumnIndex(DataConfig.COLUMN_ACTIVITY_PATH));;
+                DataConfigObs.COLUMN_ACTIVITY_UPDATE_TIMESTAMP));
+        this.psignature = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_SIGNATURE));
+        this.pactive = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_ACTIVE));
+        this.pid_onserver = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_ID_ONSERVER));
+        this.invitation_status = c.getInt(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_INVITATION_STATUS));
+        this.ptag = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_TAG));;
+        this.path = c.getString(c.getColumnIndex(DataConfigObs.COLUMN_ACTIVITY_PATH));;
     }
 
     public String getMoreInfo() {
@@ -63,6 +63,6 @@ public class Activity {
     }
 
     public String getType(){
-        return DataConfig.DEFAULT_PROJECT_TYPE;
+        return DataConfigObs.DEFAULT_PROJECT_TYPE;
     }
 }

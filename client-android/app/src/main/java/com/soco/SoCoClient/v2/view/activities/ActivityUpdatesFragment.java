@@ -2,8 +2,8 @@ package com.soco.SoCoClient.v2.view.activities;
 
 //import info.androidhive.tabsswipe.R;
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
@@ -149,9 +149,9 @@ public class ActivityUpdatesFragment extends Fragment implements View.OnClickLis
         ArrayList<ArrayList<String>> updates = dbManagerSoco.getUpdatesOfActivity(pid);
 
         for(ArrayList<String> u : updates){
-            String user = u.get(DataConfig.UPDATE_INDEX_NAME);
-            String comment = u.get(DataConfig.UPDATE_INDEX_COMMENT);
-            String timestamp = u.get(DataConfig.UPDATE_INDEX_TIMESTAMP);
+            String user = u.get(DataConfigObs.UPDATE_INDEX_NAME);
+            String comment = u.get(DataConfigObs.UPDATE_INDEX_COMMENT);
+            String timestamp = u.get(DataConfigObs.UPDATE_INDEX_TIMESTAMP);
             Log.d(tag, "get an update: " + user + ", " + comment + ", " + timestamp);
             updateItems.add(new EntryItem(user, comment + " " + timestamp));
         }

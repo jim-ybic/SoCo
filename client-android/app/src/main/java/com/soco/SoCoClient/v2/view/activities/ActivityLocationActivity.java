@@ -16,8 +16,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
 
 import java.util.ArrayList;
@@ -39,15 +39,15 @@ public class ActivityLocationActivity extends ActionBarActivity {
 
         attrMap = ((SocoApp)getApplicationContext()).getAttrMap();
 
-        lat = findAttrValue(attrMap, DataConfig.ATTRIBUTE_NAME_LOCLAT);
+        lat = findAttrValue(attrMap, DataConfigObs.ATTRIBUTE_NAME_LOCLAT);
         if(lat.isEmpty())
-            lat = DataConfig.DEFAULT_LOCATION_LAT;
-        lng = findAttrValue(attrMap, DataConfig.ATTRIBUTE_NAME_LOCLNG);
+            lat = DataConfigObs.DEFAULT_LOCATION_LAT;
+        lng = findAttrValue(attrMap, DataConfigObs.ATTRIBUTE_NAME_LOCLNG);
         if(lng.isEmpty())
-            lng = DataConfig.DEFAULT_LOCATION_LNG;
-        zoom = findAttrValue(attrMap, DataConfig.ATTRIBUTE_NAME_LOCZOOM);
+            lng = DataConfigObs.DEFAULT_LOCATION_LNG;
+        zoom = findAttrValue(attrMap, DataConfigObs.ATTRIBUTE_NAME_LOCZOOM);
         if(zoom.isEmpty())
-            zoom = DataConfig.DEFAULT_LOCATION_ZOOM;
+            zoom = DataConfigObs.DEFAULT_LOCATION_ZOOM;
 
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
         if(status != ConnectionResult.SUCCESS){
@@ -81,7 +81,7 @@ public class ActivityLocationActivity extends ActionBarActivity {
             }
         });
 
-        name = findAttrValue(attrMap, DataConfig.ATTRIBUTE_NAME_LOCNAME);
+        name = findAttrValue(attrMap, DataConfigObs.ATTRIBUTE_NAME_LOCNAME);
         ((EditText)findViewById(R.id.et_splocation)).setText(name, TextView.BufferType.EDITABLE);
     }
 

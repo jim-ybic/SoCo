@@ -182,12 +182,26 @@
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="TIME &amp; DATE" />
-                <EditText
-                    android:id="@+id/timedate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Set up a time"/>
+                    android:text="DATE &amp; TIME" />
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Pick a date"
+                        android:onClick="date"/>
+                    <EditText
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Pick a time"
+                        android:onClick="time"/>
+                        </LinearLayout>
             </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

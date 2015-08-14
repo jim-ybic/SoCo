@@ -1,6 +1,6 @@
 package com.soco.SoCoClient.obsolete.v1.control.config;
 
-public class DataConfig {
+public class DataConfigObs {
 
     public static String TEST_NO_NAME = "TEST NO NAME";
 

@@ -21,6 +21,10 @@ public class Event {
     int seq;
     int id;
     String name;
+    String desc;
+    String date;
+    String time;
+    String location;
     int isDraft;
     int isDone;
 
@@ -47,6 +51,10 @@ public class Event {
         this.seq = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_SEQ));
         this.id = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_ID));
         this.name = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_NAME));
+        this.desc = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_DESC));
+        this.date = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_DATE));
+        this.time = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_TIME));
+        this.location = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_LOCATION));
         this.isDraft = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_ISDRAFT));
         this.isDone = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_ISDONE));
         Log.v(tag, "created event from cursor: " + toString());
@@ -74,6 +82,10 @@ public class Event {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
             cv.put(DataConfig.COLUMN_EVENT_NAME, name);
+            cv.put(DataConfig.COLUMN_EVENT_DESC, desc);
+            cv.put(DataConfig.COLUMN_EVENT_DATE, date);
+            cv.put(DataConfig.COLUMN_EVENT_TIME, time);
+            cv.put(DataConfig.COLUMN_EVENT_LOCATION, location);
             cv.put(DataConfig.COLUMN_EVENT_ISDRAFT, isDraft);
             cv.put(DataConfig.COLUMN_EVENT_ISDONE, isDone);
 
@@ -104,6 +116,10 @@ public class Event {
             ContentValues cv = new ContentValues();
             cv.put(DataConfig.COLUMN_EVENT_ID, id);
             cv.put(DataConfig.COLUMN_EVENT_NAME, name);
+            cv.put(DataConfig.COLUMN_EVENT_DESC, desc);
+            cv.put(DataConfig.COLUMN_EVENT_DATE, date);
+            cv.put(DataConfig.COLUMN_EVENT_TIME, time);
+            cv.put(DataConfig.COLUMN_EVENT_LOCATION, location);
             cv.put(DataConfig.COLUMN_EVENT_ISDRAFT, isDraft);
             cv.put(DataConfig.COLUMN_EVENT_ISDONE, isDone);
 
@@ -119,17 +135,29 @@ public class Event {
         //todo: update event to server
     }
 
-    public String getInfo(){
-        return "More info coming soon...";
-    }
 
+//    public String toString() {
+//        return "Event{" +
+//                "seq=" + seq +
+//                ", id=" + id +
+//                ", name='" + name + '\'' +
+//                ", isDraft='" + isDraft + '\'' +
+//                ", isDone='" + isDone + '\'' +
+//                '}';
+//    }
+
+    @Override
     public String toString() {
         return "Event{" +
                 "seq=" + seq +
                 ", id=" + id +
                 ", name='" + name + '\'' +
-                ", isDraft='" + isDraft + '\'' +
-                ", isDone='" + isDone + '\'' +
+                ", desc='" + desc + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", location='" + location + '\'' +
+                ", isDraft=" + isDraft +
+                ", isDone=" + isDone +
                 '}';
     }
 
@@ -143,6 +171,22 @@ public class Event {
 
     public String getName() {
         return name;
+    }
+
+    public String getDesc(){
+        return desc;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public int isDraft() {
@@ -163,6 +207,22 @@ public class Event {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public void setIsDraft(int isDraft) {

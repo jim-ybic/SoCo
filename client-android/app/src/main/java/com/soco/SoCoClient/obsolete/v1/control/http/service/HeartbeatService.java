@@ -6,7 +6,7 @@ import android.os.Binder;
 import android.util.Log;
 
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
+import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
@@ -204,7 +204,7 @@ public class HeartbeatService extends Service {
                 //add project into database
                 Activity p = new Activity("", GeneralConfig.PATH_ROOT);  //new activity without name yet, will be updated later
                 p.pid_onserver = pid_onserver;
-                p.invitation_status = DataConfig.ACTIVITY_INVITATION_STATUS_INCOMPLETE;
+                p.invitation_status = DataConfigObs.ACTIVITY_INVITATION_STATUS_INCOMPLETE;
                 int pid = dbManagerSoco.addActivity(p);
                 Log.i(tag, "New project added to database, pid_onserver is " + pid_onserver);
 

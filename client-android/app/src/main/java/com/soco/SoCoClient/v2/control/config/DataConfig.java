@@ -13,6 +13,10 @@ public class DataConfig {
     public static final String COLUMN_EVENT_SEQ = "seq";
     public static final String COLUMN_EVENT_ID = "id";    //global id
     public static final String COLUMN_EVENT_NAME = "name";
+    public static final String COLUMN_EVENT_DESC = "desc";
+    public static final String COLUMN_EVENT_DATE = "date";
+    public static final String COLUMN_EVENT_TIME = "time";
+    public static final String COLUMN_EVENT_LOCATION = "location";
     public static final String COLUMN_EVENT_ISDRAFT = "isdraft";
     public static final String COLUMN_EVENT_ISDONE = "isdone";
 

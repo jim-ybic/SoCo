@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
 import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
 import com.soco.SoCoClient.obsolete.v1.control.http.HttpUtil;
@@ -126,7 +126,7 @@ public class RetrieveMessageTaskAsync extends AsyncTask<Void, Void, Boolean> {
                         //todo: need to get contactId for a given contact email (from_id)
                         int contactId = 4;  //todo: for testing only
                         dbManagerSoco.addMessage(
-                                contactId, content, DataConfig.CHAT_TYPE_RECEIVE);
+                                contactId, content, DataConfigObs.CHAT_TYPE_RECEIVE);
                     }
 
                     Log.d(tag, "send ack to server");

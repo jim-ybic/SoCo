@@ -1,5 +1,7 @@
 package com.soco.SoCoClient.v2.view.event;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,12 +9,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.database.DataLoader;
 import com.soco.SoCoClient.v2.model.Event;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class EventDetail extends ActionBarActivity {
 
@@ -24,7 +33,10 @@ public class EventDetail extends ActionBarActivity {
     View rootView;
 
     //local view items
-    EditText et_name, et_desc, et_timedate, et_location;
+    EditText et_name, et_desc, et_date, et_time, et_location;
+    DatePickerDialog pdatePickerDialog = null;
+    TimePickerDialog ptimePickerDialog = null;
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +56,15 @@ public class EventDetail extends ActionBarActivity {
         }
 
         findViewItems();
+        setTimedatePicker();
         show(event);
     }
 
     void findViewItems() {
         et_name = (EditText) findViewById(R.id.name);
         et_desc = (EditText) findViewById(R.id.desc);
-        et_timedate = (EditText) findViewById(R.id.timedate);
+        et_date = (EditText) findViewById(R.id.date);
+        et_time = (EditText) findViewById(R.id.time);
         et_location = (EditText) findViewById(R.id.location);
     }
 
@@ -83,16 +97,59 @@ public class EventDetail extends ActionBarActivity {
         }
 
         et_name.setText(e.getName());
+        et_desc.setText(e.getDesc());
+        et_date.setText(e.getDate());
+        et_time.setText(e.getTime());
+        et_location.setText(e.getLocation());
     }
 
     public void save(View view){
         Log.d(tag, "save changes");
 
         event.setName(et_name.getText().toString());
-        //todo: desc, timedate, location, etc
+        event.setDesc(et_desc.getText().toString());
+        event.setDate((et_date.getText().toString()));
+        event.setTime(et_time.getText().toString());
+        event.setLocation(et_location.getText().toString());
 
         event.save();
+        Toast.makeText(getApplicationContext(), "Event saved", Toast.LENGTH_SHORT).show();
+
         return;
+    }
+
+    public void date(View view){
+        pdatePickerDialog.show();
+    }
+
+    public void time(View view){
+        ptimePickerDialog.show();
+    }
+
+    void setTimedatePicker() {
+        // Date picker
+        Calendar newCalendar = Calendar.getInstance();
+        int year = newCalendar.get(Calendar.YEAR);
+        int month = newCalendar.get(Calendar.MONTH);
+        int day = newCalendar.get(Calendar.DAY_OF_MONTH);
+        pdatePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        et_date.setText(dateFormatter.format(newDate.getTime()));
+                    }
+                }, year, month, day);
+        // Time picker
+        int hour = newCalendar.get(Calendar.HOUR_OF_DAY);
+        int minute = newCalendar.get(Calendar.MINUTE);
+        ptimePickerDialog = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        et_time.setText( selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true); //Yes 24 hour time
+
     }
 
 }
