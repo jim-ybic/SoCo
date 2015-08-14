@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.v2.view.activities;
+package com.soco.SoCoClient.v2.view.event.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

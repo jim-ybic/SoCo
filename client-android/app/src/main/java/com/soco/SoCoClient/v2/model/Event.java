@@ -15,7 +15,7 @@ import java.sql.SQLClientInfoException;
 
 public class Event {
 
-    String tag = "Event";
+    static String tag = "Event";
 
     //fields saved to db
     int seq;
@@ -42,8 +42,8 @@ public class Event {
         this.isDraft = 1;
         this.isDone = 0;
 
-        DbHelper helper = new DbHelper(c);
-        this.db = helper.getWritableDatabase();
+//        DbHelper helper = new DbHelper(c);
+//        this.db = helper.getWritableDatabase();
     }
 
     public Event(Cursor cursor){
@@ -67,6 +67,11 @@ public class Event {
     }
 
     public void save(){
+        if(db == null){
+            Log.e(tag, "db not ready, please set context before saving");
+            return;
+        }
+
         if (seq == DataConfig.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new event");
             saveNew();

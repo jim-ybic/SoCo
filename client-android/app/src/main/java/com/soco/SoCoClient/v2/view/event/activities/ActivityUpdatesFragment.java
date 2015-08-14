@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.v2.view.activities;
+package com.soco.SoCoClient.v2.view.event.activities;
 
 //import info.androidhive.tabsswipe.R;
 import com.soco.SoCoClient.R;

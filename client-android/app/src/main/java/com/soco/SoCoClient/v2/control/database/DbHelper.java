@@ -37,6 +37,16 @@ public class DbHelper extends SQLiteOpenHelper {
                 + ", " + DataConfig.COLUMN_EVENT_ISDONE + " VARCHAR"
                 + ")");
 
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_PERSON + " ("
+                    + DataConfig.COLUMN_PERSON_SEQ + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                    + ", " + DataConfig.COLUMN_PERSON_ID + " INTEGER"
+                    + ", " + DataConfig.COLUMN_PERSON_NAME + " VARCHAR"
+                    + ", " + DataConfig.COLUMN_PERSON_EMAIL + " VARCHAR"
+                    + ", " + DataConfig.COLUMN_PERSON_PHONE + " VARCHAR"
+                    + ", " + DataConfig.COLUMN_PERSON_WECHATID + " VARCHAR"
+                    + ", " + DataConfig.COLUMN_PERSON_FACEBOOKID + " VARCHAR"
+                    + ")");
+
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_ATTRIBUTE + " ("
                 + DataConfig.COLUMN_ATTRIBUTE_ATTRIDLOCAL + " INTEGER PRIMARY KEY AUTOINCREMENT"
                 + ", " + DataConfig.COLUMN_ATTRIBUTE_ATTRIDSERVER + " INTEGER"

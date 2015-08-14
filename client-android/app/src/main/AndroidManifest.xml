@@ -61,7 +61,7 @@
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".v2.view.activities.CompletedActivitiessActivity"
+            android:name=".v2.view.event.activities.CompletedActivitiessActivity"
             android:label="@string/title_activity_show_inactive_projects"
             android:launchMode="singleTop"
             android:parentActivityName=".v2.view.dashboard.Dashboard" >
@@ -95,11 +95,11 @@
             android:enabled="true" />
 
         <activity
-            android:name=".v2.view.activities.ActivityLocationActivity"
+            android:name=".v2.view.event.activities.ActivityLocationActivity"
             android:label="@string/title_activity_project_location" >
         </activity>
         <activity
-            android:name=".v2.view.activities.SingleActivityActivity"
+            android:name=".v2.view.event.activities.SingleActivityActivity"
             android:label="@string/title_show_single_activity"
             android:parentActivityName=".v2.view.dashboard.Dashboard" >
         </activity>

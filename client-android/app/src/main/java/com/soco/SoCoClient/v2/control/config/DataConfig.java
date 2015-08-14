@@ -20,6 +20,15 @@ public class DataConfig {
     public static final String COLUMN_EVENT_ISDRAFT = "isdraft";
     public static final String COLUMN_EVENT_ISDONE = "isdone";
 
+    public static final String TABLE_PERSON = "person";
+    public static final String COLUMN_PERSON_SEQ = "seq";
+    public static final String COLUMN_PERSON_ID = "id";
+    public static final String COLUMN_PERSON_NAME = "name";
+    public static final String COLUMN_PERSON_EMAIL = "email";
+    public static final String COLUMN_PERSON_PHONE = "phone";
+    public static final String COLUMN_PERSON_WECHATID = "wechatid";
+    public static final String COLUMN_PERSON_FACEBOOKID = "facebookid";
+
     public static final String TABLE_PROJECT = "project";
     public static final String COLUMN_PROJECT_PROJECTIDLOCAL = "projectIdLocal";
     public static final String COLUMN_PROJECT_PROJECTIDSERVER = "projectIdServer";

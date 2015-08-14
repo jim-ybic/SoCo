@@ -2,6 +2,7 @@ package com.soco.SoCoClient.v2.control.config;
 
 import android.app.Application;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -10,6 +11,7 @@ import android.util.Log;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
+import com.soco.SoCoClient.v2.model.Person;
 import com.soco.SoCoClient.v2.model.Profile;
 
 import java.util.ArrayList;
@@ -147,6 +149,42 @@ public class SocoApp extends Application {
             Log.d(tag, "listNameEmail already loaded");
 
         return listNameEmail;
+    }
+
+    public ArrayList<Person> loadPhoneContacts(Context context) {
+        Log.d(tag, "loadNameEmailList: start");
+
+        ArrayList<Person> persons = new ArrayList<>();
+        if (!listNameEmailReady) {
+            Log.d(tag, "listNameEmail not ready, load for the first time");
+            listNameEmail = new ArrayList<Map<String, String>>();
+            Cursor emails = getContentResolver().query(
+                    ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
+
+            int colDisplayName = emails.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+            int colEmail = emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
+
+
+            while (emails.moveToNext()) {
+                String contactName = emails.getString(colDisplayName);
+                String email = emails.getString(colEmail);
+                Log.v(tag, "Get email: " + contactName + ", " + email);
+
+                Person p = new Person(context, contactName, email);
+                persons.add(p);
+
+//                Map<String, String> NameEmail = new HashMap<String, String>();
+//                NameEmail.put("Key", contactName);
+//                NameEmail.put("Value", email);
+//                listNameEmail.add(NameEmail); //add this map to the list.
+            }
+            emails.close();
+            listNameEmailReady = true;
+        }
+        else
+            Log.d(tag, "listNameEmail already loaded");
+
+        return persons;
     }
 
     public ArrayList<Map<String, String>> loadNamePhoneList() {

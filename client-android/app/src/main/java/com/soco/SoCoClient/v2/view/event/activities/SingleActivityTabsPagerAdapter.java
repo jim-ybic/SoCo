@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.v2.view.activities;
+package com.soco.SoCoClient.v2.view.event.activities;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -112,6 +112,7 @@ public class EventDetail extends ActionBarActivity {
         event.setTime(et_time.getText().toString());
         event.setLocation(et_location.getText().toString());
 
+        event.addContext(context);
         event.save();
         Toast.makeText(getApplicationContext(), "Event saved", Toast.LENGTH_SHORT).show();
 

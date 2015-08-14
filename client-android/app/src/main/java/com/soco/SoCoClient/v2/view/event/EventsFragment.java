@@ -40,8 +40,7 @@ import java.util.Map;
 
 import com.soco.SoCoClient.obsolete.v1.model.Folder;
 import com.soco.SoCoClient.v2.model.Event;
-import com.soco.SoCoClient.v2.view.activities.CompletedActivitiessActivity;
-import com.soco.SoCoClient.v2.view.event.EventDetail;
+import com.soco.SoCoClient.v2.view.event.activities.CompletedActivitiessActivity;
 import com.soco.SoCoClient.v2.view.sectionlist.FolderItem;
 import com.soco.SoCoClient.v2.view.config.ProfileActivity;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionEntryListAdapter;
