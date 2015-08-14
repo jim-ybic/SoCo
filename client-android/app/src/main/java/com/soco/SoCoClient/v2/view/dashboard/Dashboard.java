@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.soco.SoCoClient.R;
 
-public class DashboardActivity extends ActionBarActivity implements
+public class Dashboard extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener {
 
     String tag = "Dashboard";

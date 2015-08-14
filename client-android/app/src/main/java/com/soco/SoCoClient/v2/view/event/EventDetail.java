@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.v2.control.config.DataConfig;
@@ -17,6 +19,10 @@ public class EventDetail extends ActionBarActivity {
 
     DataLoader dataLoader;
     Event event;
+    View rootView;
+
+    //local view items
+    EditText et_name, et_desc, et_timedate, et_location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,15 @@ public class EventDetail extends ActionBarActivity {
             event = dataLoader.loadEvent(seq);
             Log.d(tag, "loaded event: " + event.toString());
         }
+
+        findViewItems();
+    }
+
+    void findViewItems() {
+        et_name = (EditText) findViewById(R.id.name);
+        et_desc = (EditText) findViewById(R.id.desc);
+        et_timedate = (EditText) findViewById(R.id.timedate);
+        et_location = (EditText) findViewById(R.id.location);
     }
 
     @Override
@@ -54,5 +69,14 @@ public class EventDetail extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    void show(Event e){
+        if(e == null){
+            Log.e(tag, "event is null");
+            return;
+        }
+
+        et_name.setText(e.getName());
     }
 }

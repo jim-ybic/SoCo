@@ -40,7 +40,7 @@
         android:layout_alignParentTop="true"
         android:id="@+id/ll_sprojectname">
         <EditText
-            android:id="@+id/et_spname"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/abc_text_size_display_1_material"
@@ -169,6 +169,7 @@
                 android:layout_width="wrap_content"
                 android:text="DESCRIPTION" />
             <EditText
+                android:id="@+id/desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Type in the details of the event"/>
@@ -183,6 +184,7 @@
                     android:layout_width="wrap_content"
                     android:text="TIME &amp; DATE" />
                 <EditText
+                    android:id="@+id/timedate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Set up a time"/>
@@ -197,6 +199,7 @@
                     android:layout_width="wrap_content"
                     android:text="LOCATION" />
                 <EditText
+                    android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Add a location"/>

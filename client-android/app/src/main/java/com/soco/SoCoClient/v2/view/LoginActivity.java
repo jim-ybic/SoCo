@@ -15,11 +15,10 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.obsolete.v1.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.LoginTaskAsync;
 import com.soco.SoCoClient.obsolete.v1.control.http.task.RegisterTaskAsync;
 import com.soco.SoCoClient.v2.view.config.ServerConfigActivity;
-import com.soco.SoCoClient.v2.view.dashboard.DashboardActivity;
+import com.soco.SoCoClient.v2.view.dashboard.Dashboard;
 import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
@@ -151,7 +150,7 @@ public class LoginActivity extends ActionBarActivity {
 
             //todo: testing script
 //            Intent intent = new Intent(this, ShowActiveProjectsActivity.class);
-            Intent intent = new Intent(this, DashboardActivity.class);
+            Intent intent = new Intent(this, Dashboard.class);
 
 //            intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
 //            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
