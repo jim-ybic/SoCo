@@ -5,26 +5,28 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
+import com.soco.SoCoClient.v2.control.config.DataConfig;
+
 public class DashboardTabsPagerAdapter extends FragmentPagerAdapter {
 
     String tag = "DashboardTabsPagerAdapter";
 
     public DashboardTabsPagerAdapter(FragmentManager fm) {
         super(fm);
-        Log.i(tag, "contactsAdapter init");
+        Log.v(tag, "contactsAdapter init");
     }
 
     @Override
     public Fragment getItem(int index) {
-        Log.d(tag, "get item from index " + index);
+        Log.v(tag, "get item from index: " + index);
         switch (index) {
-            case 1:
+            case DataConfig.DASHBOARD_TAB_INDEX_EVENTS:
                 return new FragmentEvents();
-            case 2:
+            case DataConfig.DASHBOARD_TAB_INDEX_CHATS:
                 return new FragmentChats();
-            case 0:
+            case DataConfig.DASHBOARD_TAB_INDEX_STREAM:
                 return new FragmentStream();
-            case 3:
+            case DataConfig.DASHBOARD_TAB_INDEX_DISCOVERY:
                 return new FragmentDiscovery();
         }
 
@@ -33,8 +35,7 @@ public class DashboardTabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // get item count - equal to number of tabs
-        return 4;
+        return DataConfig.DASHBOARD_TAB_COUNT;
     }
 
 }
