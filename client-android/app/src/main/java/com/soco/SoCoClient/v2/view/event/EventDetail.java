@@ -2,17 +2,33 @@ package com.soco.SoCoClient.v2.view.event;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.v2.control.config.DataConfig;
+import com.soco.SoCoClient.v2.control.database.DataLoader;
+import com.soco.SoCoClient.v2.model.Event;
 
 public class EventDetail extends ActionBarActivity {
+
+    static String tag = "EventDetail";
+
+    DataLoader dataLoader;
+    Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.v2_event_details);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            int seq = extras.getInt(DataConfig.EXTRA_EVENT_SEQ);
+            event = dataLoader.loadEvent(seq);
+            Log.d(tag, "loaded event: " + event.toString());
+        }
     }
 
     @Override

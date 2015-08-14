@@ -44,19 +44,35 @@ public class DataLoader {
     }
 
     public ArrayList<Event> loadEvents(){
-        Log.v(tag, "load all event from db");
+        Log.v(tag, "load all events from db");
         String query = "select * from " + DataConfig.TABLE_EVENT;
         Cursor cursor = db.rawQuery(query, null);
 
         ArrayList<Event> events = new ArrayList<>();
         while(cursor.moveToNext()){
             Event e = new Event(cursor);
-            Log.d(tag, "load event from db: " + e.toString());
+            Log.d(tag, "loaded event from db: " + e.toString());
             events.add(e);
         }
 
         Log.d(tag, events.size() + " events loaded from db");
         return events;
+    }
+
+    public Event loadEvent(int seq){
+        Log.v(tag, "load event from db for seq " + seq);
+        String query = "select * from " + DataConfig.TABLE_EVENT
+                        + " where " + DataConfig.COLUMN_EVENT_SEQ + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(seq)});
+
+        while(cursor.moveToNext()){
+            Event e = new Event(cursor);
+            Log.d(tag, "loaded event from db: " + e.toString());
+            return e;
+        }
+
+            Log.e(tag, "event not found");
+            return null;
     }
 
     public ArrayList<Task> loadInactiveTasks(){
