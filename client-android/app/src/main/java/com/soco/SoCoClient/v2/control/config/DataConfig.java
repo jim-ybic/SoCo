@@ -124,4 +124,9 @@ public class DataConfig {
     public static final int DASHBOARD_TAB_INDEX_CHATS = 1;
     public static final int DASHBOARD_TAB_INDEX_DISCOVERY = 3;
 
+    public static int ACTIVITY_INVITATION_STATUS_COMPLETE = 1;
+    public static int ACTIVITY_INVITATION_STATUS_INCOMPLETE = 0;
+
+    public static final int INTENT_SHOW_EVENT_DETAIL = 101;
+    public static final String EXTRA_EVENT_SEQ = "extra_event_seq";
 }

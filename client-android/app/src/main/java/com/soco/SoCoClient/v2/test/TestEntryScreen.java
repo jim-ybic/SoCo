@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.v2.view.LoginActivity;
+import com.soco.SoCoClient.v2.view.event.EventDetail;
 
 public class TestEntryScreen extends ActionBarActivity {
 
@@ -53,7 +54,7 @@ public class TestEntryScreen extends ActionBarActivity {
 
     public void test (View view) {
         Log.i(tag, "test");
-        Intent intent = new Intent(this, TestEventDetail.class);
+        Intent intent = new Intent(this, EventDetail.class);
         startActivity(intent);
     }
 

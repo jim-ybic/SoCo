@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.v2.test;
+package com.soco.SoCoClient.v2.view.event;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import com.soco.SoCoClient.R;
 
-public class TestEventDetail extends ActionBarActivity {
+public class EventDetail extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

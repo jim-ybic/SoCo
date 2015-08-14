@@ -24,8 +24,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
+//import com.soco.SoCoClient.obsolete.v1.control.config.DataConfig;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
@@ -40,6 +41,7 @@ import java.util.Map;
 import com.soco.SoCoClient.obsolete.v1.model.Folder;
 import com.soco.SoCoClient.v2.model.Event;
 import com.soco.SoCoClient.v2.view.activities.CompletedActivitiessActivity;
+import com.soco.SoCoClient.v2.view.event.EventDetail;
 import com.soco.SoCoClient.v2.view.sectionlist.FolderItem;
 import com.soco.SoCoClient.v2.view.config.ProfileActivity;
 import com.soco.SoCoClient.v2.view.activities.SingleActivityActivity;
@@ -55,8 +57,6 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
     //local variable
     ListView lv_active_programs;
     EditText et_quick_add;
-
-    public static int INTENT_SHOW_SINGLE_PROGRAM = 101;
 
     // Local variable
     private DBManagerSoco dbmgrSoco;
@@ -132,26 +132,34 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                if(allListItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)) {
-                    EntryItem ei = (EntryItem) allListItems.get(position);
-                    Log.d(tag, "You clicked on activity: " + ei.title);
 
-                    String name = ei.title;
-                    int pid = ActivityUtil.findPidByPname(activities, name);
-                    socoApp.pid = pid;
-                    String pid_onserver = dbmgrSoco.findActivityIdOnserver(pid);
-                    if(pid_onserver == null)
-                        Log.e(tag, "cannot find activity remote id ");
-                    else
-                        socoApp.pid_onserver = Integer.parseInt(pid_onserver);
-                    Log.i(tag, "pid/pid_onserver: " + pid + ", " + pid_onserver);
+                //new code start
+                Event e = events.get(position);
+                Log.d(tag, "tap on event: " + e.toString());
+
+                Intent i = new Intent(view.getContext(), EventDetail.class);
+                i.putExtra(DataConfig.EXTRA_EVENT_SEQ, e.getSeq());
+                startActivityForResult(i, DataConfig.INTENT_SHOW_EVENT_DETAIL);
+                //new code end
+
+//                    EntryItem ei = (EntryItem) allListItems.get(position);
+//                    Log.d(tag, "You clicked on activity: " + ei.title);
+//
+//                    String name = ei.title;
+//                    int pid = ActivityUtil.findPidByPname(activities, name);
+//                    socoApp.pid = pid;
+//                    String pid_onserver = dbmgrSoco.findActivityIdOnserver(pid);
+//                    if(pid_onserver == null)
+//                        Log.e(tag, "cannot find activity remote id ");
+//                    else
+//                        socoApp.pid_onserver = Integer.parseInt(pid_onserver);
+//                    Log.i(tag, "pid/pid_onserver: " + pid + ", " + pid_onserver);
 
                     //new fragment-based activity
-                    Intent i = new Intent(view.getContext(), SingleActivityActivity.class);
-                    startActivityForResult(i, INTENT_SHOW_SINGLE_PROGRAM);
+//                    Intent i = new Intent(view.getContext(), SingleActivityActivity.class);
+//                    startActivityForResult(i, com.soco.SoCoClient.v2.control.config.DataConfig.INTENT_SHOW_EVENT_DETAIL);
 
-                    //new code
-                    Event e = events.get(position);
-                    Log.d(tag, "tap on event: " + e.toString());
+
 
 //                }
 //                else if(allListItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)) {
@@ -239,7 +247,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case (101): {
+            case com.soco.SoCoClient.v2.control.config.DataConfig.INTENT_SHOW_EVENT_DETAIL: {
                 Log.i(tag, "onActivityResult, return from ShowSingleProject");
 //                Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
 //                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
