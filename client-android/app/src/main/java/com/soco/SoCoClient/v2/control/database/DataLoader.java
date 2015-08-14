@@ -9,6 +9,7 @@ import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.model.Contact;
 import com.soco.SoCoClient.v2.model.Event;
 import com.soco.SoCoClient.v2.model.Message;
+import com.soco.SoCoClient.v2.model.Person;
 import com.soco.SoCoClient.v2.model.Task;
 
 import java.util.ArrayList;
@@ -74,6 +75,23 @@ public class DataLoader {
             Log.e(tag, "event not found");
             return null;
     }
+
+    public ArrayList<Person> loadPersons(){
+        Log.v(tag, "load all persons from db");
+        String query = "select * from " + DataConfig.TABLE_PERSON;
+        Cursor cursor = db.rawQuery(query, null);
+
+        ArrayList<Person> persons = new ArrayList<>();
+        while(cursor.moveToNext()){
+            Person p = new Person(cursor);
+            Log.v(tag, "loaded person from db: " + p.toString());
+            persons.add(p);
+        }
+
+        Log.d(tag, persons.size() + " persons loaded from db");
+        return persons;
+    }
+
 
     public ArrayList<Task> loadInactiveTasks(){
         return null;

@@ -28,6 +28,7 @@ public class DataConfig {
     public static final String COLUMN_PERSON_PHONE = "phone";
     public static final String COLUMN_PERSON_WECHATID = "wechatid";
     public static final String COLUMN_PERSON_FACEBOOKID = "facebookid";
+    public static final String COLUMN_PERSON_STATUS = "status";
 
     public static final String TABLE_PROJECT = "project";
     public static final String COLUMN_PROJECT_PROJECTIDLOCAL = "projectIdLocal";

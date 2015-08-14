@@ -2,6 +2,7 @@ package com.soco.SoCoClient.v2.model;
 
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -20,6 +21,7 @@ public class Person {
     String phone;
     String wechatid;
     String facebookid;
+    String status;
 
     //local variables
     Context context;
@@ -37,6 +39,19 @@ public class Person {
 
 //        DbHelper helper = new DbHelper(c);
 //        this.db = helper.getWritableDatabase();
+    }
+
+    public Person(Cursor cursor){
+        Log.v(tag, "create person from cursor");
+        this.seq = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_SEQ));
+        this.id = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_ID));
+        this.name = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_NAME));
+        this.email = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_EMAIL));
+        this.phone = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_PHONE));
+        this.wechatid = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_WECHATID));
+        this.facebookid = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_FACEBOOKID));
+
+        Log.v(tag, "created person from cursor: " + toString());
     }
 
 
