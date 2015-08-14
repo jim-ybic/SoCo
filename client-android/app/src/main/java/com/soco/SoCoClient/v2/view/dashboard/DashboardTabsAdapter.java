@@ -7,11 +7,11 @@ import android.util.Log;
 
 import com.soco.SoCoClient.v2.control.config.DataConfig;
 
-public class DashboardTabsPagerAdapter extends FragmentPagerAdapter {
+public class DashboardTabsAdapter extends FragmentPagerAdapter {
 
-    String tag = "DashboardTabsPagerAdapter";
+    String tag = "DashboardTabsAdapter";
 
-    public DashboardTabsPagerAdapter(FragmentManager fm) {
+    public DashboardTabsAdapter(FragmentManager fm) {
         super(fm);
         Log.v(tag, "contactsAdapter init");
     }

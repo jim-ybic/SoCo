@@ -17,11 +17,16 @@ public class Dashboard extends ActionBarActivity implements
     String tag = "Dashboard";
 
     private ViewPager viewPager;
-    private DashboardTabsPagerAdapter mAdapter;
+    private DashboardTabsAdapter mAdapter;
     private android.support.v7.app.ActionBar actionBar;
 
     // Tab titles
-    private String[] tabs = {"Stream", "Events" , "Chats", "Discovery"};
+    private String[] tabs = {
+            "Events",
+            "Chats",
+            "Stream",
+            "Discovery"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +42,7 @@ public class Dashboard extends ActionBarActivity implements
             return;
         }
 
-        mAdapter = new DashboardTabsPagerAdapter(getSupportFragmentManager());
+        mAdapter = new DashboardTabsAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
