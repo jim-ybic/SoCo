@@ -152,7 +152,10 @@ public class SocoApp extends Application {
     }
 
     public ArrayList<Person> loadPhoneContacts(Context context) {
-        Log.d(tag, "loadNameEmailList: start");
+        Log.v(tag, "load phone contacts start");
+
+        //test - force loading each time
+        listNameEmailReady = false;
 
         ArrayList<Person> persons = new ArrayList<>();
         if (!listNameEmailReady) {
@@ -163,7 +166,6 @@ public class SocoApp extends Application {
 
             int colDisplayName = emails.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
             int colEmail = emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
-
 
             while (emails.moveToNext()) {
                 String contactName = emails.getString(colDisplayName);

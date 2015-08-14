@@ -23,7 +23,7 @@
         android:layout_marginBottom="6dip"
         android:layout_weight="1">
     
-        <TextView android:id="@+id/list_item_entry_title"
+        <TextView android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
@@ -32,11 +32,11 @@
             android:fadingEdge="horizontal"
             android:textColor="#040404" />
             
-        <TextView android:id="@+id/list_item_entry_summary"
+        <TextView android:id="@+id/subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/list_item_entry_title"
-            android:layout_alignLeft="@id/list_item_entry_title"
+            android:layout_below="@id/title"
+            android:layout_alignLeft="@id/title"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#040404" />
 

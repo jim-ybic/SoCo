@@ -53,8 +53,8 @@ public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 				EntryItem ei = (EntryItem)i;
                 Log.v(tag, "item title: " + ei.title);
 				v = vi.inflate(R.layout.v1_list_item_entry, null);
-				final TextView title = (TextView)v.findViewById(R.id.list_item_entry_title);
-				final TextView subtitle = (TextView)v.findViewById(R.id.list_item_entry_summary);
+				final TextView title = (TextView)v.findViewById(R.id.title);
+				final TextView subtitle = (TextView)v.findViewById(R.id.subtitle);
 				
 				if (title != null) 
 					title.setText(ei.title);
@@ -64,8 +64,8 @@ public class SectionEntryListAdapter extends ArrayAdapter<Item> {
                 FolderItem fi = (FolderItem)i;
                 Log.v(tag, "item title: " + fi.title);
                 v = vi.inflate(R.layout.v1_list_item_folder, null);
-                final TextView title = (TextView)v.findViewById(R.id.list_item_entry_title);
-                final TextView subtitle = (TextView)v.findViewById(R.id.list_item_entry_summary);
+                final TextView title = (TextView)v.findViewById(R.id.title);
+                final TextView subtitle = (TextView)v.findViewById(R.id.subtitle);
 
                 if (title != null)
                     title.setText(fi.title);
