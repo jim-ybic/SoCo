@@ -12,6 +12,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
+import com.soco.SoCoClient.v2.view.sectionlist.SectionItem;
 
 import java.util.ArrayList;
 
@@ -40,22 +41,22 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
 		if (i != null) {
             Log.v(tag, "item type: " + i.getType() + ", " + i.toString());
 
-//			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_SECTION)){
-//				SectionItem si = (SectionItem)i;
-//                Log.v(tag, "item title: " + si.getTitle());
-//				v = vi.inflate(R.layout.v1_list_item_section, null);
-//
-//				v.setOnClickListener(null);
-//				v.setOnLongClickListener(null);
-//				v.setLongClickable(false);
-//
-//				final TextView sectionView = (TextView) v.findViewById(R.id.list_item_section_text);
-//				sectionView.setText(si.getTitle());
-//			}
+			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_SECTION)){
+				SectionItem si = (SectionItem)i;
+                Log.v(tag, "item title: " + si.getTitle());
+				v = vi.inflate(R.layout.v1_list_item_section, null);
+
+				v.setOnClickListener(null);
+				v.setOnLongClickListener(null);
+				v.setLongClickable(false);
+
+				final TextView sectionView = (TextView) v.findViewById(R.id.list_item_section_text);
+				sectionView.setText(si.getTitle());
+			}
 			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){
 				EntryItem ei = (EntryItem)i;
                 Log.v(tag, "item title: " + ei.title);
-				v = vi.inflate(R.layout.contact_entry, null);
+				v = vi.inflate(R.layout.contact_list_entry, null);
 				final TextView title = (TextView)v.findViewById(R.id.title);
 				final TextView subtitle = (TextView)v.findViewById(R.id.subtitle);
 				

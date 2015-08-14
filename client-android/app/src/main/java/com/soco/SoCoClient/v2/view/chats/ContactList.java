@@ -12,6 +12,7 @@ import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.v2.model.Person;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
+import com.soco.SoCoClient.v2.view.sectionlist.SectionItem;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,7 @@ public class ContactList extends ActionBarActivity {
         ArrayList<Person> persons = socoApp.loadPhoneContacts(getApplicationContext());
         Log.d(tag, "load contacts complete: " + persons.size() + " found");
 
+        findViewItems();
         showContacts(persons);
     }
 
@@ -43,7 +45,7 @@ public class ContactList extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_contact_list, menu);
+        getMenuInflater().inflate(R.menu.contact_list, menu);
         return true;
     }
 
@@ -66,6 +68,9 @@ public class ContactList extends ActionBarActivity {
         Log.v(tag, "show contacts to ui");
         ArrayList<Item> items = new ArrayList<>();
 
+        items.add(new SectionItem("My friends"));
+
+        items.add(new SectionItem("All phone contacts"));
         for(Person p : persons){
             items.add(new EntryItem(p.getName(), p.getEmail()));
         }
