@@ -51,7 +51,7 @@ public class DataLoader {
         ArrayList<Event> events = new ArrayList<>();
         while(cursor.moveToNext()){
             Event e = new Event(cursor);
-            Log.d(tag, "loaded event from db: " + e.toString());
+            Log.v(tag, "loaded event from db: " + e.toString());
             events.add(e);
         }
 

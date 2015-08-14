@@ -52,6 +52,12 @@ public class Event {
         Log.v(tag, "created event from cursor: " + toString());
     }
 
+    public void addContext(Context c){
+        context = c;
+        DbHelper helper = new DbHelper(c);
+        db = helper.getWritableDatabase();
+    }
+
     public void save(){
         if (seq == DataConfig.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new event");

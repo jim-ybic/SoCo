@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.v2.view.event;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ public class EventDetail extends ActionBarActivity {
 
     static String tag = "EventDetail";
 
+    Context context;
     DataLoader dataLoader;
     Event event;
     View rootView;
@@ -29,17 +31,20 @@ public class EventDetail extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.v2_event_details);
 
-        dataLoader = new DataLoader(getApplicationContext());
+        context = getApplicationContext();
+        dataLoader = new DataLoader(context);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             int seq = extras.getInt(DataConfig.EXTRA_EVENT_SEQ);
             Log.d(tag, "extra has seq " + seq);
             event = dataLoader.loadEvent(seq);
+            event.addContext(context);
             Log.d(tag, "loaded event: " + event.toString());
         }
 
         findViewItems();
+        show(event);
     }
 
     void findViewItems() {
@@ -79,4 +84,15 @@ public class EventDetail extends ActionBarActivity {
 
         et_name.setText(e.getName());
     }
+
+    public void save(View view){
+        Log.d(tag, "save changes");
+
+        event.setName(et_name.getText().toString());
+        //todo: desc, timedate, location, etc
+
+        event.save();
+        return;
+    }
+
 }

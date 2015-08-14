@@ -246,18 +246,18 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case com.soco.SoCoClient.v2.control.config.DataConfig.INTENT_SHOW_EVENT_DETAIL: {
-                Log.i(tag, "onActivityResult, return from ShowSingleProject");
+//        switch (requestCode) {
+//            case com.soco.SoCoClient.v2.control.config.DataConfig.INTENT_SHOW_EVENT_DETAIL: {
+//                Log.i(tag, "return from event details");
 //                Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
 //                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
 //                activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
 //                refreshList();
-                events = dataLoader.loadEvents();
-                show(events);
-                break;
-            }
-        }
+//                events = dataLoader.loadEvents();
+//                show(events);
+//                break;
+//            }
+//        }
     }
 
     @Override
@@ -402,6 +402,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
     }
 
     public void show(ArrayList<Event> events) {
+        Log.d(tag, "show events to ui");
         allListItems = new ArrayList<>();
 
         for(Event e : events){
@@ -425,7 +426,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
 //            }
 //        }
 
-        Log.d(tag, "refresh UI");
+//        Log.d(tag, "refresh UI");
         activitiesAdapter = new SectionEntryListAdapter(getActivity(), allListItems);
         lv_active_programs.setAdapter(activitiesAdapter);
     }
@@ -465,11 +466,11 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
 
     public void onResume() {
         super.onResume();
-        Log.i(tag, "onResume start, reload active projects");
+//        Log.i(tag, "onResume start, reload active projects");
 //        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
-        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
+//        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
 //        refreshList();
-//        events = dataLoader.loadEvents();
+        events = dataLoader.loadEvents();
         show(events);
     }
 
