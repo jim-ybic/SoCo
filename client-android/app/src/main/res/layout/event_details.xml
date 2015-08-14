@@ -44,8 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/abc_text_size_display_1_material"
-            android:text="RCG outing 3 Sep"
-            android:hint="Name not set"
+            android:hint="Event Name"
             android:gravity="center_horizontal" />
         <!--<TableLayout-->
             <!--android:layout_width="match_parent"-->
@@ -83,8 +82,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:id="@id/sv_sproject"
-        android:layout_below="@id/ll_sproject">
+        android:id="@id/sv_sproject">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"

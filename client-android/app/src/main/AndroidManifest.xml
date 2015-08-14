@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".obsolete.v1.view.LoginActivity"
+            android:name=".obsolete.v1.view.LoginActivityObs"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateHidden" >
 
@@ -104,7 +104,7 @@
             android:parentActivityName=".v2.view.dashboard.Dashboard" >
         </activity>
         <activity
-            android:name=".v2.view.contacts.ContactDetailsActivity"
+            android:name=".v2.view.chats.ContactDetailsActivity"
             android:label="@string/title_activity_contact_details"
             android:parentActivityName=".v2.view.dashboard.Dashboard"
             android:windowSoftInputMode="adjustResize|stateHidden" >
@@ -133,18 +133,24 @@
         <activity
             android:name=".v2.view.event.EventDetail"
             android:label="@string/title_activity_test_event_detail" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".v2.test.TestEntryScreen"
             android:label="@string/title_activity_test_entry_screen" >
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".v2.view.chats.ContactList"
+            android:label="@string/title_activity_contact_list" >
         </activity>
     </application>
 

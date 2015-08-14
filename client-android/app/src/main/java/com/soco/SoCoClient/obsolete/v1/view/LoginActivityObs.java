@@ -26,7 +26,7 @@ import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivityObs extends ActionBarActivity {
 
     public static String FLAG_EXIT = "exit";
     public static String tag = "Login";

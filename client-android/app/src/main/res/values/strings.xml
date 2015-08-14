@@ -41,5 +41,6 @@
     <string name="social_login"><u>Social Login?</u></string>
     <string name="title_activity_test_event_detail">TestEventDetail</string>
     <string name="title_activity_test_entry_screen">TestEntryScreen</string>
+    <string name="title_activity_contact_list">ContactList</string>
 
 </resources>

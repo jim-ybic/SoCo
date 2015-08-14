@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.v2.view.dashboard;
+package com.soco.SoCoClient.v2.view.event;
 
 //todo: a bug to be fixed, steps to replicate-
 //1) go inside a folder, 2) quick create an activity, 3) press android Back button
@@ -49,9 +49,9 @@ import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionItem;
 
-public class FragmentEvents extends Fragment implements View.OnClickListener {
+public class EventsFragment extends Fragment implements View.OnClickListener {
 
-    static String tag = "FragmentEvents";
+    static String tag = "EventsFragment";
 
     //local variable
     ListView lv_active_programs;
@@ -100,12 +100,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
         events = dataLoader.loadEvents();
     }
 
-    void findViewItems(View rootView){
-        lv_active_programs = (ListView) rootView.findViewById(R.id.lv_active_programs);
-        et_quick_add = ((EditText)rootView.findViewById(R.id.et_quickadd));
 
-        rootView.findViewById(R.id.add).setOnClickListener(this);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -233,6 +228,13 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
         return rootView;
     }
 
+    void findViewItems(View rootView){
+        lv_active_programs = (ListView) rootView.findViewById(R.id.lv_active_programs);
+        et_quick_add = ((EditText)rootView.findViewById(R.id.et_quickadd));
+
+        rootView.findViewById(R.id.add).setOnClickListener(this);
+    }
+
 //    ArrayList<Item> getTestingItems(){
 //        ArrayList<Item> items = new ArrayList<>();
 //        items.add(new SectionItem("Section ABC"));
@@ -261,7 +263,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_dashboard_activities, menu);
+        inflater.inflate(R.menu.menu_dashboard_events, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -438,9 +440,9 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
     }
 
 //    public void exit(View view) {
-//        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+//        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivityObs.class);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        intent.putExtra(LoginActivity.FLAG_EXIT, true);
+//        intent.putExtra(LoginActivityObs.FLAG_EXIT, true);
 //        startActivity(intent);
 //    }
 

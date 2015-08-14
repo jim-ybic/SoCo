@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.v2.view.dashboard;
+package com.soco.SoCoClient.v2.view.chats;
 
 //import info.androidhive.tabsswipe.R;
 
@@ -30,7 +30,7 @@ import com.soco.SoCoClient.obsolete.v1.control.http.task.AddFriendTaskAsync;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionEntryListAdapter;
-import com.soco.SoCoClient.v2.view.contacts.ContactDetailsActivity;
+import com.soco.SoCoClient.v2.view.chats.ContactDetailsActivity;
 import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
@@ -38,9 +38,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FragmentChats extends Fragment implements View.OnClickListener {
+public class FragmentContacts extends Fragment implements View.OnClickListener {
 
-    String tag = "FragmentChats";
+    String tag = "FragmentContacts";
     View rootView;
 
 //    int pid;
@@ -66,7 +66,7 @@ public class FragmentChats extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         Log.d(tag, "create project members fragment view.....");
-        rootView = inflater.inflate(R.layout.fragment_chats, container, false);
+        rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
 
         ((ListView)rootView.findViewById(R.id.listview_contacts)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")

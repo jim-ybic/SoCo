@@ -41,7 +41,7 @@ public class EventDetail extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.v2_event_details);
+        setContentView(R.layout.event_details);
 
         context = getApplicationContext();
         dataLoader = new DataLoader(context);

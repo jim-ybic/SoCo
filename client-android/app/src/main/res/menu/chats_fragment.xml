@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.soco.SoCoClient.ShowActiveProgramActivity">
+
+    <item
+        android:id="@+id/create"
+        android:title="Create"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_new_white"/>
+
+    <item
+        android:id="@+id/contacts"
+        android:title="Contacts"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_group_white"/>
+
+</menu>
