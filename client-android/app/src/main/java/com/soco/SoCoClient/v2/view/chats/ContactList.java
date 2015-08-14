@@ -25,28 +25,39 @@ public class ContactList extends ActionBarActivity {
 
     static String tag = "ContactList";
 
+    static final int CONTACT_SECTION_COUNT = 2; //number of sections: my friends, all phone contacts
+    static final String CONTEXT_MENU_ITEM_INVITE = "Invite";
+    static final String CONTEXT_MENU_ITEM_DETAILS = "Details";
+    static final String CONTEXT_MENU_ITEM_CALL = "Call";
+    static final String CONTEXT_MENU_ITEM_EMAIL = "Email";
+
     //local variables
     ListView contactList;
-    ArrayList<Person> persons;
+    ArrayList<Person> friends;
     ArrayList<Person> phoneContacts;
     DataLoader dataLoader;
+    String[] contextMenuItems = {
+            CONTEXT_MENU_ITEM_INVITE,
+            CONTEXT_MENU_ITEM_DETAILS,
+            CONTEXT_MENU_ITEM_CALL,
+            CONTEXT_MENU_ITEM_EMAIL
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_list);
 
-        Log.i(tag, "get contact contactList");
+        Log.v(tag, "get contact contactList");
         SocoApp socoApp = (SocoApp)getApplicationContext();
-//        ArrayList<Map<String, String>> listNameEmail = socoApp.loadNameEmailList();
         phoneContacts = socoApp.loadPhoneContacts(getApplicationContext());
         Log.d(tag, "load contacts complete: " + phoneContacts.size() + " found");
 
         dataLoader = new DataLoader(getApplicationContext());
-        persons = dataLoader.loadPersons();
+        friends = dataLoader.loadPersons();
 
         findViewItems();
-        showContacts(persons, phoneContacts);
+        showContacts(friends, phoneContacts);
     }
 
     void findViewItems(){
@@ -76,40 +87,20 @@ public class ContactList extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    int getSectionCount(){
-        return 2;   //number of sections: my friends, all phone contacts
-    }
-
-    int getFriendCount(){
-        return persons.size();  //number of friends
-    }
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenuInfo menuInfo) {
-        Log.d(tag, "create context menu");
+        Log.v(tag, "create context menu");
+        for (int i = 0; i< contextMenuItems.length; i++)
+            menu.add(Menu.NONE, i, i, contextMenuItems[i]);
 
-        String[] tabs = {
-                "Invite",
-                "Details",
-                "Call",
-                "Email"
-        };
-        for (int i = 0; i<tabs.length; i++) {
-            menu.add(Menu.NONE, i, i, tabs[i]);
-        }
+//        if (v.getId()==R.id.contacts) {
+//            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+            int position = ((AdapterView.AdapterContextMenuInfo)menuInfo).position;
+            Log.v(tag, "get position: " + position);
 
-        if (v.getId()==R.id.contacts) {
-            ListView lv = (ListView) v;
-            for(int i=0; i<lv.getCount(); i++)  //testing
-                Log.v(tag, "lv item: " + lv.getItemAtPosition(i).toString());
-
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-            int position = info.position;
-            Log.d(tag, "get position: " + position);
-
-            if(position > getSectionCount() + getFriendCount()){    //tap on phone contact
-                int pos = position - getSectionCount();
+            if(position > CONTACT_SECTION_COUNT + friends.size()){    //tap on phone contact
+                int pos = position - CONTACT_SECTION_COUNT;
                 Person p = phoneContacts.get(pos);
                 Log.d(tag, "phone contact pos " + pos + ": " + p.toString());
                 menu.setHeaderTitle(p.getName());
@@ -117,26 +108,43 @@ public class ContactList extends ActionBarActivity {
             else {  //tap on friend
                 //todo
             }
+//        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
+        Log.v(tag, "select context item: " + item.toString() + ", position is " + position);
+
+        if(position > CONTACT_SECTION_COUNT + friends.size()) {    //tap on phone contact
+            int pos = position - CONTACT_SECTION_COUNT;
+            Person p = phoneContacts.get(pos);
+            Log.v(tag, "phone contact pos " + pos + ": " + p.toString());
+
+            if (item.getTitle() == CONTEXT_MENU_ITEM_INVITE) {
+                Log.d(tag, "invite: " + p.getName());
+                //todo
+
+                return true;
+            }
         }
+
+        return true;
     }
 
     public void showContacts(ArrayList<Person> persons, ArrayList<Person> phoneContacts) {
-        Log.v(tag, "show contacts: " + persons.size() + " persons, " + phoneContacts.size() + " phone contacts");
+        Log.v(tag, "show contacts: " + persons.size() + " friends, " + phoneContacts.size() + " phone contacts");
         ArrayList<Item> items = new ArrayList<>();
 
-        items.add(new SectionItem("My friends"));
+        items.add(new SectionItem("MY FRIENDS"));
         for(Person p : persons){
             items.add(new EntryItem(p.getName(), p.getEmail()));
         }
 
-        items.add(new SectionItem("All phone contacts"));
+        items.add(new SectionItem("MY PHONE CONTACTS"));
         int counter = 0;
         for(Person p : phoneContacts){
             items.add(new EntryItem(p.getName(), p.getEmail()));
-
-            //testing
-            if(counter ++ > 100)
-                break;
         }
 
         ContactListAdapter adapter = new ContactListAdapter(this, items);

@@ -44,7 +44,7 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
 			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_SECTION)){
 				SectionItem si = (SectionItem)i;
                 Log.v(tag, "item title: " + si.getTitle());
-				v = vi.inflate(R.layout.v1_list_item_section, null);
+				v = vi.inflate(R.layout.contact_list_section, null);
 
 				v.setOnClickListener(null);
 				v.setOnLongClickListener(null);
