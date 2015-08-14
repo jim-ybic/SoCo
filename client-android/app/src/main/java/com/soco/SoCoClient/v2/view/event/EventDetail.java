@@ -23,9 +23,12 @@ public class EventDetail extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.v2_event_details);
 
+        dataLoader = new DataLoader(getApplicationContext());
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             int seq = extras.getInt(DataConfig.EXTRA_EVENT_SEQ);
+            Log.d(tag, "extra has seq " + seq);
             event = dataLoader.loadEvent(seq);
             Log.d(tag, "loaded event: " + event.toString());
         }
