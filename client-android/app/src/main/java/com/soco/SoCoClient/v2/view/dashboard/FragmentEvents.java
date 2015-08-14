@@ -5,9 +5,7 @@ package com.soco.SoCoClient.v2.view.dashboard;
 //expected: return to the up level
 //actual: return to login acreen
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +70,10 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
     SectionEntryListAdapter activitiesAdapter;
     Context context;
 
+    //new variables
+    DataLoader dataLoader;
+    ArrayList<Event> events;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,32 +95,43 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
 //        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
         activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
         folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
+
+        //new code
+        dataLoader = new DataLoader(context);
+        events = dataLoader.loadEvents();
+    }
+
+    void findViewItems(View rootView){
+        lv_active_programs = (ListView) rootView.findViewById(R.id.lv_active_programs);
+        et_quick_add = ((EditText)rootView.findViewById(R.id.et_quickadd));
+
+        rootView.findViewById(R.id.add).setOnClickListener(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.d(tag, "on create view");
+//        Log.d(tag, "on create view");
         rootView = inflater.inflate(R.layout.fragment_events, container, false);
-        Log.d(tag, "Found root view: " + rootView);
+//        Log.d(tag, "Found root view: " + rootView);
 
-        lv_active_programs = (ListView) rootView.findViewById(R.id.lv_active_programs);
-        et_quick_add = ((EditText)rootView.findViewById(R.id.et_quickadd));
+        findViewItems(rootView);
 
         //set button listeners
-        rootView.findViewById(R.id.add).setOnClickListener(this);
+//        rootView.findViewById(R.id.add).setOnClickListener(this);
 //        rootView.findViewById(R.id.create).setOnClickListener(this);
 //        rootView.findViewById(R.id.archive).setOnClickListener(this);
 //        rootView.findViewById(R.id.exit).setOnClickListener(this);
 
-        refreshList();
+//        refreshList();
+        show(events);
 
         lv_active_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressWarnings("unchecked")
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(allListItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)) {
+//                if(allListItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)) {
                     EntryItem ei = (EntryItem) allListItems.get(position);
                     Log.d(tag, "You clicked on activity: " + ei.title);
 
@@ -136,22 +148,27 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
                     //new fragment-based activity
                     Intent i = new Intent(view.getContext(), SingleActivityActivity.class);
                     startActivityForResult(i, INTENT_SHOW_SINGLE_PROGRAM);
-                }
-                else if(allListItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)) {
-                    FolderItem fi = (FolderItem) allListItems.get(position);
-                    Log.d(tag, "You clicked on folder: " + fi.title);
 
-                    socoApp.currentPath += fi.title + "/";
-                    Log.d(tag, "reload activities and folders from new current path " + socoApp.currentPath);
-                    activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
-                    folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
-                    refreshList();
+                    //new code
+                    Event e = events.get(position);
+                    Log.d(tag, "tap on event: " + e.toString());
 
-                    if(socoApp.currentPath.equals(GeneralConfig.PATH_ROOT))
-                        getActivity().setTitle("Dashboard");
-                    else
-                        getActivity().setTitle(fi.title);
-                }
+//                }
+//                else if(allListItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)) {
+//                    FolderItem fi = (FolderItem) allListItems.get(position);
+//                    Log.d(tag, "You clicked on folder: " + fi.title);
+//
+//                    socoApp.currentPath += fi.title + "/";
+//                    Log.d(tag, "reload activities and folders from new current path " + socoApp.currentPath);
+//                    activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
+//                    folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
+//                    refreshList();
+//
+//                    if(socoApp.currentPath.equals(GeneralConfig.PATH_ROOT))
+//                        getActivity().setTitle("Dashboard");
+//                    else
+//                        getActivity().setTitle(fi.title);
+//                }
             }
         });
 
@@ -226,8 +243,10 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
                 Log.i(tag, "onActivityResult, return from ShowSingleProject");
 //                Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
 //                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
-                activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
-                refreshList();
+//                activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
+//                refreshList();
+                events = dataLoader.loadEvents();
+                show(events);
                 break;
             }
         }
@@ -336,6 +355,8 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
 
 
     public void refreshList() {
+        Log.d(tag, "refresh list start");
+
         allListItems = new ArrayList<>();
         HashMap<String, String> tags = new HashMap<>();
 
@@ -425,7 +446,7 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
         e.save();
 
         DataLoader dataLoader = new DataLoader(context);
-        ArrayList<Event> events = dataLoader.loadEvents();
+        events = dataLoader.loadEvents();
         show(events);
 
         //clean up
@@ -439,7 +460,9 @@ public class FragmentEvents extends Fragment implements View.OnClickListener {
         Log.i(tag, "onResume start, reload active projects");
 //        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfig.VALUE_ACTIVITY_ACTIVE);
         activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
-        refreshList();
+//        refreshList();
+//        events = dataLoader.loadEvents();
+        show(events);
     }
 
 
