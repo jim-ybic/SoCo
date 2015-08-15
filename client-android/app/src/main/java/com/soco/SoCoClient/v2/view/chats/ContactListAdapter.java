@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionItem;
 
@@ -43,7 +42,7 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
 
 			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_SECTION)){   //section
 				SectionItem si = (SectionItem)i;
-                Log.v(tag, "item title: " + si.getTitle());
+                Log.v(tag, "item name: " + si.getTitle());
 				v = vi.inflate(R.layout.contact_list_section, null);
 
 				v.setOnClickListener(null);
@@ -54,31 +53,34 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
 				sectionView.setText(si.getTitle());
 			}
 			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){ //entry
-				EntryItem ei = (EntryItem)i;
-                Log.v(tag, "item title: " + ei.title);
+				ContactEntryItem ei = (ContactEntryItem)i;
+                Log.v(tag, "item name: " + ei.name);
 				v = vi.inflate(R.layout.contact_list_entry, null);
-				final TextView title = (TextView)v.findViewById(R.id.title);
-				final TextView subtitle = (TextView)v.findViewById(R.id.subtitle);
+				final TextView name = (TextView)v.findViewById(R.id.name);
+                final TextView phone = (TextView)v.findViewById(R.id.phone);
+				final TextView email = (TextView)v.findViewById(R.id.email);
                 final TextView status = (TextView)v.findViewById(R.id.status);
 
-				if (title != null) 
-					title.setText(ei.title);
-				if (subtitle != null)
-					subtitle.setText(ei.subtitle);
+				if (name != null)
+					name.setText(ei.name);
+                if (phone != null)
+                    phone.setText(ei.phone);
+				if (email != null)
+					email.setText(ei.email);
                 if (status != null)
                     status.setText(ei.status);
 			}
 //			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)){
 //                FolderItem fi = (FolderItem)i;
-//                Log.v(tag, "item title: " + fi.title);
+//                Log.v(tag, "item name: " + fi.name);
 //                v = vi.inflate(R.layout.v1_list_item_folder, null);
-//                final TextView title = (TextView)v.findViewById(R.id.list_item_entry_title);
-//                final TextView subtitle = (TextView)v.findViewById(R.id.list_item_entry_summary);
+//                final TextView name = (TextView)v.findViewById(R.id.list_item_entry_title);
+//                final TextView email = (TextView)v.findViewById(R.id.list_item_entry_summary);
 //
-//                if (title != null)
-//                    title.setText(fi.title);
-//                if(subtitle != null)
-//                    subtitle.setText(fi.subtitle);
+//                if (name != null)
+//                    name.setText(fi.name);
+//                if(email != null)
+//                    email.setText(fi.email);
 //            }
 		}
 		return v;
