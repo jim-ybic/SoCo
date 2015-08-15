@@ -136,9 +136,9 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
                 //new code end
 
 //                    EntryItem ei = (EntryItem) allListItems.get(position);
-//                    Log.d(tag, "You clicked on activity: " + ei.title);
+//                    Log.d(tag, "You clicked on activity: " + ei.name);
 //
-//                    String name = ei.title;
+//                    String name = ei.name;
 //                    int pid = ActivityUtil.findPidByPname(activities, name);
 //                    socoApp.pid = pid;
 //                    String pid_onserver = dbmgrSoco.findActivityIdOnserver(pid);
@@ -157,9 +157,9 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 //                }
 //                else if(allListItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)) {
 //                    FolderItem fi = (FolderItem) allListItems.get(position);
-//                    Log.d(tag, "You clicked on folder: " + fi.title);
+//                    Log.d(tag, "You clicked on folder: " + fi.name);
 //
-//                    socoApp.currentPath += fi.title + "/";
+//                    socoApp.currentPath += fi.name + "/";
 //                    Log.d(tag, "reload activities and folders from new current path " + socoApp.currentPath);
 //                    activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
 //                    folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
@@ -168,7 +168,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 //                    if(socoApp.currentPath.equals(GeneralConfig.PATH_ROOT))
 //                        getActivity().setTitle("Dashboard");
 //                    else
-//                        getActivity().setTitle(fi.title);
+//                        getActivity().setTitle(fi.name);
 //                }
             }
         });
@@ -208,10 +208,10 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
                         int pos = path.lastIndexOf("/");
                         Log.d(tag, "pos: " + pos);
                         title = path.substring(pos+1, path.length());
-                        Log.d(tag, "title: " + title);
+                        Log.d(tag, "name: " + title);
 //                        getActivity().setTitle(folder);
                     }
-                    Log.d(tag, "set activity title: " + title);
+                    Log.d(tag, "set activity name: " + title);
                     getActivity().setTitle(title);
 //                    Log.d(tag, "current path: " + socoApp.currentPath);
                     return true;
@@ -221,7 +221,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-//        Log.v(tag, "set activity title: " + socoApp.currentPath);
+//        Log.v(tag, "set activity name: " + socoApp.currentPath);
 //        getActivity().setTitle(socoApp.currentPath);
 
         return rootView;
@@ -376,7 +376,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
             ArrayList<Activity> pp = e.getValue();
             allListItems.add(new SectionItem(tag));   //add section
             for(Activity p : pp) {  //add activity
-                //fix Bug #4 new activity created from invitation has delay in showing activity title
+                //fix Bug #4 new activity created from invitation has delay in showing activity name
                 if(p.invitation_status == DataConfig.ACTIVITY_INVITATION_STATUS_COMPLETE)
                     allListItems.add(new EntryItem(p.pname, p.getMoreInfo()));
                 else
@@ -418,7 +418,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 //            ArrayList<Activity> pp = e.getValue();
 //            allListItems.add(new SectionItem(tag));   //add section
 //            for(Activity p : pp) {  //add activity
-//                //fix Bug #4 new activity created from invitation has delay in showing activity title
+//                //fix Bug #4 new activity created from invitation has delay in showing activity name
 //                if(p.invitation_status == DataConfigObs.ACTIVITY_INVITATION_STATUS_COMPLETE)
 //                    allListItems.add(new EntryItem(p.pname, p.getMoreInfo()));
 //                else

@@ -29,11 +29,12 @@ public class Person {
     Context context;
     SQLiteDatabase db;
 
-    public Person(Context c, String name, String email){
+    public Person(Context c, String name, String phone, String email){
         Log.v(tag, "create new person");
 
         this.context = c;
         this.name = name;
+        this.phone = phone;
         this.email = email;
 
         this.seq = DataConfig.ENTITIY_ID_NOT_READY;

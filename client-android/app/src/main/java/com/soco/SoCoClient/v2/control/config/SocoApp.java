@@ -163,6 +163,7 @@ public class SocoApp extends Application {
                 null, null, null, null);
 
         ArrayList<Person> persons = new ArrayList<>();
+        int counter = 0;
 
         if (cur.getCount() > 0) {
             while (cur.moveToNext()) {
@@ -179,7 +180,8 @@ public class SocoApp extends Application {
                     while (pCur.moveToNext()) {
                         phone = pCur.getString(
                                 pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        Log.d(tag, "phone" + phone);
+                        Log.d(tag, "phone: " + phone);
+                        break; //testing: import one phone only
                     }
                     pCur.close();
 
@@ -193,7 +195,6 @@ public class SocoApp extends Application {
                                 emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
                         emailType = emailCur.getString(
                                 emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
-
                         Log.d(tag, "Email " + email + " Email Type : " + emailType);
                         break; //testing: import one email only
                     }
@@ -201,8 +202,11 @@ public class SocoApp extends Application {
 
 //                }
 
-                Person p = new Person(context, name, email);
+                Person p = new Person(context, name, phone, email);
                 persons.add(p);
+
+                if(counter ++ > 100)
+                    break;  //testing
             }
         }
 

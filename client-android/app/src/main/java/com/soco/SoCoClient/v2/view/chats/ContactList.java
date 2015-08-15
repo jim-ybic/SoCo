@@ -37,6 +37,7 @@ public class ContactList extends ActionBarActivity {
     static final String CONTEXT_MENU_ITEM_DETAILS = "Details";
     static final String CONTEXT_MENU_ITEM_CALL = "Call";
     static final String CONTEXT_MENU_ITEM_EMAIL = "Email";
+    static final String CONTEXT_MENU_ITEM_CHAT = "Chat";
 
     //local variables
     Context context;
@@ -51,6 +52,7 @@ public class ContactList extends ActionBarActivity {
             CONTEXT_MENU_ITEM_EMAIL
     };
     String[] contextMenuFriend = {
+            CONTEXT_MENU_ITEM_CHAT,
             CONTEXT_MENU_ITEM_DETAILS,
             CONTEXT_MENU_ITEM_CALL,
             CONTEXT_MENU_ITEM_EMAIL
@@ -98,15 +100,15 @@ public class ContactList extends ActionBarActivity {
                     .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Toast.makeText(getApplicationContext(), "Importing phonebook...", Toast.LENGTH_SHORT).show();
-                            SocoApp socoApp = (SocoApp)getApplicationContext();
+                            SocoApp socoApp = (SocoApp) getApplicationContext();
                             ArrayList<Person> phoneContacts = socoApp.loadPhoneContacts(getApplicationContext());
                             int counter = 0; //testing
-                            for(Person p : phoneContacts){
+                            for (Person p : phoneContacts) {
                                 p.setCategory(DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS);
                                 p.setStatus(DataConfig.PERSON_STATUS_NOTCONNECTED);
                                 p.addContext(context);
                                 p.save();
-                                if (counter ++ > 20)   //testing
+                                if (counter++ > 20)   //testing
                                     break;
                             }
                         }
@@ -114,6 +116,8 @@ public class ContactList extends ActionBarActivity {
                     .setNegativeButton("Cancel", null)
                     .show();
 
+            phoneContacts = dataLoader.loadPhoneContacts(); //reload list
+            showContacts(friends, phoneContacts);
             return true;
         }
 
@@ -124,22 +128,29 @@ public class ContactList extends ActionBarActivity {
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenuInfo menuInfo) {
         Log.v(tag, "create context menu");
-        for (int i = 0; i< contextMenuPhoneContact.length; i++)
-            menu.add(Menu.NONE, i, i, contextMenuPhoneContact[i]);
 
 //        if (v.getId()==R.id.contacts) {
 //            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
             int position = ((AdapterView.AdapterContextMenuInfo)menuInfo).position;
             Log.v(tag, "get position: " + position);
 
-            if(position >= CONTACT_SECTION_COUNT + friends.size()){    //tap on phone contact
+            if(position >= CONTACT_SECTION_COUNT + friends.size()) {    //tap on phone contact
+                for (int i = 0; i < contextMenuPhoneContact.length; i++){
+                    menu.add(Menu.NONE, i, i, contextMenuPhoneContact[i]);
+                }
                 int pos = position - CONTACT_SECTION_COUNT - friends.size();
                 Person p = phoneContacts.get(pos);
                 Log.d(tag, "position: " + position + ", phone contact pos " + pos + ": " + p.toString());
                 menu.setHeaderTitle(p.getName());
             }
             else {  //tap on friend
-                //todo
+                for (int i = 0; i< contextMenuFriend.length; i++) {
+                    menu.add(Menu.NONE, i, i, contextMenuFriend[i]);
+                }
+                int pos = position - 1; //one section ahead
+                Person p = friends.get(pos);
+                Log.d(tag, "position: " + position + ", phone contact pos " + pos + ": " + p.toString());
+                menu.setHeaderTitle(p.getName());
             }
 //        }
     }
@@ -182,12 +193,12 @@ public class ContactList extends ActionBarActivity {
 
         items.add(new SectionItem(DataConfig.CONTACT_LIST_SECTION_MYFRIENDS));
         for(Person p : persons){
-            items.add(new EntryItem(p.getName(), p.getEmail(), p.getStatus()));
+            items.add(new ContactEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
         }
 
         items.add(new SectionItem(DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS));
         for(Person p : phoneContacts){
-            items.add(new EntryItem(p.getName(), p.getEmail(), p.getStatus()));
+            items.add(new ContactEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
         }
 
         ContactListAdapter adapter = new ContactListAdapter(this, items);
