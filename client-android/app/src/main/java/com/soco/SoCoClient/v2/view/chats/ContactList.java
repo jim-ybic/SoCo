@@ -106,7 +106,7 @@ public class ContactList extends ActionBarActivity {
                                 p.setStatus(DataConfig.PERSON_STATUS_NOTCONNECTED);
                                 p.addContext(context);
                                 p.save();
-                                if (counter ++ > 10)
+                                if (counter ++ > 20)   //testing
                                     break;
                             }
                         }

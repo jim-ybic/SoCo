@@ -157,34 +157,79 @@ public class SocoApp extends Application {
         //test - force loading each time
         listNameEmailReady = false;
 
+        //new code
+        ContentResolver cr = getContentResolver();
+        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
+                null, null, null, null);
+
         ArrayList<Person> persons = new ArrayList<>();
-        if (!listNameEmailReady) {
-            Log.d(tag, "listNameEmail not ready, load for the first time");
-            listNameEmail = new ArrayList<Map<String, String>>();
-            Cursor emails = getContentResolver().query(
-                    ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
 
-            int colDisplayName = emails.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-            int colEmail = emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
+        if (cur.getCount() > 0) {
+            while (cur.moveToNext()) {
+                String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
+                String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+//                if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                    Log.d(tag, "name : " + name + ", ID : " + id);
+                String phone = "", email = "", emailType = "";
 
-            while (emails.moveToNext()) {
-                String contactName = emails.getString(colDisplayName);
-                String email = emails.getString(colEmail);
-                Log.v(tag, "Get email: " + contactName + ", " + email);
+                    // get the phone number
+                    Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                            new String[]{id}, null);
+                    while (pCur.moveToNext()) {
+                        phone = pCur.getString(
+                                pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        Log.d(tag, "phone" + phone);
+                    }
+                    pCur.close();
 
-                Person p = new Person(context, contactName, email);
+                    // get email and type
+                    Cursor emailCur = cr.query(
+                            ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
+                            ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
+                            new String[]{id}, null);
+                    while (emailCur.moveToNext()) {
+                        email = emailCur.getString(
+                                emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                        emailType = emailCur.getString(
+                                emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
+
+                        Log.d(tag, "Email " + email + " Email Type : " + emailType);
+                        break; //testing: import one email only
+                    }
+                    emailCur.close();
+
+//                }
+
+                Person p = new Person(context, name, email);
                 persons.add(p);
-
-//                Map<String, String> NameEmail = new HashMap<String, String>();
-//                NameEmail.put("Key", contactName);
-//                NameEmail.put("Value", email);
-//                listNameEmail.add(NameEmail); //add this map to the list.
             }
-            emails.close();
-            listNameEmailReady = true;
         }
-        else
-            Log.d(tag, "listNameEmail already loaded");
+
+        //old code
+//                    ArrayList<Person> persons = new ArrayList<>();
+//        if (!listNameEmailReady) {
+//            Log.d(tag, "listNameEmail not ready, load for the first time");
+//            listNameEmail = new ArrayList<Map<String, String>>();
+//            Cursor emails = getContentResolver().query(
+//                    ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
+//
+//            int colDisplayName = emails.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+//            int colEmail = emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
+//
+//            while (emails.moveToNext()) {
+//                String contactName = emails.getString(colDisplayName);
+//                String email = emails.getString(colEmail);
+//                Log.v(tag, "Get email: " + contactName + ", " + email);
+//
+//                Person p = new Person(context, contactName, email);
+//                persons.add(p);
+//            }
+//            emails.close();
+//            listNameEmailReady = true;
+//        }
+//        else
+//            Log.d(tag, "listNameEmail already loaded");
 
         return persons;
     }
