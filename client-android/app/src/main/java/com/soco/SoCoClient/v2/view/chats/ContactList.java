@@ -168,13 +168,16 @@ public class ContactList extends ActionBarActivity {
 
             if (item.getTitle() == CONTEXT_MENU_ITEM_INVITE) {
                 Log.d(tag, "invite phone contact: " + p.getName());
-                p.setStatus(DataConfig.PERSON_STATUS_INVITED);
                 //todo: send invitation
-
-                p.setCategory(DataConfig.CONTACT_LIST_SECTION_MYFRIENDS);
                 p.setStatus(DataConfig.PERSON_STATUS_ACCEPTED); //testing: accepted now
                 p.addContext(context);
                 p.save();
+
+                Person p2 = new Person(context, p.getName(), p.getPhone(), p.getEmail());
+                p2.setCategory(DataConfig.CONTACT_LIST_SECTION_MYFRIENDS);
+                p2.setStatus(DataConfig.PERSON_STATUS_ACCEPTED);
+                p2.addContext(context);
+                p2.save();
                 Toast.makeText(getApplicationContext(), "Invitation sent", Toast.LENGTH_SHORT).show();
 
                 friends = dataLoader.loadFriends(); //reload friend list
