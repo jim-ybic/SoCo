@@ -28,7 +28,8 @@ public class DataConfig {
     public static final String COLUMN_PERSON_PHONE = "phone";
     public static final String COLUMN_PERSON_WECHATID = "wechatid";
     public static final String COLUMN_PERSON_FACEBOOKID = "facebookid";
-    public static final String COLUMN_PERSON_STATUS = "status";
+    public static final String COLUMN_PERSON_STATUS = "status"; //invited, accepted, rejected
+    public static final String COLUMN_PERSON_CATEGORY = "category"; //friend, phone contact
 
     public static final String TABLE_PROJECT = "project";
     public static final String COLUMN_PROJECT_PROJECTIDLOCAL = "projectIdLocal";
@@ -144,6 +145,7 @@ public class DataConfig {
     public static final int INTENT_SHOW_EVENT_DETAIL = 101;
     public static final String EXTRA_EVENT_SEQ = "extra_event_seq";
 
+    public static final String PERSON_STATUS_NOTCONNECTED = "not connected";
     public static final String PERSON_STATUS_INVITED = "invited";
     public static final String PERSON_STATUS_ACCEPTED = "accepted";
     public static final String PERSON_STATUS_REJECTED = "rejected";

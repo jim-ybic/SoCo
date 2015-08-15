@@ -110,6 +110,7 @@ public class Event {
             Log.d(tag, "update event seq: " + s);
             seq = s;
         }
+        db.close();
 
         //todo: save event on server
     }
@@ -135,6 +136,7 @@ public class Event {
             Log.d(tag, "event updated to db: " + toString());
         } finally {
             db.endTransaction();
+            db.close();
         }
 
         //todo: update event to server

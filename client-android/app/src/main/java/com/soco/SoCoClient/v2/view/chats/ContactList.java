@@ -1,6 +1,8 @@
 package com.soco.SoCoClient.v2.view.chats;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,9 +16,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.v2.control.database.DataLoader;
+import com.soco.SoCoClient.v2.control.util.ActivityUtil;
 import com.soco.SoCoClient.v2.model.Person;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
@@ -40,8 +44,13 @@ public class ContactList extends ActionBarActivity {
     ArrayList<Person> friends;
     ArrayList<Person> phoneContacts;
     DataLoader dataLoader;
-    String[] contextMenuItems = {
+    String[] contextMenuPhoneContact = {
             CONTEXT_MENU_ITEM_INVITE,
+            CONTEXT_MENU_ITEM_DETAILS,
+            CONTEXT_MENU_ITEM_CALL,
+            CONTEXT_MENU_ITEM_EMAIL
+    };
+    String[] contextMenuFriend = {
             CONTEXT_MENU_ITEM_DETAILS,
             CONTEXT_MENU_ITEM_CALL,
             CONTEXT_MENU_ITEM_EMAIL
@@ -54,13 +63,14 @@ public class ContactList extends ActionBarActivity {
 
         context = getApplicationContext();
 
-        Log.v(tag, "get contact contactList");
-        SocoApp socoApp = (SocoApp)getApplicationContext();
-        phoneContacts = socoApp.loadPhoneContacts(getApplicationContext());
-        Log.d(tag, "load contacts complete: " + phoneContacts.size() + " found");
+//        Log.v(tag, "get contact contactList");
+//        SocoApp socoApp = (SocoApp)getApplicationContext();
+//        phoneContacts = socoApp.loadPhoneContacts(getApplicationContext());
+//        Log.d(tag, "load contacts complete: " + phoneContacts.size() + " found");
 
         dataLoader = new DataLoader(getApplicationContext());
-        friends = dataLoader.loadPersons();
+        friends = dataLoader.loadFriends();
+        phoneContacts = dataLoader.loadPhoneContacts();
 
         findViewItems();
         showContacts(friends, phoneContacts);
@@ -81,7 +91,29 @@ public class ContactList extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.import_phonebook) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Please confirm")
+                    .setMessage("Are you sure to import all contacts from phone book?")
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Toast.makeText(getApplicationContext(), "Importing phonebook...", Toast.LENGTH_SHORT).show();
+                            SocoApp socoApp = (SocoApp)getApplicationContext();
+                            ArrayList<Person> phoneContacts = socoApp.loadPhoneContacts(getApplicationContext());
+                            int counter = 0; //testing
+                            for(Person p : phoneContacts){
+                                p.setCategory(DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS);
+                                p.setStatus(DataConfig.PERSON_STATUS_NOTCONNECTED);
+                                p.addContext(context);
+                                p.save();
+                                if (counter ++ > 10)
+                                    break;
+                            }
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+
             return true;
         }
 
@@ -92,8 +124,8 @@ public class ContactList extends ActionBarActivity {
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenuInfo menuInfo) {
         Log.v(tag, "create context menu");
-        for (int i = 0; i< contextMenuItems.length; i++)
-            menu.add(Menu.NONE, i, i, contextMenuItems[i]);
+        for (int i = 0; i< contextMenuPhoneContact.length; i++)
+            menu.add(Menu.NONE, i, i, contextMenuPhoneContact[i]);
 
 //        if (v.getId()==R.id.contacts) {
 //            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
@@ -128,12 +160,14 @@ public class ContactList extends ActionBarActivity {
                 p.setStatus(DataConfig.PERSON_STATUS_INVITED);
                 //todo: send invitation
 
+                p.setCategory(DataConfig.CONTACT_LIST_SECTION_MYFRIENDS);
                 p.setStatus(DataConfig.PERSON_STATUS_ACCEPTED); //testing: accepted now
                 p.addContext(context);
                 p.save();
                 Toast.makeText(getApplicationContext(), "Invitation sent", Toast.LENGTH_SHORT).show();
 
-                friends = dataLoader.loadPersons(); //reload friend list
+                friends = dataLoader.loadFriends(); //reload friend list
+                phoneContacts = dataLoader.loadPhoneContacts();
                 showContacts(friends, phoneContacts);
                 return true;
             }
@@ -148,12 +182,12 @@ public class ContactList extends ActionBarActivity {
 
         items.add(new SectionItem(DataConfig.CONTACT_LIST_SECTION_MYFRIENDS));
         for(Person p : persons){
-            items.add(new EntryItem(p.getName(), p.getEmail()));
+            items.add(new EntryItem(p.getName(), p.getEmail(), p.getStatus()));
         }
 
         items.add(new SectionItem(DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS));
         for(Person p : phoneContacts){
-            items.add(new EntryItem(p.getName(), p.getEmail()));
+            items.add(new EntryItem(p.getName(), p.getEmail(), p.getStatus()));
         }
 
         ContactListAdapter adapter = new ContactListAdapter(this, items);

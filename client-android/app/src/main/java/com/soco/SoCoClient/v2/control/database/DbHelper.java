@@ -8,7 +8,7 @@ import com.soco.SoCoClient.v2.control.config.DataConfig;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "socodb.v2.13";
+    public static String DATABASE_NAME = "socodb.v2.15";
     public static int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {
@@ -46,6 +46,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     + ", " + DataConfig.COLUMN_PERSON_WECHATID + " VARCHAR"
                     + ", " + DataConfig.COLUMN_PERSON_FACEBOOKID + " VARCHAR"
                     + ", " + DataConfig.COLUMN_PERSON_STATUS + " VARCHAR"
+                    + ", " + DataConfig.COLUMN_PERSON_CATEGORY + " VARCHAR"
                     + ")");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_ATTRIBUTE + " ("

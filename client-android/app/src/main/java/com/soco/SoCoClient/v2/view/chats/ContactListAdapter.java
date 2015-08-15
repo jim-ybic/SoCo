@@ -41,7 +41,7 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
 		if (i != null) {
             Log.v(tag, "item type: " + i.getType() + ", " + i.toString());
 
-			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_SECTION)){
+			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_SECTION)){   //section
 				SectionItem si = (SectionItem)i;
                 Log.v(tag, "item title: " + si.getTitle());
 				v = vi.inflate(R.layout.contact_list_section, null);
@@ -53,17 +53,20 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
 				final TextView sectionView = (TextView) v.findViewById(R.id.list_item_section_text);
 				sectionView.setText(si.getTitle());
 			}
-			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){
+			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){ //entry
 				EntryItem ei = (EntryItem)i;
                 Log.v(tag, "item title: " + ei.title);
 				v = vi.inflate(R.layout.contact_list_entry, null);
 				final TextView title = (TextView)v.findViewById(R.id.title);
 				final TextView subtitle = (TextView)v.findViewById(R.id.subtitle);
-				
+                final TextView status = (TextView)v.findViewById(R.id.status);
+
 				if (title != null) 
 					title.setText(ei.title);
-				if(subtitle != null)
+				if (subtitle != null)
 					subtitle.setText(ei.subtitle);
+                if (status != null)
+                    status.setText(ei.status);
 			}
 //			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)){
 //                FolderItem fi = (FolderItem)i;

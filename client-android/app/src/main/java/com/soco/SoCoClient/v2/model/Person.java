@@ -23,6 +23,7 @@ public class Person {
     String wechatid;
     String facebookid;
     String status;
+    String category;
 
     //local variables
     Context context;
@@ -52,6 +53,7 @@ public class Person {
         this.wechatid = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_WECHATID));
         this.facebookid = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_FACEBOOKID));
         this.status = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_STATUS));
+        this.category = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_CATEGORY));
 
         Log.v(tag, "created person from cursor: " + toString());
     }
@@ -89,6 +91,7 @@ public class Person {
             cv.put(DataConfig.COLUMN_PERSON_WECHATID, wechatid);
             cv.put(DataConfig.COLUMN_PERSON_FACEBOOKID, facebookid);
             cv.put(DataConfig.COLUMN_PERSON_STATUS, status);
+            cv.put(DataConfig.COLUMN_PERSON_CATEGORY, category);
 
             db.insert(DataConfig.TABLE_PERSON, null, cv);
             db.setTransactionSuccessful();
@@ -106,6 +109,7 @@ public class Person {
             Log.d(tag, "update person seq: " + s);
             seq = s;
         }
+        db.close();
 
         //todo: save event on server
     }
@@ -122,6 +126,7 @@ public class Person {
             cv.put(DataConfig.COLUMN_PERSON_WECHATID, wechatid);
             cv.put(DataConfig.COLUMN_PERSON_FACEBOOKID, facebookid);
             cv.put(DataConfig.COLUMN_PERSON_STATUS, status);
+            cv.put(DataConfig.COLUMN_PERSON_CATEGORY, category);
 
             db.update(DataConfig.TABLE_PERSON, cv,
                     DataConfig.COLUMN_PERSON_SEQ + " = ?",
@@ -130,6 +135,7 @@ public class Person {
             Log.d(tag, "person updated to db: " + toString());
         } finally {
             db.endTransaction();
+            db.close();
         }
 
         //todo: update event to server
@@ -170,6 +176,10 @@ public class Person {
         return status;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
     public void setSeq(int seq) {
         this.seq = seq;
     }
@@ -202,6 +212,10 @@ public class Person {
         this.status = status;
     }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -213,6 +227,7 @@ public class Person {
                 ", wechatid='" + wechatid + '\'' +
                 ", facebookid='" + facebookid + '\'' +
                 ", status='" + status + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

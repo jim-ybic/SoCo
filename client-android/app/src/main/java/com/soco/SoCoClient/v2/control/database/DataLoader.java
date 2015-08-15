@@ -92,6 +92,42 @@ public class DataLoader {
         return persons;
     }
 
+    public ArrayList<Person> loadFriends(){
+        Log.v(tag, "load all friends from db");
+        String query = "select * from " + DataConfig.TABLE_PERSON
+                        + " where " + DataConfig.COLUMN_PERSON_CATEGORY + " = ?";
+        Cursor cursor = db.rawQuery(query,
+                new String[]{DataConfig.CONTACT_LIST_SECTION_MYFRIENDS});
+
+        ArrayList<Person> persons = new ArrayList<>();
+        while(cursor.moveToNext()){
+            Person p = new Person(cursor);
+            Log.v(tag, "loaded friends from db: " + p.toString());
+            persons.add(p);
+        }
+
+        Log.d(tag, persons.size() + " friends loaded from db");
+        return persons;
+    }
+
+    public ArrayList<Person> loadPhoneContacts(){
+        Log.v(tag, "load all phone contacts from db");
+        String query = "select * from " + DataConfig.TABLE_PERSON
+                + " where " + DataConfig.COLUMN_PERSON_CATEGORY + " = ?";
+        Cursor cursor = db.rawQuery(query,
+                new String[]{DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS});
+
+        ArrayList<Person> persons = new ArrayList<>();
+        while(cursor.moveToNext()){
+            Person p = new Person(cursor);
+            Log.v(tag, "loaded phone contact from db: " + p.toString());
+            persons.add(p);
+        }
+
+        Log.d(tag, persons.size() + " phone contact loaded from db");
+        return persons;
+    }
+
 
     public ArrayList<Task> loadInactiveTasks(){
         return null;
