@@ -89,6 +89,8 @@ public class LoginActivity extends ActionBarActivity {
         Log.i(tag, "Get saved login email/password/token: "
                 + savedLoginEmail + ", " + savedLoginPassword + ", " + savedLoginAccessToken);
 
+        savedLoginAccessToken = "TEST TOKEN"; //testing - bypass login screen
+
         if(!savedLoginAccessToken.isEmpty()) {
             Log.i(tag, "Saved login access token can be used, skip login screen");
             et_login_email.setText(savedLoginEmail);

@@ -143,4 +143,13 @@ public class DataConfig {
 
     public static final int INTENT_SHOW_EVENT_DETAIL = 101;
     public static final String EXTRA_EVENT_SEQ = "extra_event_seq";
+
+    public static final String PERSON_STATUS_INVITED = "invited";
+    public static final String PERSON_STATUS_ACCEPTED = "accepted";
+    public static final String PERSON_STATUS_REJECTED = "rejected";
+
+    public static final String CONTACT_LIST_SECTION_MYFRIENDS = "MY FRIENDS";
+    public static final String CONTACT_LIST_SECTION_MYPHONECONTACTS = "MY PHONE CONTACTS";
+
+
 }

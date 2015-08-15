@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.v2.view.chats;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,8 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.v2.control.database.DataLoader;
 import com.soco.SoCoClient.v2.model.Person;
@@ -32,6 +35,7 @@ public class ContactList extends ActionBarActivity {
     static final String CONTEXT_MENU_ITEM_EMAIL = "Email";
 
     //local variables
+    Context context;
     ListView contactList;
     ArrayList<Person> friends;
     ArrayList<Person> phoneContacts;
@@ -47,6 +51,8 @@ public class ContactList extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_list);
+
+        context = getApplicationContext();
 
         Log.v(tag, "get contact contactList");
         SocoApp socoApp = (SocoApp)getApplicationContext();
@@ -67,19 +73,14 @@ public class ContactList extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.contact_list, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -99,10 +100,10 @@ public class ContactList extends ActionBarActivity {
             int position = ((AdapterView.AdapterContextMenuInfo)menuInfo).position;
             Log.v(tag, "get position: " + position);
 
-            if(position > CONTACT_SECTION_COUNT + friends.size()){    //tap on phone contact
-                int pos = position - CONTACT_SECTION_COUNT;
+            if(position >= CONTACT_SECTION_COUNT + friends.size()){    //tap on phone contact
+                int pos = position - CONTACT_SECTION_COUNT - friends.size();
                 Person p = phoneContacts.get(pos);
-                Log.d(tag, "phone contact pos " + pos + ": " + p.toString());
+                Log.d(tag, "position: " + position + ", phone contact pos " + pos + ": " + p.toString());
                 menu.setHeaderTitle(p.getName());
             }
             else {  //tap on friend
@@ -114,17 +115,26 @@ public class ContactList extends ActionBarActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
-        Log.v(tag, "select context item: " + item.toString() + ", position is " + position);
+        Log.d(tag, "select context item: " + item.toString() + ", position is " + position);
 
-        if(position > CONTACT_SECTION_COUNT + friends.size()) {    //tap on phone contact
-            int pos = position - CONTACT_SECTION_COUNT;
+        if(position >= CONTACT_SECTION_COUNT + friends.size()) {    //tap on phone contact
+            int pos = position - CONTACT_SECTION_COUNT - friends.size();
             Person p = phoneContacts.get(pos);
-            Log.v(tag, "phone contact pos " + pos + ": " + p.toString());
+            Log.d(tag, "position is " + position + ", phone contact pos " + pos + ": " + p.toString());
+            //todo: check the contact status - if already invited as friend
 
             if (item.getTitle() == CONTEXT_MENU_ITEM_INVITE) {
-                Log.d(tag, "invite: " + p.getName());
-                //todo
+                Log.d(tag, "invite phone contact: " + p.getName());
+                p.setStatus(DataConfig.PERSON_STATUS_INVITED);
+                //todo: send invitation
 
+                p.setStatus(DataConfig.PERSON_STATUS_ACCEPTED); //testing: accepted now
+                p.addContext(context);
+                p.save();
+                Toast.makeText(getApplicationContext(), "Invitation sent", Toast.LENGTH_SHORT).show();
+
+                friends = dataLoader.loadPersons(); //reload friend list
+                showContacts(friends, phoneContacts);
                 return true;
             }
         }
@@ -136,13 +146,12 @@ public class ContactList extends ActionBarActivity {
         Log.v(tag, "show contacts: " + persons.size() + " friends, " + phoneContacts.size() + " phone contacts");
         ArrayList<Item> items = new ArrayList<>();
 
-        items.add(new SectionItem("MY FRIENDS"));
+        items.add(new SectionItem(DataConfig.CONTACT_LIST_SECTION_MYFRIENDS));
         for(Person p : persons){
             items.add(new EntryItem(p.getName(), p.getEmail()));
         }
 
-        items.add(new SectionItem("MY PHONE CONTACTS"));
-        int counter = 0;
+        items.add(new SectionItem(DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS));
         for(Person p : phoneContacts){
             items.add(new EntryItem(p.getName(), p.getEmail()));
         }

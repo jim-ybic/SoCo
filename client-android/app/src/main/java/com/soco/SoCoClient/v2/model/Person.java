@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.v2.model;
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -50,12 +51,93 @@ public class Person {
         this.phone = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_PHONE));
         this.wechatid = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_WECHATID));
         this.facebookid = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_FACEBOOKID));
+        this.status = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_STATUS));
 
         Log.v(tag, "created person from cursor: " + toString());
     }
 
 
-    
+    public void addContext(Context c){
+        context = c;
+        DbHelper helper = new DbHelper(c);
+        db = helper.getWritableDatabase();
+    }
+
+    public void save(){
+        if(db == null){
+            Log.e(tag, "db not ready, please set context before saving");
+            return;
+        }
+
+        if (seq == DataConfig.ENTITIY_ID_NOT_READY){
+            Log.v(tag, "save new person");
+            saveNew();
+        }else{
+            Log.v(tag, "update existing person");
+            update();
+        }
+    }
+
+    void saveNew(){
+        Log.v(tag, "save new person to db");
+        try {
+            db.beginTransaction();
+            ContentValues cv = new ContentValues();
+            cv.put(DataConfig.COLUMN_PERSON_NAME, name);
+            cv.put(DataConfig.COLUMN_PERSON_EMAIL, email);
+            cv.put(DataConfig.COLUMN_PERSON_PHONE, phone);
+            cv.put(DataConfig.COLUMN_PERSON_WECHATID, wechatid);
+            cv.put(DataConfig.COLUMN_PERSON_FACEBOOKID, facebookid);
+            cv.put(DataConfig.COLUMN_PERSON_STATUS, status);
+
+            db.insert(DataConfig.TABLE_PERSON, null, cv);
+            db.setTransactionSuccessful();
+            Log.d(tag, "new person added to db: " + toString());
+        } finally {
+            db.endTransaction();
+        }
+
+        Log.v(tag, "get seq from db");
+        String query = "select max (" + DataConfig.COLUMN_PERSON_SEQ
+                + ") from " + DataConfig.TABLE_PERSON;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()){
+            int s = cursor.getInt(0);
+            Log.d(tag, "update person seq: " + s);
+            seq = s;
+        }
+
+        //todo: save event on server
+    }
+
+    void update(){
+        Log.v(tag, "update existing person to local database");
+        try {
+            db.beginTransaction();
+            ContentValues cv = new ContentValues();
+            cv.put(DataConfig.COLUMN_PERSON_ID, id);
+            cv.put(DataConfig.COLUMN_PERSON_NAME, name);
+            cv.put(DataConfig.COLUMN_PERSON_EMAIL, email);
+            cv.put(DataConfig.COLUMN_PERSON_PHONE, phone);
+            cv.put(DataConfig.COLUMN_PERSON_WECHATID, wechatid);
+            cv.put(DataConfig.COLUMN_PERSON_FACEBOOKID, facebookid);
+            cv.put(DataConfig.COLUMN_PERSON_STATUS, status);
+
+            db.update(DataConfig.TABLE_PERSON, cv,
+                    DataConfig.COLUMN_PERSON_SEQ + " = ?",
+                    new String[]{String.valueOf(seq)});
+            db.setTransactionSuccessful();
+            Log.d(tag, "person updated to db: " + toString());
+        } finally {
+            db.endTransaction();
+        }
+
+        //todo: update event to server
+    }
+
+
+
+
     public int getSeq() {
         return seq;
     }
@@ -82,6 +164,10 @@ public class Person {
 
     public String getFacebookid() {
         return facebookid;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public void setSeq(int seq) {
@@ -112,6 +198,10 @@ public class Person {
         this.facebookid = facebookid;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -122,6 +212,7 @@ public class Person {
                 ", phone='" + phone + '\'' +
                 ", wechatid='" + wechatid + '\'' +
                 ", facebookid='" + facebookid + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }
