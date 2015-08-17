@@ -39,7 +39,7 @@ public class Message {
         Log.v(tag, "create new message");
 
         this.context = context;
-        helper = new DbHelper(context);
+        this.helper = new DbHelper(context);
 
         this.seq = DataConfig.ENTITIY_ID_NOT_READY;
         this.id = DataConfig.ENTITIY_ID_NOT_READY;
@@ -73,10 +73,10 @@ public class Message {
     }
 
     public void save(){
-        if(db == null){
-            this.db = helper.getWritableDatabase();
-            return;
-        }
+//        if(db == null){
+//            this.db = helper.getWritableDatabase();
+//            return;
+//        }
 
         if(seq == DataConfig.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new message");
@@ -89,6 +89,8 @@ public class Message {
 
     void saveNew(){
         Log.v(tag, "save new message to database");
+        this.db = helper.getWritableDatabase();
+
         try{
             db.beginTransaction();
             ContentValues cv = new ContentValues();
@@ -107,7 +109,7 @@ public class Message {
             cv.put(DataConfig.COLUMN_MESSAGE_SIGNATURE, signature);
             db.insert(DataConfig.TABLE_MESSAGE, null, cv);
             db.setTransactionSuccessful();
-            Log.d(tag, "new message inserted to database: " + toString());
+            Log.d(tag, "new message added to database: " + toString());
         } finally {
             db.endTransaction();
         }
@@ -122,6 +124,7 @@ public class Message {
             Log.d(tag, "update message id local: " + midLocal);
             seq = midLocal;
         }
+        db.close();
 
         //todo: send message to server, update field
 
@@ -153,6 +156,7 @@ public class Message {
             Log.d(tag, "message updated into database: " + toString());
         } finally {
             db.endTransaction();
+            db.close();
         }
 
         //todo: update message to server
@@ -167,6 +171,7 @@ public class Message {
                     DataConfig.COLUMN_MESSAGE_SEQ + " = ?",
                     new String[]{String.valueOf(seq)});
             Log.d(tag, "message deleted from database: " + toString());
+            db.close();
         }
 
         //todo: delete message from server

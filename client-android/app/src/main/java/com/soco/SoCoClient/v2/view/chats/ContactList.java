@@ -184,6 +184,7 @@ public class ContactList extends ActionBarActivity {
                     c.setCounterpartyId(p.getId());
 //                    c.addContext(context);
                     c.save();
+                    Log.d(tag, "saved new conversation: " + c.toString());
                 }
                 Intent i = new Intent(this, ConversationDetail.class);
                 i.putExtra(DataConfig.EXTRA_CONVERSATION_SEQ, c.getSeq());

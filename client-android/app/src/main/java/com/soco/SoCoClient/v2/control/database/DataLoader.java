@@ -120,7 +120,7 @@ public class DataLoader {
         Log.v(tag, "load conversation from db for counterpartyId " + counterpartyId);
         String query = "select * from " + DataConfig.TABLE_SINGLE_CONVERSATION
                 + " where " + DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID + " = ?";
-        Log.d(tag, "query db: " + query);
+        Log.d(tag, "query db: " + query + ", " + counterpartyId);
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(counterpartyId)});
 
         while(cursor.moveToNext()){
@@ -137,7 +137,7 @@ public class DataLoader {
         Log.v(tag, "load conversation from db for seq " + seq);
         String query = "select * from " + DataConfig.TABLE_SINGLE_CONVERSATION
                 + " where " + DataConfig.COLUMN_SINGLE_CONVERSATION_SEQ + " = ?";
-        Log.d(tag, "query db: " + query);
+        Log.d(tag, "query db: " + query + ", " + seq);
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(seq)});
 
         while(cursor.moveToNext()){

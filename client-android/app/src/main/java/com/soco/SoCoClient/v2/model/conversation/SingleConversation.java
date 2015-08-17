@@ -60,11 +60,11 @@ public class SingleConversation {
 //    }
 
     public void save(){
-        if(db == null){
+//        if(db == null){
 //            Log.e(tag, "db not ready, please set context before saving");
-            db = helper.getWritableDatabase();
-            return;
-        }
+//            db = helper.getWritableDatabase();
+//            return;
+//        }
 
         if (seq == DataConfig.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new conversation");
@@ -77,6 +77,8 @@ public class SingleConversation {
 
     void saveNew(){
         Log.v(tag, "save new conversation to db");
+        db = helper.getWritableDatabase();
+
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
@@ -109,6 +111,8 @@ public class SingleConversation {
 
     void update(){
         Log.v(tag, "update existing conversation to db");
+        db = helper.getWritableDatabase();
+
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
@@ -133,13 +137,15 @@ public class SingleConversation {
     }
 
     public void addMessage(Message m){
-        if(db == null){
-            db = helper.getWritableDatabase();
+//        if(db == null){
+//            db = helper.getWritableDatabase();
 //            Log.e(tag, "db not ready, please set context before saving");
-            return;
-        }
+//            return;
+//        }
 
-        Log.v(tag, "adding message to db");
+        Log.v(tag, "adding message to conversation");
+        db = helper.getWritableDatabase();
+
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
@@ -148,7 +154,7 @@ public class SingleConversation {
 
             db.insert(DataConfig.TABLE_SINGLE_CONVERSATION_MESSAGE, null, cv);
             db.setTransactionSuccessful();
-            Log.d(tag, "new message added to db: " + m.toString());
+            Log.d(tag, "new message added to conversation: " + m.toString());
         } finally {
             db.endTransaction();
             db.close();

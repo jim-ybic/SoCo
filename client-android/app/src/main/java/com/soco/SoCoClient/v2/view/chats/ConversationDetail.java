@@ -48,6 +48,7 @@ public class ConversationDetail extends ActionBarActivity {
     DataLoader dataLoader;
     int seq;
     SingleConversation conversation;
+    ArrayList<Message> messages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,40 @@ public class ConversationDetail extends ActionBarActivity {
 //        ((EditText)findViewById(R.id.phone)).setText(phone);
 //    }
 
+    void show(ArrayList<Message> messages){
+
+        ArrayList<Item> items = new ArrayList<>();
+        for(int m=0; m<5; m++){
+            items.add(new EntryItem("sender", "content"));
+        }
+
+
+//        ArrayList<ArrayList<String>> chatHistory = new ArrayList<ArrayList<String>>();
+//        chatHistory = dbManagerSoco.getChatHistoryByContactId(contactId);
+//
+//        ArrayList<Item> chatItems = new ArrayList<Item>();
+//        for(ArrayList<String> u : chatHistory){
+//            String content = u.get(DataConfigObs.CHAT_INDEX_CONTENT);
+//            String timestamp = u.get(DataConfigObs.CHAT_INDEX_TIMESTAMP);
+//            String type = u.get(DataConfigObs.CHAT_INDEX_TYPE);
+//            Log.d(tag, "get a chat: " + content + ", " + timestamp + ", " + type);
+//
+//            String sender;
+//            if(type.equals(String.valueOf(DataConfigObs.CHAT_TYPE_SEND)))
+//                sender = socoApp.loginEmail;
+//            else
+//                sender = email;
+//
+//            chatItems.add(new EntryItem(sender, content + " " + timestamp));
+//        }
+
+        adapter_chat = new SectionEntryListAdapter(this, items);
+        ((ListView)findViewById(R.id.messages)).setAdapter(adapter_chat);
+
+        scrollMyListViewToBottom();
+
+    }
+
     void showChatHistory(String email){
         ArrayList<ArrayList<String>> chatHistory = new ArrayList<ArrayList<String>>();
         chatHistory = dbManagerSoco.getChatHistoryByContactId(contactId);
@@ -119,11 +154,11 @@ public class ConversationDetail extends ActionBarActivity {
     }
 
     private void scrollMyListViewToBottom() {
-        ((ListView)findViewById(R.id.chat)).post(new Runnable() {
+        ((ListView)findViewById(R.id.messages)).post(new Runnable() {
             @Override
             public void run() {
                 // Select the last row so it will scroll into view...
-                ((ListView) findViewById(R.id.chat)).setSelection(adapter_chat.getCount() - 1);
+                ((ListView) findViewById(R.id.messages)).setSelection(adapter_chat.getCount() - 1);
             }
         });
     }
@@ -151,9 +186,12 @@ public class ConversationDetail extends ActionBarActivity {
 
         Message m = new Message(context);
         m.setContent(text);
+        m.save();
+        Log.d(tag, "new message created: " + m.toString());
 
 //        conversation.addContext(context);
         conversation.addMessage(m);
+        Log.d(tag, "message added to conversation");
 
 
 //        dbManagerSoco.addMessage(contactId, message, DataConfigObs.CHAT_TYPE_SEND);
@@ -180,5 +218,6 @@ public class ConversationDetail extends ActionBarActivity {
         Log.d(tag, "refresh UI");
         et_message.setText("");
 //        showChatHistory(email);
+        show(null);
     }
 }
