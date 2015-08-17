@@ -25,7 +25,7 @@ public class DashboardTabsAdapter extends FragmentPagerAdapter {
             case DataConfig.DASHBOARD_TAB_INDEX_EVENTS:
                 return new EventsFragment();
             case DataConfig.DASHBOARD_TAB_INDEX_CHATS:
-//                return new FragmentContacts();
+//                return new FragmentContactsObs();
                 return new ChatsFragment();
             case DataConfig.DASHBOARD_TAB_INDEX_STREAM:
                 return new FragmentStream();

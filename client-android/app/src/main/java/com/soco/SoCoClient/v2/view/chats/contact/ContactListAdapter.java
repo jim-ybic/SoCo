@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.v2.view.chats;
+package com.soco.SoCoClient.v2.view.chats.contact;
 
 import android.content.Context;
 import android.util.Log;
@@ -53,7 +53,7 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
 				sectionView.setText(si.getTitle());
 			}
 			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){ //entry
-				ContactEntryItem ei = (ContactEntryItem)i;
+				ContactListEntryItem ei = (ContactListEntryItem)i;
                 Log.v(tag, "item name: " + ei.name);
 				v = vi.inflate(R.layout.contact_list_entry, null);
 				final TextView name = (TextView)v.findViewById(R.id.name);

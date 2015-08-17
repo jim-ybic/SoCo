@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.v2.view.chats;
+package com.soco.SoCoClient.v2.view.chats.contact;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -22,14 +22,15 @@ import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.v2.control.database.DataLoader;
 import com.soco.SoCoClient.v2.model.conversation.SingleConversation;
 import com.soco.SoCoClient.v2.model.Person;
+import com.soco.SoCoClient.v2.view.chats.ConversationDetail;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionItem;
 
 import java.util.ArrayList;
 
-public class ContactList extends ActionBarActivity {
+public class ContactListActivity extends ActionBarActivity {
 
-    static String tag = "ContactList";
+    static String tag = "ContactListActivity";
 
     static final int CONTACT_SECTION_COUNT = 2; //number of sections: my friends, all phone contacts
     static final String CONTEXT_MENU_ITEM_INVITE = "Invite";
@@ -221,12 +222,12 @@ public class ContactList extends ActionBarActivity {
 
         items.add(new SectionItem(DataConfig.CONTACT_LIST_SECTION_MYFRIENDS));
         for(Person p : persons){
-            items.add(new ContactEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
+            items.add(new ContactListEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
         }
 
         items.add(new SectionItem(DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS));
         for(Person p : phoneContacts){
-            items.add(new ContactEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
+            items.add(new ContactListEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
         }
 
         ContactListAdapter adapter = new ContactListAdapter(this, items);

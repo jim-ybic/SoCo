@@ -29,6 +29,8 @@ import com.soco.SoCoClient.obsolete.v1.control.http.task.AddFriendTaskAsync;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
+import com.soco.SoCoClient.v2.view.chats.contact.ContactDetailsActivity;
+import com.soco.SoCoClient.v2.view.chats.contact.ContactListActivity;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionEntryListAdapter;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 
 public class ChatsFragment extends Fragment implements View.OnClickListener {
 
-    String tag = "FragmentContacts";
+    String tag = "FragmentContactsObs";
     View rootView;
 
 //    int pid;
@@ -223,7 +225,7 @@ public class ChatsFragment extends Fragment implements View.OnClickListener {
         else if (id == R.id.contacts) {
             Log.d(tag, "tap menu item: contacts");
 //            addContact();
-            Intent i = new Intent(getActivity(), ContactList.class);
+            Intent i = new Intent(getActivity(), ContactListActivity.class);
             startActivity(i);
         }
 

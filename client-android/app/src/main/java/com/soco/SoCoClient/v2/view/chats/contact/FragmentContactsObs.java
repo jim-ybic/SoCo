@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.v2.view.chats;
+package com.soco.SoCoClient.v2.view.chats.contact;
 
 //import info.androidhive.tabsswipe.R;
 
@@ -30,7 +30,7 @@ import com.soco.SoCoClient.obsolete.v1.control.http.task.AddFriendTaskAsync;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionEntryListAdapter;
-import com.soco.SoCoClient.v2.view.chats.ContactDetailsActivity;
+import com.soco.SoCoClient.v2.view.chats.contact.ContactDetailsActivity;
 import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
@@ -38,9 +38,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FragmentContacts extends Fragment implements View.OnClickListener {
+public class FragmentContactsObs extends Fragment implements View.OnClickListener {
 
-    String tag = "FragmentContacts";
+    String tag = "FragmentContactsObs";
     View rootView;
 
 //    int pid;

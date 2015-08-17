@@ -239,4 +239,9 @@ public class DataLoader {
         return messages;
     }
 
+    public ArrayList<Message> loadMessages(int singleConversationSeq){
+        //todo
+        return null;
+    }
+
 }

@@ -9,26 +9,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.SendMessageTaskAsync;
 import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.v2.control.database.DataLoader;
-import com.soco.SoCoClient.v2.control.http.UrlUtil;
-import com.soco.SoCoClient.v2.control.util.SignatureUtil;
 import com.soco.SoCoClient.v2.model.Message;
 import com.soco.SoCoClient.v2.model.Profile;
 import com.soco.SoCoClient.v2.model.conversation.SingleConversation;
-import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
+import com.soco.SoCoClient.v2.view.chats.contact.ContactListEntryItem;
+import com.soco.SoCoClient.v2.view.chats.contact.ContactListAdapter;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
-import com.soco.SoCoClient.v2.view.sectionlist.SectionEntryListAdapter;
 
 import java.util.ArrayList;
 
@@ -40,7 +32,7 @@ public class ConversationDetail extends ActionBarActivity {
     SocoApp socoApp;
     DBManagerSoco dbManagerSoco;
     Profile profile;
-    SectionEntryListAdapter adapter_chat;
+
     int contactId, contactIdOnserver;
 
     //new variables
@@ -49,6 +41,7 @@ public class ConversationDetail extends ActionBarActivity {
     int seq;
     SingleConversation conversation;
     ArrayList<Message> messages;
+    MessageListAdapter adapter_chat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +89,7 @@ public class ConversationDetail extends ActionBarActivity {
 
         ArrayList<Item> items = new ArrayList<>();
         for(int m=0; m<5; m++){
-            items.add(new EntryItem("sender", "content"));
+            items.add(new MessageListEntryItem("sender", "yyyy-mm-dd hh:mm am/pm"));
         }
 
 
@@ -119,39 +112,39 @@ public class ConversationDetail extends ActionBarActivity {
 //            chatItems.add(new EntryItem(sender, content + " " + timestamp));
 //        }
 
-        adapter_chat = new SectionEntryListAdapter(this, items);
+        adapter_chat = new MessageListAdapter(this, items);
         ((ListView)findViewById(R.id.messages)).setAdapter(adapter_chat);
 
         scrollMyListViewToBottom();
 
     }
 
-    void showChatHistory(String email){
-        ArrayList<ArrayList<String>> chatHistory = new ArrayList<ArrayList<String>>();
-        chatHistory = dbManagerSoco.getChatHistoryByContactId(contactId);
-
-        ArrayList<Item> chatItems = new ArrayList<Item>();
-        for(ArrayList<String> u : chatHistory){
-            String content = u.get(DataConfigObs.CHAT_INDEX_CONTENT);
-            String timestamp = u.get(DataConfigObs.CHAT_INDEX_TIMESTAMP);
-            String type = u.get(DataConfigObs.CHAT_INDEX_TYPE);
-            Log.d(tag, "get a chat: " + content + ", " + timestamp + ", " + type);
-
-            String sender;
-            if(type.equals(String.valueOf(DataConfigObs.CHAT_TYPE_SEND)))
-                sender = socoApp.loginEmail;
-            else
-                sender = email;
-
-            chatItems.add(new EntryItem(sender, content + " " + timestamp));
-        }
-
-        adapter_chat = new SectionEntryListAdapter(this, chatItems);
-        ((ListView)findViewById(R.id.chat)).setAdapter(adapter_chat);
-
-        scrollMyListViewToBottom();
-
-    }
+//    void showChatHistory(String email){
+//        ArrayList<ArrayList<String>> chatHistory = new ArrayList<ArrayList<String>>();
+//        chatHistory = dbManagerSoco.getChatHistoryByContactId(contactId);
+//
+//        ArrayList<Item> chatItems = new ArrayList<Item>();
+//        for(ArrayList<String> u : chatHistory){
+//            String content = u.get(DataConfigObs.CHAT_INDEX_CONTENT);
+//            String timestamp = u.get(DataConfigObs.CHAT_INDEX_TIMESTAMP);
+//            String type = u.get(DataConfigObs.CHAT_INDEX_TYPE);
+//            Log.d(tag, "get a chat: " + content + ", " + timestamp + ", " + type);
+//
+//            String sender;
+//            if(type.equals(String.valueOf(DataConfigObs.CHAT_TYPE_SEND)))
+//                sender = socoApp.loginEmail;
+//            else
+//                sender = email;
+//
+//            chatItems.add(new EntryItem(sender, content + " " + timestamp));
+//        }
+//
+//        adapter_chat = new SectionEntryListAdapter(this, chatItems);
+//        ((ListView)findViewById(R.id.chat)).setAdapter(adapter_chat);
+//
+//        scrollMyListViewToBottom();
+//
+//    }
 
     private void scrollMyListViewToBottom() {
         ((ListView)findViewById(R.id.messages)).post(new Runnable() {

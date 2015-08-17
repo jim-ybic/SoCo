@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.v2.view.chats;
+package com.soco.SoCoClient.v2.view.chats.contact;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
