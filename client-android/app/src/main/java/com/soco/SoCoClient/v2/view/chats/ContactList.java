@@ -3,6 +3,7 @@ package com.soco.SoCoClient.v2.view.chats;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +22,9 @@ import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.v2.control.database.DataLoader;
 import com.soco.SoCoClient.v2.control.util.ActivityUtil;
+import com.soco.SoCoClient.v2.model.conversation.SingleConversation;
 import com.soco.SoCoClient.v2.model.Person;
+import com.soco.SoCoClient.v2.model.conversation.SingleConversation;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionItem;
@@ -149,7 +152,7 @@ public class ContactList extends ActionBarActivity {
                 }
                 int pos = position - 1; //one section ahead
                 Person p = friends.get(pos);
-                Log.d(tag, "position: " + position + ", phone contact pos " + pos + ": " + p.toString());
+                Log.d(tag, "position: " + position + ", friend pos " + pos + ": " + p.toString());
                 menu.setHeaderTitle(p.getName());
             }
 //        }
@@ -164,29 +167,58 @@ public class ContactList extends ActionBarActivity {
             int pos = position - CONTACT_SECTION_COUNT - friends.size();
             Person p = phoneContacts.get(pos);
             Log.d(tag, "position is " + position + ", phone contact pos " + pos + ": " + p.toString());
-            //todo: check the contact status - if already invited as friend
 
-            if (item.getTitle() == CONTEXT_MENU_ITEM_INVITE) {
-                Log.d(tag, "invite phone contact: " + p.getName());
-                //todo: send invitation
-                p.setStatus(DataConfig.PERSON_STATUS_ACCEPTED); //testing: accepted now
-                p.addContext(context);
-                p.save();
+            if (item.getTitle() == CONTEXT_MENU_ITEM_INVITE) {  //invite phone contact
+                if(p.getStatus().equals(DataConfig.PERSON_STATUS_ACCEPTED))
+                    Toast.makeText(getApplicationContext(), "Already in friend list", Toast.LENGTH_SHORT).show();
+                else
+                    return invite(p);
+            }
+        }
+        else{  //tap on friend
+            int pos = position - 1;
+            Person p = friends.get(pos);
+            Log.d(tag, "position is " + position + ", friend pos " + pos + ": " + p.toString());
 
-                Person p2 = new Person(context, p.getName(), p.getPhone(), p.getEmail());
-                p2.setCategory(DataConfig.CONTACT_LIST_SECTION_MYFRIENDS);
-                p2.setStatus(DataConfig.PERSON_STATUS_ACCEPTED);
-                p2.addContext(context);
-                p2.save();
-                Toast.makeText(getApplicationContext(), "Invitation sent", Toast.LENGTH_SHORT).show();
-
-                friends = dataLoader.loadFriends(); //reload friend list
-                phoneContacts = dataLoader.loadPhoneContacts();
-                showContacts(friends, phoneContacts);
-                return true;
+            if (item.getTitle() == CONTEXT_MENU_ITEM_CHAT) {    //chat with friend
+                SingleConversation c = dataLoader.loadSingleConversation(p.getId());
+                if(c == null){
+                    Log.v(tag, "create new conversation");
+                    c = new SingleConversation(context);
+                    c.setCounterpartyId(p.getId());
+                    c.addContext(context);
+                    c.save();
+                    //todo
+                    Intent i = new Intent(this, Conversation.class);
+                    startActivity(i);
+                }
+                else{
+                    Log.v(tag, "append existing conversation");
+                    //todo
+                }
             }
         }
 
+        return true;
+    }
+
+    private boolean invite(Person p) {
+        Log.d(tag, "invite phone contact: " + p.getName());
+        //todo: send invitation
+        p.setStatus(DataConfig.PERSON_STATUS_ACCEPTED); //testing: accepted now
+        p.addContext(context);
+        p.save();
+
+        Person p2 = new Person(context, p.getName(), p.getPhone(), p.getEmail());
+        p2.setCategory(DataConfig.CONTACT_LIST_SECTION_MYFRIENDS);
+        p2.setStatus(DataConfig.PERSON_STATUS_ACCEPTED);
+        p2.addContext(context);
+        p2.save();
+        Toast.makeText(getApplicationContext(), "Invitation sent", Toast.LENGTH_SHORT).show();
+
+        friends = dataLoader.loadFriends(); //reload friend list
+        phoneContacts = dataLoader.loadPhoneContacts();
+        showContacts(friends, phoneContacts);
         return true;
     }
 

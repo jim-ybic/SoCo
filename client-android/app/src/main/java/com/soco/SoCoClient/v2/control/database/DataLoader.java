@@ -7,10 +7,12 @@ import android.util.Log;
 
 import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.model.Contact;
+import com.soco.SoCoClient.v2.model.conversation.SingleConversation;
 import com.soco.SoCoClient.v2.model.Event;
 import com.soco.SoCoClient.v2.model.Message;
 import com.soco.SoCoClient.v2.model.Person;
 import com.soco.SoCoClient.v2.model.Task;
+import com.soco.SoCoClient.v2.model.conversation.SingleConversation;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -108,6 +110,23 @@ public class DataLoader {
 
         Log.d(tag, persons.size() + " friends loaded from db");
         return persons;
+    }
+
+    public SingleConversation loadSingleConversation(int counterpartyId){
+        Log.v(tag, "load conversation from db for counterpartyId " + counterpartyId);
+        String query = "select * from " + DataConfig.TABLE_SINGLE_CONVERSATION
+                + " where " + DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID + " = ?";
+        Log.d(tag, "query db: " + query);
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(counterpartyId)});
+
+        while(cursor.moveToNext()){
+            SingleConversation c = new SingleConversation(cursor);
+            Log.v(tag, "loaded conversation from db: " + c.toString());
+            return c;
+        }
+
+        Log.e(tag, "event not found");
+        return null;
     }
 
     public ArrayList<Person> loadPhoneContacts(){

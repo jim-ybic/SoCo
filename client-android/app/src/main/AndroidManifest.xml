@@ -144,12 +144,15 @@
             android:label="@string/title_activity_test_entry_screen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".v2.view.chats.ContactList"
+            android:label="@string/title_activity_contact_list" >
+        </activity>
+        <activity
+            android:name=".v2.view.chats.Conversation"
             android:label="@string/title_activity_contact_list" >
         </activity>
     </application>

@@ -31,6 +31,16 @@ public class DataConfig {
     public static final String COLUMN_PERSON_STATUS = "status"; //invited, accepted, rejected
     public static final String COLUMN_PERSON_CATEGORY = "category"; //friend, phone contact
 
+    public static final String TABLE_SINGLE_CONVERSATION = "single_conversation";
+    public static final String COLUMN_SINGLE_CONVERSATION_SEQ = "seq";
+    public static final String COLUMN_SINGLE_CONVERSATION_ID = "id";
+    public static final String COLUMN_SINGLE_CONVERSATION_TITLE = "title";
+    public static final String COLUMN_SINGLE_CONVERSATION_LASTMSGCONTENT = "lastMsgContent";
+    public static final String COLUMN_SINGLE_CONVERSATION_LASTMSGTIMESTAMP = "lastMsgTimestamp";
+    public static final String COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID = "createdByUserId";
+    public static final String COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP = "createdTimestamp";
+    public static final String COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID = "counterpartyId";
+
     public static final String TABLE_PROJECT = "project";
     public static final String COLUMN_PROJECT_PROJECTIDLOCAL = "projectIdLocal";
     public static final String COLUMN_PROJECT_PROJECTIDSERVER = "projectIdServer";

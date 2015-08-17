@@ -41,9 +41,6 @@ public class Event {
         this.id = DataConfig.ENTITIY_ID_NOT_READY;
         this.isDraft = 1;
         this.isDone = 0;
-
-//        DbHelper helper = new DbHelper(c);
-//        this.db = helper.getWritableDatabase();
     }
 
     public Event(Cursor cursor){

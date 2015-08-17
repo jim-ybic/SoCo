@@ -7,6 +7,8 @@
         android:id="@+id/import_phonebook"
         android:title="Import phonebook"
         android:orderInCategory="100"
-        app:showAsAction="never"
-        android:textColor="#040404"/>
+        app:showAsAction="always"
+        android:textColor="#040404"
+        android:icon="@drawable/ic_action_new_white"/>
+
 </menu>
