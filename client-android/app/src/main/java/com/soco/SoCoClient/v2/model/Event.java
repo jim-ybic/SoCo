@@ -31,11 +31,13 @@ public class Event {
      //local variables
     Context context;
     SQLiteDatabase db;
+    DbHelper helper;
 
     public Event(Context c){
         Log.v(tag, "create new event");
 
         this.context = c;
+        this.helper = new DbHelper(context);
 
         this.seq = DataConfig.ENTITIY_ID_NOT_READY;
         this.id = DataConfig.ENTITIY_ID_NOT_READY;
@@ -43,8 +45,11 @@ public class Event {
         this.isDone = 0;
     }
 
-    public Event(Cursor cursor){
+    public Event(Context context, Cursor cursor){
         Log.v(tag, "create event from cursor");
+        this.context = context;
+        this.helper = new DbHelper(context);
+
         this.seq = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_SEQ));
         this.id = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_ID));
         this.name = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_NAME));
@@ -57,15 +62,16 @@ public class Event {
         Log.v(tag, "created event from cursor: " + toString());
     }
 
-    public void addContext(Context c){
-        context = c;
-        DbHelper helper = new DbHelper(c);
-        db = helper.getWritableDatabase();
-    }
+//    public void addContext(Context c){
+//        context = c;
+//        DbHelper helper = new DbHelper(c);
+//        db = helper.getWritableDatabase();
+//    }
 
     public void save(){
         if(db == null){
-            Log.e(tag, "db not ready, please set context before saving");
+            db = helper.getWritableDatabase();
+//            Log.e(tag, "db not ready, please set context before saving");
             return;
         }
 

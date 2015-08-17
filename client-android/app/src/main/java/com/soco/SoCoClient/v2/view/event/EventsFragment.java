@@ -452,7 +452,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
         Log.v(tag, "create new event");
         Event e = new Event(getActivity().getApplicationContext());
         e.setName(name);
-        e.addContext(context);
+//        e.addContext(context);
         e.save();
 
         DataLoader dataLoader = new DataLoader(context);

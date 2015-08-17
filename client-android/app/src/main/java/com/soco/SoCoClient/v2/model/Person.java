@@ -27,12 +27,15 @@ public class Person {
 
     //local variables
     Context context;
+    DbHelper helper;
     SQLiteDatabase db;
 
     public Person(Context c, String name, String phone, String email){
         Log.v(tag, "create new person");
 
         this.context = c;
+        this.helper = new DbHelper(context);
+
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -44,8 +47,11 @@ public class Person {
 //        this.db = helper.getWritableDatabase();
     }
 
-    public Person(Cursor cursor){
+    public Person(Context context, Cursor cursor){
         Log.v(tag, "create person from cursor");
+        this.context = context;
+        this.helper = new DbHelper(context);
+
         this.seq = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_SEQ));
         this.id = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_ID));
         this.name = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_NAME));
@@ -60,17 +66,18 @@ public class Person {
     }
 
 
-    public void addContext(Context c){
-        context = c;
-        DbHelper helper = new DbHelper(c);
-        db = helper.getWritableDatabase();
-    }
+//    public void addContext(Context c){
+//        context = c;
+//        DbHelper helper = new DbHelper(c);
+//        db = helper.getWritableDatabase();
+//    }
 
     public void save(){
-        if(db == null){
-            Log.e(tag, "db not ready, please set context before saving");
-            return;
-        }
+//        if(db == null){
+//            db = helper.getWritableDatabase();
+//            Log.e(tag, "db not ready, please set context before saving");
+//            return;
+//        }
 
         if (seq == DataConfig.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new person");
@@ -83,6 +90,8 @@ public class Person {
 
     void saveNew(){
         Log.v(tag, "save new person to db");
+        db = helper.getWritableDatabase();
+
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
@@ -117,6 +126,8 @@ public class Person {
 
     void update(){
         Log.v(tag, "update existing person to local database");
+        db = helper.getWritableDatabase();
+
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();

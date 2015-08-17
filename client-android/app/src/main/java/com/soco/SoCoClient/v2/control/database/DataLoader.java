@@ -21,11 +21,14 @@ public class DataLoader {
 
     String tag = "DataLoader";
 
+    Context context;
     SQLiteDatabase db;
+    DbHelper dbHelper;
 
     public DataLoader(Context context){
-        DbHelper dbHelper = new DbHelper(context);
-        db = dbHelper.getWritableDatabase();
+        this.context = context;
+        this.dbHelper = new DbHelper(context);
+        this.db = dbHelper.getWritableDatabase();
     }
 
     public ArrayList<Task> loadActiveTasks(){
@@ -53,7 +56,7 @@ public class DataLoader {
 
         ArrayList<Event> events = new ArrayList<>();
         while(cursor.moveToNext()){
-            Event e = new Event(cursor);
+            Event e = new Event(this.context, cursor);
             Log.v(tag, "loaded event from db: " + e.toString());
             events.add(e);
         }
@@ -65,17 +68,17 @@ public class DataLoader {
     public Event loadEvent(int seq){
         Log.v(tag, "load event from db for seq " + seq);
         String query = "select * from " + DataConfig.TABLE_EVENT
-                        + " where " + DataConfig.COLUMN_EVENT_SEQ + " = ?";
+                + " where " + DataConfig.COLUMN_EVENT_SEQ + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(seq)});
 
         while(cursor.moveToNext()){
-            Event e = new Event(cursor);
+            Event e = new Event(context, cursor);
             Log.v(tag, "loaded event from db: " + e.toString());
             return e;
         }
 
-            Log.e(tag, "event not found");
-            return null;
+        Log.d(tag, "event not found");
+        return null;
     }
 
     public ArrayList<Person> loadPersons(){
@@ -85,7 +88,7 @@ public class DataLoader {
 
         ArrayList<Person> persons = new ArrayList<>();
         while(cursor.moveToNext()){
-            Person p = new Person(cursor);
+            Person p = new Person(context, cursor);
             Log.v(tag, "loaded person from db: " + p.toString());
             persons.add(p);
         }
@@ -97,22 +100,23 @@ public class DataLoader {
     public ArrayList<Person> loadFriends(){
         Log.v(tag, "load all friends from db");
         String query = "select * from " + DataConfig.TABLE_PERSON
-                        + " where " + DataConfig.COLUMN_PERSON_CATEGORY + " = ?";
+                + " where " + DataConfig.COLUMN_PERSON_CATEGORY + " = ?";
         Cursor cursor = db.rawQuery(query,
                 new String[]{DataConfig.CONTACT_LIST_SECTION_MYFRIENDS});
 
         ArrayList<Person> persons = new ArrayList<>();
         while(cursor.moveToNext()){
-            Person p = new Person(cursor);
+            Person p = new Person(context, cursor);
             Log.v(tag, "loaded friends from db: " + p.toString());
             persons.add(p);
         }
+        db.close();
 
         Log.d(tag, persons.size() + " friends loaded from db");
         return persons;
     }
 
-    public SingleConversation loadSingleConversation(int counterpartyId){
+    public SingleConversation loadSingleConversationByCtpyId(int counterpartyId){
         Log.v(tag, "load conversation from db for counterpartyId " + counterpartyId);
         String query = "select * from " + DataConfig.TABLE_SINGLE_CONVERSATION
                 + " where " + DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID + " = ?";
@@ -120,17 +124,37 @@ public class DataLoader {
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(counterpartyId)});
 
         while(cursor.moveToNext()){
-            SingleConversation c = new SingleConversation(cursor);
+            SingleConversation c = new SingleConversation(context, cursor);
             Log.v(tag, "loaded conversation from db: " + c.toString());
             return c;
         }
 
-        Log.e(tag, "event not found");
+        Log.d(tag, "conversation not found");
+        return null;
+    }
+
+    public SingleConversation loadSingleConversationBySeq(int seq){
+        Log.v(tag, "load conversation from db for seq " + seq);
+        String query = "select * from " + DataConfig.TABLE_SINGLE_CONVERSATION
+                + " where " + DataConfig.COLUMN_SINGLE_CONVERSATION_SEQ + " = ?";
+        Log.d(tag, "query db: " + query);
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(seq)});
+
+        while(cursor.moveToNext()){
+            SingleConversation c = new SingleConversation(context, cursor);
+            Log.v(tag, "loaded conversation from db: " + c.toString());
+            return c;
+        }
+
+        Log.d(tag, "conversation not found");
         return null;
     }
 
     public ArrayList<Person> loadPhoneContacts(){
         Log.v(tag, "load all phone contacts from db");
+//        if(db == null)
+            db = dbHelper.getWritableDatabase();
+
         String query = "select * from " + DataConfig.TABLE_PERSON
                 + " where " + DataConfig.COLUMN_PERSON_CATEGORY + " = ?";
         Cursor cursor = db.rawQuery(query,
@@ -138,7 +162,7 @@ public class DataLoader {
 
         ArrayList<Person> persons = new ArrayList<>();
         while(cursor.moveToNext()){
-            Person p = new Person(cursor);
+            Person p = new Person(context, cursor);
             Log.v(tag, "loaded phone contact from db: " + p.toString());
             persons.add(p);
         }
@@ -206,7 +230,7 @@ public class DataLoader {
         Cursor cursor = db.rawQuery(query, null);
 
         while(cursor.moveToNext()){
-            Message message = new Message(cursor);
+            Message message = new Message(context, cursor);
             Log.d(tag, "load message from database: " + message.toString());
             messages.add(message);
         }

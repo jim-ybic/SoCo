@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.database.DbHelper;
+import com.soco.SoCoClient.v2.model.Message;
 
 public class SingleConversation {
 
@@ -22,21 +23,26 @@ public class SingleConversation {
     String createdTimestamp;
     int counterpartyId;
 
-    //local variables
+    //fields not saved to db
     Context context;
+    DbHelper helper;
     SQLiteDatabase db;
 
     public SingleConversation(Context c){
-        Log.v(tag, "create new event");
+        Log.v(tag, "create new conversation");
 
         this.context = c;
+        this.helper = new DbHelper(context);
 
         this.seq = DataConfig.ENTITIY_ID_NOT_READY;
         this.id = DataConfig.ENTITIY_ID_NOT_READY;
     }
 
-    public SingleConversation(Cursor cursor){
+    public SingleConversation(Context context, Cursor cursor){
         Log.v(tag, "create conversation from cursor");
+        this.context = context;
+        this.helper = new DbHelper(context);
+
         this.seq = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_SEQ));
         this.id = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_ID));
         this.lastMsgContent = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_LASTMSGCONTENT));
@@ -44,26 +50,27 @@ public class SingleConversation {
         this.createdByUserId = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID));
         this.createdTimestamp = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP));
         this.counterpartyId = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID));
-        Log.v(tag, "created event from cursor: " + toString());
+        Log.v(tag, "created conversation from cursor: " + toString());
     }
 
-    public void addContext(Context c){
-        context = c;
-        DbHelper helper = new DbHelper(c);
-        db = helper.getWritableDatabase();
-    }
+//    public void addContext(Context c){
+//        context = c;
+//        DbHelper helper = new DbHelper(c);
+//        db = helper.getWritableDatabase();
+//    }
 
     public void save(){
         if(db == null){
-            Log.e(tag, "db not ready, please set context before saving");
+//            Log.e(tag, "db not ready, please set context before saving");
+            db = helper.getWritableDatabase();
             return;
         }
 
         if (seq == DataConfig.ENTITIY_ID_NOT_READY){
-            Log.v(tag, "save new event");
+            Log.v(tag, "save new conversation");
             saveNew();
         }else{
-            Log.v(tag, "update existing event");
+            Log.v(tag, "update existing conversation");
             update();
         }
     }
@@ -79,7 +86,7 @@ public class SingleConversation {
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP, createdTimestamp);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID, counterpartyId);
 
-            db.insert(DataConfig.TABLE_EVENT, null, cv);
+            db.insert(DataConfig.TABLE_SINGLE_CONVERSATION, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new conversation added to db: " + toString());
         } finally {
@@ -97,7 +104,7 @@ public class SingleConversation {
         }
         db.close();
 
-        //todo: save event on server
+        //todo: save conversation on server
     }
 
     void update(){
@@ -122,7 +129,30 @@ public class SingleConversation {
             db.close();
         }
 
-        //todo: update event to server
+        //todo: update conversation to server
+    }
+
+    public void addMessage(Message m){
+        if(db == null){
+            db = helper.getWritableDatabase();
+//            Log.e(tag, "db not ready, please set context before saving");
+            return;
+        }
+
+        Log.v(tag, "adding message to db");
+        try {
+            db.beginTransaction();
+            ContentValues cv = new ContentValues();
+            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_MESSAGE_CONSEQ, seq);
+            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_MESSAGE_MSGSEQ, m.getSeq());
+
+            db.insert(DataConfig.TABLE_SINGLE_CONVERSATION_MESSAGE, null, cv);
+            db.setTransactionSuccessful();
+            Log.d(tag, "new message added to db: " + m.toString());
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
     }
 
     public int getSeq() {

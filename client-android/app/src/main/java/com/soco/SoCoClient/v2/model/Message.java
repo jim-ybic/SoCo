@@ -15,8 +15,8 @@ public class Message {
     String tag = "Message";
 
     //fields saved to db
-    int msgIdLocal;
-    int msgIdServer;
+    int seq;
+    int id;
     int fromType;
     String fromId;
     int toType;
@@ -32,27 +32,31 @@ public class Message {
 
     //fields not saved to db
     Context context;
+    DbHelper helper;
     SQLiteDatabase db;
 
     public Message(Context context){
         Log.v(tag, "create new message");
 
         this.context = context;
+        helper = new DbHelper(context);
 
-        this.msgIdLocal = DataConfig.ENTITIY_ID_NOT_READY;
-        this.msgIdServer = DataConfig.ENTITIY_ID_NOT_READY;
+        this.seq = DataConfig.ENTITIY_ID_NOT_READY;
+        this.id = DataConfig.ENTITIY_ID_NOT_READY;
         this.createTimestamp = TimeUtil.now();
         this.fromDevice = DataConfig.ENTITY_VALUE_EMPTY;
         this.status = DataConfig.MESSAGE_STATUS_NEW;
 
-        DbHelper dbHelper = new DbHelper(context);
-        this.db = dbHelper.getWritableDatabase();
+//        this.db = dbHelper.getWritableDatabase();
     }
 
-    public Message(Cursor cursor){
+    public Message(Context context, Cursor cursor){
         Log.v(tag, "create message from cursor");
-        this.msgIdLocal = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_MSGIDLOCAL));
-        this.msgIdServer = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_MSGIDSERVER));
+        this.context = context;
+        this.helper = new DbHelper(context);
+
+        this.seq = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_SEQ));
+        this.id = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_ID));
         this.fromType = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_FROMTYPE));
         this.fromId = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_FROMID));
         this.toType = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_TOTYPE));
@@ -69,7 +73,12 @@ public class Message {
     }
 
     public void save(){
-        if(msgIdLocal == DataConfig.ENTITIY_ID_NOT_READY){
+        if(db == null){
+            this.db = helper.getWritableDatabase();
+            return;
+        }
+
+        if(seq == DataConfig.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new message");
             saveNew();
         }else{
@@ -83,7 +92,7 @@ public class Message {
         try{
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_MESSAGE_MSGIDSERVER, msgIdServer);
+            cv.put(DataConfig.COLUMN_MESSAGE_ID, id);
             cv.put(DataConfig.COLUMN_MESSAGE_FROMTYPE, fromType);
             cv.put(DataConfig.COLUMN_MESSAGE_FROMID, fromId);
             cv.put(DataConfig.COLUMN_MESSAGE_TOTYPE, toType);
@@ -105,13 +114,13 @@ public class Message {
 
         Log.v(tag, "get message id local from database");
         int midLocal = -1;
-        String query = "select max (" + DataConfig.COLUMN_MESSAGE_MSGIDLOCAL
+        String query = "select max (" + DataConfig.COLUMN_MESSAGE_SEQ
                 + ") from " + DataConfig.TABLE_MESSAGE;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){
             midLocal = cursor.getInt(0);
             Log.d(tag, "update message id local: " + midLocal);
-            msgIdLocal = midLocal;
+            seq = midLocal;
         }
 
         //todo: send message to server, update field
@@ -123,8 +132,8 @@ public class Message {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_MESSAGE_MSGIDLOCAL, msgIdLocal);
-            cv.put(DataConfig.COLUMN_MESSAGE_MSGIDSERVER, msgIdServer);
+            cv.put(DataConfig.COLUMN_MESSAGE_SEQ, seq);
+            cv.put(DataConfig.COLUMN_MESSAGE_ID, id);
             cv.put(DataConfig.COLUMN_MESSAGE_FROMTYPE, fromType);
             cv.put(DataConfig.COLUMN_MESSAGE_FROMID, fromId);
             cv.put(DataConfig.COLUMN_MESSAGE_TOTYPE, toType);
@@ -138,8 +147,8 @@ public class Message {
             cv.put(DataConfig.COLUMN_MESSAGE_STATUS, status);
             cv.put(DataConfig.COLUMN_MESSAGE_SIGNATURE, signature);
             db.update(DataConfig.TABLE_MESSAGE, cv,
-                    DataConfig.COLUMN_MESSAGE_MSGIDLOCAL + " = ?",
-                    new String[]{String.valueOf(msgIdLocal)});
+                    DataConfig.COLUMN_MESSAGE_SEQ + " = ?",
+                    new String[]{String.valueOf(seq)});
             db.setTransactionSuccessful();
             Log.d(tag, "message updated into database: " + toString());
         } finally {
@@ -151,12 +160,12 @@ public class Message {
 
     public void delete(){
         Log.v(tag, "delete existing message");
-        if(msgIdLocal == DataConfig.ENTITIY_ID_NOT_READY){
+        if(seq == DataConfig.ENTITIY_ID_NOT_READY){
             Log.e(tag, "cannot delete a non-existing message");
         } else {
             db.delete(DataConfig.TABLE_MESSAGE,
-                    DataConfig.COLUMN_MESSAGE_MSGIDLOCAL + " = ?",
-                    new String[]{String.valueOf(msgIdLocal)});
+                    DataConfig.COLUMN_MESSAGE_SEQ + " = ?",
+                    new String[]{String.valueOf(seq)});
             Log.d(tag, "message deleted from database: " + toString());
         }
 
@@ -165,8 +174,8 @@ public class Message {
 
     public String toString() {
         return "Message{" +
-                "msgIdLocal=" + msgIdLocal +
-                ", msgIdServer=" + msgIdServer +
+                "seq=" + seq +
+                ", id=" + id +
                 ", fromType=" + fromType +
                 ", fromId='" + fromId + '\'' +
                 ", toType=" + toType +
@@ -182,20 +191,20 @@ public class Message {
                 '}';
     }
 
-    public int getMsgIdLocal() {
-        return msgIdLocal;
+    public int getSeq() {
+        return seq;
     }
 
-    public void setMsgIdLocal(int msgIdLocal) {
-        this.msgIdLocal = msgIdLocal;
+    public void setSeq(int seq) {
+        this.seq = seq;
     }
 
-    public int getMsgIdServer() {
-        return msgIdServer;
+    public int getId() {
+        return id;
     }
 
-    public void setMsgIdServer(int msgIdServer) {
-        this.msgIdServer = msgIdServer;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getFromType() {

@@ -41,6 +41,11 @@ public class DataConfig {
     public static final String COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP = "createdTimestamp";
     public static final String COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID = "counterpartyId";
 
+    public static final String TABLE_SINGLE_CONVERSATION_MESSAGE = "single_conversation_message";
+    public static final String COLUMN_SINGLE_CONVERSATION_MESSAGE_SEQ = "seq";
+    public static final String COLUMN_SINGLE_CONVERSATION_MESSAGE_CONSEQ = "conSeq";
+    public static final String COLUMN_SINGLE_CONVERSATION_MESSAGE_MSGSEQ = "msgSeq";
+
     public static final String TABLE_PROJECT = "project";
     public static final String COLUMN_PROJECT_PROJECTIDLOCAL = "projectIdLocal";
     public static final String COLUMN_PROJECT_PROJECTIDSERVER = "projectIdServer";
@@ -83,8 +88,8 @@ public class DataConfig {
     public static final String COLUMN_CONTACTGROUP_CONTACTGROUPNAME = "contactGroupName";
 
     public static final String TABLE_MESSAGE = "message";
-    public static final String COLUMN_MESSAGE_MSGIDLOCAL = "msgIdLocal";
-    public static final String COLUMN_MESSAGE_MSGIDSERVER = "msgIdServer";
+    public static final String COLUMN_MESSAGE_SEQ = "seq";
+    public static final String COLUMN_MESSAGE_ID = "id";
     public static final String COLUMN_MESSAGE_FROMTYPE = "fromType";
     public static final String COLUMN_MESSAGE_FROMID = "fromId";
     public static final String COLUMN_MESSAGE_TOTYPE = "toType";
@@ -154,6 +159,7 @@ public class DataConfig {
 
     public static final int INTENT_SHOW_EVENT_DETAIL = 101;
     public static final String EXTRA_EVENT_SEQ = "extra_event_seq";
+    public static final String EXTRA_CONVERSATION_SEQ = "extra_conversation_seq";
 
     public static final String PERSON_STATUS_NOTCONNECTED = "not connected";
     public static final String PERSON_STATUS_INVITED = "invited";

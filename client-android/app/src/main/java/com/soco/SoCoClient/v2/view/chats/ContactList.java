@@ -17,15 +17,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
 import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.v2.control.database.DataLoader;
-import com.soco.SoCoClient.v2.control.util.ActivityUtil;
 import com.soco.SoCoClient.v2.model.conversation.SingleConversation;
 import com.soco.SoCoClient.v2.model.Person;
-import com.soco.SoCoClient.v2.model.conversation.SingleConversation;
-import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionItem;
 
@@ -109,7 +105,7 @@ public class ContactList extends ActionBarActivity {
                             for (Person p : phoneContacts) {
                                 p.setCategory(DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS);
                                 p.setStatus(DataConfig.PERSON_STATUS_NOTCONNECTED);
-                                p.addContext(context);
+//                                p.addContext(context);
                                 p.save();
                                 if (counter++ > 20)   //testing
                                     break;
@@ -181,21 +177,17 @@ public class ContactList extends ActionBarActivity {
             Log.d(tag, "position is " + position + ", friend pos " + pos + ": " + p.toString());
 
             if (item.getTitle() == CONTEXT_MENU_ITEM_CHAT) {    //chat with friend
-                SingleConversation c = dataLoader.loadSingleConversation(p.getId());
+                SingleConversation c = dataLoader.loadSingleConversationByCtpyId(p.getId());
                 if(c == null){
                     Log.v(tag, "create new conversation");
                     c = new SingleConversation(context);
                     c.setCounterpartyId(p.getId());
-                    c.addContext(context);
+//                    c.addContext(context);
                     c.save();
-                    //todo
-                    Intent i = new Intent(this, Conversation.class);
-                    startActivity(i);
                 }
-                else{
-                    Log.v(tag, "append existing conversation");
-                    //todo
-                }
+                Intent i = new Intent(this, ConversationDetail.class);
+                i.putExtra(DataConfig.EXTRA_CONVERSATION_SEQ, c.getSeq());
+                startActivity(i);
             }
         }
 
@@ -206,13 +198,13 @@ public class ContactList extends ActionBarActivity {
         Log.d(tag, "invite phone contact: " + p.getName());
         //todo: send invitation
         p.setStatus(DataConfig.PERSON_STATUS_ACCEPTED); //testing: accepted now
-        p.addContext(context);
+//        p.addContext(context);
         p.save();
 
         Person p2 = new Person(context, p.getName(), p.getPhone(), p.getEmail());
         p2.setCategory(DataConfig.CONTACT_LIST_SECTION_MYFRIENDS);
         p2.setStatus(DataConfig.PERSON_STATUS_ACCEPTED);
-        p2.addContext(context);
+//        p2.addContext(context);
         p2.save();
         Toast.makeText(getApplicationContext(), "Invitation sent", Toast.LENGTH_SHORT).show();
 

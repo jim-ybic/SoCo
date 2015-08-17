@@ -8,7 +8,7 @@ import com.soco.SoCoClient.v2.control.config.DataConfig;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-        public static String DATABASE_NAME = "socodb.v2.18";
+        public static String DATABASE_NAME = "socodb.v2.20";
         public static int DATABASE_VERSION = 1;
 
         public DbHelper(Context context) {
@@ -60,7 +60,13 @@ public class DbHelper extends SQLiteOpenHelper {
                         + ", " + DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID + " INT"
                         + ")");
 
-                db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_ATTRIBUTE + " ("
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_SINGLE_CONVERSATION_MESSAGE + " ("
+                        + DataConfig.COLUMN_SINGLE_CONVERSATION_MESSAGE_SEQ + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                        + ", " + DataConfig.COLUMN_SINGLE_CONVERSATION_MESSAGE_CONSEQ + " INTEGER"
+                        + ", " + DataConfig.COLUMN_SINGLE_CONVERSATION_MESSAGE_MSGSEQ + " INTEGER"
+                        + ")");
+
+                    db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_ATTRIBUTE + " ("
                         + DataConfig.COLUMN_ATTRIBUTE_ATTRIDLOCAL + " INTEGER PRIMARY KEY AUTOINCREMENT"
                         + ", " + DataConfig.COLUMN_ATTRIBUTE_ATTRIDSERVER + " INTEGER"
                         + ", " + DataConfig.COLUMN_ATTRIBUTE_ACTIVITYTYPE + " VARCHAR"
@@ -79,8 +85,8 @@ public class DbHelper extends SQLiteOpenHelper {
                         + ")");
 
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + DataConfig.TABLE_MESSAGE + " ("
-                        + DataConfig.COLUMN_MESSAGE_MSGIDLOCAL + " INTEGER PRIMARY KEY AUTOINCREMENT"
-                        + ", " + DataConfig.COLUMN_MESSAGE_MSGIDSERVER + " INTEGER"
+                        + DataConfig.COLUMN_MESSAGE_SEQ + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                        + ", " + DataConfig.COLUMN_MESSAGE_ID + " INTEGER"
                         + ", " + DataConfig.COLUMN_MESSAGE_FROMTYPE + " INTEGER"
                         + ", " + DataConfig.COLUMN_MESSAGE_FROMID+ " VARCHAR"
                         + ", " + DataConfig.COLUMN_MESSAGE_TOTYPE + " INTEGER"

@@ -51,7 +51,7 @@ public class EventDetail extends ActionBarActivity {
             int seq = extras.getInt(DataConfig.EXTRA_EVENT_SEQ);
             Log.d(tag, "extra has seq " + seq);
             event = dataLoader.loadEvent(seq);
-            event.addContext(context);
+//            event.addContext(context);
             Log.d(tag, "loaded event: " + event.toString());
         }
 
@@ -112,7 +112,7 @@ public class EventDetail extends ActionBarActivity {
         event.setTime(et_time.getText().toString());
         event.setLocation(et_location.getText().toString());
 
-        event.addContext(context);
+//        event.addContext(context);
         event.save();
         Toast.makeText(getApplicationContext(), "Event saved", Toast.LENGTH_SHORT).show();
 

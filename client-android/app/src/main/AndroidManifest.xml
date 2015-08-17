@@ -152,7 +152,7 @@
             android:label="@string/title_activity_contact_list" >
         </activity>
         <activity
-            android:name=".v2.view.chats.Conversation"
+            android:name=".v2.view.chats.ConversationDetail"
             android:label="@string/title_activity_contact_list" >
         </activity>
     </application>
