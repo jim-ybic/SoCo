@@ -69,11 +69,11 @@ public class Event {
 //    }
 
     public void save(){
-        if(db == null){
-            db = helper.getWritableDatabase();
+//        if(db == null){
+//            db = helper.getWritableDatabase();
 //            Log.e(tag, "db not ready, please set context before saving");
-            return;
-        }
+//            return;
+//        }
 
         if (seq == DataConfig.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new event");
@@ -86,6 +86,8 @@ public class Event {
 
     void saveNew(){
         Log.v(tag, "save new event to db");
+        db = helper.getWritableDatabase();
+
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
@@ -121,6 +123,8 @@ public class Event {
 
     void update(){
         Log.v(tag, "update existing event to local database");
+        db = helper.getWritableDatabase();
+
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();

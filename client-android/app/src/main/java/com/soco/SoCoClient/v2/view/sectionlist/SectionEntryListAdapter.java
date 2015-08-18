@@ -31,16 +31,16 @@ public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-        Log.v(tag, "getView: " + position);
+//        Log.v(tag, "getView: " + position);
 		View v = convertView;
 
 		final Item i = items.get(position);
 		if (i != null) {
-            Log.v(tag, "item type: " + i.getType() + ", " + i.toString());
+//            Log.v(tag, "item type: " + i.getType() + ", " + i.toString());
 
 			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_SECTION)){
 				SectionItem si = (SectionItem)i;
-                Log.v(tag, "item name: " + si.getTitle());
+//                Log.v(tag, "item name: " + si.getTitle());
 				v = vi.inflate(R.layout.v1_list_item_section, null);
 
 				v.setOnClickListener(null);
@@ -51,7 +51,7 @@ public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 				sectionView.setText(si.getTitle());
 			}else if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){
 				EntryItem ei = (EntryItem)i;
-                Log.v(tag, "item name: " + ei.title);
+//                Log.v(tag, "item name: " + ei.title);
 				v = vi.inflate(R.layout.v1_list_item_entry, null);
 				final TextView title = (TextView)v.findViewById(R.id.name);
 				final TextView subtitle = (TextView)v.findViewById(R.id.email);
@@ -62,7 +62,7 @@ public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 					subtitle.setText(ei.subtitle);
 			}else if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)){
                 FolderItem fi = (FolderItem)i;
-                Log.v(tag, "item name: " + fi.title);
+//                Log.v(tag, "item name: " + fi.title);
                 v = vi.inflate(R.layout.v1_list_item_folder, null);
                 final TextView title = (TextView)v.findViewById(R.id.name);
                 final TextView subtitle = (TextView)v.findViewById(R.id.email);

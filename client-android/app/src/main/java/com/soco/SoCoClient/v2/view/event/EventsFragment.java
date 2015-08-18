@@ -65,7 +65,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 
     View rootView;
     SocoApp socoApp;
-    SectionEntryListAdapter activitiesAdapter;
+
     Context context;
 
     //new variables
@@ -182,7 +182,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
                 if (event.getAction() != KeyEvent.ACTION_DOWN)      //only process key down event
                     return true;
 
-                if( keyCode == KeyEvent.KEYCODE_BACK ) {
+                if( keyCode == KeyEvent.KEYCODE_BACK ) {    //back-key pressed
                     Log.i(tag, "onKey Back listener");
 //                    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     if(socoApp.currentPath.equals(GeneralConfig.PATH_ROOT))
@@ -197,7 +197,8 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
                         socoApp.currentPath = path;
                         activities = dbmgrSoco.loadActiveActivitiesByPath(path);
                         folders = dbmgrSoco.loadFoldersByPath(path);
-                        refreshList();
+//                        refreshList();
+                        show(events);
                     }
 
                     String title = "Dashboard";
@@ -262,23 +263,23 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_dashboard_events, menu);
+        inflater.inflate(R.menu.events_fragment, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_profile) {
-            Log.i("setting", "Click on Profile.");
-            Intent intent = new Intent(getActivity().getApplicationContext(), ProfileActivity.class);
-            intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
-            intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
-            startActivity(intent);
-        }
-        else if (id == R.id.archive) {
-            showCompletedProjects();
-        }
+//        if (id == R.id.action_profile) {
+//            Log.i("setting", "Click on Profile.");
+//            Intent intent = new Intent(getActivity().getApplicationContext(), ProfileActivity.class);
+//            intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
+//            intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
+//            startActivity(intent);
+//        }
+//        if (id == R.id.archive) {
+//            showCompletedProjects();
+//        }
 //        else if (id == R.id.add) {
 //            createActivity(null);
 //        }
@@ -362,73 +363,57 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 //    }
 
 
-    public void refreshList() {
-        Log.d(tag, "refresh list start");
-
-        allListItems = new ArrayList<>();
-        HashMap<String, String> tags = new HashMap<>();
-
-        Log.d(tag, "grouping activities and add into list");
-        HashMap<String, ArrayList<Activity>> activitiesMap = ActivityUtil.groupingActivitiesByTag(activities);
-        for(Map.Entry<String, ArrayList<Activity>> e : activitiesMap.entrySet()){
-            String tag = e.getKey();
-            tags.put(tag, tag);
-            ArrayList<Activity> pp = e.getValue();
-            allListItems.add(new SectionItem(tag));   //add section
-            for(Activity p : pp) {  //add activity
-                //fix Bug #4 new activity created from invitation has delay in showing activity name
-                if(p.invitation_status == DataConfig.ACTIVITY_INVITATION_STATUS_COMPLETE)
-                    allListItems.add(new EntryItem(p.pname, p.getMoreInfo()));
-                else
-                    Log.d(tag, "skip showing project that pending invitation complete: " + p.pid);
-            }
-        }
-
-        Log.d(tag, "grouping folders and add into list");
-        HashMap<String, ArrayList<Folder>> foldersMap = ActivityUtil.groupingFoldersByTag(folders);
-        for(Map.Entry<String, ArrayList<Folder>> e : foldersMap.entrySet()){
-            String tag = e.getKey();
-            ArrayList<Folder> ff = e.getValue();
-            if(!tags.containsKey(tag))  //new tag for folders only (i.e. no activities)
-                allListItems.add(new SectionItem(tag));
-            for(Folder f : ff){
-                allListItems.add(new FolderItem(f.fname, f.fdesc));
-            }
-        }
-
-        Log.d(tag, "refresh UI");
-        activitiesAdapter = new SectionEntryListAdapter(getActivity(), allListItems);
-        lv_active_programs.setAdapter(activitiesAdapter);
-    }
-
-    public void show(ArrayList<Event> events) {
-        Log.d(tag, "show events to ui");
-        allListItems = new ArrayList<>();
-
-        for(Event e : events){
-            allListItems.add(new EntryItem(e.getName(), e.getDesc()));
-        }
+//    public void refreshList() {
+//        Log.d(tag, "refresh list start");
+//
+//        allListItems = new ArrayList<>();
 //        HashMap<String, String> tags = new HashMap<>();
-
+//
 //        Log.d(tag, "grouping activities and add into list");
 //        HashMap<String, ArrayList<Activity>> activitiesMap = ActivityUtil.groupingActivitiesByTag(activities);
 //        for(Map.Entry<String, ArrayList<Activity>> e : activitiesMap.entrySet()){
 //            String tag = e.getKey();
-////            tags.put(tag, tag);
+//            tags.put(tag, tag);
 //            ArrayList<Activity> pp = e.getValue();
 //            allListItems.add(new SectionItem(tag));   //add section
 //            for(Activity p : pp) {  //add activity
 //                //fix Bug #4 new activity created from invitation has delay in showing activity name
-//                if(p.invitation_status == DataConfigObs.ACTIVITY_INVITATION_STATUS_COMPLETE)
+//                if(p.invitation_status == DataConfig.ACTIVITY_INVITATION_STATUS_COMPLETE)
 //                    allListItems.add(new EntryItem(p.pname, p.getMoreInfo()));
 //                else
 //                    Log.d(tag, "skip showing project that pending invitation complete: " + p.pid);
 //            }
 //        }
+//
+//        Log.d(tag, "grouping folders and add into list");
+//        HashMap<String, ArrayList<Folder>> foldersMap = ActivityUtil.groupingFoldersByTag(folders);
+//        for(Map.Entry<String, ArrayList<Folder>> e : foldersMap.entrySet()){
+//            String tag = e.getKey();
+//            ArrayList<Folder> ff = e.getValue();
+//            if(!tags.containsKey(tag))  //new tag for folders only (i.e. no activities)
+//                allListItems.add(new SectionItem(tag));
+//            for(Folder f : ff){
+//                allListItems.add(new FolderItem(f.fname, f.fdesc));
+//            }
+//        }
+//
+//        Log.d(tag, "refresh UI");
+//        SectionEntryListAdapter activitiesAdapter;
+//        activitiesAdapter = new SectionEntryListAdapter(getActivity(), allListItems);
+//        lv_active_programs.setAdapter(activitiesAdapter);
+//    }
+
+    public void show(ArrayList<Event> events) {
+        Log.v(tag, "show events to ui");
+        allListItems = new ArrayList<>();
+
+        for(Event e : events){
+            allListItems.add(new EventListEntryItem(e.getName(), e.getDesc(), e.getDate()));
+        }
 
 //        Log.d(tag, "refresh UI");
-        activitiesAdapter = new SectionEntryListAdapter(getActivity(), allListItems);
-        lv_active_programs.setAdapter(activitiesAdapter);
+        EventListAdapter adapter = new EventListAdapter(getActivity(), allListItems);
+        lv_active_programs.setAdapter(adapter);
     }
 
     public void showCompletedProjects() {
@@ -479,18 +464,18 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.add:
-                add();
-                break;
+//            case R.id.add:
+//                add();
+//                break;
 //            case R.id.create:
 //                createActivity();
 //                break;
-            case R.id.archive:
-                showCompletedProjects();
-                break;
-            case R.id.home:
-                Log.d(tag, "click on home");
-                break;
+//            case R.id.archive:
+//                showCompletedProjects();
+//                break;
+//            case R.id.home:
+//                Log.d(tag, "click on home");
+//                break;
         }
     }
 
