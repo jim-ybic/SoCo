@@ -32,16 +32,16 @@ public class MessageListAdapter extends ArrayAdapter<Item> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-        Log.v(tag, "getView: " + position);
+//        Log.v(tag, "getView: " + position);
 		View v = convertView;
 
 		final Item i = items.get(position);
 		if (i != null) {
-            Log.v(tag, "item type: " + i.getType() + ", " + i.toString());
+//            Log.v(tag, "item type: " + i.getType() + ", " + i.toString());
 
 			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){ //entry
 				MessageListEntryItem ei = (MessageListEntryItem)i;
-                Log.v(tag, "item name: " + ei.content);
+//                Log.v(tag, "item name: " + ei.content);
 				v = vi.inflate(R.layout.message_list_entry, null);
 				final TextView content = (TextView)v.findViewById(R.id.content);
                 final TextView timestamp = (TextView)v.findViewById(R.id.timestamp);

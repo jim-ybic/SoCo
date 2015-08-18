@@ -154,7 +154,7 @@ public class SingleConversation {
 
             db.insert(DataConfig.TABLE_SINGLE_CONVERSATION_MESSAGE, null, cv);
             db.setTransactionSuccessful();
-            Log.d(tag, "new message added to conversation " + seq + ": " + m.toString());
+            Log.d(tag, "single conversation " + seq + " added new message " + m.toString());
         } finally {
             db.endTransaction();
             db.close();

@@ -110,7 +110,7 @@ public class DataLoader {
             Log.v(tag, "loaded friends from db: " + p.toString());
             persons.add(p);
         }
-        db.close();
+//        db.close();
 
         Log.d(tag, persons.size() + " friends loaded from db");
         return persons;
@@ -237,6 +237,59 @@ public class DataLoader {
 
         Log.d(tag, messages.size() + " message loaded from database");
         return messages;
+    }
+
+
+
+    public ArrayList<Message> loadMessagesForSingleConversation(int singleConversationSeq){
+        Log.v(tag, "load messages from database for single conversation " + singleConversationSeq);
+        ArrayList<Message> messages = new ArrayList<>();
+
+        Log.v(tag, "get associated message id list");
+        String queryMsgId = "select " + DataConfig.COLUMN_SINGLE_CONVERSATION_MESSAGE_MSGSEQ
+                        + " from " + DataConfig.TABLE_SINGLE_CONVERSATION_MESSAGE
+                        + " where " + DataConfig.COLUMN_SINGLE_CONVERSATION_MESSAGE_CONSEQ + " =?";
+        Cursor cursorMsgId = db.rawQuery(queryMsgId,
+                new String[]{String.valueOf(singleConversationSeq)});
+        Log.d(tag, "queryMsgId: " + queryMsgId + ", " + singleConversationSeq);
+        ArrayList<String> msgIds = new ArrayList<>();
+        while (cursorMsgId.moveToNext()) {
+            int id = cursorMsgId.getInt(0);
+            Log.v(tag, "get message " + id);
+            msgIds.add(String.valueOf(id));
+        }
+        String [] msgIdsStr = msgIds.toArray(new String[msgIds.size()]);
+        Log.d(tag, msgIds.size() + " messages found for single conversation " + singleConversationSeq);
+
+        Log.v(tag, "load messages");
+        String queryMsg =  "select * from " + DataConfig.TABLE_MESSAGE
+                            + " where " + DataConfig.COLUMN_MESSAGE_SEQ + " in ("
+                            + makePlaceholders(msgIdsStr.length) + ")";
+        Cursor cursorMsg = db.rawQuery(queryMsg, msgIdsStr);
+        Log.d(tag, "queryMsg: " + queryMsg + ", " + msgIdsStr.toString());
+
+        while(cursorMsg.moveToNext()){
+            Message message = new Message(context, cursorMsg);
+            Log.d(tag, "load message from database: " + message.toString());
+            messages.add(message);
+        }
+
+        Log.d(tag, messages.size() + " message loaded from database");
+        return messages;
+    }
+
+    String makePlaceholders(int len) {
+        if (len < 1) {
+            // It will lead to an invalid query anyway ..
+            throw new RuntimeException("No placeholders");
+        } else {
+            StringBuilder sb = new StringBuilder(len * 2 - 1);
+            sb.append("?");
+            for (int i = 1; i < len; i++) {
+                sb.append(",?");
+            }
+            return sb.toString();
+        }
     }
 
     public ArrayList<Message> loadMessages(int singleConversationSeq){

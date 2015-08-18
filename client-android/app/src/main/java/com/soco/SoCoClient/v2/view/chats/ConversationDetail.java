@@ -52,10 +52,15 @@ public class ConversationDetail extends ActionBarActivity {
         dataLoader = new DataLoader(context);
 
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
+        if (extras != null) {   //load conversation
             seq = extras.getInt(DataConfig.EXTRA_CONVERSATION_SEQ);
             Log.d(tag, "extra has seq " + seq);
             conversation = dataLoader.loadSingleConversationBySeq(seq);
+        }
+
+        if(conversation != null){   //load messages
+            messages = dataLoader.loadMessagesForSingleConversation(seq);
+            show(messages);
         }
 
 
@@ -88,8 +93,8 @@ public class ConversationDetail extends ActionBarActivity {
     void show(ArrayList<Message> messages){
 
         ArrayList<Item> items = new ArrayList<>();
-        for(int m=0; m<5; m++){
-            items.add(new MessageListEntryItem("sender", "yyyy-mm-dd hh:mm am/pm"));
+        for(Message m : messages){
+            items.add(new MessageListEntryItem(m.getContent(), m.getCreateTimestamp()));
         }
 
 
@@ -180,7 +185,7 @@ public class ConversationDetail extends ActionBarActivity {
         Message m = new Message(context);
         m.setContent(text);
         m.save();
-        Log.d(tag, "new message created: " + m.toString());
+        Log.v(tag, "new message created: " + m.toString());
 
 //        conversation.addContext(context);
         conversation.addMessage(m);
@@ -208,9 +213,11 @@ public class ConversationDetail extends ActionBarActivity {
 //        );
 //        task.execute();
 
-        Log.d(tag, "refresh UI");
+        Log.d(tag, "refresh message list");
         et_message.setText("");
 //        showChatHistory(email);
-        show(null);
+
+        messages.add(m);
+        show(messages);
     }
 }
