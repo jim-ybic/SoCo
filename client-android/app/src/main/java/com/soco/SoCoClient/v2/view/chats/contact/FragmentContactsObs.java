@@ -30,7 +30,6 @@ import com.soco.SoCoClient.obsolete.v1.control.http.task.AddFriendTaskAsync;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionEntryListAdapter;
-import com.soco.SoCoClient.v2.view.chats.contact.ContactDetailsActivity;
 import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
@@ -86,7 +85,7 @@ public class FragmentContactsObs extends Fragment implements View.OnClickListene
 //                    Log.i(tag, "pid/pid_onserver: " + pid + ", " + pid_onserver);
 
                     //new fragment-based activity
-                    Intent i = new Intent(view.getContext(), ContactDetailsActivity.class);
+                    Intent i = new Intent(view.getContext(), ContactDetailsActivityObs.class);
                     i.putExtra(GeneralConfig.INTENT_KEY_NAME, name);
                     i.putExtra(GeneralConfig.INTENT_KEY_EMAIL, email);
                     startActivity(i);

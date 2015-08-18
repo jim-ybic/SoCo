@@ -104,7 +104,7 @@
             android:parentActivityName=".v2.view.dashboard.Dashboard" >
         </activity>
         <activity
-            android:name=".v2.view.chats.contact.ContactDetailsActivity"
+            android:name=".v2.view.chats.contact.ContactDetailsActivityObs"
             android:label="@string/title_activity_contact_details"
             android:parentActivityName=".v2.view.dashboard.Dashboard"
             android:windowSoftInputMode="adjustResize|stateHidden" >

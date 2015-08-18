@@ -29,7 +29,7 @@ import com.soco.SoCoClient.v2.model.Profile;
 import java.util.ArrayList;
 
 
-public class ContactDetailsActivity extends ActionBarActivity {
+public class ContactDetailsActivityObs extends ActionBarActivity {
 
     String tag = "ContactDetails";
     String name, email;

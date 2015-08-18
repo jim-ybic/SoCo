@@ -2,13 +2,10 @@ package com.soco.SoCoClient.v2.view.chats;
 
 //import info.androidhive.tabsswipe.R;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,23 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.AddFriendTaskAsync;
+import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.v2.control.database.DataLoader;
-import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 import com.soco.SoCoClient.v2.model.conversation.SingleConversation;
-import com.soco.SoCoClient.v2.view.chats.contact.ContactDetailsActivity;
 import com.soco.SoCoClient.v2.view.chats.contact.ContactListActivity;
-import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionEntryListAdapter;
 
@@ -82,26 +72,28 @@ public class ChatsFragment extends Fragment implements View.OnClickListener {
         singleConversations = dataLoader.loadSingleConversations();
         showConversations(singleConversations);
 
-//        ((ListView)rootView.findViewById(R.id.conversations)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @SuppressWarnings("unchecked")
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                //new
-//                if (!contactItems.get(position).isSection()) {  //click on item/name
+        ((ListView)rootView.findViewById(R.id.conversations)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                    EntryItem item = (EntryItem) contactItems.get(position);
 //                    Log.d(tag, "You clicked: " + item.title);
-//
 //                    String name = item.title;
 //                    String email = item.subtitle;
-//
 //                    //new fragment-based activity
-//                    Intent i = new Intent(view.getContext(), ContactDetailsActivity.class);
+//                    Intent i = new Intent(view.getContext(), ContactDetailsActivityObs.class);
 //                    i.putExtra(GeneralConfig.INTENT_KEY_NAME, name);
 //                    i.putExtra(GeneralConfig.INTENT_KEY_EMAIL, email);
 //                    startActivity(i);
-//                }
-//            }
-//        });
+
+                SingleConversation c = singleConversations.get(position);
+                Log.v(tag, "click on conversation: " + c.toString());
+
+                Intent i = new Intent(getActivity(), ConversationDetail.class);
+                i.putExtra(DataConfig.EXTRA_CONVERSATION_SEQ, c.getSeq());
+                startActivity(i);
+            }
+        });
 
 //        rootView.findViewById(R.id.add).setOnClickListener(this);
 //        listContacts();
