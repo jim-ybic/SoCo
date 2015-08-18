@@ -67,7 +67,7 @@ public class ContactListActivity extends ActionBarActivity {
 
 //        Log.v(tag, "get contact contactList");
 //        SocoApp socoApp = (SocoApp)getApplicationContext();
-//        phoneContacts = socoApp.loadPhoneContacts(getApplicationContext());
+//        phoneContacts = socoApp.loadRawPhoneContacts(getApplicationContext());
 //        Log.d(tag, "load contacts complete: " + phoneContacts.size() + " found");
 
         dataLoader = new DataLoader(getApplicationContext());
@@ -101,7 +101,7 @@ public class ContactListActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             Toast.makeText(getApplicationContext(), "Importing phonebook...", Toast.LENGTH_SHORT).show();
                             SocoApp socoApp = (SocoApp) getApplicationContext();
-                            ArrayList<Person> phoneContacts = socoApp.loadPhoneContacts(getApplicationContext());
+                            ArrayList<Person> phoneContacts = socoApp.loadRawPhoneContacts(getApplicationContext());
                             int counter = 0; //testing
                             for (Person p : phoneContacts) {
                                 p.setCategory(DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS);
@@ -178,11 +178,11 @@ public class ContactListActivity extends ActionBarActivity {
             Log.d(tag, "position is " + position + ", friend pos " + pos + ": " + p.toString());
 
             if (item.getTitle() == CONTEXT_MENU_ITEM_CHAT) {    //chat with friend
-                SingleConversation c = dataLoader.loadSingleConversationByCtpyId(p.getId());
+                SingleConversation c = dataLoader.loadSingleConversationByCtpySeq(p.getSeq());
                 if(c == null){
                     Log.v(tag, "create new conversation");
                     c = new SingleConversation(context);
-                    c.setCounterpartyId(p.getId());
+                    c.setCounterpartySeq(p.getSeq());
                     c.setCounterpartyName(p.getName());
 //                    c.addContext(context);
                     c.save();
@@ -217,7 +217,7 @@ public class ContactListActivity extends ActionBarActivity {
         return true;
     }
 
-    public void showContacts(ArrayList<Person> persons, ArrayList<Person> phoneContacts) {
+    void showContacts(ArrayList<Person> persons, ArrayList<Person> phoneContacts) {
         Log.v(tag, "show contacts: " + persons.size() + " friends, " + phoneContacts.size() + " phone contacts");
         ArrayList<Item> items = new ArrayList<>();
 

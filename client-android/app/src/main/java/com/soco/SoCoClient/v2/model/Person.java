@@ -48,7 +48,7 @@ public class Person {
     }
 
     public Person(Context context, Cursor cursor){
-        Log.v(tag, "create person from cursor");
+//        Log.v(tag, "create person from cursor");
         this.context = context;
         this.helper = new DbHelper(context);
 
@@ -62,7 +62,7 @@ public class Person {
         this.status = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_STATUS));
         this.category = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_CATEGORY));
 
-        Log.v(tag, "created person from cursor: " + toString());
+//        Log.v(tag, "created person from cursor: " + toString());
     }
 
 
@@ -95,6 +95,7 @@ public class Person {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
+            cv.put(DataConfig.COLUMN_PERSON_ID, id);
             cv.put(DataConfig.COLUMN_PERSON_NAME, name);
             cv.put(DataConfig.COLUMN_PERSON_EMAIL, email);
             cv.put(DataConfig.COLUMN_PERSON_PHONE, phone);

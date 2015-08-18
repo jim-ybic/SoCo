@@ -1,7 +1,6 @@
-package com.soco.SoCoClient.v2.view.chats.contact;
+package com.soco.SoCoClient.v2.view.chats;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,25 +10,23 @@ import android.widget.TextView;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
-import com.soco.SoCoClient.v2.view.sectionlist.SectionItem;
 
 import java.util.ArrayList;
 
-public class ContactListAdapter extends ArrayAdapter<Item> {
+public class ConversationListAdapter extends ArrayAdapter<Item> {
 
 	private Context context;
 	private ArrayList<Item> items;
 	private LayoutInflater vi;
 
-    String tag = "ContactListAdapter";
+    String tag = "ConversationListAdapter";
 
-	public ContactListAdapter(Context context, ArrayList<Item> items) {
+	public ConversationListAdapter(Context context, ArrayList<Item> items) {
 		super(context,0, items);
 		this.context = context;
 		this.items = items;
 		vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -40,35 +37,20 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
 		if (i != null) {
 //            Log.v(tag, "item type: " + i.getType() + ", " + i.toString());
 
-			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_SECTION)){   //section
-				SectionItem si = (SectionItem)i;
-//                Log.v(tag, "item name: " + si.getTitle());
-				v = vi.inflate(R.layout.contact_list_section, null);
-
-				v.setOnClickListener(null);
-				v.setOnLongClickListener(null);
-				v.setLongClickable(false);
-
-				final TextView sectionView = (TextView) v.findViewById(R.id.list_item_section_text);
-				sectionView.setText(si.getTitle());
-			}
 			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){ //entry
-				ContactListEntryItem ei = (ContactListEntryItem)i;
-//                Log.v(tag, "item name: " + ei.name);
-				v = vi.inflate(R.layout.contact_list_entry, null);
+				ConversationListEntryItem ei = (ConversationListEntryItem)i;
+//                Log.v(tag, "item name: " + ei.content);
+				v = vi.inflate(R.layout.conversation_list_entry, null);
 				final TextView name = (TextView)v.findViewById(R.id.name);
-                final TextView phone = (TextView)v.findViewById(R.id.phone);
-				final TextView email = (TextView)v.findViewById(R.id.email);
-                final TextView status = (TextView)v.findViewById(R.id.status);
+                final TextView lastMsgContent = (TextView)v.findViewById(R.id.last_msg_content);
+				final TextView lastMsgTimestamp = (TextView)v.findViewById(R.id.last_msg_timestamp);
 
 				if (name != null)
 					name.setText(ei.name);
-                if (phone != null)
-                    phone.setText(ei.phone);
-				if (email != null)
-					email.setText(ei.email);
-                if (status != null)
-                    status.setText(ei.status);
+				if (lastMsgContent!= null)
+					lastMsgContent.setText(ei.lastMsgContent);
+				if (lastMsgTimestamp!= null)
+					lastMsgTimestamp.setText(ei.lastMsgTimestamp);
 			}
 //			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)){
 //                FolderItem fi = (FolderItem)i;

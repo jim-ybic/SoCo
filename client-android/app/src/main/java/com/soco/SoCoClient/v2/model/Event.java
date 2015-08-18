@@ -89,6 +89,7 @@ public class Event {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
+            cv.put(DataConfig.COLUMN_EVENT_ID, id);
             cv.put(DataConfig.COLUMN_EVENT_NAME, name);
             cv.put(DataConfig.COLUMN_EVENT_DESC, desc);
             cv.put(DataConfig.COLUMN_EVENT_DATE, date);

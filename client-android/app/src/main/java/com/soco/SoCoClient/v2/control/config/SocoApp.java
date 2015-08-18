@@ -151,7 +151,7 @@ public class SocoApp extends Application {
         return listNameEmail;
     }
 
-    public ArrayList<Person> loadPhoneContacts(Context context) {
+    public ArrayList<Person> loadRawPhoneContacts(Context context) {
         Log.v(tag, "load phone contacts start");
 
         //test - force loading each time

@@ -59,7 +59,7 @@ public class ConversationDetail extends ActionBarActivity {
             conversation = dataLoader.loadSingleConversationBySeq(seq);
         }
 
-//        int counterpartyId = conversation.getCounterpartyId();
+//        int counterpartyId = conversation.getCounterpartySeq();
 
         if(conversation != null){   //load messages
             ((TextView) findViewById(R.id.name)).setText(conversation.getCounterpartyName());

@@ -14,6 +14,7 @@ import com.soco.SoCoClient.v2.model.Person;
 import com.soco.SoCoClient.v2.model.Task;
 import com.soco.SoCoClient.v2.model.conversation.SingleConversation;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -28,11 +29,13 @@ public class DataLoader {
     public DataLoader(Context context){
         this.context = context;
         this.dbHelper = new DbHelper(context);
-        this.db = dbHelper.getWritableDatabase();
+//        this.db = dbHelper.getWritableDatabase();
     }
 
     public ArrayList<Task> loadActiveTasks(){
         Log.v(tag, "load active tasks from database");
+        db = dbHelper.getWritableDatabase();
+        
         ArrayList<Task> tasks = new ArrayList<>();
         Cursor cursor = db.rawQuery(
                 "select * from " + DataConfig.TABLE_TASK
@@ -46,11 +49,14 @@ public class DataLoader {
         }
 
         Log.d(tag, tasks.size() + " tasks loaded from database");
+        db.close();
         return tasks;
     }
 
     public ArrayList<Event> loadEvents(){
         Log.v(tag, "load all events from db");
+        db = dbHelper.getWritableDatabase();
+
         String query = "select * from " + DataConfig.TABLE_EVENT;
         Cursor cursor = db.rawQuery(query, null);
 
@@ -62,11 +68,14 @@ public class DataLoader {
         }
 
         Log.d(tag, events.size() + " events loaded from db");
+        db.close();
         return events;
     }
 
     public Event loadEvent(int seq){
         Log.v(tag, "load event from db for seq " + seq);
+        db = dbHelper.getWritableDatabase();
+
         String query = "select * from " + DataConfig.TABLE_EVENT
                 + " where " + DataConfig.COLUMN_EVENT_SEQ + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(seq)});
@@ -78,11 +87,14 @@ public class DataLoader {
         }
 
         Log.d(tag, "event not found");
+        db.close();
         return null;
     }
 
     public ArrayList<Person> loadPersons(){
         Log.v(tag, "load all persons from db");
+        db = dbHelper.getWritableDatabase();
+
         String query = "select * from " + DataConfig.TABLE_PERSON;
         Cursor cursor = db.rawQuery(query, null);
 
@@ -94,11 +106,14 @@ public class DataLoader {
         }
 
         Log.d(tag, persons.size() + " persons loaded from db");
+        db.close();
         return persons;
     }
 
     public ArrayList<Person> loadFriends(){
         Log.v(tag, "load all friends from db");
+        db = dbHelper.getWritableDatabase();
+        
         String query = "select * from " + DataConfig.TABLE_PERSON
                 + " where " + DataConfig.COLUMN_PERSON_CATEGORY + " = ?";
         Cursor cursor = db.rawQuery(query,
@@ -113,15 +128,39 @@ public class DataLoader {
 //        db.close();
 
         Log.d(tag, persons.size() + " friends loaded from db");
+        db.close();
         return persons;
     }
 
-    public SingleConversation loadSingleConversationByCtpyId(int counterpartyId){
-        Log.v(tag, "load conversation from db for counterpartyId " + counterpartyId);
+    public ArrayList<SingleConversation> loadSingleConversations(){
+        Log.v(tag, "load conversation from db ");
+        db = dbHelper.getWritableDatabase();
+
+        ArrayList<SingleConversation> conversations = new ArrayList<>();
+
+        String query = "select * from " + DataConfig.TABLE_SINGLE_CONVERSATION;
+        Log.d(tag, "loadSingleConversations: " + query);
+        Cursor cursor = db.rawQuery(query, null);
+
+        while(cursor.moveToNext()){
+            SingleConversation c = new SingleConversation(context, cursor);
+            Log.v(tag, "loaded conversation from db: " + c.toString());
+            conversations.add(c);
+        }
+
+        Log.d(tag, conversations.size() + " conversations found");
+        db.close();
+        return conversations;
+    }
+
+    public SingleConversation loadSingleConversationByCtpySeq(int counterpartySeq){
+        Log.v(tag, "load conversation from db for counterpartySeq " + counterpartySeq);
+        db = dbHelper.getWritableDatabase();
+
         String query = "select * from " + DataConfig.TABLE_SINGLE_CONVERSATION
                 + " where " + DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID + " = ?";
-        Log.d(tag, "query db: " + query + ", " + counterpartyId);
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(counterpartyId)});
+        Log.d(tag, "loadSingleConversationByCtpySeq: " + query + ", " + counterpartySeq);
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(counterpartySeq)});
 
         while(cursor.moveToNext()){
             SingleConversation c = new SingleConversation(context, cursor);
@@ -130,11 +169,14 @@ public class DataLoader {
         }
 
         Log.d(tag, "conversation not found");
+        db.close();
         return null;
     }
 
     public SingleConversation loadSingleConversationBySeq(int seq){
         Log.v(tag, "load conversation from db for seq " + seq);
+        db = dbHelper.getWritableDatabase();
+
         String query = "select * from " + DataConfig.TABLE_SINGLE_CONVERSATION
                 + " where " + DataConfig.COLUMN_SINGLE_CONVERSATION_SEQ + " = ?";
         Log.d(tag, "query db: " + query + ", " + seq);
@@ -147,18 +189,19 @@ public class DataLoader {
         }
 
         Log.d(tag, "conversation not found");
+        db.close();
         return null;
     }
 
     public ArrayList<Person> loadPhoneContacts(){
         Log.v(tag, "load all phone contacts from db");
-//        if(db == null)
-            db = dbHelper.getWritableDatabase();
+        db = dbHelper.getWritableDatabase();
 
         String query = "select * from " + DataConfig.TABLE_PERSON
                 + " where " + DataConfig.COLUMN_PERSON_CATEGORY + " = ?";
         Cursor cursor = db.rawQuery(query,
                 new String[]{DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS});
+        Log.v(tag, "loadPhoneContacts: " + query);
 
         ArrayList<Person> persons = new ArrayList<>();
         while(cursor.moveToNext()){
@@ -168,6 +211,7 @@ public class DataLoader {
         }
 
         Log.d(tag, persons.size() + " phone contact loaded from db");
+        db.close();
         return persons;
     }
 
@@ -190,6 +234,8 @@ public class DataLoader {
 
     public ArrayList<Contact> loadContacts(){
         Log.v(tag, "load contacts from database");
+        db = dbHelper.getWritableDatabase();
+
         ArrayList<Contact> contacts = new ArrayList<>();
         String query =  "select * from " + DataConfig.TABLE_CONTACT;
         Cursor cursor = db.rawQuery(query, null);
@@ -201,11 +247,14 @@ public class DataLoader {
         }
 
         Log.d(tag, contacts.size() + " contacts loaded from database");
+        db.close();
         return contacts;
     }
 
     public ArrayList<Contact> loadContacts(HashSet<Integer> contactIdLocalSet){
         Log.v(tag, "load contacts from database for a given set of id local");
+        db = dbHelper.getWritableDatabase();
+
         ArrayList<Contact> contacts = new ArrayList<>();
         String query =  "select * from " + DataConfig.TABLE_CONTACT;
         Cursor cursor = db.rawQuery(query, null);
@@ -220,11 +269,14 @@ public class DataLoader {
         }
 
         Log.d(tag, contacts.size() + " contacts loaded from database for id local set: " + contactIdLocalSet);
+        db.close();
         return contacts;
     }
 
     public ArrayList<Message> loadMessages(){
         Log.v(tag, "load messages from database");
+        db = dbHelper.getWritableDatabase();
+
         ArrayList<Message> messages = new ArrayList<>();
         String query =  "select * from " + DataConfig.TABLE_MESSAGE;
         Cursor cursor = db.rawQuery(query, null);
@@ -236,6 +288,7 @@ public class DataLoader {
         }
 
         Log.d(tag, messages.size() + " message loaded from database");
+        db.close();
         return messages;
     }
 
@@ -243,6 +296,8 @@ public class DataLoader {
 
     public ArrayList<Message> loadMessagesForSingleConversation(int singleConversationSeq){
         Log.v(tag, "load messages from database for single conversation " + singleConversationSeq);
+        db = dbHelper.getWritableDatabase();
+
         ArrayList<Message> messages = new ArrayList<>();
 
         Log.v(tag, "get associated message id list");
@@ -278,6 +333,7 @@ public class DataLoader {
         }
 
         Log.d(tag, messages.size() + " message loaded from database");
+        db.close();
         return messages;
     }
 
@@ -293,11 +349,6 @@ public class DataLoader {
             }
             return sb.toString();
         }
-    }
-
-    public ArrayList<Message> loadMessages(int singleConversationSeq){
-        //todo
-        return null;
     }
 
 }

@@ -135,7 +135,6 @@ public class Message {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_MESSAGE_SEQ, seq);
             cv.put(DataConfig.COLUMN_MESSAGE_ID, id);
             cv.put(DataConfig.COLUMN_MESSAGE_FROMTYPE, fromType);
             cv.put(DataConfig.COLUMN_MESSAGE_FROMID, fromId);
@@ -149,6 +148,7 @@ public class Message {
             cv.put(DataConfig.COLUMN_MESSAGE_CONTENT, content);
             cv.put(DataConfig.COLUMN_MESSAGE_STATUS, status);
             cv.put(DataConfig.COLUMN_MESSAGE_SIGNATURE, signature);
+
             db.update(DataConfig.TABLE_MESSAGE, cv,
                     DataConfig.COLUMN_MESSAGE_SEQ + " = ?",
                     new String[]{String.valueOf(seq)});

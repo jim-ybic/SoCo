@@ -21,7 +21,7 @@ public class SingleConversation {
     String lastMsgTimestamp;
     int createdByUserId;
     String createdTimestamp;
-    int counterpartyId;
+    int counterpartySeq;
     String counterpartyName;
 
     //fields not saved to db
@@ -50,7 +50,7 @@ public class SingleConversation {
         this.lastMsgTimestamp = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_LASTMSGTIMESTAMP));
         this.createdByUserId = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID));
         this.createdTimestamp = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP));
-        this.counterpartyId = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID));
+        this.counterpartySeq = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID));
         this.counterpartyName = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME));
         Log.v(tag, "created conversation from cursor: " + toString());
     }
@@ -84,11 +84,12 @@ public class SingleConversation {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
+            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_ID, id);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_LASTMSGCONTENT, lastMsgContent);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_LASTMSGTIMESTAMP, lastMsgTimestamp);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID, createdByUserId);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP, createdTimestamp);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID, counterpartyId);
+            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID, counterpartySeq);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME, counterpartyName);
 
             db.insert(DataConfig.TABLE_SINGLE_CONVERSATION, null, cv);
@@ -124,7 +125,7 @@ public class SingleConversation {
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_LASTMSGTIMESTAMP, lastMsgTimestamp);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID, createdByUserId);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP, createdTimestamp);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID, counterpartyId);
+            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID, counterpartySeq);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME, counterpartyName);
 
             db.update(DataConfig.TABLE_SINGLE_CONVERSATION, cv,
@@ -163,6 +164,11 @@ public class SingleConversation {
             db.endTransaction();
             db.close();
         }
+
+        Log.v(tag, "update last message details");
+        this.lastMsgContent = m.getContent();
+        this.lastMsgTimestamp = m.getCreateTimestamp();
+        save();
     }
 
     public int getSeq() {
@@ -189,8 +195,8 @@ public class SingleConversation {
         return createdTimestamp;
     }
 
-    public int getCounterpartyId() {
-        return counterpartyId;
+    public int getCounterpartySeq() {
+        return counterpartySeq;
     }
 
     public String getCounterpartyName() {
@@ -221,8 +227,8 @@ public class SingleConversation {
         this.createdTimestamp = createdTimestamp;
     }
 
-    public void setCounterpartyId(int counterpartyId) {
-        this.counterpartyId = counterpartyId;
+    public void setCounterpartySeq(int counterpartySeq) {
+        this.counterpartySeq = counterpartySeq;
     }
 
     public void setCounterpartyName(String counterpartyName) {
@@ -238,7 +244,7 @@ public class SingleConversation {
                 ", lastMsgTimestamp='" + lastMsgTimestamp + '\'' +
                 ", createdByUserId=" + createdByUserId +
                 ", createdTimestamp='" + createdTimestamp + '\'' +
-                ", counterpartyId=" + counterpartyId +
+                ", counterpartySeq=" + counterpartySeq +
                 ", counterpartyName=" + counterpartyName +
                 '}';
     }

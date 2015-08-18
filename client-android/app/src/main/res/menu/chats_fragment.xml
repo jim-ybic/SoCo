@@ -4,11 +4,11 @@
     tools:context="com.soco.SoCoClient.ShowActiveProgramActivity">
 
     <item
-        android:id="@+id/create"
-        android:title="Create"
+        android:id="@+id/search"
+        android:title="Search"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/ic_action_new_white"/>
+        android:icon="@drawable/ic_action_search"/>
 
     <item
         android:id="@+id/contacts"
