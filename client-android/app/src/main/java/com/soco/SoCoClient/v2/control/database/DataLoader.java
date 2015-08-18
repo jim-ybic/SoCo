@@ -261,6 +261,9 @@ public class DataLoader {
         String [] msgIdsStr = msgIds.toArray(new String[msgIds.size()]);
         Log.d(tag, msgIds.size() + " messages found for single conversation " + singleConversationSeq);
 
+        if(msgIds.size() == 0)
+            return messages;
+
         Log.v(tag, "load messages");
         String queryMsg =  "select * from " + DataConfig.TABLE_MESSAGE
                             + " where " + DataConfig.COLUMN_MESSAGE_SEQ + " in ("

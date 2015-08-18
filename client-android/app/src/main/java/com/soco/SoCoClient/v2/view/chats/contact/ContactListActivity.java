@@ -183,6 +183,7 @@ public class ContactListActivity extends ActionBarActivity {
                     Log.v(tag, "create new conversation");
                     c = new SingleConversation(context);
                     c.setCounterpartyId(p.getId());
+                    c.setCounterpartyName(p.getName());
 //                    c.addContext(context);
                     c.save();
                     Log.d(tag, "saved new conversation: " + c.toString());

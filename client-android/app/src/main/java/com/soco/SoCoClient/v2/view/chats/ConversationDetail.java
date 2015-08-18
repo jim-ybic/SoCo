@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
@@ -58,7 +59,10 @@ public class ConversationDetail extends ActionBarActivity {
             conversation = dataLoader.loadSingleConversationBySeq(seq);
         }
 
+//        int counterpartyId = conversation.getCounterpartyId();
+
         if(conversation != null){   //load messages
+            ((TextView) findViewById(R.id.name)).setText(conversation.getCounterpartyName());
             messages = dataLoader.loadMessagesForSingleConversation(seq);
             show(messages);
         }

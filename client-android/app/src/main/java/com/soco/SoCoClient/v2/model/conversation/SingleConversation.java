@@ -22,6 +22,7 @@ public class SingleConversation {
     int createdByUserId;
     String createdTimestamp;
     int counterpartyId;
+    String counterpartyName;
 
     //fields not saved to db
     Context context;
@@ -50,6 +51,7 @@ public class SingleConversation {
         this.createdByUserId = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID));
         this.createdTimestamp = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP));
         this.counterpartyId = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID));
+        this.counterpartyName = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME));
         Log.v(tag, "created conversation from cursor: " + toString());
     }
 
@@ -87,6 +89,7 @@ public class SingleConversation {
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID, createdByUserId);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP, createdTimestamp);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID, counterpartyId);
+            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME, counterpartyName);
 
             db.insert(DataConfig.TABLE_SINGLE_CONVERSATION, null, cv);
             db.setTransactionSuccessful();
@@ -122,6 +125,7 @@ public class SingleConversation {
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID, createdByUserId);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP, createdTimestamp);
             cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID, counterpartyId);
+            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME, counterpartyName);
 
             db.update(DataConfig.TABLE_SINGLE_CONVERSATION, cv,
                     DataConfig.COLUMN_SINGLE_CONVERSATION_SEQ + " = ?",
@@ -189,6 +193,10 @@ public class SingleConversation {
         return counterpartyId;
     }
 
+    public String getCounterpartyName() {
+        return counterpartyName;
+    }
+
     public void setSeq(int seq) {
         this.seq = seq;
     }
@@ -217,6 +225,10 @@ public class SingleConversation {
         this.counterpartyId = counterpartyId;
     }
 
+    public void setCounterpartyName(String counterpartyName) {
+        this.counterpartyName = counterpartyName;
+    }
+
     @Override
     public String toString() {
         return "SingleConversation{" +
@@ -227,6 +239,7 @@ public class SingleConversation {
                 ", createdByUserId=" + createdByUserId +
                 ", createdTimestamp='" + createdTimestamp + '\'' +
                 ", counterpartyId=" + counterpartyId +
+                ", counterpartyName=" + counterpartyName +
                 '}';
     }
 }

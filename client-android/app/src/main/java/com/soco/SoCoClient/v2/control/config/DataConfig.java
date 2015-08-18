@@ -40,6 +40,7 @@ public class DataConfig {
     public static final String COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID = "createdByUserId";
     public static final String COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP = "createdTimestamp";
     public static final String COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID = "counterpartyId";
+    public static final String COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME = "counterpartyName";
 
     public static final String TABLE_SINGLE_CONVERSATION_MESSAGE = "single_conversation_message";
     public static final String COLUMN_SINGLE_CONVERSATION_MESSAGE_SEQ = "seq";
