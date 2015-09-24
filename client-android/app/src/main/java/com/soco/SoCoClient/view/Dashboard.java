@@ -32,7 +32,7 @@ public class Dashboard extends ActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.v1_activity_dashboard);
+        setContentView(R.layout.activity_dashboard);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
 
@@ -43,6 +43,7 @@ public class Dashboard extends ActionBarActivity implements
         }
 
         mAdapter = new DashboardTabsAdapter(getSupportFragmentManager());
+
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
