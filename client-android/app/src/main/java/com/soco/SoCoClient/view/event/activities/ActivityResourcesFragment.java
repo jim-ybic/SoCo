@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class ActivityResourcesFragment extends Fragment implements View.OnClickListener {
 
     String tag = "ProjectResourcesFragment";

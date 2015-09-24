@@ -73,7 +73,7 @@ public class DownloaderTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        Long len = Long.valueOf(FileUtils.checkUriSize(cr, uri));
+//        Long len = Long.valueOf(FileUtils.checkUriSize(cr, uri));
         try {
 //            Log.i(tag, "Dropbox put file to remote: " + remoteFilePath + ", "
 //                    + inputStream + ", " + len);

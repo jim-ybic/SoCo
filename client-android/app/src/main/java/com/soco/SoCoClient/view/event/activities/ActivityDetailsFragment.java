@@ -51,6 +51,7 @@ import java.util.Map;
 
 import static com.soco.SoCoClient.control.config._ref.DataConfigV1.*;
 
+@Deprecated
 public class ActivityDetailsFragment extends Fragment implements View.OnClickListener {
 
     public static String tag="ActivityDetailsFragment";

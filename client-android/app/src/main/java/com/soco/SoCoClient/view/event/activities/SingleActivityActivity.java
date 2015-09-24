@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
+@Deprecated
 public class SingleActivityActivity extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener {
 
@@ -19,7 +20,7 @@ public class SingleActivityActivity extends ActionBarActivity implements
     private SingleActivityTabsPagerAdapter mAdapter;
     private android.support.v7.app.ActionBar actionBar;
 
-    // Tab titles
+//     Tab titles
     private String[] tabs = {"Details" , "Updates", "Members", "Resources"};
 
     @Override

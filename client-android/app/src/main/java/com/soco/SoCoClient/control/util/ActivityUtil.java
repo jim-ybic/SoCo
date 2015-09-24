@@ -38,29 +38,29 @@ public class ActivityUtil {
         return pid;
     }
 
-    public static void serverCreateActivity(String pname, Context context,
-                                            String loginEmail, String loginPassword, String pid,
-                                            String projectSignature,
-                                            String projectTag,
-                                            String projectType) {
-
-//        HttpTask createProjectTask = new HttpTask(
-//                ProfileUtil.getCreateProjectUrl(context),
-//                HttpConfigV1.HTTP_TYPE_CREATE_PROJECT,
-//                loginEmail, loginPassword, context, pname, pid, null, null, null);
+//    public static void serverCreateActivity(String pname, Context context,
+//                                            String loginEmail, String loginPassword, String pid,
+//                                            String projectSignature,
+//                                            String projectTag,
+//                                            String projectType) {
 //
-//        createProjectTask.projectSignature = projectSignature;
-//        createProjectTask.projectTag = projectTag;
-//        createProjectTask.projectType = projectType;
-//
-//        createProjectTask.execute();
-        Profile profile = ((SocoApp)context).profile;
-        String url = UrlUtil.getCreateProjectUrl(context);
-        CreateActivityTaskAsync task = new CreateActivityTaskAsync(
-                url, pname, pid, context,
-                projectSignature, projectTag, projectType);
-        task.execute();
-    }
+////        HttpTask createProjectTask = new HttpTask(
+////                ProfileUtil.getCreateProjectUrl(context),
+////                HttpConfigV1.HTTP_TYPE_CREATE_PROJECT,
+////                loginEmail, loginPassword, context, pname, pid, null, null, null);
+////
+////        createProjectTask.projectSignature = projectSignature;
+////        createProjectTask.projectTag = projectTag;
+////        createProjectTask.projectType = projectType;
+////
+////        createProjectTask.execute();
+//        Profile profile = ((SocoApp)context).profile;
+//        String url = UrlUtil.getCreateProjectUrl(context);
+//        CreateActivityTaskAsync task = new CreateActivityTaskAsync(
+//                url, pname, pid, context,
+//                projectSignature, projectTag, projectType);
+//        task.execute();
+//    }
 
     public static void serverArchiveActivity(String pid, Context context, String pid_onserver) {
 //        HttpTask archiveProjectTask = new HttpTask(

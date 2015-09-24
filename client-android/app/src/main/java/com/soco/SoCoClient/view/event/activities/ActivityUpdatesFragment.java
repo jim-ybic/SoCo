@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class ActivityUpdatesFragment extends Fragment implements View.OnClickListener  {
 
     String tag = "ProjectUpdatesFragment";

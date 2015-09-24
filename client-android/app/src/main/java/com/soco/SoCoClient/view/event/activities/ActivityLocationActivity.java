@@ -23,7 +23,7 @@ import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+@Deprecated
 public class ActivityLocationActivity extends ActionBarActivity {
 
     static String tag = "ProjectLocation";
