@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.ref.LoginActivityV1"
+            android:name=".view._ref.LoginActivityV1"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateHidden" >
 

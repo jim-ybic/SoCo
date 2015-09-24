@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.view.ref;
+package com.soco.SoCoClient.view._ref;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -63,7 +63,7 @@ public class LoginActivityV1 extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.v1_activity_login);
+        setContentView(R.layout.activity_login_v1);
 
         socoApp = (SocoApp) getApplicationContext();
 

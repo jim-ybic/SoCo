@@ -37,7 +37,7 @@
     <string name="title_activity_test">TestActivity</string>
 
     <string name="forgot_password"><u>Forgot Password?</u></string>
-    <string name="sign_up"><u>Sign Up</u></string>
+    <string name="register"><u>register</u></string>
     <string name="social_login"><u>Social Login?</u></string>
     <string name="title_activity_test_event_detail">TestEventDetail</string>
     <string name="title_activity_test_entry_screen">TestEntryScreen</string>
