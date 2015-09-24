@@ -149,11 +149,11 @@ public class DataConfig {
     public static final String PARTY_JOIN_ACTIVITY_ROLE_MEMBER = "m";
     public static final String PARTY_JOIN_ACTIVITY_ROLE_FOLLOWER = "f";
 
-    public static final int DASHBOARD_TAB_COUNT = 4;
-    public static final int DASHBOARD_TAB_INDEX_STREAM = 2;
+    public static final int DASHBOARD_TAB_COUNT = 3;
+//    public static final int DASHBOARD_TAB_INDEX_STREAM = 2;
     public static final int DASHBOARD_TAB_INDEX_EVENTS = 0;
-    public static final int DASHBOARD_TAB_INDEX_CHATS = 1;
-    public static final int DASHBOARD_TAB_INDEX_DISCOVERY = 3;
+    public static final int DASHBOARD_TAB_INDEX_FRIENDS = 1;
+    public static final int DASHBOARD_TAB_INDEX_DISCOVERY = 2;
 
     public static int ACTIVITY_INVITATION_STATUS_COMPLETE = 1;
     public static int ACTIVITY_INVITATION_STATUS_INCOMPLETE = 0;

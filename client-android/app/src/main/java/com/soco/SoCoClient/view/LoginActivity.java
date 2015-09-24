@@ -27,8 +27,6 @@ import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
 import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task._ref.LoginTaskAsync;
 import com.soco.SoCoClient.control.http.task._ref.RegisterTaskAsync;
-import com.soco.SoCoClient.view._ref.LoginActivityV1;
-import com.soco.SoCoClient.view.dashboard.Dashboard;
 import com.soco.SoCoClient.control.http.UrlUtil;
 import com.soco.SoCoClient.model.Profile;
 
@@ -132,7 +130,7 @@ public class LoginActivity extends ActionBarActivity {
         Log.i(tag, "Get saved login email/password/token: "
                 + savedLoginEmail + ", " + savedLoginPassword + ", " + savedLoginAccessToken);
 
-        savedLoginAccessToken = ""; //testing - used to bypass login screen
+        savedLoginAccessToken = "go"; //testing - used to bypass login screen
 
         if(!savedLoginAccessToken.isEmpty()) {
             Log.i(tag, "Saved login access token can be used, skip login screen");

@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.view.LoginActivity;
-import com.soco.SoCoClient.view.event.EventDetail;
+import com.soco.SoCoClient.view.events.ActivityEventDetail;
 
 public class TestEntryScreen extends ActionBarActivity {
 
@@ -39,7 +39,7 @@ public class TestEntryScreen extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.import_phonebook) {
+        if (id == R.id.refresh) {
             return true;
         }
 
@@ -54,7 +54,7 @@ public class TestEntryScreen extends ActionBarActivity {
 
     public void test (View view) {
         Log.i(tag, "test");
-        Intent intent = new Intent(this, EventDetail.class);
+        Intent intent = new Intent(this, ActivityEventDetail.class);
         startActivity(intent);
     }
 

@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,7 +19,7 @@ import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task._ref.LoginTaskAsync;
 import com.soco.SoCoClient.control.http.task._ref.RegisterTaskAsync;
 import com.soco.SoCoClient.control.config.SocoApp;
-import com.soco.SoCoClient.view.dashboard.Dashboard;
+import com.soco.SoCoClient.view.Dashboard;
 import com.soco.SoCoClient.control.http.UrlUtil;
 import com.soco.SoCoClient.model.Profile;
 

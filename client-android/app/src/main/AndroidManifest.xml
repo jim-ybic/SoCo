@@ -56,15 +56,15 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".view.dashboard.Dashboard"
+            android:name=".view.Dashboard"
             android:label="@string/title_dashboard"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".view.event.activities.CompletedActivitiessActivity"
+            android:name=".view.events.activities.CompletedActivitiessActivity"
             android:label="@string/title_activity_show_inactive_projects"
             android:launchMode="singleTop"
-            android:parentActivityName=".view.dashboard.Dashboard" >
+            android:parentActivityName=".view.Dashboard" >
         </activity>
 
         <meta-data
@@ -80,7 +80,7 @@
         <activity
             android:name=".view.config.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:parentActivityName=".view.dashboard.Dashboard" >
+            android:parentActivityName=".view.Dashboard" >
         </activity>
         <activity
             android:name=".view._ref.LoginActivityV1$ServerConfigActivity"
@@ -90,30 +90,30 @@
         <service
             android:name=".control.dropbox.UploaderWatcher"
             android:enabled="true" />
-        <!--<service-->
-            <!--android:name=".obsolete.v1.control.http.service.HeartbeatService"-->
-            <!--android:enabled="true" />-->
+        <!-- <service -->
+        <!-- android:name=".obsolete.v1.control.http.service.HeartbeatService" -->
+        <!-- android:enabled="true" /> -->
         <service
             android:name=".control.http.Heartbeat"
             android:enabled="true" />
 
         <activity
-            android:name=".view.event.activities.ActivityLocationActivity"
+            android:name=".view.events.activities.ActivityLocationActivity"
             android:label="@string/title_activity_project_location" >
         </activity>
         <activity
-            android:name=".view.event.activities.SingleActivityActivity"
+            android:name=".view.events.activities.SingleActivityActivity"
             android:label="@string/title_show_single_activity"
-            android:parentActivityName=".view.dashboard.Dashboard" >
+            android:parentActivityName=".view.Dashboard" >
         </activity>
         <activity
-            android:name=".view.chats.contact.ContactDetailsActivityObs"
+            android:name=".view.friends.contact.ContactDetailsActivityObs"
             android:label="@string/title_activity_contact_details"
-            android:parentActivityName=".view.dashboard.Dashboard"
+            android:parentActivityName=".view.Dashboard"
             android:windowSoftInputMode="adjustResize|stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.dashboard.Dashboard" />
+                android:value=".view.Dashboard" />
         </activity>
         <activity
             android:name="._test.TestActivity"
@@ -127,13 +127,14 @@
         <activity
             android:name=".view.LoginActivity"
             android:label="@string/title_activity_login" >
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
-            android:name=".view.event.EventDetail"
+            android:name=".view.events.ActivityEventDetail"
             android:label="@string/title_activity_test_event_detail" >
 
             <!-- <intent-filter> -->
@@ -144,26 +145,34 @@
         <activity
             android:name="._test.TestEntryScreen"
             android:label="@string/title_activity_test_entry_screen" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".view.chats.contact.ContactListActivity"
-            android:label="@string/title_activity_contact_list" >
+            android:name=".view.friends.contact.ActivityAllFriends"
+            android:label="@string/title_activity_contact_list"
+            android:parentActivityName=".view.Dashboard" >
         </activity>
         <activity
-            android:name=".view.chats.ConversationDetail"
+            android:name=".view.friends.ConversationDetail"
             android:label="Chat" >
         </activity>
-
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".view.events.ActivityAllEvents"
+            android:label="@string/title_activity_activity_all_events"
+            android:parentActivityName=".view.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.Dashboard" />
+        </activity>
     </application>
 
 </manifest>

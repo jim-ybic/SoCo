@@ -1,0 +1,33 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.soco.SoCoClient.view.friends.contact.ActivityAllFriends">
+
+    <item
+        android:id="@+id/refresh"
+        android:title="Import phonebook"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:textColor="#040404"
+        android:icon="@drawable/ic_action_refresh"/>
+
+    <item
+        android:id="@+id/profile"
+        android:title="Profile"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_action_user"/>
+
+    <item
+        android:id="@+id/item1"
+        android:title="item1"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/item2"
+        android:title="item2"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
+</menu>
