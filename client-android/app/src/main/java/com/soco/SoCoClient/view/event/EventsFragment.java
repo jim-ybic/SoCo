@@ -56,7 +56,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
     ArrayList<Folder> folders; //name, desc
 
     View rootView;
-    SocoApp socoApp;
+//    SocoApp socoApp;
 
     Context context;
 
@@ -72,19 +72,19 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 
         context = getActivity().getApplicationContext();
 
-        socoApp = (SocoApp) getActivity().getApplication();
+//        socoApp = (SocoApp) getActivity().getApplication();
 
-        loginEmail = socoApp.loginEmail;
-        loginPassword = socoApp.loginPassword;
-        Log.i(tag, "onCreate, get login info: " + loginEmail + ", " + loginPassword);
+//        loginEmail = socoApp.loginEmail;
+//        loginPassword = socoApp.loginPassword;
+//        Log.i(tag, "onCreate, get login info: " + loginEmail + ", " + loginPassword);
 
 //        dbmgrSoco = new DBManagerSoco(getActivity());
-        dbmgrSoco = socoApp.dbManagerSoco;
+//        dbmgrSoco = socoApp.dbManagerSoco;
 //        dbmgrSoco.context = getActivity().getApplicationContext();
 //        socoApp.dbManagerSoco = dbmgrSoco;
 //        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigV1.VALUE_ACTIVITY_ACTIVE);
-        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
-        folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
+//        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
+//        folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
 
         //new code
         dataLoader = new DataLoader(context);
@@ -167,52 +167,52 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 
         rootView.setFocusableInTouchMode(true);
         rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                Log.d(tag, "keyCode: " + keyCode + ", eventAction: " + event.getAction());
-                if (event.getAction() != KeyEvent.ACTION_DOWN)      //only process key down event
-                    return true;
-
-                if( keyCode == KeyEvent.KEYCODE_BACK ) {    //back-key pressed
-                    Log.i(tag, "onKey Back listener");
-//                    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    if(socoApp.currentPath.equals(GeneralConfigV1.PATH_ROOT))
-                        Toast.makeText(getActivity().getApplicationContext(),
-                                "Top level already, click again to exit", Toast.LENGTH_SHORT).show();
-                    else {
-                        String path = socoApp.currentPath;
-                        path = path.substring(0, path.length()-1);
-                        int pos = path.lastIndexOf("/");
-                        path = path.substring(0, pos+1);
-                        Log.d(tag, "new current path " + path + ", reload data and refresh UI");
-                        socoApp.currentPath = path;
-                        activities = dbmgrSoco.loadActiveActivitiesByPath(path);
-                        folders = dbmgrSoco.loadFoldersByPath(path);
-//                        refreshList();
-                        show(events);
-                    }
-
-                    String title = "Dashboard";
-                    if(!socoApp.currentPath.equals(GeneralConfigV1.PATH_ROOT)){
-                        //e.g. currentPath = /Folder1/Folder2/
-                        String path = socoApp.currentPath.substring(0, socoApp.currentPath.length()-1);
-                        Log.d(tag, "path: " + path);
-                        int pos = path.lastIndexOf("/");
-                        Log.d(tag, "pos: " + pos);
-                        title = path.substring(pos+1, path.length());
-                        Log.d(tag, "name: " + title);
-//                        getActivity().setTitle(folder);
-                    }
-                    Log.d(tag, "set activity name: " + title);
-                    getActivity().setTitle(title);
-//                    Log.d(tag, "current path: " + socoApp.currentPath);
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
+//        rootView.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                Log.d(tag, "keyCode: " + keyCode + ", eventAction: " + event.getAction());
+//                if (event.getAction() != KeyEvent.ACTION_DOWN)      //only process key down event
+//                    return true;
+//
+//                if( keyCode == KeyEvent.KEYCODE_BACK ) {    //back-key pressed
+//                    Log.i(tag, "onKey Back listener");
+////                    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                    if(socoApp.currentPath.equals(GeneralConfigV1.PATH_ROOT))
+//                        Toast.makeText(getActivity().getApplicationContext(),
+//                                "Top level already, click again to exit", Toast.LENGTH_SHORT).show();
+//                    else {
+//                        String path = socoApp.currentPath;
+//                        path = path.substring(0, path.length()-1);
+//                        int pos = path.lastIndexOf("/");
+//                        path = path.substring(0, pos+1);
+//                        Log.d(tag, "new current path " + path + ", reload data and refresh UI");
+//                        socoApp.currentPath = path;
+//                        activities = dbmgrSoco.loadActiveActivitiesByPath(path);
+//                        folders = dbmgrSoco.loadFoldersByPath(path);
+////                        refreshList();
+//                        show(events);
+//                    }
+//
+//                    String title = "Dashboard";
+//                    if(!socoApp.currentPath.equals(GeneralConfigV1.PATH_ROOT)){
+//                        //e.g. currentPath = /Folder1/Folder2/
+//                        String path = socoApp.currentPath.substring(0, socoApp.currentPath.length()-1);
+//                        Log.d(tag, "path: " + path);
+//                        int pos = path.lastIndexOf("/");
+//                        Log.d(tag, "pos: " + pos);
+//                        title = path.substring(pos+1, path.length());
+//                        Log.d(tag, "name: " + title);
+////                        getActivity().setTitle(folder);
+//                    }
+//                    Log.d(tag, "set activity name: " + title);
+//                    getActivity().setTitle(title);
+////                    Log.d(tag, "current path: " + socoApp.currentPath);
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+//            }
+//        });
 
 //        Log.v(tag, "set activity name: " + socoApp.currentPath);
 //        getActivity().setTitle(socoApp.currentPath);

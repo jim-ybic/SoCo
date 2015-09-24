@@ -83,7 +83,7 @@
             android:parentActivityName=".view.dashboard.Dashboard" >
         </activity>
         <activity
-            android:name=".view.config.ServerConfigActivity"
+            android:name=".view._ref.LoginActivityV1$ServerConfigActivity"
             android:label="@string/title_activity_server_config" >
         </activity>
 

@@ -20,7 +20,6 @@ import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task._ref.LoginTaskAsync;
 import com.soco.SoCoClient.control.http.task._ref.RegisterTaskAsync;
 import com.soco.SoCoClient.control.config.SocoApp;
-import com.soco.SoCoClient.view.config.ServerConfigActivity;
 import com.soco.SoCoClient.view.dashboard.Dashboard;
 import com.soco.SoCoClient.control.http.UrlUtil;
 import com.soco.SoCoClient.model.Profile;
@@ -100,11 +99,11 @@ public class LoginActivityV1 extends ActionBarActivity {
         et_login_password = (EditText) findViewById(R.id.et_login_password);
     }
 
-    public void serverConfig (View view) {
-        Log.i(tag, "serverConfig start");
-        Intent intent = new Intent(this, ServerConfigActivity.class);
-        startActivity(intent);
-    }
+//    public void serverConfig (View view) {
+//        Log.i(tag, "serverConfig start");
+//        Intent intent = new Intent(this, ServerConfigActivity.class);
+//        startActivity(intent);
+//    }
 
     public void login (View view) {
         loginEmail = et_login_email.getText().toString();
@@ -227,14 +226,14 @@ public class LoginActivityV1 extends ActionBarActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.mn_server_config) {
-            serverConfig(null);
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.mn_server_config) {
+//            serverConfig(null);
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public void onResume() {
@@ -258,4 +257,79 @@ public class LoginActivityV1 extends ActionBarActivity {
     }
 
 
+//    public static class ServerConfigActivity extends ActionBarActivity {
+//
+//        static String tag = "ServerConfig";
+//        EditText et_servip, et_servport;
+//    //    EditText et_regiaddr, et_loginaddr;
+//    //    EditText et_cprojectaddr, et_aprojectaddr, et_rnprojectaddr, et_sprojattraddr;
+//
+//        SocoApp socoApp;
+//        Profile profile;
+//
+//        @Override
+//        protected void onCreate(Bundle savedInstanceState) {
+//            super.onCreate(savedInstanceState);
+//            setContentView(R.layout.activity_server_config_v1);
+//
+//            socoApp = (SocoApp)getApplicationContext();
+//            profile = socoApp.profile;
+//
+//            findViewsById();
+//            loadServerProperties();
+//        }
+//
+//        private void findViewsById() {
+//            et_servip = (EditText) findViewById(R.id.et_servip);
+//            et_servport = (EditText) findViewById(R.id.et_servport);
+//        }
+//
+//        private void loadServerProperties(){
+//            et_servip.setText(UrlUtil.getServerIp(this));
+//            et_servport.setText(UrlUtil.getServerPort(this));
+//
+//            Log.i(tag, "Load server config: "
+//                    + et_servip.getText().toString() + ", "
+//                    + et_servport.getText().toString() + ", "
+//            );
+//        }
+//
+//        public void cancel (View view){
+//            finish();
+//        }
+//
+//        public void save (View view){
+//            UrlUtil.setServerIp(this, et_servip.getText().toString());
+//            UrlUtil.setServerPort(this, et_servport.getText().toString());
+//
+//            Log.i(tag, "Save server config: "
+//                    + et_servip.getText().toString() + ", "
+//                    + et_servport.getText().toString() + ", "
+//            );
+//            finish();
+//        }
+//
+//    //    @Override
+//    //    public boolean onCreateOptionsMenu(Menu menu) {
+//    //        // Inflate the menu; this adds items to the action bar if it is present.
+//    //        getMenuInflater().inflate(R.menu.menu_server_config, menu);
+//    //        return true;
+//    //    }
+//    //
+//    //    @Override
+//    //    public boolean onOptionsItemSelected(MenuItem item) {
+//    //        // Handle action bar item clicks here. The action bar will
+//    //        // automatically handle clicks on the Home/Up button, so long
+//    //        // as you specify a parent activity in AndroidManifest.xml.
+//    //        int id = item.getItemId();
+//    //
+//    //        //noinspection SimplifiableIfStatement
+//    //        if (id == R.id.action_settings) {
+//    //            return true;
+//    //        }
+//    //
+//    //        return super.onOptionsItemSelected(item);
+//    //    }
+//
+//    }
 }

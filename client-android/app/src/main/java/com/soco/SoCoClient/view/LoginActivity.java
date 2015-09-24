@@ -7,17 +7,18 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.soco.SoCoClient.R;
@@ -26,17 +27,23 @@ import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
 import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task._ref.LoginTaskAsync;
 import com.soco.SoCoClient.control.http.task._ref.RegisterTaskAsync;
-import com.soco.SoCoClient.view.config.ServerConfigActivity;
+import com.soco.SoCoClient.view._ref.LoginActivityV1;
 import com.soco.SoCoClient.view.dashboard.Dashboard;
 import com.soco.SoCoClient.control.http.UrlUtil;
 import com.soco.SoCoClient.model.Profile;
 
 import com.facebook.FacebookSdk;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
+
 
 public class LoginActivity extends ActionBarActivity {
 
-    public static String tag = "LoginActivityV1";
+    public static String tag = "LoginActivity";
 
     public static String FLAG_EXIT = "exit";
     public String SOCO_SERVER_IP = "192.168.0.104";
@@ -76,34 +83,29 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-
         setContentView(R.layout.activity_login);
 
         //facebook - start
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList("email","public_profile","user_friends"));
         loginButton.registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        // App code
                         Log.d(tag, "facebook login success, token: " + loginResult.getAccessToken() + ", " + loginResult.toString());
+                        loginViaFacebook();
                     }
-
                     @Override
                     public void onCancel() {
-                        // App code
                         Log.d(tag, "facebook login cancel");
                     }
-
                     @Override
                     public void onError(FacebookException exception) {
-                        // App code
                         Log.d(tag, "facebook login error");
                     }
                 });
         //facebook - end
-
 
         socoApp = (SocoApp) getApplicationContext();
         profile = new Profile(getApplicationContext());
@@ -136,8 +138,54 @@ public class LoginActivity extends ActionBarActivity {
             Log.i(tag, "Saved login access token can be used, skip login screen");
             et_login_email.setText(savedLoginEmail);
             et_login_password.setText(savedLoginPassword);
-            login(null);  //comment out for testing
+            loginNormal(null);  //comment out for testing
         }
+
+    }
+
+    void loginViaFacebook(){
+        Log.d(tag, "facebook info");
+
+        //fetch information from facebook
+        Bundle parameters = new Bundle();
+        parameters.putString("fields","id,name,about,bio,birthday,email,first_name,gender,locale,timezone");
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me",
+                parameters,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        /* handle the result */
+                        Log.i(tag, "me response: " + response);
+                    }
+                }
+        ).executeAsync();
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/friends",
+                parameters,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        /* handle the result */
+                        Log.i(tag, "me/friends response: " + response);
+                        JSONObject object = response.getJSONObject();
+                        try {
+                            JSONArray array = new JSONArray(object.getString("data"));
+                            Log.i(tag, "array: " + array.toString());
+                            for(int i=0; i<array.length(); i++)
+                                Log.i(tag, "item " + i + ": " + array.getJSONObject(i).toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        ).executeAsync();
+
+        //start dashboard
+        Intent intent = new Intent(this, Dashboard.class);
+        startActivity(intent);
     }
 
     @Override
@@ -147,20 +195,18 @@ public class LoginActivity extends ActionBarActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-
-
     private void findViewsById() {
         et_login_email = (EditText) findViewById(R.id.et_login_email);
         et_login_password = (EditText) findViewById(R.id.et_login_password);
     }
 
-    public void serverConfig (View view) {
-        Log.i(tag, "serverConfig start");
-        Intent intent = new Intent(this, ServerConfigActivity.class);
-        startActivity(intent);
-    }
+//    public void serverConfig (View view) {
+//        Log.i(tag, "serverConfig start");
+//        Intent intent = new Intent(this, LoginActivityV1.ServerConfigActivity.class);
+//        startActivity(intent);
+//    }
 
-    public void login (View view) {
+    public void loginNormal (View view) {
         loginEmail = et_login_email.getText().toString();
         loginPassword = et_login_password.getText().toString();
 
