@@ -7,10 +7,19 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.SocoApp;
 import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
@@ -21,6 +30,8 @@ import com.soco.SoCoClient.view.config.ServerConfigActivity;
 import com.soco.SoCoClient.view.dashboard.Dashboard;
 import com.soco.SoCoClient.control.http.UrlUtil;
 import com.soco.SoCoClient.model.Profile;
+
+import com.facebook.FacebookSdk;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -57,14 +68,44 @@ public class LoginActivity extends ActionBarActivity {
     Profile profile;
     DBManagerSoco dbmgrSoco;
 
+    //facebook
+    CallbackManager callbackManager;
+    LoginButton loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
         setContentView(R.layout.activity_login);
 
-        socoApp = (SocoApp) getApplicationContext();
+        //facebook - start
+        callbackManager = CallbackManager.Factory.create();
+        loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        // App code
+                        Log.d(tag, "facebook login success, token: " + loginResult.getAccessToken() + ", " + loginResult.toString());
+                    }
 
+                    @Override
+                    public void onCancel() {
+                        // App code
+                        Log.d(tag, "facebook login cancel");
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                        Log.d(tag, "facebook login error");
+                    }
+                });
+        //facebook - end
+
+
+        socoApp = (SocoApp) getApplicationContext();
         profile = new Profile(getApplicationContext());
         socoApp.profile = profile;
 
@@ -98,6 +139,15 @@ public class LoginActivity extends ActionBarActivity {
             login(null);  //comment out for testing
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(tag, "onActivityResult: " + requestCode + ", " + resultCode + ", " + data.toString());
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+
 
     private void findViewsById() {
         et_login_email = (EditText) findViewById(R.id.et_login_email);
@@ -243,6 +293,9 @@ public class LoginActivity extends ActionBarActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        // Logs 'install' and 'app activate' App Events. - facebook
+        AppEventsLogger.activateApp(this);
 
         Log.i(tag, "onResume");
         String savedLoginEmail = profile.getLoginEmail(this);
