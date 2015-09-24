@@ -10,8 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
 import com.soco.SoCoClient.v2.view.LoginActivity;
 import com.soco.SoCoClient.v2.model.Profile;
 
@@ -43,8 +43,8 @@ public class ProfileActivity extends ActionBarActivity {
 //        Intent intent = getIntent();
         loginEmail = socoApp.loginEmail;
         loginPassword = socoApp.loginPassword;
-//        loginEmail = intent.getStringExtra(GeneralConfig.LOGIN_EMAIL);
-//        loginPassword = intent.getStringExtra(GeneralConfig.LOGIN_PASSWORD);
+//        loginEmail = intent.getStringExtra(GeneralConfigV1.LOGIN_EMAIL);
+//        loginPassword = intent.getStringExtra(GeneralConfigV1.LOGIN_PASSWORD);
 
 //        profile = loadProfile();
         showProfile(profile);
@@ -60,12 +60,12 @@ public class ProfileActivity extends ActionBarActivity {
     }
 
 //    Profile loadProfile() {
-//        Log.i(tag, "Load profile from " + GeneralConfig.PROFILE_FILENAME);
+//        Log.i(tag, "Load profile from " + GeneralConfigV1.PROFILE_FILENAME);
 //        return new Profile(getApplicationContext());
 //    }
 
     public void saveProfile(View view) {
-        Log.i(tag, "Save profile to " + GeneralConfig.PROFILE_FILENAME);
+        Log.i(tag, "Save profile to " + GeneralConfigV1.PROFILE_FILENAME);
         profile.save(
                 getApplicationContext(),
                 et_profile_username.getText().toString(),

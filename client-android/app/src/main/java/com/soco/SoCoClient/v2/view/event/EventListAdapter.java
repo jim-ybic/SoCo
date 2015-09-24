@@ -8,8 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.v2.view.chats.ConversationListEntryItem;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class EventListAdapter extends ArrayAdapter<Item> {
 
 		final Item i = items.get(position);
 		if (i != null) {
-			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){ //entry
+			if(i.getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_ENTRY)){ //entry
 				EventListEntryItem ei = (EventListEntryItem)i;
 				v = vi.inflate(R.layout.event_list_entry, null);
 				final TextView name = (TextView)v.findViewById(R.id.name);
@@ -49,7 +48,7 @@ public class EventListAdapter extends ArrayAdapter<Item> {
 				if (date!= null)
 					date.setText(ei.date);
 			}
-//			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)){
+//			if(i.getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_FOLDER)){
 //                FolderItem fi = (FolderItem)i;
 //                Log.v(tag, "item name: " + fi.name);
 //                v = vi.inflate(R.layout.v1_list_item_folder, null);

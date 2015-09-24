@@ -24,29 +24,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-//import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
+//import com.soco.SoCoClient.v2.control.config.ref.DataConfigV1;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.database.ref.DBManagerSoco;
 import com.soco.SoCoClient.v2.control.database.DataLoader;
-import com.soco.SoCoClient.v2.control.util.ActivityUtil;
-import com.soco.SoCoClient.obsolete.v1.model.Activity;
+import com.soco.SoCoClient.v2.model.ref.Activity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import com.soco.SoCoClient.obsolete.v1.model.Folder;
+import com.soco.SoCoClient.v2.model.ref.Folder;
 import com.soco.SoCoClient.v2.model.Event;
 import com.soco.SoCoClient.v2.view.event.activities.CompletedActivitiessActivity;
-import com.soco.SoCoClient.v2.view.sectionlist.FolderItem;
-import com.soco.SoCoClient.v2.view.config.ProfileActivity;
-import com.soco.SoCoClient.v2.view.sectionlist.SectionEntryListAdapter;
-import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
-import com.soco.SoCoClient.v2.view.sectionlist.SectionItem;
 
 public class EventsFragment extends Fragment implements View.OnClickListener {
 
@@ -90,7 +82,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
         dbmgrSoco = socoApp.dbManagerSoco;
 //        dbmgrSoco.context = getActivity().getApplicationContext();
 //        socoApp.dbManagerSoco = dbmgrSoco;
-//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigObs.VALUE_ACTIVITY_ACTIVE);
+//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigV1.VALUE_ACTIVITY_ACTIVE);
         activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
         folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
 
@@ -124,7 +116,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
             @SuppressWarnings("unchecked")
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if(allListItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)) {
+//                if(allListItems.get(position).getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_ENTRY)) {
 
                 //new code start
                 Event e = events.get(position);
@@ -150,12 +142,12 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 
                     //new fragment-based activity
 //                    Intent i = new Intent(view.getContext(), SingleActivityActivity.class);
-//                    startActivityForResult(i, com.soco.SoCoClient.v2.control.config.DataConfigObs.INTENT_SHOW_EVENT_DETAIL);
+//                    startActivityForResult(i, com.soco.SoCoClient.v2.control.config.DataConfigV1.INTENT_SHOW_EVENT_DETAIL);
 
 
 
 //                }
-//                else if(allListItems.get(position).getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)) {
+//                else if(allListItems.get(position).getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_FOLDER)) {
 //                    FolderItem fi = (FolderItem) allListItems.get(position);
 //                    Log.d(tag, "You clicked on folder: " + fi.name);
 //
@@ -165,7 +157,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 //                    folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
 //                    refreshList();
 //
-//                    if(socoApp.currentPath.equals(GeneralConfig.PATH_ROOT))
+//                    if(socoApp.currentPath.equals(GeneralConfigV1.PATH_ROOT))
 //                        getActivity().setTitle("Dashboard");
 //                    else
 //                        getActivity().setTitle(fi.name);
@@ -185,7 +177,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
                 if( keyCode == KeyEvent.KEYCODE_BACK ) {    //back-key pressed
                     Log.i(tag, "onKey Back listener");
 //                    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    if(socoApp.currentPath.equals(GeneralConfig.PATH_ROOT))
+                    if(socoApp.currentPath.equals(GeneralConfigV1.PATH_ROOT))
                         Toast.makeText(getActivity().getApplicationContext(),
                                 "Top level already, click again to exit", Toast.LENGTH_SHORT).show();
                     else {
@@ -202,7 +194,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
                     }
 
                     String title = "Dashboard";
-                    if(!socoApp.currentPath.equals(GeneralConfig.PATH_ROOT)){
+                    if(!socoApp.currentPath.equals(GeneralConfigV1.PATH_ROOT)){
                         //e.g. currentPath = /Folder1/Folder2/
                         String path = socoApp.currentPath.substring(0, socoApp.currentPath.length()-1);
                         Log.d(tag, "path: " + path);
@@ -248,10 +240,10 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 //        switch (requestCode) {
-//            case com.soco.SoCoClient.v2.control.config.DataConfigObs.INTENT_SHOW_EVENT_DETAIL: {
+//            case com.soco.SoCoClient.v2.control.config.DataConfigV1.INTENT_SHOW_EVENT_DETAIL: {
 //                Log.i(tag, "return from event details");
 //                Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
-//                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigObs.VALUE_ACTIVITY_ACTIVE);
+//                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigV1.VALUE_ACTIVITY_ACTIVE);
 //                activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
 //                refreshList();
 //                events = dataLoader.loadEvents();
@@ -273,8 +265,8 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 //        if (id == R.id.action_profile) {
 //            Log.i("setting", "Click on Profile.");
 //            Intent intent = new Intent(getActivity().getApplicationContext(), ProfileActivity.class);
-//            intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
-//            intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
+//            intent.putExtra(GeneralConfigV1.LOGIN_EMAIL, loginEmail);
+//            intent.putExtra(GeneralConfigV1.LOGIN_PASSWORD, loginPassword);
 //            startActivity(intent);
 //        }
 //        if (id == R.id.archive) {
@@ -319,7 +311,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 //                ActivityUtil.serverCreateActivity(name, getActivity().getApplicationContext(),
 //                        loginEmail, loginPassword, String.valueOf(pid),
 //                        p.getSignature(), p.getTag(), p.getType());
-////                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigObs.VALUE_ACTIVITY_ACTIVE);
+////                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigV1.VALUE_ACTIVITY_ACTIVE);
 //                Log.d(tag, "add into active list and refresh UI");
 //                activities.add(p);
 //                refreshList();
@@ -418,15 +410,15 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
 
     public void showCompletedProjects() {
         Intent intent = new Intent(getActivity(), CompletedActivitiessActivity.class);
-        intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
-        intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
+        intent.putExtra(GeneralConfigV1.LOGIN_EMAIL, loginEmail);
+        intent.putExtra(GeneralConfigV1.LOGIN_PASSWORD, loginPassword);
         startActivity(intent);
     }
 
 //    public void exit(View view) {
-//        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivityObs.class);
+//        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivityV1.class);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        intent.putExtra(LoginActivityObs.FLAG_EXIT, true);
+//        intent.putExtra(LoginActivityV1.FLAG_EXIT, true);
 //        startActivity(intent);
 //    }
 
@@ -453,7 +445,7 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
 //        Log.i(tag, "onResume start, reload active projects");
-//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigObs.VALUE_ACTIVITY_ACTIVE);
+//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigV1.VALUE_ACTIVITY_ACTIVE);
 //        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
 //        refreshList();
         events = dataLoader.loadEvents();
@@ -464,9 +456,9 @@ public class EventsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.add:
-//                add();
-//                break;
+            case R.id.add:
+                add();
+                break;
 //            case R.id.create:
 //                createActivity();
 //                break;

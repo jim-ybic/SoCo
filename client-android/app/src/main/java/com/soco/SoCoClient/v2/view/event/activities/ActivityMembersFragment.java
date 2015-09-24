@@ -22,9 +22,9 @@ import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
-import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.InviteActivityMemberTaskAsync;
+import com.soco.SoCoClient.v2.control.config.ref.HttpConfigV1;
+import com.soco.SoCoClient.v2.control.database.ref.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.http.task.ref.InviteActivityMemberTaskAsync;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionEntryListAdapter;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
@@ -101,7 +101,7 @@ public class ActivityMembersFragment extends Fragment implements View.OnClickLis
 
 //        String userEmail = profile.email;
 //        String userName = profile.username;
-        Log.i(tag, "save into db new member " + email + "/" + HttpConfig.TEST_UNKNOWN_USERNAME
+        Log.i(tag, "save into db new member " + email + "/" + HttpConfigV1.TEST_UNKNOWN_USERNAME
                 + " into project " + pid);
         dbManagerSoco.addMemberToActivity(
                 email,

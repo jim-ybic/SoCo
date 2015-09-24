@@ -1,7 +1,7 @@
 package com.soco.SoCoClient.v2.view.sectionlist;
 
 
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 
 public class EntryItem implements Item{
 
@@ -28,7 +28,7 @@ public class EntryItem implements Item{
 
     @Override
     public String getType() {
-        return GeneralConfig.LIST_ITEM_TYPE_ENTRY;
+        return GeneralConfigV1.LIST_ITEM_TYPE_ENTRY;
     }
 
 }

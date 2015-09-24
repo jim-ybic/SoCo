@@ -10,7 +10,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import android.util.Log;
 
-import com.soco.SoCoClient.obsolete.v1.model.Activity;
+import com.soco.SoCoClient.v2.model.ref.Activity;
 
 public class SignatureUtil {
 

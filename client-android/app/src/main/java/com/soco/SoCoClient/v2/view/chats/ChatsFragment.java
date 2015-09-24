@@ -17,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.database.ref.DBManagerSoco;
 import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
 import com.soco.SoCoClient.v2.control.database.DataLoader;
@@ -82,8 +82,8 @@ public class ChatsFragment extends Fragment implements View.OnClickListener {
 //                    String email = item.subtitle;
 //                    //new fragment-based activity
 //                    Intent i = new Intent(view.getContext(), ContactDetailsActivityObs.class);
-//                    i.putExtra(GeneralConfig.INTENT_KEY_NAME, name);
-//                    i.putExtra(GeneralConfig.INTENT_KEY_EMAIL, email);
+//                    i.putExtra(GeneralConfigV1.INTENT_KEY_NAME, name);
+//                    i.putExtra(GeneralConfigV1.INTENT_KEY_EMAIL, email);
 //                    startActivity(i);
 
                 SingleConversation c = singleConversations.get(position);

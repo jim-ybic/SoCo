@@ -7,7 +7,7 @@ import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -222,7 +222,7 @@ public class FileUtils {
         String displayName = getDisplayName(cr, uri);
 
         String destinationFilename = Environment.getExternalStorageDirectory().getPath()
-                + File.separatorChar + GeneralConfig.APP_FOLDER_NAME
+                + File.separatorChar + GeneralConfigV1.APP_FOLDER_NAME
                 + File.separator + displayName;
         Log.i(tag, "Copy to: " + destinationFilename);
 

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.soco.SoCoClient.v2.control.config.ref.HttpConfigV1;
 import com.soco.SoCoClient.v2.control.config.DataConfig;
 import com.soco.SoCoClient.v2.control.config.GeneralConfig;
 import com.soco.SoCoClient.v2.control.config.HttpConfig;
@@ -51,7 +52,7 @@ public class InviteContactJoinTaskJob extends AsyncTask<Void, Void, Boolean>{
 
         String path = HttpConfig.SERVER_PATH_INVITE_CONTACT_JOIN_TASK;
         String url = "http://" + ip + ":" + port + path + "?"
-                + com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig.HTTP_TOKEN_TYPE + "=" + token;
+                + HttpConfigV1.HTTP_TOKEN_TYPE + "=" + token;
 
         Log.d(tag, "get url [InviteContactJoinTaskJob]: " + url);
         return url;

@@ -5,8 +5,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.v2.control.config.HttpConfig;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 
 public class Profile {
     private static final String NICKNAME_NOT_SET = "NICKNAME NOT SET";
@@ -17,27 +16,27 @@ public class Profile {
     public String phone, wechat, lastLoginTimestamp;
 
     public Profile(Context context) {
-        Log.i(tag, "Create profile from " + GeneralConfig.PROFILE_FILENAME);
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        Log.i(tag, "Create profile from " + GeneralConfigV1.PROFILE_FILENAME);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
 
-        this.email = settings.getString(GeneralConfig.PROFILE_LOGIN_EMAIL,"");
-        this.password = settings.getString(GeneralConfig.PROFILE_LOGIN_PASSWORD,"");
-        this.username = settings.getString(GeneralConfig.PROFILE_USERNAME,"");
-        this.phone = settings.getString(GeneralConfig.PROFILE_PHONE,"");
-        this.wechat = settings.getString(GeneralConfig.PROFILE_WECHAT,"");
-        this.lastLoginTimestamp = settings.getString(GeneralConfig.PROFILE_LAST_LOGIN_TIMESTAMP,"");
+        this.email = settings.getString(GeneralConfigV1.PROFILE_LOGIN_EMAIL,"");
+        this.password = settings.getString(GeneralConfigV1.PROFILE_LOGIN_PASSWORD,"");
+        this.username = settings.getString(GeneralConfigV1.PROFILE_USERNAME,"");
+        this.phone = settings.getString(GeneralConfigV1.PROFILE_PHONE,"");
+        this.wechat = settings.getString(GeneralConfigV1.PROFILE_WECHAT,"");
+        this.lastLoginTimestamp = settings.getString(GeneralConfigV1.PROFILE_LAST_LOGIN_TIMESTAMP,"");
     }
 
     public void ready(Context context, String loginEmail) {
         Log.i(tag, "Check if profile is ready for: " + loginEmail);
 
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        String email = settings.getString(GeneralConfig.PROFILE_EMAIL, "");
+        String email = settings.getString(GeneralConfigV1.PROFILE_EMAIL, "");
         if(email.isEmpty()) {
-            Log.i(tag, "Create new profile, " + GeneralConfig.PROFILE_EMAIL + ":" + loginEmail);
-            editor.putString(GeneralConfig.PROFILE_EMAIL, loginEmail);
+            Log.i(tag, "Create new profile, " + GeneralConfigV1.PROFILE_EMAIL + ":" + loginEmail);
+            editor.putString(GeneralConfigV1.PROFILE_EMAIL, loginEmail);
             editor.commit();
         } else
             Log.i(tag, "Profile is ready for: " + loginEmail);
@@ -46,10 +45,10 @@ public class Profile {
     public String getUsername(Context context, String loginEmail) {
         Log.i(tag, "Get username for: " + loginEmail);
 
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        String n = settings.getString(GeneralConfig.PROFILE_USERNAME, "");
+        String n = settings.getString(GeneralConfigV1.PROFILE_USERNAME, "");
         String username;
         if (n.isEmpty())
             username =  loginEmail;
@@ -66,14 +65,14 @@ public class Profile {
             String phone,
             String wechat
     ){
-        Log.i(tag, "Save profile to " + GeneralConfig.PROFILE_FILENAME);
+        Log.i(tag, "Save profile to " + GeneralConfigV1.PROFILE_FILENAME);
 
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        editor.putString(GeneralConfig.PROFILE_USERNAME, username);
-        editor.putString(GeneralConfig.PROFILE_PHONE, phone);
-        editor.putString(GeneralConfig.PROFILE_WECHAT, wechat);
+        editor.putString(GeneralConfigV1.PROFILE_USERNAME, username);
+        editor.putString(GeneralConfigV1.PROFILE_PHONE, phone);
+        editor.putString(GeneralConfigV1.PROFILE_WECHAT, wechat);
         editor.commit();
         Toast.makeText(context.getApplicationContext(), "Profile saved.",
                 Toast.LENGTH_SHORT).show();
@@ -85,103 +84,103 @@ public class Profile {
 
     public void saveLoginAccessToken(Context context, String token){
         Log.i(tag, "Save login access token: " + token);
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(GeneralConfig.PROFILE_LOGIN_ACCESS_TOKEN, token);
+        editor.putString(GeneralConfigV1.PROFILE_LOGIN_ACCESS_TOKEN, token);
         editor.commit();
         Log.i(tag, "Save complete");
     }
 
     public static String getLoginAccessToken(Context context){
         Log.d(tag, "Get login access token");
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
-        return settings.getString(GeneralConfig.PROFILE_LOGIN_ACCESS_TOKEN, "");
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
+        return settings.getString(GeneralConfigV1.PROFILE_LOGIN_ACCESS_TOKEN, "");
     }
 
     public String getLoginEmail(Context context){
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
-        return settings.getString(GeneralConfig.PROFILE_LOGIN_EMAIL, "");
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
+        return settings.getString(GeneralConfigV1.PROFILE_LOGIN_EMAIL, "");
     }
 
     public String getNickname(Context context){
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
-        String name = settings.getString(GeneralConfig.PROFILE_USERNAME, "");
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
+        String name = settings.getString(GeneralConfigV1.PROFILE_USERNAME, "");
         if(name == null || name.isEmpty())
             name = NICKNAME_NOT_SET;
         return name;
     }
 
     public void setLoginEmail(Context context, String loginEmail){
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(GeneralConfig.PROFILE_LOGIN_EMAIL, loginEmail);
+        editor.putString(GeneralConfigV1.PROFILE_LOGIN_EMAIL, loginEmail);
         editor.commit();
     }
 
 //    public static String getLastLoginEmail(Context context){
-//        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
-//        return settings.getString(GeneralConfig.PROFILE_LAST_LOGIN_EMAIL, "");
+//        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
+//        return settings.getString(GeneralConfigV1.PROFILE_LAST_LOGIN_EMAIL, "");
 //    }
 //
 //    public static void setLastLoginEmail(Context context, String loginEmail){
-//        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+//        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
 //        SharedPreferences.Editor editor = settings.edit();
-//        editor.putString(GeneralConfig.PROFILE_LAST_LOGIN_EMAIL, loginEmail);
+//        editor.putString(GeneralConfigV1.PROFILE_LAST_LOGIN_EMAIL, loginEmail);
 //        editor.commit();
 //    }
 
 //    public static String getLastLoginPassword(Context context){
-//        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
-//        return settings.getString(GeneralConfig.PROFILE_LAST_LOGIN_PASSWORD, "");
+//        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
+//        return settings.getString(GeneralConfigV1.PROFILE_LAST_LOGIN_PASSWORD, "");
 //    }
 //
 //    public static void setLASTLoginPassword(Context context, String loginPassword){
-//        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+//        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
 //        SharedPreferences.Editor editor = settings.edit();
-//        editor.putString(GeneralConfig.PROFILE_LAST_LOGIN_PASSWORD, loginPassword);
+//        editor.putString(GeneralConfigV1.PROFILE_LAST_LOGIN_PASSWORD, loginPassword);
 //        editor.commit();
 //    }
 
     public String getLoginPassword(Context context){
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
-        return settings.getString(GeneralConfig.PROFILE_LOGIN_PASSWORD, "");
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
+        return settings.getString(GeneralConfigV1.PROFILE_LOGIN_PASSWORD, "");
     }
 
     public void setLoginPassword(Context context, String loginPassword){
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(GeneralConfig.PROFILE_LOGIN_PASSWORD, loginPassword);
+        editor.putString(GeneralConfigV1.PROFILE_LOGIN_PASSWORD, loginPassword);
         editor.commit();
     }
 
     public String getLastLoginTimestamp(Context context){
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
-        return settings.getString(GeneralConfig.PROFILE_LAST_LOGIN_TIMESTAMP, "");
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
+        return settings.getString(GeneralConfigV1.PROFILE_LAST_LOGIN_TIMESTAMP, "");
     }
 
     public void setLastLoginTimestamp(Context context, String timestamp){
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(GeneralConfig.PROFILE_LAST_LOGIN_TIMESTAMP, timestamp);
+        editor.putString(GeneralConfigV1.PROFILE_LAST_LOGIN_TIMESTAMP, timestamp);
         editor.commit();
     }
 
     public void logout(Context context){
         Log.d(tag, "delete user login access token");
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-//        editor.putString(GeneralConfig.PROFILE_LOGIN_EMAIL, "");
-//        editor.putString(GeneralConfig.PROFILE_LOGIN_PASSWORD, "");
-//        editor.putString(GeneralConfig.PROFILE_USERNAME, "");
-//        editor.putString(GeneralConfig.PROFILE_PHONE, "");
-//        editor.putString(GeneralConfig.PROFILE_WECHAT, "");
-//        editor.putString(GeneralConfig.PROFILE_LOGIN_ACCESS_TOKEN, "");
-//        editor.remove(GeneralConfig.PROFILE_LOGIN_EMAIL);
-//        editor.remove(GeneralConfig.PROFILE_LOGIN_PASSWORD);
-//        editor.remove(GeneralConfig.PROFILE_USERNAME);
-//        editor.remove(GeneralConfig.PROFILE_PHONE);
-//        editor.remove(GeneralConfig.PROFILE_WECHAT);
-        editor.remove(GeneralConfig.PROFILE_LOGIN_ACCESS_TOKEN);
+//        editor.putString(GeneralConfigV1.PROFILE_LOGIN_EMAIL, "");
+//        editor.putString(GeneralConfigV1.PROFILE_LOGIN_PASSWORD, "");
+//        editor.putString(GeneralConfigV1.PROFILE_USERNAME, "");
+//        editor.putString(GeneralConfigV1.PROFILE_PHONE, "");
+//        editor.putString(GeneralConfigV1.PROFILE_WECHAT, "");
+//        editor.putString(GeneralConfigV1.PROFILE_LOGIN_ACCESS_TOKEN, "");
+//        editor.remove(GeneralConfigV1.PROFILE_LOGIN_EMAIL);
+//        editor.remove(GeneralConfigV1.PROFILE_LOGIN_PASSWORD);
+//        editor.remove(GeneralConfigV1.PROFILE_USERNAME);
+//        editor.remove(GeneralConfigV1.PROFILE_PHONE);
+//        editor.remove(GeneralConfigV1.PROFILE_WECHAT);
+        editor.remove(GeneralConfigV1.PROFILE_LOGIN_ACCESS_TOKEN);
         editor.commit();
     }
 

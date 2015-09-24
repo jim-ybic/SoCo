@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 public class HttpUtil {
 
-    public static String tag = "HttpUtil";
+    public static String tag = "HttpUtilV1";
 
     public static Object executeHttpPost(String url, JSONObject data) {
         Object response = null;

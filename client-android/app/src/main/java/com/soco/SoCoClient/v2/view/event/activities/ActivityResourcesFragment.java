@@ -22,10 +22,10 @@ import android.widget.SimpleAdapter;
 
 import com.dropbox.client2.DropboxAPI;
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.obsolete.v1.control.dropbox.DropboxUtil;
+import com.soco.SoCoClient.v2.control.database.ref.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.dropbox.ref.DropboxUtilV1;
 import com.soco.SoCoClient.v2.control.dropbox.UploaderWatcher;
 
 import java.io.File;
@@ -93,7 +93,7 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
                 ListView listView = (ListView) parent;
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
-                String name = map.get(GeneralConfig.ACTIVITY_NAME);
+                String name = map.get(GeneralConfigV1.ACTIVITY_NAME);
                 Log.i(tag, "Click on shared file list: " + name);
                 String localPath = sharedFilesLocalPath.get(position);
                 Log.i(tag, "Shared file local path: " + localPath);
@@ -116,11 +116,11 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
         SocoApp socoApp = (SocoApp) getActivity().getApplication();
 
         //add file
-        if (requestCode == GeneralConfig.ACTIVITY_OPEN_FILE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == GeneralConfigV1.ACTIVITY_OPEN_FILE && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             Log.i(tag, "File selected with uri: " + uri.toString());
 //            FileUtils.checkUriMeta(getActivity().getContentResolver(), uri);
-            DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
+            DropboxUtilV1.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
                     getActivity().getContentResolver(), getActivity().getApplicationContext());
             socoApp.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
             // check status
@@ -131,11 +131,11 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
         }
 
         //take picture
-        if (requestCode == GeneralConfig.ACTIVITY_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
+        if (requestCode == GeneralConfigV1.ACTIVITY_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             Log.d(tag, "Photo uri: " + uri);
 //            FileUtils.checkUriMeta(getActivity().getContentResolver(), uri);
-            DropboxUtil.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
+            DropboxUtilV1.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
                     getActivity().getContentResolver(), getActivity().getApplicationContext());
             socoApp.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
             // check status
@@ -179,15 +179,15 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
         for (String filename : sharedFiles) {
             Log.d(tag, "Shared file list adding: " + filename);
             HashMap<String, String> map = new HashMap<>();
-            map.put(GeneralConfig.ACTIVITY_NAME, filename);
-            map.put(GeneralConfig.ACTIVITY_INFO, "no more info");
+            map.put(GeneralConfigV1.ACTIVITY_NAME, filename);
+            map.put(GeneralConfigV1.ACTIVITY_INFO, "no more info");
             list.add(map);
         }
 
         ListView lv_files = (ListView) rootView.findViewById(R.id.lv_files);
         resourcesAdapter = new SimpleAdapter(getActivity(), list,
                 android.R.layout.simple_list_item_2,
-                new String[]{GeneralConfig.ACTIVITY_NAME, GeneralConfig.ACTIVITY_INFO},
+                new String[]{GeneralConfigV1.ACTIVITY_NAME, GeneralConfigV1.ACTIVITY_INFO},
                 new int[]{android.R.id.text1, android.R.id.text2});
         lv_files.setAdapter(resourcesAdapter);
     }
@@ -197,14 +197,14 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
-        startActivityForResult(intent, GeneralConfig.ACTIVITY_OPEN_FILE);
+        startActivityForResult(intent, GeneralConfigV1.ACTIVITY_OPEN_FILE);
     }
 
     public void takePicture(){
         Log.i(tag, "Start activity: take picture");
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null)
-            startActivityForResult(intent, GeneralConfig.ACTIVITY_TAKE_PHOTO);
+            startActivityForResult(intent, GeneralConfigV1.ACTIVITY_TAKE_PHOTO);
     }
 
     @Override

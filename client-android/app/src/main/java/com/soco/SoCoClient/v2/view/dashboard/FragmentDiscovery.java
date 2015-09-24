@@ -67,8 +67,8 @@ public class FragmentDiscovery extends Fragment implements View.OnClickListener 
         if (id == R.id.action_profile) {
             Log.i("setting", "Click on Profile.");
             Intent intent = new Intent(getActivity().getApplicationContext(), ProfileActivity.class);
-//            intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
-//            intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
+//            intent.putExtra(GeneralConfigV1.LOGIN_EMAIL, loginEmail);
+//            intent.putExtra(GeneralConfigV1.LOGIN_PASSWORD, loginPassword);
             startActivity(intent);
         }
 

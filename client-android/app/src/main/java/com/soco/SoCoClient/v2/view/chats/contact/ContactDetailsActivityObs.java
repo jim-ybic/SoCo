@@ -13,12 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
+import com.soco.SoCoClient.v2.control.config.ref.DataConfigV1;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
+import com.soco.SoCoClient.v2.control.config.ref.HttpConfigV1;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
-import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.SendMessageTaskAsync;
+import com.soco.SoCoClient.v2.control.database.ref.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.http.task.ref.SendMessageTaskAsync;
 import com.soco.SoCoClient.v2.control.util.SignatureUtil;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
@@ -49,8 +49,8 @@ public class ContactDetailsActivityObs extends ActionBarActivity {
         profile = socoApp.profile;
 
         Intent i = getIntent();
-        name = i.getStringExtra(GeneralConfig.INTENT_KEY_NAME);
-        email = i.getStringExtra(GeneralConfig.INTENT_KEY_EMAIL);
+        name = i.getStringExtra(GeneralConfigV1.INTENT_KEY_NAME);
+        email = i.getStringExtra(GeneralConfigV1.INTENT_KEY_EMAIL);
         contactId = dbManagerSoco.getContactIdByEmail(email);
         contactIdOnserver = dbManagerSoco.getContactIdOnserverByEmail(email);
         Log.d(tag, "get extra on name: " + name);
@@ -76,13 +76,13 @@ public class ContactDetailsActivityObs extends ActionBarActivity {
 
         ArrayList<Item> chatItems = new ArrayList<Item>();
         for(ArrayList<String> u : chatHistory){
-            String content = u.get(DataConfigObs.CHAT_INDEX_CONTENT);
-            String timestamp = u.get(DataConfigObs.CHAT_INDEX_TIMESTAMP);
-            String type = u.get(DataConfigObs.CHAT_INDEX_TYPE);
+            String content = u.get(DataConfigV1.CHAT_INDEX_CONTENT);
+            String timestamp = u.get(DataConfigV1.CHAT_INDEX_TIMESTAMP);
+            String type = u.get(DataConfigV1.CHAT_INDEX_TYPE);
             Log.d(tag, "get a chat: " + content + ", " + timestamp + ", " + type);
 
             String sender;
-            if(type.equals(String.valueOf(DataConfigObs.CHAT_TYPE_SEND)))
+            if(type.equals(String.valueOf(DataConfigV1.CHAT_TYPE_SEND)))
                 sender = socoApp.loginEmail;
             else
                 sender = email;
@@ -138,7 +138,7 @@ public class ContactDetailsActivityObs extends ActionBarActivity {
         EditText et_message = (EditText)findViewById(R.id.message);
         String message = et_message.getText().toString();
         Log.i(tag, "add message into database: " + message);
-        dbManagerSoco.addMessage(contactId, message, DataConfigObs.CHAT_TYPE_SEND);
+        dbManagerSoco.addMessage(contactId, message, DataConfigV1.CHAT_TYPE_SEND);
         Toast.makeText(getApplicationContext(), "Message sent",
                 Toast.LENGTH_SHORT).show();
 
@@ -148,13 +148,13 @@ public class ContactDetailsActivityObs extends ActionBarActivity {
         Log.i(tag, "send message to server: " + message);
 
         SendMessageTaskAsync task = new SendMessageTaskAsync(url,
-                HttpConfig.MESSAGE_FROM_TYPE_1,     //from type 1: individual
+                HttpConfigV1.MESSAGE_FROM_TYPE_1,     //from type 1: individual
                 ownEmail,                           //individual email
-                HttpConfig.MESSAGE_TO_TYPE_1,       //to type 1: individual
+                HttpConfigV1.MESSAGE_TO_TYPE_1,       //to type 1: individual
                 String.valueOf(contactIdOnserver),          //individual id
                 SignatureUtil.now(),                //timestamp
-                GeneralConfig.TEST_DEVICE_SAMSUNG,  //device name
-                HttpConfig.MESSAGE_CONTENT_TYPE_1,  //content type
+                GeneralConfigV1.TEST_DEVICE_SAMSUNG,  //device name
+                HttpConfigV1.MESSAGE_CONTENT_TYPE_1,  //content type
                 message                             //message
         );
         task.execute();

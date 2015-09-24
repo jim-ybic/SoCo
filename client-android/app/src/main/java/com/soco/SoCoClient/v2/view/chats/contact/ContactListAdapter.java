@@ -1,7 +1,6 @@
 package com.soco.SoCoClient.v2.view.chats.contact;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionItem;
 
@@ -40,7 +39,7 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
 		if (i != null) {
 //            Log.v(tag, "item type: " + i.getType() + ", " + i.toString());
 
-			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_SECTION)){   //section
+			if(i.getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_SECTION)){   //section
 				SectionItem si = (SectionItem)i;
 //                Log.v(tag, "item name: " + si.getTitle());
 				v = vi.inflate(R.layout.contact_list_section, null);
@@ -52,7 +51,7 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
 				final TextView sectionView = (TextView) v.findViewById(R.id.list_item_section_text);
 				sectionView.setText(si.getTitle());
 			}
-			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){ //entry
+			if(i.getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_ENTRY)){ //entry
 				ContactListEntryItem ei = (ContactListEntryItem)i;
 //                Log.v(tag, "item name: " + ei.name);
 				v = vi.inflate(R.layout.contact_list_entry, null);
@@ -70,7 +69,7 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
                 if (status != null)
                     status.setText(ei.status);
 			}
-//			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)){
+//			if(i.getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_FOLDER)){
 //                FolderItem fi = (FolderItem)i;
 //                Log.v(tag, "item name: " + fi.name);
 //                v = vi.inflate(R.layout.v1_list_item_folder, null);

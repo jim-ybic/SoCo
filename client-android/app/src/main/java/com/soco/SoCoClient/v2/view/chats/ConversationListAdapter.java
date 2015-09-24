@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class ConversationListAdapter extends ArrayAdapter<Item> {
 		if (i != null) {
 //            Log.v(tag, "item type: " + i.getType() + ", " + i.toString());
 
-			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_ENTRY)){ //entry
+			if(i.getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_ENTRY)){ //entry
 				ConversationListEntryItem ei = (ConversationListEntryItem)i;
 //                Log.v(tag, "item name: " + ei.content);
 				v = vi.inflate(R.layout.conversation_list_entry, null);
@@ -52,7 +52,7 @@ public class ConversationListAdapter extends ArrayAdapter<Item> {
 				if (lastMsgTimestamp!= null)
 					lastMsgTimestamp.setText(ei.lastMsgTimestamp);
 			}
-//			if(i.getType().equals(GeneralConfig.LIST_ITEM_TYPE_FOLDER)){
+//			if(i.getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_FOLDER)){
 //                FolderItem fi = (FolderItem)i;
 //                Log.v(tag, "item name: " + fi.name);
 //                v = vi.inflate(R.layout.v1_list_item_folder, null);

@@ -11,12 +11,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
+import com.soco.SoCoClient.v2.control.config.ref.DataConfigV1;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.database.ref.DBManagerSoco;
 import com.soco.SoCoClient.v2.control.util.ActivityUtil;
-import com.soco.SoCoClient.obsolete.v1.model.Activity;
+import com.soco.SoCoClient.v2.model.ref.Activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,11 +42,11 @@ public class CompletedActivitiessActivity extends ActionBarActivity {
         findViewsById();
 
         Intent intent = getIntent();
-        loginEmail = intent.getStringExtra(GeneralConfig.LOGIN_EMAIL);
-        loginPassword = intent.getStringExtra(GeneralConfig.LOGIN_PASSWORD);
+        loginEmail = intent.getStringExtra(GeneralConfigV1.LOGIN_EMAIL);
+        loginPassword = intent.getStringExtra(GeneralConfigV1.LOGIN_PASSWORD);
 
         dbmgrSoco = new DBManagerSoco(this);
-        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigObs.VALUE_ACTIVITY_INACTIVE);
+        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigV1.VALUE_ACTIVITY_INACTIVE);
 
         listProjects(lv_inactive_projects, activities);
 
@@ -57,7 +57,7 @@ public class CompletedActivitiessActivity extends ActionBarActivity {
                 ListView listView = (ListView) parent;
                 HashMap<String, String> map = (HashMap<String, String>)
                         listView.getItemAtPosition(position);
-                final String name = map.get(GeneralConfig.ACTIVITY_NAME);
+                final String name = map.get(GeneralConfigV1.ACTIVITY_NAME);
 
                 Log.i(tag, "Click on completed programName.");
                 new AlertDialog.Builder(CompletedActivitiessActivity.this)
@@ -67,9 +67,9 @@ public class CompletedActivitiessActivity extends ActionBarActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 int pid = ActivityUtil.findPidByPname(activities, name);
                                 dbmgrSoco.updateActivityActiveness(pid,
-                                        DataConfigObs.VALUE_ACTIVITY_ACTIVE);
+                                        DataConfigV1.VALUE_ACTIVITY_ACTIVE);
                                 activities = dbmgrSoco.loadActivitiessByActiveness(
-                                        DataConfigObs.VALUE_ACTIVITY_INACTIVE);
+                                        DataConfigV1.VALUE_ACTIVITY_INACTIVE);
                                 listProjects(lv_inactive_projects, activities);
                             }
                         })
@@ -79,7 +79,7 @@ public class CompletedActivitiessActivity extends ActionBarActivity {
                                 int pid = ActivityUtil.findPidByPname(activities, name);
                                 dbmgrSoco.deleteActivityByPid(pid);
                                 activities = dbmgrSoco.loadActivitiessByActiveness(
-                                        DataConfigObs.VALUE_ACTIVITY_INACTIVE);
+                                        DataConfigV1.VALUE_ACTIVITY_INACTIVE);
                                 listProjects(lv_inactive_projects, activities);
                             }
                         })
@@ -94,8 +94,8 @@ public class CompletedActivitiessActivity extends ActionBarActivity {
 
 //    void gotoPreviousScreen(){
 //        Intent intent = new Intent(this, ShowActiveProjectsActivity.class);
-//        intent.putExtra(GeneralConfig.LOGIN_EMAIL, loginEmail);
-//        intent.putExtra(GeneralConfig.LOGIN_PASSWORD, loginPassword);
+//        intent.putExtra(GeneralConfigV1.LOGIN_EMAIL, loginEmail);
+//        intent.putExtra(GeneralConfigV1.LOGIN_PASSWORD, loginPassword);
 //        startActivity(intent);
 //    }
 
@@ -117,14 +117,14 @@ public class CompletedActivitiessActivity extends ActionBarActivity {
         ArrayList<Map<String, String>> data = new ArrayList<>();
         for (Activity activity : activities) {
             HashMap<String, String> map = new HashMap<>();
-            map.put(GeneralConfig.ACTIVITY_NAME, activity.pname);
-            map.put(GeneralConfig.ACTIVITY_INFO, activity.getMoreInfo());
+            map.put(GeneralConfigV1.ACTIVITY_NAME, activity.pname);
+            map.put(GeneralConfigV1.ACTIVITY_INFO, activity.getMoreInfo());
             data.add(map);
         }
 
         SimpleAdapter adapter = new SimpleAdapter(this, data,
                 android.R.layout.simple_list_item_2,
-                new String[]{GeneralConfig.ACTIVITY_NAME, GeneralConfig.ACTIVITY_INFO},
+                new String[]{GeneralConfigV1.ACTIVITY_NAME, GeneralConfigV1.ACTIVITY_INFO},
                 new int[]{android.R.id.text1, android.R.id.text2});
         listView.setAdapter(adapter);
     }

@@ -2,12 +2,12 @@ package com.soco.SoCoClient.v2.view.event.activities;
 
 //import info.androidhive.tabsswipe.R;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
+import com.soco.SoCoClient.v2.control.config.ref.DataConfigV1;
+import com.soco.SoCoClient.v2.control.config.ref.HttpConfigV1;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.obsolete.v1.control.config.HttpConfig;
-import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.SendMessageTaskAsync;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
+import com.soco.SoCoClient.v2.control.database.ref.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.http.task.ref.SendMessageTaskAsync;
 import com.soco.SoCoClient.v2.control.util.SignatureUtil;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionEntryListAdapter;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
@@ -100,10 +100,10 @@ public class ActivityUpdatesFragment extends Fragment implements View.OnClickLis
 //
 //        String url = ProfileUtil.getSendMessageUrl(getActivity());
 //        SendMessageTaskAsync task = new SendMessageTaskAsync(url,
-//                HttpConfig.MESSAGE_FROM_TYPE_1, email,
-//                HttpConfig.MESSAGE_TO_TYPE_1, "jim.ybic@gmail.com",
+//                HttpConfigV1.MESSAGE_FROM_TYPE_1, email,
+//                HttpConfigV1.MESSAGE_TO_TYPE_1, "jim.ybic@gmail.com",
 //                SignatureUtil.now(), TEST_DEVICE_SAMSUNG,
-//                HttpConfig.MESSAGE_CONTENT_TYPE_1, comment);
+//                HttpConfigV1.MESSAGE_CONTENT_TYPE_1, comment);
 //        task.execute();
 //
 //        //refresh UI
@@ -130,10 +130,10 @@ public class ActivityUpdatesFragment extends Fragment implements View.OnClickLis
 
         String url = UrlUtil.getSendMessageUrl(getActivity());
         SendMessageTaskAsync task = new SendMessageTaskAsync(url,
-                HttpConfig.MESSAGE_FROM_TYPE_1, email,
-                HttpConfig.MESSAGE_TO_TYPE_2, String.valueOf(pid_onserver),
-                SignatureUtil.now(), GeneralConfig.TEST_DEVICE_SAMSUNG,
-                HttpConfig.MESSAGE_CONTENT_TYPE_1, comment);
+                HttpConfigV1.MESSAGE_FROM_TYPE_1, email,
+                HttpConfigV1.MESSAGE_TO_TYPE_2, String.valueOf(pid_onserver),
+                SignatureUtil.now(), GeneralConfigV1.TEST_DEVICE_SAMSUNG,
+                HttpConfigV1.MESSAGE_CONTENT_TYPE_1, comment);
         task.execute();
 
         //refresh UI
@@ -149,9 +149,9 @@ public class ActivityUpdatesFragment extends Fragment implements View.OnClickLis
         ArrayList<ArrayList<String>> updates = dbManagerSoco.getUpdatesOfActivity(pid);
 
         for(ArrayList<String> u : updates){
-            String user = u.get(DataConfigObs.UPDATE_INDEX_NAME);
-            String comment = u.get(DataConfigObs.UPDATE_INDEX_COMMENT);
-            String timestamp = u.get(DataConfigObs.UPDATE_INDEX_TIMESTAMP);
+            String user = u.get(DataConfigV1.UPDATE_INDEX_NAME);
+            String comment = u.get(DataConfigV1.UPDATE_INDEX_COMMENT);
+            String timestamp = u.get(DataConfigV1.UPDATE_INDEX_TIMESTAMP);
             Log.d(tag, "get an update: " + user + ", " + comment + ", " + timestamp);
             updateItems.add(new EntryItem(user, comment + " " + timestamp));
         }

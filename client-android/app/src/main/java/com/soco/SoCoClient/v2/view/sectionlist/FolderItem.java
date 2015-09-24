@@ -1,7 +1,7 @@
 package com.soco.SoCoClient.v2.view.sectionlist;
 
 
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 
 public class FolderItem implements Item{
 
@@ -20,7 +20,7 @@ public class FolderItem implements Item{
 
     @Override
     public String getType() {
-        return GeneralConfig.LIST_ITEM_TYPE_FOLDER;
+        return GeneralConfigV1.LIST_ITEM_TYPE_FOLDER;
     }
 
 }

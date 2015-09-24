@@ -13,10 +13,10 @@ import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.LoginTaskAsync;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.RegisterTaskAsync;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
+import com.soco.SoCoClient.v2.control.database.ref.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.http.task.ref.LoginTaskAsync;
+import com.soco.SoCoClient.v2.control.http.task.ref.RegisterTaskAsync;
 import com.soco.SoCoClient.v2.view.config.ServerConfigActivity;
 import com.soco.SoCoClient.v2.view.dashboard.Dashboard;
 import com.soco.SoCoClient.v2.control.http.UrlUtil;
@@ -25,7 +25,7 @@ import com.soco.SoCoClient.v2.model.Profile;
 
 public class LoginActivity extends ActionBarActivity {
 
-    public static String tag = "LoginActivityObs";
+    public static String tag = "LoginActivityV1";
 
     public static String FLAG_EXIT = "exit";
     public String SOCO_SERVER_IP = "192.168.0.104";
@@ -127,7 +127,7 @@ public class LoginActivity extends ActionBarActivity {
         else {
             Log.i(tag, "Cannot load access token, start login to server");
 //            HttpTask loginTask = new HttpTask(
-//                    profile.getLoginUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_LOGIN,
+//                    profile.getLoginUrl(getApplicationContext()), HttpConfigV1.HTTP_TYPE_LOGIN,
 //                    loginEmail, loginPassword, getApplicationContext(),
 //                    null, null, null, null, null);
 //            loginTask.execute();
@@ -161,7 +161,7 @@ public class LoginActivity extends ActionBarActivity {
             socoApp.loginEmail = loginEmail;
             socoApp.loginPassword = loginPassword;
             socoApp.profile = profile;
-            socoApp.currentPath = GeneralConfig.PATH_ROOT;
+            socoApp.currentPath = GeneralConfigV1.PATH_ROOT;
 
             startActivity(intent);
         } else {
@@ -181,7 +181,7 @@ public class LoginActivity extends ActionBarActivity {
         socoApp.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_START);
 
 //        HttpTask registerTask = new HttpTask(
-//                profile.getRegisterUrl(getApplicationContext()), HttpConfig.HTTP_TYPE_REGISTER,
+//                profile.getRegisterUrl(getApplicationContext()), HttpConfigV1.HTTP_TYPE_REGISTER,
 //                loginEmail, loginPassword, getApplicationContext(),
 //                null, null, null, null, null);
 //        registerTask.execute();

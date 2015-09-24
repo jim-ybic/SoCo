@@ -32,15 +32,15 @@ import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
+import com.soco.SoCoClient.v2.control.config.ref.DataConfigV1;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.database.ref.DBManagerSoco;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.dropbox.DropboxUtil;
+import com.soco.SoCoClient.v2.control.dropbox.ref.DropboxUtilV1;
 import com.soco.SoCoClient.v2.control.util.ActivityUtil;
 import com.soco.SoCoClient.v2.control.util.SignatureUtil;
-import com.soco.SoCoClient.obsolete.v1.model.Activity;
+import com.soco.SoCoClient.v2.model.ref.Activity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.soco.SoCoClient.obsolete.v1.control.config.DataConfigObs.*;
+import static com.soco.SoCoClient.v2.control.config.ref.DataConfigV1.*;
 
 public class ActivityDetailsFragment extends Fragment implements View.OnClickListener {
 
@@ -160,16 +160,16 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
         Log.d(tag, "pid is " + pid + ", pid_onserver is " + pid_onserver);
 
 //        Log.i(tag, "onCreate, get project properties: "
-//                        + GeneralConfig.PROJECT_PID + ":" + pid + ","
-//                        + GeneralConfig.PROJECT_PID_ONSERVER + ":" + pid_onserver
+//                        + GeneralConfigV1.PROJECT_PID + ":" + pid + ","
+//                        + GeneralConfigV1.PROJECT_PID_ONSERVER + ":" + pid_onserver
 //        );
 
         dbmgrSoco = new DBManagerSoco(getActivity().getApplication());
         activity = dbmgrSoco.loadActivityByAid(pid);
         attrMap = dbmgrSoco.loadActivityAttributesByPid(pid);
 
-        dropboxApi = DropboxUtil.initDropboxApiAuthentication(
-                GeneralConfig.ACCESS_KEY, GeneralConfig.ACCESS_SECRET, GeneralConfig.OA2_TOKEN,
+        dropboxApi = DropboxUtilV1.initDropboxApiAuthentication(
+                GeneralConfigV1.ACCESS_KEY, GeneralConfigV1.ACCESS_SECRET, GeneralConfigV1.OA2_TOKEN,
                 getActivity().getApplication());
         socoApp.dropboxApi = dropboxApi;
     }
@@ -392,26 +392,26 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
                 String attr_value = entry.getValue();
                 Log.d(tag, "Current attr: " + attr_name + ", " + attr_value);
 
-                if (attr_name.equals(DataConfigObs.ATTRIBUTE_NAME_DATE)) {    //date
+                if (attr_name.equals(DataConfigV1.ATTRIBUTE_NAME_DATE)) {    //date
                     tr_spdatetime.setVisibility(View.VISIBLE);
                     tv_spdate.setVisibility(View.VISIBLE);
                     et_spdate.setVisibility(View.VISIBLE);
                     et_spdate.setText(attr_value, TextView.BufferType.EDITABLE);
-                } else if (attr_name.equals(DataConfigObs.ATTRIBUTE_NAME_TIME)) {   //time
+                } else if (attr_name.equals(DataConfigV1.ATTRIBUTE_NAME_TIME)) {   //time
                     tr_spdatetime.setVisibility(View.VISIBLE);
                     tv_sptime.setVisibility(View.VISIBLE);
                     et_sptime.setVisibility(View.VISIBLE);
                     et_sptime.setText(attr_value, TextView.BufferType.EDITABLE);
-                } else if (attr_name.equals(DataConfigObs.ATTRIBUTE_NAME_LOCNAME)) {   //locname
+                } else if (attr_name.equals(DataConfigV1.ATTRIBUTE_NAME_LOCNAME)) {   //locname
                     tr_splocation.setVisibility(View.VISIBLE);
                     et_splocation.setText(attr_value, TextView.BufferType.EDITABLE);
-                } else if (attr_name.equals(DataConfigObs.ATTRIBUTE_NAME_DESC)) {   //description
+                } else if (attr_name.equals(DataConfigV1.ATTRIBUTE_NAME_DESC)) {   //description
                     tr_spdesc.setVisibility(View.VISIBLE);
                     et_spdesc.setText(attr_value, TextView.BufferType.EDITABLE);
-                } else if (attr_name.equals(DataConfigObs.ATTRIBUTE_NAME_PHONE)) {   //phone
+                } else if (attr_name.equals(DataConfigV1.ATTRIBUTE_NAME_PHONE)) {   //phone
                     tr_spphone.setVisibility(View.VISIBLE);
                     et_spphone_auto.setText(attr_value, TextView.BufferType.EDITABLE);
-                } else if (attr_name.equals(DataConfigObs.ATTRIBUTE_NAME_EMAIL)) {   //email
+                } else if (attr_name.equals(DataConfigV1.ATTRIBUTE_NAME_EMAIL)) {   //email
                     tr_spemail.setVisibility(View.VISIBLE);
                     et_spemail_auto.setText(attr_value, TextView.BufferType.EDITABLE);
                 }
@@ -498,7 +498,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
     public void setProjectCompleted(){
         Log.i(tag, "Set project complete start");
         saveProjectToDb();
-        dbmgrSoco.updateActivityActiveness(pid, DataConfigObs.VALUE_ACTIVITY_INACTIVE);
+        dbmgrSoco.updateActivityActiveness(pid, DataConfigV1.VALUE_ACTIVITY_INACTIVE);
         Toast.makeText(getActivity(), "Project complete, well done.",
                 Toast.LENGTH_SHORT).show();
         ActivityUtil.serverArchiveActivity(String.valueOf(pid), getActivity().getApplication(), String.valueOf(pid_onserver));
@@ -523,7 +523,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
                         saveProjectToDb();
                         Log.i(tag, "New phone number saved and call: " + s);
                         HashMap<String, String> map = new HashMap<String, String>();
-                        map.put(DataConfigObs.ATTRIBUTE_NAME_PHONE, s);
+                        map.put(DataConfigV1.ATTRIBUTE_NAME_PHONE, s);
                         attrMap.add(map);
                         showProjectToScreen(activity, attrMap);
                         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + s));
@@ -537,7 +537,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
                         saveProjectToDb();
                         Log.i(tag, "New phone number saved: " + s);
                         HashMap<String, String> map = new HashMap<String, String>();
-                        map.put(DataConfigObs.ATTRIBUTE_NAME_PHONE, s);
+                        map.put(DataConfigV1.ATTRIBUTE_NAME_PHONE, s);
                         attrMap.add(map);
                         showProjectToScreen(activity, attrMap);
                     }
@@ -697,7 +697,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
                     saveProjectToDb();
                     Log.i(tag, "New email saved and send: " + s);
                     HashMap<String, String> map = new HashMap<String, String>();
-                    map.put(DataConfigObs.ATTRIBUTE_NAME_EMAIL, s);
+                    map.put(DataConfigV1.ATTRIBUTE_NAME_EMAIL, s);
                     attrMap.add(map);
                     showProjectToScreen(activity, attrMap);
                     try {
@@ -719,7 +719,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
                     saveProjectToDb();
                     Log.i(tag, "New email saved and send: " + s);
                     HashMap<String, String> map = new HashMap<String, String>();
-                    map.put(DataConfigObs.ATTRIBUTE_NAME_EMAIL, s);
+                    map.put(DataConfigV1.ATTRIBUTE_NAME_EMAIL, s);
                     attrMap.add(map);
                     showProjectToScreen(activity, attrMap);
                 }
@@ -810,7 +810,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
 //        switch(requestCode) {
 //            case (100) : {  //show more
 //                if (resultCode == Activity.RESULT_OK) {
-//                    original_pname = data.getStringExtra(GeneralConfig.ACTIVITY_NAME);
+//                    original_pname = data.getStringExtra(GeneralConfigV1.ACTIVITY_NAME);
 //                }
 //                break;
 //            }

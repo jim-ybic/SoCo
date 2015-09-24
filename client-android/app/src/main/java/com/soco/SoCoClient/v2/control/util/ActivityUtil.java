@@ -7,14 +7,14 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.obsolete.v1.control.dropbox.DropboxUtil;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.ArchiveActivityTaskAsync;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.CreateActivityTaskAsync;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.SetActivityAttributeTaskAsync;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.UpdateActivityNameTaskAsync;
-import com.soco.SoCoClient.obsolete.v1.model.Folder;
-import com.soco.SoCoClient.obsolete.v1.model.Activity;
+import com.soco.SoCoClient.v2.control.database.ref.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.dropbox.ref.DropboxUtilV1;
+import com.soco.SoCoClient.v2.control.http.task.ref.ArchiveActivityTaskAsync;
+import com.soco.SoCoClient.v2.control.http.task.ref.CreateActivityTaskAsync;
+import com.soco.SoCoClient.v2.control.http.task.ref.SetActivityAttributeTaskAsync;
+import com.soco.SoCoClient.v2.control.http.task.ref.UpdateActivityNameTaskAsync;
+import com.soco.SoCoClient.v2.model.ref.Folder;
+import com.soco.SoCoClient.v2.model.ref.Activity;
 import com.soco.SoCoClient.v2.control.http.UrlUtil;
 import com.soco.SoCoClient.v2.model.Profile;
 
@@ -46,7 +46,7 @@ public class ActivityUtil {
 
 //        HttpTask createProjectTask = new HttpTask(
 //                ProfileUtil.getCreateProjectUrl(context),
-//                HttpConfig.HTTP_TYPE_CREATE_PROJECT,
+//                HttpConfigV1.HTTP_TYPE_CREATE_PROJECT,
 //                loginEmail, loginPassword, context, pname, pid, null, null, null);
 //
 //        createProjectTask.projectSignature = projectSignature;
@@ -65,7 +65,7 @@ public class ActivityUtil {
     public static void serverArchiveActivity(String pid, Context context, String pid_onserver) {
 //        HttpTask archiveProjectTask = new HttpTask(
 //                ProfileUtil.getArchiveProjectUrl(context),
-//                HttpConfig.HTTP_TYPE_ARCHIVE_PROJECT,
+//                HttpConfigV1.HTTP_TYPE_ARCHIVE_PROJECT,
 //                null, null, context, null, pid, pid_onserver, null, null);
 //        archiveProjectTask.execute();
         Profile profile = ((SocoApp)context).profile;
@@ -79,7 +79,7 @@ public class ActivityUtil {
                                                 String pname, String pid_onserver) {
 //        HttpTask archiveProjectTask = new HttpTask(
 //                ProfileUtil.getUpdateProjectNameUrl(context),
-//                HttpConfig.HTTP_TYPE_UPDATE_PROJECT_NAME,
+//                HttpConfigV1.HTTP_TYPE_UPDATE_PROJECT_NAME,
 //                null, null, context, pname, pid, pid_onserver, null, null);
 //        archiveProjectTask.execute();
         Profile profile = ((SocoApp)context).profile;
@@ -93,7 +93,7 @@ public class ActivityUtil {
                                                   HashMap<String, String> attrMap) {
 //        HttpTask setProjectAttributeTask = new HttpTask(
 //                ProfileUtil.getSetProjectAttributeUrl(context),
-//                HttpConfig.HTTP_TYPE_SET_PROJECT_ATTRIBUTE,
+//                HttpConfigV1.HTTP_TYPE_SET_PROJECT_ATTRIBUTE,
 //                null, null, //login email/password
 //                context, pname, pid, pid_onserver, attrMap, null);
 //        setProjectAttributeTask.execute();
@@ -109,7 +109,7 @@ public class ActivityUtil {
                                          String loginEmail, String loginPassword, int pid,
                                          ContentResolver cr, DBManagerSoco dbmgrSoco) {
         String displayName = FileUtils.getDisplayName(cr, uri);
-        String remotePath = DropboxUtil.getRemotePath(uri,
+        String remotePath = DropboxUtilV1.getRemotePath(uri,
                 loginEmail, loginPassword, pid, cr);
         String localPath = FileUtils.copyFileToLocal(uri, cr);
         dbmgrSoco.addSharedFile(pid, displayName, uri, remotePath, localPath);

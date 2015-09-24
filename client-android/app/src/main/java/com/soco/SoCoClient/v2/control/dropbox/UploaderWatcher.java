@@ -7,10 +7,11 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.AddFileToActivityTaskAsync;
+import com.soco.SoCoClient.v2.control.database.ref.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.http.task.ref.AddFileToActivityTaskAsync;
+import com.soco.SoCoClient.v2.control.dropbox.ref.DropboxUtilV1;
 import com.soco.SoCoClient.v2.control.util.ActivityUtil;
 import com.soco.SoCoClient.v2.control.util.FileUtils;
 import com.soco.SoCoClient.v2.control.http.UrlUtil;
@@ -84,10 +85,10 @@ public class UploaderWatcher extends IntentService {
             Log.d(tag, "send resource details to server");
             String url = UrlUtil.getAddFileToActivityUrl(getApplicationContext());
             String displayName = FileUtils.getDisplayName(cr, uri);
-            String remotePath = com.soco.SoCoClient.obsolete.v1.control.dropbox.DropboxUtil.getRemotePath(uri,
+            String remotePath = DropboxUtilV1.getRemotePath(uri,
                     loginEmail, loginPassword, pid, cr);
-            String localPath = GeneralConfig.TEST_LOCAL_PATH;
-            String user = GeneralConfig.TEST_USER;
+            String localPath = GeneralConfigV1.TEST_LOCAL_PATH;
+            String user = GeneralConfigV1.TEST_USER;
             AddFileToActivityTaskAsync task = new AddFileToActivityTaskAsync(
                     url, pid_onserver, displayName, uri.toString(), remotePath, localPath, user);
             task.execute();

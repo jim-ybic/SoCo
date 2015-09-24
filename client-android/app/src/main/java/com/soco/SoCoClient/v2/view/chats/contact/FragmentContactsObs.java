@@ -23,10 +23,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.v2.control.config.ref.GeneralConfigV1;
 import com.soco.SoCoClient.v2.control.config.SocoApp;
-import com.soco.SoCoClient.obsolete.v1.control.config.GeneralConfig;
-import com.soco.SoCoClient.obsolete.v1.control.db.DBManagerSoco;
-import com.soco.SoCoClient.obsolete.v1.control.http.task.AddFriendTaskAsync;
+import com.soco.SoCoClient.v2.control.database.ref.DBManagerSoco;
+import com.soco.SoCoClient.v2.control.http.task.ref.AddFriendTaskAsync;
 import com.soco.SoCoClient.v2.view.sectionlist.EntryItem;
 import com.soco.SoCoClient.v2.view.sectionlist.Item;
 import com.soco.SoCoClient.v2.view.sectionlist.SectionEntryListAdapter;
@@ -86,8 +86,8 @@ public class FragmentContactsObs extends Fragment implements View.OnClickListene
 
                     //new fragment-based activity
                     Intent i = new Intent(view.getContext(), ContactDetailsActivityObs.class);
-                    i.putExtra(GeneralConfig.INTENT_KEY_NAME, name);
-                    i.putExtra(GeneralConfig.INTENT_KEY_EMAIL, email);
+                    i.putExtra(GeneralConfigV1.INTENT_KEY_NAME, name);
+                    i.putExtra(GeneralConfigV1.INTENT_KEY_EMAIL, email);
                     startActivity(i);
                 }
             }
