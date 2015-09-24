@@ -13,50 +13,123 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="5">
+            android:layout_weight="3">
+        </LinearLayout>
+        <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center_horizontal">-->
+            <!--<TextView-->
+                <!--android:text="co-"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textSize="45dp"-->
+                <!--android:textStyle="bold"-->
+                <!--android:layout_gravity="left"-->
+                <!--android:textColor="#ffff1e7a" />-->
+            <!--<TextView-->
+                <!--android:text="purpose"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textSize="45dp"-->
+                <!--android:textStyle="bold"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:textColor="#ff4167ff" />-->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_weight="1">-->
+            <!--<TextView-->
+                <!--android:text="Do great things together!"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textSize="20dp"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:textColor="#ff67c1ff" />-->
+        <!--</LinearLayout>-->
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="Social Login"
+            android:textSize="16dp"
+            android:clickable="false"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Facebook"
+                android:onClick="facebook" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Google+"
+                android:onClick="google" />
         </LinearLayout>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:gravity="center_horizontal">
-            <TextView
-                android:text="co-"
+            android:orientation="horizontal">
+            <Button
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textSize="45dp"
-                android:textStyle="bold"
-                android:layout_gravity="left"
-                android:textColor="#ffff1e7a" />
-            <TextView
-                android:text="purpose"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="WeChat"
+                android:onClick="wechat" />
+            <Button
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textSize="45dp"
-                android:textStyle="bold"
-                android:layout_gravity="right"
-                android:textColor="#ff4167ff" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="LinkedIn"
+                android:onClick="linkedin" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Twitter"
+                android:onClick="twitter" />
         </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+        </LinearLayout>
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1">
             <TextView
-                android:text="Do great things together!"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="20dp"
-                android:gravity="center_horizontal"
-                android:textColor="#ff67c1ff" />
+                android:text="-- OR --"
+                android:textSize="16dp"
+                android:clickable="false"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center" />
         </LinearLayout>
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="4">
+            android:layout_weight="1">
         </LinearLayout>
+
     </LinearLayout>
 
 
@@ -85,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/forgot_password"
+                    android:text=""
                     android:gravity="left"
                     android:textSize="16dp"
                     android:clickable="false" />
@@ -93,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/sign_up"
+                    android:text="@string/register"
                     android:gravity="right"
                     android:textSize="16dp"
                     android:clickable="false" />
@@ -155,7 +228,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"/>
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -169,10 +241,7 @@
                     android:layout_height="wrap_content"
                     android:text="Log In"
                     android:onClick="login"
-                    android:layout_weight="1"
-                    android:textSize="18dp"
-                    android:background="@drawable/blue_button"
-                    android:textColor="#fffffcfe" />
+                    android:layout_weight="1" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
@@ -202,7 +271,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/social_login"
+                    android:text="@string/forgot_password"
                     android:gravity="center_horizontal"
                     android:textSize="16dp"
                     android:clickable="false" />
