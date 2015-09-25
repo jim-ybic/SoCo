@@ -16,7 +16,36 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/personcards"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+    />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pass"
+            android:textSize="12dp"
+            android:onClick="pass"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Details"
+            android:textSize="12dp"
+            android:onClick="details"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Join"
+            android:textSize="12dp"
+            android:onClick="join"/>
+    </LinearLayout>
 
     <!--<ListView-->
         <!--android:layout_width="match_parent"-->
