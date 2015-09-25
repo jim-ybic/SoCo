@@ -17,32 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
-import com.soco.SoCoClient.control.config.DataConfig;
 //import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
-import com.soco.SoCoClient.control.database.DataLoader;
-import com.soco.SoCoClient.model._ref.Activity;
 
-import java.util.ArrayList;
-
-import com.soco.SoCoClient.model._ref.Folder;
-import com.soco.SoCoClient.model.Event;
 import com.soco.SoCoClient.view.common.andtinder.model.CardModel;
-import com.soco.SoCoClient.view.common.andtinder.model.Orientations;
 import com.soco.SoCoClient.view.common.andtinder.view.CardContainer;
 import com.soco.SoCoClient.view.common.andtinder.view.SimpleCardStackAdapter;
 import com.soco.SoCoClient.view.config.ActivityProfile;
-import com.soco.SoCoClient.view.events.activities.CompletedActivitiessActivity;
-import com.soco.SoCoClient.view.common.Item;
 import com.soco.SoCoClient.view.messages.ActivityChats;
 import com.soco.SoCoClient.view.messages.ActivityNotifications;
 
@@ -66,7 +48,7 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 
     Context context;
 
-    private CardContainer mCardContainer;
+    CardContainer mCardContainer;
 
     //new variables
 //    DataLoader dataLoader;
@@ -102,42 +84,7 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 //        events = dataLoader.loadEvents();
     }
 
-    void cardTest(View rootView){
-        Log.v(tag, "start card test");
 
-        mCardContainer = (CardContainer) rootView.findViewById(R.id.layoutview);
-
-//        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
-        Resources r = getResources();
-        SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(getActivity());
-//        adapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
-//        adapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
-//        adapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
-//        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
-
-        for(int i=1; i<=10; i++) {
-            CardModel cardModel = new CardModel("Event #" + i, "Description goes here", r.getDrawable(R.drawable.picture1));
-            cardModel.setOnClickListener(new CardModel.OnClickListener() {
-                @Override
-                public void OnClickListener() {
-                    Log.i(tag, "I am pressing the card");
-                }
-            });
-            cardModel.setOnCardDismissedListener(new CardModel.OnCardDismissedListener() {
-                @Override
-                public void onLike() {
-                    Log.i(tag, "I like the card");
-                }
-                @Override
-                public void onDislike() {
-                    Log.i(tag, "I dislike the card");
-                }
-            });
-            adapter.add(cardModel);
-        }
-        mCardContainer.setAdapter(adapter);
-        //card - end
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -266,6 +213,46 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 //        getActivity().setTitle(socoApp.currentPath);
 
         return rootView;
+    }
+
+    void cardTest(View rootView){
+        Log.v(tag, "start card test");
+
+        mCardContainer = (CardContainer) rootView.findViewById(R.id.eventcards);
+
+//        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
+        Resources r = getResources();
+        SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(getActivity());
+//        adapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
+//        adapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
+//        adapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
+//        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
+
+        for(int i=1; i<=10; i++) {
+            CardModel cardModel = new CardModel(
+                    "Event #" + i,
+                    "Description goes here",
+                    r.getDrawable(R.drawable.picture1));
+            cardModel.setOnClickListener(new CardModel.OnClickListener() {
+                @Override
+                public void OnClickListener() {
+                    Log.i(tag, "I am pressing the card");
+                }
+            });
+            cardModel.setOnCardDismissedListener(new CardModel.OnCardDismissedListener() {
+                @Override
+                public void onLike() {
+                    Log.i(tag, "I like the card");
+                }
+                @Override
+                public void onDislike() {
+                    Log.i(tag, "I dislike the card");
+                }
+            });
+            adapter.add(cardModel);
+        }
+        mCardContainer.setAdapter(adapter);
+        //card - end
     }
 
 //    void findViewItems(View rootView){

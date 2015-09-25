@@ -4,6 +4,7 @@ package com.soco.SoCoClient.view.friends;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,20 +14,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
-import com.soco.SoCoClient.control.config.DataConfig;
-import com.soco.SoCoClient.control.config.SocoApp;
 import com.soco.SoCoClient.control.database.DataLoader;
-import com.soco.SoCoClient.model.Profile;
 import com.soco.SoCoClient.model.conversation.SingleConversation;
+import com.soco.SoCoClient.view.common.andtinder.model.CardModel;
+import com.soco.SoCoClient.view.common.andtinder.view.CardContainer;
+import com.soco.SoCoClient.view.common.andtinder.view.SimpleCardStackAdapter;
 import com.soco.SoCoClient.view.config.ActivityProfile;
 import com.soco.SoCoClient.view.friends.contact.ActivityAllFriends;
-import com.soco.SoCoClient.view.common.Item;
-import com.soco.SoCoClient.view.common.SectionEntryListAdapter;
 import com.soco.SoCoClient.view.messages.ActivityChats;
 import com.soco.SoCoClient.view.messages.ActivityNotifications;
 
@@ -51,6 +47,8 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
     DataLoader dataLoader;
     ArrayList<SingleConversation> singleConversations;
 
+    CardContainer mCardContainer;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +68,8 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
 
         Log.v(tag, "create fragment view.....");
         rootView = inflater.inflate(R.layout.fragment_suggested_friends, container, false);
+
+        cardTest(rootView);
 
 //        singleConversations = dataLoader.loadSingleConversations();
 //        showConversations(singleConversations);
@@ -101,6 +101,46 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
 //        listContacts();
 
         return rootView;
+    }
+
+    void cardTest(View rootView){
+        Log.v(tag, "start card test");
+
+        mCardContainer = (CardContainer) rootView.findViewById(R.id.personcards);
+
+//        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
+        Resources r = getResources();
+        SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(getActivity());
+//        adapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
+//        adapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
+//        adapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
+//        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
+
+        for(int i=1; i<=10; i++) {
+            CardModel cardModel = new CardModel(
+                    "Person #" + i,
+                    "Description goes here",
+                    r.getDrawable(R.drawable.picture3));
+            cardModel.setOnClickListener(new CardModel.OnClickListener() {
+                @Override
+                public void OnClickListener() {
+                    Log.i(tag, "I am pressing the card");
+                }
+            });
+            cardModel.setOnCardDismissedListener(new CardModel.OnCardDismissedListener() {
+                @Override
+                public void onLike() {
+                    Log.i(tag, "I like the card");
+                }
+                @Override
+                public void onDislike() {
+                    Log.i(tag, "I dislike the card");
+                }
+            });
+            adapter.add(cardModel);
+        }
+        mCardContainer.setAdapter(adapter);
+        //card - end
     }
 
 //    public void updateContactName(final String email) {
