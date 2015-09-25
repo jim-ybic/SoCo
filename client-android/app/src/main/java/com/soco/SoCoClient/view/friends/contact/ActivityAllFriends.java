@@ -85,7 +85,7 @@ public class ActivityAllFriends extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_all_friends, menu);
+        getMenuInflater().inflate(R.menu.menu_activity_all_friends, menu);
         return true;
     }
 

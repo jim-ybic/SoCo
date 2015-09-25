@@ -92,7 +92,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
                              Bundle savedInstanceState) {
 
         Log.d(tag, "on create view");
-        rootView = inflater.inflate(R.layout.v1_fragment_activity_details, container, false);
+        rootView = inflater.inflate(R.layout.fragment_activity_details, container, false);
         Log.d(tag, "Found root view: " + rootView);
 
         findViewsById();
@@ -178,7 +178,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
     public void PopulatePhoneEmailList(){
         Log.i(tag, "Populate phone list");
         listNamePhone = socoApp.loadNamePhoneList();
-        mAdapterPhone = new SimpleAdapter(getActivity(), listNamePhone, R.layout.v1_custcontview,
+        mAdapterPhone = new SimpleAdapter(getActivity(), listNamePhone, R.layout.custcontview,
                 new String[] { "Key", "Value" },
                 new int[] { R.id.auto_key, R.id.auto_value});
         et_spphone_auto.setAdapter(mAdapterPhone);
@@ -193,7 +193,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
 
         Log.i(tag, "Populate email list");
         listNameEmail = socoApp.loadNameEmailList();
-        mAdapterEmail = new SimpleAdapter(getActivity(), listNameEmail, R.layout.v1_custcontview,
+        mAdapterEmail = new SimpleAdapter(getActivity(), listNameEmail, R.layout.custcontview,
                 new String[] { "Key", "Value" },
                 new int[] { R.id.auto_key, R.id.auto_value});
         et_spemail_auto.setAdapter(mAdapterEmail);

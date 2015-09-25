@@ -37,7 +37,7 @@ public class TestActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.v2_activity_test);
+        setContentView(R.layout.activity_test);
 
         context = getApplicationContext();
         dataLoader = new DataLoader(context);

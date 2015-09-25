@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.soco.SoCoClient.view.events.ActivityAllEvents">
 
+    <!--primary functions-->
     <item
         android:id="@+id/search"
         android:title="Search"
@@ -10,6 +11,7 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_action_search"/>
 
+    <!--secondary functions-->
     <item
         android:id="@+id/profile"
         android:title="Profile"
@@ -18,14 +20,20 @@
         android:icon="@drawable/ic_action_user"/>
 
     <item
-        android:id="@+id/item1"
-        android:title="item1"
+        android:id="@+id/notifications"
+        android:title="Notifications"
         android:orderInCategory="100"
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/item2"
-        android:title="item2"
+        android:id="@+id/chats"
+        android:title="Chats"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/settings"
+        android:title="Settings"
         android:orderInCategory="100"
         app:showAsAction="never"/>
 

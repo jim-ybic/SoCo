@@ -42,18 +42,18 @@ import com.soco.SoCoClient.view.messages.ActivityNotifications;
 
 public class FragmentSelectedEvents extends Fragment implements View.OnClickListener {
 
-    static String tag = "EventsFragment";
+    static String tag = "SelectedEvents";
 
     //local variable
-    ListView lv_active_programs;
-    EditText et_quick_add;
+//    ListView lv_active_programs;
+//    EditText et_quick_add;
 
     // Local variable
-    private DBManagerSoco dbmgrSoco;
-    private ArrayList<Activity> activities;
-    private String loginEmail, loginPassword;
-    ArrayList<Item> allListItems;
-    ArrayList<Folder> folders; //name, desc
+//    private DBManagerSoco dbmgrSoco;
+//    private ArrayList<Activity> activities;
+//    private String loginEmail, loginPassword;
+//    ArrayList<Item> allListItems;
+//    ArrayList<Folder> folders; //name, desc
 
     View rootView;
 //    SocoApp socoApp;
@@ -61,8 +61,8 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
     Context context;
 
     //new variables
-    DataLoader dataLoader;
-    ArrayList<Event> events;
+//    DataLoader dataLoader;
+//    ArrayList<Event> events;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,8 +87,8 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 //        folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
 
         //new code
-        dataLoader = new DataLoader(context);
-        events = dataLoader.loadEvents();
+//        dataLoader = new DataLoader(context);
+//        events = dataLoader.loadEvents();
     }
 
 
@@ -101,7 +101,7 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
         rootView = inflater.inflate(R.layout.fragment_selected_events, container, false);
 //        Log.d(tag, "Found root view: " + rootView);
 
-        findViewItems(rootView);
+//        findViewItems(rootView);
 
         //set button listeners
 //        rootView.findViewById(R.id.add).setOnClickListener(this);
@@ -110,63 +110,63 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 //        rootView.findViewById(R.id.exit).setOnClickListener(this);
 
 //        refreshList();
-        show(events);
+//        show(events);
 
-        lv_active_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @SuppressWarnings("unchecked")
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if(allListItems.get(position).getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_ENTRY)) {
-
-                //new code start
-                Event e = events.get(position);
-                Log.d(tag, "tap on event: " + e.toString());
-
-                Intent i = new Intent(view.getContext(), ActivityEventDetail.class);
-                i.putExtra(DataConfig.EXTRA_EVENT_SEQ, e.getSeq());
-                startActivityForResult(i, DataConfig.INTENT_SHOW_EVENT_DETAIL);
-                //new code end
-
-//                    EntryItem ei = (EntryItem) allListItems.get(position);
-//                    Log.d(tag, "You clicked on activity: " + ei.name);
+//        lv_active_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @SuppressWarnings("unchecked")
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+////                if(allListItems.get(position).getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_ENTRY)) {
 //
-//                    String name = ei.name;
-//                    int pid = ActivityUtil.findPidByPname(activities, name);
-//                    socoApp.pid = pid;
-//                    String pid_onserver = dbmgrSoco.findActivityIdOnserver(pid);
-//                    if(pid_onserver == null)
-//                        Log.e(tag, "cannot find activity remote id ");
-//                    else
-//                        socoApp.pid_onserver = Integer.parseInt(pid_onserver);
-//                    Log.i(tag, "pid/pid_onserver: " + pid + ", " + pid_onserver);
-
-                    //new fragment-based activity
-//                    Intent i = new Intent(view.getContext(), SingleActivityActivity.class);
-//                    startActivityForResult(i, com.soco.SoCoClient.control.config.DataConfigV1.INTENT_SHOW_EVENT_DETAIL);
-
-
-
-//                }
-//                else if(allListItems.get(position).getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_FOLDER)) {
-//                    FolderItem fi = (FolderItem) allListItems.get(position);
-//                    Log.d(tag, "You clicked on folder: " + fi.name);
+//                //new code start
+//                Event e = events.get(position);
+//                Log.d(tag, "tap on event: " + e.toString());
 //
-//                    socoApp.currentPath += fi.name + "/";
-//                    Log.d(tag, "reload activities and folders from new current path " + socoApp.currentPath);
-//                    activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
-//                    folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
-//                    refreshList();
+//                Intent i = new Intent(view.getContext(), ActivityEventDetail.class);
+//                i.putExtra(DataConfig.EXTRA_EVENT_SEQ, e.getSeq());
+//                startActivityForResult(i, DataConfig.INTENT_SHOW_EVENT_DETAIL);
+//                //new code end
 //
-//                    if(socoApp.currentPath.equals(GeneralConfigV1.PATH_ROOT))
-//                        getActivity().setTitle("Dashboard");
-//                    else
-//                        getActivity().setTitle(fi.name);
-//                }
-            }
-        });
+////                    EntryItem ei = (EntryItem) allListItems.get(position);
+////                    Log.d(tag, "You clicked on activity: " + ei.name);
+////
+////                    String name = ei.name;
+////                    int pid = ActivityUtil.findPidByPname(activities, name);
+////                    socoApp.pid = pid;
+////                    String pid_onserver = dbmgrSoco.findActivityIdOnserver(pid);
+////                    if(pid_onserver == null)
+////                        Log.e(tag, "cannot find activity remote id ");
+////                    else
+////                        socoApp.pid_onserver = Integer.parseInt(pid_onserver);
+////                    Log.i(tag, "pid/pid_onserver: " + pid + ", " + pid_onserver);
+//
+//                    //new fragment-based activity
+////                    Intent i = new Intent(view.getContext(), SingleActivityActivity.class);
+////                    startActivityForResult(i, com.soco.SoCoClient.control.config.DataConfigV1.INTENT_SHOW_EVENT_DETAIL);
+//
+//
+//
+////                }
+////                else if(allListItems.get(position).getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_FOLDER)) {
+////                    FolderItem fi = (FolderItem) allListItems.get(position);
+////                    Log.d(tag, "You clicked on folder: " + fi.name);
+////
+////                    socoApp.currentPath += fi.name + "/";
+////                    Log.d(tag, "reload activities and folders from new current path " + socoApp.currentPath);
+////                    activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
+////                    folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
+////                    refreshList();
+////
+////                    if(socoApp.currentPath.equals(GeneralConfigV1.PATH_ROOT))
+////                        getActivity().setTitle("Dashboard");
+////                    else
+////                        getActivity().setTitle(fi.name);
+////                }
+//            }
+//        });
 
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
+//        rootView.setFocusableInTouchMode(true);
+//        rootView.requestFocus();
 //        rootView.setOnKeyListener(new View.OnKeyListener() {
 //            @Override
 //            public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -220,12 +220,12 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
         return rootView;
     }
 
-    void findViewItems(View rootView){
-        lv_active_programs = (ListView) rootView.findViewById(R.id.lv_active_programs);
-        et_quick_add = ((EditText)rootView.findViewById(R.id.et_quickadd));
-
-        rootView.findViewById(R.id.add).setOnClickListener(this);
-    }
+//    void findViewItems(View rootView){
+//        lv_active_programs = (ListView) rootView.findViewById(R.id.all_events);
+//        et_quick_add = ((EditText)rootView.findViewById(R.id.et_quickadd));
+//
+//        rootView.findViewById(R.id.add).setOnClickListener(this);
+//    }
 
 //    ArrayList<Item> getTestingItems(){
 //        ArrayList<Item> items = new ArrayList<>();
@@ -418,25 +418,25 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 //        lv_active_programs.setAdapter(activitiesAdapter);
 //    }
 
-    public void show(ArrayList<Event> events) {
-        Log.v(tag, "show events to ui");
-        allListItems = new ArrayList<>();
+//    public void show(ArrayList<Event> events) {
+//        Log.v(tag, "show events to ui");
+//        allListItems = new ArrayList<>();
+//
+//        for(Event e : events){
+//            allListItems.add(new EventListEntryItem(e.getName(), e.getDesc(), e.getDate()));
+//        }
+//
+////        Log.d(tag, "refresh UI");
+//        EventListAdapter adapter = new EventListAdapter(getActivity(), allListItems);
+//        lv_active_programs.setAdapter(adapter);
+//    }
 
-        for(Event e : events){
-            allListItems.add(new EventListEntryItem(e.getName(), e.getDesc(), e.getDate()));
-        }
-
-//        Log.d(tag, "refresh UI");
-        EventListAdapter adapter = new EventListAdapter(getActivity(), allListItems);
-        lv_active_programs.setAdapter(adapter);
-    }
-
-    public void showCompletedProjects() {
-        Intent intent = new Intent(getActivity(), CompletedActivitiessActivity.class);
-        intent.putExtra(GeneralConfigV1.LOGIN_EMAIL, loginEmail);
-        intent.putExtra(GeneralConfigV1.LOGIN_PASSWORD, loginPassword);
-        startActivity(intent);
-    }
+//    public void showCompletedProjects() {
+//        Intent intent = new Intent(getActivity(), CompletedActivitiessActivity.class);
+//        intent.putExtra(GeneralConfigV1.LOGIN_EMAIL, loginEmail);
+//        intent.putExtra(GeneralConfigV1.LOGIN_PASSWORD, loginPassword);
+//        startActivity(intent);
+//    }
 
 //    public void exit(View view) {
 //        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivityV1.class);
@@ -445,25 +445,25 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 //        startActivity(intent);
 //    }
 
-    public void add(){
-        String name = et_quick_add.getText().toString();
-        Log.d(tag, "quick add event: " + name);
-
-        Log.v(tag, "create new event");
-        Event e = new Event(getActivity().getApplicationContext());
-        e.setName(name);
-//        e.addContext(context);
-        e.save();
-
-        DataLoader dataLoader = new DataLoader(context);
-        events = dataLoader.loadEvents();
-        show(events);
-
-        //clean up
-        et_quick_add.setText("", TextView.BufferType.EDITABLE);
-        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow((rootView.findViewById(R.id.et_quickadd)).getWindowToken(), 0);
-    }
+//    public void add(){
+//        String name = et_quick_add.getText().toString();
+//        Log.d(tag, "quick add event: " + name);
+//
+//        Log.v(tag, "create new event");
+//        Event e = new Event(getActivity().getApplicationContext());
+//        e.setName(name);
+////        e.addContext(context);
+//        e.save();
+//
+//        DataLoader dataLoader = new DataLoader(context);
+//        events = dataLoader.loadEvents();
+//        show(events);
+//
+//        //clean up
+//        et_quick_add.setText("", TextView.BufferType.EDITABLE);
+//        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow((rootView.findViewById(R.id.et_quickadd)).getWindowToken(), 0);
+//    }
 
     public void onResume() {
         super.onResume();
@@ -471,17 +471,17 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 //        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigV1.VALUE_ACTIVITY_ACTIVE);
 //        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
 //        refreshList();
-        events = dataLoader.loadEvents();
-        show(events);
+//        events = dataLoader.loadEvents();
+//        show(events);
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.add:
-                add();
-                break;
+//        switch (v.getId()) {
+//            case R.id.add:
+//                add();
+//                break;
 //            case R.id.create:
 //                createActivity();
 //                break;
@@ -491,7 +491,7 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 //            case R.id.home:
 //                Log.d(tag, "click on home");
 //                break;
-        }
+//        }
     }
 
 

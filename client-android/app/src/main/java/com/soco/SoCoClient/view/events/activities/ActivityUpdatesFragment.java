@@ -60,7 +60,7 @@ public class ActivityUpdatesFragment extends Fragment implements View.OnClickLis
                              Bundle savedInstanceState) {
 
         Log.d(tag, "create project updates fragment view");
-        rootView = inflater.inflate(R.layout.v1_fragment_activity_updates, container, false);
+        rootView = inflater.inflate(R.layout.fragment_activity_updates, container, false);
         lv_updates = (ListView) rootView.findViewById(R.id.list_comments);
 
         rootView.findViewById(R.id.send).setOnClickListener(this);

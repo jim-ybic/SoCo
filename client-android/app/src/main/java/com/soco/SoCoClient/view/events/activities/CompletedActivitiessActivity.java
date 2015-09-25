@@ -39,7 +39,7 @@ public class CompletedActivitiessActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.v1_activity_show_completed_activities);
+        setContentView(R.layout.activity_show_completed_activities);
         findViewsById();
 
         Intent intent = getIntent();

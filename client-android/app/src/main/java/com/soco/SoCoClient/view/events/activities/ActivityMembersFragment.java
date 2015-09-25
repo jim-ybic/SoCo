@@ -70,7 +70,7 @@ public class ActivityMembersFragment extends Fragment implements View.OnClickLis
                              Bundle savedInstanceState) {
 
         Log.d(tag, "create project members fragment view");
-        rootView = inflater.inflate(R.layout.v1_fragment_activity_members, container, false);
+        rootView = inflater.inflate(R.layout.fragment_activity_members, container, false);
 
 //        rootView.findViewById(R.id.bt_add).setOnClickListener(this);
         listMembers();

@@ -42,7 +42,7 @@ public class ContactDetailsActivityObs extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.v1_activity_contact_details);
+        setContentView(R.layout.activity_contact_details);
 
         socoApp = (SocoApp)getApplication();
         dbManagerSoco = socoApp.dbManagerSoco;

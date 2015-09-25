@@ -12,34 +12,34 @@
         android:text="this page is for 'selected events'"
         android:textColor="@android:color/black" />
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow>
-            <EditText
-                android:id="@+id/et_quickadd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Quick Add New Event"
-                android:layout_weight="1"
-                android:autoText="true"
-                android:textColor="#232323"
-                android:textColorHint="#909090" />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+"
-                android:textSize="25dp"
-                android:onClick="add"
-                android:id="@+id/add" />
-        </TableRow>
-    </TableLayout>
+    <!--<TableLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<TableRow>-->
+            <!--<EditText-->
+                <!--android:id="@+id/et_quickadd"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Quick Add New Event"-->
+                <!--android:layout_weight="1"-->
+                <!--android:autoText="true"-->
+                <!--android:textColor="#232323"-->
+                <!--android:textColorHint="#909090" />-->
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="+"-->
+                <!--android:textSize="25dp"-->
+                <!--android:onClick="add"-->
+                <!--android:id="@+id/add" />-->
+        <!--</TableRow>-->
+    <!--</TableLayout>-->
 
-    <ListView
-        android:id="@+id/lv_active_programs"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+    <!--<ListView-->
+        <!--android:id="@+id/all_events"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"/>-->
 
     <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->

@@ -70,7 +70,7 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
                              Bundle savedInstanceState) {
 
         Log.d(tag, "create activity resources fragment view");
-        rootView = inflater.inflate(R.layout.v1_fragment_activity_resources, container, false);
+        rootView = inflater.inflate(R.layout.fragment_activity_resources, container, false);
 //        if(rootView == null)
 //            Log.e(tag, "cannot find rootview");
 //        else
