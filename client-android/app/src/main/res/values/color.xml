@@ -27,4 +27,7 @@
         <item>@color/darkred</item>
     </integer-array>
 
+    <color name="card_bg">#EBEBEB</color>
+    <color name="card_outline">#D0D0CE</color>
+
 </resources> 
