@@ -25,7 +25,7 @@ public class Dashboard extends ActionBarActivity implements
             "Events",
             "Friends",
 //            "Stream",
-            "Messages"
+//            "Messages"
     };
 
     @Override

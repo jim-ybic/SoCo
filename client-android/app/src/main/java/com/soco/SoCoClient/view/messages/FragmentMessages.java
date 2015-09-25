@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.SocoApp;
-import com.soco.SoCoClient.view.config.ProfileActivity;
+import com.soco.SoCoClient.view.config.ActivityProfile;
 
 public class FragmentMessages extends Fragment implements View.OnClickListener {
 
@@ -24,6 +24,13 @@ public class FragmentMessages extends Fragment implements View.OnClickListener {
 
     int pid, pid_onserver;
     SocoApp socoApp;
+
+    /** An array of strings to populate dropdown list */
+//    String[] actions = new String[] {
+//            "Bookmark",
+//            "Subscribe",
+//            "Share"
+//    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,26 @@ public class FragmentMessages extends Fragment implements View.OnClickListener {
         pid_onserver = socoApp.pid_onserver;
         Log.d(tag, "pid is " + pid + ", pid_onserver is " + pid_onserver);
 
+//        //drop down navigation - start
+//        /** Create an array adapter to populate dropdownlist */
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item, actions);
+//
+//        /** Enabling dropdown list navigation for the action bar */
+//        ((ActionBarActivity)getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//
+//        /** Defining Navigation listener */
+//        android.support.v7.app.ActionBar.OnNavigationListener navigationListener = new android.support.v7.app.ActionBar.OnNavigationListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+//                Toast.makeText(getActivity().getBaseContext(), "You selected : " + actions[itemPosition], Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
+//        };
+//
+//        /** Setting dropdown items and item navigation listener for the actionbar */
+//        ((ActionBarActivity)getActivity()).getSupportActionBar().setListNavigationCallbacks(
+//                adapter, navigationListener);
+//        //drop down navigation - end
     }
 
     @Override
@@ -66,7 +93,7 @@ public class FragmentMessages extends Fragment implements View.OnClickListener {
         int id = item.getItemId();
         if (id == R.id.profile) {
             Log.i("setting", "Click on Profile.");
-            Intent intent = new Intent(getActivity().getApplicationContext(), ProfileActivity.class);
+            Intent intent = new Intent(getActivity().getApplicationContext(), ActivityProfile.class);
 //            intent.putExtra(GeneralConfigV1.LOGIN_EMAIL, loginEmail);
 //            intent.putExtra(GeneralConfigV1.LOGIN_PASSWORD, loginPassword);
             startActivity(intent);

@@ -16,7 +16,7 @@ import com.soco.SoCoClient.view.LoginActivity;
 import com.soco.SoCoClient.model.Profile;
 
 
-public class ProfileActivity extends ActionBarActivity {
+public class ActivityProfile extends ActionBarActivity {
     static String tag = "ProfileActivity";
 //    static String EMPTY_STRING = "";
 

@@ -78,14 +78,14 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".view.config.ProfileActivity"
+            android:name=".view.config.ActivityProfile"
             android:label="@string/title_activity_profile"
             android:parentActivityName=".view.Dashboard" >
         </activity>
-        <activity
-            android:name=".view._ref.LoginActivityV1$ServerConfigActivity"
-            android:label="@string/title_activity_server_config" >
-        </activity>
+        <!--<activity-->
+            <!--android:name=".view._ref.LoginActivityV1$ServerConfigActivity"-->
+            <!--android:label="@string/title_activity_server_config" >-->
+        <!--</activity>-->
 
         <service
             android:name=".control.dropbox.UploaderWatcher"
@@ -129,7 +129,6 @@
             android:label="@string/title_activity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -172,6 +171,16 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.Dashboard" />
+        </activity>
+        <activity
+            android:name=".view.messages.ActivityNotifications"
+            android:label="@string/title_activity_activity_notifications"
+            android:parentActivityName=".view.Dashboard" >
+        </activity>
+        <activity
+            android:name=".view.messages.ActivityChats"
+            android:label="@string/title_activity_activity_chats"
+            android:parentActivityName=".view.Dashboard" >
         </activity>
     </application>
 

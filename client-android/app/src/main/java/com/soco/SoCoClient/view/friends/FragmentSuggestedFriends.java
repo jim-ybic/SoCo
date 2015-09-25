@@ -23,15 +23,18 @@ import com.soco.SoCoClient.control.config.SocoApp;
 import com.soco.SoCoClient.control.database.DataLoader;
 import com.soco.SoCoClient.model.Profile;
 import com.soco.SoCoClient.model.conversation.SingleConversation;
+import com.soco.SoCoClient.view.config.ActivityProfile;
 import com.soco.SoCoClient.view.friends.contact.ActivityAllFriends;
 import com.soco.SoCoClient.view.common.Item;
 import com.soco.SoCoClient.view.common.SectionEntryListAdapter;
+import com.soco.SoCoClient.view.messages.ActivityChats;
+import com.soco.SoCoClient.view.messages.ActivityNotifications;
 
 import java.util.ArrayList;
 
-public class FragmentFriends extends Fragment implements View.OnClickListener {
+public class FragmentSuggestedFriends extends Fragment implements View.OnClickListener {
 
-    String tag = "FragmentFriends";
+    static String tag = "SuggestedFriends";
 
 
 //    int pid;
@@ -67,7 +70,7 @@ public class FragmentFriends extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         Log.v(tag, "create fragment view.....");
-        rootView = inflater.inflate(R.layout.fragment_friends, container, false);
+        rootView = inflater.inflate(R.layout.fragment_suggested_friends, container, false);
 
         singleConversations = dataLoader.loadSingleConversations();
         showConversations(singleConversations);
@@ -174,7 +177,7 @@ public class FragmentFriends extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_friends, menu);
+        inflater.inflate(R.menu.menu_activity_suggested_friends, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -231,10 +234,28 @@ public class FragmentFriends extends Fragment implements View.OnClickListener {
 //            Log.d(tag, "tap menu item: create");
 ////            addContact();
 //        }
-        if (id == R.id.contacts) {
+
+        //primary function
+        if (id == R.id.friends) {
             Log.d(tag, "tap menu item: contacts");
-//            addContact();
             Intent i = new Intent(getActivity(), ActivityAllFriends.class);
+            startActivity(i);
+        }
+
+        //secondary functions
+        else if (id == R.id.profile){
+            Log.d(tag, "click on menu: profile");
+            Intent i = new Intent(getActivity().getApplicationContext(), ActivityProfile.class);
+            startActivity(i);
+        }
+        else if (id == R.id.notifications){
+            Log.d(tag, "click on menu: notifications");
+            Intent i = new Intent(getActivity().getApplicationContext(), ActivityNotifications.class);
+            startActivity(i);
+        }
+        else if (id == R.id.chats){
+            Log.d(tag, "click on menu: chats");
+            Intent i = new Intent(getActivity().getApplicationContext(), ActivityChats.class);
             startActivity(i);
         }
 

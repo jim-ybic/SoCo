@@ -79,7 +79,7 @@ public class ActivityAllFriends extends ActionBarActivity {
     }
 
     void findViewItems(){
-        contactList = (ListView) findViewById(R.id.contacts);
+        contactList = (ListView) findViewById(R.id.friends);
         registerForContextMenu(contactList);
     }
 

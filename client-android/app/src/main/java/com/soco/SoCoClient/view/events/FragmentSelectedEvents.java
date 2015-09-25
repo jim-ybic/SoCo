@@ -34,8 +34,11 @@ import java.util.ArrayList;
 
 import com.soco.SoCoClient.model._ref.Folder;
 import com.soco.SoCoClient.model.Event;
+import com.soco.SoCoClient.view.config.ActivityProfile;
 import com.soco.SoCoClient.view.events.activities.CompletedActivitiessActivity;
 import com.soco.SoCoClient.view.common.Item;
+import com.soco.SoCoClient.view.messages.ActivityChats;
+import com.soco.SoCoClient.view.messages.ActivityNotifications;
 
 public class FragmentSelectedEvents extends Fragment implements View.OnClickListener {
 
@@ -252,7 +255,7 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_selected_events, menu);
+        inflater.inflate(R.menu.menu_activity_selected_events, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -272,9 +275,27 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 //        else if (id == R.id.add) {
 //            createActivity(null);
 //        }
+
+        //primary function
         if (id == R.id.events){
             Log.d(tag, "click on menu: all events");
             Intent i = new Intent(getActivity().getApplicationContext(), ActivityAllEvents.class);
+            startActivity(i);
+        }
+        //secondary functions
+        else if (id == R.id.profile){
+            Log.d(tag, "click on menu: profile");
+            Intent i = new Intent(getActivity().getApplicationContext(), ActivityProfile.class);
+            startActivity(i);
+        }
+        else if (id == R.id.notifications){
+            Log.d(tag, "click on menu: notifications");
+            Intent i = new Intent(getActivity().getApplicationContext(), ActivityNotifications.class);
+            startActivity(i);
+        }
+        else if (id == R.id.chats){
+            Log.d(tag, "click on menu: chats");
+            Intent i = new Intent(getActivity().getApplicationContext(), ActivityChats.class);
             startActivity(i);
         }
 

@@ -10,14 +10,15 @@
         <!--app:showAsAction="always"-->
         <!--android:icon="@drawable/ic_action_search"/>-->
 
+    <!--primary functions-->
     <item
-        android:id="@+id/contacts"
-        android:title="Contacts"
+        android:id="@+id/friends"
+        android:title="All Friends"
         android:orderInCategory="100"
         app:showAsAction="always"
         android:icon="@drawable/ic_action_group_white"/>
 
-
+    <!--secondary functions-->
     <item
         android:id="@+id/profile"
         android:title="Profile"
@@ -26,15 +27,22 @@
         android:icon="@drawable/ic_action_user"/>
 
     <item
-        android:id="@+id/item1"
-        android:title="item1"
+        android:id="@+id/notifications"
+        android:title="Notifications"
         android:orderInCategory="100"
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/item2"
-        android:title="item2"
+        android:id="@+id/chats"
+        android:title="Chats"
         android:orderInCategory="100"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/settings"
+        android:title="Settings"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
 
 </menu>

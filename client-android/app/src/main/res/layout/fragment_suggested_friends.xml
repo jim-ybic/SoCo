@@ -7,7 +7,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="this page is for 'selected friends'"/>
+        android:text="this page is for &apos;suggested friends&apos;"
+        android:textColor="@android:color/black" />
 
     <ListView
         android:layout_width="match_parent"
