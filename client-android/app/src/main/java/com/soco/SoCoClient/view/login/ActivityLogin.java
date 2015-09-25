@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.view;
+package com.soco.SoCoClient.view.login;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -31,6 +31,7 @@ import com.soco.SoCoClient.control.http.UrlUtil;
 import com.soco.SoCoClient.model.Profile;
 
 import com.facebook.FacebookSdk;
+import com.soco.SoCoClient.view.Dashboard;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +40,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class ActivityLogin extends ActionBarActivity {
 
     public static String tag = "LoginActivity";
 
@@ -130,7 +131,7 @@ public class LoginActivity extends ActionBarActivity {
         Log.i(tag, "Get saved login email/password/token: "
                 + savedLoginEmail + ", " + savedLoginPassword + ", " + savedLoginAccessToken);
 
-        savedLoginAccessToken = "go"; //testing - used to bypass login screen
+        savedLoginAccessToken = ""; //testing - used to bypass login screen
 
         if(!savedLoginAccessToken.isEmpty()) {
             Log.i(tag, "Saved login access token can be used, skip login screen");
@@ -204,6 +205,7 @@ public class LoginActivity extends ActionBarActivity {
 //        startActivity(intent);
 //    }
 
+
     public void loginNormal (View view) {
         loginEmail = et_login_email.getText().toString();
         loginPassword = et_login_password.getText().toString();
@@ -264,7 +266,17 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
+    public void forgotpassword (View view) {
+        Intent i = new Intent(getApplicationContext(), ActivityForgotPassword.class);
+        startActivity(i);
+    }
+
     public void register (View view) {
+        Intent i = new Intent(getApplicationContext(), ActivityRegister.class);
+        startActivity(i);
+    }
+
+    public void registerV1 (View view) {
         loginEmail = et_login_email.getText().toString();
         loginPassword = et_login_password.getText().toString();
 

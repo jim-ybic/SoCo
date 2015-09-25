@@ -31,7 +31,7 @@
     <string name="title_show_active_activities">Agenda</string>
     <!-- <string name="title_activity_show_single_project_new">ShowSingleProjectNewActivity</string> -->
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_dashboard">Friend\'s Events</string>
     <string name="title_activity_contact_details">Contact</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_test">TestActivity</string>
@@ -45,5 +45,10 @@
     <string name="title_activity_activity_all_events">All Events</string>
     <string name="title_activity_activity_notifications">Notifications</string>
     <string name="title_activity_activity_chats">Chats</string>
+    <string name="title_activity_activity_register">Register</string>
+    <string name="title_activity_activity_forgot_password">Forgot Password?</string>
+
+    <string name="termsconditions"><u>Terms and Conditions</u></string>
+    <string name="privacypolicy"><u>Privacy Policy</u></string>
 
 </resources>

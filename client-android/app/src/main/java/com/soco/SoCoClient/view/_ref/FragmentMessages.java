@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.view.messages;
+package com.soco.SoCoClient.view._ref;
 
 //import info.androidhive.tabsswipe.R;
 

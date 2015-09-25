@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
@@ -256,6 +257,11 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_activity_selected_events, menu);
+
+//        RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.badge).getActionView();
+//        TextView tv = (TextView) badgeLayout.findViewById(R.id.actionbar_notifcation_textview);
+//        tv.setText("12");
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 

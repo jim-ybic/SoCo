@@ -82,10 +82,10 @@
             android:label="@string/title_activity_profile"
             android:parentActivityName=".view.Dashboard" >
         </activity>
-        <!--<activity-->
-            <!--android:name=".view._ref.LoginActivityV1$ServerConfigActivity"-->
-            <!--android:label="@string/title_activity_server_config" >-->
-        <!--</activity>-->
+        <!-- <activity -->
+        <!-- android:name=".view._ref.LoginActivityV1$ServerConfigActivity" -->
+        <!-- android:label="@string/title_activity_server_config" > -->
+        <!-- </activity> -->
 
         <service
             android:name=".control.dropbox.UploaderWatcher"
@@ -125,10 +125,11 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".view.login.ActivityLogin"
             android:label="@string/title_activity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -181,6 +182,22 @@
             android:name=".view.messages.ActivityChats"
             android:label="@string/title_activity_activity_chats"
             android:parentActivityName=".view.Dashboard" >
+        </activity>
+        <activity
+            android:name=".view.login.ActivityRegister"
+            android:label="@string/title_activity_activity_register"
+            android:parentActivityName=".view.login.ActivityLogin" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.login.ActivityLogin" />
+        </activity>
+        <activity
+            android:name=".view.login.ActivityForgotPassword"
+            android:label="@string/title_activity_activity_forgot_password"
+            android:parentActivityName=".view.login.ActivityLogin" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.login.ActivityLogin" />
         </activity>
     </application>
 

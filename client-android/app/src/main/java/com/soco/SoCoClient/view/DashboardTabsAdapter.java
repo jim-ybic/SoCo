@@ -8,7 +8,6 @@ import android.util.Log;
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.view.friends.FragmentSuggestedFriends;
 import com.soco.SoCoClient.view.events.FragmentSelectedEvents;
-import com.soco.SoCoClient.view.messages.FragmentMessages;
 
 public class DashboardTabsAdapter extends FragmentPagerAdapter {
 
