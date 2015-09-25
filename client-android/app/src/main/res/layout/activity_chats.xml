@@ -7,12 +7,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="this page is for 'suggested friends'"
+        android:text="this page is for 'chats'"
         android:textColor="@android:color/black" />
 
-    <!--<ListView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/conversations" />-->
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/conversations" />
 
 </LinearLayout>

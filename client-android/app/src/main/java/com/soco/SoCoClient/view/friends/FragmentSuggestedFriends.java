@@ -39,11 +39,11 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
 
 //    int pid;
 //    String pid_onserver;
-    SocoApp socoApp;
-    Profile profile;
-    DBManagerSoco dbManagerSoco;
-    ArrayList<Item> contactItems;
-    SectionEntryListAdapter contactsAdapter;
+//    SocoApp socoApp;
+//    Profile profile;
+//    DBManagerSoco dbManagerSoco;
+//    ArrayList<Item> contactItems;
+//    SectionEntryListAdapter contactsAdapter;
 
     //new code
     View rootView;
@@ -59,7 +59,6 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
         context = getActivity().getApplicationContext();
         dataLoader = new DataLoader(context);
 
-
 //        socoApp = (SocoApp)(getActivity().getApplication());
 //        profile = socoApp.profile;
 //        dbManagerSoco = socoApp.dbManagerSoco;
@@ -72,31 +71,31 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
         Log.v(tag, "create fragment view.....");
         rootView = inflater.inflate(R.layout.fragment_suggested_friends, container, false);
 
-        singleConversations = dataLoader.loadSingleConversations();
-        showConversations(singleConversations);
+//        singleConversations = dataLoader.loadSingleConversations();
+//        showConversations(singleConversations);
 
-        ((ListView)rootView.findViewById(R.id.conversations)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @SuppressWarnings("unchecked")
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    EntryItem item = (EntryItem) contactItems.get(position);
-//                    Log.d(tag, "You clicked: " + item.title);
-//                    String name = item.title;
-//                    String email = item.subtitle;
-//                    //new fragment-based activity
-//                    Intent i = new Intent(view.getContext(), ContactDetailsActivityObs.class);
-//                    i.putExtra(GeneralConfigV1.INTENT_KEY_NAME, name);
-//                    i.putExtra(GeneralConfigV1.INTENT_KEY_EMAIL, email);
-//                    startActivity(i);
-
-                SingleConversation c = singleConversations.get(position);
-                Log.v(tag, "click on conversation: " + c.toString());
-
-                Intent i = new Intent(getActivity(), ConversationDetail.class);
-                i.putExtra(DataConfig.EXTRA_CONVERSATION_SEQ, c.getSeq());
-                startActivity(i);
-            }
-        });
+//        ((ListView)rootView.findViewById(R.id.conversations)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @SuppressWarnings("unchecked")
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+////                    EntryItem item = (EntryItem) contactItems.get(position);
+////                    Log.d(tag, "You clicked: " + item.title);
+////                    String name = item.title;
+////                    String email = item.subtitle;
+////                    //new fragment-based activity
+////                    Intent i = new Intent(view.getContext(), ContactDetailsActivityObs.class);
+////                    i.putExtra(GeneralConfigV1.INTENT_KEY_NAME, name);
+////                    i.putExtra(GeneralConfigV1.INTENT_KEY_EMAIL, email);
+////                    startActivity(i);
+//
+//                SingleConversation c = singleConversations.get(position);
+//                Log.v(tag, "click on conversation: " + c.toString());
+//
+//                Intent i = new Intent(getActivity(), ConversationDetail.class);
+//                i.putExtra(DataConfig.EXTRA_CONVERSATION_SEQ, c.getSeq());
+//                startActivity(i);
+//            }
+//        });
 
 //        rootView.findViewById(R.id.add).setOnClickListener(this);
 //        listContacts();
@@ -170,9 +169,9 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
     public void onResume() {
         super.onResume();
 
-        Log.v(tag, "onResume start, reload conversations");
-        singleConversations = dataLoader.loadSingleConversations();
-        showConversations(singleConversations);
+//        Log.v(tag, "onResume start, reload conversations");
+//        singleConversations = dataLoader.loadSingleConversations();
+//        showConversations(singleConversations);
     }
 
     @Override
@@ -263,23 +262,23 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
     }
 
 
-    void showConversations(ArrayList<SingleConversation> conversations){
-        Log.v(tag, "show conversations, total " + conversations.size());
-        ArrayList<Item>  items = new ArrayList<>();
-
-//        items.add(new ConversationListEntryItem("abc", "xyz", "123"));
-        for(SingleConversation c : conversations){
-            items.add(new ConversationListEntryItem(c.getCounterpartyName(), c.getLastMsgContent(), c.getLastMsgTimestamp()));
-        }
-
-        ConversationListAdapter adapter = new ConversationListAdapter(this.getActivity(), items);
-        ListView conversationList = ((ListView) rootView.findViewById(R.id.conversations));
-        if(conversationList == null)
-            Log.e(tag, "cannot find conversation list");
-        else
-            conversationList.setAdapter(adapter);
-
-    }
+//    void showConversations(ArrayList<SingleConversation> conversations){
+//        Log.v(tag, "show conversations, total " + conversations.size());
+//        ArrayList<Item>  items = new ArrayList<>();
+//
+////        items.add(new ConversationListEntryItem("abc", "xyz", "123"));
+//        for(SingleConversation c : conversations){
+//            items.add(new ConversationListEntryItem(c.getCounterpartyName(), c.getLastMsgContent(), c.getLastMsgTimestamp()));
+//        }
+//
+//        ConversationListAdapter adapter = new ConversationListAdapter(this.getActivity(), items);
+//        ListView conversationList = ((ListView) rootView.findViewById(R.id.conversations));
+//        if(conversationList == null)
+//            Log.e(tag, "cannot find conversation list");
+//        else
+//            conversationList.setAdapter(adapter);
+//
+//    }
 
 
 }

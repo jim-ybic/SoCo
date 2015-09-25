@@ -17,13 +17,14 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.config.SocoApp;
 import com.soco.SoCoClient.view.config.ActivityProfile;
 
+@Deprecated
 public class FragmentMessages extends Fragment implements View.OnClickListener {
 
     String tag = "FragmentMessages";
     View rootView;
 
-    int pid, pid_onserver;
-    SocoApp socoApp;
+//    int pid, pid_onserver;
+//    SocoApp socoApp;
 
     /** An array of strings to populate dropdown list */
 //    String[] actions = new String[] {
@@ -37,10 +38,10 @@ public class FragmentMessages extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        socoApp = (SocoApp)(getActivity().getApplication());
-        pid = socoApp.pid;
-        pid_onserver = socoApp.pid_onserver;
-        Log.d(tag, "pid is " + pid + ", pid_onserver is " + pid_onserver);
+//        socoApp = (SocoApp)(getActivity().getApplication());
+//        pid = socoApp.pid;
+//        pid_onserver = socoApp.pid_onserver;
+//        Log.d(tag, "pid is " + pid + ", pid_onserver is " + pid_onserver);
 
 //        //drop down navigation - start
 //        /** Create an array adapter to populate dropdownlist */
@@ -68,7 +69,7 @@ public class FragmentMessages extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.d(tag, "create fragment view");
+        Log.v(tag, "create fragment view");
         rootView = inflater.inflate(R.layout.fragment_messages, container, false);
 
         return rootView;

@@ -2,7 +2,6 @@ package com.soco.SoCoClient.view.messages;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.soco.SoCoClient.R;
@@ -12,7 +11,7 @@ public class ActivityNotifications extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_activity_notifications);
+        setContentView(R.layout.activity_notifications);
     }
 
 //    @Override

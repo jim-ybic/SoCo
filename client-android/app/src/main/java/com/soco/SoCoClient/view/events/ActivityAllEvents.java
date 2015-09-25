@@ -14,7 +14,7 @@ public class ActivityAllEvents extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_activity_all_events);
+        setContentView(R.layout.activity_all_events);
     }
 
 
