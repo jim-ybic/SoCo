@@ -28,7 +28,7 @@
         />
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/banner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/divider_title"
@@ -37,17 +37,18 @@
         tools:src="@drawable/picture1"/>
 
     <View
-        android:id="@+id/divider_bottom"
+        android:id="@+id/divider_banner"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
-        android:layout_below="@id/image"
+        android:layout_below="@id/banner"
         android:background="@color/card_outline" />
 
     <View
+        android:id="@+id/test_view"
         android:layout_width="fill_parent"
         android:layout_height="10dp"
-        android:layout_alignBottom="@+id/image_1"
-        android:layout_below="@+id/divider_bottom"
+        android:layout_alignBottom="@+id/test_image_camera"
+        android:layout_below="@+id/divider_banner"
         android:background="@color/card_bg"
         />
 
@@ -56,9 +57,9 @@
         style="@android:style/TextAppearance.Inverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/image_2"
+        android:layout_alignBottom="@+id/test_image_friends"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/image"
+        android:layout_below="@id/divider_banner"
         android:layout_toLeftOf="@+id/btn_sep_1"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
@@ -72,17 +73,17 @@
         android:id="@+id/btn_sep_1"
         android:layout_width="1dp"
         android:layout_height="0dp"
-        android:layout_alignBottom="@+id/image_1"
-        android:layout_below="@id/image"
+        android:layout_alignBottom="@+id/test_image_camera"
+        android:layout_below="@id/banner"
         android:layout_marginTop="7dp"
-        android:layout_toLeftOf="@+id/image_1"
+        android:layout_toLeftOf="@+id/test_image_camera"
         android:background="#ccc"/>
 
     <ImageButton
-        android:id="@+id/image_1"
+        android:id="@+id/test_image_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/image"
+        android:layout_below="@id/banner"
         android:layout_toLeftOf="@+id/btn_sep_2"
         android:background="?android:attr/selectableItemBackground"
         android:padding="10dp"
@@ -92,20 +93,454 @@
         android:id="@+id/btn_sep_2"
         android:layout_width="1dp"
         android:layout_height="0dp"
-        android:layout_alignBottom="@id/image_1"
-        android:layout_below="@id/image"
+        android:layout_alignBottom="@id/test_image_camera"
+        android:layout_below="@id/banner"
         android:layout_marginTop="7dp"
-        android:layout_toLeftOf="@+id/image_2"
+        android:layout_toLeftOf="@+id/test_image_friends"
         android:background="#ccc"/>
 
     <ImageButton
-        android:id="@+id/image_2"
+        android:id="@+id/test_image_friends"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/image"
+        android:layout_below="@id/banner"
         android:background="?android:attr/selectableItemBackground"
         android:padding="10dp"
         android:src="@drawable/people"/>
+
+    <View
+        android:id="@+id/divider_test2"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/test_view"
+        android:background="@color/card_outline"
+        />
+
+    <View
+        android:id="@+id/test_view2"
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_alignBottom="@+id/test_image_camera2"
+        android:layout_below="@+id/divider_test2"
+        android:background="@color/card_bg"
+        />
+
+    <ImageButton
+        android:id="@+id/test_image_camera2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test2"
+        android:layout_alignParentLeft="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/camera"/>
+
+    <View
+        android:id="@+id/btn_sep_23"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@id/test_image_camera2"
+        android:layout_toRightOf="@+id/test_image_camera2"
+        android:layout_below="@id/divider_test2"
+        android:layout_marginTop="7dp"
+        android:background="#ccc"/>
+
+    <TextView
+        android:id="@+id/num_views"
+        style="@android:style/TextAppearance.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/test_image_camera2"
+        android:layout_below="@id/divider_test2"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/btn_sep_23"
+        android:fontFamily="sans-serif-condensed"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@android:color/secondary_text_light"
+        tools:text="  500 views" />
+
+    <View
+        android:id="@+id/btn_sep_12"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@+id/test_image_camera"
+        android:layout_below="@id/banner"
+        android:layout_marginTop="7dp"
+        android:layout_toLeftOf="@+id/test_image_camera"
+        android:background="#ccc"/>
+
+    <ImageButton
+        android:id="@+id/test_image_like2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test2"
+        android:layout_toLeftOf="@+id/btn_sep_22"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/camera"/>
+
+    <View
+        android:id="@+id/btn_sep_22"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@id/test_image_camera"
+        android:layout_below="@id/banner"
+        android:layout_marginTop="7dp"
+        android:layout_toLeftOf="@+id/num_likes"
+        android:background="#ccc"/>
+
+    <TextView
+        android:id="@+id/num_likes"
+        style="@android:style/TextAppearance.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/test_image_camera2"
+        android:layout_below="@id/divider_test2"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:fontFamily="sans-serif-condensed"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@android:color/secondary_text_light"
+        tools:text="  100 likes" />
+
+    <View
+        android:id="@+id/divider_test3"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/test_view2"
+        android:background="@color/card_outline"
+        />
+
+    <View
+        android:id="@+id/test_view3"
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_alignBottom="@+id/test_image_camera3"
+        android:layout_below="@+id/divider_test3"
+        android:background="@color/card_bg"
+        />
+
+    <ImageButton
+        android:id="@+id/test_image_camera3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test3"
+        android:layout_alignParentLeft="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/camera"/>
+
+    <View
+        android:id="@+id/btn_sep_c3"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@id/test_image_camera3"
+        android:layout_toRightOf="@+id/test_image_camera3"
+        android:layout_below="@id/divider_test3"
+        android:layout_marginTop="7dp"
+        android:background="#ccc"/>
+
+    <TextView
+        android:id="@+id/date"
+        style="@android:style/TextAppearance.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/test_image_camera3"
+        android:layout_below="@id/divider_test3"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/btn_sep_c3"
+        android:fontFamily="sans-serif-condensed"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@android:color/secondary_text_light"
+        tools:text="  2015-12-24" />
+
+    <TextView
+        android:id="@+id/date_sep"
+        style="@android:style/TextAppearance.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/test_image_camera3"
+        android:layout_below="@id/divider_test3"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/date"
+        android:fontFamily="sans-serif-condensed"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@android:color/secondary_text_light"
+        tools:text="  " />
+
+    <TextView
+        android:id="@+id/time_start"
+        style="@android:style/TextAppearance.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/test_image_camera3"
+        android:layout_below="@id/divider_test3"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/date_sep"
+        android:fontFamily="sans-serif-condensed"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@android:color/secondary_text_light"
+        tools:text="20:00" />
+
+    <TextView
+        android:id="@+id/time_via"
+        style="@android:style/TextAppearance.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/test_image_camera3"
+        android:layout_below="@id/divider_test3"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/time_start"
+        android:fontFamily="sans-serif-condensed"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@android:color/secondary_text_light"
+        tools:text=" ~ " />
+
+    <TextView
+        android:id="@+id/time_to"
+        style="@android:style/TextAppearance.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/test_image_camera3"
+        android:layout_below="@id/divider_test3"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/time_via"
+        android:fontFamily="sans-serif-condensed"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@android:color/secondary_text_light"
+        tools:text="21:30" />
+
+    <View
+        android:id="@+id/divider_test4"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/test_view3"
+        android:background="@color/card_outline"
+        />
+
+    <View
+        android:id="@+id/test_view4"
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_alignBottom="@+id/test_image_camera4"
+        android:layout_below="@+id/divider_test4"
+        android:background="@color/card_bg"
+        />
+
+    <ImageButton
+        android:id="@+id/test_image_camera4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test4"
+        android:layout_alignParentLeft="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/camera"/>
+
+    <View
+        android:id="@+id/sep_location"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@id/test_image_camera4"
+        android:layout_toRightOf="@+id/test_image_camera4"
+        android:layout_below="@id/divider_test4"
+        android:layout_marginTop="7dp"
+        android:background="#ccc"/>
+
+    <TextView
+        android:id="@+id/location"
+        style="@android:style/TextAppearance.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/test_image_camera4"
+        android:layout_below="@id/divider_test4"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/sep_location"
+        android:fontFamily="sans-serif-condensed"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@android:color/secondary_text_light"
+        tools:text="  Wonderful Venue" />
+
+    <TextView
+        android:id="@+id/distance"
+        style="@android:style/TextAppearance.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/test_image_camera4"
+        android:layout_below="@id/divider_test4"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/location"
+        android:fontFamily="sans-serif-condensed"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@android:color/secondary_text_light"
+        tools:text=" ~0.5km" />
+
+
+    <ImageButton
+        android:id="@+id/test_image_like4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test4"
+        android:layout_toLeftOf="@+id/sep_host"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/camera"/>
+
+    <View
+        android:id="@+id/sep_host"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@id/test_image_camera4"
+        android:layout_below="@id/divider_test4"
+        android:layout_marginTop="7dp"
+        android:layout_toLeftOf="@+id/host"
+        android:background="#ccc"/>
+
+    <TextView
+        android:id="@+id/host"
+        style="@android:style/TextAppearance.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/test_image_camera4"
+        android:layout_below="@id/divider_test4"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:fontFamily="sans-serif-condensed"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@android:color/secondary_text_light"
+        tools:text="  Best Host" />
+
+    <View
+        android:id="@+id/divider_test5"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/test_view4"
+        android:background="@color/card_outline"
+        />
+
+    <View
+        android:id="@+id/test_view5"
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_alignBottom="@+id/test_image_camera5"
+        android:layout_below="@+id/divider_test5"
+        android:background="@color/card_bg"
+        />
+
+    <ImageButton
+        android:id="@+id/test_image_camera5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test5"
+        android:layout_alignParentLeft="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/camera"/>
+
+    <View
+        android:id="@+id/sep_friends"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@id/test_image_camera5"
+        android:layout_toRightOf="@+id/test_image_camera5"
+        android:layout_below="@id/divider_test5"
+        android:layout_marginTop="7dp"
+        android:background="#ccc"/>
+
+    <ImageButton
+        android:id="@+id/test_image_friend1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test5"
+        android:layout_toRightOf="@id/sep_friends"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_action_user"/>
+
+    <ImageButton
+        android:id="@+id/test_image_friend2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test5"
+        android:layout_toRightOf="@id/test_image_friend1"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_action_user"/>
+
+    <ImageButton
+        android:id="@+id/test_image_friend3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test5"
+        android:layout_toRightOf="@id/test_image_friend2"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_action_user"/>
+
+    <View
+        android:id="@+id/divider_test6"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/test_view5"
+        android:background="@color/card_outline"
+        />
+
+    <View
+        android:id="@+id/test_view6"
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_alignBottom="@+id/test_image_camera6"
+        android:layout_below="@+id/divider_test6"
+        android:background="@color/card_bg"
+        />
+
+    <ImageButton
+        android:id="@+id/test_image_camera6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test6"
+        android:layout_alignParentLeft="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/camera"/>
+
+    <View
+        android:id="@+id/sep_groups"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@id/test_image_camera6"
+        android:layout_toRightOf="@+id/test_image_camera6"
+        android:layout_below="@id/divider_test6"
+        android:layout_marginTop="7dp"
+        android:background="#ccc"/>
+
+    <ImageButton
+        android:id="@+id/test_image_group1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test6"
+        android:layout_toRightOf="@id/sep_groups"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_action_group"/>
+
+    <ImageButton
+        android:id="@+id/test_image_group2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test6"
+        android:layout_toRightOf="@id/test_image_group1"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_action_group"/>
+
+    <ImageButton
+        android:id="@+id/test_image_group3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_test6"
+        android:layout_toRightOf="@id/test_image_group2"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_action_group"/>
+
 
 </RelativeLayout>
