@@ -239,6 +239,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.soco.SoCoClient.view.Dashboard" />
         </activity>
+        <activity
+            android:name=".view.friends.ActivityPersonEvents"
+            android:label="@string/title_activity_activity_person_events"
+            android:parentActivityName=".view.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
+        </activity>
+        <activity
+            android:name=".view.friends.ActivityPersonGroups"
+            android:label="@string/title_activity_activity_person_groups" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
+        </activity>
     </application>
 
 </manifest>

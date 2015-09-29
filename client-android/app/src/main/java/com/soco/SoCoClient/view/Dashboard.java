@@ -23,7 +23,7 @@ public class Dashboard extends ActionBarActivity implements
 
     // Tab titles
     private String[] tabs = {
-            "Selected Events",
+            "Suggested Events",
             "Suggested Friends",
 //            "Stream",
 //            "Messages"

@@ -20,8 +20,13 @@ import com.soco.SoCoClient.control.database.DataLoader;
 import com.soco.SoCoClient.model.conversation.SingleConversation;
 import com.soco.SoCoClient.view.common.andtinder.model.CardModel;
 import com.soco.SoCoClient.view.common.andtinder.view.CardContainer;
+import com.soco.SoCoClient.view.common.andtinder.view.PersonCardStackAdapter;
 import com.soco.SoCoClient.view.common.andtinder.view.SimpleCardStackAdapter;
 import com.soco.SoCoClient.view.config.ActivityProfile;
+import com.soco.SoCoClient.view.events.ActivityEventDetails;
+import com.soco.SoCoClient.view.events.ActivityEventFriends;
+import com.soco.SoCoClient.view.events.ActivityEventGroups;
+import com.soco.SoCoClient.view.events.ActivityJoinEvent;
 import com.soco.SoCoClient.view.friends.contact.ActivityAllFriends;
 import com.soco.SoCoClient.view.messages.ActivityChats;
 import com.soco.SoCoClient.view.messages.ActivityNotifications;
@@ -71,6 +76,12 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
 
         cardTest(rootView);
 
+        rootView.findViewById(R.id.personevents).setOnClickListener(this);
+        rootView.findViewById(R.id.persongroups).setOnClickListener(this);
+        rootView.findViewById(R.id.pass).setOnClickListener(this);
+        rootView.findViewById(R.id.details).setOnClickListener(this);
+        rootView.findViewById(R.id.join).setOnClickListener(this);
+
 //        singleConversations = dataLoader.loadSingleConversations();
 //        showConversations(singleConversations);
 
@@ -110,7 +121,8 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
 
 //        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
         Resources r = getResources();
-        SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(getActivity());
+//        SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(getActivity());
+        PersonCardStackAdapter adapter = new PersonCardStackAdapter(getActivity());
 //        adapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
 //        adapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
 //        adapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
@@ -120,7 +132,7 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
             CardModel cardModel = new CardModel(
                     "Person #" + i,
                     "Description goes here",
-                    r.getDrawable(R.drawable.picture3));
+                    r.getDrawable(R.drawable.user));
             cardModel.setOnClickListener(new CardModel.OnClickListener() {
                 @Override
                 public void OnClickListener() {
@@ -163,11 +175,34 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-//        switch (v.getId()) {
+        switch (v.getId()) {
 //            case R.id.add:
 //                add();
 //                break;
-//        }
+            case R.id.personevents:
+                Log.d(tag, "show all event friends");
+                Intent ipe = new Intent(getActivity().getApplicationContext(), ActivityPersonEvents.class);
+                startActivity(ipe);
+                break;
+            case R.id.persongroups:
+                Log.d(tag, "show all event groups");
+                Intent ipg = new Intent(getActivity().getApplicationContext(), ActivityPersonGroups.class);
+                startActivity(ipg);
+                break;
+            case R.id.pass:
+                Log.d(tag, "pass this event");
+                break;
+            case R.id.details:
+                Log.d(tag, "show event details");
+//                Intent ied = new Intent(getActivity().getApplicationContext(), .class);
+//                startActivity(ied);
+                break;
+            case R.id.join:
+                Log.d(tag, "join this event");
+//                Intent ije = new Intent(getActivity().getApplicationContext(), .class);
+//                startActivity(ije);
+                break;
+        }
     }
 
 

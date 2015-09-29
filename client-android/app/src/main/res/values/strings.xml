@@ -55,5 +55,7 @@
     <string name="title_activity_activity_event_groups">Event Groups</string>
     <string name="title_activity_activity_event_details">Event Details</string>
     <string name="title_activity_activity_join_event">Join Event</string>
+    <string name="title_activity_activity_person_events">Person Events</string>
+    <string name="title_activity_activity_person_groups">Person Groups</string>
 
 </resources>
