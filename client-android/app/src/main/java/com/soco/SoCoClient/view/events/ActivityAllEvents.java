@@ -61,7 +61,7 @@ public class ActivityAllEvents extends ActionBarActivity {
                 Event e = events.get(position);
                 Log.d(tag, "tap on event: " + e.toString());
 
-                Intent i = new Intent(view.getContext(), ActivityEventDetail.class);
+                Intent i = new Intent(view.getContext(), ActivityEventDetailV1.class);
                 i.putExtra(DataConfig.EXTRA_EVENT_SEQ, e.getSeq());
                 startActivity(i);
             }

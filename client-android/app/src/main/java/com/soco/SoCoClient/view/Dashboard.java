@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.soco.SoCoClient.R;
 
@@ -91,8 +92,5 @@ public class Dashboard extends ActionBarActivity implements
                                 android.support.v4.app.FragmentTransaction fragmentTransaction) {
 
     }
-
-
-
 
 }

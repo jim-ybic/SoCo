@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class ActivityEventDetail extends ActionBarActivity {
+public class ActivityEventDetailV1 extends ActionBarActivity {
 
     static String tag = "EventDetail";
 
@@ -41,7 +41,7 @@ public class ActivityEventDetail extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.event_details);
+        setContentView(R.layout.activity_event_details_v1);
 
         context = getApplicationContext();
         dataLoader = new DataLoader(context);

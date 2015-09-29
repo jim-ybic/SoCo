@@ -23,12 +23,12 @@ import com.soco.SoCoClient.R;
 
 import com.soco.SoCoClient.view.common.andtinder.model.CardModel;
 import com.soco.SoCoClient.view.common.andtinder.view.CardContainer;
-import com.soco.SoCoClient.view.common.andtinder.view.SimpleCardStackAdapter;
+import com.soco.SoCoClient.view.common.andtinder.view.EventCardStackAdapter;
 import com.soco.SoCoClient.view.config.ActivityProfile;
 import com.soco.SoCoClient.view.messages.ActivityChats;
 import com.soco.SoCoClient.view.messages.ActivityNotifications;
 
-public class FragmentSelectedEvents extends Fragment implements View.OnClickListener {
+public class FragmentSuggestedEvents extends Fragment implements View.OnClickListener {
 
     static String tag = "SelectedEvents";
 
@@ -91,10 +91,16 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
                              Bundle savedInstanceState) {
 
 //        Log.d(tag, "on create view");
-        rootView = inflater.inflate(R.layout.fragment_selected_events, container, false);
+        rootView = inflater.inflate(R.layout.fragment_suggested_events, container, false);
 //        Log.d(tag, "Found root view: " + rootView);
 
         cardTest(rootView);
+
+        rootView.findViewById(R.id.eventfriends).setOnClickListener(this);
+        rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
+        rootView.findViewById(R.id.pass).setOnClickListener(this);
+        rootView.findViewById(R.id.details).setOnClickListener(this);
+        rootView.findViewById(R.id.join).setOnClickListener(this);
 
 //        findViewItems(rootView);
 
@@ -222,7 +228,8 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 
 //        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
         Resources r = getResources();
-        SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(getActivity());
+//        SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(getActivity());
+        EventCardStackAdapter adapter = new EventCardStackAdapter(getActivity());
 //        adapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
 //        adapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
 //        adapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
@@ -232,7 +239,7 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
             CardModel cardModel = new CardModel(
                     "Event #" + i,
                     "Description goes here",
-                    r.getDrawable(R.drawable.picture1));
+                    r.getDrawable(R.drawable.picture3_crop));
             cardModel.setOnClickListener(new CardModel.OnClickListener() {
                 @Override
                 public void OnClickListener() {
@@ -518,7 +525,7 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-//        switch (v.getId()) {
+        switch (v.getId()) {
 //            case R.id.add:
 //                add();
 //                break;
@@ -531,9 +538,30 @@ public class FragmentSelectedEvents extends Fragment implements View.OnClickList
 //            case R.id.home:
 //                Log.d(tag, "click on home");
 //                break;
-//        }
+            case R.id.eventfriends:
+                Log.d(tag, "show all event friends");
+                Intent ief = new Intent(getActivity().getApplicationContext(), ActivityEventFriends.class);
+                startActivity(ief);
+                break;
+            case R.id.eventgroups:
+                Log.d(tag, "show all event groups");
+                Intent ieg = new Intent(getActivity().getApplicationContext(), ActivityEventGroups.class);
+                startActivity(ieg);
+                break;
+            case R.id.pass:
+                Log.d(tag, "pass this event");
+                break;
+            case R.id.details:
+                Log.d(tag, "show event details");
+                Intent ied = new Intent(getActivity().getApplicationContext(), ActivityEventDetails.class);
+                startActivity(ied);
+                break;
+            case R.id.join:
+                Log.d(tag, "join this event");
+                Intent ije = new Intent(getActivity().getApplicationContext(), ActivityJoinEvent.class);
+                startActivity(ije);
+                break;
+        }
     }
-
-
 
 }
