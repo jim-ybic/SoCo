@@ -167,7 +167,7 @@
                 android:layout_width="wrap_content"
                 android:text="DESCRIPTION" />
             <EditText
-                android:id="@+id/desc"
+                android:id="@+id/test_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Type in the details of the event"/>
