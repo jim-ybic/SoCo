@@ -57,17 +57,14 @@ public class Dashboard extends ActionBarActivity implements
 
         Log.v(tag, "Set listener");
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
             @Override
             public void onPageSelected(int position) {
                 Log.v(tag, "position is " + position);
                 actionBar.setSelectedNavigationItem(position);
             }
-
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
             }
-
             @Override
             public void onPageScrollStateChanged(int arg0) {
             }

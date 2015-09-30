@@ -1,13 +1,19 @@
 package com.soco.SoCoClient.view.events;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.view.groups.ActivityGroupDetails;
 
 public class ActivityEventGroups extends ActionBarActivity {
+
+    static String tag = "EventGroups";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +41,11 @@ public class ActivityEventGroups extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void groupdetails(View view){
+        Log.d(tag, "tap on group details");
+        Intent i = new Intent(getApplicationContext(), ActivityGroupDetails.class);
+        startActivity(i);
     }
 }

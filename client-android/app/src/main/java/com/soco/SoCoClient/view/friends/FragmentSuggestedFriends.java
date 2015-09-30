@@ -21,12 +21,7 @@ import com.soco.SoCoClient.model.conversation.SingleConversation;
 import com.soco.SoCoClient.view.common.andtinder.model.CardModel;
 import com.soco.SoCoClient.view.common.andtinder.view.CardContainer;
 import com.soco.SoCoClient.view.common.andtinder.view.PersonCardStackAdapter;
-import com.soco.SoCoClient.view.common.andtinder.view.SimpleCardStackAdapter;
 import com.soco.SoCoClient.view.config.ActivityProfile;
-import com.soco.SoCoClient.view.events.ActivityEventDetails;
-import com.soco.SoCoClient.view.events.ActivityEventFriends;
-import com.soco.SoCoClient.view.events.ActivityEventGroups;
-import com.soco.SoCoClient.view.events.ActivityJoinEvent;
 import com.soco.SoCoClient.view.friends.contact.ActivityAllFriends;
 import com.soco.SoCoClient.view.messages.ActivityChats;
 import com.soco.SoCoClient.view.messages.ActivityNotifications;
@@ -79,8 +74,8 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
         rootView.findViewById(R.id.personevents).setOnClickListener(this);
         rootView.findViewById(R.id.persongroups).setOnClickListener(this);
         rootView.findViewById(R.id.pass).setOnClickListener(this);
-        rootView.findViewById(R.id.details).setOnClickListener(this);
-        rootView.findViewById(R.id.join).setOnClickListener(this);
+        rootView.findViewById(R.id.more).setOnClickListener(this);
+        rootView.findViewById(R.id.add).setOnClickListener(this);
 
 //        singleConversations = dataLoader.loadSingleConversations();
 //        showConversations(singleConversations);
@@ -192,12 +187,12 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
             case R.id.pass:
                 Log.d(tag, "pass this event");
                 break;
-            case R.id.details:
+            case R.id.more:
                 Log.d(tag, "show event details");
 //                Intent ied = new Intent(getActivity().getApplicationContext(), .class);
 //                startActivity(ied);
                 break;
-            case R.id.join:
+            case R.id.add:
                 Log.d(tag, "join this event");
 //                Intent ije = new Intent(getActivity().getApplicationContext(), .class);
 //                startActivity(ije);

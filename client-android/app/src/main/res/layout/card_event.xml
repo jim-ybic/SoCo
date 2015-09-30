@@ -11,17 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@android:color/white">
         <TextView
             android:id="@+id/title"
             style="@android:style/TextAppearance.Large.Inverse"
             android:textColor="@android:color/primary_text_light"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="Roboto"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/card_bg"
             tools:text="Event Title"
             android:padding="10dp"/>
         <ImageView
@@ -35,17 +35,17 @@
             android:id="@+id/test_view"
             android:layout_width="fill_parent"
             android:layout_height="10dp"
-            android:layout_alignBottom="@+id/test_image_camera"
-            android:background="@color/card_bg" />
+            android:layout_alignBottom="@+id/test_image_camera" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@android:color/white">
         <LinearLayout
-            android:id="@+id/views_likes"
+            android:id="@+id/indicators"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -53,50 +53,100 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="1"
                 android:layout_gravity="left"
                 android:gravity="left">
                 <ImageButton
                     android:id="@+id/views"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/camera"
-                    android:layout_gravity="center_vertical" />
+                    android:src="@drawable/ic_action_search_black"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingBottom="5dp"
+                    android:padding="5dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="  "
-                    android:layout_gravity="center_vertical" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="500 views"
-                    android:layout_gravity="center_vertical" />
+                    android:text=" 500 "
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="10dp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="1"
                 android:gravity="right">
                 <ImageButton
                     android:id="@+id/likes"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="?android:attr/selectableItemBackground"
                     android:src="@drawable/ic_action_favorite"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="0dp"
+                    android:paddingBottom="5dp"
+                    android:padding="5dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" "
-                    android:layout_gravity="center_vertical" />
+                    android:text=" 100 "
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="10dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100 likes  "
                     android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right">
+                <ImageButton
+                    android:id="@+id/photos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/camera"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="0dp"
+                    android:paddingBottom="5dp"
+                    android:padding="5dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="10dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right">
+                <ImageButton
+                    android:id="@+id/comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_chat_black"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="0dp"
+                    android:paddingBottom="5dp"
+                    android:padding="5dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 20 "
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="10dp" />
             </LinearLayout>
         </LinearLayout>
         <!--<TextView-->
@@ -125,7 +175,8 @@
                 android:orientation="horizontal"
                 android:layout_weight="1"
                 android:layout_gravity="left"
-                android:gravity="left">
+                android:gravity="left"
+                android:padding="10dp">
                 <ImageButton
                     android:id="@+id/calendar"
                     android:layout_width="wrap_content"
@@ -182,7 +233,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fantastic Event Venue 0.5km"
+                    android:text="Fantastic Event Venue "
+                    android:layout_gravity="center_vertical" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.5km"
                     android:layout_gravity="center_vertical" />
             </LinearLayout>
         </LinearLayout>
@@ -214,13 +270,144 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Best Event Host"
+                    android:text="Bright Future Co Ltd. (business), Mary Yan"
                     android:layout_gravity="center_vertical" />
-
-
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text=" on behalf of "-->
+                    <!--android:layout_gravity="center_vertical" />-->
             </LinearLayout>
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@android:color/white">
+        <LinearLayout
+            android:id="@+id/eventfriends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:onClick="eventfriends">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Friends: "-->
+                    <!--android:layout_gravity="top" />-->
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_person"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_person"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:adjustViewBounds="false" />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_person"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="left">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="John Wu, May Li and 3 other friends"
+                    android:gravity="left"
+                    android:onClick="allfriends"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/eventgroups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:onClick="eventgroups">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="left">
+                <!--<TextView-->
+                    <!--android:id="@+id/groups"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Groups: "-->
+                    <!--android:layout_gravity="top" />-->
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_group"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_group"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"/>
+                <ImageButton
+                    android:id="@+id/group3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_group"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Central Piano and 2 other groups"/>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

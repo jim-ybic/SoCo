@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SoCo</string>
+    <string name="app_name">event4us</string>
 
     <!-- <string name="hello_world">Hello world!</string> -->
     <!-- <string name="edit_message">Edit</string> -->
@@ -57,5 +57,6 @@
     <string name="title_activity_activity_join_event">Join Event</string>
     <string name="title_activity_activity_person_events">Person Events</string>
     <string name="title_activity_activity_person_groups">Person Groups</string>
+    <string name="title_activity_activity_group_details">Group Details</string>
 
 </resources>

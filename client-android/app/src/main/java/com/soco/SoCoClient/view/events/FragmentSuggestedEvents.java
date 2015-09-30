@@ -99,8 +99,8 @@ public class FragmentSuggestedEvents extends Fragment implements View.OnClickLis
         rootView.findViewById(R.id.eventfriends).setOnClickListener(this);
         rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
         rootView.findViewById(R.id.pass).setOnClickListener(this);
-        rootView.findViewById(R.id.details).setOnClickListener(this);
-        rootView.findViewById(R.id.join).setOnClickListener(this);
+//        rootView.findViewById(R.id.more).setOnClickListener(this);
+        rootView.findViewById(R.id.add).setOnClickListener(this);
 
 //        findViewItems(rootView);
 
@@ -551,12 +551,12 @@ public class FragmentSuggestedEvents extends Fragment implements View.OnClickLis
             case R.id.pass:
                 Log.d(tag, "pass this event");
                 break;
-            case R.id.details:
+            case R.id.more:
                 Log.d(tag, "show event details");
                 Intent ied = new Intent(getActivity().getApplicationContext(), ActivityEventDetails.class);
                 startActivity(ied);
                 break;
-            case R.id.join:
+            case R.id.add:
                 Log.d(tag, "join this event");
                 Intent ije = new Intent(getActivity().getApplicationContext(), ActivityJoinEvent.class);
                 startActivity(ije);
