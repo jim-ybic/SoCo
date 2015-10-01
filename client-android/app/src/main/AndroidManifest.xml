@@ -126,7 +126,7 @@
         </activity>
         <activity
             android:name=".view.login.ActivityLogin"
-            android:label="@string/title_activity_login" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -134,7 +134,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.events.ActivityEventDetail"
+            android:name=".view.events.ActivityEventDetailV1"
             android:label="@string/title_activity_test_event_detail" >
 
             <!-- <intent-filter> -->
@@ -198,6 +198,65 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.soco.SoCoClient.view.login.ActivityLogin" />
+        </activity>
+        <activity
+            android:name=".view.events.ActivityEventLikers"
+            android:label="@string/title_activity_activity_event_likers"
+            android:parentActivityName=".view.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
+        </activity>
+        <activity
+            android:name=".view.events.ActivityEventFriends"
+            android:label="@string/title_activity_activity_event_friends"
+            android:parentActivityName=".view.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
+        </activity>
+        <activity
+            android:name=".view.events.ActivityEventGroups"
+            android:label="@string/title_activity_activity_event_groups"
+            android:parentActivityName=".view.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
+        </activity>
+        <activity
+            android:name=".view.events.ActivityEventDetails"
+            android:label="@string/title_activity_activity_event_details"
+            android:parentActivityName=".view.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
+        </activity>
+        <activity
+            android:name=".view.events.ActivityJoinEvent"
+            android:label="@string/title_activity_activity_join_event"
+            android:parentActivityName=".view.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
+        </activity>
+        <activity
+            android:name=".view.friends.ActivityPersonEvents"
+            android:label="@string/title_activity_activity_person_events"
+            android:parentActivityName=".view.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
+        </activity>
+        <activity
+            android:name=".view.friends.ActivityPersonGroups"
+            android:label="@string/title_activity_activity_person_groups" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
+        </activity>
+        <activity
+            android:name=".view.groups.ActivityGroupDetails"
+            android:label="@string/title_activity_activity_group_details" >
         </activity>
     </application>
 

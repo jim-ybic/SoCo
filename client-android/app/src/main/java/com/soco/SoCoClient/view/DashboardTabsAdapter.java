@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.view.friends.FragmentSuggestedFriends;
-import com.soco.SoCoClient.view.events.FragmentSelectedEvents;
+import com.soco.SoCoClient.view.events.FragmentSuggestedEvents;
 
 public class DashboardTabsAdapter extends FragmentPagerAdapter {
 
@@ -23,7 +23,7 @@ public class DashboardTabsAdapter extends FragmentPagerAdapter {
         Log.v(tag, "get item from index: " + index);
         switch (index) {
             case DataConfig.DASHBOARD_TAB_INDEX_EVENTS:
-                return new FragmentSelectedEvents();
+                return new FragmentSuggestedEvents();
             case DataConfig.DASHBOARD_TAB_INDEX_FRIENDS:
 //                return new FragmentContactsObs();
                 return new FragmentSuggestedFriends();

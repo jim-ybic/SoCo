@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.soco.SoCoClient.R;
 
@@ -22,7 +23,7 @@ public class Dashboard extends ActionBarActivity implements
 
     // Tab titles
     private String[] tabs = {
-            "Selected Events",
+            "Suggested Events",
             "Suggested Friends",
 //            "Stream",
 //            "Messages"
@@ -56,17 +57,14 @@ public class Dashboard extends ActionBarActivity implements
 
         Log.v(tag, "Set listener");
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
             @Override
             public void onPageSelected(int position) {
                 Log.v(tag, "position is " + position);
                 actionBar.setSelectedNavigationItem(position);
             }
-
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
             }
-
             @Override
             public void onPageScrollStateChanged(int arg0) {
             }
@@ -91,8 +89,5 @@ public class Dashboard extends ActionBarActivity implements
                                 android.support.v4.app.FragmentTransaction fragmentTransaction) {
 
     }
-
-
-
 
 }
