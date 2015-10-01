@@ -30,4 +30,11 @@
     <color name="card_bg">#EBEBEB</color>
     <color name="card_outline">#D0D0CE</color>
 
+    <!--<color name="card_bg">#EBEBEB</color>-->
+    <!--<color name="card_bg">#EBEBEB</color>-->
+
+    <color name="primaryColor">#FFEB3B</color>
+    <color name="primaryColorDark">#303F9F</color>
+    <color name="accentColor">#309f90</color>
+
 </resources> 

@@ -73,8 +73,8 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
 
         rootView.findViewById(R.id.personevents).setOnClickListener(this);
         rootView.findViewById(R.id.persongroups).setOnClickListener(this);
-        rootView.findViewById(R.id.pass).setOnClickListener(this);
-        rootView.findViewById(R.id.more).setOnClickListener(this);
+        rootView.findViewById(R.id.detail).setOnClickListener(this);
+//        rootView.findViewById(R.id.more).setOnClickListener(this);
         rootView.findViewById(R.id.add).setOnClickListener(this);
 
 //        singleConversations = dataLoader.loadSingleConversations();
@@ -184,16 +184,16 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
                 Intent ipg = new Intent(getActivity().getApplicationContext(), ActivityPersonGroups.class);
                 startActivity(ipg);
                 break;
-            case R.id.pass:
-                Log.d(tag, "pass this event");
-                break;
+//            case R.id.detail:
+//                Log.d(tag, "pass this event");
+//                break;
             case R.id.more:
-                Log.d(tag, "show event details");
+                Log.d(tag, "show person details");
 //                Intent ied = new Intent(getActivity().getApplicationContext(), .class);
 //                startActivity(ied);
                 break;
             case R.id.add:
-                Log.d(tag, "join this event");
+                Log.d(tag, "add this friend");
 //                Intent ije = new Intent(getActivity().getApplicationContext(), .class);
 //                startActivity(ije);
                 break;
@@ -246,7 +246,7 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_activity_suggested_friends, menu);
+        inflater.inflate(R.menu.menu_fragment_suggested_friends, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

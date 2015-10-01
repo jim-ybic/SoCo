@@ -4,27 +4,26 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.view.groups.ActivityGroupDetails;
 
-public class ActivityEventGroups extends ActionBarActivity {
+public class ActivityEventOrganizers extends ActionBarActivity {
 
-    static String tag = "EventGroups";
+    static String tag = "EventOrganizers";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_groups);
+        setContentView(R.layout.activity_event_organizers);
     }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_activity_event_groups, menu);
+//        getMenuInflater().inflate(R.menu.menu_activity_event_organizers, menu);
 //        return true;
 //    }
 

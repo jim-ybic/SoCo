@@ -46,11 +46,11 @@ public class ActivityAllEvents extends ActionBarActivity {
 
         lv_active_programs = (ListView) findViewById(R.id.all_events);
         et_quick_add = ((EditText) findViewById(R.id.et_quickadd));
-        findViewById(R.id.add).setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                add();
-            }
-        });
+//        findViewById(R.id.join).setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//                add();
+//            }
+//        });
 
 
         showEvents(events);
@@ -81,7 +81,7 @@ public class ActivityAllEvents extends ActionBarActivity {
         lv_active_programs.setAdapter(adapter);
     }
 
-    public void add(){
+    public void add(View view){
         String name = et_quick_add.getText().toString();
         Log.d(tag, "quick add event: " + name);
 

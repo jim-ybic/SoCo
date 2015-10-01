@@ -30,6 +30,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"
             android:configChanges="orientation|keyboard"
@@ -216,8 +217,8 @@
                 android:value="com.soco.SoCoClient.view.Dashboard" />
         </activity>
         <activity
-            android:name=".view.events.ActivityEventGroups"
-            android:label="@string/title_activity_activity_event_groups"
+            android:name=".view.events.ActivityEventOrganizers"
+            android:label="@string/title_activity_activity_event_organizers"
             android:parentActivityName=".view.Dashboard" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
