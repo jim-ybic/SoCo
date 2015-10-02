@@ -142,7 +142,7 @@ public class ActivityMembersFragment extends Fragment implements View.OnClickLis
         Log.i(tag, "onOptionsItemSelected:" + item.getItemId());
 
         switch (item.getItemId()) {
-            case R.id.add:
+            case R.id.join:
                 addMember();
                 break;
               }

@@ -96,11 +96,11 @@ public class FragmentSuggestedEvents extends Fragment implements View.OnClickLis
 
         cardTest(rootView);
 
-        rootView.findViewById(R.id.eventfriends).setOnClickListener(this);
-        rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
-        rootView.findViewById(R.id.pass).setOnClickListener(this);
+//        rootView.findViewById(R.id.eventfriends).setOnClickListener(this);
+//        rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
+        rootView.findViewById(R.id.detail).setOnClickListener(this);
 //        rootView.findViewById(R.id.more).setOnClickListener(this);
-        rootView.findViewById(R.id.add).setOnClickListener(this);
+        rootView.findViewById(R.id.join).setOnClickListener(this);
 
 //        findViewItems(rootView);
 
@@ -297,7 +297,7 @@ public class FragmentSuggestedEvents extends Fragment implements View.OnClickLis
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_activity_selected_events, menu);
+        inflater.inflate(R.menu.menu_fragment_suggested_events, menu);
 
 //        RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.badge).getActionView();
 //        TextView tv = (TextView) badgeLayout.findViewById(R.id.actionbar_notifcation_textview);
@@ -538,25 +538,27 @@ public class FragmentSuggestedEvents extends Fragment implements View.OnClickLis
 //            case R.id.home:
 //                Log.d(tag, "click on home");
 //                break;
-            case R.id.eventfriends:
-                Log.d(tag, "show all event friends");
-                Intent ief = new Intent(getActivity().getApplicationContext(), ActivityEventFriends.class);
-                startActivity(ief);
-                break;
-            case R.id.eventgroups:
-                Log.d(tag, "show all event groups");
-                Intent ieg = new Intent(getActivity().getApplicationContext(), ActivityEventGroups.class);
-                startActivity(ieg);
-                break;
-            case R.id.pass:
-                Log.d(tag, "pass this event");
-                break;
-            case R.id.more:
-                Log.d(tag, "show event details");
+//            case R.id.eventfriends:
+//                Log.d(tag, "show all event friends");
+//                Intent ief = new Intent(getActivity().getApplicationContext(), ActivityEventFriends.class);
+//                startActivity(ief);
+//                break;
+//            case R.id.eventgroups:
+//                Log.d(tag, "show all event groups");
+//                Intent ieg = new Intent(getActivity().getApplicationContext(), ActivityEventGroups.class);
+//                startActivity(ieg);
+//                break;
+            case R.id.detail:
+                Log.d(tag, "event detail");
                 Intent ied = new Intent(getActivity().getApplicationContext(), ActivityEventDetails.class);
                 startActivity(ied);
                 break;
-            case R.id.add:
+//            case R.id.more:
+//                Log.d(tag, "show event details");
+//                Intent ied = new Intent(getActivity().getApplicationContext(), ActivityEventDetails.class);
+//                startActivity(ied);
+//                break;
+            case R.id.join:
                 Log.d(tag, "join this event");
                 Intent ije = new Intent(getActivity().getApplicationContext(), ActivityJoinEvent.class);
                 startActivity(ije);

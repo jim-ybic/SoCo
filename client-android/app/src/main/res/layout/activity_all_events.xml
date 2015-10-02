@@ -30,8 +30,7 @@
                 android:layout_height="wrap_content"
                 android:text="+"
                 android:textSize="25dp"
-                android:onClick="add"
-                android:id="@+id/add" />
+                android:onClick="add" />
         </TableRow>
     </TableLayout>
 

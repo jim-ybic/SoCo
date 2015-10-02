@@ -16,7 +16,7 @@
         android:title="All Friends"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/ic_action_group_white"/>
+        android:icon="@drawable/ic_action_group"/>
 
     <!--secondary functions-->
     <item

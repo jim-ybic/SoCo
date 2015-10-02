@@ -219,7 +219,7 @@ public class FragmentContactsObs extends Fragment implements View.OnClickListene
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.add) {
+        if (id == R.id.join) {
             Log.i(tag, "Click on add.");
             addContact();
         }

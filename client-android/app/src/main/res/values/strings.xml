@@ -52,7 +52,7 @@
     <string name="privacypolicy"><u>Privacy Policy</u></string>
     <string name="title_activity_activity_event_likers">Event Likers</string>
     <string name="title_activity_activity_event_friends">Event Friends</string>
-    <string name="title_activity_activity_event_groups">Event Groups</string>
+    <string name="title_activity_activity_event_organizers">Event Organizers</string>
     <string name="title_activity_activity_event_details">Event Details</string>
     <string name="title_activity_activity_join_event">Join Event</string>
     <string name="title_activity_activity_person_events">Person Events</string>

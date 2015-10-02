@@ -34,7 +34,7 @@
         android:title="All Events"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/ic_action_event_dark"/>
+        android:icon="@drawable/ic_action_event"/>
 
     <!--secondary functions-->
     <item
