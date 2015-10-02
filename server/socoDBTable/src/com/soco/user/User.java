@@ -33,27 +33,73 @@ public class User implements BaseTable {
     /* mobile phone */
     private String mobilePhone;
     
-    /* create date */
+    /* gender */
+    private int gender;
+    
+    /* hometown */
+    private String hometown;
+    
+    /* biography */
+    private String biography;
+    
+    /* latitude */
+    private Float latitude;
+    
+    /* longitude */
+    private Float longitude;
+    
+    /* number of friends */
+    private int numOfFriends;
+    
+    /* number of following */
+    private int numOfFollowing;
+    
+    /* number of followers */
+    private int numOfFollowers;
+    
+    /* number of like */
+    private int numOfLike;
+    
+    /* create date written by db, here just read from db */
     private Date createDate;
     
-    /* user is enabled or not */
-    private Boolean isUserEnabled;
+    /* modified date time, just read from db */
+    private Date modifiedDate;
     
-    /* account expired */
-    private Boolean accountExpired;
+    /* user is enabled or not */
+    private Boolean isEnabled;
+    
+    /* account validated */
+    private Boolean isValidated;
     
     /* account locked */
-    private Boolean accountLocked;
-	
-	/* password expired by every 3 month? */
-    private Boolean passwordExpired;
+    private Boolean isLocked;
+    
+    /* user is deleted */
+    private Boolean isDeleted;
     
     /* user profile photo file path */
     private String userProfilePhotoPath;
 
     
     public User(){
-    	
+        this.id = 0;
+        this.userName = "";
+        this.userEncryptPassword = "";
+        this.userPlainPassword = "";
+        this.email = "";
+        this.mobilePhone = "";
+        this.latitude = 0f;
+        this.longitude = 0f;
+        this.numOfFollowers = 0;
+        this.numOfFollowing = 0;
+        this.numOfFriends = 0;
+        this.numOfLike = 0;
+        this.isEnabled = false;
+        this.isValidated = false;
+        this.isLocked = false;
+        this.isDeleted = false;
+        this.userProfilePhotoPath = "";
     }
     
     public User(long id, 
@@ -61,12 +107,17 @@ public class User implements BaseTable {
     		    String password, 
     		    String plainPassword, 
     		    String email, 
-    		    String mPhone, 
-    		    Date createDate,
+    		    String mPhone,
+    		    Float latitude,
+    		    Float longitude,
+    		    int followers,
+    		    int following,
+    		    int friends,
+    		    int like,
     		    Boolean enabled,
-    		    Boolean expired,
+    		    Boolean validated,
     		    Boolean locked,
-    		    Boolean passwordExpired,
+    		    Boolean deleted,
     		    String photoPath){
     	this.id = id;
     	this.userName = name;
@@ -74,11 +125,16 @@ public class User implements BaseTable {
     	this.userPlainPassword = plainPassword;
     	this.email = email;
     	this.mobilePhone = mPhone;
-    	this.createDate = createDate;
-    	this.isUserEnabled = enabled;
-    	this.accountExpired = expired;
-    	this.accountLocked = locked;
-    	this.passwordExpired = passwordExpired;
+    	this.setLatitude(latitude);
+    	this.setLongitude(longitude);
+    	this.numOfFollowers = followers;
+    	this.numOfFollowing = following;
+    	this.numOfFriends = friends;
+    	this.numOfLike = like;
+    	this.isEnabled = enabled;
+    	this.isValidated = validated;
+    	this.isLocked = locked;
+    	this.isDeleted = deleted;
     	this.userProfilePhotoPath = photoPath;
     }
 
@@ -130,38 +186,6 @@ public class User implements BaseTable {
 		this.createDate = createDate;
 	}
 
-	public Boolean getIsUserEnabled() {
-		return isUserEnabled;
-	}
-
-	public void setIsUserEnabled(Boolean isUserEnabled) {
-		this.isUserEnabled = isUserEnabled;
-	}
-
-	public Boolean getAccountExpired() {
-		return accountExpired;
-	}
-
-	public void setAccountExpired(Boolean accountExpired) {
-		this.accountExpired = accountExpired;
-	}
-
-	public Boolean getAccountLocked() {
-		return accountLocked;
-	}
-
-	public void setAccountLocked(Boolean accountLocked) {
-		this.accountLocked = accountLocked;
-	}
-
-	public Boolean getPasswordExpired() {
-		return passwordExpired;
-	}
-
-	public void setPasswordExpired(Boolean passwordExpired) {
-		this.passwordExpired = passwordExpired;
-	}
-
 	public String getUserProfilePhotoPath() {
 		return userProfilePhotoPath;
 	}
@@ -185,6 +209,7 @@ public class User implements BaseTable {
 	
 	public String getTableCreateSQL() {
 		// TODO Auto-generated method stub
+	    /*
 		return "create table if not exists user ( id bigint not null AUTO_INCREMENT, "
 				+ "name varchar(45), "
 				+ "password varchar(45), "
@@ -198,18 +223,155 @@ public class User implements BaseTable {
 				+ "password_expired bool, "
 				+ "photo_path varchar(45), "
 				+ "primary key (id))" ;
+				*/
+	    return null;
 	}
 	
 
 	@Override
 	public String getInsertSQL() {
 		// TODO Auto-generated method stub
-		return format("insert into %s (name, password, plain_password, email) values('%s','%s',%s,'%s')", 
+		String sql = format(
+		        "insert into %s " +
+		        "( uid, " +
+		          "name, " +
+		          "email, " +
+		          "mobile_phone, " +
+		          "encrypt_password, " +
+		          "plain_password, " +
+		          "gender, " +
+		          "hometown, " +
+		          "biography, " +
+		          "photo_path, " +
+		          "latitude, " +
+		          "longitude " +
+		          ") values(%s,'%s','%s','%s','%s','%s',%s,'%s','%s','%s',%s,%s)", 
 				getTableName(),
-				this.getUserName(), 
+				this.getId(),
+				this.getUserName(),
+				this.getEmail(),
+				this.getMobilePhone(),
 				this.getUserEncryptPassword(), 
 				this.getUserPlainPassword(), 
-				this.getEmail()
+				this.getGender(),
+				this.getHometown(),
+				this.getBiography(),
+				this.getUserProfilePhotoPath(),
+				this.getLatitude(),
+				this.getLongitude()
 				);
+		return sql;
 	}
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public String getHometown() {
+        return hometown;
+    }
+
+    public void setHometown(String hometown) {
+        this.hometown = hometown;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public int getNumOfFollowing() {
+        return numOfFollowing;
+    }
+
+    public void setNumOfFollowing(int numOfFollowing) {
+        this.numOfFollowing = numOfFollowing;
+    }
+
+    public int getNumOfFriends() {
+        return numOfFriends;
+    }
+
+    public void setNumOfFriends(int numOfFriends) {
+        this.numOfFriends = numOfFriends;
+    }
+
+    public int getNumOfFollowers() {
+        return numOfFollowers;
+    }
+
+    public void setNumOfFollowers(int numOfFollowers) {
+        this.numOfFollowers = numOfFollowers;
+    }
+
+    public int getNumOfLike() {
+        return numOfLike;
+    }
+
+    public void setNumOfLike(int numOfLike) {
+        this.numOfLike = numOfLike;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public Boolean getIsValidated() {
+        return isValidated;
+    }
+
+    public void setIsValidated(Boolean isValidated) {
+        this.isValidated = isValidated;
+    }
+
+    public Boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
+    public Boolean getIsLocked() {
+        return isLocked;
+    }
+
+    public void setIsLocked(Boolean isLocked) {
+        this.isLocked = isLocked;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
+    }
+
+    public Float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
+    }
 }

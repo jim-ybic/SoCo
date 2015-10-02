@@ -19,7 +19,10 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.soco.db.user.UserController;
 import com.soco.log.Log;
+import com.soco.security.encryption.MD5;
+import com.soco.user.User;
 
 public class AppUserMessageHandler implements AppMessageHandler {
 	
@@ -32,7 +35,10 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	private static final String FIELD_EMAIL = "email";
 	private static final String FIELD_PHONE = "phone";
 	private static final String FIELD_PASSWORD = "password";
-	private static final String FIELD_LOCATION = "location";
+	private static final String FIELD_HOMETOWN = "hometown";
+	private static final String FIELD_LATITUDE = "latitude";
+	private static final String FIELD_LONGITUDE = "longitude";
+	
 	
 	private static ArrayList<String> _cmdList = new ArrayList<String>();
 	
@@ -102,25 +108,52 @@ public class AppUserMessageHandler implements AppMessageHandler {
 		if(json.has(FIELD_NAME)){
 			if(json.has(FIELD_EMAIL)){
 				if(json.has(FIELD_PASSWORD)){
-					if(json.has(FIELD_LOCATION)){
-						try {
-							String name = json.getString(FIELD_NAME);
-							String email = json.getString(FIELD_EMAIL);
-							String password = json.getString(FIELD_PASSWORD);
-							String location = json.getString(FIELD_LOCATION);
-							String phone = "";
-							if(json.has(FIELD_PHONE)){
-								phone = json.getString(FIELD_PHONE);
-							} else {
-								Log.debug("There is no phone.");
-							}
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+					try {
+					    User user = new User();
+						String name = json.getString(FIELD_NAME);
+						String email = json.getString(FIELD_EMAIL);
+						String password = json.getString(FIELD_PASSWORD);
+						String hometown = "";
+						if(json.has(FIELD_HOMETOWN)){
+						    hometown = json.getString(FIELD_HOMETOWN);
+						} else {
+                            Log.warn("There is no hometown.");
+                        }
+						String phone = "";
+						if(json.has(FIELD_PHONE)){
+							phone = json.getString(FIELD_PHONE);
+						} else {
+							Log.warn("There is no phone.");
 						}
-					} else {
-						Log.error("There is no location field in request.");
-						this.set_http_status(HttpResponseStatus.BAD_REQUEST);
+						Float latitude = (float) 0.0;
+                        if(json.has(FIELD_LATITUDE)){
+                            phone = json.getString(FIELD_LATITUDE);
+                        } else {
+                            Log.warn("There is no latitude.");
+                        }
+                        Float longitude = 0f;
+                        if(json.has(FIELD_LONGITUDE)){
+                            phone = json.getString(FIELD_LONGITUDE);
+                        } else {
+                            Log.warn("There is no longitude.");
+                        }
+						String encryptPassword = MD5.getMD5(password);
+						////
+						user.setId(uid);
+						user.setUserName(name);
+						user.setEmail(email);
+						user.setUserEncryptPassword(encryptPassword);
+						user.setUserPlainPassword(password);
+						user.setMobilePhone(phone);
+						user.setLatitude(latitude);
+						user.setLongitude(longitude);
+						user.setHometown(hometown);
+						////
+						UserController uc = new UserController();
+						ret = uc.createUser(user);
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				} else {
 					Log.error("There is no password field in request.");

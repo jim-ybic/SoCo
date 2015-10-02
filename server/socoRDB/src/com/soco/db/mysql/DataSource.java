@@ -12,7 +12,7 @@ public class DataSource {
     private static DataSource     datasource;
     private ComboPooledDataSource cpds;
     //
-    private String _db = "test";
+    private String _db = "socoserver1";
     private String _port = "3306";
     private String _jdbc_url = "jdbc:mysql://localhost";
     private String _user = "john";
