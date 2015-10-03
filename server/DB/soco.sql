@@ -73,6 +73,24 @@ CREATE TABLE IF NOT EXISTS fb_user (
 	verified BOOLEAN
 );
 
+/* TABLE authentication token */
+CREATE TABLE IF NOT EXISTS authentication_token (
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    uid BIGINT NOT NULL,
+    token varchar(130) DEFAULT NULL,
+    token_key varchar(64) DEFAULT NULL,
+    start_time DATETIME DEFAULT NULL,
+    validity_millionsecond BIGINT DEFAULT 0
+);
+
+/* TABLE register_code */
+CREATE TABLE IF NOT EXISTS register_code (
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    uid BIGINT NOT NULL,
+    code varchar(100) DEFAULT NULL,
+    create_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 /* TABLE role */
 CREATE TABLE IF NOT EXISTS role (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,

@@ -15,6 +15,10 @@ import com.soco.log.Log;
 public class XmlConfig {
 
     private String _file = "";
+    
+    /*
+     * for database configuration
+     * */
     private static final String _SERVER_NODE = "Server";
     private String _server_name = "";
     private String _connection_node = "";
@@ -28,6 +32,12 @@ public class XmlConfig {
     private String _User ="";
     private static final String _Password_NODE = "Password";
     private String _password = "";
+    
+    /*
+     * for database adapter configuration
+     * */
+    private static final String _DB_ADAPTER = "DBAdapter";
+    private String _db_adapter = "";
     
     public XmlConfig(String xml_file){
         this._file = xml_file;

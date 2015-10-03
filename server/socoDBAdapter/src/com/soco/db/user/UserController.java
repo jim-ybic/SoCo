@@ -6,8 +6,8 @@ import com.soco.user.User;
 
 public class UserController {
 
-    public boolean createUser(User user){
-        boolean ret = false;
+    public int createUser(User user){
+        int ret = 0;
         
         String dbAdapter = System.getProperty(EventDBAdapter.DB_ADAPTER_KEY);
         
@@ -21,20 +21,20 @@ public class UserController {
     }
     
     
-    private boolean createUserByRDB(User user){
-        boolean ret = false;
+    private int createUserByRDB(User user){
+        int ret = 0;
         String sql = user.getInsertSQL();
         dbconnect dbc = new dbconnect();
-        ret = dbc.exectuteSQL(sql);
-        if(!ret){
+        ret = dbc.exectuteUpdateSQL(sql);
+        if( 0 == ret){
             //
         }
         
         return ret;
     }
     
-    private boolean createUserByInMemory(User user){
-        boolean ret = false;
+    private int createUserByInMemory(User user){
+        int ret = 0;
         return ret;
     }
 }

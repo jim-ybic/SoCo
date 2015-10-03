@@ -14,6 +14,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
@@ -23,6 +24,8 @@ import com.soco.db.user.UserController;
 import com.soco.log.Log;
 import com.soco.security.encryption.MD5;
 import com.soco.user.User;
+import com.soco.algorithm.user.UserInfor;;
+
 
 public class AppUserMessageHandler implements AppMessageHandler {
 	
@@ -103,7 +106,8 @@ public class AppUserMessageHandler implements AppMessageHandler {
 		boolean ret = false;
 		Log.debug("In register.");
 		
-		long uid = 0;
+		//todo: thread id and area id
+		long uid = UserInfor.getUID(1, 1);
 		
 		if(json.has(FIELD_NAME)){
 			if(json.has(FIELD_EMAIL)){
@@ -150,7 +154,22 @@ public class AppUserMessageHandler implements AppMessageHandler {
 						user.setHometown(hometown);
 						////
 						UserController uc = new UserController();
-						ret = uc.createUser(user);
+						int rows = uc.createUser(user);
+						JSONObject jsonResp = new JSONObject();
+						if (rows > 0){
+							jsonResp.put("status", 200);
+							jsonResp.put("user_id", uid);
+							jsonResp.put("token", "test-token");
+							this.set_http_status(OK);
+						}else{
+							jsonResp.put("status", 400);
+							jsonResp.put("error_code", 11);
+							jsonResp.put("property", "email");
+							jsonResp.put("message", "email not unique.");
+							jsonResp.put("more_info", "http://www.socotechhk.com/api/help/11");
+							this.set_http_status(HttpResponseStatus.BAD_REQUEST);
+						}
+						this.set_http_response_content(jsonResp.toString());
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -196,7 +215,7 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	public FullHttpResponse getResponse() {
 		// TODO Auto-generated method stub
 		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, this.get_http_status(), Unpooled.wrappedBuffer(this.get_http_response_content().getBytes()));
-        response.headers().set(CONTENT_TYPE, "text/json");
+        response.headers().set(CONTENT_TYPE, "application/json");
         response.headers().set(CONTENT_LENGTH, response.content().readableBytes());
         response.headers().set(CONNECTION, Values.KEEP_ALIVE);
 		return response;
