@@ -4,6 +4,7 @@ import static java.lang.String.format;
 
 import java.util.Date;
 
+import com.soco.log.Log;
 import com.soco.table.BaseTable;
 
 public class User implements BaseTable {
@@ -260,6 +261,7 @@ public class User implements BaseTable {
 				this.getLatitude(),
 				this.getLongitude()
 				);
+		Log.debug("insert sql: " + sql);
 		return sql;
 	}
 

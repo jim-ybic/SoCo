@@ -31,7 +31,7 @@ public class DataSource {
     			ComboPooledDataSource cpds_ = null;
     			cpds_ = new ComboPooledDataSource();
 				cpds_.setDriverClass("com.mysql.jdbc.Driver");
-				cpds_.setJdbcUrl(url + ":" + port + "/" + dbName);
+				cpds_.setJdbcUrl(url + ":" + port + "/" + dbName + "?useUnicode=true&characterEncoding=UTF-8");
 	            cpds_.setUser(userName);
 	            cpds_.setPassword(password);
 

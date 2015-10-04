@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -33,14 +35,17 @@ public class XmlConfig {
     private static final String _Password_NODE = "Password";
     private String _password = "";
     
+    private Map<String, String> _string_map = null;
+    
     /*
      * for database adapter configuration
      * */
-    private static final String _DB_ADAPTER = "DBAdapter";
+    private static final String _DB_ADAPTER_NODE = "DBAdapter";
     private String _db_adapter = "";
     
     public XmlConfig(String xml_file){
         this._file = xml_file;
+        this._string_map = new HashMap<String, String>();
     }
     
     public XmlConfig setServerName(String name){
@@ -51,6 +56,10 @@ public class XmlConfig {
     public XmlConfig setConnectionNode(String node){
         this._connection_node = node;
         return this;
+    }
+    
+    public String getValueByName(String name){
+    	return this._string_map.get(name);
     }
     
     public int getPort(){
@@ -78,7 +87,7 @@ public class XmlConfig {
         XMLStreamReader readerXML = null;
         try {
             boolean isWantedServer = false;
-            boolean isWantedConnect = false;
+            //boolean isWantedConnect = false;
             String value = "";
             inFile = new File(this._file);
             XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -95,11 +104,13 @@ public class XmlConfig {
                         isWantedServer = true;
                         //Log.log("is wanted server:"+this._server_name);
                     } 
+                    /*
                     if(!this._connection_node.equals("")
                     && readerXML.getLocalName().equals(this._connection_node)){
                         isWantedConnect = true;
                         //Log.log("is wanted connect:"+this._connection_node);
                     } 
+                    */
                     break;
                 case XMLStreamConstants.CHARACTERS:
                     //characters
@@ -107,7 +118,10 @@ public class XmlConfig {
                     break;
                 case XMLStreamConstants.END_ELEMENT:
                     // end element
-                    if(isWantedServer && isWantedConnect){ 
+                    if(isWantedServer){ 
+                    	String name = readerXML.getLocalName();
+                    	this._string_map.put(name, value);
+                    	//
                         if(readerXML.getLocalName().equals(_PORT_NODE)){
                             this._port = Integer.parseInt(value);
                         } else if (readerXML.getLocalName().equals(_DBURL_NODE)){
@@ -125,9 +139,11 @@ public class XmlConfig {
                     if(readerXML.getLocalName().equals(_SERVER_NODE)){
                         isWantedServer = false;
                     }
+                    /*
                     if(readerXML.getLocalName().equals(this._connection_node)){
                         isWantedConnect = false;
                     }
+                    */
                     break;
                 case XMLStreamConstants.START_DOCUMENT:
                     //start document
@@ -150,6 +166,15 @@ public class XmlConfig {
             }
         }
         return this;
+    }
+    
+    public void testShowMapNameValue(){
+    	if(this._string_map != null){
+    		
+    		for(String key: this._string_map.keySet()){
+    			Log.debug(key + ":" + this._string_map.get(key));
+    		}
+    	}
     }
     
 }
