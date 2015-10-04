@@ -24,6 +24,46 @@ public class dbconnect {
     }
     
     /*
+     * executeUpdateSQL for insert, update and delete
+     * 
+     * Returns:
+     * either (1) the row count for SQL Data Manipulation Language (DML) statements 
+     * or (2) 0 for SQL statements that return nothing
+     * */
+    public int exectuteUpdateSQL(String sql){
+        Connection connection = null;
+        Statement statement = null;
+        int ret = 0;
+ 
+        try {
+            connection = DataSource.getInstance().getConnection();
+            statement = connection.createStatement();
+            ret = statement.executeUpdate(sql);
+            
+            this.setResultSet(statement.getResultSet());
+            this.setUpdateCount(statement.getUpdateCount());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) 
+                try { 
+                    statement.close(); 
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            if (connection != null) 
+                try { 
+                    connection.close(); 
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+        }
+        return ret;
+    }
+    
+    /*
      * executeSQL
      * */
     public boolean exectuteSQL(String sql){
@@ -35,6 +75,7 @@ public class dbconnect {
             connection = DataSource.getInstance().getConnection();
             statement = connection.createStatement();
             ret = statement.execute(sql);
+            statement.executeUpdate(sql);
             
             this.setResultSet(statement.getResultSet());
             this.setUpdateCount(statement.getUpdateCount());

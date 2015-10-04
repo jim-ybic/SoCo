@@ -56,7 +56,7 @@ public class UserMapStore implements MapStore<Long, User>{
 	                Boolean locked = resultSet.getBoolean(10);
 	                Boolean passwordExpired = resultSet.getBoolean(11);
 	                String photoPath = resultSet.getString(12);
-	                user = new User(key, name, password, plainPassword, email, mPhone, createDate, enabled, expired, locked, passwordExpired, photoPath);
+	                //user = new User(key, name, password, plainPassword, email, mPhone, createDate, enabled, expired, locked, passwordExpired, photoPath);
                 } else {
                 	//todo add log
                 }

@@ -15,6 +15,10 @@ public class Log {
         log.debug(msg);
     }
     
+    public static void warn(String msg){
+        log.warn(msg);
+    }
+    
     public static void error(String msg){
         log.error(msg);
     }

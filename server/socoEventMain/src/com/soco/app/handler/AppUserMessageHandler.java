@@ -14,12 +14,18 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.soco.db.user.UserController;
 import com.soco.log.Log;
+import com.soco.security.encryption.MD5;
+import com.soco.user.User;
+import com.soco.algorithm.user.UserInfor;;
+
 
 public class AppUserMessageHandler implements AppMessageHandler {
 	
@@ -32,7 +38,10 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	private static final String FIELD_EMAIL = "email";
 	private static final String FIELD_PHONE = "phone";
 	private static final String FIELD_PASSWORD = "password";
-	private static final String FIELD_LOCATION = "location";
+	private static final String FIELD_HOMETOWN = "hometown";
+	private static final String FIELD_LATITUDE = "latitude";
+	private static final String FIELD_LONGITUDE = "longitude";
+	
 	
 	private static ArrayList<String> _cmdList = new ArrayList<String>();
 	
@@ -97,30 +106,73 @@ public class AppUserMessageHandler implements AppMessageHandler {
 		boolean ret = false;
 		Log.debug("In register.");
 		
-		long uid = 0;
+		//todo: thread id and area id
+		long uid = UserInfor.getUID(1, 1);
 		
 		if(json.has(FIELD_NAME)){
 			if(json.has(FIELD_EMAIL)){
 				if(json.has(FIELD_PASSWORD)){
-					if(json.has(FIELD_LOCATION)){
-						try {
-							String name = json.getString(FIELD_NAME);
-							String email = json.getString(FIELD_EMAIL);
-							String password = json.getString(FIELD_PASSWORD);
-							String location = json.getString(FIELD_LOCATION);
-							String phone = "";
-							if(json.has(FIELD_PHONE)){
-								phone = json.getString(FIELD_PHONE);
-							} else {
-								Log.debug("There is no phone.");
-							}
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+					try {
+					    User user = new User();
+						String name = json.getString(FIELD_NAME);
+						String email = json.getString(FIELD_EMAIL);
+						String password = json.getString(FIELD_PASSWORD);
+						String hometown = "";
+						if(json.has(FIELD_HOMETOWN)){
+						    hometown = json.getString(FIELD_HOMETOWN);
+						} else {
+                            Log.warn("There is no hometown.");
+                        }
+						String phone = "";
+						if(json.has(FIELD_PHONE)){
+							phone = json.getString(FIELD_PHONE);
+						} else {
+							Log.warn("There is no phone.");
 						}
-					} else {
-						Log.error("There is no location field in request.");
-						this.set_http_status(HttpResponseStatus.BAD_REQUEST);
+						Float latitude = (float) 0.0;
+                        if(json.has(FIELD_LATITUDE)){
+                            phone = json.getString(FIELD_LATITUDE);
+                        } else {
+                            Log.warn("There is no latitude.");
+                        }
+                        Float longitude = 0f;
+                        if(json.has(FIELD_LONGITUDE)){
+                            phone = json.getString(FIELD_LONGITUDE);
+                        } else {
+                            Log.warn("There is no longitude.");
+                        }
+						String encryptPassword = MD5.getMD5(password);
+						////
+						user.setId(uid);
+						user.setUserName(name);
+						user.setEmail(email);
+						user.setUserEncryptPassword(encryptPassword);
+						user.setUserPlainPassword(password);
+						user.setMobilePhone(phone);
+						user.setLatitude(latitude);
+						user.setLongitude(longitude);
+						user.setHometown(hometown);
+						////
+						UserController uc = new UserController();
+						int rows = uc.createUser(user);
+						JSONObject jsonResp = new JSONObject();
+						if (rows > 0){
+							jsonResp.put("status", 200);
+							jsonResp.put("user_id", uid);
+							jsonResp.put("token", "test-token");
+							this.set_http_status(OK);
+						}else{
+							jsonResp.put("status", 400);
+							jsonResp.put("error_code", 11);
+							jsonResp.put("property", "email");
+							jsonResp.put("message", "email not unique.");
+							jsonResp.put("more_info", "http://www.socotechhk.com/api/help/11");
+							this.set_http_status(HttpResponseStatus.BAD_REQUEST);
+						}
+						this.set_http_response_content(jsonResp.toString());
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				} else {
 					Log.error("There is no password field in request.");
@@ -163,7 +215,7 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	public FullHttpResponse getResponse() {
 		// TODO Auto-generated method stub
 		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, this.get_http_status(), Unpooled.wrappedBuffer(this.get_http_response_content().getBytes()));
-        response.headers().set(CONTENT_TYPE, "text/json");
+        response.headers().set(CONTENT_TYPE, "application/json");
         response.headers().set(CONTENT_LENGTH, response.content().readableBytes());
         response.headers().set(CONNECTION, Values.KEEP_ALIVE);
 		return response;
