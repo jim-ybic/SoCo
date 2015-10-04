@@ -242,7 +242,7 @@
                     android:layout_height="wrap_content"
                     android:text="0.5km"
                     android:layout_gravity="center_vertical"
-                    android:textColor="@android:color/holo_blue_light" />
+                    android:textColor="@android:color/holo_blue_dark" />
             </LinearLayout>
         </LinearLayout>
 
@@ -298,7 +298,7 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="left"
-            android:onClick="eventgroups">
+            android:onClick="eventorganizers">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

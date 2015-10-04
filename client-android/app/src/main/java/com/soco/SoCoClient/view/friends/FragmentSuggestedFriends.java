@@ -71,8 +71,8 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
 
         cardTest(rootView);
 
-        rootView.findViewById(R.id.personevents).setOnClickListener(this);
-        rootView.findViewById(R.id.persongroups).setOnClickListener(this);
+//        rootView.findViewById(R.id.personevents).setOnClickListener(this);
+//        rootView.findViewById(R.id.persongroups).setOnClickListener(this);
         rootView.findViewById(R.id.detail).setOnClickListener(this);
 //        rootView.findViewById(R.id.more).setOnClickListener(this);
         rootView.findViewById(R.id.add).setOnClickListener(this);
@@ -174,28 +174,28 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
 //            case R.id.add:
 //                add();
 //                break;
-            case R.id.personevents:
-                Log.d(tag, "show all event friends");
-                Intent ipe = new Intent(getActivity().getApplicationContext(), ActivityPersonEvents.class);
-                startActivity(ipe);
-                break;
-            case R.id.persongroups:
-                Log.d(tag, "show all event groups");
-                Intent ipg = new Intent(getActivity().getApplicationContext(), ActivityPersonGroups.class);
-                startActivity(ipg);
-                break;
+//            case R.id.personevents:
+//                Log.d(tag, "show all event friends");
+//                Intent ipe = new Intent(getActivity().getApplicationContext(), ActivityPersonEvents.class);
+//                startActivity(ipe);
+//                break;
+//            case R.id.persongroups:
+//                Log.d(tag, "show all event groups");
+//                Intent ipg = new Intent(getActivity().getApplicationContext(), ActivityPersonGroups.class);
+//                startActivity(ipg);
+//                break;
 //            case R.id.detail:
 //                Log.d(tag, "pass this event");
 //                break;
-            case R.id.more:
+            case R.id.detail:
                 Log.d(tag, "show person details");
-//                Intent ied = new Intent(getActivity().getApplicationContext(), .class);
-//                startActivity(ied);
+                Intent ipd = new Intent(getActivity().getApplicationContext(), ActivityPersonDetails.class);
+                startActivity(ipd);
                 break;
             case R.id.add:
                 Log.d(tag, "add this friend");
-//                Intent ije = new Intent(getActivity().getApplicationContext(), .class);
-//                startActivity(ije);
+                Intent iaf = new Intent(getActivity().getApplicationContext(), ActivityAddFriend.class);
+                startActivity(iaf);
                 break;
         }
     }

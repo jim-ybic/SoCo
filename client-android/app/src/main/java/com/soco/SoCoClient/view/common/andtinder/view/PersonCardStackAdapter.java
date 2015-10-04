@@ -25,7 +25,7 @@ public final class PersonCardStackAdapter extends CardStackAdapter {
 	public View getCardView(int position, CardModel model, View convertView, ViewGroup parent) {
 		if(convertView == null) {
 			LayoutInflater inflater = LayoutInflater.from(getContext());
-			convertView = inflater.inflate(R.layout.card_person, parent, false);
+			convertView = inflater.inflate(R.layout.card_friend, parent, false);
 			assert convertView != null;
 		}
 

@@ -16,8 +16,10 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.view.events.ActivityEventFriends;
+import com.soco.SoCoClient.view.events.ActivityEventBuddies;
 import com.soco.SoCoClient.view.events.ActivityEventOrganizers;
+import com.soco.SoCoClient.view.friends.ActivityCommonFriends;
+import com.soco.SoCoClient.view.friends.ActivityCommonGroups;
 
 public class Dashboard extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener {
@@ -30,8 +32,8 @@ public class Dashboard extends ActionBarActivity implements
 
     // Tab titles
     private String[] tabs = {
-            "Events",
-            "Friends",
+            "Suggested Events",
+            "Suggested Friends",
 //            "Stream",
 //            "Messages"
     };
@@ -117,9 +119,9 @@ public class Dashboard extends ActionBarActivity implements
 
     }
 
-    public void eventgroups (View view){
+    public void eventorganizers (View view){
 //        Log.d(tag, "tap eventgroups");
-        Log.d(tag, "show all event groups");
+        Log.d(tag, "show all event organizers");
         Intent ieg = new Intent(getApplicationContext(), ActivityEventOrganizers.class);
         startActivity(ieg);
 
@@ -128,9 +130,23 @@ public class Dashboard extends ActionBarActivity implements
     public void eventfriends (View view){
 //        Log.d(tag, "tap eventgroups");
         Log.d(tag, "show all event friends");
-        Intent ief = new Intent(getApplicationContext(), ActivityEventFriends.class);
+        Intent ief = new Intent(getApplicationContext(), ActivityEventBuddies.class);
         startActivity(ief);
 
+    }
+
+    public void commongroups (View view){
+//        Log.d(tag, "tap eventgroups");
+        Log.d(tag, "show all common groups");
+        Intent icg = new Intent(getApplicationContext(), ActivityCommonGroups.class);
+        startActivity(icg);
+    }
+
+    public void commonfriends (View view){
+//        Log.d(tag, "tap eventgroups");
+        Log.d(tag, "show all common friends");
+        Intent icf = new Intent(getApplicationContext(), ActivityCommonFriends.class);
+        startActivity(icf);
     }
 
 }

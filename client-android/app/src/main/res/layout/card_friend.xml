@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/global_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@android:color/white">
+        <TextView
+            android:id="@+id/title"
+            style="@android:style/TextAppearance.Large.Inverse"
+            android:textColor="@android:color/primary_text_light"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            tools:text="Person Name"
+            android:padding="10dp"/>
+        <ImageView
+            android:id="@+id/banner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignWithParentIfMissing="true"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/user"/>
+        <View
+            android:id="@+id/test_view"
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:layout_alignBottom="@+id/test_image_camera" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@android:color/white">
+        <LinearLayout
+            android:id="@+id/indicators"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="left"
+                android:gravity="left">
+                <ImageButton
+                    android:id="@+id/views"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_search_black"
+                    android:layout_gravity="center_vertical" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 500 "
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right">
+                <ImageButton
+                    android:id="@+id/likes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_favorite"
+                    android:layout_gravity="center_vertical" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 100 "
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right">
+                <ImageButton
+                    android:id="@+id/photos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/camera"
+                    android:layout_gravity="center_vertical" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right">
+                <ImageButton
+                    android:id="@+id/comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_chat_black"
+                    android:layout_gravity="center_vertical" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 20 "
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+        </LinearLayout>
+        <!--<TextView-->
+        <!--android:id="@+id/description"-->
+        <!--style="@android:style/TextAppearance.Inverse"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBottom="@+id/test_image_friends"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_toLeftOf="@+id/btn_sep_1"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:fontFamily="sans-serif-condensed"-->
+        <!--android:ellipsize="end"-->
+        <!--android:padding="10dp"-->
+        <!--android:lines="1"-->
+        <!--android:textColor="@android:color/secondary_text_light"-->
+        <!--tools:text="This is the description, it is a long description, as you can see"/>-->
+        <LinearLayout
+            android:id="@+id/date_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_gravity="left"
+                android:gravity="left">
+                <ImageButton
+                    android:id="@+id/calendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_brightness_high"
+                    android:layout_gravity="center_vertical" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  "
+                    android:layout_gravity="center_vertical" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="piano"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  "
+                    android:layout_gravity="center_vertical" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="fine dining"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/darker_gray"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  "
+                    android:layout_gravity="center_vertical" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="coding"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/darker_gray"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:onClick="eventfriends">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:paddingTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upcoming events: "
+                    android:layout_gravity="top" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/personevents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/picture3_crop_small"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"/>
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/card_outline" />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/picture3_crop_small"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"/>
+                <!--<ImageButton-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="?android:attr/selectableItemBackground"-->
+                <!--android:src="@drawable/ic_action_event"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:clickable="false"/>-->
+            </LinearLayout>
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="right">-->
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="See all "-->
+            <!--android:gravity="right"-->
+            <!--android:onClick="allfriends"/>-->
+            <!--</LinearLayout>-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@android:color/white"
+            android:paddingTop="10dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:onClick="commongroups"
+                android:id="@+id/commongroups">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="5 common groups"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="10dp"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:paddingLeft="5dp">
+                    <!--<TextView-->
+                    <!--android:id="@+id/groups"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Groups: "-->
+                    <!--android:layout_gravity="top" />-->
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_action_group"
+                        android:layout_gravity="center_vertical"
+                        android:clickable="false"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_action_group"
+                        android:layout_gravity="center_vertical"
+                        android:clickable="false"/>
+                    <ImageButton
+                        android:id="@+id/group3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_action_group"
+                        android:layout_gravity="center_vertical"
+                        android:clickable="false"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:onClick="commonfriends"
+                android:id="@+id/commonfriends">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:paddingRight="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="5 common friends"
+                        android:gravity="left"
+                        android:textSize="10dp"
+                        android:textColor="@android:color/black"
+                        android:layout_gravity="top" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Friends: "-->
+                    <!--android:layout_gravity="top" />-->
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_action_person"
+                        android:layout_gravity="center_vertical"
+                        android:clickable="false"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_action_person"
+                        android:layout_gravity="center_vertical"
+                        android:clickable="false"
+                        android:adjustViewBounds="false" />
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_action_person"
+                        android:layout_gravity="center_vertical"
+                        android:clickable="false"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--<LinearLayout-->
+            <!--android:id="@+id/location"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+            <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_gravity="left"-->
+            <!--android:gravity="left">-->
+            <!--<ImageButton-->
+            <!--android:id="@+id/map"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="?android:attr/selectableItemBackground"-->
+            <!--android:src="@drawable/ic_action_location_found"-->
+            <!--android:layout_gravity="center_vertical" />-->
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="  "-->
+            <!--android:layout_gravity="center_vertical" />-->
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Fantastic Event Venue 0.5km"-->
+            <!--android:layout_gravity="center_vertical" />-->
+            <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+            <!--android:id="@+id/friends"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+            <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_gravity="left"-->
+            <!--android:gravity="left">-->
+            <!--<ImageButton-->
+            <!--android:id="@+id/friends_icon"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="?android:attr/selectableItemBackground"-->
+            <!--android:src="@drawable/ic_action_person"-->
+            <!--android:layout_gravity="center_vertical" />-->
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="  "-->
+            <!--android:layout_gravity="center_vertical" />-->
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Best Event Host"-->
+            <!--android:layout_gravity="center_vertical" />-->
+
+
+            <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

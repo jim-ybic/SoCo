@@ -30,7 +30,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"
             android:configChanges="orientation|keyboard"
@@ -209,8 +208,8 @@
                 android:value="com.soco.SoCoClient.view.Dashboard" />
         </activity>
         <activity
-            android:name=".view.events.ActivityEventFriends"
-            android:label="@string/title_activity_activity_event_friends"
+            android:name=".view.events.ActivityEventBuddies"
+            android:label="@string/title_activity_activity_event_buddies"
             android:parentActivityName=".view.Dashboard" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -258,6 +257,38 @@
         <activity
             android:name=".view.groups.ActivityGroupDetails"
             android:label="@string/title_activity_activity_group_details" >
+        </activity>
+        <activity
+            android:name=".view.friends.ActivityCommonGroups"
+            android:label="@string/title_activity_activity_common_groups"
+            android:parentActivityName=".view.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
+        </activity>
+        <activity
+            android:name=".view.friends.ActivityCommonFriends"
+            android:label="@string/title_activity_activity_common_friends"
+            android:parentActivityName=".view.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
+        </activity>
+        <activity
+            android:name=".view.friends.ActivityPersonDetails"
+            android:label="@string/title_activity_activity_person_details"
+            android:parentActivityName=".view.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
+        </activity>
+        <activity
+            android:name=".view.friends.ActivityAddFriend"
+            android:label="@string/title_activity_activity_add_friend"
+            android:parentActivityName=".view.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.view.Dashboard" />
         </activity>
     </application>
 

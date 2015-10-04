@@ -46,7 +46,7 @@ public class AppUserMessageHandler implements AppMessageHandler {
 		System.out.println("In AppUserMessageHandler. The command " + httpMethod + " and message is: ");
 		// format to json object
 		try {
-			this.set_http_response_content(content);
+			this.set_http_response_content(content);	//echo request message
 			this.set_http_status(OK);
 			JSONObject jsonObj = new JSONObject(content);
 			String methodName = httpMethod.toLowerCase() + "_" + className + "_" + version;

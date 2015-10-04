@@ -47,16 +47,19 @@
     <string name="title_activity_activity_chats">Chats</string>
     <string name="title_activity_activity_register">Register</string>
     <string name="title_activity_activity_forgot_password">Forgot Password?</string>
-
     <string name="termsconditions"><u>Terms and Conditions</u></string>
     <string name="privacypolicy"><u>Privacy Policy</u></string>
     <string name="title_activity_activity_event_likers">Event Likers</string>
-    <string name="title_activity_activity_event_friends">Event Friends</string>
+    <string name="title_activity_activity_event_buddies">Event Buddies</string>
     <string name="title_activity_activity_event_organizers">Event Organizers</string>
     <string name="title_activity_activity_event_details">Event Details</string>
     <string name="title_activity_activity_join_event">Join Event</string>
     <string name="title_activity_activity_person_events">Person Events</string>
     <string name="title_activity_activity_person_groups">Person Groups</string>
     <string name="title_activity_activity_group_details">Group Details</string>
+    <string name="title_activity_activity_common_groups">Common Groups</string>
+    <string name="title_activity_activity_common_friends">Common Friends</string>
+    <string name="title_activity_activity_person_details">Person Details</string>
+    <string name="title_activity_activity_add_friend">Add Friend</string>
 
 </resources>
