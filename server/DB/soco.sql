@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS fb_user (
 	uid BIGINT NOT NULL,
     fb_id BIGINT NOT NULL PRIMARY KEY,  
 	name varchar(80) DEFAULT NULL,
+    email varchar(80) DEFAULT NULL,
 	first_name varchar(40) DEFAULT NULL,
 	last_name varchar(40) DEFAULT NULL,
 	age_range varchar(40) DEFAULT NULL,
