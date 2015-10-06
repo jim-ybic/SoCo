@@ -1,8 +1,5 @@
 package com.soco.db.user;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import com.soco.dbconnect.dbconnect;
 import com.soco.log.Log;
 import com.soco.user.FacebookUser;
@@ -28,8 +25,8 @@ public class FacebookUserController {
 		boolean ret = false;
 		Log.infor("In create facebook user.");
 		dbconnect dbc = new dbconnect();
-        int rs = dbc.exectuteUpdateSQL(fbUser.getInsertSQL());
-        if( rs > 0 ){
+        int rows = dbc.exectuteUpdateSQL(fbUser.getInsertSQL());
+        if( rows > 0 ){
         	ret = true;
         }
 	
@@ -39,6 +36,11 @@ public class FacebookUserController {
 	public boolean updateFBUser(FacebookUser fbUser){
 		boolean ret = false;
 		Log.infor("In update facebook user.");
+		dbconnect dbc = new dbconnect();
+		int rows = dbc.exectuteUpdateSQL(fbUser.getUpdateSQLById());
+		if( rows > 0 ){
+        	ret = true;
+        }
 		return ret;
 	}
 }

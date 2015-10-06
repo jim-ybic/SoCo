@@ -168,17 +168,15 @@ public class AppUserMessageHandler implements AppMessageHandler {
 						////
 						UserController uc = new UserController();
 						int rows = uc.createUser(user);
-						JSONObject jsonResp = new JSONObject();
 						if (rows > 0){
-							jsonResp.put("status", 200);
-							jsonResp.put("user_id", uid);
-							jsonResp.put("token", "test-token");
+							String token = "";
+							String resp = AppResponseHandler.getRegisterSuccessResponse(200, uid, token);
 							this.set_http_status(OK);
+							this.set_http_response_content(resp);
 							//send out the register code to the email
 							this.sendEmail(user.getEmail(), this.getEmailContent());
 							ret = true;
 						}
-						this.set_http_response_content(jsonResp.toString());
 						////
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -195,19 +193,11 @@ public class AppUserMessageHandler implements AppMessageHandler {
 		}
 		
 		if(!ret){
-			JSONObject jsonResp = new JSONObject();
-			try {
-				jsonResp.put("status", 400);
-				jsonResp.put("error_code", 11);
-				jsonResp.put("property", "email");
-				jsonResp.put("message", "email not unique.");
-				jsonResp.put("more_info", "http://www.socotechhk.com/api/help/11");
-				this.set_http_status(HttpResponseStatus.BAD_REQUEST);
-				this.set_http_response_content(jsonResp.toString());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			String property = "";
+			String message = "";
+			String resp = AppResponseHandler.getRegisterFailureResponse(400, 11, property, message);
+			this.set_http_status(HttpResponseStatus.BAD_REQUEST);
+			this.set_http_response_content(resp);
 		}
 		
 		return ret;
@@ -221,63 +211,19 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	
 	public boolean post_social_login_v1 (JSONObject json, String param){
 		boolean ret = false;
-		Log.debug("In social login.");
+		Log.debug("In social login to create social user.");
 		
-		try {
-			if(null != json){
-				if (json.has(FIELD_TYPE)){
-					String type;
-					type = json.getString(FIELD_TYPE);
-					
-					if(type.equals(FIELD_TYPE_FB)){
-						if(json.has(FIELD_ID)){
-							long id = json.getLong(FIELD_ID);
-							FacebookUser fbUser = this.parseFacebookUserFromJson(json);
-							FacebookUserController fbuc = new FacebookUserController();
-							if(fbuc.has(id)){
-								ret = fbuc.updateFBUser(fbUser);
-							} else {
-								ret = fbuc.createFBUser(fbUser);
-							}
-							if(ret){
-								JSONObject jsonResp = new JSONObject();
-								jsonResp.put("status", 200);
-								jsonResp.put("user_id", fbUser.getUid());
-								jsonResp.put("token", "test-token");
-								this.set_http_status(OK);
-								this.set_http_response_content(jsonResp.toString());
-							}
-						} else {
-							Log.debug("There is no id field in json.");
-						}
-					} else if(type.equals(FIELD_TYPE_WECHAT)){
-						
-					} else {
-						Log.warn("The type value is incorrect.");
-					}
-				}
-			} else {
-				
-			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(!ret){
-			JSONObject jsonResp = new JSONObject();
-			try {
-				jsonResp.put("status", 400);
-				jsonResp.put("error_code", 11);
-				jsonResp.put("property", "email");
-				jsonResp.put("message", "email not unique.");
-				jsonResp.put("more_info", "http://www.socotechhk.com/api/help/11");
-				this.set_http_status(HttpResponseStatus.BAD_REQUEST);
-				this.set_http_response_content(jsonResp.toString());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		this.socialLoginHandler(json, param, false);
+		
+		return ret;
+	}
+	
+	public boolean put_social_login_v1 (JSONObject json, String param){
+		boolean ret = false;
+		Log.debug("In social login to update social user.");
+		
+		this.socialLoginHandler(json, param, true);
+		
 		return ret;
 	}
 	
@@ -292,6 +238,78 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	}
 	
 	
+	private boolean socialLoginHandler(JSONObject json, String param, boolean update){
+		boolean ret = false;
+		int httpStatus = 400;
+		int error_code = 0;
+		String property = "";
+		String message = "";
+		try {
+			if (json.has(FIELD_TYPE)){
+				String type;
+				type = json.getString(FIELD_TYPE);
+				
+				if(type.equals(FIELD_TYPE_FB)){
+					if(json.has(FIELD_ID)){
+						long id = json.getLong(FIELD_ID);
+						FacebookUser fbUser = this.parseFacebookUserFromJson(json);
+						FacebookUserController fbuc = new FacebookUserController();
+						if(update){
+							////PUT Method
+							if(!fbuc.has(id)){
+								httpStatus = 400;
+								error_code = 11;
+								property = "id";
+								message = "The user is not existent.";
+							} else {
+								ret = fbuc.updateFBUser(fbUser);
+								if(ret){
+									String resp = AppResponseHandler.getSocialLoginSuccessResponse(200, fbUser.getUid(), "");
+									this.set_http_status(OK);
+									this.set_http_response_content(resp);
+								}
+							}
+						} else {
+							////POST Method
+							if(fbuc.has(id)){
+								////existent, and then log in
+								ret = true;
+							} else {
+								ret = fbuc.createFBUser(fbUser);
+							}
+							if(ret){
+								////generate a token for user
+								String token = "token";
+								String resp = AppResponseHandler.getSocialLoginSuccessResponse(200, fbUser.getUid(), token);
+								this.set_http_status(OK);
+								this.set_http_response_content(resp);
+							}
+						}
+					} else {
+						Log.debug("There is no id field in json.");
+					}
+				} else if(type.equals(FIELD_TYPE_WECHAT)){
+					
+				} else {
+					Log.warn("The type value is incorrect.");
+				}
+				
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(!ret){
+			String resp = AppResponseHandler.getSocialLoginFailureResponse(httpStatus, error_code, property, message);
+			this.set_http_status(HttpResponseStatus.valueOf(httpStatus));
+			this.set_http_response_content(resp);
+		}
+		
+		return ret;
+	}
+	
+	
 	private FacebookUser parseFacebookUserFromJson(JSONObject json){
 		FacebookUser fbUser = new FacebookUser();
 		try {
@@ -302,7 +320,13 @@ public class AppUserMessageHandler implements AppMessageHandler {
 					fbUser.setName(json.getString(FIELD_NAME));
 					if(json.has(FIELD_EMAIL)) fbUser.setEmail(json.getString(FIELD_EMAIL));
 					if(json.has(FIELD_FIRST_NAME)) fbUser.setFirstName(json.getString(FIELD_FIRST_NAME));
-					
+					if(json.has(FIELD_LAST_NAME)) fbUser.setLastName(json.getString(FIELD_LAST_NAME));
+					if(json.has(FIELD_AGE_RANGE)) fbUser.setAgeRange(json.getString(FIELD_AGE_RANGE));
+					if(json.has(FIELD_LINK)) fbUser.setLink(json.getString(FIELD_LINK));
+					if(json.has(FIELD_GENDER)) fbUser.setGender(json.getInt(FIELD_GENDER));
+					if(json.has(FIELD_LOCALE)) fbUser.setLocale(json.getString(FIELD_LOCALE));
+					if(json.has(FIELD_TIMEZONE)) fbUser.setTimezone(json.getDouble(FIELD_TIMEZONE));
+					if(json.has(FIELD_VERIFIED)) fbUser.setVerified(json.getBoolean(FIELD_VERIFIED));
 				} else {
 					
 				}

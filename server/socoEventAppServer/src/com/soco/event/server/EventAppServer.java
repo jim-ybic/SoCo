@@ -45,5 +45,7 @@ public class EventAppServer {
         xmlConfig.setServerName(SERVER_NAME);
         xmlConfig.parse();
         xmlConfig.testShowMapNameValue();
+        //
+        System.setProperty("API_HELP_URL", "http://www.socotechhk.com/api/help/error_infor");
     }
 }
