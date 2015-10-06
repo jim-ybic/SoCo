@@ -64,6 +64,44 @@ public class dbconnect {
     }
     
     /*
+     * 
+     * */
+    public int queryRows(String sql){
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        int count = 0;
+ 
+        try {
+            connection = DataSource.getInstance().getConnection();
+            statement = connection.createStatement();
+            rs = statement.executeQuery(sql);
+            while(rs.next()){
+            	count++;
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) 
+                try { 
+                    statement.close(); 
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            if (connection != null) 
+                try { 
+                    connection.close(); 
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+        }
+        return count;
+    }
+    
+    /*
      * executeSQL
      * */
     public boolean exectuteSQL(String sql){
