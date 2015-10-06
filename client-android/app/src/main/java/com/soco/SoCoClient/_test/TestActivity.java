@@ -11,9 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.DataConfig;
-import com.soco.SoCoClient.control.config.GeneralConfig;
-import com.soco.SoCoClient.control.config.HttpConfig;
+import com.soco.SoCoClient.control.profile.Config;
 import com.soco.SoCoClient.control.database.DataLoader;
 import com.soco.SoCoClient.control.http.Heartbeat;
 import com.soco.SoCoClient.control.http.task.SendMessageJob;
@@ -41,13 +39,13 @@ public class TestActivity extends ActionBarActivity {
 
         context = getApplicationContext();
         dataLoader = new DataLoader(context);
-        settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
         editor = settings.edit();
     }
 
     public void jim(View view){
         Log.i(tag, ">>>setup profile: jim.ybic@gmail.com");
-        editor.putString(HttpConfig.PROFILE_LOGIN_ACCESS_TOKEN, "49bugba6gfkoqpc2fho92tc4ajfi7aaj");
+        editor.putString(com.soco.SoCoClient.control.http.Config.PROFILE_LOGIN_ACCESS_TOKEN, "49bugba6gfkoqpc2fho92tc4ajfi7aaj");
         editor.commit();
 
         Log.i(tag, ">>>start heartbeat service");
@@ -57,7 +55,7 @@ public class TestActivity extends ActionBarActivity {
 
     public void voljin(View view){
         Log.i(tag, ">>>setup profile: voljin.g@gmail.com");
-        editor.putString(HttpConfig.PROFILE_LOGIN_ACCESS_TOKEN, "mrqq9v1e4901vn065vfufep1f9iu9ejk");
+        editor.putString(com.soco.SoCoClient.control.http.Config.PROFILE_LOGIN_ACCESS_TOKEN, "mrqq9v1e4901vn065vfufep1f9iu9ejk");
         editor.commit();
 
         Log.i(tag, ">>>start heartbeat service");
@@ -99,9 +97,9 @@ public class TestActivity extends ActionBarActivity {
         task.save();
 
         Log.i(tag, ">>>create an attribute");
-        Attribute attr1 = new Attribute(context, DataConfig.ACTIVITY_TYPE_TASK,
+        Attribute attr1 = new Attribute(context, com.soco.SoCoClient.control.database.Config.ACTIVITY_TYPE_TASK,
                 task.getTaskIdLocal(), task.getTaskIdServer());
-        attr1.setAttrName(DataConfig.ATTRIBUTE_NAME_DATE);
+        attr1.setAttrName(com.soco.SoCoClient.control.database.Config.ATTRIBUTE_NAME_DATE);
         attr1.setAttrValue("2015-06-06");
         attr1.save();
 
@@ -110,15 +108,15 @@ public class TestActivity extends ActionBarActivity {
         attr1.save();
 
         Log.i(tag, ">>>create another attribute");
-        Attribute attr2 = new Attribute(context, DataConfig.ACTIVITY_TYPE_TASK,
+        Attribute attr2 = new Attribute(context, com.soco.SoCoClient.control.database.Config.ACTIVITY_TYPE_TASK,
                 task.getTaskIdLocal(), task.getTaskIdServer());
-        attr2.setAttrName(DataConfig.ATTRIBUTE_NAME_LOCATION);
+        attr2.setAttrName(com.soco.SoCoClient.control.database.Config.ATTRIBUTE_NAME_LOCATION);
         attr2.setAttrValue("hk");
         attr2.save();
 
-        Attribute attr3 = new Attribute(context, DataConfig.ACTIVITY_TYPE_TASK,
+        Attribute attr3 = new Attribute(context, com.soco.SoCoClient.control.database.Config.ACTIVITY_TYPE_TASK,
                 task.getTaskIdLocal(), task.getTaskIdServer());
-        attr3.setAttrName(DataConfig.ATTRIBUTE_NAME_DESCRIPTION);
+        attr3.setAttrName(com.soco.SoCoClient.control.database.Config.ATTRIBUTE_NAME_DESCRIPTION);
         attr3.setAttrValue("this is a testing attribute");
         attr3.save();
 
@@ -139,11 +137,11 @@ public class TestActivity extends ActionBarActivity {
         Log.i(tag, ">>>test3 start: task remote");
 
         Log.i(tag, ">>>setup profile: jim.ybic@gmail.com");
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(HttpConfig.PROFILE_SERVER_IP, "192.168.0.100");
-        editor.putString(HttpConfig.PROFILE_SERVER_PORT, "8080");
-        editor.putString(HttpConfig.PROFILE_LOGIN_ACCESS_TOKEN, "49bugba6gfkoqpc2fho92tc4ajfi7aaj");
+        editor.putString(com.soco.SoCoClient.control.http.Config.PROFILE_SERVER_IP, "192.168.0.100");
+        editor.putString(com.soco.SoCoClient.control.http.Config.PROFILE_SERVER_PORT, "8080");
+        editor.putString(com.soco.SoCoClient.control.http.Config.PROFILE_LOGIN_ACCESS_TOKEN, "49bugba6gfkoqpc2fho92tc4ajfi7aaj");
         editor.commit();
 
         Log.i(tag, ">>>create new task");
@@ -220,9 +218,9 @@ public class TestActivity extends ActionBarActivity {
         startService(heartbeat);
 
         Log.i(tag, ">>>setup profile: jim.ybic@gmail.com");
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(HttpConfig.PROFILE_LOGIN_ACCESS_TOKEN, "49bugba6gfkoqpc2fho92tc4ajfi7aaj");
+        editor.putString(com.soco.SoCoClient.control.http.Config.PROFILE_LOGIN_ACCESS_TOKEN, "49bugba6gfkoqpc2fho92tc4ajfi7aaj");
         editor.commit();
 
         Log.i(tag, ">>>create new message");
@@ -239,7 +237,7 @@ public class TestActivity extends ActionBarActivity {
         job.execute();
 
         Log.i(tag, ">>>setup profile: voljin.g@gmail.com");
-        editor.putString(HttpConfig.PROFILE_LOGIN_ACCESS_TOKEN, "mrqq9v1e4901vn065vfufep1f9iu9ejk");
+        editor.putString(com.soco.SoCoClient.control.http.Config.PROFILE_LOGIN_ACCESS_TOKEN, "mrqq9v1e4901vn065vfufep1f9iu9ejk");
         editor.commit();
     }
 

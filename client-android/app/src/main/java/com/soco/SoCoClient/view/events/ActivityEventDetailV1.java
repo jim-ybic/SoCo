@@ -15,7 +15,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.database.Config;
 import com.soco.SoCoClient.control.database.DataLoader;
 import com.soco.SoCoClient.model.Event;
 
@@ -48,7 +48,7 @@ public class ActivityEventDetailV1 extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int seq = extras.getInt(DataConfig.EXTRA_EVENT_SEQ);
+            int seq = extras.getInt(Config.EXTRA_EVENT_SEQ);
             Log.d(tag, "extra has seq " + seq);
             event = dataLoader.loadEvent(seq);
 //            event.addContext(context);

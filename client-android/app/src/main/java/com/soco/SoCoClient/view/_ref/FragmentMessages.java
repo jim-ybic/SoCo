@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.SocoApp;
 import com.soco.SoCoClient.view.config.ActivityProfile;
 
 @Deprecated

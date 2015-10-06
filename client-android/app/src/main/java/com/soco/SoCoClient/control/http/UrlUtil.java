@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
-import com.soco.SoCoClient.control.config._ref.HttpConfigV1;
-import com.soco.SoCoClient.control.config.HttpConfig;
+import com.soco.SoCoClient.control._ref.GeneralConfigV1;
+import com.soco.SoCoClient.control._ref.HttpConfigV1;
 import com.soco.SoCoClient.model.Profile;
 
 public class UrlUtil {
@@ -188,8 +187,8 @@ public class UrlUtil {
         SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         String ip = settings.getString(GeneralConfigV1.PROFILE_SERVER_IP, "");
         if(ip == null || ip.isEmpty()){
-            Log.i(tag, "Server ip not found, use default: " + HttpConfig.DEFAULT_SERVER_IP);
-            return HttpConfig.DEFAULT_SERVER_IP;
+            Log.i(tag, "Server ip not found, use default: " + Config.DEFAULT_SERVER_IP);
+            return Config.DEFAULT_SERVER_IP;
         }
         else
             return ip;
@@ -206,8 +205,8 @@ public class UrlUtil {
         SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         String port = settings.getString(GeneralConfigV1.PROFILE_SERVER_PORT, "");
         if (port == null || port.isEmpty()) {
-            Log.i(tag, "Server port not found, use default: " + HttpConfig.DEFAULT_SERVER_PORT);
-            return HttpConfig.DEFAULT_SERVER_PORT;
+            Log.i(tag, "Server port not found, use default: " + Config.DEFAULT_SERVER_PORT);
+            return Config.DEFAULT_SERVER_PORT;
         }
         else
             return port;

@@ -3,8 +3,8 @@ package com.soco.SoCoClient.control.http.task._ref;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config._ref.DataConfigV1;
-import com.soco.SoCoClient.control.config._ref.HttpConfigV1;
+import com.soco.SoCoClient.control._ref.DataConfigV1;
+import com.soco.SoCoClient.control._ref.HttpConfigV1;
 import com.soco.SoCoClient.control.http._ref.HttpUtilV1;
 
 import org.json.JSONArray;

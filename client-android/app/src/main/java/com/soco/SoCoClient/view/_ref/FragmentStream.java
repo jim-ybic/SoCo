@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.SocoApp;
+import com.soco.SoCoClient.control.common.SocoApp;
 
 public class FragmentStream extends Fragment implements View.OnClickListener {
 

@@ -7,12 +7,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.database.Config;
 import com.soco.SoCoClient.control.database.DataLoader;
 import com.soco.SoCoClient.control.database.DbHelper;
 import com.soco.SoCoClient.control.http.task.CreateTaskOnServerJob;
 import com.soco.SoCoClient.control.http.task.InviteContactJoinTaskJob;
-import com.soco.SoCoClient.control.util.TimeUtil;
+import com.soco.SoCoClient.control.common.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,9 +37,9 @@ public class Task {
 
         this.context = context;
 
-        this.taskIdLocal = DataConfig.ENTITIY_ID_NOT_READY;
-        this.taskIdServer = DataConfig.ENTITIY_ID_NOT_READY;
-        this.isTaskActive = DataConfig.TASK_IS_ACTIVE;
+        this.taskIdLocal = Config.ENTITIY_ID_NOT_READY;
+        this.taskIdServer = Config.ENTITIY_ID_NOT_READY;
+        this.isTaskActive = Config.TASK_IS_ACTIVE;
 
         DbHelper dbHelper = new DbHelper(context);
         this.db = dbHelper.getWritableDatabase();
@@ -47,16 +47,16 @@ public class Task {
 
     public Task(Cursor cursor){
         Log.v(tag, "create task from cursor");
-        this.taskIdLocal = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_TASK_TASKIDLOCAL));
-        this.taskIdServer = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_TASK_TASKIDSERVER));
-        this.taskName = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_TASK_TASKNAME));
-        this.taskPath = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_TASK_TASKPATH));
-        this.isTaskActive = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_TASK_ISTASKACTIVE));
+        this.taskIdLocal = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_TASK_TASKIDLOCAL));
+        this.taskIdServer = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_TASK_TASKIDSERVER));
+        this.taskName = cursor.getString(cursor.getColumnIndex(Config.COLUMN_TASK_TASKNAME));
+        this.taskPath = cursor.getString(cursor.getColumnIndex(Config.COLUMN_TASK_TASKPATH));
+        this.isTaskActive = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_TASK_ISTASKACTIVE));
         Log.v(tag, "created task from cursor: " + toString());
     }
 
     public void save(){
-        if(taskIdLocal == DataConfig.ENTITIY_ID_NOT_READY) {
+        if(taskIdLocal == Config.ENTITIY_ID_NOT_READY) {
             Log.v(tag, "save new task");
             saveNew();
         }else{
@@ -70,11 +70,11 @@ public class Task {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_TASK_TASKIDSERVER, taskIdServer);
-            cv.put(DataConfig.COLUMN_TASK_TASKNAME, taskName);
-            cv.put(DataConfig.COLUMN_TASK_TASKPATH, taskPath);
-            cv.put(DataConfig.COLUMN_TASK_ISTASKACTIVE, isTaskActive);
-            db.insert(DataConfig.TABLE_TASK, null, cv);
+            cv.put(Config.COLUMN_TASK_TASKIDSERVER, taskIdServer);
+            cv.put(Config.COLUMN_TASK_TASKNAME, taskName);
+            cv.put(Config.COLUMN_TASK_TASKPATH, taskPath);
+            cv.put(Config.COLUMN_TASK_ISTASKACTIVE, isTaskActive);
+            db.insert(Config.TABLE_TASK, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new task inserted into database: " + toString());
         } finally {
@@ -83,8 +83,8 @@ public class Task {
 
         Log.v(tag, "get task id local from database");
         int tidLocal = -1;
-        String query = "select max (" + DataConfig.COLUMN_TASK_TASKIDLOCAL
-                + ") from " + DataConfig.TABLE_TASK;
+        String query = "select max (" + Config.COLUMN_TASK_TASKIDLOCAL
+                + ") from " + Config.TABLE_TASK;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){
             tidLocal = cursor.getInt(0);
@@ -92,7 +92,7 @@ public class Task {
             taskIdLocal = tidLocal;
         }
 
-        if(taskIdServer == DataConfig.ENTITIY_ID_NOT_READY) {
+        if(taskIdServer == Config.ENTITIY_ID_NOT_READY) {
             Log.v(tag, "save new task to server: " + toString());
             CreateTaskOnServerJob job = new CreateTaskOnServerJob(context, this);
             job.execute();
@@ -105,13 +105,13 @@ public class Task {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_TASK_TASKIDLOCAL, taskIdLocal);
-            cv.put(DataConfig.COLUMN_TASK_TASKIDSERVER, taskIdServer);
-            cv.put(DataConfig.COLUMN_TASK_TASKNAME, taskName);
-            cv.put(DataConfig.COLUMN_TASK_TASKPATH, taskPath);
-            cv.put(DataConfig.COLUMN_TASK_ISTASKACTIVE, isTaskActive);
-            db.update(DataConfig.TABLE_TASK, cv,
-                    DataConfig.COLUMN_TASK_TASKIDLOCAL + " = ?",
+            cv.put(Config.COLUMN_TASK_TASKIDLOCAL, taskIdLocal);
+            cv.put(Config.COLUMN_TASK_TASKIDSERVER, taskIdServer);
+            cv.put(Config.COLUMN_TASK_TASKNAME, taskName);
+            cv.put(Config.COLUMN_TASK_TASKPATH, taskPath);
+            cv.put(Config.COLUMN_TASK_ISTASKACTIVE, isTaskActive);
+            db.update(Config.TABLE_TASK, cv,
+                    Config.COLUMN_TASK_TASKIDLOCAL + " = ?",
                     new String[]{String.valueOf(taskIdLocal)});
             db.setTransactionSuccessful();
             Log.d(tag, "task updated into database: " + toString());
@@ -125,8 +125,8 @@ public class Task {
 
     public void refresh(){
         Log.v(tag, "refresh from database for task: " + toString());
-        String query = "select * from " + DataConfig.TABLE_TASK
-                + " where " + DataConfig.COLUMN_TASK_TASKIDLOCAL + " = ?";
+        String query = "select * from " + Config.TABLE_TASK
+                + " where " + Config.COLUMN_TASK_TASKIDLOCAL + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(taskIdLocal)});
 
         Task task = null;
@@ -148,11 +148,11 @@ public class Task {
 
     public void delete(){
         Log.v(tag, "delete existing task");
-        if(taskIdLocal == DataConfig.ENTITIY_ID_NOT_READY){
+        if(taskIdLocal == Config.ENTITIY_ID_NOT_READY){
             Log.e(tag, "cannot delete a non-existing task");
         } else {
-            db.delete(DataConfig.TABLE_TASK,
-                    DataConfig.COLUMN_TASK_TASKIDLOCAL + " = ?",
+            db.delete(Config.TABLE_TASK,
+                    Config.COLUMN_TASK_TASKIDLOCAL + " = ?",
                     new String[]{String.valueOf(taskIdLocal)});
             Log.d(tag, "task deleted from database: " + toString());
         }
@@ -165,16 +165,16 @@ public class Task {
         try{
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_PARTYJOINACTIVITY_PARTYTYPE, DataConfig.PARTY_TYPE_INDIVIDUAL);
-            cv.put(DataConfig.COLUMN_PARTYJOINACTIVITY_PARTYIDLOCAL, contact.getContactIdLocal());
-            cv.put(DataConfig.COLUMN_PARTYJOINACTIVITY_PARTYIDSERVER, contact.getContactIdServer());
-            cv.put(DataConfig.COLUMN_PARTYJOINACTIVITY_ACTIVITYTYPE, DataConfig.ACTIVITY_TYPE_TASK);
-            cv.put(DataConfig.COLUMN_PARTYJOINACTIVITY_ACTIVITYIDLOCAL, taskIdLocal);
-            cv.put(DataConfig.COLUMN_PARTYJOINACTIVITY_ACTIVITYIDSERVER, taskIdServer);
-            cv.put(DataConfig.COLUMN_PARTYJOINACTIVITY_ROLE, role);
-            cv.put(DataConfig.COLUMN_PARTYJOINACTIVITY_STATUS, status);
-            cv.put(DataConfig.COLUMN_PARTYJOINACTIVITY_JOINTIMESTAMP, TimeUtil.now());
-            db.insert(DataConfig.TABLE_PARTYJOINACTIVITY, null, cv);
+            cv.put(Config.COLUMN_PARTYJOINACTIVITY_PARTYTYPE, Config.PARTY_TYPE_INDIVIDUAL);
+            cv.put(Config.COLUMN_PARTYJOINACTIVITY_PARTYIDLOCAL, contact.getContactIdLocal());
+            cv.put(Config.COLUMN_PARTYJOINACTIVITY_PARTYIDSERVER, contact.getContactIdServer());
+            cv.put(Config.COLUMN_PARTYJOINACTIVITY_ACTIVITYTYPE, Config.ACTIVITY_TYPE_TASK);
+            cv.put(Config.COLUMN_PARTYJOINACTIVITY_ACTIVITYIDLOCAL, taskIdLocal);
+            cv.put(Config.COLUMN_PARTYJOINACTIVITY_ACTIVITYIDSERVER, taskIdServer);
+            cv.put(Config.COLUMN_PARTYJOINACTIVITY_ROLE, role);
+            cv.put(Config.COLUMN_PARTYJOINACTIVITY_STATUS, status);
+            cv.put(Config.COLUMN_PARTYJOINACTIVITY_JOINTIMESTAMP, TimeUtil.now());
+            db.insert(Config.TABLE_PARTYJOINACTIVITY, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new member [" + contact.toString() + "] added to task ["
                     + taskName + "]: " + toString()
@@ -195,16 +195,16 @@ public class Task {
         try{
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_PARTYJOINACTIVITY_STATUS, status);
-            db.update(DataConfig.TABLE_PARTYJOINACTIVITY, cv,
-                            DataConfig.COLUMN_PARTYJOINACTIVITY_PARTYTYPE + " = ? "
-                            + " and " + DataConfig.COLUMN_PARTYJOINACTIVITY_PARTYIDLOCAL + " = ? "
-                            + " and " + DataConfig.COLUMN_PARTYJOINACTIVITY_ACTIVITYTYPE + " = ? "
-                            + " and " + DataConfig.COLUMN_PARTYJOINACTIVITY_ACTIVITYIDLOCAL + " = ?",
+            cv.put(Config.COLUMN_PARTYJOINACTIVITY_STATUS, status);
+            db.update(Config.TABLE_PARTYJOINACTIVITY, cv,
+                            Config.COLUMN_PARTYJOINACTIVITY_PARTYTYPE + " = ? "
+                            + " and " + Config.COLUMN_PARTYJOINACTIVITY_PARTYIDLOCAL + " = ? "
+                            + " and " + Config.COLUMN_PARTYJOINACTIVITY_ACTIVITYTYPE + " = ? "
+                            + " and " + Config.COLUMN_PARTYJOINACTIVITY_ACTIVITYIDLOCAL + " = ?",
                     new String[]{
-                            DataConfig.PARTY_TYPE_INDIVIDUAL,
+                            Config.PARTY_TYPE_INDIVIDUAL,
                             String.valueOf(contact.contactIdLocal),
-                            DataConfig.ACTIVITY_TYPE_TASK,
+                            Config.ACTIVITY_TYPE_TASK,
                             String.valueOf(taskIdLocal)
                     });
             db.setTransactionSuccessful();
@@ -215,12 +215,12 @@ public class Task {
     }
 
     public ArrayList<Contact> loadMembers(){
-        String query = "select " + DataConfig.COLUMN_PARTYJOINACTIVITY_PARTYIDLOCAL
-                        + " from " + DataConfig.TABLE_PARTYJOINACTIVITY
-                        + " where " + DataConfig.COLUMN_ATTACHMENT_ACTIVITYTYPE + " = ?"
-                        + " and " + DataConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " = ?";
+        String query = "select " + Config.COLUMN_PARTYJOINACTIVITY_PARTYIDLOCAL
+                        + " from " + Config.TABLE_PARTYJOINACTIVITY
+                        + " where " + Config.COLUMN_ATTACHMENT_ACTIVITYTYPE + " = ?"
+                        + " and " + Config.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " = ?";
         Cursor cursor = db.rawQuery(query,
-                new String[]{DataConfig.ACTIVITY_TYPE_TASK, String.valueOf(taskIdLocal)});
+                new String[]{Config.ACTIVITY_TYPE_TASK, String.valueOf(taskIdLocal)});
 
         HashSet<Integer> contactIdLocalSet = new HashSet<>();
         while(cursor.moveToNext()){
@@ -237,7 +237,7 @@ public class Task {
     }
 
     public Attribute newAttribute(){
-        Attribute attr = new Attribute(context, DataConfig.ACTIVITY_TYPE_TASK,
+        Attribute attr = new Attribute(context, Config.ACTIVITY_TYPE_TASK,
                 taskIdLocal, taskIdServer);
         Log.d(tag, "created new attribute [" + attr.toString()
                 + "] for task [" + toString() + "]");
@@ -251,11 +251,11 @@ public class Task {
         Log.v(tag, "load attribute for task: " + toString());
         ArrayList<Attribute> attributes = new ArrayList<>();
 
-        String query = "select * from " + DataConfig.TABLE_ATTRIBUTE
-                + " where " + DataConfig.COLUMN_ATTRIBUTE_ACTIVITYTYPE + " = ? "
-                + " and " + DataConfig.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " = ?";
+        String query = "select * from " + Config.TABLE_ATTRIBUTE
+                + " where " + Config.COLUMN_ATTRIBUTE_ACTIVITYTYPE + " = ? "
+                + " and " + Config.COLUMN_ATTRIBUTE_ACTIVITYIDLOCAL + " = ?";
         Cursor cursor = db.rawQuery(query,
-                new String[]{DataConfig.ACTIVITY_TYPE_TASK, String.valueOf(taskIdLocal)});
+                new String[]{Config.ACTIVITY_TYPE_TASK, String.valueOf(taskIdLocal)});
 
         while(cursor.moveToNext()){
             Attribute attr = new Attribute(cursor);
@@ -273,7 +273,7 @@ public class Task {
     }
 
     public Attachment newAttachment(){
-        Attachment attachment = new Attachment(context, DataConfig.ACTIVITY_TYPE_TASK,
+        Attachment attachment = new Attachment(context, Config.ACTIVITY_TYPE_TASK,
                 taskIdLocal, taskIdServer);
         Log.d(tag, "created new attacment [" + attachment.toString()
                 + "] for task [" + toString() + "]");

@@ -17,8 +17,7 @@ import android.webkit.MimeTypeMap;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
-import com.soco.SoCoClient.control.config.SocoApp;
-import com.soco.SoCoClient.control.util.FileUtils;
+import com.soco.SoCoClient.control.common.SocoApp;
 
 public class DownloaderTask extends AsyncTask<Void, Void, Boolean> {
 

@@ -17,8 +17,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.DataConfig;
-import com.soco.SoCoClient.control.config.SocoApp;
+import com.soco.SoCoClient.control.database.Config;
+import com.soco.SoCoClient.control.common.SocoApp;
 import com.soco.SoCoClient.control.database.DataLoader;
 import com.soco.SoCoClient.model.conversation.SingleConversation;
 import com.soco.SoCoClient.model.Person;
@@ -104,8 +104,8 @@ public class ActivityAllFriends extends ActionBarActivity {
                             ArrayList<Person> phoneContacts = socoApp.loadRawPhoneContacts(getApplicationContext());
                             int counter = 0; //testing
                             for (Person p : phoneContacts) {
-                                p.setCategory(DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS);
-                                p.setStatus(DataConfig.PERSON_STATUS_NOTCONNECTED);
+                                p.setCategory(Config.CONTACT_LIST_SECTION_MYPHONECONTACTS);
+                                p.setStatus(Config.PERSON_STATUS_NOTCONNECTED);
 //                                p.addContext(context);
                                 p.save();
                                 if (counter++ > 20)   //testing
@@ -166,7 +166,7 @@ public class ActivityAllFriends extends ActionBarActivity {
             Log.d(tag, "position is " + position + ", phone contact pos " + pos + ": " + p.toString());
 
             if (item.getTitle() == CONTEXT_MENU_ITEM_INVITE) {  //invite phone contact
-                if(p.getStatus().equals(DataConfig.PERSON_STATUS_ACCEPTED))
+                if(p.getStatus().equals(Config.PERSON_STATUS_ACCEPTED))
                     Toast.makeText(getApplicationContext(), "Already in friend list", Toast.LENGTH_SHORT).show();
                 else
                     return invite(p);
@@ -189,7 +189,7 @@ public class ActivityAllFriends extends ActionBarActivity {
                     Log.d(tag, "saved new conversation: " + c.toString());
                 }
                 Intent i = new Intent(this, ConversationDetail.class);
-                i.putExtra(DataConfig.EXTRA_CONVERSATION_SEQ, c.getSeq());
+                i.putExtra(Config.EXTRA_CONVERSATION_SEQ, c.getSeq());
                 startActivity(i);
             }
         }
@@ -200,13 +200,13 @@ public class ActivityAllFriends extends ActionBarActivity {
     private boolean invite(Person p) {
         Log.d(tag, "invite phone contact: " + p.getName());
         //todo: send invitation
-        p.setStatus(DataConfig.PERSON_STATUS_ACCEPTED); //testing: accepted now
+        p.setStatus(Config.PERSON_STATUS_ACCEPTED); //testing: accepted now
 //        p.addContext(context);
         p.save();
 
         Person p2 = new Person(context, p.getName(), p.getPhone(), p.getEmail());
-        p2.setCategory(DataConfig.CONTACT_LIST_SECTION_MYFRIENDS);
-        p2.setStatus(DataConfig.PERSON_STATUS_ACCEPTED);
+        p2.setCategory(Config.CONTACT_LIST_SECTION_MYFRIENDS);
+        p2.setStatus(Config.PERSON_STATUS_ACCEPTED);
 //        p2.addContext(context);
         p2.save();
         Toast.makeText(getApplicationContext(), "Invitation sent", Toast.LENGTH_SHORT).show();
@@ -221,12 +221,12 @@ public class ActivityAllFriends extends ActionBarActivity {
         Log.v(tag, "show contacts: " + persons.size() + " friends, " + phoneContacts.size() + " phone contacts");
         ArrayList<Item> items = new ArrayList<>();
 
-        items.add(new SectionItem(DataConfig.CONTACT_LIST_SECTION_MYFRIENDS));
+        items.add(new SectionItem(Config.CONTACT_LIST_SECTION_MYFRIENDS));
         for(Person p : persons){
             items.add(new ContactListEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
         }
 
-        items.add(new SectionItem(DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS));
+        items.add(new SectionItem(Config.CONTACT_LIST_SECTION_MYPHONECONTACTS));
         for(Person p : phoneContacts){
             items.add(new ContactListEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
         }

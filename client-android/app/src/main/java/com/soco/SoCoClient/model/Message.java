@@ -6,9 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.database.Config;
 import com.soco.SoCoClient.control.database.DbHelper;
-import com.soco.SoCoClient.control.util.TimeUtil;
+import com.soco.SoCoClient.control.common.TimeUtil;
 
 public class Message {
 
@@ -41,11 +41,11 @@ public class Message {
         this.context = context;
         this.helper = new DbHelper(context);
 
-        this.seq = DataConfig.ENTITIY_ID_NOT_READY;
-        this.id = DataConfig.ENTITIY_ID_NOT_READY;
+        this.seq = Config.ENTITIY_ID_NOT_READY;
+        this.id = Config.ENTITIY_ID_NOT_READY;
         this.createTimestamp = TimeUtil.now();
-        this.fromDevice = DataConfig.ENTITY_VALUE_EMPTY;
-        this.status = DataConfig.MESSAGE_STATUS_NEW;
+        this.fromDevice = Config.ENTITY_VALUE_EMPTY;
+        this.status = Config.MESSAGE_STATUS_NEW;
 
 //        this.db = dbHelper.getWritableDatabase();
     }
@@ -55,20 +55,20 @@ public class Message {
         this.context = context;
         this.helper = new DbHelper(context);
 
-        this.seq = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_SEQ));
-        this.id = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_ID));
-        this.fromType = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_FROMTYPE));
-        this.fromId = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_FROMID));
-        this.toType = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_TOTYPE));
-        this.toId = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_TOID));
-        this.createTimestamp = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_CREATETIMESTAMP));
-        this.sendTimestamp = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_SENDTIMESTAMP));
-        this.receiveTimestamp = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_RECEIVETIMESTAMP));
-        this.fromDevice = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_FROMDEVICE));
-        this.contentType = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_CONTENTTYPE));
-        this.content = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_CONTENT));
-        this.status = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_STATUS));
-        this.signature = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_MESSAGE_SIGNATURE));
+        this.seq = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MESSAGE_SEQ));
+        this.id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MESSAGE_ID));
+        this.fromType = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MESSAGE_FROMTYPE));
+        this.fromId = cursor.getString(cursor.getColumnIndex(Config.COLUMN_MESSAGE_FROMID));
+        this.toType = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MESSAGE_TOTYPE));
+        this.toId = cursor.getString(cursor.getColumnIndex(Config.COLUMN_MESSAGE_TOID));
+        this.createTimestamp = cursor.getString(cursor.getColumnIndex(Config.COLUMN_MESSAGE_CREATETIMESTAMP));
+        this.sendTimestamp = cursor.getString(cursor.getColumnIndex(Config.COLUMN_MESSAGE_SENDTIMESTAMP));
+        this.receiveTimestamp = cursor.getString(cursor.getColumnIndex(Config.COLUMN_MESSAGE_RECEIVETIMESTAMP));
+        this.fromDevice = cursor.getString(cursor.getColumnIndex(Config.COLUMN_MESSAGE_FROMDEVICE));
+        this.contentType = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_MESSAGE_CONTENTTYPE));
+        this.content = cursor.getString(cursor.getColumnIndex(Config.COLUMN_MESSAGE_CONTENT));
+        this.status = cursor.getString(cursor.getColumnIndex(Config.COLUMN_MESSAGE_STATUS));
+        this.signature = cursor.getString(cursor.getColumnIndex(Config.COLUMN_MESSAGE_SIGNATURE));
         Log.v(tag, "created message from cursor: " + toString());
     }
 
@@ -78,7 +78,7 @@ public class Message {
 //            return;
 //        }
 
-        if(seq == DataConfig.ENTITIY_ID_NOT_READY){
+        if(seq == Config.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new message");
             saveNew();
         }else{
@@ -94,20 +94,20 @@ public class Message {
         try{
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_MESSAGE_ID, id);
-            cv.put(DataConfig.COLUMN_MESSAGE_FROMTYPE, fromType);
-            cv.put(DataConfig.COLUMN_MESSAGE_FROMID, fromId);
-            cv.put(DataConfig.COLUMN_MESSAGE_TOTYPE, toType);
-            cv.put(DataConfig.COLUMN_MESSAGE_TOID, toId);
-            cv.put(DataConfig.COLUMN_MESSAGE_CREATETIMESTAMP, createTimestamp);
-            cv.put(DataConfig.COLUMN_MESSAGE_SENDTIMESTAMP, sendTimestamp);
-            cv.put(DataConfig.COLUMN_MESSAGE_RECEIVETIMESTAMP, receiveTimestamp);
-            cv.put(DataConfig.COLUMN_MESSAGE_FROMDEVICE, fromDevice);
-            cv.put(DataConfig.COLUMN_MESSAGE_CONTENTTYPE, contentType);
-            cv.put(DataConfig.COLUMN_MESSAGE_CONTENT, content);
-            cv.put(DataConfig.COLUMN_MESSAGE_STATUS, status);
-            cv.put(DataConfig.COLUMN_MESSAGE_SIGNATURE, signature);
-            db.insert(DataConfig.TABLE_MESSAGE, null, cv);
+            cv.put(Config.COLUMN_MESSAGE_ID, id);
+            cv.put(Config.COLUMN_MESSAGE_FROMTYPE, fromType);
+            cv.put(Config.COLUMN_MESSAGE_FROMID, fromId);
+            cv.put(Config.COLUMN_MESSAGE_TOTYPE, toType);
+            cv.put(Config.COLUMN_MESSAGE_TOID, toId);
+            cv.put(Config.COLUMN_MESSAGE_CREATETIMESTAMP, createTimestamp);
+            cv.put(Config.COLUMN_MESSAGE_SENDTIMESTAMP, sendTimestamp);
+            cv.put(Config.COLUMN_MESSAGE_RECEIVETIMESTAMP, receiveTimestamp);
+            cv.put(Config.COLUMN_MESSAGE_FROMDEVICE, fromDevice);
+            cv.put(Config.COLUMN_MESSAGE_CONTENTTYPE, contentType);
+            cv.put(Config.COLUMN_MESSAGE_CONTENT, content);
+            cv.put(Config.COLUMN_MESSAGE_STATUS, status);
+            cv.put(Config.COLUMN_MESSAGE_SIGNATURE, signature);
+            db.insert(Config.TABLE_MESSAGE, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new message added to database: " + toString());
         } finally {
@@ -116,8 +116,8 @@ public class Message {
 
         Log.v(tag, "get message id local from database");
         int midLocal = -1;
-        String query = "select max (" + DataConfig.COLUMN_MESSAGE_SEQ
-                + ") from " + DataConfig.TABLE_MESSAGE;
+        String query = "select max (" + Config.COLUMN_MESSAGE_SEQ
+                + ") from " + Config.TABLE_MESSAGE;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){
             midLocal = cursor.getInt(0);
@@ -135,22 +135,22 @@ public class Message {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_MESSAGE_ID, id);
-            cv.put(DataConfig.COLUMN_MESSAGE_FROMTYPE, fromType);
-            cv.put(DataConfig.COLUMN_MESSAGE_FROMID, fromId);
-            cv.put(DataConfig.COLUMN_MESSAGE_TOTYPE, toType);
-            cv.put(DataConfig.COLUMN_MESSAGE_TOID, toId);
-            cv.put(DataConfig.COLUMN_MESSAGE_CREATETIMESTAMP, createTimestamp);
-            cv.put(DataConfig.COLUMN_MESSAGE_SENDTIMESTAMP, sendTimestamp);
-            cv.put(DataConfig.COLUMN_MESSAGE_RECEIVETIMESTAMP, receiveTimestamp);
-            cv.put(DataConfig.COLUMN_MESSAGE_FROMDEVICE, fromDevice);
-            cv.put(DataConfig.COLUMN_MESSAGE_CONTENTTYPE, contentType);
-            cv.put(DataConfig.COLUMN_MESSAGE_CONTENT, content);
-            cv.put(DataConfig.COLUMN_MESSAGE_STATUS, status);
-            cv.put(DataConfig.COLUMN_MESSAGE_SIGNATURE, signature);
+            cv.put(Config.COLUMN_MESSAGE_ID, id);
+            cv.put(Config.COLUMN_MESSAGE_FROMTYPE, fromType);
+            cv.put(Config.COLUMN_MESSAGE_FROMID, fromId);
+            cv.put(Config.COLUMN_MESSAGE_TOTYPE, toType);
+            cv.put(Config.COLUMN_MESSAGE_TOID, toId);
+            cv.put(Config.COLUMN_MESSAGE_CREATETIMESTAMP, createTimestamp);
+            cv.put(Config.COLUMN_MESSAGE_SENDTIMESTAMP, sendTimestamp);
+            cv.put(Config.COLUMN_MESSAGE_RECEIVETIMESTAMP, receiveTimestamp);
+            cv.put(Config.COLUMN_MESSAGE_FROMDEVICE, fromDevice);
+            cv.put(Config.COLUMN_MESSAGE_CONTENTTYPE, contentType);
+            cv.put(Config.COLUMN_MESSAGE_CONTENT, content);
+            cv.put(Config.COLUMN_MESSAGE_STATUS, status);
+            cv.put(Config.COLUMN_MESSAGE_SIGNATURE, signature);
 
-            db.update(DataConfig.TABLE_MESSAGE, cv,
-                    DataConfig.COLUMN_MESSAGE_SEQ + " = ?",
+            db.update(Config.TABLE_MESSAGE, cv,
+                    Config.COLUMN_MESSAGE_SEQ + " = ?",
                     new String[]{String.valueOf(seq)});
             db.setTransactionSuccessful();
             Log.d(tag, "message updated into database: " + toString());
@@ -164,11 +164,11 @@ public class Message {
 
     public void delete(){
         Log.v(tag, "delete existing message");
-        if(seq == DataConfig.ENTITIY_ID_NOT_READY){
+        if(seq == Config.ENTITIY_ID_NOT_READY){
             Log.e(tag, "cannot delete a non-existing message");
         } else {
-            db.delete(DataConfig.TABLE_MESSAGE,
-                    DataConfig.COLUMN_MESSAGE_SEQ + " = ?",
+            db.delete(Config.TABLE_MESSAGE,
+                    Config.COLUMN_MESSAGE_SEQ + " = ?",
                     new String[]{String.valueOf(seq)});
             Log.d(tag, "message deleted from database: " + toString());
             db.close();

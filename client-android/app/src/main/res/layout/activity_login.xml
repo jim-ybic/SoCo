@@ -4,11 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_weight="3"
+        android:layout_gravity="center_vertical" />
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,14 +56,14 @@
                 <!--android:gravity="center_horizontal"-->
                 <!--android:textColor="#ff67c1ff" />-->
         <!--</LinearLayout>-->
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:text="Social Login"
-            android:textSize="16dp"
-            android:clickable="false"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center" />
+        <!--<TextView-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:text="Social Login"-->
+            <!--android:textSize="16dp"-->
+            <!--android:clickable="false"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:gravity="center" />-->
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
@@ -120,16 +125,35 @@
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_weight="1"
+                android:background="@android:color/holo_blue_dark"
+                android:layout_gravity="center_vertical" />
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:text="-- OR --"
+                android:layout_width="wrap_content"
+                android:text="OR"
                 android:textSize="16dp"
                 android:clickable="false"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center" />
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@android:color/holo_blue_dark" />
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_alignBottom="@+id/test_image_camera"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/holo_blue_dark" />
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -144,7 +168,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_weight="1">
 
@@ -153,38 +177,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1">
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
+
+            <TextView
                 android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"/>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:text=""
-                    android:gravity="left"
-                    android:textSize="16dp"
-                    android:clickable="false" />
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/register"
-                    android:gravity="right"
-                    android:textSize="16dp"
-                    android:onClick="register" />
-            </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"/>
+                android:text="@string/register"
+                android:gravity="right"
+                android:textSize="16dp"
+                android:onClick="register"
+                android:paddingRight="10dp" />
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -192,15 +194,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1">
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"/>
+
             <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="15">
+                android:layout_weight="15"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
                 <TableRow>
                     <EditText
                         android:id="@+id/et_login_email"
@@ -220,11 +220,6 @@
                         android:layout_weight="1"/>
                 </TableRow>
             </TableLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"/>
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -292,14 +287,6 @@
                 android:orientation="vertical"/>
         </LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="10">
-
-        </LinearLayout>
-
         <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="0dip"-->
@@ -321,5 +308,11 @@
 
 
     </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical" />
 
 </LinearLayout>

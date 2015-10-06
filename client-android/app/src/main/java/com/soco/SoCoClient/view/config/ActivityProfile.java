@@ -10,8 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
-import com.soco.SoCoClient.control.config.SocoApp;
+import com.soco.SoCoClient.control._ref.GeneralConfigV1;
+import com.soco.SoCoClient.control.common.SocoApp;
 import com.soco.SoCoClient.view.login.ActivityLogin;
 import com.soco.SoCoClient.model.Profile;
 

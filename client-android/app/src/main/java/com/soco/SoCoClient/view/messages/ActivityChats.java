@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.database.Config;
 import com.soco.SoCoClient.control.database.DataLoader;
 import com.soco.SoCoClient.model.conversation.SingleConversation;
 import com.soco.SoCoClient.view.common.Item;
@@ -58,7 +58,7 @@ public class ActivityChats extends ActionBarActivity {
                 Log.v(tag, "click on conversation: " + c.toString());
 
                 Intent i = new Intent(getApplicationContext(), ConversationDetail.class);
-                i.putExtra(DataConfig.EXTRA_CONVERSATION_SEQ, c.getSeq());
+                i.putExtra(Config.EXTRA_CONVERSATION_SEQ, c.getSeq());
                 startActivity(i);
             }
         });

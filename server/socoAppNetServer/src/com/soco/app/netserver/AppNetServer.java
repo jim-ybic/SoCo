@@ -12,6 +12,8 @@ import com.soco.app.httpserver.AppHttpServer;
 
 
 public class AppNetServer {
+	String test = "";
+	
 	private static final Logger log = LogManager.getRootLogger();
 	
 	private static String config_xml_file = "config.xml";
@@ -19,7 +21,7 @@ public class AppNetServer {
     private static long munit = 10000000000000000l;
 
     public static void main(String[] args) throws Exception {
-    	
+    	 
         log.info("=== App Server Start ===");
         log.info(System.getProperty("user.dir"));
         String configXml = AppNetServer.config_xml_file;

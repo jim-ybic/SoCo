@@ -6,9 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.database.Config;
 import com.soco.SoCoClient.control.database.DbHelper;
-import com.soco.SoCoClient.control.util.TimeUtil;
+import com.soco.SoCoClient.control.common.TimeUtil;
 
 public class Attachment {
 
@@ -40,8 +40,8 @@ public class Attachment {
         this.activityIdLocal = activityIdLocal;
         this.activityIdServer = activityIdServer;
 
-        this.attachmentIdLocal = DataConfig.ENTITIY_ID_NOT_READY;
-        this.attachmentIdServer = DataConfig.ENTITIY_ID_NOT_READY;
+        this.attachmentIdLocal = Config.ENTITIY_ID_NOT_READY;
+        this.attachmentIdServer = Config.ENTITIY_ID_NOT_READY;
         this.createTimestamp = TimeUtil.now();
 
         DbHelper dbHelper = new DbHelper(context);
@@ -50,22 +50,22 @@ public class Attachment {
 
     public Attachment(Cursor cursor){
         Log.v(tag, "create attribute from cursor");
-        this.attachmentIdLocal = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_ATTACHMENT_ATTACHMENTIDLOCAL));
-        this.attachmentIdServer = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_ATTACHMENT_ATTACHMENTIDSERVER));
-        this.activityType = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_ATTACHMENT_ACTIVITYTYPE));
-        this.activityIdLocal = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_ATTACHMENT_ACTIVITYIDLOCAL));
-        this.activityIdServer = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_ATTACHMENT_ACTIVITYIDSERVER));
-        this.displayName = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_ATTACHMENT_DISPLAYNAME));
-        this.uri = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_ATTACHMENT_URI));
-        this.remotePath = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_ATTACHMENT_REMOTEPATH));
-        this.localPath = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_ATTACHMENT_LOCALPATH));
-        this.user = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_ATTACHMENT_USER));
-        this.createTimestamp = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_ATTACHMENT_CREATETIMESTAMP));
+        this.attachmentIdLocal = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ATTACHMENT_ATTACHMENTIDLOCAL));
+        this.attachmentIdServer = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ATTACHMENT_ATTACHMENTIDSERVER));
+        this.activityType = cursor.getString(cursor.getColumnIndex(Config.COLUMN_ATTACHMENT_ACTIVITYTYPE));
+        this.activityIdLocal = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ATTACHMENT_ACTIVITYIDLOCAL));
+        this.activityIdServer = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_ATTACHMENT_ACTIVITYIDSERVER));
+        this.displayName = cursor.getString(cursor.getColumnIndex(Config.COLUMN_ATTACHMENT_DISPLAYNAME));
+        this.uri = cursor.getString(cursor.getColumnIndex(Config.COLUMN_ATTACHMENT_URI));
+        this.remotePath = cursor.getString(cursor.getColumnIndex(Config.COLUMN_ATTACHMENT_REMOTEPATH));
+        this.localPath = cursor.getString(cursor.getColumnIndex(Config.COLUMN_ATTACHMENT_LOCALPATH));
+        this.user = cursor.getString(cursor.getColumnIndex(Config.COLUMN_ATTACHMENT_USER));
+        this.createTimestamp = cursor.getString(cursor.getColumnIndex(Config.COLUMN_ATTACHMENT_CREATETIMESTAMP));
         Log.d(tag, "created attachment from cursor: " + toString());
     }
 
     public void save(){
-        if(attachmentIdLocal == DataConfig.ENTITIY_ID_NOT_READY){
+        if(attachmentIdLocal == Config.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new attachment");
             saveNew();
         }else{
@@ -79,17 +79,17 @@ public class Attachment {
         try{
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_ATTACHMENT_ATTACHMENTIDSERVER, attachmentIdServer);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_ACTIVITYTYPE, activityType);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_ACTIVITYIDLOCAL, activityIdLocal);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_ACTIVITYIDSERVER, activityIdServer);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_DISPLAYNAME, displayName);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_URI, uri);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_REMOTEPATH, remotePath);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_LOCALPATH, localPath);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_USER, user);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_CREATETIMESTAMP, createTimestamp);
-            db.insert(DataConfig.TABLE_ATTACHMENT, null, cv);
+            cv.put(Config.COLUMN_ATTACHMENT_ATTACHMENTIDSERVER, attachmentIdServer);
+            cv.put(Config.COLUMN_ATTACHMENT_ACTIVITYTYPE, activityType);
+            cv.put(Config.COLUMN_ATTACHMENT_ACTIVITYIDLOCAL, activityIdLocal);
+            cv.put(Config.COLUMN_ATTACHMENT_ACTIVITYIDSERVER, activityIdServer);
+            cv.put(Config.COLUMN_ATTACHMENT_DISPLAYNAME, displayName);
+            cv.put(Config.COLUMN_ATTACHMENT_URI, uri);
+            cv.put(Config.COLUMN_ATTACHMENT_REMOTEPATH, remotePath);
+            cv.put(Config.COLUMN_ATTACHMENT_LOCALPATH, localPath);
+            cv.put(Config.COLUMN_ATTACHMENT_USER, user);
+            cv.put(Config.COLUMN_ATTACHMENT_CREATETIMESTAMP, createTimestamp);
+            db.insert(Config.TABLE_ATTACHMENT, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new attachment inserted into database: " + toString());
         }finally {
@@ -98,8 +98,8 @@ public class Attachment {
 
         Log.v(tag, "attachment id local from database");
         int aidLocal = -1;
-        String query = "select max (" + DataConfig.COLUMN_ATTACHMENT_ATTACHMENTIDLOCAL
-                + ") from " + DataConfig.TABLE_ATTACHMENT;
+        String query = "select max (" + Config.COLUMN_ATTACHMENT_ATTACHMENTIDLOCAL
+                + ") from " + Config.TABLE_ATTACHMENT;
         Cursor cursor = db.rawQuery(query, null);
         if(cursor.moveToFirst()) {
             aidLocal = cursor.getInt(0);
@@ -115,19 +115,19 @@ public class Attachment {
         try{
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_ATTACHMENT_ATTACHMENTIDLOCAL, attachmentIdLocal);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_ATTACHMENTIDSERVER, attachmentIdServer);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_ACTIVITYTYPE, activityType);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_ACTIVITYIDLOCAL, activityIdLocal);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_ACTIVITYIDSERVER, activityIdServer);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_DISPLAYNAME, displayName);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_URI, uri);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_REMOTEPATH, remotePath);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_LOCALPATH, localPath);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_USER, user);
-            cv.put(DataConfig.COLUMN_ATTACHMENT_CREATETIMESTAMP, createTimestamp);
-            db.update(DataConfig.TABLE_ATTACHMENT, cv,
-                    DataConfig.COLUMN_ATTACHMENT_ATTACHMENTIDLOCAL + " = ?",
+            cv.put(Config.COLUMN_ATTACHMENT_ATTACHMENTIDLOCAL, attachmentIdLocal);
+            cv.put(Config.COLUMN_ATTACHMENT_ATTACHMENTIDSERVER, attachmentIdServer);
+            cv.put(Config.COLUMN_ATTACHMENT_ACTIVITYTYPE, activityType);
+            cv.put(Config.COLUMN_ATTACHMENT_ACTIVITYIDLOCAL, activityIdLocal);
+            cv.put(Config.COLUMN_ATTACHMENT_ACTIVITYIDSERVER, activityIdServer);
+            cv.put(Config.COLUMN_ATTACHMENT_DISPLAYNAME, displayName);
+            cv.put(Config.COLUMN_ATTACHMENT_URI, uri);
+            cv.put(Config.COLUMN_ATTACHMENT_REMOTEPATH, remotePath);
+            cv.put(Config.COLUMN_ATTACHMENT_LOCALPATH, localPath);
+            cv.put(Config.COLUMN_ATTACHMENT_USER, user);
+            cv.put(Config.COLUMN_ATTACHMENT_CREATETIMESTAMP, createTimestamp);
+            db.update(Config.TABLE_ATTACHMENT, cv,
+                    Config.COLUMN_ATTACHMENT_ATTACHMENTIDLOCAL + " = ?",
                     new String[]{String.valueOf(attachmentIdLocal)});
             db.setTransactionSuccessful();
             Log.d(tag, "attachment updated into database: " + toString());
@@ -140,11 +140,11 @@ public class Attachment {
 
     public void delete(){
         Log.v(tag, "delete existing attachment");
-        if(attachmentIdLocal == DataConfig.ENTITIY_ID_NOT_READY){
+        if(attachmentIdLocal == Config.ENTITIY_ID_NOT_READY){
             Log.e(tag, "cannot delete a non-existing attachment");
         }else{
-            db.delete(DataConfig.TABLE_ATTACHMENT,
-                    DataConfig.COLUMN_ATTACHMENT_ATTACHMENTIDLOCAL + " = ?",
+            db.delete(Config.TABLE_ATTACHMENT,
+                    Config.COLUMN_ATTACHMENT_ATTACHMENTIDLOCAL + " = ?",
                     new String[]{String.valueOf(attachmentIdLocal)});
             Log.d(tag, "attachment deleted from database: " + toString());
         }

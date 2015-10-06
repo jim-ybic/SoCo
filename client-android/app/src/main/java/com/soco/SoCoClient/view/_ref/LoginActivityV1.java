@@ -13,17 +13,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
+import com.soco.SoCoClient.control._ref.GeneralConfigV1;
 import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
 //import com.soco.SoCoClient.obsolete.v1.control.http.service.HeartbeatService;
 import com.soco.SoCoClient.control.http.task._ref.LoginTaskAsync;
 import com.soco.SoCoClient.control.http.task._ref.RegisterTaskAsync;
-import com.soco.SoCoClient.control.config.SocoApp;
+import com.soco.SoCoClient.control.common.SocoApp;
 import com.soco.SoCoClient.view.Dashboard;
 import com.soco.SoCoClient.control.http.UrlUtil;
 import com.soco.SoCoClient.model.Profile;
 
-
+@Deprecated
 public class LoginActivityV1 extends ActionBarActivity {
 
     public static String FLAG_EXIT = "exit";

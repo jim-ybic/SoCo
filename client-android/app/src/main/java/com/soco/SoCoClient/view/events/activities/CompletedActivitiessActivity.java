@@ -11,11 +11,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.soco.SoCoClient.control.config._ref.DataConfigV1;
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
+import com.soco.SoCoClient.control._ref.DataConfigV1;
+import com.soco.SoCoClient.control._ref.GeneralConfigV1;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
-import com.soco.SoCoClient.control.util.ActivityUtil;
+import com.soco.SoCoClient.control.common.ActivityUtil;
 import com.soco.SoCoClient.model._ref.Activity;
 
 import java.util.ArrayList;

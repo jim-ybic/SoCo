@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
+import com.soco.SoCoClient.control._ref.GeneralConfigV1;
 import com.soco.SoCoClient.view.common.Item;
 
 import java.util.ArrayList;

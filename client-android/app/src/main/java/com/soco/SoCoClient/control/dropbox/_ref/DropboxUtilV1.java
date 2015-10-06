@@ -11,8 +11,8 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
-import com.soco.SoCoClient.control.util.FileUtils;
-import com.soco.SoCoClient.control.util.SignatureUtil;
+import com.soco.SoCoClient.control.common.FileUtils;
+import com.soco.SoCoClient.control.common.SignatureUtil;
 import com.soco.SoCoClient.control.dropbox.DownloaderTask;
 import com.soco.SoCoClient.control.dropbox.UploaderTask;
 

@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 //import at.bartinger.list.R;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
+import com.soco.SoCoClient.control._ref.GeneralConfigV1;
 
 public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 

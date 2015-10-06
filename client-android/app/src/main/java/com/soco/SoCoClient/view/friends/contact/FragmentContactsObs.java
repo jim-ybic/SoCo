@@ -23,8 +23,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
-import com.soco.SoCoClient.control.config.SocoApp;
+import com.soco.SoCoClient.control._ref.GeneralConfigV1;
+import com.soco.SoCoClient.control.common.SocoApp;
 import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task._ref.AddFriendTaskAsync;
 import com.soco.SoCoClient.view.common.EntryItem;

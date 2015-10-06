@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.database.Config;
 import com.soco.SoCoClient.control.database.DbHelper;
 
 public class Person {
@@ -40,8 +40,8 @@ public class Person {
         this.phone = phone;
         this.email = email;
 
-        this.seq = DataConfig.ENTITIY_ID_NOT_READY;
-        this.id = DataConfig.ENTITIY_ID_NOT_READY;
+        this.seq = Config.ENTITIY_ID_NOT_READY;
+        this.id = Config.ENTITIY_ID_NOT_READY;
 
 //        DbHelper helper = new DbHelper(c);
 //        this.db = helper.getWritableDatabase();
@@ -52,15 +52,15 @@ public class Person {
         this.context = context;
         this.helper = new DbHelper(context);
 
-        this.seq = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_SEQ));
-        this.id = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_ID));
-        this.name = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_NAME));
-        this.email = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_EMAIL));
-        this.phone = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_PHONE));
-        this.wechatid = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_WECHATID));
-        this.facebookid = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_FACEBOOKID));
-        this.status = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_STATUS));
-        this.category = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_PERSON_CATEGORY));
+        this.seq = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_PERSON_SEQ));
+        this.id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_PERSON_ID));
+        this.name = cursor.getString(cursor.getColumnIndex(Config.COLUMN_PERSON_NAME));
+        this.email = cursor.getString(cursor.getColumnIndex(Config.COLUMN_PERSON_EMAIL));
+        this.phone = cursor.getString(cursor.getColumnIndex(Config.COLUMN_PERSON_PHONE));
+        this.wechatid = cursor.getString(cursor.getColumnIndex(Config.COLUMN_PERSON_WECHATID));
+        this.facebookid = cursor.getString(cursor.getColumnIndex(Config.COLUMN_PERSON_FACEBOOKID));
+        this.status = cursor.getString(cursor.getColumnIndex(Config.COLUMN_PERSON_STATUS));
+        this.category = cursor.getString(cursor.getColumnIndex(Config.COLUMN_PERSON_CATEGORY));
 
 //        Log.v(tag, "created person from cursor: " + toString());
     }
@@ -79,7 +79,7 @@ public class Person {
 //            return;
 //        }
 
-        if (seq == DataConfig.ENTITIY_ID_NOT_READY){
+        if (seq == Config.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new person");
             saveNew();
         }else{
@@ -95,16 +95,16 @@ public class Person {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_PERSON_ID, id);
-            cv.put(DataConfig.COLUMN_PERSON_NAME, name);
-            cv.put(DataConfig.COLUMN_PERSON_EMAIL, email);
-            cv.put(DataConfig.COLUMN_PERSON_PHONE, phone);
-            cv.put(DataConfig.COLUMN_PERSON_WECHATID, wechatid);
-            cv.put(DataConfig.COLUMN_PERSON_FACEBOOKID, facebookid);
-            cv.put(DataConfig.COLUMN_PERSON_STATUS, status);
-            cv.put(DataConfig.COLUMN_PERSON_CATEGORY, category);
+            cv.put(Config.COLUMN_PERSON_ID, id);
+            cv.put(Config.COLUMN_PERSON_NAME, name);
+            cv.put(Config.COLUMN_PERSON_EMAIL, email);
+            cv.put(Config.COLUMN_PERSON_PHONE, phone);
+            cv.put(Config.COLUMN_PERSON_WECHATID, wechatid);
+            cv.put(Config.COLUMN_PERSON_FACEBOOKID, facebookid);
+            cv.put(Config.COLUMN_PERSON_STATUS, status);
+            cv.put(Config.COLUMN_PERSON_CATEGORY, category);
 
-            db.insert(DataConfig.TABLE_PERSON, null, cv);
+            db.insert(Config.TABLE_PERSON, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new person added to db: " + toString());
         } finally {
@@ -112,8 +112,8 @@ public class Person {
         }
 
         Log.v(tag, "get seq from db");
-        String query = "select max (" + DataConfig.COLUMN_PERSON_SEQ
-                + ") from " + DataConfig.TABLE_PERSON;
+        String query = "select max (" + Config.COLUMN_PERSON_SEQ
+                + ") from " + Config.TABLE_PERSON;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){
             int s = cursor.getInt(0);
@@ -132,17 +132,17 @@ public class Person {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_PERSON_ID, id);
-            cv.put(DataConfig.COLUMN_PERSON_NAME, name);
-            cv.put(DataConfig.COLUMN_PERSON_EMAIL, email);
-            cv.put(DataConfig.COLUMN_PERSON_PHONE, phone);
-            cv.put(DataConfig.COLUMN_PERSON_WECHATID, wechatid);
-            cv.put(DataConfig.COLUMN_PERSON_FACEBOOKID, facebookid);
-            cv.put(DataConfig.COLUMN_PERSON_STATUS, status);
-            cv.put(DataConfig.COLUMN_PERSON_CATEGORY, category);
+            cv.put(Config.COLUMN_PERSON_ID, id);
+            cv.put(Config.COLUMN_PERSON_NAME, name);
+            cv.put(Config.COLUMN_PERSON_EMAIL, email);
+            cv.put(Config.COLUMN_PERSON_PHONE, phone);
+            cv.put(Config.COLUMN_PERSON_WECHATID, wechatid);
+            cv.put(Config.COLUMN_PERSON_FACEBOOKID, facebookid);
+            cv.put(Config.COLUMN_PERSON_STATUS, status);
+            cv.put(Config.COLUMN_PERSON_CATEGORY, category);
 
-            db.update(DataConfig.TABLE_PERSON, cv,
-                    DataConfig.COLUMN_PERSON_SEQ + " = ?",
+            db.update(Config.TABLE_PERSON, cv,
+                    Config.COLUMN_PERSON_SEQ + " = ?",
                     new String[]{String.valueOf(seq)});
             db.setTransactionSuccessful();
             Log.d(tag, "person updated to db: " + toString());

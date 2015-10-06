@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.database.Config;
 import com.soco.SoCoClient.control.database.DbHelper;
 import com.soco.SoCoClient.model.Message;
 
@@ -35,8 +35,8 @@ public class SingleConversation {
         this.context = c;
         this.helper = new DbHelper(context);
 
-        this.seq = DataConfig.ENTITIY_ID_NOT_READY;
-        this.id = DataConfig.ENTITIY_ID_NOT_READY;
+        this.seq = Config.ENTITIY_ID_NOT_READY;
+        this.id = Config.ENTITIY_ID_NOT_READY;
     }
 
     public SingleConversation(Context context, Cursor cursor){
@@ -44,14 +44,14 @@ public class SingleConversation {
         this.context = context;
         this.helper = new DbHelper(context);
 
-        this.seq = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_SEQ));
-        this.id = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_ID));
-        this.lastMsgContent = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_LASTMSGCONTENT));
-        this.lastMsgTimestamp = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_LASTMSGTIMESTAMP));
-        this.createdByUserId = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID));
-        this.createdTimestamp = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP));
-        this.counterpartySeq = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID));
-        this.counterpartyName = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME));
+        this.seq = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_SINGLE_CONVERSATION_SEQ));
+        this.id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_SINGLE_CONVERSATION_ID));
+        this.lastMsgContent = cursor.getString(cursor.getColumnIndex(Config.COLUMN_SINGLE_CONVERSATION_LASTMSGCONTENT));
+        this.lastMsgTimestamp = cursor.getString(cursor.getColumnIndex(Config.COLUMN_SINGLE_CONVERSATION_LASTMSGTIMESTAMP));
+        this.createdByUserId = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID));
+        this.createdTimestamp = cursor.getString(cursor.getColumnIndex(Config.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP));
+        this.counterpartySeq = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID));
+        this.counterpartyName = cursor.getString(cursor.getColumnIndex(Config.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME));
         Log.v(tag, "created conversation from cursor: " + toString());
     }
 
@@ -68,7 +68,7 @@ public class SingleConversation {
 //            return;
 //        }
 
-        if (seq == DataConfig.ENTITIY_ID_NOT_READY){
+        if (seq == Config.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new conversation");
             saveNew();
         }else{
@@ -84,15 +84,15 @@ public class SingleConversation {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_ID, id);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_LASTMSGCONTENT, lastMsgContent);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_LASTMSGTIMESTAMP, lastMsgTimestamp);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID, createdByUserId);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP, createdTimestamp);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID, counterpartySeq);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME, counterpartyName);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_ID, id);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_LASTMSGCONTENT, lastMsgContent);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_LASTMSGTIMESTAMP, lastMsgTimestamp);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID, createdByUserId);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP, createdTimestamp);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID, counterpartySeq);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME, counterpartyName);
 
-            db.insert(DataConfig.TABLE_SINGLE_CONVERSATION, null, cv);
+            db.insert(Config.TABLE_SINGLE_CONVERSATION, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new conversation added to db: " + toString());
         } finally {
@@ -100,8 +100,8 @@ public class SingleConversation {
         }
 
         Log.v(tag, "get seq from db");
-        String query = "select max (" + DataConfig.COLUMN_SINGLE_CONVERSATION_SEQ
-                + ") from " + DataConfig.TABLE_SINGLE_CONVERSATION;
+        String query = "select max (" + Config.COLUMN_SINGLE_CONVERSATION_SEQ
+                + ") from " + Config.TABLE_SINGLE_CONVERSATION;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){
             int s = cursor.getInt(0);
@@ -120,16 +120,16 @@ public class SingleConversation {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_ID, id);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_LASTMSGCONTENT, lastMsgContent);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_LASTMSGTIMESTAMP, lastMsgTimestamp);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID, createdByUserId);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP, createdTimestamp);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID, counterpartySeq);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME, counterpartyName);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_ID, id);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_LASTMSGCONTENT, lastMsgContent);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_LASTMSGTIMESTAMP, lastMsgTimestamp);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_CREATEDBYUSERID, createdByUserId);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_CREATEDTIMESTAMP, createdTimestamp);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID, counterpartySeq);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYNAME, counterpartyName);
 
-            db.update(DataConfig.TABLE_SINGLE_CONVERSATION, cv,
-                    DataConfig.COLUMN_SINGLE_CONVERSATION_SEQ + " = ?",
+            db.update(Config.TABLE_SINGLE_CONVERSATION, cv,
+                    Config.COLUMN_SINGLE_CONVERSATION_SEQ + " = ?",
                     new String[]{String.valueOf(seq)});
             db.setTransactionSuccessful();
             Log.d(tag, "conversation updated to db: " + toString());
@@ -154,10 +154,10 @@ public class SingleConversation {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_MESSAGE_CONSEQ, seq);
-            cv.put(DataConfig.COLUMN_SINGLE_CONVERSATION_MESSAGE_MSGSEQ, m.getSeq());
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_MESSAGE_CONSEQ, seq);
+            cv.put(Config.COLUMN_SINGLE_CONVERSATION_MESSAGE_MSGSEQ, m.getSeq());
 
-            db.insert(DataConfig.TABLE_SINGLE_CONVERSATION_MESSAGE, null, cv);
+            db.insert(Config.TABLE_SINGLE_CONVERSATION_MESSAGE, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "single conversation " + seq + " added new message " + m.toString());
         } finally {

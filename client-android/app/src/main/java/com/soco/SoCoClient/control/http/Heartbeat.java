@@ -7,13 +7,11 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config._ref.HttpConfigV1;
-import com.soco.SoCoClient.control.config.DataConfig;
-import com.soco.SoCoClient.control.config.GeneralConfig;
-import com.soco.SoCoClient.control.config.HttpConfig;
+import com.soco.SoCoClient.control._ref.HttpConfigV1;
+import com.soco.SoCoClient.control.profile.Config;
 import com.soco.SoCoClient.control.http.task.JoinTaskByInviteJob;
 import com.soco.SoCoClient.control.http.task.ReceiveMessageJob;
-import com.soco.SoCoClient.control.util.TimeUtil;
+import com.soco.SoCoClient.control.common.TimeUtil;
 import com.soco.SoCoClient.model.Task;
 
 import org.json.JSONArray;
@@ -46,8 +44,8 @@ public class Heartbeat extends Service {
                 new TimerTask() {
                     public void run(){
                         Log.d(tag, ">>> Heartbeat:" + TimeUtil.now());
-                        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
-                        String token = settings.getString(HttpConfig.PROFILE_LOGIN_ACCESS_TOKEN, "");
+                        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+                        String token = settings.getString(com.soco.SoCoClient.control.http.Config.PROFILE_LOGIN_ACCESS_TOKEN, "");
                         if (token == null || token.isEmpty())
                             Log.i(tag, "access token is not available, skip heart check");
                         else {
@@ -64,16 +62,16 @@ public class Heartbeat extends Service {
     }
 
     String getUrl(){
-        SharedPreferences settings = context.getSharedPreferences(GeneralConfig.PROFILE_FILENAME, 0);
-        String ip = settings.getString(HttpConfig.PROFILE_SERVER_IP, "");
-        String port = settings.getString(HttpConfig.PROFILE_SERVER_PORT, "");
-        String token = settings.getString(HttpConfig.PROFILE_LOGIN_ACCESS_TOKEN, "");
+        SharedPreferences settings = context.getSharedPreferences(Config.PROFILE_FILENAME, 0);
+        String ip = settings.getString(com.soco.SoCoClient.control.http.Config.PROFILE_SERVER_IP, "");
+        String port = settings.getString(com.soco.SoCoClient.control.http.Config.PROFILE_SERVER_PORT, "");
+        String token = settings.getString(com.soco.SoCoClient.control.http.Config.PROFILE_LOGIN_ACCESS_TOKEN, "");
         if(ip.isEmpty() || port.isEmpty() || token.isEmpty()) {
             Log.e(tag, "cannot load ip/port/token from shared preference");
             return "";
         }
 
-        String path = HttpConfig.SERVER_PATH_HEARTBEAT;
+        String path = com.soco.SoCoClient.control.http.Config.SERVER_PATH_HEARTBEAT;
         String url = "http://" + ip + ":" + port + path + "?"
                 + HttpConfigV1.HTTP_TOKEN_TYPE + "=" + token;
 
@@ -84,14 +82,14 @@ public class Heartbeat extends Service {
     public boolean parse(Object response) {
         try{
             JSONObject data = new JSONObject(response.toString());
-            String isSuccess = data.getString(HttpConfig.JSON_KEY_STATUS);
+            String isSuccess = data.getString(com.soco.SoCoClient.control.http.Config.JSON_KEY_STATUS);
 
-            if(isSuccess.equals(HttpConfig.JSON_VALUE_SUCCESS)){
-                if(data.has(HttpConfig.JSON_KEY_MESSAGE)) {
+            if(isSuccess.equals(com.soco.SoCoClient.control.http.Config.JSON_VALUE_SUCCESS)){
+                if(data.has(com.soco.SoCoClient.control.http.Config.JSON_KEY_MESSAGE)) {
                     Log.d(tag, "new message on server, start retrieve message job");
                     retrieveMessage();
                 }
-                if(data.has(HttpConfig.JSON_KEY_INVITATION)){
+                if(data.has(com.soco.SoCoClient.control.http.Config.JSON_KEY_INVITATION)){
                     Log.d(tag, "new invitation on server, start join task job");
                     joinTask(data);
                 }
@@ -115,15 +113,15 @@ public class Heartbeat extends Service {
     void joinTask(JSONObject data){
         Log.v(tag, "join task via response data: " + data);
         try{
-            JSONArray invitations = new JSONArray(data.getString(HttpConfig.JSON_KEY_INVITATION));
+            JSONArray invitations = new JSONArray(data.getString(com.soco.SoCoClient.control.http.Config.JSON_KEY_INVITATION));
             for(int i=0; i<invitations.length(); i++){
                 JSONObject invitation = invitations.getJSONObject(i);
                 Log.d(tag, "get invitation: " + invitation);
-                int taskIdServer = Integer.parseInt(invitation.getString(HttpConfig.JSON_KEY_ACTIVITY));
-                String date = invitation.getString(HttpConfig.JSON_KEY_DATE);
+                int taskIdServer = Integer.parseInt(invitation.getString(com.soco.SoCoClient.control.http.Config.JSON_KEY_ACTIVITY));
+                String date = invitation.getString(com.soco.SoCoClient.control.http.Config.JSON_KEY_DATE);
                 Task task = new Task(context);
                 task.setTaskIdServer(taskIdServer);
-                task.setTaskName(DataConfig.ENTITY_VALUE_EMPTY);
+                task.setTaskName(com.soco.SoCoClient.control.database.Config.ENTITY_VALUE_EMPTY);
                 task.save();
                 Log.d(tag, "saved new task into database: " + task.toString());
 

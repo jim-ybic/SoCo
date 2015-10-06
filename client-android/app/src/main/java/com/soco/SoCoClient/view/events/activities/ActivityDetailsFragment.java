@@ -32,14 +32,14 @@ import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.soco.SoCoClient.control.config._ref.DataConfigV1;
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
+import com.soco.SoCoClient.control._ref.DataConfigV1;
+import com.soco.SoCoClient.control._ref.GeneralConfigV1;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
-import com.soco.SoCoClient.control.config.SocoApp;
+import com.soco.SoCoClient.control.common.SocoApp;
 import com.soco.SoCoClient.control.dropbox._ref.DropboxUtilV1;
-import com.soco.SoCoClient.control.util.ActivityUtil;
-import com.soco.SoCoClient.control.util.SignatureUtil;
+import com.soco.SoCoClient.control.common.ActivityUtil;
+import com.soco.SoCoClient.control.common.SignatureUtil;
 import com.soco.SoCoClient.model._ref.Activity;
 
 import java.text.SimpleDateFormat;
@@ -49,7 +49,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.soco.SoCoClient.control.config._ref.DataConfigV1.*;
+import static com.soco.SoCoClient.control._ref.DataConfigV1.*;
 
 @Deprecated
 public class ActivityDetailsFragment extends Fragment implements View.OnClickListener {

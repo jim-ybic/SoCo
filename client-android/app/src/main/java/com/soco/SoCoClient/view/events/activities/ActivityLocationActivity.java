@@ -16,8 +16,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config._ref.DataConfigV1;
-import com.soco.SoCoClient.control.config.SocoApp;
+import com.soco.SoCoClient.control._ref.DataConfigV1;
+import com.soco.SoCoClient.control.common.SocoApp;
 import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
 
 import java.util.ArrayList;

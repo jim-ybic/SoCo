@@ -149,7 +149,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3 people joined"
+                    android:text="3 people going"
                     android:gravity="center_horizontal"
                     android:layout_gravity="left" />
                 <LinearLayout
@@ -182,7 +182,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5 people liked"
+                    android:text="5 people like"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_horizontal|left" />
                 <LinearLayout
@@ -274,7 +274,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1 people joined"
+                    android:text="1 people going"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_horizontal|left" />
                 <LinearLayout
@@ -293,7 +293,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3 people joined"
+                    android:text="3 people like"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_horizontal|left" />
                 <LinearLayout
@@ -390,7 +390,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3 people joined"
+                    android:text="3 people like"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_horizontal|left" />
                 <LinearLayout

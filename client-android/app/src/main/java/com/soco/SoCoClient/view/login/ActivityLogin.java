@@ -22,12 +22,13 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.SocoApp;
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
+import com.soco.SoCoClient.control.common.SocoApp;
+import com.soco.SoCoClient.control._ref.GeneralConfigV1;
 import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task._ref.LoginTaskAsync;
 import com.soco.SoCoClient.control.http.task._ref.RegisterTaskAsync;
 import com.soco.SoCoClient.control.http.UrlUtil;
+import com.soco.SoCoClient.control.login.LoginController;
 import com.soco.SoCoClient.model.Profile;
 
 import com.facebook.FacebookSdk;
@@ -78,15 +79,23 @@ public class ActivityLogin extends ActionBarActivity {
     CallbackManager callbackManager;
     LoginButton loginButton;
 
+    //controller
+    LoginController controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
 
+        //test
+        controller = new LoginController();
+        controller.test();
+
         //facebook - start
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
+        Log.d(tag, "set permission");
         loginButton.setReadPermissions(Arrays.asList("email","public_profile","user_friends"));
         loginButton.registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -131,7 +140,7 @@ public class ActivityLogin extends ActionBarActivity {
         Log.i(tag, "Get saved login email/password/token: "
                 + savedLoginEmail + ", " + savedLoginPassword + ", " + savedLoginAccessToken);
 
-        savedLoginAccessToken = "go"; //testing - used to bypass login screen
+        savedLoginAccessToken = ""; //testing - used to bypass login screen
 
         if(!savedLoginAccessToken.isEmpty()) {
             Log.i(tag, "Saved login access token can be used, skip login screen");

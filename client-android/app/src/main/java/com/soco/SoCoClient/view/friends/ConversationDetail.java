@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
-import com.soco.SoCoClient.control.config.DataConfig;
-import com.soco.SoCoClient.control.config.SocoApp;
+import com.soco.SoCoClient.control.database.Config;
+import com.soco.SoCoClient.control.common.SocoApp;
 import com.soco.SoCoClient.control.database.DataLoader;
 import com.soco.SoCoClient.model.Message;
 import com.soco.SoCoClient.model.Profile;
@@ -52,7 +52,7 @@ public class ConversationDetail extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {   //load conversation
-            seq = extras.getInt(DataConfig.EXTRA_CONVERSATION_SEQ);
+            seq = extras.getInt(Config.EXTRA_CONVERSATION_SEQ);
             Log.d(tag, "extra has seq " + seq);
             conversation = dataLoader.loadSingleConversationBySeq(seq);
         }

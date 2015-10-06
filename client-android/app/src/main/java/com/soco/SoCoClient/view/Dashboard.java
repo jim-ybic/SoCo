@@ -20,6 +20,7 @@ import com.soco.SoCoClient.view.events.ActivityEventBuddies;
 import com.soco.SoCoClient.view.events.ActivityEventOrganizers;
 import com.soco.SoCoClient.view.friends.ActivityCommonFriends;
 import com.soco.SoCoClient.view.friends.ActivityCommonGroups;
+import com.soco.SoCoClient.view.friends.ActivityPersonEvents;
 
 public class Dashboard extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener {
@@ -147,6 +148,12 @@ public class Dashboard extends ActionBarActivity implements
         Log.d(tag, "show all common friends");
         Intent icf = new Intent(getApplicationContext(), ActivityCommonFriends.class);
         startActivity(icf);
+    }
+
+    public void personevents (View view){
+        Log.d(tag, "show the person's upcoming events");
+        Intent ipe = new Intent(getApplicationContext(), ActivityPersonEvents.class);
+        startActivity(ipe);
     }
 
 }

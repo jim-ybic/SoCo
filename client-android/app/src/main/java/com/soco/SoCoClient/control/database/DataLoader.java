@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config.DataConfig;
 import com.soco.SoCoClient.model.Contact;
 import com.soco.SoCoClient.model.conversation.SingleConversation;
 import com.soco.SoCoClient.model.Event;
@@ -36,9 +35,9 @@ public class DataLoader {
         
         ArrayList<Task> tasks = new ArrayList<>();
         Cursor cursor = db.rawQuery(
-                "select * from " + DataConfig.TABLE_TASK
-                        + " where " + DataConfig.COLUMN_TASK_ISTASKACTIVE + " = ?",
-                new String[]{String.valueOf(DataConfig.TASK_IS_ACTIVE)});
+                "select * from " + Config.TABLE_TASK
+                        + " where " + Config.COLUMN_TASK_ISTASKACTIVE + " = ?",
+                new String[]{String.valueOf(Config.TASK_IS_ACTIVE)});
 
         while(cursor.moveToNext()){
             Task task = new Task(cursor);
@@ -55,7 +54,7 @@ public class DataLoader {
         Log.v(tag, "load all events from db");
         db = dbHelper.getWritableDatabase();
 
-        String query = "select * from " + DataConfig.TABLE_EVENT;
+        String query = "select * from " + Config.TABLE_EVENT;
         Cursor cursor = db.rawQuery(query, null);
 
         ArrayList<Event> events = new ArrayList<>();
@@ -74,8 +73,8 @@ public class DataLoader {
         Log.v(tag, "load event from db for seq " + seq);
         db = dbHelper.getWritableDatabase();
 
-        String query = "select * from " + DataConfig.TABLE_EVENT
-                + " where " + DataConfig.COLUMN_EVENT_SEQ + " = ?";
+        String query = "select * from " + Config.TABLE_EVENT
+                + " where " + Config.COLUMN_EVENT_SEQ + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(seq)});
 
         while(cursor.moveToNext()){
@@ -93,7 +92,7 @@ public class DataLoader {
         Log.v(tag, "load all persons from db");
         db = dbHelper.getWritableDatabase();
 
-        String query = "select * from " + DataConfig.TABLE_PERSON;
+        String query = "select * from " + Config.TABLE_PERSON;
         Cursor cursor = db.rawQuery(query, null);
 
         ArrayList<Person> persons = new ArrayList<>();
@@ -112,10 +111,10 @@ public class DataLoader {
         Log.v(tag, "load all friends from db");
         db = dbHelper.getWritableDatabase();
         
-        String query = "select * from " + DataConfig.TABLE_PERSON
-                + " where " + DataConfig.COLUMN_PERSON_CATEGORY + " = ?";
+        String query = "select * from " + Config.TABLE_PERSON
+                + " where " + Config.COLUMN_PERSON_CATEGORY + " = ?";
         Cursor cursor = db.rawQuery(query,
-                new String[]{DataConfig.CONTACT_LIST_SECTION_MYFRIENDS});
+                new String[]{Config.CONTACT_LIST_SECTION_MYFRIENDS});
 
         ArrayList<Person> persons = new ArrayList<>();
         while(cursor.moveToNext()){
@@ -136,7 +135,7 @@ public class DataLoader {
 
         ArrayList<SingleConversation> conversations = new ArrayList<>();
 
-        String query = "select * from " + DataConfig.TABLE_SINGLE_CONVERSATION;
+        String query = "select * from " + Config.TABLE_SINGLE_CONVERSATION;
         Log.d(tag, "loadSingleConversations: " + query);
         Cursor cursor = db.rawQuery(query, null);
 
@@ -155,8 +154,8 @@ public class DataLoader {
         Log.v(tag, "load conversation from db for counterpartySeq " + counterpartySeq);
         db = dbHelper.getWritableDatabase();
 
-        String query = "select * from " + DataConfig.TABLE_SINGLE_CONVERSATION
-                + " where " + DataConfig.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID + " = ?";
+        String query = "select * from " + Config.TABLE_SINGLE_CONVERSATION
+                + " where " + Config.COLUMN_SINGLE_CONVERSATION_COUNTERPARTYID + " = ?";
         Log.d(tag, "loadSingleConversationByCtpySeq: " + query + ", " + counterpartySeq);
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(counterpartySeq)});
 
@@ -175,8 +174,8 @@ public class DataLoader {
         Log.v(tag, "load conversation from db for seq " + seq);
         db = dbHelper.getWritableDatabase();
 
-        String query = "select * from " + DataConfig.TABLE_SINGLE_CONVERSATION
-                + " where " + DataConfig.COLUMN_SINGLE_CONVERSATION_SEQ + " = ?";
+        String query = "select * from " + Config.TABLE_SINGLE_CONVERSATION
+                + " where " + Config.COLUMN_SINGLE_CONVERSATION_SEQ + " = ?";
         Log.d(tag, "query db: " + query + ", " + seq);
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(seq)});
 
@@ -195,10 +194,10 @@ public class DataLoader {
         Log.v(tag, "load all phone contacts from db");
         db = dbHelper.getWritableDatabase();
 
-        String query = "select * from " + DataConfig.TABLE_PERSON
-                + " where " + DataConfig.COLUMN_PERSON_CATEGORY + " = ?";
+        String query = "select * from " + Config.TABLE_PERSON
+                + " where " + Config.COLUMN_PERSON_CATEGORY + " = ?";
         Cursor cursor = db.rawQuery(query,
-                new String[]{DataConfig.CONTACT_LIST_SECTION_MYPHONECONTACTS});
+                new String[]{Config.CONTACT_LIST_SECTION_MYPHONECONTACTS});
         Log.v(tag, "loadPhoneContacts: " + query);
 
         ArrayList<Person> persons = new ArrayList<>();
@@ -235,7 +234,7 @@ public class DataLoader {
         db = dbHelper.getWritableDatabase();
 
         ArrayList<Contact> contacts = new ArrayList<>();
-        String query =  "select * from " + DataConfig.TABLE_CONTACT;
+        String query =  "select * from " + Config.TABLE_CONTACT;
         Cursor cursor = db.rawQuery(query, null);
 
         while(cursor.moveToNext()){
@@ -254,7 +253,7 @@ public class DataLoader {
         db = dbHelper.getWritableDatabase();
 
         ArrayList<Contact> contacts = new ArrayList<>();
-        String query =  "select * from " + DataConfig.TABLE_CONTACT;
+        String query =  "select * from " + Config.TABLE_CONTACT;
         Cursor cursor = db.rawQuery(query, null);
 
         while(cursor.moveToNext()){
@@ -276,7 +275,7 @@ public class DataLoader {
         db = dbHelper.getWritableDatabase();
 
         ArrayList<Message> messages = new ArrayList<>();
-        String query =  "select * from " + DataConfig.TABLE_MESSAGE;
+        String query =  "select * from " + Config.TABLE_MESSAGE;
         Cursor cursor = db.rawQuery(query, null);
 
         while(cursor.moveToNext()){
@@ -299,9 +298,9 @@ public class DataLoader {
         ArrayList<Message> messages = new ArrayList<>();
 
         Log.v(tag, "get associated message id list");
-        String queryMsgId = "select " + DataConfig.COLUMN_SINGLE_CONVERSATION_MESSAGE_MSGSEQ
-                        + " from " + DataConfig.TABLE_SINGLE_CONVERSATION_MESSAGE
-                        + " where " + DataConfig.COLUMN_SINGLE_CONVERSATION_MESSAGE_CONSEQ + " =?";
+        String queryMsgId = "select " + Config.COLUMN_SINGLE_CONVERSATION_MESSAGE_MSGSEQ
+                        + " from " + Config.TABLE_SINGLE_CONVERSATION_MESSAGE
+                        + " where " + Config.COLUMN_SINGLE_CONVERSATION_MESSAGE_CONSEQ + " =?";
         Cursor cursorMsgId = db.rawQuery(queryMsgId,
                 new String[]{String.valueOf(singleConversationSeq)});
         Log.d(tag, "queryMsgId: " + queryMsgId + ", " + singleConversationSeq);
@@ -318,8 +317,8 @@ public class DataLoader {
             return messages;
 
         Log.v(tag, "load messages");
-        String queryMsg =  "select * from " + DataConfig.TABLE_MESSAGE
-                            + " where " + DataConfig.COLUMN_MESSAGE_SEQ + " in ("
+        String queryMsg =  "select * from " + Config.TABLE_MESSAGE
+                            + " where " + Config.COLUMN_MESSAGE_SEQ + " in ("
                             + makePlaceholders(msgIdsStr.length) + ")";
         Cursor cursorMsg = db.rawQuery(queryMsg, msgIdsStr);
         Log.d(tag, "queryMsg: " + queryMsg + ", " + msgIdsStr.toString());

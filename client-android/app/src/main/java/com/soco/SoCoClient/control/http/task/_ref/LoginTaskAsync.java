@@ -4,10 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config._ref.HttpConfigV1;
+import com.soco.SoCoClient.control._ref.HttpConfigV1;
 import com.soco.SoCoClient.control.http._ref.HttpUtilV1;
-import com.soco.SoCoClient.control.config.SocoApp;
-import com.soco.SoCoClient.control.util.SignatureUtil;
+import com.soco.SoCoClient.control.common.SocoApp;
+import com.soco.SoCoClient.control.common.SignatureUtil;
 import com.soco.SoCoClient.model.Profile;
 
 import org.json.JSONObject;

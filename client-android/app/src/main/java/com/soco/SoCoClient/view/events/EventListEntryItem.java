@@ -1,7 +1,7 @@
 package com.soco.SoCoClient.view.events;
 
 
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
+import com.soco.SoCoClient.control._ref.GeneralConfigV1;
 import com.soco.SoCoClient.view.common.Item;
 
 public class EventListEntryItem implements Item{

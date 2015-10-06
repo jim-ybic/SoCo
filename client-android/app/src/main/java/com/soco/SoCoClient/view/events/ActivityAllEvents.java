@@ -10,13 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.database.Config;
 import com.soco.SoCoClient.control.database.DataLoader;
 import com.soco.SoCoClient.model.Event;
 import com.soco.SoCoClient.view.common.Item;
@@ -62,7 +61,7 @@ public class ActivityAllEvents extends ActionBarActivity {
                 Log.d(tag, "tap on event: " + e.toString());
 
                 Intent i = new Intent(view.getContext(), ActivityEventDetailV1.class);
-                i.putExtra(DataConfig.EXTRA_EVENT_SEQ, e.getSeq());
+                i.putExtra(Config.EXTRA_EVENT_SEQ, e.getSeq());
                 startActivity(i);
             }
         });

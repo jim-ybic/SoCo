@@ -4,9 +4,9 @@ package com.soco.SoCoClient.model._ref;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config._ref.DataConfigV1;
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
-import com.soco.SoCoClient.control.util.SignatureUtil;
+import com.soco.SoCoClient.control._ref.DataConfigV1;
+import com.soco.SoCoClient.control._ref.GeneralConfigV1;
+import com.soco.SoCoClient.control.common.SignatureUtil;
 
 public class Activity {
     public int pid;

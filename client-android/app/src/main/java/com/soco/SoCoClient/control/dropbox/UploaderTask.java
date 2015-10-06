@@ -10,8 +10,8 @@ import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.soco.SoCoClient.control.config.SocoApp;
-import com.soco.SoCoClient.control.util.FileUtils;
+import com.soco.SoCoClient.control.common.SocoApp;
+import com.soco.SoCoClient.control.common.FileUtils;
 
 public class UploaderTask extends AsyncTask<Void, Void, Boolean> {
 

@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.control.config._ref.GeneralConfigV1;
-import com.soco.SoCoClient.control.config._ref.HttpConfigV1;
+import com.soco.SoCoClient.control._ref.GeneralConfigV1;
+import com.soco.SoCoClient.control._ref.HttpConfigV1;
 
 public class Profile {
     private static final String NICKNAME_NOT_SET = "NICKNAME NOT SET";

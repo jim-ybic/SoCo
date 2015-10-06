@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.database.Config;
 import com.soco.SoCoClient.control.database.DbHelper;
 
 public class Event {
@@ -36,8 +36,8 @@ public class Event {
         this.context = c;
         this.helper = new DbHelper(context);
 
-        this.seq = DataConfig.ENTITIY_ID_NOT_READY;
-        this.id = DataConfig.ENTITIY_ID_NOT_READY;
+        this.seq = Config.ENTITIY_ID_NOT_READY;
+        this.id = Config.ENTITIY_ID_NOT_READY;
         this.isDraft = 1;
         this.isDone = 0;
     }
@@ -47,15 +47,15 @@ public class Event {
         this.context = context;
         this.helper = new DbHelper(context);
 
-        this.seq = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_SEQ));
-        this.id = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_ID));
-        this.name = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_NAME));
-        this.desc = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_DESC));
-        this.date = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_DATE));
-        this.time = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_TIME));
-        this.location = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_LOCATION));
-        this.isDraft = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_ISDRAFT));
-        this.isDone = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_EVENT_ISDONE));
+        this.seq = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_EVENT_SEQ));
+        this.id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_EVENT_ID));
+        this.name = cursor.getString(cursor.getColumnIndex(Config.COLUMN_EVENT_NAME));
+        this.desc = cursor.getString(cursor.getColumnIndex(Config.COLUMN_EVENT_DESC));
+        this.date = cursor.getString(cursor.getColumnIndex(Config.COLUMN_EVENT_DATE));
+        this.time = cursor.getString(cursor.getColumnIndex(Config.COLUMN_EVENT_TIME));
+        this.location = cursor.getString(cursor.getColumnIndex(Config.COLUMN_EVENT_LOCATION));
+        this.isDraft = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_EVENT_ISDRAFT));
+        this.isDone = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_EVENT_ISDONE));
         Log.v(tag, "created event from cursor: " + toString());
     }
 
@@ -72,7 +72,7 @@ public class Event {
 //            return;
 //        }
 
-        if (seq == DataConfig.ENTITIY_ID_NOT_READY){
+        if (seq == Config.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new event");
             saveNew();
         }else{
@@ -88,16 +88,16 @@ public class Event {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_EVENT_ID, id);
-            cv.put(DataConfig.COLUMN_EVENT_NAME, name);
-            cv.put(DataConfig.COLUMN_EVENT_DESC, desc);
-            cv.put(DataConfig.COLUMN_EVENT_DATE, date);
-            cv.put(DataConfig.COLUMN_EVENT_TIME, time);
-            cv.put(DataConfig.COLUMN_EVENT_LOCATION, location);
-            cv.put(DataConfig.COLUMN_EVENT_ISDRAFT, isDraft);
-            cv.put(DataConfig.COLUMN_EVENT_ISDONE, isDone);
+            cv.put(Config.COLUMN_EVENT_ID, id);
+            cv.put(Config.COLUMN_EVENT_NAME, name);
+            cv.put(Config.COLUMN_EVENT_DESC, desc);
+            cv.put(Config.COLUMN_EVENT_DATE, date);
+            cv.put(Config.COLUMN_EVENT_TIME, time);
+            cv.put(Config.COLUMN_EVENT_LOCATION, location);
+            cv.put(Config.COLUMN_EVENT_ISDRAFT, isDraft);
+            cv.put(Config.COLUMN_EVENT_ISDONE, isDone);
 
-            db.insert(DataConfig.TABLE_EVENT, null, cv);
+            db.insert(Config.TABLE_EVENT, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new event added to db: " + toString());
         } finally {
@@ -105,8 +105,8 @@ public class Event {
         }
 
         Log.v(tag, "get seq from db");
-        String query = "select max (" + DataConfig.COLUMN_EVENT_SEQ
-                + ") from " + DataConfig.TABLE_EVENT;
+        String query = "select max (" + Config.COLUMN_EVENT_SEQ
+                + ") from " + Config.TABLE_EVENT;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){
             int s = cursor.getInt(0);
@@ -125,17 +125,17 @@ public class Event {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_EVENT_ID, id);
-            cv.put(DataConfig.COLUMN_EVENT_NAME, name);
-            cv.put(DataConfig.COLUMN_EVENT_DESC, desc);
-            cv.put(DataConfig.COLUMN_EVENT_DATE, date);
-            cv.put(DataConfig.COLUMN_EVENT_TIME, time);
-            cv.put(DataConfig.COLUMN_EVENT_LOCATION, location);
-            cv.put(DataConfig.COLUMN_EVENT_ISDRAFT, isDraft);
-            cv.put(DataConfig.COLUMN_EVENT_ISDONE, isDone);
+            cv.put(Config.COLUMN_EVENT_ID, id);
+            cv.put(Config.COLUMN_EVENT_NAME, name);
+            cv.put(Config.COLUMN_EVENT_DESC, desc);
+            cv.put(Config.COLUMN_EVENT_DATE, date);
+            cv.put(Config.COLUMN_EVENT_TIME, time);
+            cv.put(Config.COLUMN_EVENT_LOCATION, location);
+            cv.put(Config.COLUMN_EVENT_ISDRAFT, isDraft);
+            cv.put(Config.COLUMN_EVENT_ISDONE, isDone);
 
-            db.update(DataConfig.TABLE_EVENT, cv,
-                    DataConfig.COLUMN_EVENT_SEQ + " = ?",
+            db.update(Config.TABLE_EVENT, cv,
+                    Config.COLUMN_EVENT_SEQ + " = ?",
                     new String[]{String.valueOf(seq)});
             db.setTransactionSuccessful();
             Log.d(tag, "event updated to db: " + toString());

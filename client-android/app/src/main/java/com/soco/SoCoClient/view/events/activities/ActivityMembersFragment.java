@@ -21,8 +21,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.control.config.SocoApp;
-import com.soco.SoCoClient.control.config._ref.HttpConfigV1;
+import com.soco.SoCoClient.control.common.SocoApp;
+import com.soco.SoCoClient.control._ref.HttpConfigV1;
 import com.soco.SoCoClient.control.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.control.http.task._ref.InviteActivityMemberTaskAsync;
 import com.soco.SoCoClient.view.common.SectionEntryListAdapter;

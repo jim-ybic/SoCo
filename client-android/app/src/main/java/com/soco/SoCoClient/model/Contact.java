@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.soco.SoCoClient.control.config.DataConfig;
+import com.soco.SoCoClient.control.database.Config;
 import com.soco.SoCoClient.control.database.DbHelper;
 import com.soco.SoCoClient.control.http.task.CreateContactOnServerJob;
 
@@ -33,9 +33,9 @@ public class Contact {
 
         this.context = context;
 
-        this.contactIdLocal = DataConfig.ENTITIY_ID_NOT_READY;
-        this.contactIdServer = DataConfig.ENTITIY_ID_NOT_READY;
-        this.contactServerStatus = DataConfig.CONTACT_SERVER_STATUS_UNKNOWN;
+        this.contactIdLocal = Config.ENTITIY_ID_NOT_READY;
+        this.contactIdServer = Config.ENTITIY_ID_NOT_READY;
+        this.contactServerStatus = Config.CONTACT_SERVER_STATUS_UNKNOWN;
 
         DbHelper dbHelper = new DbHelper(context);
         this.db = dbHelper.getWritableDatabase();
@@ -43,16 +43,16 @@ public class Contact {
 
     public Contact(Cursor cursor){
         Log.v(tag, "create contact from cursor");
-        this.contactIdLocal = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_CONTACT_CONTACTIDLOCAL));
-        this.contactIdServer = cursor.getInt(cursor.getColumnIndex(DataConfig.COLUMN_CONTACT_CONTACTIDSERVER));
-        this.contactEmail = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_CONTACT_CONTACTEMAIL));
-        this.contactUsername = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_CONTACT_CONTACTUSERNAME));
-        this.contactServerStatus = cursor.getString(cursor.getColumnIndex(DataConfig.COLUMN_CONTACT_CONTACTSERVERSTATUS));
+        this.contactIdLocal = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_CONTACT_CONTACTIDLOCAL));
+        this.contactIdServer = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_CONTACT_CONTACTIDSERVER));
+        this.contactEmail = cursor.getString(cursor.getColumnIndex(Config.COLUMN_CONTACT_CONTACTEMAIL));
+        this.contactUsername = cursor.getString(cursor.getColumnIndex(Config.COLUMN_CONTACT_CONTACTUSERNAME));
+        this.contactServerStatus = cursor.getString(cursor.getColumnIndex(Config.COLUMN_CONTACT_CONTACTSERVERSTATUS));
         Log.v(tag, "created contact from cursor: " + toString());
     }
 
     public void save(){
-        if(contactIdLocal == DataConfig.ENTITIY_ID_NOT_READY){
+        if(contactIdLocal == Config.ENTITIY_ID_NOT_READY){
             Log.v(tag, "save new contact");
             saveNew();
         }else{
@@ -66,11 +66,11 @@ public class Contact {
         try{
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_CONTACT_CONTACTIDSERVER, contactIdServer);
-            cv.put(DataConfig.COLUMN_CONTACT_CONTACTEMAIL, contactEmail);
-            cv.put(DataConfig.COLUMN_CONTACT_CONTACTUSERNAME, contactUsername);
-            cv.put(DataConfig.COLUMN_CONTACT_CONTACTSERVERSTATUS, contactServerStatus);
-            db.insert(DataConfig.TABLE_CONTACT, null, cv);
+            cv.put(Config.COLUMN_CONTACT_CONTACTIDSERVER, contactIdServer);
+            cv.put(Config.COLUMN_CONTACT_CONTACTEMAIL, contactEmail);
+            cv.put(Config.COLUMN_CONTACT_CONTACTUSERNAME, contactUsername);
+            cv.put(Config.COLUMN_CONTACT_CONTACTSERVERSTATUS, contactServerStatus);
+            db.insert(Config.TABLE_CONTACT, null, cv);
             db.setTransactionSuccessful();
             Log.d(tag, "new contact inserted to database: " + toString());
         } finally {
@@ -79,8 +79,8 @@ public class Contact {
 
         Log.v(tag, "get contact id local from database");
         int cidLocal = -1;
-        String query = "select max (" + DataConfig.COLUMN_CONTACT_CONTACTIDLOCAL
-                + ") from " + DataConfig.TABLE_CONTACT;
+        String query = "select max (" + Config.COLUMN_CONTACT_CONTACTIDLOCAL
+                + ") from " + Config.TABLE_CONTACT;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){
             cidLocal = cursor.getInt(0);
@@ -99,13 +99,13 @@ public class Contact {
         try {
             db.beginTransaction();
             ContentValues cv = new ContentValues();
-            cv.put(DataConfig.COLUMN_CONTACT_CONTACTIDLOCAL, contactIdLocal);
-            cv.put(DataConfig.COLUMN_CONTACT_CONTACTIDSERVER, contactIdServer);
-            cv.put(DataConfig.COLUMN_CONTACT_CONTACTEMAIL, contactEmail);
-            cv.put(DataConfig.COLUMN_CONTACT_CONTACTUSERNAME, contactUsername);
-            cv.put(DataConfig.COLUMN_CONTACT_CONTACTSERVERSTATUS, contactServerStatus);
-            db.update(DataConfig.TABLE_CONTACT, cv,
-                    DataConfig.COLUMN_CONTACT_CONTACTIDLOCAL + " = ?",
+            cv.put(Config.COLUMN_CONTACT_CONTACTIDLOCAL, contactIdLocal);
+            cv.put(Config.COLUMN_CONTACT_CONTACTIDSERVER, contactIdServer);
+            cv.put(Config.COLUMN_CONTACT_CONTACTEMAIL, contactEmail);
+            cv.put(Config.COLUMN_CONTACT_CONTACTUSERNAME, contactUsername);
+            cv.put(Config.COLUMN_CONTACT_CONTACTSERVERSTATUS, contactServerStatus);
+            db.update(Config.TABLE_CONTACT, cv,
+                    Config.COLUMN_CONTACT_CONTACTIDLOCAL + " = ?",
                     new String[]{String.valueOf(contactIdLocal)});
             db.setTransactionSuccessful();
             Log.d(tag, "contact updated into database: " + toString());
@@ -119,8 +119,8 @@ public class Contact {
 
     public void refresh(){
         Log.v(tag, "refresh from database for contact: " + toString());
-        String query = "select * from " + DataConfig.TABLE_CONTACT
-                + " where " + DataConfig.COLUMN_CONTACT_CONTACTIDLOCAL + " = ?";
+        String query = "select * from " + Config.TABLE_CONTACT
+                + " where " + Config.COLUMN_CONTACT_CONTACTIDLOCAL + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(contactIdLocal)});
 
         Contact contact = null;
@@ -142,11 +142,11 @@ public class Contact {
 
     public void delete(){
         Log.v(tag, "delete existing contact");
-        if(contactIdLocal == DataConfig.ENTITIY_ID_NOT_READY){
+        if(contactIdLocal == Config.ENTITIY_ID_NOT_READY){
             Log.e(tag, "cannot delete a non-existing contact");
         } else {
-            db.delete(DataConfig.TABLE_CONTACT,
-                    DataConfig.COLUMN_CONTACT_CONTACTIDLOCAL + " = ?",
+            db.delete(Config.TABLE_CONTACT,
+                    Config.COLUMN_CONTACT_CONTACTIDLOCAL + " = ?",
                     new String[]{String.valueOf(contactIdLocal)});
             Log.d(tag, "contact deleted from database: " + toString());
         }
