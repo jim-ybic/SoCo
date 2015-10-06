@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.soco.SoCoClient.view.friends.contact.ContactDetailsActivityObs">
+    tools:context="com.soco.SoCoClient.friends.allfriends.ContactDetailsActivityObs">
 
     <item
         android:id="@+id/save"

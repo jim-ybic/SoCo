@@ -5,8 +5,8 @@ import android.test.ActivityTestCase;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.soco.SoCoClient.control.database.DataLoader;
-import com.soco.SoCoClient.model.Task;
+import com.soco.SoCoClient.common.database.DataLoader;
+import com.soco.SoCoClient.common.model.Task;
 
 import junit.framework.Assert;
 
