@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -71,9 +72,9 @@ public class ActivityLogin extends ActionBarActivity {
     String loginEmail;
     String loginPassword;
     String nickname;
-    SocoApp socoApp;
-    Profile profile;
-    DBManagerSoco dbmgrSoco;
+//    SocoApp socoApp;
+//    Profile profile;
+//    DBManagerSoco dbmgrSoco;
 
     //facebook
     CallbackManager callbackManager;
@@ -90,39 +91,19 @@ public class ActivityLogin extends ActionBarActivity {
 
         //test
         controller = new LoginController();
-        controller.test();
 
-        //facebook - start
-        callbackManager = CallbackManager.Factory.create();
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-        Log.d(tag, "set permission");
-        loginButton.setReadPermissions(Arrays.asList("email","public_profile","user_friends"));
-        loginButton.registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        Log.d(tag, "facebook login success, token: " + loginResult.getAccessToken() + ", " + loginResult.toString());
-                        loginViaFacebook();
-                    }
-                    @Override
-                    public void onCancel() {
-                        Log.d(tag, "facebook login cancel");
-                    }
-                    @Override
-                    public void onError(FacebookException exception) {
-                        Log.d(tag, "facebook login error");
-                    }
-                });
-        //facebook - end
+        //facebook login
+        initFacebook();
 
-        socoApp = (SocoApp) getApplicationContext();
-        profile = new Profile(getApplicationContext());
-        socoApp.profile = profile;
 
-        dbmgrSoco = new DBManagerSoco(getApplicationContext());
-        dbmgrSoco.context = getApplicationContext();
-        Log.i(tag, "login activity: 2 get application context " + dbmgrSoco.context);
-        socoApp.dbManagerSoco = dbmgrSoco;
+//        socoApp = (SocoApp) getApplicationContext();
+//        profile = new Profile(getApplicationContext());
+//        socoApp.profile = profile;
+
+//        dbmgrSoco = new DBManagerSoco(getApplicationContext());
+//        dbmgrSoco.context = getApplicationContext();
+//        Log.i(tag, "login activity: 2 get application context " + dbmgrSoco.context);
+//        socoApp.dbManagerSoco = dbmgrSoco;
 
         findViewsById();
 
@@ -134,25 +115,83 @@ public class ActivityLogin extends ActionBarActivity {
             finish();
 
         //check if login credential exists
-        String savedLoginEmail = profile.getLoginEmail(this);
-        String savedLoginPassword = profile.getLoginPassword(this);
-        String savedLoginAccessToken = profile.getLoginAccessToken(this);
-        Log.i(tag, "Get saved login email/password/token: "
-                + savedLoginEmail + ", " + savedLoginPassword + ", " + savedLoginAccessToken);
+//        String savedLoginEmail = profile.getLoginEmail(this);
+//        String savedLoginPassword = profile.getLoginPassword(this);
+//        String savedLoginAccessToken = profile.getLoginAccessToken(this);
+//        Log.i(tag, "Get saved login email/password/token: "
+//                + savedLoginEmail + ", " + savedLoginPassword + ", " + savedLoginAccessToken);
 
-        savedLoginAccessToken = ""; //testing - used to bypass login screen
+        String savedLoginAccessToken = ""; //testing - used to bypass login screen
 
         if(!savedLoginAccessToken.isEmpty()) {
             Log.i(tag, "Saved login access token can be used, skip login screen");
-            et_login_email.setText(savedLoginEmail);
-            et_login_password.setText(savedLoginPassword);
+//            et_login_email.setText(savedLoginEmail);
+//            et_login_password.setText(savedLoginPassword);
             loginNormal(null);  //comment out for testing
         }
 
     }
 
-    void loginViaFacebook(){
-        Log.d(tag, "facebook info");
+    private void initFacebook() {
+        Log.d(tag, "init facebook");
+
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        Log.d(tag, "facebook access token: " + accessToken);
+
+        if(accessToken != null) {
+            Log.d(tag, "facebook token available, go to app");
+            loginViaFacebook();
+        }
+        else {
+            Log.d(tag, "facebook token not available, prepare login facebook");
+
+            callbackManager = CallbackManager.Factory.create();
+            loginButton = (LoginButton) findViewById(R.id.login_button);
+
+            Log.v(tag, "set permission");
+            loginButton.setReadPermissions(Arrays.asList("email", "public_profile", "user_friends"));
+
+            Log.v(tag, "register callback");
+            loginButton.registerCallback(callbackManager,
+                    new FacebookCallback<LoginResult>() {
+                        @Override
+                        public void onSuccess(LoginResult loginResult) {
+                            Log.d(tag, "facebook login success, token: " + loginResult.getAccessToken() + ", " + loginResult.toString());
+                            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                            Log.d(tag, "access token: " + accessToken);
+                            loginViaFacebook();
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            Log.d(tag, "facebook login cancel");
+                        }
+
+                        @Override
+                        public void onError(FacebookException exception) {
+                            Log.d(tag, "facebook login error");
+                        }
+                    });
+        }
+
+        return;
+    }
+
+
+    private void loginViaFacebook(){
+        Log.v(tag, "retrieve testing info facebook");
+        retrieveInfoFromFacebook();
+
+        Log.v(tag, "send login info to server");
+        controller.loginToServer(getApplicationContext());
+
+        Log.v(tag, "start dashboard");
+        Intent intent = new Intent(this, Dashboard.class);
+        startActivity(intent);
+    }
+
+    private void retrieveInfoFromFacebook() {
+        Log.d(tag, "retrieve info facebook");
 
         //fetch information from facebook
         Bundle parameters = new Bundle();
@@ -165,7 +204,7 @@ public class ActivityLogin extends ActionBarActivity {
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         /* handle the result */
-                        Log.i(tag, "me response: " + response);
+                        Log.v(tag, "me response: " + response);
                     }
                 }
         ).executeAsync();
@@ -177,23 +216,19 @@ public class ActivityLogin extends ActionBarActivity {
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         /* handle the result */
-                        Log.i(tag, "me/friends response: " + response);
+                        Log.v(tag, "me/friends response: " + response);
                         JSONObject object = response.getJSONObject();
                         try {
                             JSONArray array = new JSONArray(object.getString("data"));
-                            Log.i(tag, "array: " + array.toString());
+                            Log.v(tag, "array: " + array.toString());
                             for(int i=0; i<array.length(); i++)
-                                Log.i(tag, "item " + i + ": " + array.getJSONObject(i).toString());
+                                Log.v(tag, "item " + i + ": " + array.getJSONObject(i).toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }
         ).executeAsync();
-
-        //start dashboard
-        Intent intent = new Intent(this, Dashboard.class);
-        startActivity(intent);
     }
 
     @Override
@@ -219,18 +254,18 @@ public class ActivityLogin extends ActionBarActivity {
         loginEmail = et_login_email.getText().toString();
         loginPassword = et_login_password.getText().toString();
 
-        profile.ready(getApplicationContext(), loginEmail);
-        nickname = profile.getUsername(getApplicationContext(), loginEmail);
-        Log.d(tag, "save current login email/password into profile: " +
-                loginEmail + ", " + loginPassword);
-        profile.setLoginEmail(this, loginEmail);
-        profile.setLoginPassword(this, loginPassword);
+//        profile.ready(getApplicationContext(), loginEmail);
+//        nickname = profile.getUsername(getApplicationContext(), loginEmail);
+//        Log.d(tag, "save current login email/password into profile: " +
+//                loginEmail + ", " + loginPassword);
+//        profile.setLoginEmail(this, loginEmail);
+//        profile.setLoginPassword(this, loginPassword);
 
-        String access_token = profile.getLoginAccessToken(getApplicationContext());
-        if (access_token != null && !access_token.isEmpty())
-            Log.i(tag, "Load access token and skip login: " + access_token);
-        else {
-            Log.i(tag, "Cannot load access token, start login to server");
+//        String access_token = profile.getLoginAccessToken(getApplicationContext());
+//        if (access_token != null && !access_token.isEmpty())
+//            Log.i(tag, "Load access token and skip login: " + access_token);
+//        else {
+//            Log.i(tag, "Cannot load access token, start login to server");
 //            HttpTask loginTask = new HttpTask(
 //                    profile.getLoginUrl(getApplicationContext()), HttpConfigV1.HTTP_TYPE_LOGIN,
 //                    loginEmail, loginPassword, getApplicationContext(),
@@ -240,13 +275,13 @@ public class ActivityLogin extends ActionBarActivity {
             LoginTaskAsync task = new LoginTaskAsync(loginEmail, loginPassword, url,
                     getApplicationContext());
             task.execute();
-        }
+//        }
 
         boolean loginSuccess = validateLogin(loginEmail, loginPassword);
         if(loginSuccess) {
-            profile.setLoginEmail(this, loginEmail);
-            profile.setLoginPassword(this, loginPassword);
-            Log.i(tag, "Save to profile login email/password: " + loginEmail + "/" + loginPassword);
+//            profile.setLoginEmail(this, loginEmail);
+//            profile.setLoginPassword(this, loginPassword);
+//            Log.i(tag, "Save to profile login email/password: " + loginEmail + "/" + loginPassword);
 
             //start heartbeat service - comment for testing
 //            Intent iHeartbeat = new Intent(this, HeartbeatService.class);
@@ -263,10 +298,10 @@ public class ActivityLogin extends ActionBarActivity {
 //            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
 
             //set global variable
-            socoApp.loginEmail = loginEmail;
-            socoApp.loginPassword = loginPassword;
-            socoApp.profile = profile;
-            socoApp.currentPath = GeneralConfigV1.PATH_ROOT;
+//            socoApp.loginEmail = loginEmail;
+//            socoApp.loginPassword = loginPassword;
+//            socoApp.profile = profile;
+//            socoApp.currentPath = GeneralConfigV1.PATH_ROOT;
 
             startActivity(intent);
         } else {
@@ -285,59 +320,59 @@ public class ActivityLogin extends ActionBarActivity {
         startActivity(i);
     }
 
-    public void registerV1 (View view) {
-        loginEmail = et_login_email.getText().toString();
-        loginPassword = et_login_password.getText().toString();
-
-        profile.ready(getApplicationContext(), loginEmail);
-        nickname = profile.getUsername(getApplicationContext(), loginEmail);
-
-        //set initial status and start login
-        socoApp.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_START);
-
-//        HttpTask registerTask = new HttpTask(
-//                profile.getRegisterUrl(getApplicationContext()), HttpConfigV1.HTTP_TYPE_REGISTER,
-//                loginEmail, loginPassword, getApplicationContext(),
-//                null, null, null, null, null);
-//        registerTask.execute();
-        Context context = getApplicationContext();
-        String url = UrlUtil.getRegisterUrl(context);
-        RegisterTaskAsync task = new RegisterTaskAsync(loginEmail, loginPassword, url, context);
-        task.execute();
-
-        //wait and check login status
-        boolean isSuccess = false;
-        for (int i=1; i<= REGISTER_RETRY; i++) {
-            Log.d(tag, "Wait for registration parse: " + i + "/" + REGISTER_RETRY);
-            SystemClock.sleep(REGISTER_WAIT);;
-            Log.d(tag, "Current registration status is: " + socoApp.getRegistationStatus());
-            if(socoApp.getRegistationStatus().equals(SocoApp.REGISTRATION_STATUS_SUCCESS)) {
-                isSuccess = true;
-                break;
-            }
-            else if (socoApp.getRegistationStatus().equals(SocoApp.REGISTRATION_STATUS_FAIL)){
-                isSuccess = false;
-                break;
-            }
-        }
-
-        if(isSuccess) {
-            Log.i(tag, "Registration submitted success");
-            new AlertDialog.Builder(this)
-                    .setTitle("Registration submitted")
-                    .setMessage("Check email to finish registration")
-                    .setPositiveButton("OK", null)
-                    .show();
-        }
-        else {
-            Log.i(tag, "Registration failed");
-            new AlertDialog.Builder(this)
-                    .setTitle("Registration failed")
-                    .setMessage("Review registration details and try again")
-                    .setPositiveButton("OK", null)
-                    .show();
-        }
-    }
+//    public void registerV1 (View view) {
+//        loginEmail = et_login_email.getText().toString();
+//        loginPassword = et_login_password.getText().toString();
+//
+//        profile.ready(getApplicationContext(), loginEmail);
+//        nickname = profile.getUsername(getApplicationContext(), loginEmail);
+//
+//        //set initial status and start login
+//        socoApp.setRegistrationStatus(SocoApp.REGISTRATION_STATUS_START);
+//
+////        HttpTask registerTask = new HttpTask(
+////                profile.getRegisterUrl(getApplicationContext()), HttpConfigV1.HTTP_TYPE_REGISTER,
+////                loginEmail, loginPassword, getApplicationContext(),
+////                null, null, null, null, null);
+////        registerTask.execute();
+//        Context context = getApplicationContext();
+//        String url = UrlUtil.getRegisterUrl(context);
+//        RegisterTaskAsync task = new RegisterTaskAsync(loginEmail, loginPassword, url, context);
+//        task.execute();
+//
+//        //wait and check login status
+//        boolean isSuccess = false;
+//        for (int i=1; i<= REGISTER_RETRY; i++) {
+//            Log.d(tag, "Wait for registration parse: " + i + "/" + REGISTER_RETRY);
+//            SystemClock.sleep(REGISTER_WAIT);;
+//            Log.d(tag, "Current registration status is: " + socoApp.getRegistationStatus());
+//            if(socoApp.getRegistationStatus().equals(SocoApp.REGISTRATION_STATUS_SUCCESS)) {
+//                isSuccess = true;
+//                break;
+//            }
+//            else if (socoApp.getRegistationStatus().equals(SocoApp.REGISTRATION_STATUS_FAIL)){
+//                isSuccess = false;
+//                break;
+//            }
+//        }
+//
+//        if(isSuccess) {
+//            Log.i(tag, "Registration submitted success");
+//            new AlertDialog.Builder(this)
+//                    .setTitle("Registration submitted")
+//                    .setMessage("Check email to finish registration")
+//                    .setPositiveButton("OK", null)
+//                    .show();
+//        }
+//        else {
+//            Log.i(tag, "Registration failed");
+//            new AlertDialog.Builder(this)
+//                    .setTitle("Registration failed")
+//                    .setMessage("Review registration details and try again")
+//                    .setPositiveButton("OK", null)
+//                    .show();
+//        }
+//    }
 
 
 //    @Override
@@ -359,16 +394,20 @@ public class ActivityLogin extends ActionBarActivity {
     public void onResume() {
         super.onResume();
 
-        // Logs 'install' and 'app activate' App Events. - facebook
-        AppEventsLogger.activateApp(this);
+        Log.d(tag, "on resume");
 
-        Log.i(tag, "onResume");
-        String savedLoginEmail = profile.getLoginEmail(this);
-        String savedLoginPassword = profile.getLoginPassword(this);
-        Log.d(tag, "load saved login email/password: "
-                + savedLoginEmail + ", " + savedLoginPassword);
-        et_login_email.setText(savedLoginEmail);
-        et_login_password.setText(savedLoginPassword);
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        Log.d(tag, "facebook access token: " + accessToken);
+
+        // Logs 'install' and 'app activate' App Events. - facebook
+//        AppEventsLogger.activateApp(this);
+
+//        String savedLoginEmail = profile.getLoginEmail(this);
+//        String savedLoginPassword = profile.getLoginPassword(this);
+//        Log.d(tag, "load saved login email/password: "
+//                + savedLoginEmail + ", " + savedLoginPassword);
+//        et_login_email.setText(savedLoginEmail);
+//        et_login_password.setText(savedLoginPassword);
     }
 
     public boolean validateLogin(String loginEmail, String loginPassword) {
