@@ -25,9 +25,11 @@ public class FacebookUser implements BaseTable  {
 	private String link;
 	private int gender;
 	private String locale;
-	private Float timezone;
+	private double timezone;
 	private Date updated_time;
 	private Boolean verified;
+	
+	private String updateString;
 	
 	public FacebookUser(){
 		this.uid = 0l;
@@ -43,6 +45,8 @@ public class FacebookUser implements BaseTable  {
 		this.timezone = 0f;
 		this.updated_time = new Date();
 		this.verified = false;
+		
+		this.updateString = "";
 	}
 	
 	@Override
@@ -95,6 +99,16 @@ public class FacebookUser implements BaseTable  {
 		return sql;
 	}
 	
+	public String getUpdateSQLById(){
+		String sql = format(
+		        "update %s set " + this.updateString + " where fb_id=%s", 
+				getTableName(),
+				this.getId()
+				);
+		Log.debug("update sql: " + sql);
+		return sql;
+	}
+	
 	public String getQuerySQLById(){
 		String sql = format("select * from %s where fb_id=%s", this.getTableName(), this.getId());
 		Log.debug("query by id: " + sql);
@@ -123,6 +137,11 @@ public class FacebookUser implements BaseTable  {
 
 	public void setName(String name) {
 		this.name = name;
+		/////
+		if(!this.updateString.equals("")){
+			this.updateString = this.updateString + ",";
+		}
+		this.updateString = this.updateString + "name='" + name + "'";
 	}
 
 	public String getEmail() {
@@ -131,6 +150,11 @@ public class FacebookUser implements BaseTable  {
 
 	public void setEmail(String email) {
 		this.email = email;
+		/////
+		if(!this.updateString.equals("")){
+			this.updateString = this.updateString + ",";
+		}
+		this.updateString = this.updateString + "email='" + email + "'";
 	}
 
 	public String getFirstName() {
@@ -139,6 +163,11 @@ public class FacebookUser implements BaseTable  {
 
 	public void setFirstName(String first_name) {
 		this.first_name = first_name;
+		/////
+		if(!this.updateString.equals("")){
+			this.updateString = this.updateString + ",";
+		}
+		this.updateString = this.updateString + "first_name='" + first_name + "'";
 	}
 
 	public String getLastName() {
@@ -147,6 +176,11 @@ public class FacebookUser implements BaseTable  {
 
 	public void setLastName(String last_name) {
 		this.last_name = last_name;
+		/////
+		if(!this.updateString.equals("")){
+			this.updateString = this.updateString + ",";
+		}
+		this.updateString = this.updateString + "last_name='" + last_name + "'";
 	}
 
 	public String getAgeRange() {
@@ -155,6 +189,11 @@ public class FacebookUser implements BaseTable  {
 
 	public void setAgeRange(String age_range) {
 		this.age_range = age_range;
+		////
+		if(!this.updateString.equals("")){
+			this.updateString = this.updateString + ",";
+		}
+		this.updateString = this.updateString + "age_range='" + age_range + "'";
 	}
 
 	public String getLink() {
@@ -163,6 +202,11 @@ public class FacebookUser implements BaseTable  {
 
 	public void setLink(String link) {
 		this.link = link;
+		////
+		if(!this.updateString.equals("")){
+			this.updateString = this.updateString + ",";
+		}
+		this.updateString = this.updateString + "link='" + link + "'";
 	}
 
 	public int getGender() {
@@ -171,6 +215,11 @@ public class FacebookUser implements BaseTable  {
 
 	public void setGender(int gender) {
 		this.gender = gender;
+		////
+		if(!this.updateString.equals("")){
+			this.updateString = this.updateString + ",";
+		}
+		this.updateString = this.updateString + "gender=" + gender;
 	}
 
 	public String getLocale() {
@@ -179,14 +228,24 @@ public class FacebookUser implements BaseTable  {
 
 	public void setLocale(String locale) {
 		this.locale = locale;
+		////
+		if(!this.updateString.equals("")){
+			this.updateString = this.updateString + ",";
+		}
+		this.updateString = this.updateString + "locale='" + locale + "'";
 	}
 
-	public Float getTimezone() {
+	public double getTimezone() {
 		return timezone;
 	}
 
-	public void setTimezone(Float timezone) {
-		this.timezone = timezone;
+	public void setTimezone(double d) {
+		this.timezone = d;
+		////
+		if(!this.updateString.equals("")){
+			this.updateString = this.updateString + ",";
+		}
+		this.updateString = this.updateString + "timezone=" + d;
 	}
 
 	public Date getUpdated_time() {
@@ -195,6 +254,11 @@ public class FacebookUser implements BaseTable  {
 
 	public void setUpdated_time(Date updated_time) {
 		this.updated_time = updated_time;
+		////
+		if(!this.updateString.equals("")){
+			this.updateString = this.updateString + ",";
+		}
+		this.updateString = this.updateString + "updated_time='" + (new java.sql.Timestamp(updated_time.getTime())) + "'";
 	}
 
 	public Boolean getVerified() {
@@ -203,6 +267,15 @@ public class FacebookUser implements BaseTable  {
 
 	public void setVerified(Boolean verified) {
 		this.verified = verified;
+		////
+		if(!this.updateString.equals("")){
+			this.updateString = this.updateString + ",";
+		}
+		this.updateString = this.updateString + "timezone=" + timezone;
+	}
+	
+	public void clearUpdateString(){
+		this.updateString = "";
 	}
 
 
