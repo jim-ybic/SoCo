@@ -9,6 +9,7 @@ import com.soco.SoCoClient.common.http._ref.HttpUtilV1;
 
 import org.json.JSONObject;
 
+@Deprecated
 public class SocialLoginTask extends AsyncTask<Void, Void, Boolean> {
 
     static String tag = "SocialLoginTask";

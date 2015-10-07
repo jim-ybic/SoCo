@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
+import com.facebook.GraphResponse;
 import com.soco.SoCoClient.common.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.common.model.Person;
 import com.soco.SoCoClient.common.model.Profile;
@@ -268,4 +269,8 @@ public class SocoApp extends Application {
 
         return listNamePhone;
     }
+
+    /////////////////////////////////////////////////////////////////
+    public boolean facebookUserinfoReady;
+    public GraphResponse facebookUserinfoResponse;
 }

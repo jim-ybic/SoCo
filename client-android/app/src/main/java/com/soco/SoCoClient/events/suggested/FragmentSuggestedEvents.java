@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.events.suggestedevents;
+package com.soco.SoCoClient.events.suggested;
 
 //todo: a bug to be fixed, steps to replicate-
 //1) go inside a folder, 2) quick create an activity, 3) press android Back button

@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.friends.suggestedfriends;
+package com.soco.SoCoClient.friends.suggested;
 
 //import info.androidhive.tabsswipe.R;
 

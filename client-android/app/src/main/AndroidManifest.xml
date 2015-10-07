@@ -96,6 +96,9 @@
         <service
             android:name=".common.http.Heartbeat"
             android:enabled="true" />
+        <service
+            android:name=".login.sociallogin.LoginViaFacebook"
+            android:enabled="true" />
 
         <activity
             android:name=".events._ref.ActivityLocationActivity"

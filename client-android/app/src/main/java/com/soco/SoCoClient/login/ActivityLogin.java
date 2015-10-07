@@ -1,5 +1,7 @@
 package com.soco.SoCoClient.login;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -25,6 +27,7 @@ import com.facebook.FacebookSdk;
 import com.soco.SoCoClient.login.forgotpassword.ActivityForgotPassword;
 import com.soco.SoCoClient.login.register.ActivityRegister;
 import com.soco.SoCoClient.dashboard.Dashboard;
+import com.soco.SoCoClient.login.sociallogin.LoginViaFacebook;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +38,7 @@ import java.util.Arrays;
 
 public class ActivityLogin extends ActionBarActivity {
 
-    public static String tag = "LoginActivity";
+    public static String tag = "ActivityLogin";
 
     public static String FLAG_EXIT = "exit";
     public String SOCO_SERVER_IP = "192.168.0.104";
@@ -74,16 +77,21 @@ public class ActivityLogin extends ActionBarActivity {
     //controller
     LoginController controller;
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
+        findViews();
 
-        //test
+        context = getApplicationContext();
+
+        Log.v(tag, "create controller");
         controller = new LoginController();
 
-        //facebook login
+        Log.v(tag, "create facebook login button");
         initFacebook();
 
 
@@ -96,14 +104,12 @@ public class ActivityLogin extends ActionBarActivity {
 //        Log.i(tag, "login activity: 2 get application context " + dbmgrSoco.context);
 //        socoApp.dbManagerSoco = dbmgrSoco;
 
-        findViewsById();
-
         //test
-        et_login_email.setText(TEST_EMAIL);
-        et_login_password.setText(TEST_PASSWORD);
+//        et_login_email.setText(TEST_EMAIL);
+//        et_login_password.setText(TEST_PASSWORD);
 
-        if (getIntent().getBooleanExtra(FLAG_EXIT, false))
-            finish();
+//        if (getIntent().getBooleanExtra(FLAG_EXIT, false))
+//            finish();
 
         //check if login credential exists
 //        String savedLoginEmail = profile.getLoginEmail(this);
@@ -112,14 +118,14 @@ public class ActivityLogin extends ActionBarActivity {
 //        Log.i(tag, "Get saved login email/password/token: "
 //                + savedLoginEmail + ", " + savedLoginPassword + ", " + savedLoginAccessToken);
 
-        String savedLoginAccessToken = ""; //testing - used to bypass login screen
+//        String savedLoginAccessToken = ""; //testing - used to bypass login screen
 
-        if(!savedLoginAccessToken.isEmpty()) {
-            Log.i(tag, "Saved login access token can be used, skip login screen");
+//        if(!savedLoginAccessToken.isEmpty()) {
+//            Log.i(tag, "Saved login access token can be used, skip login screen");
 //            et_login_email.setText(savedLoginEmail);
 //            et_login_password.setText(savedLoginPassword);
-            loginNormal(null);  //comment out for testing
-        }
+//            loginNormal(null);  //comment out for testing
+//        }
 
     }
 
@@ -127,10 +133,10 @@ public class ActivityLogin extends ActionBarActivity {
         Log.d(tag, "init facebook");
 
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        Log.d(tag, "facebook access token: " + accessToken);
+        Log.v(tag, "facebook access token: " + accessToken);
 
         if(accessToken != null) {
-            Log.d(tag, "facebook token available, go to app");
+            Log.d(tag, "facebook token available: " + accessToken + ", proceed to app");
             loginViaFacebook();
         }
         else {
@@ -147,9 +153,9 @@ public class ActivityLogin extends ActionBarActivity {
                     new FacebookCallback<LoginResult>() {
                         @Override
                         public void onSuccess(LoginResult loginResult) {
-                            Log.d(tag, "facebook login success, token: " + loginResult.getAccessToken() + ", " + loginResult.toString());
-                            AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                            Log.d(tag, "access token: " + accessToken);
+                            Log.d(tag, "facebook login success, token: " + loginResult.getAccessToken());
+//                            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+//                            Log.d(tag, "access token: " + accessToken);
                             loginViaFacebook();
                         }
 
@@ -170,66 +176,79 @@ public class ActivityLogin extends ActionBarActivity {
 
 
     private void loginViaFacebook(){
-        Log.v(tag, "retrieve testing info facebook");
-        retrieveInfoFromFacebook();
+//        Log.v(tag, "retrieve testing info facebook");
+//        retrieveInfoFromFacebook();
 
         Log.v(tag, "send login info to server");
-        controller.loginToServer(getApplicationContext());
+        controller.requestFacebookUserInfo(context);
+
+        Log.v(tag, "start login service - wait for response and login to server");
+        Intent i = new Intent(this, LoginViaFacebook.class);
+        startService(i);
 
         Log.v(tag, "start dashboard");
         Intent intent = new Intent(this, Dashboard.class);
         startActivity(intent);
     }
 
-    private void retrieveInfoFromFacebook() {
-        Log.d(tag, "retrieve info facebook");
-
-        //fetch information from facebook
-        Bundle parameters = new Bundle();
-        parameters.putString("fields","id,name,about,bio,birthday,email,first_name,gender,locale,timezone");
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me",
-                parameters,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        /* handle the result */
-                        Log.v(tag, "me response: " + response);
-                    }
-                }
-        ).executeAsync();
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/friends",
-                parameters,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        /* handle the result */
-                        Log.v(tag, "me/friends response: " + response);
-                        JSONObject object = response.getJSONObject();
-                        try {
-                            JSONArray array = new JSONArray(object.getString("data"));
-                            Log.v(tag, "array: " + array.toString());
-                            for(int i=0; i<array.length(); i++)
-                                Log.v(tag, "item " + i + ": " + array.getJSONObject(i).toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-        ).executeAsync();
-    }
+//    private void retrieveInfoFromFacebook() {
+//        Log.d(tag, "retrieve info facebook");
+//
+//        Bundle parameters = new Bundle();
+//        parameters.putString("fields", "id,name,about,bio,birthday,email,first_name,gender,locale,timezone");
+//
+//        new GraphRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                "/me",
+//                parameters,
+//                HttpMethod.GET,
+//                new GraphRequest.Callback() {
+//                    public void onCompleted(GraphResponse response) {
+//                        /* handle the result */
+//                        Log.d(tag, "me response: " + response);
+//                    }
+//                }
+//        ).executeAsync();
+//
+//        new GraphRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                "/me/friends",
+//                parameters,
+//                HttpMethod.GET,
+//                new GraphRequest.Callback() {
+//                    public void onCompleted(GraphResponse response) {
+//                        /* handle the result */
+//                        Log.v(tag, "me/friends response: " + response);
+//                        JSONObject object = response.getJSONObject();
+//                        try {
+//                            JSONArray array = new JSONArray(object.getString("data"));
+//                            Log.v(tag, "array: " + array.toString());
+//                            for(int i=0; i<array.length(); i++)
+//                                Log.v(tag, "item " + i + ": " + array.getJSONObject(i).toString());
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//        ).executeAsync();
+//
+//        return;
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(tag, "onActivityResult: " + requestCode + ", " + resultCode + ", " + data.toString());
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        Log.d(tag, "on activity result: " + requestCode + ", " + resultCode + ", " + data.toString());
+        if(callbackManager == null)
+            Log.e(tag, "callbackmanager is null");
+        else
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        return;
     }
 
-    private void findViewsById() {
+    private void findViews() {
         et_login_email = (EditText) findViewById(R.id.et_login_email);
         et_login_password = (EditText) findViewById(R.id.et_login_password);
     }
@@ -385,10 +404,10 @@ public class ActivityLogin extends ActionBarActivity {
     public void onResume() {
         super.onResume();
 
-        Log.d(tag, "on resume");
+//        Log.d(tag, "on resume");
 
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        Log.d(tag, "facebook access token: " + accessToken);
+//        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+//        Log.d(tag, "facebook access token: " + accessToken);
 
         // Logs 'install' and 'app activate' App Events. - facebook
 //        AppEventsLogger.activateApp(this);
