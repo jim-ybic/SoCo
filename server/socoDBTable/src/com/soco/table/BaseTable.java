@@ -14,4 +14,6 @@ public interface BaseTable extends Serializable {
 	
 	public String getInsertSQL();
 	
+	public String getUpdateSQLById();
+	
 }

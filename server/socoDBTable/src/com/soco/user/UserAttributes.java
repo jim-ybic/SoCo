@@ -93,4 +93,10 @@ public class UserAttributes implements BaseTable {
 				this.getValue()
 				);
 	}
+
+	@Override
+	public String getUpdateSQLById() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

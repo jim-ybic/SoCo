@@ -6,6 +6,17 @@ import com.soco.user.User;
 
 public class UserController {
 
+	
+	public boolean hasByUId(long uid){
+		boolean ret = false;
+		return ret;
+	}
+	
+	public boolean hasByEmail(String email){
+		boolean ret = false;
+		return ret;
+	}
+	
     public int createUser(User user){
         int ret = 0;
         

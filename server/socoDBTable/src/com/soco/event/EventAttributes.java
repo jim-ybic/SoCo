@@ -97,4 +97,11 @@ public class EventAttributes implements BaseTable{
 	}
 
 
+	@Override
+	public String getUpdateSQLById() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

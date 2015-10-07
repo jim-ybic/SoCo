@@ -120,8 +120,11 @@ public class XmlConfig {
                     // end element
                     if(isWantedServer){ 
                     	String name = readerXML.getLocalName();
-                    	this._string_map.put(name, value);
-                    	//
+                    	if(!name.equals(_SERVER_NODE)){
+                    		this._string_map.put(name, value);
+                    	}
+                    	/*
+                    	 * unused
                         if(readerXML.getLocalName().equals(_PORT_NODE)){
                             this._port = Integer.parseInt(value);
                         } else if (readerXML.getLocalName().equals(_DBURL_NODE)){
@@ -133,6 +136,7 @@ public class XmlConfig {
                         } else if (readerXML.getLocalName().equals(_Password_NODE)){
                             this._password = value;
                         }
+                        */
                         //Log.log(readerXML.getLocalName()+":"+value);
                     }
                     //
@@ -173,6 +177,17 @@ public class XmlConfig {
     		
     		for(String key: this._string_map.keySet()){
     			Log.debug(key + ":" + this._string_map.get(key));
+    		}
+    	}
+    }
+    
+    public void setToSystemProperties(){
+    	if(this._string_map != null){
+    		
+    		for(String key: this._string_map.keySet()){
+    			String value = this._string_map.get(key);
+    			Log.debug("Read config (key:value)." + key + ":" + value);
+    			System.setProperty(key, value);
     		}
     	}
     }

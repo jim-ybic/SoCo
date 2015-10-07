@@ -51,7 +51,7 @@ public class AppResponseHandler {
 		try {
 			jsonResp.put("status", httpStatus);
 			jsonResp.put("user_id", uid);
-			if(token.equals("")) jsonResp.put("token", token);
+			if(!token.equals("")) jsonResp.put("token", token);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

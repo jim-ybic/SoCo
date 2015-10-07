@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DataSources;
+import com.soco.log.Log;
 
 public class DataSource {
 
@@ -22,7 +23,12 @@ public class DataSource {
     private boolean _update = true;
 
     private DataSource() throws IOException, SQLException, PropertyVetoException {
-        this.createDBSource(this._db, this._port, this._jdbc_url, this._user, this._password);
+    	this.setDBConfigFromSystemProperty();
+        this.createDBSource();
+    }
+    
+    private void createDBSource(){
+    	this.createDBSource(this._db, this._port, this._jdbc_url, this._user, this._password);
     }
     
     private void createDBSource(String dbName, String port, String url, String userName, String password){
@@ -79,13 +85,45 @@ public class DataSource {
         }
     }
 
-    public Connection getConnection() throws SQLException {
-        return this.cpds.getConnection();
+    public Connection getConnection() {
+        Connection conn = null;
+		try {
+			conn = this.cpds.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			Log.error("DB Connect is not valide or disconnection.");
+			Log.error("DB exception: " + e.getMessage());
+			Log.error("Exception stack trace: " + e.getStackTrace());
+			//reconnection again
+			this.createDBSource(this._db, this._port, this._jdbc_url, this._user, this._password);
+		}
+        
+        return conn;
     }
     
-    public void setDBConfiguration(String dbName, String port, String url, String userName, String password){
+    public void updateDBConfiguration(String dbName, String port, String url, String userName, String password){
     	
     	this._update = true;
     	this.createDBSource(dbName, port, url, userName, password);
+    }
+    
+    public void setDBConfigFromSystemProperty(){
+    	String url = System.getProperty("DBUrl");
+    	String dbName = System.getProperty("DBName");
+    	String dbPort = System.getProperty("DBPort");
+    	String dbUser = System.getProperty("DBUser");
+    	String dbPassword = System.getProperty("DBPassword");
+    	
+    	if(null != url) this._jdbc_url = url;
+    	if(null != dbName) this._db = dbName;
+    	if(null != dbPort) this._port = dbPort;
+    	if(null != dbUser) this._user = dbUser;
+    	if(null != dbPassword) this._password = dbPassword;
+    }
+    
+    public void updateDBConfigFromSystemProperty(){
+    	this._update = true;
+    	this.setDBConfigFromSystemProperty();
+    	this.createDBSource();
     }
 }
