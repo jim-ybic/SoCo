@@ -1,0 +1,9 @@
+<root>
+    <Server name="EventServer">
+         <DBUrl>jdbc:mysql://socodb1.cke0xhfpla2s.ap-southeast-1.rds.amazonaws.com</DBUrl>
+         <DB>socoserver1</DB>
+         <Port>3306</Port>
+         <User>soco1</User>
+         <Password>soco123456</Password>
+    </Server>
+</root>

@@ -22,14 +22,17 @@ import org.json.JSONObject;
 
 import com.soco.db.security.AuthenticationTokenController;
 import com.soco.db.user.FacebookUserController;
+import com.soco.db.user.RoleController;
 import com.soco.db.user.UserController;
 import com.soco.db.user.UserRoleController;
 import com.soco.log.Log;
 import com.soco.security.AuthenticationToken;
+import com.soco.security.authentication.UserAuthentication;
 import com.soco.security.authentication.UserToken;
 import com.soco.security.encryption.AES;
 import com.soco.security.encryption.MD5;
 import com.soco.user.FacebookUser;
+import com.soco.user.Role;
 import com.soco.user.User;
 import com.soco.user.UserRole;
 import com.soco.algorithm.user.UserInfor;;
@@ -173,41 +176,59 @@ public class AppUserMessageHandler implements AppMessageHandler {
 						user.setHometown(hometown);
 						////
 						UserController uc = new UserController();
-						if(uc.hasByEmail(email)){
+						if(uc.hasByUIdOrEmail(user) != null){
 							// the email existent, error
-						}
-						int rows = uc.createUser(user);
-						if (rows > 0){
-							/* it expired after one month */
-							long expired = (new Date()).getTime() + UserToken.ONE_MONTH_MILLIONSECOND;
-							String key = AES.getRandomSecKey();
-							String token = UserToken.getToken(key, uid, expired);
-							// save token to authentication table
-							AuthenticationTokenController atc = new AuthenticationTokenController();
-							AuthenticationToken auToken = new AuthenticationToken();
-							auToken.setKey(key);
-							auToken.setStartTime(new Date());
-							auToken.setUId(uid);
-							auToken.setToken(token);
-							auToken.setValidity(expired);
-							if(atc.has(uid)){
-								// error
-								Log.error("In register. When insert authentication token, the record is already existent.");
-								Log.error("To update the authentication token record for user id: " + uid);
-								ret = atc.updateAuthenticationToken(auToken);
-							} else {
-								ret = atc.createAuthenticationToken(auToken);
+						} else {
+							int rows = uc.createUser(user);
+							if (rows > 0){
+								/* it expired after one month */
+								AuthenticationTokenController atc = new AuthenticationTokenController();
+								AuthenticationToken auToken = atc.generateTokenForUser(user);
+								// save user role
+								UserRole ur = new UserRole();
+								RoleController rc = new RoleController();
+								Role role = new Role();
+								role.setAuthority(Role.ROLE_USER);
+								long rid = rc.has(role);
+								if(rid >0 ){
+									ur.setRoleID(rid);
+								} else {
+									Log.error("There is no ROLE_USER in db.");
+									if(rc.createRole(role)){
+										rid = rc.has(role);
+										ur.setRoleID(rid);
+									} else {
+										Log.error("Can't create role ROLE_USER in DB.");
+										///
+									}
+								}
+								if( rid <= 0 ){
+									//error
+									Log.error("Can't creat the relationship between user:" + uid + " and USER_ROLE. Make a undo task.");
+									////TODO: make an undo task.
+								}else{
+									////to create user role relationship
+									ur.setUserID(uid);
+									UserRoleController urc = new UserRoleController();
+									if(!urc.has(ur)){
+										urc.createUserRole(ur);
+									} else {
+										//
+										Log.error("The user role relation already existent when create user. So do nothing, just keep it.");
+									}
+								}
+								// set response
+								String resp = AppResponseHandler.getRegisterSuccessResponse(200, uid, auToken.getToken());
+								this.set_http_status(OK);
+								this.set_http_response_content(resp);
+								//send out the register code to the email
+								ret = this.sendEmail(user.getEmail(), this.getEmailContent());
+								if(!ret){
+									//TODO: if failed, and then add to task queue to try again later
+									Log.error("Send verification email failed. Server will try again later.");
+									ret = true;
+								}
 							}
-							// save user role
-							UserRole ur = new UserRole();
-							UserRoleController urc = new UserRoleController();
-							// set response
-							String resp = AppResponseHandler.getRegisterSuccessResponse(200, uid, token);
-							this.set_http_status(OK);
-							this.set_http_response_content(resp);
-							//send out the register code to the email
-							this.sendEmail(user.getEmail(), this.getEmailContent());
-							ret = true;
 						}
 						////
 					} catch (JSONException e) {
@@ -238,6 +259,72 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	public boolean post_login_v1 (JSONObject json, String param){
 		boolean ret = false;
 		Log.debug("In login.");
+		String property = "";
+		String message = "";
+		int error_code = 0;
+		if(json != null){
+			if(json.has(FIELD_EMAIL)){
+				if(json.has(FIELD_PASSWORD)){
+					try {
+						String email = json.getString(FIELD_EMAIL);
+						String password = json.getString(FIELD_PASSWORD);
+					    UserController uc = new UserController();
+					    User user = new User();
+					    user.setEmail(email);
+					    user = uc.hasByUIdOrEmail(user);
+					    if(user != null ){
+					    	if(user.getUserPlainPassword().equals(password)){
+					    		// email and password are correct
+					    		// generate token for user
+					    		AuthenticationTokenController atc = new AuthenticationTokenController();
+								AuthenticationToken auToken = atc.generateTokenForUser(user);
+								// set response
+								String resp = AppResponseHandler.getLoginSuccessResponse(200, user.getId(), auToken.getToken(), user.getIsValidated().toString());
+								this.set_http_status(OK);
+								this.set_http_response_content(resp);
+								ret = true;
+					    	} else {
+					    		// password wrong
+					    		Log.warn("Password is wrong for email: " + email);
+					    		property = "password";
+					    		message = "Password is wrong for this email.";
+					    		error_code = 11;
+					    	}    	
+					    } else {
+					    	//user not existent
+					    	Log.warn("There is no user for email: " + email);
+					    	property = "email";
+					    	message = "The email is not registed.";
+					    	error_code = 12;
+					    }
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					Log.error("There is no password field in request.");
+					property = "password";
+					message = "There is no password field in request";
+					error_code = 13;
+				}
+			} else {
+				Log.error("There is no email field in request.");
+				property = "email";
+				message = "There is no email field in request.";
+				error_code = 14;
+			}
+		} else {
+			Log.error("This a invalide json request.");
+			message = "This a invalide json request.";
+			error_code = 10;
+		}
+		if(!ret){
+			
+			String resp = AppResponseHandler.getRegisterFailureResponse(400, error_code, property, message);
+			this.set_http_status(HttpResponseStatus.BAD_REQUEST);
+			this.set_http_response_content(resp);
+		}
+		
 		return ret;
 	}
 	
@@ -294,6 +381,7 @@ public class AppUserMessageHandler implements AppMessageHandler {
 								property = "id";
 								message = "The user is not existent.";
 							} else {
+								fbUser.setUid(fbuc.getUId(id));
 								ret = fbuc.updateFBUser(fbUser);
 								if(ret){
 									String resp = AppResponseHandler.getSocialLoginSuccessResponse(200, fbUser.getUid(), "");
@@ -307,6 +395,7 @@ public class AppUserMessageHandler implements AppMessageHandler {
 								////existent, and then log in
 								ret = true;
 							} else {
+								fbUser.setUid(UserInfor.getUID(1, 1));
 								ret = fbuc.createFBUser(fbUser);
 							}
 							if(ret){
@@ -345,7 +434,6 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	private FacebookUser parseFacebookUserFromJson(JSONObject json){
 		FacebookUser fbUser = new FacebookUser();
 		try {
-			fbUser.setUid(UserInfor.getUID(1, 1));
 			if(json.has(FIELD_ID)){
 				if(json.has(FIELD_NAME)){
 					fbUser.setId(json.getLong(FIELD_ID));

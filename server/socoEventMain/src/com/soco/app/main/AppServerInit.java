@@ -11,9 +11,9 @@ public class AppServerInit {
 		//initialize Role once
 		RoleController rc = new RoleController();
 		for(String roleName : Role.ROLE_ARRAY){
-			if(rc.has(roleName) == -1){
-				Role role = new Role();
-				role.setAuthority(roleName);
+			Role role = new Role();
+			role.setAuthority(roleName);
+			if(rc.has(role) <= 0){
 				boolean ret = rc.createRole(role);
 				if(ret){
 					Log.infor("In initEnv. Success to insert role: " + roleName);

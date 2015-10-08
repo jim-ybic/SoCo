@@ -382,4 +382,10 @@ public class User implements BaseTable {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public String getQuerySQLByUIdOrEmail(){
+		String sql = format("select * from %s where uid=%s or email='%s'", this.getTableName(), this.getId(), this.getEmail());
+		Log.debug("query by uid or email: " + sql);
+		return sql;
+	}
 }

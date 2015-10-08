@@ -1,0 +1,14 @@
+package com.soco.db.user;
+
+import com.soco.user.FacebookUser;
+
+public class FacebookUserController {
+
+	public boolean has(long id){
+		boolean ret = false;
+		FacebookUser fbUser = new FacebookUser();
+		fbUser.setId(id);
+		
+		return ret;
+	}
+}

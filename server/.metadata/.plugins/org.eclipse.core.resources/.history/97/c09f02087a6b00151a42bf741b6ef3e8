@@ -1,0 +1,31 @@
+package com.soco.user;
+
+import com.soco.table.BaseTable;
+
+public class FacebookUser implements BaseTable  {
+
+	private String id;
+	private String name;
+	private String email;
+	
+	
+	@Override
+	public String getTableCreateSQL() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTableName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getInsertSQL() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+}

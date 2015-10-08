@@ -21,6 +21,18 @@ public class FacebookUserController {
 		return ret;
 	}
 	
+	public long getUId(long id){
+		long uid = 0L;
+		FacebookUser fbUser = new FacebookUser();
+		fbUser.setId(id);
+		dbconnect dbc = new dbconnect();
+        uid = dbc.queryValueOfLong(fbUser.getQueryUIdSQLById());
+        Log.debug("query user id: " + uid);
+		
+		  
+		return uid;
+	}
+	
 	public boolean createFBUser(FacebookUser fbUser){
 		boolean ret = false;
 		Log.infor("In create facebook user.");

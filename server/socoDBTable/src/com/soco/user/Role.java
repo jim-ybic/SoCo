@@ -71,6 +71,13 @@ public class Role implements BaseTable {
 		Log.debug("insert sql: " + sql);
 		return sql;
 	}
+	
+	public String getQueryIdSQL(){
+		String sql = format("select id from %s where name='%s'", this.getTableName(), this.getAuthority());
+		Log.debug("query id by : " + sql);
+		return sql;
+	}
+
 
 	@Override
 	public String getUpdateSQLById() {

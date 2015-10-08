@@ -114,6 +114,12 @@ public class FacebookUser implements BaseTable  {
 		Log.debug("query by id: " + sql);
 		return sql;
 	}
+	
+	public String getQueryUIdSQLById(){
+		String sql = format("select uid from %s where fb_id=%s", this.getTableName(), this.getId());
+		Log.debug("query by id: " + sql);
+		return sql;
+	}
 
 	public long getUid() {
 		return uid;

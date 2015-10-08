@@ -2,20 +2,20 @@ package com.soco.db.user;
 
 import com.soco.db.adapter.EventDBAdapter;
 import com.soco.dbconnect.dbconnect;
+import com.soco.log.Log;
 import com.soco.user.User;
 
 public class UserController {
 
 	
-	public boolean hasByUId(long uid){
-		boolean ret = false;
-		return ret;
+	public User hasByUIdOrEmail(User user){
+		Log.infor("In user controller");
+		dbconnect dbc = new dbconnect();
+        user = dbc.queryObjectOfUser(user.getQuerySQLByUIdOrEmail());
+        //
+		return user;
 	}
 	
-	public boolean hasByEmail(String email){
-		boolean ret = false;
-		return ret;
-	}
 	
     public int createUser(User user){
         int ret = 0;

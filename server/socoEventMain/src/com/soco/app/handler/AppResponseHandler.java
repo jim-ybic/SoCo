@@ -76,4 +76,20 @@ public class AppResponseHandler {
 		
 		return jsonResp.toString();
 	}
+	
+    public static String getLoginSuccessResponse(int httpStatus, long uid, String token, String verified){
+		
+		JSONObject jsonResp = new JSONObject();
+		try {
+			jsonResp.put("status", httpStatus);
+			jsonResp.put("user_id", uid);
+			jsonResp.put("token", token);
+			jsonResp.put("verified", verified);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jsonResp.toString();
+	}
 }

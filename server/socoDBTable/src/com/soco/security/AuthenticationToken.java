@@ -21,7 +21,7 @@ public class AuthenticationToken  implements BaseTable {
     private long validity;
     
     private static final String tableName = "authentication_token";
-    private String updateString;
+    private String updateString = "";
 
 	@Override
 	public String getTableCreateSQL() {
@@ -32,7 +32,7 @@ public class AuthenticationToken  implements BaseTable {
 	@Override
 	public String getTableName() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.tableName;
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class AuthenticationToken  implements BaseTable {
 		          "token, " +
 		          "token_key, " +
 		          "start_time, " +
-		          "validity_millionsecond, " +
+		          "validity_millionsecond " +
 		          ") values(%s,'%s','%s','%s',%s)", 
 				getTableName(),
 				this.getUId(),
@@ -66,6 +66,18 @@ public class AuthenticationToken  implements BaseTable {
 				this.getUId()
 				);
 		Log.debug("update sql: " + sql);
+		return sql;
+	}
+	
+	public String getQuerySQLByUId(){
+		String sql = format("select * from %s where uid=%s", this.getTableName(), this.getUId());
+		Log.debug("query by uid : " + sql);
+		return sql;
+	}
+	
+	public String getDeleteSQLByUId(){
+		String sql = format("delete from %s where uid=%s", this.getTableName(), this.getUId());
+		Log.debug("delete by uid : " + sql);
 		return sql;
 	}
 
