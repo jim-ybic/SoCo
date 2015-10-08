@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.login.sociallogin;
+package com.soco.SoCoClient.onboarding.login.service;
 
 import android.content.Context;
 import android.os.AsyncTask;

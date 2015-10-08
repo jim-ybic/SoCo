@@ -55,13 +55,13 @@
                         android:id="@+id/areacode"
                         android:layout_width="fill_parent"
                         android:layout_height="60dp"
-                        android:inputType="number"
+                        android:inputType="phone"
                         android:hint="+852"/>
                     <EditText
                         android:id="@+id/phone"
                         android:layout_width="fill_parent"
                         android:layout_height="60dp"
-                        android:inputType="number"
+                        android:inputType="phone"
                         android:hint="phone number"
                         android:layout_weight="1"/>
                 </TableRow>

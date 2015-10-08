@@ -273,4 +273,5 @@ public class SocoApp extends Application {
     /////////////////////////////////////////////////////////////////
     public boolean facebookUserinfoReady;
     public GraphResponse facebookUserinfoResponse;
+    public boolean loginNormalStatus;
 }

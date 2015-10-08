@@ -1,6 +1,5 @@
-package com.soco.SoCoClient.login;
+package com.soco.SoCoClient.onboarding.login;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +13,6 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.soco.SoCoClient.R;
@@ -24,47 +20,45 @@ import com.soco.SoCoClient.common.http.task._ref.LoginTaskAsync;
 import com.soco.SoCoClient.common.http.UrlUtil;
 
 import com.facebook.FacebookSdk;
-import com.soco.SoCoClient.login.forgotpassword.ActivityForgotPassword;
-import com.soco.SoCoClient.login.register.ActivityRegister;
+import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.onboarding.forgotpassword.ForgotPasswordActivity;
+import com.soco.SoCoClient.onboarding.login.service.LoginNormalService;
+import com.soco.SoCoClient.onboarding.register.RegisterActivity;
 import com.soco.SoCoClient.dashboard.Dashboard;
-import com.soco.SoCoClient.login.sociallogin.LoginViaFacebook;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.soco.SoCoClient.onboarding.login.service.LoginViaFacebookService;
 
 import java.util.Arrays;
 
 
-public class ActivityLogin extends ActionBarActivity {
+public class LoginActivity extends ActionBarActivity {
 
-    public static String tag = "ActivityLogin";
+    public static String tag = "LoginActivity";
 
-    public static String FLAG_EXIT = "exit";
-    public String SOCO_SERVER_IP = "192.168.0.104";
-    public String SOCO_SERVER_PORT = "8080";
+//    public static String FLAG_EXIT = "exit";
+//    public String SOCO_SERVER_IP = "192.168.0.104";
+//    public String SOCO_SERVER_PORT = "8080";
 
-    public String LOGIN_PATH = "/socoserver/api/login";
-    public String REGISTER_PATH = "/socoserver/register/register";
+//    public String LOGIN_PATH = "/socoserver/api/login";
+//    public String REGISTER_PATH = "/socoserver/register/register";
 
-    public String LOGIN_SOCO_SERVER_URL = "http://"
-            + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + LOGIN_PATH;
-    public String REGISTER_SOCO_SERVER_URL = "http://"
-            + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + REGISTER_PATH;
+//    public String LOGIN_SOCO_SERVER_URL = "http://"
+//            + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + LOGIN_PATH;
+//    public String REGISTER_SOCO_SERVER_URL = "http://"
+//            + SOCO_SERVER_IP + ":" + SOCO_SERVER_PORT + REGISTER_PATH;
 
-    public static String TEST_EMAIL = "jim.ybic@gmail.com";
-    public static String TEST_PASSWORD = "Pass@123";
+//    public static String TEST_EMAIL = "jim.ybic@gmail.com";
+//    public static String TEST_PASSWORD = "Pass@123";
 
-    public static int REGISTER_RETRY = 10;
-    public static int REGISTER_WAIT = 1000;    //ms
+//    public static int REGISTER_RETRY = 10;
+//    public static int REGISTER_WAIT = 1000;    //ms
 
     // Local views
     EditText et_login_email;
     EditText et_login_password;
 
     // Local variables
-    String loginEmail;
-    String loginPassword;
+//    String loginEmail;
+//    String loginPassword;
     String nickname;
 //    SocoApp socoApp;
 //    Profile profile;
@@ -78,15 +72,17 @@ public class ActivityLogin extends ActionBarActivity {
     LoginController controller;
 
     Context context;
+    SocoApp socoApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        setContentView(R.layout.activity_login);
-        findViews();
+        setContentView(R.layout.login_activity);
 
+        findViews();
         context = getApplicationContext();
+        socoApp = (SocoApp) context;
 
         Log.v(tag, "create controller");
         controller = new LoginController();
@@ -174,66 +170,18 @@ public class ActivityLogin extends ActionBarActivity {
         return;
     }
 
-
     private void loginViaFacebook(){
-//        Log.v(tag, "retrieve testing info facebook");
-//        retrieveInfoFromFacebook();
-
         Log.v(tag, "send login info to server");
-        controller.requestFacebookUserInfo(context);
+        LoginController.requestFacebookUserInfo(context);
 
         Log.v(tag, "start login service - wait for response and login to server");
-        Intent i = new Intent(this, LoginViaFacebook.class);
+        Intent i = new Intent(this, LoginViaFacebookService.class);
         startService(i);
 
         Log.v(tag, "start dashboard");
         Intent intent = new Intent(this, Dashboard.class);
         startActivity(intent);
     }
-
-//    private void retrieveInfoFromFacebook() {
-//        Log.d(tag, "retrieve info facebook");
-//
-//        Bundle parameters = new Bundle();
-//        parameters.putString("fields", "id,name,about,bio,birthday,email,first_name,gender,locale,timezone");
-//
-//        new GraphRequest(
-//                AccessToken.getCurrentAccessToken(),
-//                "/me",
-//                parameters,
-//                HttpMethod.GET,
-//                new GraphRequest.Callback() {
-//                    public void onCompleted(GraphResponse response) {
-//                        /* handle the result */
-//                        Log.d(tag, "me response: " + response);
-//                    }
-//                }
-//        ).executeAsync();
-//
-//        new GraphRequest(
-//                AccessToken.getCurrentAccessToken(),
-//                "/me/friends",
-//                parameters,
-//                HttpMethod.GET,
-//                new GraphRequest.Callback() {
-//                    public void onCompleted(GraphResponse response) {
-//                        /* handle the result */
-//                        Log.v(tag, "me/friends response: " + response);
-//                        JSONObject object = response.getJSONObject();
-//                        try {
-//                            JSONArray array = new JSONArray(object.getString("data"));
-//                            Log.v(tag, "array: " + array.toString());
-//                            for(int i=0; i<array.length(); i++)
-//                                Log.v(tag, "item " + i + ": " + array.getJSONObject(i).toString());
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//        ).executeAsync();
-//
-//        return;
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -261,8 +209,18 @@ public class ActivityLogin extends ActionBarActivity {
 
 
     public void loginNormal (View view) {
-        loginEmail = et_login_email.getText().toString();
-        loginPassword = et_login_password.getText().toString();
+        String loginEmail = et_login_email.getText().toString();
+        String loginPassword = et_login_password.getText().toString();
+
+        Intent i = new Intent(this, LoginNormalService.class);
+        //todo
+        //attach email & password
+        startService(i);
+
+        Log.v(tag, "start dashboard");
+        Intent intent = new Intent(this, Dashboard.class);
+        startActivity(intent);
+
 
 //        profile.ready(getApplicationContext(), loginEmail);
 //        nickname = profile.getUsername(getApplicationContext(), loginEmail);
@@ -281,52 +239,53 @@ public class ActivityLogin extends ActionBarActivity {
 //                    loginEmail, loginPassword, getApplicationContext(),
 //                    null, null, null, null, null);
 //            loginTask.execute();
-            String url = UrlUtil.getLoginUrl(getApplicationContext());
-            LoginTaskAsync task = new LoginTaskAsync(loginEmail, loginPassword, url,
-                    getApplicationContext());
-            task.execute();
+//            String url = UrlUtil.getLoginUrl(getApplicationContext());
+//            LoginTaskAsync task = new LoginTaskAsync(loginEmail, loginPassword, url,
+//                    getApplicationContext());
+//            task.execute();
 //        }
 
-        boolean loginSuccess = validateLogin(loginEmail, loginPassword);
-        if(loginSuccess) {
+
+
+//        boolean loginSuccess = validateLogin(loginEmail, loginPassword);
+//        if(loginSuccess) {
 //            profile.setLoginEmail(this, loginEmail);
 //            profile.setLoginPassword(this, loginPassword);
 //            Log.i(tag, "Save to profile login email/password: " + loginEmail + "/" + loginPassword);
 
-            //start heartbeat service - comment for testing
+        //start heartbeat service - comment for testing
 //            Intent iHeartbeat = new Intent(this, HeartbeatService.class);
 //            startService(iHeartbeat);
 
-            Toast.makeText(getApplicationContext(), "Hello, " + nickname,
-                    Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "Hello, " + nickname,
+//                    Toast.LENGTH_SHORT).show();
 
-            //todo: testing script
 //            Intent intent = new Intent(this, ShowActiveProjectsActivity.class);
-            Intent intent = new Intent(this, Dashboard.class);
+//            Intent intent = new Intent(this, Dashboard.class);
 
 //            intent.putExtra(Config.LOGIN_EMAIL, loginEmail);
 //            intent.putExtra(Config.LOGIN_PASSWORD, loginPassword);
 
-            //set global variable
+        //set global variable
 //            socoApp.loginEmail = loginEmail;
 //            socoApp.loginPassword = loginPassword;
 //            socoApp.profile = profile;
 //            socoApp.currentPath = GeneralConfigV1.PATH_ROOT;
 
-            startActivity(intent);
-        } else {
-            Toast.makeText(getApplicationContext(), "Oops, login failed.",
-                    Toast.LENGTH_SHORT).show();
-        }
+//            startActivity(intent);
+//        } else {
+//            Toast.makeText(getApplicationContext(), "Oops, login failed.",
+//                    Toast.LENGTH_SHORT).show();
+//        }
     }
 
     public void forgotpassword (View view) {
-        Intent i = new Intent(getApplicationContext(), ActivityForgotPassword.class);
+        Intent i = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
         startActivity(i);
     }
 
     public void register (View view) {
-        Intent i = new Intent(getApplicationContext(), ActivityRegister.class);
+        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(i);
     }
 
@@ -420,13 +379,13 @@ public class ActivityLogin extends ActionBarActivity {
 //        et_login_password.setText(savedLoginPassword);
     }
 
-    public boolean validateLogin(String loginEmail, String loginPassword) {
-        Log.i("login", "Validate login for: " + loginEmail + "/" + loginPassword);
-
-        //TODO: add login validation logic here
-
-        return true;
-    }
+//    public boolean validateLogin(String loginEmail, String loginPassword) {
+//        Log.i("login", "Validate login for: " + loginEmail + "/" + loginPassword);
+//
+//        //TODO: add login validation logic here
+//
+//        return true;
+//    }
 
 
 }

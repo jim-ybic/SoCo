@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.login.ActivityLogin;
+import com.soco.SoCoClient.onboarding.login.LoginActivity;
 import com.soco.SoCoClient.events.common.ActivityEventDetailV1;
 
 @Deprecated
@@ -49,7 +49,7 @@ public class TestEntryScreen extends ActionBarActivity {
 
     public void dev (View view) {
         Log.i(tag, "dev");
-        Intent intent = new Intent(this, ActivityLogin.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 

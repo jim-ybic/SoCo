@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient._ref.GeneralConfigV1;
 import com.soco.SoCoClient.common.util.SocoApp;
-import com.soco.SoCoClient.login.ActivityLogin;
+import com.soco.SoCoClient.onboarding.login.LoginActivity;
 import com.soco.SoCoClient.common.model.Profile;
 
 
@@ -94,7 +94,7 @@ public class ActivityProfile extends ActionBarActivity {
 //        tv_lastLoginTimestamp.setText(EMPTY_STRING);
 
         Log.d(tag, "return to login screen");
-        Intent intent = new Intent(getApplicationContext(), ActivityLogin.class);
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
