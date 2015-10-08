@@ -64,7 +64,9 @@ public class RegisterActivity extends ActionBarActivity {
     }
 
     public void register(View view){
-        Log.d(tag, "start register");
+        Log.d(tag, "tap on register");
+
+        RegisterController.registerOnServer();
 
         //todo
         //call controller.registeronserver

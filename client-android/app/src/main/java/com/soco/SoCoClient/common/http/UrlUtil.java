@@ -222,22 +222,25 @@ public class UrlUtil {
     ////////////////////////////////////////////////////////////////////////////
 
 
+    //http
     static final String URL_HEADER = "http://";
     static final String COLON = ":";
-
     static final String SERVER_IP = "54.254.147.226";
     static final String SERVER_PORT = "8090";
     static final String SOCIAL_LOGIN_PATH = "/v1/social_login";
-
+    static final String REGISTER_PATH = "/v1/register";
 
     //sample: http://54.254.147.226:8090/v1/social_login
     public static String getSocialLoginUrl(){
-//        String ip = getServerIp(context);
-//        String port = getServerPort(context);
-//        String path = HttpConfigV1.SERVER_PATH_LOGIN;
-//        String url = "http://" + ip + ":" + port + path;
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + SOCIAL_LOGIN_PATH;
         Log.d(tag, "social login url: " + url);
+        return url;
+    }
+
+    //sample: http://54.254.147.226:8090/v1/register
+    public static String getRegisterUrl(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + REGISTER_PATH;
+        Log.d(tag, "register url: " + url);
         return url;
     }
 

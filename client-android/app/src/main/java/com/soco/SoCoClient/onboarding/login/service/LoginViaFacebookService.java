@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.facebook.GraphResponse;
 import com.soco.SoCoClient.common.http.HttpUtil;
+import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 
@@ -17,11 +18,7 @@ public class LoginViaFacebookService extends IntentService {
 
     static final String tag = "LoginViaFacebookService";
 
-    static final String TYPE = "type";
     static final String FACEBOOK = "facebook";
-    static final String FACEBOOK_FIELD_ID = "id";
-    static final String FACEBOOK_FIELD_NAME = "name";
-    static final String FACEBOOK_FIELD_EMAIL = "email";
 
     static final String STATUS = "status";
     static final String USER_ID = "user_id";
@@ -95,19 +92,20 @@ public class LoginViaFacebookService extends IntentService {
     }
 
     private void retrieveUserinfo() {
-        Log.d(tag, "retrieve userinfo");
+        Log.v(tag, "retrieve userinfo");
 
         JSONObject userinfo = requestResponse.getJSONObject();
         try {
-            userId = userinfo.get(FACEBOOK_FIELD_ID).toString();
+            userId = userinfo.get(JsonKeys.ID).toString();
             Log.d(tag, "user id: " + userId);
 
-            userEmail = userinfo.get(FACEBOOK_FIELD_EMAIL).toString();
+            userEmail = userinfo.get(JsonKeys.EMAIL).toString();
             Log.d(tag, "user email: " + userEmail);
 
-            userName = userinfo.get(FACEBOOK_FIELD_NAME).toString();
+            userName = userinfo.get(JsonKeys.NAME).toString();
             Log.d(tag, "user name: " + userName);
         } catch (JSONException e) {
+            Log.e(tag, "error retrieving facebook userinfo");
             e.printStackTrace();
         }
 
@@ -115,7 +113,7 @@ public class LoginViaFacebookService extends IntentService {
     }
 
     private void loginToServer(){
-        Log.d(tag, "login to server");
+        Log.v(tag, "login to server");
 
         String url = UrlUtil.getSocialLoginUrl();
         Object response = request(
@@ -143,11 +141,11 @@ public class LoginViaFacebookService extends IntentService {
 
         JSONObject data = new JSONObject();
         try {
-            data.put(TYPE, type);
-            data.put(FACEBOOK_FIELD_ID, id);
-            data.put(FACEBOOK_FIELD_NAME, name);
-            data.put(FACEBOOK_FIELD_EMAIL, email);
-            Log.d(tag, "created json: " + data);
+            data.put(JsonKeys.TYPE, type);
+            data.put(JsonKeys.ID, id);
+            data.put(JsonKeys.NAME, name);
+            data.put(JsonKeys.EMAIL, email);
+            Log.d(tag, "social login request json: " + data);
         } catch (Exception e) {
             Log.e(tag, "cannot create Login Json post data");
             e.printStackTrace();

@@ -75,7 +75,7 @@ public class Dashboard extends ActionBarActivity implements
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
         actionBar.setBackgroundDrawable(colorDrawable);
 
-        Log.d(tag, "Adding tabs");
+        Log.v(tag, "Adding tabs");
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)
                     .setTabListener(this));
@@ -104,7 +104,7 @@ public class Dashboard extends ActionBarActivity implements
     @Override
     public void onTabSelected(android.support.v7.app.ActionBar.Tab tab,
                               android.support.v4.app.FragmentTransaction fragmentTransaction) {
-        Log.d(tag, "get position: " + tab.getPosition());
+        Log.v(tag, "get position: " + tab.getPosition());
         viewPager.setCurrentItem(tab.getPosition());
     }
 

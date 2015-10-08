@@ -32,7 +32,7 @@ public class LoginController {
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         /* handle the result */
-                        Log.d(tag, "/me response: " + response);
+                        Log.d(tag, "facebook /me response: " + response);
                         socoApp.facebookUserinfoReady = true;
                         socoApp.facebookUserinfoResponse = response;
                     }

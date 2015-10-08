@@ -32,6 +32,7 @@ public class HttpUtil {
             Log.v(tag, "Post success, response: " + response);
         } catch (Exception e) {
             Log.e(tag, "Post fail: " + e.toString());
+            e.printStackTrace();
         }
 
         return response;
