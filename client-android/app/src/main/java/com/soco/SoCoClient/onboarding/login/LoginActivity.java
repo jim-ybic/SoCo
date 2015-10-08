@@ -16,6 +16,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.RequestCode;
 import com.soco.SoCoClient.common.http.task._ref.LoginTaskAsync;
 import com.soco.SoCoClient.common.http.UrlUtil;
 
@@ -188,10 +189,22 @@ public class LoginActivity extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.d(tag, "on activity result: " + requestCode + ", " + resultCode + ", " + data.toString());
+
         if(callbackManager == null)
             Log.e(tag, "callbackmanager is null");
         else
             callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == RequestCode.REGISTER){
+            if(socoApp.registerStatus){
+                //todo
+                //login with newly registered email & password
+
+            }
+
+            //todo
+            //handle register return value
+        }
 
         return;
     }
@@ -209,12 +222,10 @@ public class LoginActivity extends ActionBarActivity {
 
 
     public void loginNormal (View view) {
-        String loginEmail = et_login_email.getText().toString();
-        String loginPassword = et_login_password.getText().toString();
+        socoApp.loginEmail = et_login_email.getText().toString();
+        socoApp.loginPassword = et_login_password.getText().toString();
 
         Intent i = new Intent(this, LoginNormalService.class);
-        //todo
-        //attach email & password
         startService(i);
 
         Log.v(tag, "start dashboard");
@@ -286,7 +297,7 @@ public class LoginActivity extends ActionBarActivity {
 
     public void register (View view) {
         Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
-        startActivity(i);
+        startActivityForResult(i, RequestCode.REGISTER);
     }
 
 //    public void registerV1 (View view) {

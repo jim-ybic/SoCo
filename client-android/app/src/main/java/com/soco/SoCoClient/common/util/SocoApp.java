@@ -271,7 +271,12 @@ public class SocoApp extends Application {
     }
 
     /////////////////////////////////////////////////////////////////
+
+    //onboarding
     public boolean facebookUserinfoReady;
     public GraphResponse facebookUserinfoResponse;
     public boolean loginNormalStatus;
+    public boolean registerStatus;
+    public String loginEmail;
+    public String loginPassword;
 }

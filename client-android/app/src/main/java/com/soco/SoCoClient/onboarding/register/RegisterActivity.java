@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.onboarding.register;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.ReturnCode;
+import com.soco.SoCoClient.common.util.SocoApp;
 
 public class RegisterActivity extends ActionBarActivity {
 
@@ -19,7 +22,8 @@ public class RegisterActivity extends ActionBarActivity {
     EditText cPhone;
     EditText cPassword;
 
-//    Context context;
+    Context context;
+    SocoApp socoApp;
     RegisterController controller;
 
     @Override
@@ -28,7 +32,8 @@ public class RegisterActivity extends ActionBarActivity {
         setContentView(R.layout.register_activity);
 
         findViews();
-//        context = getApplicationContext();
+        context = getApplicationContext();
+        socoApp = (SocoApp) context;
 
         Log.v(tag, "create controller");
         controller = new RegisterController();
@@ -66,11 +71,34 @@ public class RegisterActivity extends ActionBarActivity {
     public void register(View view){
         Log.d(tag, "tap on register");
 
-        RegisterController.registerOnServer();
+        String name = cName.getText().toString();
+        String email = cEmail.getText().toString();
+        String phone = cAreacode.getText().toString() + cPhone.getText().toString();
+        String password = cPassword.getText().toString();
 
         //todo
-        //call controller.registeronserver
-        //check return value
-        //if success, continue to login and dashboard
+        //parse area code to get location
+        String location = "";
+
+        int ret = RegisterController.registerOnServer(
+                name,
+                email,
+                phone,
+                password,
+                location
+        );
+
+        if(ret == ReturnCode.SUCCESS){
+            socoApp.registerStatus = true;
+
+            //todo
+            //register success - finish this screen and login to dashboard
+        }
+        else{
+            socoApp.registerStatus = false;
+
+            //todo
+            //toast to user error details
+        }
     }
 }

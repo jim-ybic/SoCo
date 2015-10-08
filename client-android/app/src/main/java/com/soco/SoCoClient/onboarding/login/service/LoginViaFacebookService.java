@@ -20,9 +20,6 @@ public class LoginViaFacebookService extends IntentService {
 
     static final String FACEBOOK = "facebook";
 
-    static final String STATUS = "status";
-    static final String USER_ID = "user_id";
-
     static final int WAIT_INTERVAL_IN_SECOND = 1;
     static final int WAIT_ITERATION = 10;
     static final int THOUSAND = 1000;
@@ -50,7 +47,7 @@ public class LoginViaFacebookService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(tag, "login via facebook, handle intent:" + intent);
 
-        waitForResponse();
+        waitForFacebookResponse();
 
         if(requestStatus) {
             requestResponse = socoApp.facebookUserinfoResponse;
@@ -64,7 +61,7 @@ public class LoginViaFacebookService extends IntentService {
         return;
     }
 
-    private void waitForResponse() {
+    private void waitForFacebookResponse() {
         Log.v(tag, "wait for response");
 
         int count = 0;
@@ -147,7 +144,7 @@ public class LoginViaFacebookService extends IntentService {
             data.put(JsonKeys.EMAIL, email);
             Log.d(tag, "social login request json: " + data);
         } catch (Exception e) {
-            Log.e(tag, "cannot create Login Json post data");
+            Log.e(tag, "cannot create json post data");
             e.printStackTrace();
         }
 
@@ -159,9 +156,14 @@ public class LoginViaFacebookService extends IntentService {
 
         try {
             JSONObject json = new JSONObject(response.toString());
-            String status = json.getString(STATUS);
-            String user_id = json.getString(USER_ID);
+
+            String status = json.getString(JsonKeys.STATUS);
+            String user_id = json.getString(JsonKeys.USER_ID);
             Log.d(tag, "social login response, status: " + status + ", user_id: " + user_id);
+
+            //todo
+            //update login status flag
+
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();

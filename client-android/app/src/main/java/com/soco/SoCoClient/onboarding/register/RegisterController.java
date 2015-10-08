@@ -2,7 +2,9 @@ package com.soco.SoCoClient.onboarding.register;
 
 import android.util.Log;
 
+import com.soco.SoCoClient.common.ReturnCode;
 import com.soco.SoCoClient.common.http.HttpUtil;
+import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 
 import org.json.JSONObject;
@@ -11,70 +13,96 @@ public class RegisterController {
 
     static final String tag = "RegisterController";
 
-    public static void registerOnServer(){
+    public static int registerOnServer(
+            String name,
+            String email,
+            String phone,
+            String password,
+            String location
+    ){
         Log.d(tag, "register on server");
+
+        if(email.isEmpty() || password.isEmpty()){
+            Log.e(tag, "error: email and password cannot be empty");
+            return ReturnCode.EMAIL_OR_PASSWORD_EMPTY;
+        }
 
         String url = UrlUtil.getRegisterUrl();
         Object response = request(
                 url,
-                FACEBOOK,
-                userId,
-                userName,
-                userEmail
+                name,
+                email,
+                phone,
+                password,
+                location
         );
 
         if (response != null)
-            parse(response);
-
-        return;
-
-        //todo
-        //get url
-        //build json
-        //send register request
-        //parse response
+            return parse(response);
+        else
+            return ReturnCode.SERVER_RESPONSE_NULL;
     }
 
-    public Object request(
+    public static Object request(
             String url,
-            String type,
-            String id,
             String name,
-            String email
+            String email,
+            String phone,
+            String password,
+            String location
     ) {
         Log.v(tag, "create json request");
 
         JSONObject data = new JSONObject();
         try {
-            data.put(TYPE, type);
-            data.put(FACEBOOK_FIELD_ID, id);
-            data.put(FACEBOOK_FIELD_NAME, name);
-            data.put(FACEBOOK_FIELD_EMAIL, email);
-            Log.d(tag, "social login request json: " + data);
+            if(!name.isEmpty())
+                data.put(JsonKeys.NAME, name);
+            data.put(JsonKeys.EMAIL, email);
+            if(!phone.isEmpty())
+                data.put(JsonKeys.PHONE, phone);
+            data.put(JsonKeys.PASSWORD, password);
+            if(!location.isEmpty())
+                data.put(JsonKeys.LOCATION, location);
+            Log.d(tag, "register request json: " + data);
         } catch (Exception e) {
-            Log.e(tag, "cannot create Login Json post data");
+            Log.e(tag, "cannot create json post data");
             e.printStackTrace();
         }
 
         return HttpUtil.executeHttpPost(url, data);
     }
 
-    public boolean parse(Object response) {
-        Log.d(tag, "parse social login response: " + response.toString());
+    public static int parse(Object response) {
+        Log.d(tag, "parse register response: " + response.toString());
 
         try {
             JSONObject json = new JSONObject(response.toString());
-            String status = json.getString(STATUS);
-            String user_id = json.getString(USER_ID);
-            Log.d(tag, "social login response, status: " + status + ", user_id: " + user_id);
+
+            String status = json.getString(JsonKeys.STATUS);
+            String user_id = json.getString(JsonKeys.USER_ID);
+            String token = json.getString(JsonKeys.TOKEN);
+            String error_code = json.getString(JsonKeys.ERROR_CODE);
+            String property = json.getString(JsonKeys.PROPERTY);
+            String message = json.getString(JsonKeys.MESSAGE);
+            String more_info = json.getString(JsonKeys.MORE_INFO);
+            Log.d(tag, "social login response, "
+                    + "status: " + status + ", user_id: " + user_id + ", token: " + token
+                    + ", error code: " + error_code + ", property: " + property
+                    + ", message: " + message + ", more info: " + more_info);
+
+            //todo
+            //update register status flag
+
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();
-            return false;
+            return ReturnCode.JSON_PARSE_ERROR;
         }
 
-        return true;
+        return ReturnCode.SUCCESS;
     }
+
+
 
 
 }
