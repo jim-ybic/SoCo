@@ -102,4 +102,10 @@ public class Message implements BaseTable {
 		return null;
 	}
 
+	@Override
+	public String getUpdateSQLById() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

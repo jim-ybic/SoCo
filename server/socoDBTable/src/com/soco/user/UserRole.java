@@ -1,5 +1,8 @@
 package com.soco.user;
 
+import static java.lang.String.format;
+
+import com.soco.log.Log;
 import com.soco.table.BaseTable;
 
 public class UserRole implements BaseTable {
@@ -49,13 +52,26 @@ public class UserRole implements BaseTable {
 	}
 	
 	public String getTableCreateSQL(){
-		return  "create table if not exists user_role ( id bigint not null, "
-				+ "user_id bigint, "
-				+ "role_id bigint, "
-				+ "primary key (id))" ;
+		return  null;
 	}
 
 	public String getInsertSQL() {
+		// TODO Auto-generated method stub
+		String sql = format(
+		        "insert into %s " +
+		        "( uid, " + 
+		          "rid" +
+		          ") values(%s, %s)", 
+				getTableName(),
+				this.getUserID(),
+				this.getRoleID()
+				);
+		Log.debug("insert sql: " + sql);
+		return sql;
+	}
+
+	@Override
+	public String getUpdateSQLById() {
 		// TODO Auto-generated method stub
 		return null;
 	}

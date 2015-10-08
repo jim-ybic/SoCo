@@ -20,12 +20,18 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.soco.db.security.AuthenticationTokenController;
 import com.soco.db.user.FacebookUserController;
 import com.soco.db.user.UserController;
+import com.soco.db.user.UserRoleController;
 import com.soco.log.Log;
+import com.soco.security.AuthenticationToken;
+import com.soco.security.authentication.UserToken;
+import com.soco.security.encryption.AES;
 import com.soco.security.encryption.MD5;
 import com.soco.user.FacebookUser;
 import com.soco.user.User;
+import com.soco.user.UserRole;
 import com.soco.algorithm.user.UserInfor;;
 
 
@@ -167,9 +173,35 @@ public class AppUserMessageHandler implements AppMessageHandler {
 						user.setHometown(hometown);
 						////
 						UserController uc = new UserController();
+						if(uc.hasByEmail(email)){
+							// the email existent, error
+						}
 						int rows = uc.createUser(user);
 						if (rows > 0){
-							String token = "";
+							/* it expired after one month */
+							long expired = (new Date()).getTime() + UserToken.ONE_MONTH_MILLIONSECOND;
+							String key = AES.getRandomSecKey();
+							String token = UserToken.getToken(key, uid, expired);
+							// save token to authentication table
+							AuthenticationTokenController atc = new AuthenticationTokenController();
+							AuthenticationToken auToken = new AuthenticationToken();
+							auToken.setKey(key);
+							auToken.setStartTime(new Date());
+							auToken.setUId(uid);
+							auToken.setToken(token);
+							auToken.setValidity(expired);
+							if(atc.has(uid)){
+								// error
+								Log.error("In register. When insert authentication token, the record is already existent.");
+								Log.error("To update the authentication token record for user id: " + uid);
+								ret = atc.updateAuthenticationToken(auToken);
+							} else {
+								ret = atc.createAuthenticationToken(auToken);
+							}
+							// save user role
+							UserRole ur = new UserRole();
+							UserRoleController urc = new UserRoleController();
+							// set response
 							String resp = AppResponseHandler.getRegisterSuccessResponse(200, uid, token);
 							this.set_http_status(OK);
 							this.set_http_response_content(resp);

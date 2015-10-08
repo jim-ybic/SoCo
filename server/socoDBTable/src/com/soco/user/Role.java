@@ -1,5 +1,8 @@
 package com.soco.user;
 
+import static java.lang.String.format;
+
+import com.soco.log.Log;
 import com.soco.table.BaseTable;
 
 public class Role implements BaseTable {
@@ -7,9 +10,14 @@ public class Role implements BaseTable {
     /**
      * 
      */
+	public static final String ROLE_USER = "ROLE_USER";
+	public static final String ROLE_ADMIN = "ROLE_ADMIN";
+	public static final String[] ROLE_ARRAY = { ROLE_USER, ROLE_ADMIN };
+	
     private static final long serialVersionUID = -8088572321839120757L;
     
     private static final String tableName = "role";
+    
     
     /* identify */
     private long id;
@@ -52,6 +60,20 @@ public class Role implements BaseTable {
 
 	@Override
 	public String getInsertSQL() {
+		// TODO Auto-generated method stub
+		String sql = format(
+		        "insert into %s " +
+		        "( name " +
+		          ") values('%s')", 
+				getTableName(),
+				this.getAuthority()
+				);
+		Log.debug("insert sql: " + sql);
+		return sql;
+	}
+
+	@Override
+	public String getUpdateSQLById() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -376,4 +376,10 @@ public class User implements BaseTable {
     public void setLongitude(Float longitude) {
         this.longitude = longitude;
     }
+
+	@Override
+	public String getUpdateSQLById() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

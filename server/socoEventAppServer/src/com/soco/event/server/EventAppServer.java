@@ -3,6 +3,7 @@ package com.soco.event.server;
 import com.soco.XML.XmlConfig;
 import com.soco.app.exchange.AppMessageDispatch;
 import com.soco.app.httpserver.AppHttpServer;
+import com.soco.app.main.AppServerInit;
 import com.soco.db.adapter.EventDBAdapter;
 import com.soco.log.Log;
 
@@ -23,9 +24,10 @@ public class EventAppServer {
     public static void main(String[] args) {
         /* trace in */
     	Log.infor("Start Event App Server...");
-        /* initialize and check environment */
         /* read configuration file */
     	EventAppServer.configureServer();
+    	/* initialize and check environment */
+    	AppServerInit.initEnv();
         /* if configuration file is fine then to configure server and start server */
         /* start event main */
         /* initialize the message dispatch handlers to prepare receiving message */
@@ -44,7 +46,7 @@ public class EventAppServer {
         /* set server name which configured in config file */
         xmlConfig.setServerName(SERVER_NAME);
         xmlConfig.parse();
-        xmlConfig.testShowMapNameValue();
+        xmlConfig.setToSystemProperties();
         //
         System.setProperty("API_HELP_URL", "http://www.socotechhk.com/api/help/error_infor");
     }

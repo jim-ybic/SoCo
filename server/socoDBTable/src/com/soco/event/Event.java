@@ -145,4 +145,10 @@ public class Event implements BaseTable  {
 				);
 	}
 
+	@Override
+	public String getUpdateSQLById() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
