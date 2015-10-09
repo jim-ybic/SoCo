@@ -1,11 +1,14 @@
 package com.soco.SoCoClient.onboarding.register;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.soco.SoCoClient.common.HttpStatus;
 import com.soco.SoCoClient.common.ReturnCode;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.SocoApp;
 
 import org.json.JSONObject;
 
@@ -13,19 +16,23 @@ public class RegisterController {
 
     static final String tag = "RegisterController";
 
-    public static int registerOnServer(
+    static SocoApp socoApp;
+
+    public static boolean registerOnServer(
+            Context context,
             String name,
             String email,
             String phone,
             String password,
             String location
     ){
-        Log.d(tag, "register on server");
+        Log.d(tag, "register on server, "
+                + " name: " + name + ", email: " + email + ", phone: " + phone
+                + ", password: " + password + ", location: " + location);
 
-        if(email.isEmpty() || password.isEmpty()){
-            Log.e(tag, "error: email and password cannot be empty");
-            return ReturnCode.EMAIL_OR_PASSWORD_EMPTY;
-        }
+        socoApp = (SocoApp) context;
+        socoApp.registerEmail = email;
+        socoApp.registerPassword = password;
 
         String url = UrlUtil.getRegisterUrl();
         Object response = request(
@@ -37,10 +44,14 @@ public class RegisterController {
                 location
         );
 
-        if (response != null)
+        if (response != null) {
+            Log.v(tag, "parse response");
             return parse(response);
-        else
-            return ReturnCode.SERVER_RESPONSE_NULL;
+        }
+        else {
+            Log.e(tag, "response is null, return error");
+            return false;
+        }
     }
 
     public static Object request(
@@ -63,6 +74,7 @@ public class RegisterController {
             data.put(JsonKeys.PASSWORD, password);
             if(!location.isEmpty())
                 data.put(JsonKeys.LOCATION, location);
+
             Log.d(tag, "register request json: " + data);
         } catch (Exception e) {
             Log.e(tag, "cannot create json post data");
@@ -72,7 +84,7 @@ public class RegisterController {
         return HttpUtil.executeHttpPost(url, data);
     }
 
-    public static int parse(Object response) {
+    public static boolean parse(Object response) {
         Log.d(tag, "parse register response: " + response.toString());
 
         try {
@@ -90,16 +102,21 @@ public class RegisterController {
                     + ", error code: " + error_code + ", property: " + property
                     + ", message: " + message + ", more info: " + more_info);
 
-            //todo
-            //update register status flag
-
+            if(status.equals(HttpStatus.SUCCESS)){
+                Log.d(tag, "register normal: SUCCESS, update status flag");
+                socoApp.registerStatus = true;
+            }
+            else {
+                Log.d(tag, "register normal: FAIL, update status flag");
+                socoApp.registerStatus = false;
+            }
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();
-            return ReturnCode.JSON_PARSE_ERROR;
+            return false;
         }
 
-        return ReturnCode.SUCCESS;
+        return true;
     }
 
 

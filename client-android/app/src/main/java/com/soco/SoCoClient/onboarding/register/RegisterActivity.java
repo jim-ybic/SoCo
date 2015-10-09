@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.ReturnCode;
@@ -69,7 +70,7 @@ public class RegisterActivity extends ActionBarActivity {
     }
 
     public void register(View view){
-        Log.d(tag, "tap on register");
+        Log.v(tag, "tap on register");
 
         String name = cName.getText().toString();
         String email = cEmail.getText().toString();
@@ -80,7 +81,20 @@ public class RegisterActivity extends ActionBarActivity {
         //parse area code to get location
         String location = "";
 
-        int ret = RegisterController.registerOnServer(
+        if(email.isEmpty()){
+            Log.e(tag, "error: email empty");
+            Toast.makeText(getApplicationContext(), "Email cannot be empty.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(password.isEmpty()){
+            Log.e(tag, "error: password empty");
+            Toast.makeText(getApplicationContext(), "Password cannot be empty.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Log.v(tag, "start to register on server");
+        RegisterController.registerOnServer(
+                context,
                 name,
                 email,
                 phone,
@@ -88,17 +102,14 @@ public class RegisterActivity extends ActionBarActivity {
                 location
         );
 
-        if(ret == ReturnCode.SUCCESS){
-            socoApp.registerStatus = true;
-
-            //todo
-            //register success - finish this screen and login to dashboard
+        Log.v(tag, "check register status");
+        if(socoApp.registerStatus){
+            Log.v(tag, "login success, finish this screen and login to dashboard");
+            finish();
         }
         else{
-            socoApp.registerStatus = false;
-
-            //todo
-            //toast to user error details
+            Log.e(tag, "login fail, notify user");
+            Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
         }
     }
 }

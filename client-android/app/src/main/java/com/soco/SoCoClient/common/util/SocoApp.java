@@ -41,7 +41,7 @@ public class SocoApp extends Application {
     public String dropboxDownloadType;
     public String dropboxDownloadStatus;
     public DBManagerSoco dbManagerSoco;
-    public String loginEmail, loginPassword;
+//    public String loginEmail, loginPassword;
     public DropboxAPI<AndroidAuthSession> dropboxApi;
     public Uri uri;
     public String lat, lng, zoom, locationName;
@@ -273,10 +273,13 @@ public class SocoApp extends Application {
     /////////////////////////////////////////////////////////////////
 
     //onboarding
-    public boolean facebookUserinfoReady;
-    public GraphResponse facebookUserinfoResponse;
-    public boolean loginNormalStatus;
+    public String registerEmail;
+    public String registerPassword;
     public boolean registerStatus;
     public String loginEmail;
     public String loginPassword;
+    public boolean loginNormalStatus;
+    public GraphResponse facebookUserinfoResponse;
+    public boolean facebookUserinfoReady;
+    public boolean loginViaFacebookStatus;
 }

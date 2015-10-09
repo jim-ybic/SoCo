@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.GraphResponse;
+import com.soco.SoCoClient.common.HttpStatus;
 import com.soco.SoCoClient.common.ReturnCode;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
@@ -21,7 +22,7 @@ public class LoginNormalService extends IntentService {
 
     static final String tag = "LoginNormalService";
 
-    SocoApp socoApp;
+    static SocoApp socoApp;
 
     public LoginNormalService() {
         super("LoginNormalService");
@@ -36,26 +37,17 @@ public class LoginNormalService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(tag, "login normal, handle intent:" + intent);
+        Log.d(tag, "login normal, handle intent:" + intent
+                        + ", login email " + socoApp.loginEmail
+                        + ", logig password " + socoApp.loginPassword
+        );
 
-        loginToServer();
-
-        //todo
-        //login steps
-        //set socoapp.loginnormalstatus
-        //if success...
-        //if fail...
-
-        return;
-    }
-
-    private void loginToServer(){
         Log.v(tag, "login to server");
 
         String url = UrlUtil.getLoginUrl();
-        String name = "";   //not available
+        String name = "";   //not available from UI
         String email = socoApp.loginEmail;
-        String phone = "";  //not available
+        String phone = "";  //not available from UI
         String password = socoApp.loginPassword;
         Object response = request(
                 url,
@@ -118,9 +110,14 @@ public class LoginNormalService extends IntentService {
                     + ", error code: " + error_code + ", property: " + property
                     + ", message: " + message + ", more info: " + more_info);
 
-            //todo
-            //update normal login status flag
-
+            if(status.equals(HttpStatus.SUCCESS)){
+                Log.d(tag, "login normal: SUCCESS, update status flag");
+                socoApp.loginNormalStatus = true;
+            }
+            else {
+                Log.d(tag, "login normal: FAIL, update status flag");
+                socoApp.loginNormalStatus = false;
+            }
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();

@@ -171,43 +171,9 @@ public class LoginActivity extends ActionBarActivity {
         return;
     }
 
-    private void loginViaFacebook(){
-        Log.v(tag, "send login info to server");
-        LoginController.requestFacebookUserInfo(context);
 
-        Log.v(tag, "start login service - wait for response and login to server");
-        Intent i = new Intent(this, LoginViaFacebookService.class);
-        startService(i);
 
-        Log.v(tag, "start dashboard");
-        Intent intent = new Intent(this, Dashboard.class);
-        startActivity(intent);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Log.d(tag, "on activity result: " + requestCode + ", " + resultCode + ", " + data.toString());
-
-        if(callbackManager == null)
-            Log.e(tag, "callbackmanager is null");
-        else
-            callbackManager.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == RequestCode.REGISTER){
-            if(socoApp.registerStatus){
-                //todo
-                //login with newly registered email & password
-
-            }
-
-            //todo
-            //handle register return value
-        }
-
-        return;
-    }
 
     private void findViews() {
         et_login_email = (EditText) findViewById(R.id.et_login_email);
@@ -221,10 +187,26 @@ public class LoginActivity extends ActionBarActivity {
 //    }
 
 
+    private void loginViaFacebook(){
+        Log.v(tag, "send login info to server");
+        LoginController.requestFacebookUserInfo(context);
+
+        Log.v(tag, "start login service - wait for response and login to server");
+        Intent i = new Intent(this, LoginViaFacebookService.class);
+        startService(i);
+
+        Log.v(tag, "start dashboard");
+        Intent intent = new Intent(this, Dashboard.class);
+        startActivity(intent);
+    }
+
     public void loginNormal (View view) {
+        Log.v(tag, "tap login normal");
+
         socoApp.loginEmail = et_login_email.getText().toString();
         socoApp.loginPassword = et_login_password.getText().toString();
 
+        Log.v(tag, "start login normal service, login email " + et_login_email + ", logig password " + et_login_password);
         Intent i = new Intent(this, LoginNormalService.class);
         startService(i);
 
@@ -298,6 +280,37 @@ public class LoginActivity extends ActionBarActivity {
     public void register (View view) {
         Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivityForResult(i, RequestCode.REGISTER);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d(tag, "on activity result: " + requestCode + ", " + resultCode
+//                        + ", " + data.toString()
+        );
+
+        if(callbackManager == null)
+            Log.e(tag, "callbackmanager is null");
+        else
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == RequestCode.REGISTER && socoApp.registerStatus){
+            Log.v(tag, "register success - continue to login and goto dashboard");
+
+            socoApp.loginEmail = socoApp.registerEmail;
+            socoApp.loginPassword = socoApp.registerPassword;
+
+            Log.v(tag, "start login normal service, login email " + et_login_email + ", logig password " + et_login_password);
+            Intent i = new Intent(this, LoginNormalService.class);
+            startService(i);
+
+            Log.v(tag, "start dashboard");
+            Intent intent = new Intent(this, Dashboard.class);
+            startActivity(intent);
+        }
+
+        return;
     }
 
 //    public void registerV1 (View view) {

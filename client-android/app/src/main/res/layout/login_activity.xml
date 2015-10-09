@@ -208,7 +208,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_weight="1"
-                        android:inputType="textEmailAddress"/>
+                        android:inputType="textEmailAddress"
+                        android:text="jim.ybic@gmail.com"/>
                 </TableRow>
                 <TableRow>
                     <EditText
@@ -217,7 +218,8 @@
                         android:layout_height="60dp"
                         android:inputType="textPassword"
                         android:hint="password"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:text="Pass@123"/>
                 </TableRow>
             </TableLayout>
         </LinearLayout>

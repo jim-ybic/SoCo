@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.facebook.GraphResponse;
+import com.soco.SoCoClient.common.HttpStatus;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
@@ -159,11 +160,24 @@ public class LoginViaFacebookService extends IntentService {
 
             String status = json.getString(JsonKeys.STATUS);
             String user_id = json.getString(JsonKeys.USER_ID);
-            Log.d(tag, "social login response, status: " + status + ", user_id: " + user_id);
+            String token = json.getString(JsonKeys.TOKEN);
+            String error_code = json.getString(JsonKeys.ERROR_CODE);
+            String property = json.getString(JsonKeys.PROPERTY);
+            String message = json.getString(JsonKeys.MESSAGE);
+            String more_info = json.getString(JsonKeys.MORE_INFO);
+            Log.d(tag, "social login response," +
+                            " status: " + status + ", user_id: " + user_id + ", token: " + token
+                            + ", error code: " + error_code + ", property" + property
+                            + ", message: " + message + ", more_info: " + more_info);
 
-            //todo
-            //update login status flag
-
+            if(status.equals(HttpStatus.SUCCESS)){
+                Log.d(tag, "login via Facebook: SUCCESS, update status flag");
+                socoApp.loginViaFacebookStatus = true;
+            }
+            else {
+                Log.d(tag, "login via Facebook: FAIL, update status flag");
+                socoApp.loginViaFacebookStatus = false;
+            }
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();

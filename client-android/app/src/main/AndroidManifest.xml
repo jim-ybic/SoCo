@@ -99,6 +99,9 @@
         <service
             android:name=".onboarding.login.service.LoginViaFacebookService"
             android:enabled="true" />
+        <service
+            android:name=".onboarding.login.service.LoginNormalService"
+            android:enabled="true" />
 
         <activity
             android:name=".events._ref.ActivityLocationActivity"
