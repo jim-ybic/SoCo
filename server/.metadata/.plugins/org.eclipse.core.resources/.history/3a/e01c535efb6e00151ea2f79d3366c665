@@ -1,0 +1,9 @@
+package com.soco.test.cases;
+
+public class TestCaseFile {
+	
+	public void parseTestCase(String filePathName){
+		
+	}
+
+}

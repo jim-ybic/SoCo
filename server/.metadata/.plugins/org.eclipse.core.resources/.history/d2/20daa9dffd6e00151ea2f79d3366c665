@@ -1,0 +1,34 @@
+package com.soco.test.cases;
+
+import java.io.File;
+
+import com.soco.log.Log;
+
+public class TestCaseFileManager {
+
+	private static String TEST_CASE_FOLDER = "./TestCases";
+	private list<TestCaseFile> = new ArrayList<TestCaseFile>();
+	
+	public void searchTestCaseFiles(){
+		
+		if(this.TEST_CASE_FOLDER != ""){
+			File folder = new File(this.TEST_CASE_FOLDER);
+			if(folder.exists()){
+				File[] listOfFiles = folder.listFiles();
+				for(File file : listOfFiles){
+					if(file.isFile()){
+						Log.debug("File name: " + file.getName());
+						Log.debug("File path: " + file.getPath());
+						
+					} else if(file.isDirectory()){
+						Log.debug("Folder name: " + file.getName());
+					} else {
+						Log.error("Unknow type: " + file.getName());
+					}
+				}
+			} else {
+				Log.error("The path " + this.TEST_CASE_FOLDER + " is not existent.");
+			}
+		}
+	}
+}

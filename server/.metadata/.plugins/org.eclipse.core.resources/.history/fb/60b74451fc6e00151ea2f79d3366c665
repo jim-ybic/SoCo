@@ -1,0 +1,16 @@
+package com.soco.test.cases;
+
+import java.io.File;
+
+public class TestCaseFile {
+	
+	public void parseTestCase(String filePathName){
+		File file = new File(filePathName);
+		if(file.exists()){
+			
+		}else{
+			
+		}
+	}
+
+}

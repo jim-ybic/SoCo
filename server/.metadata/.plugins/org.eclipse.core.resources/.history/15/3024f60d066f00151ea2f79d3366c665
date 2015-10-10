@@ -1,0 +1,51 @@
+package com.soco.test.cases;
+
+import org.json.JSONObject;
+
+public class TestCase {
+
+	private String name;
+	private String req_method;
+	private String req_parameter;
+	private JSONObject req_json;
+	private int resp_status;
+	private String resp_json;
+	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getReqMethod() {
+		return req_method;
+	}
+	public void setReqMethod(String req_method) {
+		this.req_method = req_method;
+	}
+	public String getReqParameter() {
+		return req_parameter;
+	}
+	public void setReqParameter(String req_parameter) {
+		this.req_parameter = req_parameter;
+	}
+	public JSONObject getReqJson() {
+		return req_json;
+	}
+	public void setReqJson(JSONObject req_json) {
+		this.req_json = req_json;
+	}
+	public int getRespStatus() {
+		return resp_status;
+	}
+	public void setRespStatus(int resp_status) {
+		this.resp_status = resp_status;
+	}
+	public String getRespJson() {
+		return resp_json;
+	}
+	public void setRespJson(String resp_json) {
+		this.resp_json = resp_json;
+	}
+}

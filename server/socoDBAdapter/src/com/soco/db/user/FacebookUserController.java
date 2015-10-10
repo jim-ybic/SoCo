@@ -6,19 +6,19 @@ import com.soco.user.FacebookUser;
 
 public class FacebookUserController {
 
-	public boolean has(long id){
-		boolean ret = false;
+	public FacebookUser hasById(long id){
 		
     	FacebookUser fbUser = new FacebookUser();
 		fbUser.setId(id);
 		dbconnect dbc = new dbconnect();
-        int count = dbc.queryRows(fbUser.getQuerySQLById());
-        Log.debug("query count rows: " + count);
-		if( count > 0 ){
-		    ret = true;
+		fbUser = dbc.queryObjectOfFacebookUser(fbUser.getQuerySQLById());
+		if(null != fbUser){
+			Log.debug("query facebook user id: " + id);
+		} else {
+			Log.error("Can't query face book user id: " + id);
 		}
 		
-		return ret;
+		return fbUser;
 	}
 	
 	public long getUId(long id){

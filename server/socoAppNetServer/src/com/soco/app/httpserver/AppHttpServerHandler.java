@@ -50,7 +50,7 @@ public class AppHttpServerHandler extends ChannelInboundHandlerAdapter {
             if (!keepAlive) {
                 ctx.write(response).addListener(ChannelFutureListener.CLOSE);
             } else {
-            	/* testing code */
+            	/* testing code, please ignore this
             	String url = req.getUri();
             	List<Entry<String, String>> listHeader = req.headers().entries();
             	String content = req.content().toString(CharsetUtil.UTF_8);
@@ -64,7 +64,7 @@ public class AppHttpServerHandler extends ChannelInboundHandlerAdapter {
             	Log.debug("http method: " + hm.name());
             	Log.debug("url:" + url);
             	Log.debug("content:" + content);
-            	/* end testing code */
+            	// end testing code */
             	
             	AppMessageHandler msgHandler = AppMessageDispatch.startDispatch(req);
                 response.headers().set(CONNECTION, Values.KEEP_ALIVE);

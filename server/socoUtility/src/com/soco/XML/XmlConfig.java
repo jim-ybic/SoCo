@@ -186,7 +186,7 @@ public class XmlConfig {
     		
     		for(String key: this._string_map.keySet()){
     			String value = this._string_map.get(key);
-    			Log.debug("Read config (key:value)." + key + ":" + value);
+    			Log.debug("write config (key:value)." + key + ":" + value);
     			System.setProperty(key, value);
     		}
     	}

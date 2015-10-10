@@ -54,6 +54,7 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	private static final String FIELD_TYPE_FB = "facebook";
 	private static final String FIELD_TYPE_WECHAT = "wechat";
 	
+	private static final String FIELD_UID = "user_id";
 	private static final String FIELD_ID = "id";
 	private static final String FIELD_FIRST_NAME = "first_name";
 	private static final String FIELD_LAST_NAME = "last_name";
@@ -63,6 +64,8 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	private static final String FIELD_LOCALE = "locale";
 	private static final String FIELD_TIMEZONE = "timezone";
 	private static final String FIELD_VERIFIED = "verified";
+	
+	private static final String FIELD_TOKEN = "token";
 	
 	
 	private static ArrayList<String> _cmdList = new ArrayList<String>();
@@ -127,18 +130,26 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	public boolean post_register_v1 (JSONObject json, String param){
 		boolean ret = false;
 		Log.debug("In register.");
-		
+		String property = "";
+		String message = "";
+		int error_code = 0;
+		int http_status = 400;
 		//todo: thread id and area id
 		long uid = UserInfor.getUID(1, 1);
 		
-		if(json != null && json.has(FIELD_NAME)){
+		if(json != null){
 			if(json.has(FIELD_EMAIL)){
 				if(json.has(FIELD_PASSWORD)){
 					try {
 					    User user = new User();
-						String name = json.getString(FIELD_NAME);
+						String name = "";
 						String email = json.getString(FIELD_EMAIL);
 						String password = json.getString(FIELD_PASSWORD);
+						if(json.has(FIELD_NAME)){
+						    name = json.getString(FIELD_NAME);
+						} else {
+                            Log.warn("There is no name.");
+                        }
 						String hometown = "";
 						if(json.has(FIELD_HOMETOWN)){
 						    hometown = json.getString(FIELD_HOMETOWN);
@@ -228,27 +239,38 @@ public class AppUserMessageHandler implements AppMessageHandler {
 									Log.error("Send verification email failed. Server will try again later.");
 									ret = true;
 								}
+							} else {
+								// create user failed
+								Log.error("Create user failed.");
+								property = "";
+								message = "Create user failed. Try again later.";
+								error_code = 16;
 							}
 						}
-						////
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				} else {
 					Log.error("There is no password field in request.");
+					property = "password";
+					message = "There is no password field in request.";
+					error_code = 13;
 				}
 			} else {
 				Log.error("There is no email field in request.");
+				property = "email";
+				message = "There is no email field in request.";
+				error_code = 14;
 			}
 		} else {
-			Log.error("There is no name field in request.");
+			Log.error("This a invalide json request.");
+			message = "This a invalide json request.";
+			error_code = 10;
 		}
 		
 		if(!ret){
-			String property = "";
-			String message = "";
-			String resp = AppResponseHandler.getRegisterFailureResponse(400, 11, property, message);
+			String resp = AppResponseHandler.getRegisterFailureResponse(http_status, error_code, property, message);
 			this.set_http_status(HttpResponseStatus.BAD_REQUEST);
 			this.set_http_response_content(resp);
 		}
@@ -349,6 +371,63 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	public boolean post_logout_v1 (JSONObject json, String param){
 		boolean ret = false;
 		Log.debug("In logout.");
+		String property = "";
+		String message = "";
+		int error_code = 0;
+		if(json != null){
+			if(json.has(FIELD_UID)){
+				if(json.has(FIELD_TOKEN)){
+					try {
+						long uid = json.getLong(FIELD_UID);
+						String token = json.getString(FIELD_TOKEN);
+					    User user = new User();
+					    user.setId(uid);
+					   
+			    		AuthenticationTokenController atc = new AuthenticationTokenController();
+			    		AuthenticationToken auToken = new AuthenticationToken();
+			    		auToken.setUId(uid);
+						auToken = atc.hasTokenByUId(auToken);
+						if(auToken != null && auToken.getToken().equals(token)){
+							ret = atc.deleteAuthenticationToken(auToken);
+							// set OK response
+							this.set_http_status(OK);
+							this.set_http_response_content("{\"status\":200}");
+						} else {
+							// token error
+							Log.warn("The token : " + token + " is not match for user id: " + uid);
+					    	property = "token";
+					    	message = "The token is incorrect.";
+					    	error_code = 12;
+						}
+					 
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					Log.error("There is no token field in request.");
+					property = "token";
+					message = "There is no token field in request";
+					error_code = 19;
+				}
+			} else {
+				Log.error("There is no user id field in request.");
+				property = "user_id";
+				message = "There is no user id field in request.";
+				error_code = 18;
+			}
+		} else {
+			Log.error("This a invalide json request.");
+			message = "This a invalide json request.";
+			error_code = 10;
+		}
+		if(!ret){
+			
+			String resp = AppResponseHandler.getRegisterFailureResponse(400, error_code, property, message);
+			this.set_http_status(HttpResponseStatus.BAD_REQUEST);
+			this.set_http_response_content(resp);
+		}
+		
 		return ret;
 	}
 	
@@ -373,9 +452,10 @@ public class AppUserMessageHandler implements AppMessageHandler {
 						long id = json.getLong(FIELD_ID);
 						FacebookUser fbUser = this.parseFacebookUserFromJson(json);
 						FacebookUserController fbuc = new FacebookUserController();
+						FacebookUser fbUserFromDB = fbuc.hasById(id);
 						if(update){
 							////PUT Method
-							if(!fbuc.has(id)){
+							if(null != fbUserFromDB){
 								httpStatus = 400;
 								error_code = 11;
 								property = "id";
@@ -391,28 +471,47 @@ public class AppUserMessageHandler implements AppMessageHandler {
 							}
 						} else {
 							////POST Method
-							if(fbuc.has(id)){
+							if(null != fbUserFromDB){
 								////existent, and then log in
 								ret = true;
+								fbUser = fbUserFromDB;
 							} else {
 								fbUser.setUid(UserInfor.getUID(1, 1));
 								ret = fbuc.createFBUser(fbUser);
 							}
 							if(ret){
 								////generate a token for user
-								String token = "token";
-								String resp = AppResponseHandler.getSocialLoginSuccessResponse(200, fbUser.getUid(), token);
-								this.set_http_status(OK);
-								this.set_http_response_content(resp);
+								// generate token for user
+								User user = new User();
+								user.setId(fbUser.getUid());
+					    		AuthenticationTokenController atc = new AuthenticationTokenController();
+								AuthenticationToken auToken = atc.generateTokenForUser(user);
+								if(null != auToken){
+									String token = auToken.getToken();
+									String resp = AppResponseHandler.getSocialLoginSuccessResponse(200, fbUser.getUid(), token);
+									this.set_http_status(OK);
+									this.set_http_response_content(resp);
+								} else {
+									Log.error("Save token failed.");
+									ret = false;
+									property = "token";
+									message = "Can't generate the token.";
+									error_code = 17;
+								}
 							}
 						}
 					} else {
 						Log.debug("There is no id field in json.");
+						message = "This a invalide json request.";
+						error_code = 10;
 					}
 				} else if(type.equals(FIELD_TYPE_WECHAT)){
 					
 				} else {
 					Log.warn("The type value is incorrect.");
+					property = "type";
+					message = "The type value is incorrect.";
+					error_code = 20;
 				}
 				
 			}

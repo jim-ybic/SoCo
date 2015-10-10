@@ -8,8 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.soco.db.mysql.DataSource;
+import com.soco.db.mysql.DataSourceHiCP;
 import com.soco.log.Log;
 import com.soco.security.AuthenticationToken;
+import com.soco.user.FacebookUser;
 import com.soco.user.User;
 
 public class dbconnect {
@@ -25,6 +27,14 @@ public class dbconnect {
         //con.checkAndCreateTable();
     }
     
+    private Connection getConnection() throws IOException, SQLException, PropertyVetoException{
+    	Connection conn = null;
+		//conn = DataSource.getInstance().getConnection();
+		conn = DataSourceHiCP.getInstance().getConnection();
+		
+    	return conn;
+    }
+    
     /*
      * executeUpdateSQL for insert, update and delete
      * 
@@ -38,7 +48,7 @@ public class dbconnect {
         int ret = 0;
  
         try {
-            connection = DataSource.getInstance().getConnection();
+            connection = getConnection();
             statement = connection.createStatement();
             ret = statement.executeUpdate(sql);
             
@@ -75,7 +85,7 @@ public class dbconnect {
         int count = 0;
  
         try {
-            connection = DataSource.getInstance().getConnection();
+            connection = getConnection();
             statement = connection.createStatement();
             rs = statement.executeQuery(sql);
             while(rs.next()){
@@ -113,7 +123,7 @@ public class dbconnect {
         long value = 0L;
  
         try {
-            connection = DataSource.getInstance().getConnection();
+            connection = getConnection();
             statement = connection.createStatement();
             rs = statement.executeQuery(sql);
             while(rs.next()){
@@ -153,7 +163,7 @@ public class dbconnect {
         User user = null;
  
         try {
-            connection = DataSource.getInstance().getConnection();
+            connection = getConnection();
             statement = connection.createStatement();
             rs = statement.executeQuery(sql);
             while(rs.next()){
@@ -207,6 +217,59 @@ public class dbconnect {
     /*
      * 
      * */
+    public FacebookUser queryObjectOfFacebookUser(String sql){
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        FacebookUser user = null;
+ 
+        try {
+            connection = getConnection();
+            statement = connection.createStatement();
+            rs = statement.executeQuery(sql);
+            while(rs.next()){
+            	user = new FacebookUser();
+            	///// columnIndex - the first column is 1, the second is 2, ...
+            	user.setUid(rs.getLong("uid"));
+            	user.setEmail(rs.getString("email"));
+            	user.setId(rs.getLong("fb_id"));
+            	user.setName(rs.getString("name"));
+            	user.setFirstName(rs.getString("first_name"));
+            	user.setLastName(rs.getString("last_name"));
+            	user.setAgeRange(rs.getString("age_range"));
+            	user.setLink(rs.getString("link"));
+            	user.setGender(rs.getInt("gender"));
+            	user.setLocale(rs.getString("locale"));
+            	user.setTimezone(rs.getDouble("timezone"));
+            	user.setUpdatedTime(rs.getDate("updated_time"));
+            	user.setVerified(rs.getBoolean("verified"));
+            	break;
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) 
+                try { 
+                    statement.close(); 
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            if (connection != null) 
+                try { 
+                    connection.close(); 
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+        }
+        return user;
+    }
+    
+    /*
+     * 
+     * */
     public AuthenticationToken queryObjectOfAuthenticationToken(String sql){
         Connection connection = null;
         Statement statement = null;
@@ -214,7 +277,7 @@ public class dbconnect {
         AuthenticationToken auToken = null;
  
         try {
-            connection = DataSource.getInstance().getConnection();
+            connection = getConnection();
             statement = connection.createStatement();
             rs = statement.executeQuery(sql);
             while(rs.next()){
@@ -259,7 +322,7 @@ public class dbconnect {
         boolean ret = false;
  
         try {
-            connection = DataSource.getInstance().getConnection();
+            connection = getConnection();
             statement = connection.createStatement();
             ret = statement.execute(sql);
             statement.executeUpdate(sql);
@@ -305,7 +368,7 @@ public class dbconnect {
         ResultSet resultSet = null;
         
         try {
-            connection = DataSource.getInstance().getConnection();
+            connection = getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query_table_sql);
             boolean is_exist = false;
@@ -327,12 +390,12 @@ public class dbconnect {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (PropertyVetoException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
             if(resultSet != null){
                 try {
                     resultSet.close();

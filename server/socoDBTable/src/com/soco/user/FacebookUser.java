@@ -258,7 +258,7 @@ public class FacebookUser implements BaseTable  {
 		return updated_time;
 	}
 
-	public void setUpdated_time(Date updated_time) {
+	public void setUpdatedTime(Date updated_time) {
 		this.updated_time = updated_time;
 		////
 		if(!this.updateString.equals("")){

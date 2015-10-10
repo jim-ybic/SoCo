@@ -13,38 +13,47 @@ public class AuthenticationTokenController {
 
 	
 	public AuthenticationToken hasTokenByUId(AuthenticationToken auToken){
-		Log.infor("In user controller");
+		Log.infor("In AuthenticationToken controller.Query token for user id: " + auToken.getUId());
 		dbconnect dbc = new dbconnect();
 		auToken = dbc.queryObjectOfAuthenticationToken(auToken.getQuerySQLByUId());
-
+		if(null != auToken){
+			Log.debug("Get token: " + auToken.getToken());
+		} else {
+			Log.error("Token is not existent.");
+		}
 		return auToken;
 	}
 	
 	
 	public AuthenticationToken generateTokenForUser(User user){
 		boolean ret = false;
-		long expired = (new Date()).getTime() + UserToken.ONE_MONTH_MILLIONSECOND;
-		String key = AES.getRandomSecKey();
-		String token = UserToken.getToken(key, user.getId(), expired);
-		AuthenticationTokenController atc = new AuthenticationTokenController();
-		AuthenticationToken auToken = new AuthenticationToken();
-		auToken.setKey(key);
-		auToken.setStartTime(new Date());
-		auToken.setUId(user.getId());
-		auToken.setToken(token);
-		auToken.setValidity(expired);
-		if(atc.hasTokenByUId(auToken) != null){
-			// error
-			Log.error("In register. When insert authentication token, the record is already existent.");
-			Log.error("To update the authentication token record for user id: " + user.getId());
-			ret = atc.updateAuthenticationToken(auToken);
-		} else {
-			ret = atc.createAuthenticationToken(auToken);
-		}
-		if(!ret) {
-			//
-			Log.error("There is error to create/update authentication token.");
-			//TODO : refresh db for authentication token later.
+		AuthenticationToken auToken = null;
+		if(user.getId() > 0){
+			long expired = (new Date()).getTime() + UserToken.ONE_MONTH_MILLIONSECOND;
+			String key = AES.getRandomSecKey();
+			String token = UserToken.getToken(key, user.getId(), expired);
+			AuthenticationTokenController atc = new AuthenticationTokenController();
+			auToken = new AuthenticationToken();
+			auToken.setKey(key);
+			auToken.setStartTime(new Date());
+			auToken.setUId(user.getId());
+			auToken.setToken(token);
+			auToken.setValidity(expired);
+			if(atc.hasTokenByUId(auToken) != null){
+				// error
+				Log.error("In register. When insert authentication token, the record is already existent.");
+				Log.error("To update the authentication token record for user id: " + user.getId());
+				ret = atc.updateAuthenticationToken(auToken);
+			} else {
+				ret = atc.createAuthenticationToken(auToken);
+			}
+			if(!ret) {
+				//
+				Log.error("There is error to create/update authentication token.");
+				//TODO : refresh db for authentication token later.
+			}
+		}else{
+			Log.error("The user is invalide because the id of user is 0.");
 		}
 		return auToken;
 	}

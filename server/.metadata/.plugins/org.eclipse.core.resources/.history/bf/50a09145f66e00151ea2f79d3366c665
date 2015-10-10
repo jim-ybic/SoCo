@@ -1,0 +1,13 @@
+package com.soco.test.main;
+
+import com.soco.log.Log;
+
+public class MainTest {
+	
+	public static final String VERSION = "0.1";
+
+	public static void main(String[] args){
+		Log.infor("====== Auto Test Application v"+ VERSION +" =======");
+	}
+	
+}

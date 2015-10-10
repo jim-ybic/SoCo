@@ -1,0 +1,18 @@
+# This is user test cases
+# by john wu
+# at 2015-10-10
+# all copyright reserved by soco technology limited
+
+# register case
+TestCaseName=User Register
+Request-Method=POST
+Request-Parameters=
+Request-JSON-Content={"name":"jack", "email":"jack@soco.com", "password":"123456"}
+Response-Status=200
+Response-Success={"status":200}
+Response-Failure={}
+
+# social login case
+TestCaseName=Social Login
+
+

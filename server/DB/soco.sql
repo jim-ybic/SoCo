@@ -57,6 +57,16 @@ CREATE TABLE IF NOT EXISTS user_attribute (
         ON UPDATE CASCADE
 );
 
+
+/* TABLE user geography */
+CREATE TABLE IF NOT EXISTS user_geography (
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    uid BIGINT NOT NULL,
+    lat FLOAT DEFAULT 0,
+    lon FLOAT DEFAULT 0,
+    date_time DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 /* TABLE fb_user for social connection */
 CREATE TABLE IF NOT EXISTS fb_user (
 	uid BIGINT NOT NULL,

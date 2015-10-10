@@ -12,7 +12,6 @@ import com.soco.app.httpserver.AppHttpServer;
 
 
 public class AppNetServer {
-	
 	private static final Logger log = LogManager.getRootLogger();
 	
 	private static String config_xml_file = "config.xml";

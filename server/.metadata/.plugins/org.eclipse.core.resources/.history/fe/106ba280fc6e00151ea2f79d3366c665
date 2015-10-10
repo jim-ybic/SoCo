@@ -1,0 +1,18 @@
+package com.soco.test.cases;
+
+import java.io.File;
+
+import com.soco.log.Log;
+
+public class TestCaseFile {
+	
+	public void parseTestCase(String filePathName){
+		File file = new File(filePathName);
+		if(file.exists()){
+			
+		}else{
+			Log.error("File " + filePathName + " is not existent.");
+		}
+	}
+
+}
