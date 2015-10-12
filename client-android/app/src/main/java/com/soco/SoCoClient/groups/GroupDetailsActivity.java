@@ -1,15 +1,19 @@
-package com.soco.SoCoClient.common.groups;
+package com.soco.SoCoClient.groups;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.events.common.EventDetailsActivity;
 
-public class ActivityGroupDetails extends ActionBarActivity {
+public class GroupDetailsActivity extends ActionBarActivity {
 
-    static String tag = "GroupDetails";
+    static String tag = "GroupDetailsActivity";
 
 //    private ViewPager viewPager;
 //    private DashboardTabsAdapter mAdapter;
@@ -105,4 +109,20 @@ public class ActivityGroupDetails extends ActionBarActivity {
 //                                android.support.v4.app.FragmentTransaction fragmentTransaction) {
 //
 //    }
+
+    public void groupmembers (View view){
+        Log.d(tag, "tap on group members");
+
+        Intent i = new Intent(this, GroupMembersActivity.class);
+        startActivity(i);
+    }
+
+    public void eventdetails (View view){
+        Log.d(tag, "tap on event details");
+
+        Intent i = new Intent(this, EventDetailsActivity.class);
+        startActivity(i);
+    }
+
+
 }

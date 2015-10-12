@@ -61,5 +61,8 @@
     <string name="title_activity_activity_common_friends">Common Friends</string>
     <string name="title_activity_activity_person_details">Person Details</string>
     <string name="title_activity_activity_add_friend">Add Friend</string>
+    <string name="title_activity_event_photos">Event Photos</string>
+    <string name="title_activity_event_comments">Event Comments</string>
+    <string name="title_activity_group_members">Group Members</string>
 
 </resources>

@@ -52,8 +52,10 @@ public class LoginViaFacebookService extends IntentService {
 
         if(requestStatus) {
             requestResponse = socoApp.facebookUserinfoResponse;
-            retrieveUserinfo();
-            loginToServer();
+            if(retrieveUserinfo())
+                loginToServer();
+            else
+                Log.e(tag, "retrieve userinfo error, skip login to server");
         }
         else{
             Log.e(tag, "cannot retrieve userinfo, skip login to server");
@@ -89,25 +91,31 @@ public class LoginViaFacebookService extends IntentService {
         return;
     }
 
-    private void retrieveUserinfo() {
+    private boolean retrieveUserinfo() {
         Log.v(tag, "retrieve userinfo");
 
         JSONObject userinfo = requestResponse.getJSONObject();
-        try {
-            userId = userinfo.get(JsonKeys.ID).toString();
-            Log.d(tag, "user id: " + userId);
+        if (userinfo != null) {
+            try {
+                userId = userinfo.get(JsonKeys.ID).toString();
+                Log.d(tag, "user id: " + userId);
 
-            userEmail = userinfo.get(JsonKeys.EMAIL).toString();
-            Log.d(tag, "user email: " + userEmail);
+                userEmail = userinfo.get(JsonKeys.EMAIL).toString();
+                Log.d(tag, "user email: " + userEmail);
 
-            userName = userinfo.get(JsonKeys.NAME).toString();
-            Log.d(tag, "user name: " + userName);
-        } catch (JSONException e) {
-            Log.e(tag, "error retrieving facebook userinfo");
-            e.printStackTrace();
+                userName = userinfo.get(JsonKeys.NAME).toString();
+                Log.d(tag, "user name: " + userName);
+            } catch (JSONException e) {
+                Log.e(tag, "error retrieving facebook userinfo");
+                e.printStackTrace();
+            }
+        }
+        else{
+            Log.e(tag, "cannot get response from server");
+            return false;
         }
 
-        return;
+        return true;
     }
 
     private void loginToServer(){

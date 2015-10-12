@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import com.soco.SoCoClient.R;
 
 import com.soco.SoCoClient.events.allevents.ActivityAllEvents;
-import com.soco.SoCoClient.events.common.ActivityEventDetails;
+import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.events.common.ActivityJoinEvent;
 import com.soco.SoCoClient.common.ui.andtinder.model.CardModel;
 import com.soco.SoCoClient.common.ui.andtinder.view.CardContainer;
@@ -31,7 +31,7 @@ import com.soco.SoCoClient.secondary.settings.ActivityProfile;
 import com.soco.SoCoClient.secondary.chat.ActivityChats;
 import com.soco.SoCoClient.secondary.notifications.ActivityNotifications;
 
-public class FragmentSuggestedEvents extends Fragment implements View.OnClickListener {
+public class SuggestedEventsFragment extends Fragment implements View.OnClickListener {
 
     static String tag = "SelectedEvents";
 
@@ -94,7 +94,7 @@ public class FragmentSuggestedEvents extends Fragment implements View.OnClickLis
                              Bundle savedInstanceState) {
 
 //        Log.d(tag, "on create view");
-        rootView = inflater.inflate(R.layout.fragment_suggested_events, container, false);
+        rootView = inflater.inflate(R.layout.suggested_events_fragment, container, false);
 //        Log.d(tag, "Found root view: " + rootView);
 
         cardTest(rootView);
@@ -553,7 +553,7 @@ public class FragmentSuggestedEvents extends Fragment implements View.OnClickLis
 //                break;
             case R.id.detail:
                 Log.d(tag, "event detail");
-                Intent ied = new Intent(getActivity().getApplicationContext(), ActivityEventDetails.class);
+                Intent ied = new Intent(getActivity().getApplicationContext(), EventDetailsActivity.class);
                 startActivity(ied);
                 break;
 //            case R.id.more:

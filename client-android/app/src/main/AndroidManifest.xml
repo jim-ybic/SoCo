@@ -230,12 +230,12 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".events.common.ActivityEventDetails"
-            android:label="@string/title_activity_activity_event_details"
-            android:parentActivityName=".dashboard.Dashboard" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".dashboard.Dashboard" />
+            android:name=".events.common.EventDetailsActivity"
+            android:label="@string/title_activity_activity_event_details">
+            <!--android:parentActivityName=".dashboard.Dashboard" >-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value=".dashboard.Dashboard" />-->
         </activity>
         <activity
             android:name=".events.common.ActivityJoinEvent"
@@ -261,7 +261,7 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".common.groups.ActivityGroupDetails"
+            android:name=".groups.GroupDetailsActivity"
             android:label="@string/title_activity_activity_group_details" >
         </activity>
         <activity
@@ -295,6 +295,30 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".dashboard.Dashboard" />
+        </activity>
+        <activity
+            android:name=".events.photos.EventPhotosActivity"
+            android:label="@string/title_activity_event_photos"
+            android:parentActivityName=".dashboard.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.dashboard.Dashboard" />
+        </activity>
+        <activity
+            android:name=".events.comments.EventCommentsActivity"
+            android:label="@string/title_activity_event_comments"
+            android:parentActivityName=".dashboard.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.dashboard.Dashboard" />
+        </activity>
+        <activity
+            android:name=".groups.GroupMembersActivity"
+            android:label="@string/title_activity_group_members"
+            android:parentActivityName=".groups.GroupDetailsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".groups.GroupDetailsActivity" />
         </activity>
     </application>
 

@@ -16,8 +16,10 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.common.ActivityEventBuddies;
 import com.soco.SoCoClient.events.common.ActivityEventOrganizers;
+import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.friends.common.ActivityCommonFriends;
 import com.soco.SoCoClient.friends.common.ActivityCommonGroups;
 import com.soco.SoCoClient.friends.common.ActivityPersonEvents;
@@ -45,7 +47,7 @@ public class Dashboard extends ActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.dashboard_activity);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 //        setSupportActionBar(toolbar);
@@ -111,49 +113,55 @@ public class Dashboard extends ActionBarActivity implements
     @Override
     public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab,
                                 android.support.v4.app.FragmentTransaction fragmentTransaction) {
-
     }
 
     @Override
     public void onTabReselected(android.support.v7.app.ActionBar.Tab tab,
                                 android.support.v4.app.FragmentTransaction fragmentTransaction) {
+    }
 
+    public void eventphotos (View view){
+        Log.d(tag, "show all event photos");
+        Intent i = new Intent(getApplicationContext(), EventPhotosActivity.class);
+        startActivity(i);
+    }
+
+    public void eventcomments (View view){
+        Log.d(tag, "show all event comments");
+        Intent i = new Intent(getApplicationContext(), EventCommentsActivity.class);
+        startActivity(i);
     }
 
     public void eventorganizers (View view){
-//        Log.d(tag, "tap eventgroups");
         Log.d(tag, "show all event organizers");
-        Intent ieg = new Intent(getApplicationContext(), ActivityEventOrganizers.class);
-        startActivity(ieg);
+        Intent i = new Intent(getApplicationContext(), ActivityEventOrganizers.class);
+        startActivity(i);
 
     }
 
     public void eventfriends (View view){
-//        Log.d(tag, "tap eventgroups");
         Log.d(tag, "show all event friends");
-        Intent ief = new Intent(getApplicationContext(), ActivityEventBuddies.class);
-        startActivity(ief);
+        Intent i = new Intent(getApplicationContext(), ActivityEventBuddies.class);
+        startActivity(i);
 
     }
 
     public void commongroups (View view){
-//        Log.d(tag, "tap eventgroups");
         Log.d(tag, "show all common groups");
-        Intent icg = new Intent(getApplicationContext(), ActivityCommonGroups.class);
-        startActivity(icg);
+        Intent i = new Intent(getApplicationContext(), ActivityCommonGroups.class);
+        startActivity(i);
     }
 
     public void commonfriends (View view){
-//        Log.d(tag, "tap eventgroups");
         Log.d(tag, "show all common friends");
-        Intent icf = new Intent(getApplicationContext(), ActivityCommonFriends.class);
-        startActivity(icf);
+        Intent i = new Intent(getApplicationContext(), ActivityCommonFriends.class);
+        startActivity(i);
     }
 
     public void personevents (View view){
         Log.d(tag, "show the person's upcoming events");
-        Intent ipe = new Intent(getApplicationContext(), ActivityPersonEvents.class);
-        startActivity(ipe);
+        Intent i = new Intent(getApplicationContext(), ActivityPersonEvents.class);
+        startActivity(i);
     }
 
 }

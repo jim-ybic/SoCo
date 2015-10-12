@@ -17,8 +17,6 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.RequestCode;
-import com.soco.SoCoClient.common.http.task._ref.LoginTaskAsync;
-import com.soco.SoCoClient.common.http.UrlUtil;
 
 import com.facebook.FacebookSdk;
 import com.soco.SoCoClient.common.util.SocoApp;
@@ -91,6 +89,11 @@ public class LoginActivity extends ActionBarActivity {
         Log.v(tag, "create facebook login button");
         initFacebook();
 
+        if(SocoApp.SKIP_LOGIN){ //for testing
+            Log.w(tag, "[testing] skip login, goto dashboard");
+            Intent intent = new Intent(this, Dashboard.class);
+            startActivity(intent);
+        }
 
 //        socoApp = (SocoApp) getApplicationContext();
 //        profile = new Profile(getApplicationContext());
@@ -158,12 +161,26 @@ public class LoginActivity extends ActionBarActivity {
 
                         @Override
                         public void onCancel() {
-                            Log.d(tag, "facebook login cancel");
+                            if(SocoApp.CAN_SKIP_FACEBOOK_LOGIN) {
+                                Log.e(tag, "facebook login errors, skip for testing mode");
+                                loginViaFacebook();
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(), "facebook login errors, skip for testing mode", Toast.LENGTH_SHORT).show();
+                                Log.e(tag, "facebook login error");
+                            }
                         }
 
                         @Override
                         public void onError(FacebookException exception) {
-                            Log.d(tag, "facebook login error");
+                            if(SocoApp.CAN_SKIP_FACEBOOK_LOGIN) {
+                                Log.e(tag, "testing mode enabled, skipping facebook login errors");
+                                loginViaFacebook();
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(), "Error login facebook, please try again later.", Toast.LENGTH_SHORT).show();
+                                Log.e(tag, "facebook login error");
+                            }
                         }
                     });
         }
