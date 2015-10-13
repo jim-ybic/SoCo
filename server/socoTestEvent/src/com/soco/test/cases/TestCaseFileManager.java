@@ -15,8 +15,8 @@ public class TestCaseFileManager {
 	
 	public void searchTestCaseFiles(){
 		
-		if(this.TEST_CASE_FOLDER != ""){
-			File folder = new File(this.TEST_CASE_FOLDER);
+		if(TEST_CASE_FOLDER != ""){
+			File folder = new File(TEST_CASE_FOLDER);
 			if(folder.exists()){
 				File[] listOfFiles = folder.listFiles();
 				for(File file : listOfFiles){
@@ -32,7 +32,7 @@ public class TestCaseFileManager {
 							if(ret){
 								this._list_testcase_file.add(tcf);
 							}else{
-								
+								Log.error("There is error happened in parsing process.");
 							}
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
@@ -47,7 +47,7 @@ public class TestCaseFileManager {
 					}
 				}
 			} else {
-				Log.error("The path " + this.TEST_CASE_FOLDER + " is not existent.");
+				Log.error("The path " + TEST_CASE_FOLDER + " is not existent.");
 			}
 		}
 	}

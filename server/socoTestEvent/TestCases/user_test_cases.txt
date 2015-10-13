@@ -5,14 +5,21 @@
 
 # register case
 TestCaseName=User Register
+Request-URL=http://localhost:8090/v1/register
 Request-Method=POST
 Request-Parameters=
-Request-JSON-Content={"name":"jack", "email":"jack@soco.com", "password":"123456"}
-Response-Status=200
-Response-Success={"status":200}
-Response-Failure={}
+Request-JSON-Content={"name":"jack1234567", "email":"jack1234567@soco.com", "password":"123456"}
+Response-Expected-Status=200
+Response-Expected-Success={"status":200,"user_id":?,"token":?}
+Response-Expected-Failure={}
 
-# social login case
-TestCaseName=Social Login
-
+# get event case
+TestCaseName=Event
+Request-URL=http://localhost:8090/v1/event
+Request-Method=POST
+Request-Parameters=
+Request-JSON-Content={"user_id":"", "token":""}
+Response-Expected-Status=200
+Response-Expected-Success={"status":200}
+Response-Expected-Failure={}
 

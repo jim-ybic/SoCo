@@ -80,8 +80,8 @@ public class AppUserMessageHandler implements AppMessageHandler {
 		Log.debug("In AppUserMessageHandler. The command " + httpMethod + " and message is: ");
 		// format to json object
 		try {
-			this.set_http_response_content(content);
-			this.set_http_status(OK);
+			this.setHttpResponseContent(content);
+			this.setHttpStatus(OK);
 			JSONObject jsonObj = new JSONObject(content);
 			String methodName = httpMethod.toLowerCase() + "_" + className + "_" + version;
 			Method method = this.getClass().getMethod(methodName, JSONObject.class, String.class);
@@ -108,12 +108,11 @@ public class AppUserMessageHandler implements AppMessageHandler {
 		return ret;
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public List<String> getCmdList() {
 		// TODO Auto-generated method stub
 		if(AppUserMessageHandler._cmdList != null){
-			for(String cmd: this.USER_CMD_ARRAY){
+			for(String cmd: AppUserMessageHandler.USER_CMD_ARRAY){
 				_cmdList.add(cmd);
 			}
 		} else {
@@ -230,8 +229,8 @@ public class AppUserMessageHandler implements AppMessageHandler {
 								}
 								// set response
 								String resp = AppResponseHandler.getRegisterSuccessResponse(200, uid, auToken.getToken());
-								this.set_http_status(OK);
-								this.set_http_response_content(resp);
+								this.setHttpStatus(OK);
+								this.setHttpResponseContent(resp);
 								//send out the register code to the email
 								ret = this.sendEmail(user.getEmail(), this.getEmailContent());
 								if(!ret){
@@ -271,8 +270,8 @@ public class AppUserMessageHandler implements AppMessageHandler {
 		
 		if(!ret){
 			String resp = AppResponseHandler.getRegisterFailureResponse(http_status, error_code, property, message);
-			this.set_http_status(HttpResponseStatus.BAD_REQUEST);
-			this.set_http_response_content(resp);
+			this.setHttpStatus(HttpResponseStatus.BAD_REQUEST);
+			this.setHttpResponseContent(resp);
 		}
 		
 		return ret;
@@ -302,8 +301,8 @@ public class AppUserMessageHandler implements AppMessageHandler {
 								AuthenticationToken auToken = atc.generateTokenForUser(user);
 								// set response
 								String resp = AppResponseHandler.getLoginSuccessResponse(200, user.getId(), auToken.getToken(), user.getIsValidated().toString());
-								this.set_http_status(OK);
-								this.set_http_response_content(resp);
+								this.setHttpStatus(OK);
+								this.setHttpResponseContent(resp);
 								ret = true;
 					    	} else {
 					    		// password wrong
@@ -343,8 +342,8 @@ public class AppUserMessageHandler implements AppMessageHandler {
 		if(!ret){
 			
 			String resp = AppResponseHandler.getRegisterFailureResponse(400, error_code, property, message);
-			this.set_http_status(HttpResponseStatus.BAD_REQUEST);
-			this.set_http_response_content(resp);
+			this.setHttpStatus(HttpResponseStatus.BAD_REQUEST);
+			this.setHttpResponseContent(resp);
 		}
 		
 		return ret;
@@ -390,8 +389,8 @@ public class AppUserMessageHandler implements AppMessageHandler {
 						if(auToken != null && auToken.getToken().equals(token)){
 							ret = atc.deleteAuthenticationToken(auToken);
 							// set OK response
-							this.set_http_status(OK);
-							this.set_http_response_content("{\"status\":200}");
+							this.setHttpStatus(OK);
+							this.setHttpResponseContent("{\"status\":200}");
 						} else {
 							// token error
 							Log.warn("The token : " + token + " is not match for user id: " + uid);
@@ -424,8 +423,8 @@ public class AppUserMessageHandler implements AppMessageHandler {
 		if(!ret){
 			
 			String resp = AppResponseHandler.getRegisterFailureResponse(400, error_code, property, message);
-			this.set_http_status(HttpResponseStatus.BAD_REQUEST);
-			this.set_http_response_content(resp);
+			this.setHttpStatus(HttpResponseStatus.BAD_REQUEST);
+			this.setHttpResponseContent(resp);
 		}
 		
 		return ret;
@@ -465,8 +464,8 @@ public class AppUserMessageHandler implements AppMessageHandler {
 								ret = fbuc.updateFBUser(fbUser);
 								if(ret){
 									String resp = AppResponseHandler.getSocialLoginSuccessResponse(200, fbUser.getUid(), "");
-									this.set_http_status(OK);
-									this.set_http_response_content(resp);
+									this.setHttpStatus(OK);
+									this.setHttpResponseContent(resp);
 								}
 							}
 						} else {
@@ -489,8 +488,8 @@ public class AppUserMessageHandler implements AppMessageHandler {
 								if(null != auToken){
 									String token = auToken.getToken();
 									String resp = AppResponseHandler.getSocialLoginSuccessResponse(200, fbUser.getUid(), token);
-									this.set_http_status(OK);
-									this.set_http_response_content(resp);
+									this.setHttpStatus(OK);
+									this.setHttpResponseContent(resp);
 								} else {
 									Log.error("Save token failed.");
 									ret = false;
@@ -522,8 +521,8 @@ public class AppUserMessageHandler implements AppMessageHandler {
 		
 		if(!ret){
 			String resp = AppResponseHandler.getSocialLoginFailureResponse(httpStatus, error_code, property, message);
-			this.set_http_status(HttpResponseStatus.valueOf(httpStatus));
-			this.set_http_response_content(resp);
+			this.setHttpStatus(HttpResponseStatus.valueOf(httpStatus));
+			this.setHttpResponseContent(resp);
 		}
 		
 		return ret;
@@ -572,26 +571,26 @@ public class AppUserMessageHandler implements AppMessageHandler {
 	@Override
 	public FullHttpResponse getResponse() {
 		// TODO Auto-generated method stub
-		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, this.get_http_status(), Unpooled.wrappedBuffer(this.get_http_response_content().getBytes()));
+		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, this.getHttpStatus(), Unpooled.wrappedBuffer(this.getHttpResponseContent().getBytes()));
         response.headers().set(CONTENT_TYPE, "application/json");
         response.headers().set(CONTENT_LENGTH, response.content().readableBytes());
         response.headers().set(CONNECTION, Values.KEEP_ALIVE);
 		return response;
 	}
 
-	public HttpResponseStatus get_http_status() {
+	public HttpResponseStatus getHttpStatus() {
 		return _http_status;
 	}
 
-	public void set_http_status(HttpResponseStatus _http_status) {
+	public void setHttpStatus(HttpResponseStatus _http_status) {
 		this._http_status = _http_status;
 	}
 
-	public String get_http_response_content() {
+	public String getHttpResponseContent() {
 		return _http_response_content;
 	}
 
-	public void set_http_response_content(String _http_response_content) {
+	public void setHttpResponseContent(String _http_response_content) {
 		this._http_response_content = _http_response_content;
 	}
 

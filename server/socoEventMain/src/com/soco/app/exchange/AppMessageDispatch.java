@@ -6,6 +6,7 @@ import io.netty.util.CharsetUtil;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.soco.app.handler.AppEventMessageHandler;
 import com.soco.app.handler.AppMessageHandler;
 import com.soco.app.handler.AppUserMessageHandler;
 import com.soco.log.Log;
@@ -18,7 +19,9 @@ public class AppMessageDispatch {
 	public static void initHandler(){
 		/* User handler */
 		AppUserMessageHandler userMsgHandler = new AppUserMessageHandler();
+		AppEventMessageHandler eventMsgHandler = new AppEventMessageHandler();
 		AppMessageDispatch.addHandler(userMsgHandler);
+		AppMessageDispatch.addHandler(eventMsgHandler);
 	}
 	
 	public static boolean addHandler(AppMessageHandler handler){

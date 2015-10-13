@@ -18,9 +18,11 @@ public class TestCaseFile {
 	private List<TestCase> _list_test_case = new ArrayList<TestCase>();
 	private String fileName;
 	
+	private TestCaseVariable _testcase_variable = new TestCaseVariable();
+	
 	public boolean parseTestCase(String filePathName) throws JSONException{
 		boolean ret = false;
-		Log.debug("In TestCaseFile. parse file: " + filePathName);;
+		Log.infor("In TestCaseFile. parse file: " + filePathName);;
 		File file = new File(filePathName);
 		if(file.exists()){
 			try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -49,6 +51,10 @@ public class TestCaseFile {
 			    					tc = new TestCase();
 			    					tc.setName(value);
 			    					break;
+			    				case "Request-URL":
+			    					Log.debug(tagName + " = " + value);
+			    					tc.setReqUrl(value);
+			    					break;
 			    				case "Request-Method":
 			    					Log.debug(tagName + " = " + value);
 			    					tc.setReqMethod(value);
@@ -62,19 +68,21 @@ public class TestCaseFile {
 			    					JSONObject jsonReq = new JSONObject(value);
 			    					tc.setReqJson(jsonReq);
 			    					break;
-			    				case "Response-Success":
+			    				case "Response-Expected-Success":
 			    					Log.debug(tagName + " = " + value);
 			    					JSONObject jsonRespS = new JSONObject(value);
-			    					tc.setRespJsonSuccess(jsonRespS);
+			    					tc.setRespExpectedSuccess(jsonRespS);
+			    					this.getTestcaseVariable().parseResponseVariables(jsonRespS);
 			    					break;
-			    				case "Response-Failure":
+			    				case "Response-Expected-Failure":
 			    					Log.debug(tagName + " = " + value);
 			    					JSONObject jsonRespF = new JSONObject(value);
-			    					tc.setRespJsonFailure(jsonRespF);
+			    					tc.setRespExpectedFailure(jsonRespF);
+			    					this.getTestcaseVariable().parseResponseVariables(jsonRespF);
 			    					break;
-			    				case "Response-Status":
+			    				case "Response-Expected-Status":
 			    					Log.debug(tagName + " = " + value);
-			    					tc.setRespStatus(Integer.valueOf(value));
+			    					tc.setRespExpectedStatus(Integer.valueOf(value));
 			    					break;
 			    				default:
 			    					Log.debug("No tag matched.");
@@ -119,6 +127,14 @@ public class TestCaseFile {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public TestCaseVariable getTestcaseVariable() {
+		return _testcase_variable;
+	}
+
+	public void setTestcaseVariable(TestCaseVariable caseVariable) {
+		this._testcase_variable = caseVariable;
 	}
 	
 	

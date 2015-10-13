@@ -69,12 +69,20 @@ public class AppHttpServerHandler extends ChannelInboundHandlerAdapter {
             	AppMessageHandler msgHandler = AppMessageDispatch.startDispatch(req);
                 response.headers().set(CONNECTION, Values.KEEP_ALIVE);
                 if (msgHandler != null){
-                	ctx.write(msgHandler.getResponse());
+                	ctx.writeAndFlush(msgHandler.getResponse());
+                	Log.debug("Complemte read. send out response. ");
                 } else {
-                    ctx.write(response);
+                    ctx.writeAndFlush(response);
                 }
+                
             }
         }
+    }
+    
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    	Log.debug("The channel inactive.");
+    	ctx.close();
     }
 
     @Override
