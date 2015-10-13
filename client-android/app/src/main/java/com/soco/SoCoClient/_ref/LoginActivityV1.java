@@ -60,7 +60,7 @@ public class LoginActivityV1 extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_v1);
+        setContentView(R.layout.ref_activity_login_v1);
 
         socoApp = (SocoApp) getApplicationContext();
 

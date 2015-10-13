@@ -65,4 +65,6 @@
     <string name="title_activity_event_comments">Event Comments</string>
     <string name="title_activity_group_members">Group Members</string>
 
+    <string name="eventtitle">Event Title</string>
+
 </resources>

@@ -33,6 +33,8 @@ dependencies {
 //    compile project(':json_simple-1.1')
 
     compile 'com.facebook.android:facebook-android-sdk:4.0.0'
+    compile 'com.getbase:floatingactionbutton:1.10.0'
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
 
 //    compile project(':libs:AndTinder')
 }

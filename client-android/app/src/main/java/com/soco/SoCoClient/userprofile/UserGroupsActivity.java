@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.events.common;
+package com.soco.SoCoClient.userprofile;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,20 +7,20 @@ import android.view.MenuItem;
 
 import com.soco.SoCoClient.R;
 
-public class ActivityJoinEvent extends ActionBarActivity {
+public class UserGroupsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_join_event);
+        setContentView(R.layout.activity_user_groups);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_activity_join_event, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_activity_user_groups, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

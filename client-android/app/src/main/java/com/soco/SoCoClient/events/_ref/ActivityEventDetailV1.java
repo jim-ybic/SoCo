@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.events.common;
+package com.soco.SoCoClient.events._ref;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+@Deprecated
 public class ActivityEventDetailV1 extends ActionBarActivity {
 
     static String tag = "EventDetail";

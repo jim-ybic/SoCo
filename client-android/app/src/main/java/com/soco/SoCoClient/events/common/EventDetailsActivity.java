@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.friends.allfriends.ActivityAllFriends;
+import com.soco.SoCoClient.events.comments.EventCommentsActivity;
+import com.soco.SoCoClient.events.photos.EventPhotosActivity;
+import com.soco.SoCoClient.groups.GroupDetailsActivity;
 
 public class EventDetailsActivity extends ActionBarActivity {
 
@@ -45,5 +48,37 @@ public class EventDetailsActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void eventphotos (View view){
+        Log.d(tag, "show all event photos");
+        Intent i = new Intent(getApplicationContext(), EventPhotosActivity.class);
+        startActivity(i);
+    }
+
+    public void eventcomments (View view){
+        Log.d(tag, "show all event comments");
+        Intent i = new Intent(getApplicationContext(), EventCommentsActivity.class);
+        startActivity(i);
+    }
+
+    public void eventorganizers (View view){
+        Log.d(tag, "show all event organizers");
+        Intent i = new Intent(getApplicationContext(), EventOrganizersActivity.class);
+        startActivity(i);
+
+    }
+
+    public void eventfriends (View view){
+        Log.d(tag, "show all event friends");
+        Intent i = new Intent(getApplicationContext(), EventBuddiesActivity.class);
+        startActivity(i);
+
+    }
+
+    public void groupdetails (View view){
+        Log.v(tag, "tap on group details");
+        Intent i = new Intent(this, GroupDetailsActivity.class);
+        startActivity(i);
     }
 }
