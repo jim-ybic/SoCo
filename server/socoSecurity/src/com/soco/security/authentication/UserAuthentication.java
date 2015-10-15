@@ -14,19 +14,35 @@ public class UserAuthentication {
 	/*
 	 * authentication user by email and password
 	 * */
-	public static boolean authentication(User user){
-		boolean ret = false;
-		
+	public static User authentication(String email, String password){
+		User dbUser = new User();
+		UserController uc = new UserController();
+		dbUser.setEmail(email);
+		dbUser.setUserPlainPassword(password);
+		dbUser = uc.hasByUIdOrEmail(dbUser);
+	    if(dbUser != null ){
+	    	if(!dbUser.getUserPlainPassword().equals(password)){
+	    		dbUser = null;
+	    	}
+	    }
+	    
+		return dbUser;
+	}
+	
+	/*
+	 * authentication user by email and password
+	 * */
+	public static User authentication(User user){
 		User dbUser = new User();
 		UserController uc = new UserController();
 		dbUser = uc.hasByUIdOrEmail(user);
 	    if(dbUser != null ){
-	    	if(dbUser.getUserPlainPassword().equals(user.getUserPlainPassword())){
-	    		ret = true;
+	    	if(!dbUser.getUserPlainPassword().equals(user.getUserPlainPassword())){
+	    		dbUser = null;
 	    	}
 	    }
 	    
-		return ret;
+		return dbUser;
 	}
 	
 	public static boolean authentication(AuthenticationToken auToken){
@@ -46,6 +62,13 @@ public class UserAuthentication {
 		}
 		
 		return ret;
+	}
+	
+	public static boolean authentication(Long userID, String token){
+		AuthenticationToken auToken = new AuthenticationToken();
+		auToken.setUId(userID);
+		auToken.setToken(token);
+		return UserAuthentication.authentication(auToken);
 	}
 	
 	public static AuthenticationToken generateTokenForUser(User user){

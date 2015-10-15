@@ -9,7 +9,7 @@ public class UserController {
 
 	
 	public User hasByUIdOrEmail(User user){
-		Log.infor("In user controller");
+		Log.infor("In user controller: hasByUIdOrEmail");
 		dbconnect dbc = new dbconnect();
         user = dbc.queryObjectOfUser(user.getQuerySQLByUIdOrEmail());
         //

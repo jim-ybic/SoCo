@@ -291,7 +291,7 @@ public class AppUserMessageHandler implements AppMessageHandler {
 					    User user = new User();
 					    user.setEmail(email);
 					    user.setUserPlainPassword(password);
-					    if(UserAuthentication.authentication(user)){
+					    if((user = UserAuthentication.authentication(user)) != null){
 					    	// email and password are correct
 				    		// generate token for user
 							AuthenticationToken auToken = UserAuthentication.generateTokenForUser(user);
