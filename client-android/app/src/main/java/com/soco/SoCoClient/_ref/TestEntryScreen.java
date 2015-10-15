@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.onboarding.login.LoginActivity;
-import com.soco.SoCoClient.events.common.ActivityEventDetailV1;
+import com.soco.SoCoClient.events._ref.ActivityEventDetailV1;
 
 @Deprecated
 public class TestEntryScreen extends ActionBarActivity {

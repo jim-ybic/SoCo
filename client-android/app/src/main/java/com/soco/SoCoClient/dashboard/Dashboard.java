@@ -17,12 +17,12 @@ import android.support.v7.widget.Toolbar;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
-import com.soco.SoCoClient.events.common.ActivityEventBuddies;
-import com.soco.SoCoClient.events.common.ActivityEventOrganizers;
+import com.soco.SoCoClient.events.common.EventBuddiesActivity;
+import com.soco.SoCoClient.events.common.EventOrganizersActivity;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
-import com.soco.SoCoClient.friends.common.ActivityCommonFriends;
-import com.soco.SoCoClient.friends.common.ActivityCommonGroups;
-import com.soco.SoCoClient.friends.common.ActivityPersonEvents;
+import com.soco.SoCoClient.friends.common.CommonFriendsActivity;
+import com.soco.SoCoClient.friends.common.CommonGroupsActivity;
+import com.soco.SoCoClient.userprofile.UserEventsActivity;
 
 public class Dashboard extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener {
@@ -134,33 +134,33 @@ public class Dashboard extends ActionBarActivity implements
 
     public void eventorganizers (View view){
         Log.d(tag, "show all event organizers");
-        Intent i = new Intent(getApplicationContext(), ActivityEventOrganizers.class);
+        Intent i = new Intent(getApplicationContext(), EventOrganizersActivity.class);
         startActivity(i);
 
     }
 
     public void eventfriends (View view){
         Log.d(tag, "show all event friends");
-        Intent i = new Intent(getApplicationContext(), ActivityEventBuddies.class);
+        Intent i = new Intent(getApplicationContext(), EventBuddiesActivity.class);
         startActivity(i);
 
     }
 
     public void commongroups (View view){
         Log.d(tag, "show all common groups");
-        Intent i = new Intent(getApplicationContext(), ActivityCommonGroups.class);
+        Intent i = new Intent(getApplicationContext(), CommonGroupsActivity.class);
         startActivity(i);
     }
 
     public void commonfriends (View view){
         Log.d(tag, "show all common friends");
-        Intent i = new Intent(getApplicationContext(), ActivityCommonFriends.class);
+        Intent i = new Intent(getApplicationContext(), CommonFriendsActivity.class);
         startActivity(i);
     }
 
     public void personevents (View view){
         Log.d(tag, "show the person's upcoming events");
-        Intent i = new Intent(getApplicationContext(), ActivityPersonEvents.class);
+        Intent i = new Intent(getApplicationContext(), UserEventsActivity.class);
         startActivity(i);
     }
 

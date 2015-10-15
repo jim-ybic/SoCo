@@ -4,74 +4,76 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <Button
-            android:text="Jim"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="jim"
-            android:layout_weight="1"/>
 
-        <Button
-            android:text="Voljin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="voljin"
-            android:layout_weight="1"/>
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
 
-    </LinearLayout>
+        <!--<Button-->
+            <!--android:text="Jim"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="jim"-->
+            <!--android:layout_weight="1"/>-->
 
-    <Button
-        android:text="TEST 1: task basic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="test1"/>
+        <!--<Button-->
+            <!--android:text="Voljin"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="voljin"-->
+            <!--android:layout_weight="1"/>-->
 
-    <Button
-        android:text="TEST 2: attribute basic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="test2"/>
+    <!--</LinearLayout>-->
 
-    <Button
-        android:text="TEST 3: task remote"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="test3"/>
+    <!--<Button-->
+        <!--android:text="TEST 1: task basic"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="test1"/>-->
 
-    <Button
-        android:text="TEST 4: contact remote"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="test4"/>
+    <!--<Button-->
+        <!--android:text="TEST 2: attribute basic"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="test2"/>-->
 
-    <Button
-        android:text="TEST 5: message basic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="test5"/>
+    <!--<Button-->
+        <!--android:text="TEST 3: task remote"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="test3"/>-->
 
-    <Button
-        android:text="TEST 6: message and heartbeat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="test6"/>
+    <!--<Button-->
+        <!--android:text="TEST 4: contact remote"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="test4"/>-->
 
-    <Button
-        android:text="TEST 7: member"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="test7"/>
+    <!--<Button-->
+        <!--android:text="TEST 5: message basic"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="test5"/>-->
 
-    <Button
-        android:text="TEST 8: attachment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="test8"/>
+    <!--<Button-->
+        <!--android:text="TEST 6: message and heartbeat"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="test6"/>-->
+
+    <!--<Button-->
+        <!--android:text="TEST 7: member"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="test7"/>-->
+
+    <!--<Button-->
+        <!--android:text="TEST 8: attachment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="test8"/>-->
 
 
 </LinearLayout>

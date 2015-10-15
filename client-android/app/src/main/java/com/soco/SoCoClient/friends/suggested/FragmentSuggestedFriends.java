@@ -17,8 +17,7 @@ import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.database.DataLoader;
-import com.soco.SoCoClient.friends.common.ActivityAddFriend;
-import com.soco.SoCoClient.friends.common.ActivityPersonDetails;
+import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.secondary.chat.model.SingleConversation;
 import com.soco.SoCoClient.common.ui.andtinder.model.CardModel;
 import com.soco.SoCoClient.common.ui.andtinder.view.CardContainer;
@@ -191,12 +190,12 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
 //                break;
             case R.id.detail:
                 Log.d(tag, "show person details");
-                Intent ipd = new Intent(getActivity().getApplicationContext(), ActivityPersonDetails.class);
+                Intent ipd = new Intent(getActivity().getApplicationContext(), UserProfileActivity.class);
                 startActivity(ipd);
                 break;
             case R.id.add:
                 Log.d(tag, "add this friend");
-                Intent iaf = new Intent(getActivity().getApplicationContext(), ActivityAddFriend.class);
+                Intent iaf = new Intent(getActivity().getApplicationContext(), AddFriendActivity.class);
                 startActivity(iaf);
                 break;
         }

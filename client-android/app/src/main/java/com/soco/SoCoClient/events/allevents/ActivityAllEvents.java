@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.database.DataLoader;
-import com.soco.SoCoClient.events.common.ActivityEventDetailV1;
+import com.soco.SoCoClient.events._ref.ActivityEventDetailV1;
 import com.soco.SoCoClient.events.common.ui.EventListAdapter;
 import com.soco.SoCoClient.events.common.ui.EventListEntryItem;
 import com.soco.SoCoClient.events.model.Event;

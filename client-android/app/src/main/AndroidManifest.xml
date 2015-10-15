@@ -140,7 +140,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".events.common.ActivityEventDetailV1"
+            android:name=".events._ref.ActivityEventDetailV1"
             android:label="@string/title_activity_test_event_detail" >
 
             <!-- <intent-filter> -->
@@ -206,7 +206,7 @@
                 android:value=".onboarding.login.LoginActivity" />
         </activity>
         <activity
-            android:name=".events.common.ActivityEventLikers"
+            android:name=".events.common.EventLikersActivity"
             android:label="@string/title_activity_activity_event_likers"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -214,7 +214,7 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".events.common.ActivityEventBuddies"
+            android:name=".events.common.EventBuddiesActivity"
             android:label="@string/title_activity_activity_event_buddies"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -222,7 +222,7 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".events.common.ActivityEventOrganizers"
+            android:name=".events.common.EventOrganizersActivity"
             android:label="@string/title_activity_activity_event_organizers"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -238,7 +238,7 @@
                 <!--android:value=".dashboard.Dashboard" />-->
         </activity>
         <activity
-            android:name=".events.common.ActivityJoinEvent"
+            android:name=".events.common.JoinEventActivity"
             android:label="@string/title_activity_activity_join_event"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -246,7 +246,7 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".friends.common.ActivityPersonEvents"
+            android:name=".userprofile.UserEventsActivity"
             android:label="@string/title_activity_activity_person_events"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -254,7 +254,7 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".friends.common.ActivityPersonGroups"
+            android:name=".userprofile.UserGroupsActivity"
             android:label="@string/title_activity_activity_person_groups" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -265,7 +265,7 @@
             android:label="@string/title_activity_activity_group_details" >
         </activity>
         <activity
-            android:name=".friends.common.ActivityCommonGroups"
+            android:name=".friends.common.CommonGroupsActivity"
             android:label="@string/title_activity_activity_common_groups"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -273,7 +273,7 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".friends.common.ActivityCommonFriends"
+            android:name=".friends.common.CommonFriendsActivity"
             android:label="@string/title_activity_activity_common_friends"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -281,15 +281,11 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".friends.common.ActivityPersonDetails"
-            android:label="@string/title_activity_activity_person_details"
-            android:parentActivityName=".dashboard.Dashboard" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".dashboard.Dashboard" />
+            android:name=".userprofile.UserProfileActivity"
+            android:label="@string/title_activity_activity_person_details">
         </activity>
         <activity
-            android:name=".friends.common.ActivityAddFriend"
+            android:name=".friends.suggested.AddFriendActivity"
             android:label="@string/title_activity_activity_add_friend"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data

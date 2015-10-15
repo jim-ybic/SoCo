@@ -23,7 +23,7 @@ import com.soco.SoCoClient.R;
 
 import com.soco.SoCoClient.events.allevents.ActivityAllEvents;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
-import com.soco.SoCoClient.events.common.ActivityJoinEvent;
+import com.soco.SoCoClient.events.common.JoinEventActivity;
 import com.soco.SoCoClient.common.ui.andtinder.model.CardModel;
 import com.soco.SoCoClient.common.ui.andtinder.view.CardContainer;
 import com.soco.SoCoClient.common.ui.andtinder.view.EventCardStackAdapter;
@@ -563,7 +563,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //                break;
             case R.id.join:
                 Log.d(tag, "join this event");
-                Intent ije = new Intent(getActivity().getApplicationContext(), ActivityJoinEvent.class);
+                Intent ije = new Intent(getActivity().getApplicationContext(), JoinEventActivity.class);
                 startActivity(ije);
                 break;
         }
