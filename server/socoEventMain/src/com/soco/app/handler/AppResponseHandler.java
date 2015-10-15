@@ -92,4 +92,39 @@ public class AppResponseHandler {
 		
 		return jsonResp.toString();
 	}
+    
+    
+    public static String getEventPostSuccessResponse(int httpStatus){
+		
+		JSONObject jsonResp = new JSONObject();
+		try {
+			jsonResp.put("status", httpStatus);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jsonResp.toString();
+	}
+    
+    public static String getEventPostFailureResponse(int httpStatus, int error_code, String property, String message, String more){
+		
+		JSONObject jsonResp = new JSONObject();
+		try {
+			jsonResp.put("status", httpStatus);
+			jsonResp.put("error_code", error_code);
+			jsonResp.put("property", property);
+			jsonResp.put("message", message);
+			if(more != null && !more.equals("")){
+				jsonResp.put("more_info", more);
+			} else {
+				jsonResp.put("more_info", System.getProperty("API_HELP_URL") + "/" + error_code);
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jsonResp.toString();
+	}
 }

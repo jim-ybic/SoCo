@@ -68,17 +68,11 @@ public class TestCaseFile {
 			    					JSONObject jsonReq = new JSONObject(value);
 			    					tc.setReqJson(jsonReq);
 			    					break;
-			    				case "Response-Expected-Success":
+			    				case "Response-Expected-JSON":
 			    					Log.debug(tagName + " = " + value);
 			    					JSONObject jsonRespS = new JSONObject(value);
-			    					tc.setRespExpectedSuccess(jsonRespS);
+			    					tc.setRespExpectedJson(jsonRespS);
 			    					this.getTestcaseVariable().parseResponseVariables(jsonRespS);
-			    					break;
-			    				case "Response-Expected-Failure":
-			    					Log.debug(tagName + " = " + value);
-			    					JSONObject jsonRespF = new JSONObject(value);
-			    					tc.setRespExpectedFailure(jsonRespF);
-			    					this.getTestcaseVariable().parseResponseVariables(jsonRespF);
 			    					break;
 			    				case "Response-Expected-Status":
 			    					Log.debug(tagName + " = " + value);

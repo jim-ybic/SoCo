@@ -32,6 +32,7 @@ public class FacebookUser implements BaseTable  {
 	private String updateString;
 	
 	public FacebookUser(){
+		this.updateString = "";
 		this.uid = 0l;
 		this.id = 0l;
 		this.name = "";
@@ -45,8 +46,6 @@ public class FacebookUser implements BaseTable  {
 		this.timezone = 0f;
 		this.updated_time = new Date();
 		this.verified = false;
-		
-		this.updateString = "";
 	}
 	
 	@Override

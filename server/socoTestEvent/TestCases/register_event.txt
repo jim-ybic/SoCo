@@ -1,0 +1,23 @@
+# This is user test cases
+# by john wu
+# at 2015-10-10
+# all copyright reserved by soco technology limited
+
+# register case
+TestCaseName=User Register
+Request-URL=http://localhost:8090/v1/register
+Request-Method=POST
+Request-Parameters=
+Request-JSON-Content={"name":"franky", "email":"frank123@soco.com", "password":"123456"}
+Response-Expected-Status=200
+Response-Expected-JSON={"status":200,"user_id":?,"token":?}
+
+# get event case
+TestCaseName=Event Post
+Request-URL=http://localhost:8090/v1/event
+Request-Method=POST
+Request-Parameters=
+Request-JSON-Content={"user_id":"", "token":"","name":"climbing","description":"Saturday activity climbing the AAA mountain.","address":"saigong","city":"hong kong","lat":22.1231242,"lon":23.1241232}
+Response-Expected-Status=200
+Response-Expected-JSON={"status":200}
+

@@ -130,12 +130,25 @@ CREATE TABLE IF NOT EXISTS user_interest (
 
 /* TABLE event */
 CREATE TABLE IF NOT EXISTS event (
-    eid BIGINT NOT NULL PRIMARY KEY,
-    name varchar(30) NOT NULL,
+    eid         BIGINT NOT NULL PRIMARY KEY,
+    name        varchar(30) NOT NULL,
+    description varchar(1000) DEFAULT NULL,
+    parent_id   BIGINT DEFAULT 0,
     start_date  DATETIME DEFAULT CURRENT_TIMESTAMP,
     end_date    DATETIME DEFAULT CURRENT_TIMESTAMP,
-    location    varchar(100) DEFAULT NULL,
-    description varchar(1000) DEFAULT NULL,
+    address     varchar(128) DEFAULT NULL,
+    city        varchar(48) DEFAULT NULL,
+	lat         FLOAT DEFAULT 0.0,
+	lon         FLOAT DEFAULT 0.0,
+    banner_url  varchar(128) DEFAULT NULL,
+    event_url   varchar(128) DEFAULT NULL,
+    status      varchar(32) DEFAULT NULL,
+    number_of_views INT DEFAULT 0,
+    number_of_likes INT DEFAULT 0,
+    number_of_comments INT DEFAULT 0,
+    number_of_photos INT DEFAULT 0,
+    is_archived BOOLEAN DEFAULT FALSE,
+    is_deleted  BOOLEAN DEFAULT FALSE,
     create_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     modify_date DATETIME ON UPDATE CURRENT_TIMESTAMP
 );

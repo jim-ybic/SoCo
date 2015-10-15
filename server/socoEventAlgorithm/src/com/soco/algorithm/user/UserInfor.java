@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class UserInfor {
 	
-	private static final long UID_UNIT = 100000000000000l;
+	private static final long UID_UNIT = 100000000000000L;
 	
 	public static long getUID(long thread_id, long area_id){
 		long uid = 0l;

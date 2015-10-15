@@ -7,6 +7,7 @@ import com.soco.nettyclient.ClientMain;
 import com.soco.test.cases.TestCase;
 import com.soco.test.cases.TestCaseFile;
 import com.soco.test.cases.TestCaseFileManager;
+import com.soco.test.cases.TestCaseReport;
 
 public class MainTest {
 	
@@ -45,16 +46,23 @@ public class MainTest {
 	}
 	
 	public static void reportTestCase(TestCaseFileManager tcfm){
+		
 		for(TestCaseFile tcf : tcfm.getListTestcaseFile()){
 			Log.debug("======================================");
+			TestCaseReport tCaseReport = new TestCaseReport();
+			tCaseReport.genTestReport(tcf);
+			/*
 			Log.debug("Test case file: " + tcf.getFileName());
 			for(TestCase tcase : tcf.getListTestCase()){
 				Log.debug(tcase.toString());
 			}
+			*/
 			Log.debug("------------------------------");
 			Log.debug(tcf.getTestcaseVariable().toString());
+			
 			Log.debug("======================================");
 		}
+		
 	}
 	
 }

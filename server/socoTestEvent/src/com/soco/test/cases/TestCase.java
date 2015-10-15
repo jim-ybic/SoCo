@@ -11,8 +11,7 @@ public class TestCase {
 	private JSONObject req_json;
 	private int resp_status;
 	private JSONObject resp_json;
-	private JSONObject resp_expected_success;
-	private JSONObject resp_expected_failure;
+	private JSONObject resp_expected_json;
 	private int resp_expected_status;
 	
 	
@@ -22,12 +21,9 @@ public class TestCase {
 		this.setReqMethod("");
 		this.setReqParameter("");
 		this.setReqJson(null);
-		this.setRespExpectedSuccess(null);
-		this.setRespExpectedFailure(null);
+		this.setRespExpectedJson(null);
 		this.setRespStatus(0);
-		this.setRespExpectedFailure(null);
 		this.setRespExpectedStatus(0);
-		this.setRespExpectedSuccess(null);
 	}
 	
 	public String getName() {
@@ -60,18 +56,13 @@ public class TestCase {
 	public void setRespStatus(int resp_status) {
 		this.resp_status = resp_status;
 	}
-	public JSONObject getRespExpectedSuccess() {
-		return resp_expected_success;
+	public JSONObject getRespExpectedJson() {
+		return resp_expected_json;
 	}
-	public void setRespExpectedSuccess(JSONObject resp_json) {
-		this.resp_expected_success = resp_json;
+	public void setRespExpectedJson(JSONObject resp_json) {
+		this.resp_expected_json = resp_json;
 	}
-	public JSONObject getRespExpectedFailure() {
-		return resp_expected_failure;
-	}
-	public void setRespExpectedFailure(JSONObject resp_json) {
-		this.resp_expected_failure = resp_json;
-	}
+	
 	public String getReqUrl() {
 		return req_url;
 	}
@@ -94,8 +85,7 @@ public class TestCase {
 				"Request method: " + this.getReqMethod() + "\n" +
 				"Request parameter: " + this.getReqParameter() + "\n" +
 				"Request content: " + (this.getReqJson() != null ? this.getReqJson().toString() : "{}") + "\n" +
-				"Expected success: " + (this.getRespExpectedSuccess() != null ? this.getRespExpectedSuccess().toString() : "{}") + "\n" +
-				"Expected failure: " + (this.getRespExpectedFailure() != null ? this.getRespExpectedFailure().toString() : "{}") + "\n" +
+				"Expected success: " + (this.getRespExpectedJson() != null ? this.getRespExpectedJson().toString() : "{}") + "\n" +
 				"Expected status: " + this.getRespExpectedStatus() + "\n" + 
 				"Response content: " + (this.getRespJson() != null ? this.getRespJson().toString() : "{}") + "\n" +
 				"Response status: " + this.getRespStatus() + "\n";

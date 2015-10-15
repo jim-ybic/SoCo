@@ -64,7 +64,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<HttpObject> {
             System.err.flush();
             
             if(this._cMain != null){
-            	this._cMain.setTestCaseResp(content.content().toString(CharsetUtil.UTF_8));
+            	String cont = content.content().toString(CharsetUtil.UTF_8);
+            	Log.debug("Content: " + cont);
+            	this._cMain.setTestCaseResp(cont);
             }
             else
             	Log.debug("Not set the main instance");

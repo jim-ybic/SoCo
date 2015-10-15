@@ -192,8 +192,7 @@ public class AppUserMessageHandler implements AppMessageHandler {
 							int rows = uc.createUser(user);
 							if (rows > 0){
 								/* it expired after one month */
-								AuthenticationTokenController atc = new AuthenticationTokenController();
-								AuthenticationToken auToken = atc.generateTokenForUser(user);
+								AuthenticationToken auToken = UserAuthentication.generateTokenForUser(user);
 								// save user role
 								UserRole ur = new UserRole();
 								RoleController rc = new RoleController();
@@ -289,35 +288,25 @@ public class AppUserMessageHandler implements AppMessageHandler {
 					try {
 						String email = json.getString(FIELD_EMAIL);
 						String password = json.getString(FIELD_PASSWORD);
-					    UserController uc = new UserController();
 					    User user = new User();
 					    user.setEmail(email);
-					    user = uc.hasByUIdOrEmail(user);
-					    if(user != null ){
-					    	if(user.getUserPlainPassword().equals(password)){
-					    		// email and password are correct
-					    		// generate token for user
-					    		AuthenticationTokenController atc = new AuthenticationTokenController();
-								AuthenticationToken auToken = atc.generateTokenForUser(user);
-								// set response
-								String resp = AppResponseHandler.getLoginSuccessResponse(200, user.getId(), auToken.getToken(), user.getIsValidated().toString());
-								this.setHttpStatus(OK);
-								this.setHttpResponseContent(resp);
-								ret = true;
-					    	} else {
-					    		// password wrong
-					    		Log.warn("Password is wrong for email: " + email);
-					    		property = "password";
-					    		message = "Password is wrong for this email.";
-					    		error_code = 11;
-					    	}    	
+					    user.setUserPlainPassword(password);
+					    if(UserAuthentication.authentication(user)){
+					    	// email and password are correct
+				    		// generate token for user
+							AuthenticationToken auToken = UserAuthentication.generateTokenForUser(user);
+							// set response
+							String resp = AppResponseHandler.getLoginSuccessResponse(200, user.getId(), auToken.getToken(), user.getIsValidated().toString());
+							this.setHttpStatus(OK);
+							this.setHttpResponseContent(resp);
+							ret = true;
 					    } else {
-					    	//user not existent
-					    	Log.warn("There is no user for email: " + email);
-					    	property = "email";
-					    	message = "The email is not registed.";
-					    	error_code = 12;
-					    }
+				    		// password wrong
+				    		Log.warn("Email or password is wrong.");
+				    		property = "Email or password";
+				    		message = "Email or password is wrong.";
+				    		error_code = 11;
+				    	} 
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -483,8 +472,7 @@ public class AppUserMessageHandler implements AppMessageHandler {
 								// generate token for user
 								User user = new User();
 								user.setId(fbUser.getUid());
-					    		AuthenticationTokenController atc = new AuthenticationTokenController();
-								AuthenticationToken auToken = atc.generateTokenForUser(user);
+								AuthenticationToken auToken = UserAuthentication.generateTokenForUser(user);
 								if(null != auToken){
 									String token = auToken.getToken();
 									String resp = AppResponseHandler.getSocialLoginSuccessResponse(200, fbUser.getUid(), token);

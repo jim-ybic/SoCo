@@ -15,6 +15,8 @@ public class User implements BaseTable {
     private static final long serialVersionUID = 3405171284950529637L;
     
     private static final String tableName = "user";
+    
+    private String updateString = "";
 
     /* identify */
     private long id;
@@ -84,6 +86,7 @@ public class User implements BaseTable {
 
     
     public User(){
+    	this.updateString = "";
         this.id = 0;
         this.userName = "";
         this.userEncryptPassword = "";

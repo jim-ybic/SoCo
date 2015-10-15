@@ -5,6 +5,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/socoUtility"/>
     <classpathentry combineaccessrules="false" kind="src" path="/socoDBTable"/>
     <classpathentry combineaccessrules="false" kind="src" path="/socoRDB"/>
-    <classpathentry combineaccessrules="false" kind="src" path="/socoSecurity"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

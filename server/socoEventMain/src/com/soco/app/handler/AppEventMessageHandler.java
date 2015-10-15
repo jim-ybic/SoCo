@@ -19,15 +19,26 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.soco.algorithm.event.EventInfor;
+import com.soco.db.event.EventController;
+import com.soco.event.Event;
 import com.soco.log.Log;
+import com.soco.security.AuthenticationToken;
+import com.soco.security.authentication.UserAuthentication;
 
 public class AppEventMessageHandler implements AppMessageHandler {
 
-	private static final String[] EVENT_CMD_ARRAY = { "event" };
+	private static final String[] EVENT_CMD_ARRAY = { "event", "suggest_event" };
 	private static ArrayList<String> _cmdList = new ArrayList<String>();
 	
+	private static final String FIELD_USER_ID = "user_id";
+	private static final String FIELD_TOKEN = "token";
 	private static final String FIELD_NAME = "name";
-	
+	private static final String FIELD_ADDRESS = "address";
+	private static final String FIELD_LAT = "lat";
+	private static final String FIELD_LON = "lon";
+	private static final String FIELD_DESCRIPTION = "description";
+	private static final String FIELD_CITY = "city";
 	
 	private HttpResponseStatus _http_status;
 	private String _http_response_content;
@@ -108,9 +119,148 @@ public class AppEventMessageHandler implements AppMessageHandler {
 		this._http_response_content = _http_response_content;
 	}
 	
+	/*
+	 * Event post method to create a event
+	 * param input: json, this is request message how/what to create
+	 * return success is true, otherwise false
+	 * */
 	public boolean post_event_v1(JSONObject json, String param){
 		Log.infor("In event post.");
 		Log.debug("request: " + json.toString());
+		boolean ret = false;
+		String property = "";
+		String message = "";
+		String more = "";
+		int error_code = 0;
+		try {
+			if(json.has(FIELD_USER_ID)){
+				if(json.has(FIELD_TOKEN)){
+					if(json.has(FIELD_NAME)){
+						if(json.has(FIELD_ADDRESS)){
+							if(json.has(FIELD_LAT)){
+								if(json.has(FIELD_LON)){
+									//// authenticate user
+									AuthenticationToken auToken = new AuthenticationToken();
+									auToken.setUId(json.getLong(FIELD_USER_ID));
+									auToken.setToken(json.getString(FIELD_TOKEN));
+									if(UserAuthentication.authentication(auToken)){
+										Event event = new Event();
+										EventController eController = new EventController();
+										
+										String description = "";
+										if(json.has(FIELD_DESCRIPTION)){
+											description = json.getString(FIELD_DESCRIPTION);
+										}
+										String city = "";
+										if(json.has(FIELD_CITY)){
+											city = json.getString(FIELD_CITY);
+										}
+										//TODO : area code
+										long eid = EventInfor.getEID(1, 1);
+										event.setId(eid);
+										event.setName(json.getString(FIELD_NAME));
+										event.setAddress(FIELD_ADDRESS);
+										event.setLat(json.getDouble(FIELD_LAT));
+										event.setLon(json.getDouble(FIELD_LON));
+										event.setDescription(description);
+										event.setCity(city);
+										//
+										if(eController.createEvent(event) > 0){
+											// set response
+											String resp = AppResponseHandler.getEventPostSuccessResponse(200);
+											this.setHttpStatus(OK);
+											this.setHttpResponseContent(resp);
+											ret = true;
+										} else {
+											Log.error("Can't create event in database.");
+											property = "";
+											message = "Can't create event in database";
+											error_code = 13;
+										}
+									} else {
+										Log.error("Authentication is failed, please to check the user id and token.");
+										property = "";
+										message = "Authentication is failed, please to check the user id and token.";
+										error_code = 13;
+									}
+								} else {
+									Log.error("There is no longitude in request.");
+									property = "lon";
+									message = "There is no longitude in request.";
+									error_code = 13;
+								}
+							} else {
+								Log.error("There is no latitude in request.");
+								property = "lat";
+								message = "There is no latitude in request.";
+								error_code = 13;
+							}
+						} else {
+							Log.error("There is no address in request.");
+							property = "address";
+							message = "There is no address in request.";
+							error_code = 13;
+						}
+					} else {
+						Log.error("There is no name in request.");
+						property = "name";
+						message = "There is no name in request.";
+						error_code = 13;
+					}
+				} else {
+					Log.error("There is no token in request.");
+					property = "token";
+					message = "There is no token in request.";
+					error_code = 13;
+				}
+			} else {
+				Log.error("There is no user id in request.");
+				property = "user_id";
+				message = "There is no user id in request.";
+				error_code = 13;
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Log.error("There is an exception.");
+			property = "exception";
+			message = "There is an exception.";
+			more = e.getMessage();
+			error_code = 13;
+		}
+		if(!ret){
+			String resp = AppResponseHandler.getEventPostFailureResponse(400, error_code, property, message, more);
+			this.setHttpStatus(HttpResponseStatus.BAD_REQUEST);
+			this.setHttpResponseContent(resp);
+		}
+
+		return ret;
+	}
+	
+	/*
+	 * Suggest event get method to get the suggestion event for user.
+	 * param input: json, this is request message how to suggest
+	 * return success is true, otherwise false
+	 * */
+	public boolean get_suggest_event_v1(JSONObject json, String param){
+		Log.infor("In suggest event get.");
+		Log.debug("request: " + json.toString());
+		
+		if(json != null){
+			if(json.has(FIELD_USER_ID)){
+				if(json.has(FIELD_TOKEN)){
+					if(json.has(FIELD_NAME)){
+						if(json.has(FIELD_ADDRESS)){
+							if(json.has(FIELD_LAT)){
+								if(json.has(FIELD_LON)){
+									
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 		
 		this.setHttpStatus(getHttpStatus());
 		this.setHttpResponseContent("{}");
