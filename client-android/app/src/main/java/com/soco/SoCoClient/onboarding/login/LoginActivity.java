@@ -351,7 +351,7 @@ public class LoginActivity extends ActionBarActivity {
             }
             else{
                 Log.e(tag, "login normal fail, notify user");
-                Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Fail, please check password and try again.", Toast.LENGTH_SHORT).show();
             }
 
             pd.dismiss();

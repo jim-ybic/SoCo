@@ -66,5 +66,7 @@
     <string name="title_activity_group_members">Group Members</string>
 
     <string name="eventtitle">Event Title</string>
+    <string name="title_activity_my_profile">My Profile</string>
+    <string name="title_activity_create_event">Create Event</string>
 
 </resources>

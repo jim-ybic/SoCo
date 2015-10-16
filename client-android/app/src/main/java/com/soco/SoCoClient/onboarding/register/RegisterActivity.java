@@ -80,15 +80,6 @@ public class RegisterActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class SureButtonListener implements android.content.DialogInterface.OnClickListener{
-
-        public void onClick(DialogInterface dialog, int which) {
-            //点击“确定按钮”取消对话框
-            dialog.cancel();
-        }
-
-    }
-
     public void register(View view){
         Log.v(tag, "tap on register, set global variables");
         if (!validateInput()) {
@@ -179,4 +170,5 @@ public class RegisterActivity extends ActionBarActivity {
             pd.dismiss();
         }
     };
+
 }

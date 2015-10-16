@@ -234,11 +234,12 @@
         </activity>
         <activity
             android:name=".events.common.EventDetailsActivity"
-            android:label="@string/title_activity_activity_event_details">
-            <!--android:parentActivityName=".dashboard.Dashboard" >-->
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value=".dashboard.Dashboard" />-->
+            android:label="@string/title_activity_activity_event_details" >
+
+            <!-- android:parentActivityName=".dashboard.Dashboard" > -->
+            <!-- <meta-data -->
+            <!-- android:name="android.support.PARENT_ACTIVITY" -->
+            <!-- android:value=".dashboard.Dashboard" /> -->
         </activity>
         <activity
             android:name=".events.common.JoinEventActivity"
@@ -285,7 +286,7 @@
         </activity>
         <activity
             android:name=".userprofile.UserProfileActivity"
-            android:label="@string/title_activity_activity_person_details">
+            android:label="@string/title_activity_activity_person_details" >
         </activity>
         <activity
             android:name=".friends.suggested.AddFriendActivity"
@@ -318,6 +319,22 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".groups.GroupDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".userprofile.MyProfileActivity"
+            android:label="@string/title_activity_my_profile"
+            android:parentActivityName=".dashboard.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.dashboard.Dashboard" />
+        </activity>
+        <activity
+            android:name=".events.CreateEventActivity"
+            android:label="@string/title_activity_create_event"
+            android:parentActivityName=".userprofile.MyProfileActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.userprofile.MyProfileActivity" />
         </activity>
     </application>
 

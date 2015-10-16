@@ -29,7 +29,7 @@ import com.soco.SoCoClient.secondary.notifications.ActivityNotifications;
 
 import java.util.ArrayList;
 
-public class FragmentSuggestedFriends extends Fragment implements View.OnClickListener {
+public class SuggestedFriendsFragment extends Fragment implements View.OnClickListener {
 
     static String tag = "SuggestedFriends";
 
@@ -309,23 +309,6 @@ public class FragmentSuggestedFriends extends Fragment implements View.OnClickLi
         if (id == R.id.friends) {
             Log.d(tag, "tap menu item: contacts");
             Intent i = new Intent(getActivity(), ActivityAllFriends.class);
-            startActivity(i);
-        }
-
-        //secondary functions
-        else if (id == R.id.profile){
-            Log.d(tag, "click on menu: profile");
-            Intent i = new Intent(getActivity().getApplicationContext(), ActivityProfile.class);
-            startActivity(i);
-        }
-        else if (id == R.id.notifications){
-            Log.d(tag, "click on menu: notifications");
-            Intent i = new Intent(getActivity().getApplicationContext(), ActivityNotifications.class);
-            startActivity(i);
-        }
-        else if (id == R.id.chats){
-            Log.d(tag, "click on menu: chats");
-            Intent i = new Intent(getActivity().getApplicationContext(), ActivityChats.class);
             startActivity(i);
         }
 

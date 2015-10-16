@@ -30,6 +30,7 @@ import com.soco.SoCoClient.common.ui.andtinder.view.EventCardStackAdapter;
 import com.soco.SoCoClient.secondary.settings.ActivityProfile;
 import com.soco.SoCoClient.secondary.chat.ActivityChats;
 import com.soco.SoCoClient.secondary.notifications.ActivityNotifications;
+import com.soco.SoCoClient.userprofile.MyProfileActivity;
 
 public class SuggestedEventsFragment extends Fragment implements View.OnClickListener {
 
@@ -335,7 +336,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         //secondary functions
         else if (id == R.id.profile){
             Log.d(tag, "click on menu: profile");
-            Intent i = new Intent(getActivity().getApplicationContext(), ActivityProfile.class);
+            Intent i = new Intent(getActivity().getApplicationContext(), MyProfileActivity.class);
             startActivity(i);
         }
         else if (id == R.id.notifications){
