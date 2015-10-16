@@ -102,6 +102,9 @@
         <service
             android:name=".onboarding.login.service.LoginNormalService"
             android:enabled="true" />
+        <service
+            android:name=".onboarding.register.service.RegisterService"
+            android:enabled="true" />
 
         <activity
             android:name=".events._ref.ActivityLocationActivity"

@@ -83,7 +83,6 @@ public class LoginViaFacebookService extends IntentService {
                     }
                 }
             }
-
             count++;
             requestStatus = socoApp.facebookUserinfoReady;
         }
@@ -166,25 +165,27 @@ public class LoginViaFacebookService extends IntentService {
         try {
             JSONObject json = new JSONObject(response.toString());
 
-            String status = json.getString(JsonKeys.STATUS);
-            String user_id = json.getString(JsonKeys.USER_ID);
-            String token = json.getString(JsonKeys.TOKEN);
-            String error_code = json.getString(JsonKeys.ERROR_CODE);
-            String property = json.getString(JsonKeys.PROPERTY);
-            String message = json.getString(JsonKeys.MESSAGE);
-            String more_info = json.getString(JsonKeys.MORE_INFO);
-            Log.d(tag, "social login response," +
-                            " status: " + status + ", user_id: " + user_id + ", token: " + token
-                            + ", error code: " + error_code + ", property" + property
-                            + ", message: " + message + ", more_info: " + more_info);
-
-            if(status.equals(HttpStatus.SUCCESS)){
+            int status = json.getInt(JsonKeys.STATUS);
+            if(status == HttpStatus.SUCCESS) {
                 Log.d(tag, "login via Facebook: SUCCESS, update status flag");
                 socoApp.loginViaFacebookStatus = true;
+
+                String user_id = json.getString(JsonKeys.USER_ID);
+                String token = json.getString(JsonKeys.TOKEN);
+                Log.d(tag, "login success, " +
+                                "user id: " + user_id + ", token: " + token
+                );
             }
-            else {
+            else{
                 Log.d(tag, "login via Facebook: FAIL, update status flag");
                 socoApp.loginViaFacebookStatus = false;
+
+                String error_code = json.getString(JsonKeys.ERROR_CODE);
+                String property = json.getString(JsonKeys.PROPERTY);
+                String message = json.getString(JsonKeys.MESSAGE);
+                String more_info = json.getString(JsonKeys.MORE_INFO);
+                Log.e(tag, "login fail, error code: " + error_code + ", message: " + message
+                        + ", more info: " + more_info);
             }
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());

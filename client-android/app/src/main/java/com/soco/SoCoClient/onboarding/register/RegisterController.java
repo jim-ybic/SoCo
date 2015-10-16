@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.soco.SoCoClient.common.HttpStatus;
-import com.soco.SoCoClient.common.ReturnCode;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
@@ -12,6 +11,7 @@ import com.soco.SoCoClient.common.util.SocoApp;
 
 import org.json.JSONObject;
 
+@Deprecated
 public class RegisterController {
 
     static final String tag = "RegisterController";
@@ -54,7 +54,7 @@ public class RegisterController {
         }
     }
 
-    public static Object request(
+    static Object request(
             String url,
             String name,
             String email,
@@ -84,7 +84,7 @@ public class RegisterController {
         return HttpUtil.executeHttpPost(url, data);
     }
 
-    public static boolean parse(Object response) {
+    static boolean parse(Object response) {
         Log.d(tag, "parse register response: " + response.toString());
 
         try {
@@ -104,11 +104,11 @@ public class RegisterController {
 
             if(status.equals(HttpStatus.SUCCESS)){
                 Log.d(tag, "register normal: SUCCESS, update status flag");
-                socoApp.registerStatus = true;
+                socoApp.registerResult = true;
             }
             else {
                 Log.d(tag, "register normal: FAIL, update status flag");
-                socoApp.registerStatus = false;
+                socoApp.registerResult = false;
             }
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());

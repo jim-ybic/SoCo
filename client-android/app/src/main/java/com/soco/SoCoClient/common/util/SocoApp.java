@@ -274,15 +274,22 @@ public class SocoApp extends Application {
 
     //environment
     public static boolean CAN_SKIP_FACEBOOK_LOGIN = true;
-    public static boolean SKIP_LOGIN = true;
+    public static boolean SKIP_LOGIN = false;
+    public static boolean USE_SIMILATOR_REGISTER = true;
+    public static boolean USE_SIMILATOR_LOGIN_NORMAL = true;
 
     //onboarding
     public String registerEmail;
     public String registerPassword;
-    public boolean registerStatus;
+    public String registerName;
+    public String registerPhone;
+    public String registerLocation;
+    public boolean registerResponse;
+    public boolean registerResult;
     public String loginEmail;
     public String loginPassword;
-    public boolean loginNormalStatus;
+    public boolean loginNormalResponse;
+    public boolean loginNormalResult;
     public GraphResponse facebookUserinfoResponse;
     public boolean facebookUserinfoReady;
     public boolean loginViaFacebookStatus;

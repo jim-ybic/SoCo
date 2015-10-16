@@ -1,8 +1,11 @@
 package com.soco.SoCoClient.onboarding.login;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -51,6 +54,11 @@ public class LoginActivity extends ActionBarActivity {
 //    public static int REGISTER_RETRY = 10;
 //    public static int REGISTER_WAIT = 1000;    //ms
 
+
+    static final int WAIT_INTERVAL_IN_SECOND = 1;
+    static final int WAIT_ITERATION = 10;
+    static final int THOUSAND = 1000;
+
     // Local views
     EditText et_login_email;
     EditText et_login_password;
@@ -72,6 +80,8 @@ public class LoginActivity extends ActionBarActivity {
 
     Context context;
     SocoApp socoApp;
+
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,8 +213,7 @@ public class LoginActivity extends ActionBarActivity {
 //        startActivity(intent);
 //    }
 
-
-    private void loginViaFacebook(){
+    private void loginViaFacebook() {
         Log.v(tag, "send login info to server");
         LoginController.requestFacebookUserInfo(context);
 
@@ -219,17 +228,19 @@ public class LoginActivity extends ActionBarActivity {
 
     public void loginNormal (View view) {
         Log.v(tag, "tap login normal");
+        if(!validateInput()){
+            Log.e(tag, "error validating error");
+            return;
+        }
 
-        socoApp.loginEmail = et_login_email.getText().toString();
-        socoApp.loginPassword = et_login_password.getText().toString();
-
-        Log.v(tag, "start login normal service, login email " + et_login_email + ", logig password " + et_login_password);
-        Intent i = new Intent(this, LoginNormalService.class);
-        startService(i);
-
-        Log.v(tag, "start dashboard");
-        Intent intent = new Intent(this, Dashboard.class);
-        startActivity(intent);
+        Log.v(tag, "show progress dialog, start register");
+        pd = ProgressDialog.show(this, "Login in progress", "Please wait...");
+        new Thread(new Runnable(){
+            public void run(){
+                loginNormalInBackground();
+                loginNormalHandler.sendEmptyMessage(0);
+            }
+        }).start();
 
 
 //        profile.ready(getApplicationContext(), loginEmail);
@@ -289,6 +300,64 @@ public class LoginActivity extends ActionBarActivity {
 //        }
     }
 
+    boolean validateInput(){
+        socoApp.loginEmail = et_login_email.getText().toString();
+        socoApp.loginPassword = et_login_password.getText().toString();
+
+        //todo
+        //validate details
+
+        return true;
+    }
+
+    private void loginNormalInBackground() {
+        Log.v(tag, "start login normal service, login email " + et_login_email + ", logig password " + et_login_password);
+        Intent i = new Intent(this, LoginNormalService.class);
+        startService(i);
+
+        Log.v(tag, "set response flag as false");
+        socoApp.loginNormalResponse = false;
+
+        Log.v(tag, "wait and check response status");
+        int count = 0;
+        while(!socoApp.loginNormalResponse && count < WAIT_ITERATION) {   //wait for 10s
+            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
+            while (System.currentTimeMillis() < endTime) {
+                synchronized (this) {
+                    try {
+                        wait(endTime - System.currentTimeMillis());
+                    } catch (Exception e) {
+                        Log.e(tag, "Error in waiting");
+                    }
+                }
+            }
+            count++;
+        }
+    }
+
+    Handler loginNormalHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.v(tag, "handle receive message and dismiss dialog");
+
+            if(socoApp.loginNormalResult){
+                Log.d(tag, "login normal success, finish this screen and login to dashboard");
+                Toast.makeText(getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
+
+                Log.v(tag, "start dashboard");
+                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                startActivity(intent);
+            }
+            else{
+                Log.e(tag, "login normal fail, notify user");
+                Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
+            }
+
+            pd.dismiss();
+        }
+    };
+
     public void forgotpassword (View view) {
         Intent i = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
         startActivity(i);
@@ -307,12 +376,13 @@ public class LoginActivity extends ActionBarActivity {
 //                        + ", " + data.toString()
         );
 
-        if(callbackManager == null)
-            Log.e(tag, "callbackmanager is null");
-        else
-            callbackManager.onActivityResult(requestCode, resultCode, data);
+        if(callbackManager == null) {
+            Log.e(tag, "callbackmanager is null, recreate callbackmanager");
+            callbackManager = CallbackManager.Factory.create();
+        }
+        callbackManager.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == RequestCode.REGISTER && socoApp.registerStatus){
+        if(requestCode == RequestCode.REGISTER && socoApp.registerResult){
             Log.v(tag, "register success - continue to login and goto dashboard");
 
             socoApp.loginEmail = socoApp.registerEmail;
