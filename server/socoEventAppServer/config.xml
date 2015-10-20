@@ -1,9 +1,0 @@
-<root>
-    <Server name="EventServer">
-         <DBUrl>jdbc:mysql://socodb1.cke0xhfpla2s.ap-southeast-1.rds.amazonaws.com</DBUrl>
-         <DBName>socoserver1</DBName>
-         <DBPort>3306</DBPort>
-         <DBUser>soco1</DBUser>
-         <DBPassword>soco123456</DBPassword>
-    </Server>
-</root>

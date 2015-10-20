@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.util.Date"/>
-<fullyQualifiedTypeName name="com.soco.db.user.FacebookUserController"/>
-<fullyQualifiedTypeName name="com.soco.user.FacebookUser"/>
-<fullyQualifiedTypeName name="java.sql.Timestamp"/>
-<fullyQualifiedTypeName name="com.soco.log.Log"/>
-</qualifiedTypeNameHistroy>
