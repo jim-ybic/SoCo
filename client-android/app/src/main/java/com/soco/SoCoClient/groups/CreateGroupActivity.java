@@ -1,31 +1,27 @@
-package com.soco.SoCoClient.userprofile;
+package com.soco.SoCoClient.groups;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.events.CreateEventActivity;
-import com.soco.SoCoClient.groups.CreateGroupActivity;
 
-public class MyProfileActivity extends ActionBarActivity {
+public class CreateGroupActivity extends ActionBarActivity {
 
-    static final String tag = "MyProfileActivity";
+    static final String tag = "CreateGroupActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_profile);
+        setContentView(R.layout.activity_create_group);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_my_profile, menu);
+        getMenuInflater().inflate(R.menu.menu_create_group, menu);
         return true;
     }
 
@@ -43,20 +39,4 @@ public class MyProfileActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void createEvent(View view){
-        Log.v(tag, "create event");
-
-        Intent i = new Intent(this, CreateEventActivity.class);
-        startActivity(i);
-    }
-
-    public void createGroup(View view){
-        Log.v(tag, "create group");
-
-        Intent i = new Intent(this, CreateGroupActivity.class);
-        startActivity(i);
-    }
-
-
 }

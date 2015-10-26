@@ -51,8 +51,8 @@ public class CreateEventActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void done(View view){
-        Log.v(tag, "tap on done");
+    public void apply(View view){
+        Log.v(tag, "tap on apply");
 
         if(!validateInput()){
             Log.e(tag, "error validating error");

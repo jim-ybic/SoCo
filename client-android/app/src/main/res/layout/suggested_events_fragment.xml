@@ -151,14 +151,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <!--<Button-->
+            <!--android:id="@+id/detail"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="Detail"-->
+            <!--android:textSize="12dp"-->
+            <!--android:drawableLeft="@drawable/ic_action_about"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:paddingLeft="20dp" />-->
         <Button
-            android:id="@+id/detail"
+            android:id="@+id/like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Detail"
+            android:text="163"
             android:textSize="12dp"
-            android:drawableLeft="@drawable/ic_action_about"
+            android:drawableLeft="@drawable/ic_action_favorite"
             android:background="@android:color/white"
             android:paddingLeft="20dp" />
         <!--<Button-->
@@ -180,11 +190,24 @@
             android:layout_weight="1"
             android:text="Join"
             android:textSize="12dp"
-            android:drawableLeft="@drawable/ic_action_accept_black"
             android:textColor="@android:color/holo_blue_dark"
             android:background="@android:color/white"
             android:paddingLeft="20dp" />
     </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View all events"
+            android:gravity="center_horizontal"
+            android:textStyle="bold" />
+        </LinearLayout>
 
     <!--<TableLayout-->
     <!--android:layout_width="match_parent"-->

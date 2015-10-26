@@ -5,24 +5,37 @@
     android:layout_width="fill_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@android:color/white">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="10dp"
+        android:id="@+id/banner"
+        android:background="#ffd8d8d8">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="upload photo"
+            android:onClick="uploadPhoto"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_alignParentTop="true"
         android:padding="10dp"
         android:id="@+id/eventname">
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="40sp"
-            android:hint="Event Name"
-            android:gravity="center_horizontal" />
+            android:hint="Title"/>
 
     </LinearLayout>
 
@@ -30,7 +43,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:id="@+id/eventdetails">
+        android:id="@+id/eventdetails"
+    android:background="@android:color/white">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -38,34 +52,41 @@
             android:orientation="vertical"
             android:padding="10dp">
 
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:id="@+id/color"
+                android:paddingTop="20dp">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="Main theme color"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:id="@+id/description">
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="DESCRIPTION"
-                    android:textSize="20sp" />
+                android:id="@+id/location"
+                android:paddingTop="20dp">
                 <EditText
-                    android:id="@+id/desc"
+                    android:id="@+id/loc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Type in the details of the event"/>
+                    android:hint="Location"/>
             </LinearLayout>
+
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/datetime">
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="DATE &amp; TIME"
-                    android:textSize="20sp" />
+                android:id="@+id/datetime"
+                android:paddingTop="20dp">
+
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -75,50 +96,128 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Pick a date"
+                        android:hint="Date"
                         android:onClick="date"/>
                     <EditText
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Pick a time"
+                        android:hint="Time"
                         android:onClick="time"/>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:id="@+id/location">
+                android:id="@+id/introduction"
+                android:paddingTop="20dp">
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="LOCATION"
-                    android:textSize="20sp" />
+                    android:text="Introduction"
+                    android:textColor="@android:color/black" />
+
                 <EditText
-                    android:id="@+id/loc"
+                    android:id="@+id/intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:inputType="textMultiLine"
+                    android:hint="Say something"
+                    android:gravity="top" />
+            </LinearLayout>
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/ticketing"
+                android:paddingTop="20dp">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Add a location"/>
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/ccy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="HKD"
+                        android:layout_weight="1"/>
+                    <EditText
+                        android:id="@+id/amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:hint="0"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add another ticket price"/>
             </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/banner">
-                <TextView
+                android:id="@+id/groups"
+                android:paddingTop="20dp">
+                <EditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="BANNER"
-                    android:textSize="20sp" />
-                <Button
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:textSize="10dp"
-                    android:drawableTop="@drawable/ic_action_new"/>
+                    android:hint="Organizing Group"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Add another group"/>
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/additional"
+                android:paddingTop="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Additional information"
+                    android:textColor="@android:color/black" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:hint="Say something more"
+                    android:inputType="textMultiLine"
+                    android:gravity="top"/>
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/category"
+                android:paddingTop="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Category (Multiple Selection)"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/advance"
+                android:paddingTop="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Advanced options"
+                    android:textColor="@android:color/black"/>
             </LinearLayout>
 
 
@@ -128,17 +227,27 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:id="@+id/actionbuttons">
+        android:orientation="vertical"
+        android:id="@+id/actionbuttons"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
         <Button
             android:id="@+id/save"
             android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="10dp"
-            android:text="Done"
-            android:onClick="done"/>
+            android:text="Apply"
+            android:onClick="apply"
+            android:textColor="@android:color/white"
+            android:background="@android:color/black" />
+        <Button
+            android:id="@+id/preview"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preview"
+            android:onClick="preview"
+            android:textColor="@android:color/black" />
     </LinearLayout>
 
 </LinearLayout>

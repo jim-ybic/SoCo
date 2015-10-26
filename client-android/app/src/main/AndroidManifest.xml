@@ -336,6 +336,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.soco.SoCoClient.userprofile.MyProfileActivity" />
         </activity>
+        <activity
+            android:name=".groups.CreateGroupActivity"
+            android:label="@string/title_activity_create_group" >
+        </activity>
     </application>
 
 </manifest>

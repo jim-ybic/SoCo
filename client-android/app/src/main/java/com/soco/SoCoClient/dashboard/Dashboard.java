@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.common.EventBuddiesActivity;
+import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.events.common.EventOrganizersActivity;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.friends.common.CommonFriendsActivity;
@@ -83,8 +84,8 @@ public class Dashboard extends ActionBarActivity implements
                     .setTabListener(this));
         }
 
-        Log.v(tag, "set action bar tab background color");
-        actionBar.setStackedBackgroundDrawable(colorDrawable);
+//        Log.v(tag, "set action bar tab background color");
+//        actionBar.setStackedBackgroundDrawable(colorDrawable);
 
 
         Log.v(tag, "Set listener");
@@ -161,6 +162,12 @@ public class Dashboard extends ActionBarActivity implements
     public void personevents (View view){
         Log.d(tag, "show the person's upcoming events");
         Intent i = new Intent(getApplicationContext(), UserEventsActivity.class);
+        startActivity(i);
+    }
+
+    public void eventdetails (View view){
+        Log.d(tag, "event detail");
+        Intent i = new Intent(getApplicationContext(), EventDetailsActivity.class);
         startActivity(i);
     }
 
