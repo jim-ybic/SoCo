@@ -32,10 +32,11 @@
         android:padding="10dp"
         android:id="@+id/eventname">
         <EditText
-            android:id="@+id/name"
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title"/>
+            android:hint="Title"
+            android:text="test event title" />
 
     </LinearLayout>
 
@@ -70,10 +71,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:id="@+id/location"
+                android:id="@+id/locationarea"
                 android:paddingTop="20dp">
                 <EditText
-                    android:id="@+id/loc"
+                    android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Location"/>
@@ -112,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:id="@+id/introduction"
+                android:id="@+id/introductionarea"
                 android:paddingTop="20dp">
                 <TextView
                     android:layout_height="wrap_content"
@@ -121,7 +122,7 @@
                     android:textColor="@android:color/black" />
 
                 <EditText
-                    android:id="@+id/intro"
+                    android:id="@+id/introduction"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:inputType="textMultiLine"
@@ -232,21 +233,20 @@
         android:paddingRight="20dp">
         <Button
             android:id="@+id/save"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Apply"
             android:onClick="apply"
             android:textColor="@android:color/white"
-            android:background="@android:color/black" />
+            android:background="@drawable/round_reactangle_black" />
         <Button
             android:id="@+id/preview"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Preview"
             android:onClick="preview"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:background="@drawable/round_reactangle_white" />
     </LinearLayout>
 
 </LinearLayout>

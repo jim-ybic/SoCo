@@ -175,6 +175,10 @@ public class LoginViaFacebookService extends IntentService {
                 Log.d(tag, "login success, " +
                                 "user id: " + user_id + ", token: " + token
                 );
+
+                Log.v(tag, "save userid and token");
+                socoApp.user_id = user_id;
+                socoApp.token = token;
             }
             else{
                 Log.d(tag, "login via Facebook: FAIL, update status flag");
@@ -190,6 +194,7 @@ public class LoginViaFacebookService extends IntentService {
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();
+            socoApp.loginViaFacebookStatus = false;
             return false;
         }
 

@@ -136,6 +136,7 @@ public class RegisterService extends IntentService {
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();
+            socoApp.registerResult = false;
             return false;
         }
 

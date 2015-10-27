@@ -29,8 +29,8 @@ public final class EventCardStackAdapter extends CardStackAdapter {
 			assert convertView != null;
 		}
 
-		((ImageView) convertView.findViewById(R.id.banner)).setImageDrawable(model.getCardImageDrawable());
-		((TextView) convertView.findViewById(R.id.title)).setText(model.getTitle());
+//		((ImageView) convertView.findViewById(R.id.banner)).setImageDrawable(model.getCardImageDrawable());
+//		((TextView) convertView.findViewById(R.id.title)).setText(model.getTitle());
 //		((TextView) convertView.findViewById(R.id.description)).setText(model.getDescription());
 
 		return convertView;

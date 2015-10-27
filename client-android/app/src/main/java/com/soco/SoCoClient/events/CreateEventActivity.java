@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.events;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
@@ -9,17 +10,30 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.events.service.CreateEventService;
 
 public class CreateEventActivity extends ActionBarActivity {
 
     static final String tag = "CreateEventActivity";
 
+    static final int WAIT_INTERVAL_IN_SECOND = 1;
+    static final int WAIT_ITERATION = 10;
+    static final int THOUSAND = 1000;
+
     SocoApp socoApp;
     ProgressDialog pd;
+
+    EditText mTitle;
+    EditText mLocation;
+    EditText mDate;
+    EditText mTime;
+    EditText mIntroduction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +41,8 @@ public class CreateEventActivity extends ActionBarActivity {
         setContentView(R.layout.activity_create_event);
 
         socoApp = (SocoApp) getApplicationContext();
+
+        findViews();
     }
 
     @Override
@@ -51,6 +67,14 @@ public class CreateEventActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    void findViews(){
+        mTitle = (EditText)findViewById(R.id.title);
+        mLocation = (EditText)findViewById(R.id.location);
+        mDate = (EditText)findViewById(R.id.date);
+        mTime = (EditText)findViewById(R.id.time);
+        mIntroduction = (EditText)findViewById(R.id.introduction);
+    }
+
     public void apply(View view){
         Log.v(tag, "tap on apply");
 
@@ -60,7 +84,7 @@ public class CreateEventActivity extends ActionBarActivity {
         }
 
         Log.v(tag, "show progress dialog, start register");
-        pd = ProgressDialog.show(this, "Register in progress", "Please wait...");
+        pd = ProgressDialog.show(this, "Saving event on server", "Please wait...");
         new Thread(new Runnable(){
             public void run(){
                 createEventInBackground();
@@ -80,9 +104,37 @@ public class CreateEventActivity extends ActionBarActivity {
 
     void createEventInBackground(){
 
-        //TODO
-        //start service to create event
-        //wait and check status
+        Log.v(tag, "create the event object");
+        Event e = new Event();
+        e.setTitle(mTitle.getText().toString());
+        e.setLocation(mLocation.getText().toString());
+        e.setDate(mDate.getText().toString());
+        e.setTime(mTime.getText().toString());
+        e.setIntroduction(mIntroduction.getText().toString());
+        socoApp.newEvent = e;
+
+        Log.v(tag, "start create event service");
+        Intent i = new Intent(this, CreateEventService.class);
+        startService(i);
+
+        Log.v(tag, "wait and check register status");
+        int count = 0;
+        while(!socoApp.createEventResponse && count < WAIT_ITERATION) {   //wait for 10s
+            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
+            while (System.currentTimeMillis() < endTime) {
+                synchronized (this) {
+                    try {
+                        wait(endTime - System.currentTimeMillis());
+                    } catch (Exception e1) {
+                        Log.e(tag, "Error in waiting: " + e1);
+                        e1.printStackTrace();
+                    }
+                }
+            }
+            count++;
+        }
+
     }
 
     Handler createEventHandler  = new Handler() {
@@ -93,6 +145,17 @@ public class CreateEventActivity extends ActionBarActivity {
             //// TODO: 10/16/2015
             //check flag for result
             //inform user
+
+            if(socoApp.createEventResponse && socoApp.createEventResult){
+                Log.d(tag, "create event successfully on server");
+                Toast.makeText(getApplicationContext(), "Event saved.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else {
+                Log.e(tag, "create event on server failed");
+                Toast.makeText(getApplicationContext(), "Event cannot save, please try again.", Toast.LENGTH_SHORT).show();
+            }
+
 
             pd.dismiss();
         }

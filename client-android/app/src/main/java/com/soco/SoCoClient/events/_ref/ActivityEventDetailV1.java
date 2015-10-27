@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.database.DataLoader;
-import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.events.model.EventV1;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,7 +30,7 @@ public class ActivityEventDetailV1 extends ActionBarActivity {
 
     Context context;
     DataLoader dataLoader;
-    Event event;
+    EventV1 eventV1;
     View rootView;
 
     //local view items
@@ -51,14 +51,14 @@ public class ActivityEventDetailV1 extends ActionBarActivity {
         if (extras != null) {
             int seq = extras.getInt(Config.EXTRA_EVENT_SEQ);
             Log.d(tag, "extra has seq " + seq);
-            event = dataLoader.loadEvent(seq);
+            eventV1 = dataLoader.loadEvent(seq);
 //            event.addContext(context);
-            Log.d(tag, "loaded event: " + event.toString());
+            Log.d(tag, "loaded event: " + eventV1.toString());
         }
 
         findViewItems();
         setTimedatePicker();
-        show(event);
+        show(eventV1);
     }
 
     void findViewItems() {
@@ -91,7 +91,7 @@ public class ActivityEventDetailV1 extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void show(Event e){
+    void show(EventV1 e){
         if(e == null){
             Log.e(tag, "event is null");
             return;
@@ -107,14 +107,14 @@ public class ActivityEventDetailV1 extends ActionBarActivity {
     public void save(View view){
         Log.d(tag, "save changes");
 
-        event.setName(et_name.getText().toString());
-        event.setDesc(et_desc.getText().toString());
-        event.setDate((et_date.getText().toString()));
-        event.setTime(et_time.getText().toString());
-        event.setLocation(et_location.getText().toString());
+        eventV1.setName(et_name.getText().toString());
+        eventV1.setDesc(et_desc.getText().toString());
+        eventV1.setDate((et_date.getText().toString()));
+        eventV1.setTime(et_time.getText().toString());
+        eventV1.setLocation(et_location.getText().toString());
 
 //        event.addContext(context);
-        event.save();
+        eventV1.save();
         Toast.makeText(getApplicationContext(), "Event saved", Toast.LENGTH_SHORT).show();
 
         return;

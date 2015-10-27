@@ -16,6 +16,7 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.events.allevents.AllEventsActivity;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.common.EventBuddiesActivity;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
@@ -36,8 +37,8 @@ public class Dashboard extends ActionBarActivity implements
 
     // Tab titles
     private String[] tabs = {
-            "Suggested Events",
-            "Suggested Friends",
+            "Events",
+            "Buddies",
 //            "Stream",
 //            "Messages"
     };
@@ -168,6 +169,12 @@ public class Dashboard extends ActionBarActivity implements
     public void eventdetails (View view){
         Log.d(tag, "event detail");
         Intent i = new Intent(getApplicationContext(), EventDetailsActivity.class);
+        startActivity(i);
+    }
+
+    public void allevents(View view){
+        Log.v(tag, "show all events");
+        Intent i = new Intent(getApplicationContext(), AllEventsActivity.class);
         startActivity(i);
     }
 

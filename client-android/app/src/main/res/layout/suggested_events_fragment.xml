@@ -170,7 +170,8 @@
             android:textSize="12dp"
             android:drawableLeft="@drawable/ic_action_favorite"
             android:background="@android:color/white"
-            android:paddingLeft="20dp" />
+            android:paddingLeft="20dp"
+            android:textStyle="bold" />
         <!--<Button-->
             <!--android:id="@+id/more"-->
             <!--android:layout_width="wrap_content"-->
@@ -192,7 +193,8 @@
             android:textSize="12dp"
             android:textColor="@android:color/holo_blue_dark"
             android:background="@android:color/white"
-            android:paddingLeft="20dp" />
+            android:paddingLeft="20dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -200,13 +202,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:clickable="true"
+        android:onClick="allevents">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="View all events"
             android:gravity="center_horizontal"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
         </LinearLayout>
 
     <!--<TableLayout-->

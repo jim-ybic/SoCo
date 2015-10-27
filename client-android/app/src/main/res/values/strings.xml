@@ -31,7 +31,7 @@
     <string name="title_show_active_activities">Agenda</string>
     <!-- <string name="title_activity_show_single_project_new">ShowSingleProjectNewActivity</string> -->
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_dashboard">event4us</string>
+    <string name="title_dashboard">My match</string>
     <string name="title_activity_contact_details">Contact</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_test">TestActivity</string>

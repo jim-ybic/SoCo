@@ -21,13 +21,12 @@ import android.view.ViewGroup;
 //import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 import com.soco.SoCoClient.R;
 
-import com.soco.SoCoClient.events.allevents.ActivityAllEvents;
-import com.soco.SoCoClient.events.common.EventDetailsActivity;
+import com.soco.SoCoClient.events.CreateEventActivity;
+import com.soco.SoCoClient.events.allevents.AllEventsActivity;
 import com.soco.SoCoClient.events.common.JoinEventActivity;
 import com.soco.SoCoClient.common.ui.andtinder.model.CardModel;
 import com.soco.SoCoClient.common.ui.andtinder.view.CardContainer;
 import com.soco.SoCoClient.common.ui.andtinder.view.EventCardStackAdapter;
-import com.soco.SoCoClient.secondary.settings.ActivityProfile;
 import com.soco.SoCoClient.secondary.chat.ActivityChats;
 import com.soco.SoCoClient.secondary.notifications.ActivityNotifications;
 import com.soco.SoCoClient.userprofile.MyProfileActivity;
@@ -102,7 +101,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 
 //        rootView.findViewById(R.id.eventfriends).setOnClickListener(this);
 //        rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
-        rootView.findViewById(R.id.detail).setOnClickListener(this);
+//        rootView.findViewById(R.id.detail).setOnClickListener(this);
 //        rootView.findViewById(R.id.more).setOnClickListener(this);
         rootView.findViewById(R.id.join).setOnClickListener(this);
 
@@ -330,7 +329,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         //primary function
         if (id == R.id.events){
             Log.d(tag, "click on menu: all events");
-            Intent i = new Intent(getActivity().getApplicationContext(), ActivityAllEvents.class);
+            Intent i = new Intent(getActivity().getApplicationContext(), AllEventsActivity.class);
             startActivity(i);
         }
         //secondary functions
@@ -347,6 +346,13 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         else if (id == R.id.chats){
             Log.d(tag, "click on menu: chats");
             Intent i = new Intent(getActivity().getApplicationContext(), ActivityChats.class);
+            startActivity(i);
+        }
+
+        //for testing
+        if (id == R.id.createevent){
+            Log.d(tag, "create new event");
+            Intent i = new Intent(getActivity().getApplicationContext(), CreateEventActivity.class);
             startActivity(i);
         }
 
@@ -552,11 +558,11 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //                Intent ieg = new Intent(getActivity().getApplicationContext(), ActivityEventGroups.class);
 //                startActivity(ieg);
 //                break;
-            case R.id.detail:
-                Log.d(tag, "event detail");
-                Intent ied = new Intent(getActivity().getApplicationContext(), EventDetailsActivity.class);
-                startActivity(ied);
-                break;
+//            case R.id.detail:
+//                Log.d(tag, "event detail");
+//                Intent ied = new Intent(getActivity().getApplicationContext(), EventDetailsActivity.class);
+//                startActivity(ied);
+//                break;
 //            case R.id.more:
 //                Log.d(tag, "show event details");
 //                Intent ied = new Intent(getActivity().getApplicationContext(), ActivityEventDetails.class);
@@ -567,7 +573,13 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                 Intent ije = new Intent(getActivity().getApplicationContext(), JoinEventActivity.class);
                 startActivity(ije);
                 break;
+//            case R.id.allevents:
+//                Log.v(tag, "show all events");
+//                Intent i = new Intent(getActivity().getApplicationContext(), AllEventsActivity.class);
+//                startActivity(i);
+//                break;
         }
     }
+
 
 }

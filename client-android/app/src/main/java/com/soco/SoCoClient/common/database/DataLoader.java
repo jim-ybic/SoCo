@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.soco.SoCoClient.common.model.Contact;
 import com.soco.SoCoClient.secondary.chat.model.SingleConversation;
-import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.events.model.EventV1;
 import com.soco.SoCoClient.secondary.chat.model.Message;
 import com.soco.SoCoClient.common.model.Person;
 import com.soco.SoCoClient.common.model.Task;
@@ -50,26 +50,26 @@ public class DataLoader {
         return tasks;
     }
 
-    public ArrayList<Event> loadEvents(){
+    public ArrayList<EventV1> loadEvents(){
         Log.v(tag, "load all events from db");
         db = dbHelper.getWritableDatabase();
 
         String query = "select * from " + Config.TABLE_EVENT;
         Cursor cursor = db.rawQuery(query, null);
 
-        ArrayList<Event> events = new ArrayList<>();
+        ArrayList<EventV1> eventV1s = new ArrayList<>();
         while(cursor.moveToNext()){
-            Event e = new Event(this.context, cursor);
+            EventV1 e = new EventV1(this.context, cursor);
             Log.v(tag, "loaded event from db: " + e.toString());
-            events.add(e);
+            eventV1s.add(e);
         }
 
-        Log.d(tag, events.size() + " events loaded from db");
+        Log.d(tag, eventV1s.size() + " events loaded from db");
         db.close();
-        return events;
+        return eventV1s;
     }
 
-    public Event loadEvent(int seq){
+    public EventV1 loadEvent(int seq){
         Log.v(tag, "load event from db for seq " + seq);
         db = dbHelper.getWritableDatabase();
 
@@ -78,7 +78,7 @@ public class DataLoader {
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(seq)});
 
         while(cursor.moveToNext()){
-            Event e = new Event(context, cursor);
+            EventV1 e = new EventV1(context, cursor);
             Log.v(tag, "loaded event from db: " + e.toString());
             return e;
         }

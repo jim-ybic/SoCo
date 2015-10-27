@@ -14,6 +14,7 @@ import com.facebook.GraphResponse;
 import com.soco.SoCoClient.common.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.common.model.Person;
 import com.soco.SoCoClient.common.model.Profile;
+import com.soco.SoCoClient.events.model.Event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -274,7 +275,7 @@ public class SocoApp extends Application {
 
     //environment
     public static boolean CAN_SKIP_FACEBOOK_LOGIN = true;
-    public static boolean SKIP_LOGIN = false;
+    public static boolean SKIP_LOGIN = true;
     public static boolean USE_SIMILATOR_REGISTER = true;
     public static boolean USE_SIMILATOR_LOGIN_NORMAL = true;
 
@@ -294,5 +295,12 @@ public class SocoApp extends Application {
     public boolean facebookUserinfoReady;
     public boolean loginViaFacebookStatus;
 
+    public String user_id;
+    public String token;
+
+    //create event
+    public Event newEvent;
+    public boolean createEventResponse;
+    public boolean createEventResult;
 
 }

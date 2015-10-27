@@ -121,6 +121,10 @@ public class LoginNormalService extends IntentService {
                 Log.d(tag, "login success, " +
                                 "user id: " + user_id + ", token: " + token
                 );
+
+                Log.v(tag, "save userid and token");
+                socoApp.user_id = user_id;
+                socoApp.token = token;
             }
             else {
                 Log.v(tag, "login fail");
@@ -136,6 +140,7 @@ public class LoginNormalService extends IntentService {
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();
+            socoApp.loginNormalResult = false;
             return ReturnCode.JSON_PARSE_ERROR;
         }
 

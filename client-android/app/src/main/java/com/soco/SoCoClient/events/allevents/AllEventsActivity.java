@@ -20,12 +20,12 @@ import com.soco.SoCoClient.common.database.DataLoader;
 import com.soco.SoCoClient.events._ref.ActivityEventDetailV1;
 import com.soco.SoCoClient.events.common.ui.EventListAdapter;
 import com.soco.SoCoClient.events.common.ui.EventListEntryItem;
-import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.events.model.EventV1;
 import com.soco.SoCoClient.common.ui.Item;
 
 import java.util.ArrayList;
 
-public class ActivityAllEvents extends ActionBarActivity {
+public class AllEventsActivity extends ActionBarActivity {
 
     static String tag = "AllEvents";
 
@@ -34,7 +34,7 @@ public class ActivityAllEvents extends ActionBarActivity {
 
     Context context;
     DataLoader dataLoader;
-    ArrayList<Event> events;
+    ArrayList<EventV1> eventV1s;
 
 
     @Override
@@ -44,7 +44,7 @@ public class ActivityAllEvents extends ActionBarActivity {
 
         context = getApplicationContext();
         dataLoader = new DataLoader(context);
-        events = dataLoader.loadEvents();
+        eventV1s = dataLoader.loadEvents();
 
         lv_active_programs = (ListView) findViewById(R.id.all_events);
         et_quick_add = ((EditText) findViewById(R.id.et_quickadd));
@@ -55,12 +55,12 @@ public class ActivityAllEvents extends ActionBarActivity {
 //        });
 
 
-        showEvents(events);
+        showEvents(eventV1s);
 
         lv_active_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Event e = events.get(position);
+                EventV1 e = eventV1s.get(position);
                 Log.d(tag, "tap on event: " + e.toString());
 
                 Intent i = new Intent(view.getContext(), ActivityEventDetailV1.class);
@@ -70,11 +70,11 @@ public class ActivityAllEvents extends ActionBarActivity {
         });
     }
 
-    void showEvents(ArrayList<Event> events) {
+    void showEvents(ArrayList<EventV1> eventV1s) {
         Log.v(tag, "show events to ui");
         ArrayList<Item> allListItems = new ArrayList<>();
 
-        for(Event e : events){
+        for(EventV1 e : eventV1s){
             allListItems.add(new EventListEntryItem(e.getName(), e.getDesc(), e.getDate()));
         }
 
@@ -88,14 +88,14 @@ public class ActivityAllEvents extends ActionBarActivity {
         Log.d(tag, "quick add event: " + name);
 
         Log.v(tag, "create new event");
-        Event e = new Event(getApplicationContext());
+        EventV1 e = new EventV1(getApplicationContext());
         e.setName(name);
 //        e.addContext(context);
         e.save();
 
         DataLoader dataLoader = new DataLoader(context);
-        events = dataLoader.loadEvents();
-        showEvents(events);
+        eventV1s = dataLoader.loadEvents();
+        showEvents(eventV1s);
 
         //clean up
         et_quick_add.setText("", TextView.BufferType.EDITABLE);
@@ -109,8 +109,8 @@ public class ActivityAllEvents extends ActionBarActivity {
 //        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigV1.VALUE_ACTIVITY_ACTIVE);
 //        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
 //        refreshList();
-        events = dataLoader.loadEvents();
-        showEvents(events);
+        eventV1s = dataLoader.loadEvents();
+        showEvents(eventV1s);
     }
 
     @Override
