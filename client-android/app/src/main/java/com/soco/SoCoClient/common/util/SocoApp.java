@@ -275,7 +275,7 @@ public class SocoApp extends Application {
 
     //environment
     public static boolean CAN_SKIP_FACEBOOK_LOGIN = true;
-    public static boolean SKIP_LOGIN = true;
+    public static boolean SKIP_LOGIN = false;
     public static boolean USE_SIMILATOR_REGISTER = true;
     public static boolean USE_SIMILATOR_LOGIN_NORMAL = true;
 
@@ -302,5 +302,8 @@ public class SocoApp extends Application {
     public Event newEvent;
     public boolean createEventResponse;
     public boolean createEventResult;
+
+    //event details
+    public Event currentEvent;
 
 }

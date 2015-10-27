@@ -21,12 +21,14 @@ import android.view.ViewGroup;
 //import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 import com.soco.SoCoClient.R;
 
+import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
 import com.soco.SoCoClient.events.common.JoinEventActivity;
 import com.soco.SoCoClient.common.ui.andtinder.model.CardModel;
 import com.soco.SoCoClient.common.ui.andtinder.view.CardContainer;
 import com.soco.SoCoClient.common.ui.andtinder.view.EventCardStackAdapter;
+import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.secondary.chat.ActivityChats;
 import com.soco.SoCoClient.secondary.notifications.ActivityNotifications;
 import com.soco.SoCoClient.userprofile.MyProfileActivity;
@@ -52,6 +54,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
     Context context;
 
     CardContainer mCardContainer;
+    SocoApp socoApp;
 
     //new variables
 //    DataLoader dataLoader;
@@ -65,7 +68,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 
         context = getActivity().getApplicationContext();
 
-
+        socoApp = (SocoApp) context;
 
 
 //        socoApp = (SocoApp) getActivity().getApplication();
@@ -97,7 +100,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         rootView = inflater.inflate(R.layout.suggested_events_fragment, container, false);
 //        Log.d(tag, "Found root view: " + rootView);
 
-        cardTest(rootView);
+        initCards(rootView);
 
 //        rootView.findViewById(R.id.eventfriends).setOnClickListener(this);
 //        rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
@@ -224,7 +227,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         return rootView;
     }
 
-    void cardTest(View rootView){
+    void initCards(View rootView){
         Log.v(tag, "start card test");
 
         mCardContainer = (CardContainer) rootView.findViewById(R.id.eventcards);
@@ -263,6 +266,15 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         }
         mCardContainer.setAdapter(adapter);
         //card - end
+
+        Log.v(tag, "set current event");
+        Event e1 = new Event();
+        e1.setTitle("Event #1");
+        socoApp.currentEvent = e1;
+
+        //todo
+        //update current event when the card move out
+
     }
 
 //    void findViewItems(View rootView){

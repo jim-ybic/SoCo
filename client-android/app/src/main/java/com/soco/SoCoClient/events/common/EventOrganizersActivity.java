@@ -11,6 +11,7 @@ import android.view.View;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 
+@Deprecated
 public class EventOrganizersActivity extends ActionBarActivity {
 
     static String tag = "EventOrganizers";
@@ -18,13 +19,13 @@ public class EventOrganizersActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_groups);
+        setContentView(R.layout.fragment_event_groups);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity_event_organizers, menu);
+        getMenuInflater().inflate(R.menu.menu_fragment_event_groups, menu);
         return true;
     }
 

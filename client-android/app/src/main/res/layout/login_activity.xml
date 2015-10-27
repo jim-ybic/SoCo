@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="@drawable/background">
 
     <View
         android:layout_width="wrap_content"
@@ -18,8 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/logo"
-            android:background="#ff5d5d5d" />
+            android:src="@drawable/logo" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,17 +101,20 @@
             <!--android:gravity="center" />-->
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp">
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/login_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp" />
+                android:layout_marginBottom="30dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal" />
             </LinearLayout>
 
 
@@ -210,7 +212,8 @@
                         android:layout_height="60dp"
                         android:layout_weight="1"
                         android:inputType="textEmailAddress"
-                        android:text="jim.ybic@gmail.com"/>
+                        android:text="jim.ybic@gmail.com"
+                        android:textColor="@android:color/white" />
                 </TableRow>
                 <TableRow>
                     <EditText
@@ -220,7 +223,8 @@
                         android:inputType="textPassword"
                         android:hint="password"
                         android:layout_weight="1"
-                        android:text="Pass@123"/>
+                        android:text="Pass@123"
+                        android:textColor="@android:color/white" />
                 </TableRow>
             </TableLayout>
         </LinearLayout>
@@ -239,13 +243,16 @@
                 android:gravity="center"
                 android:layout_alignParentTop="true"
                 android:id="@+id/signin"
-                android:padding="20dp">
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="sign in"
                     android:onClick="loginNormal"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="@drawable/round_reactangle_transparent"
+                    android:textColor="@android:color/white" />
             </LinearLayout>
         </LinearLayout>
 
@@ -257,7 +264,7 @@
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal"
-                android:padding="20dp">
+                android:padding="10dp">
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -265,7 +272,9 @@
                     android:text="@string/forgot_password"
                     android:textSize="16dp"
                     android:onClick="forgotpassword"
-                    android:gravity="left" />
+                    android:gravity="left"
+                    android:textColor="@android:color/white"
+                    android:clickable="true"/>
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -274,7 +283,9 @@
                     android:gravity="right"
                     android:textSize="16dp"
                     android:onClick="register"
-                    android:paddingRight="10dp" />
+                    android:paddingRight="10dp"
+                    android:textColor="@android:color/white"
+                    android:clickable="true"/>
             </LinearLayout>
 
         <!--<LinearLayout-->

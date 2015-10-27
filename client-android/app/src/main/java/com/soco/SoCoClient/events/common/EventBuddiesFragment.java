@@ -7,10 +7,8 @@ package com.soco.SoCoClient.events.common;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,14 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.common.ui.andtinder.model.CardModel;
 import com.soco.SoCoClient.common.ui.andtinder.view.CardContainer;
-import com.soco.SoCoClient.common.ui.andtinder.view.EventCardStackAdapter;
-import com.soco.SoCoClient.events.CreateEventActivity;
-import com.soco.SoCoClient.events.allevents.AllEventsActivity;
-import com.soco.SoCoClient.secondary.chat.ActivityChats;
-import com.soco.SoCoClient.secondary.notifications.ActivityNotifications;
-import com.soco.SoCoClient.userprofile.MyProfileActivity;
 
 //import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 
@@ -93,7 +84,7 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
 
 //        Log.d(tag, "on create view");
-        rootView = inflater.inflate(R.layout.activity_event_buddies, container, false);
+        rootView = inflater.inflate(R.layout.fragment_event_buddies, container, false);
 //        Log.d(tag, "Found root view: " + rootView);
 
 //        cardTest(rootView);
@@ -297,16 +288,16 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 //        }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_fragment_suggested_events, menu);
-
-//        RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.badge).getActionView();
-//        TextView tv = (TextView) badgeLayout.findViewById(R.id.actionbar_notifcation_textview);
-//        tv.setText("12");
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.menu_fragment_event_buddies, menu);
+//
+////        RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.badge).getActionView();
+////        TextView tv = (TextView) badgeLayout.findViewById(R.id.actionbar_notifcation_textview);
+////        tv.setText("12");
+//
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

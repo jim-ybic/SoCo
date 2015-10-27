@@ -7,18 +7,19 @@ import android.view.MenuItem;
 
 import com.soco.SoCoClient.R;
 
+@Deprecated
 public class EventBuddiesActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_buddies);
+        setContentView(R.layout.fragment_event_buddies);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity_event_friends, menu);
+        getMenuInflater().inflate(R.menu.menu_fragment_event_buddies, menu);
         return true;
     }
 

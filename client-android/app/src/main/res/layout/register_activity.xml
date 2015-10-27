@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/background">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -40,7 +41,8 @@
                         android:layout_height="60dp"
                         android:layout_weight="1"
                         android:inputType="text"
-                        android:text="Jim"/>
+                        android:text="Jim"
+                        android:textColor="@android:color/white" />
                 </TableRow>
                 <TableRow>
                     <EditText
@@ -50,7 +52,8 @@
                         android:layout_height="60dp"
                         android:layout_weight="1"
                         android:inputType="textEmailAddress"
-                        android:text="jim.ybic2@gmail.com"/>
+                        android:text="jim.ybic2@gmail.com"
+                        android:textColor="@android:color/white" />
                 </TableRow>
                 <TableRow>
                     <EditText
@@ -59,7 +62,8 @@
                         android:layout_height="60dp"
                         android:inputType="phone"
                         android:hint="+852"
-                        android:text="852"/>
+                        android:text="852"
+                        android:textColor="@android:color/white" />
                     <EditText
                         android:id="@+id/phone"
                         android:layout_width="fill_parent"
@@ -67,7 +71,8 @@
                         android:inputType="phone"
                         android:hint="phone number"
                         android:layout_weight="1"
-                        android:text="12345678"/>
+                        android:text="12345678"
+                        android:textColor="@android:color/white" />
                 </TableRow>
                 <TableRow>
                     <EditText
@@ -77,7 +82,8 @@
                         android:inputType="textPassword"
                         android:hint="password"
                         android:layout_weight="1"
-                        android:text="Pass@123"/>
+                        android:text="Pass@123"
+                        android:textColor="@android:color/white" />
                 </TableRow>
             </TableLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -110,7 +116,9 @@
                     android:layout_height="wrap_content"
                     android:text="Register"
                     android:onClick="register"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="@drawable/round_reactangle_transparent"
+                    android:textColor="@android:color/white" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
@@ -135,7 +143,8 @@
                     android:layout_weight="1"
                     android:text="By using our app, you agree to our"
                     android:gravity="center_horizontal"
-                    android:textSize="10dp" />
+                    android:textSize="10dp"
+                    android:textColor="@android:color/white" />
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -147,19 +156,22 @@
                         android:layout_width="wrap_content"
                         android:text="@string/termsconditions"
                         android:gravity="center_horizontal"
-                        android:textSize="10dp" />
+                        android:textSize="10dp"
+                        android:textColor="@android:color/white" />
                     <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:text=" and "
                         android:gravity="center_horizontal"
-                        android:textSize="10dp" />
+                        android:textSize="10dp"
+                        android:textColor="@android:color/white" />
                     <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:text="@string/privacypolicy"
                         android:gravity="center_horizontal"
-                        android:textSize="10dp"/>
+                        android:textSize="10dp"
+                        android:textColor="@android:color/white" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

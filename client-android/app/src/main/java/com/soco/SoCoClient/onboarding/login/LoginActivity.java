@@ -9,6 +9,8 @@ import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -85,8 +87,17 @@ public class LoginActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+//        Remove title bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        Remove notification bar
+//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
+
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+
         setContentView(R.layout.login_activity);
 
         findViews();
@@ -359,11 +370,13 @@ public class LoginActivity extends ActionBarActivity {
     };
 
     public void forgotpassword (View view) {
+        Log.v(tag, "tap on forgot password");
         Intent i = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
         startActivity(i);
     }
 
     public void register (View view) {
+        Log.v(tag, "tap on register");
         Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivityForResult(i, RequestCode.REGISTER);
     }

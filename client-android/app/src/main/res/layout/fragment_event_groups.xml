@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Event Organizer"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_gravity="center_vertical"
             android:paddingTop="10dp"
             android:id="@+id/organizerheader" />
@@ -229,7 +229,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Supporting Groups"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_gravity="center_vertical"
             android:paddingTop="10dp"
             android:id="@+id/groupsheader" />

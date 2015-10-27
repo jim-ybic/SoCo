@@ -84,7 +84,7 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
 
 //        Log.d(tag, "on create view");
-        rootView = inflater.inflate(R.layout.activity_event_groups, container, false);
+        rootView = inflater.inflate(R.layout.fragment_event_groups, container, false);
 //        Log.d(tag, "Found root view: " + rootView);
 
 //        cardTest(rootView);
@@ -288,16 +288,16 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
 //        }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_activity_event_organizers, menu);
-
-//        RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.badge).getActionView();
-//        TextView tv = (TextView) badgeLayout.findViewById(R.id.actionbar_notifcation_textview);
-//        tv.setText("12");
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.menu_fragment_event_groups, menu);
+//
+////        RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.badge).getActionView();
+////        TextView tv = (TextView) badgeLayout.findViewById(R.id.actionbar_notifcation_textview);
+////        tv.setText("12");
+//
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

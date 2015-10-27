@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.dashboard.DashboardTabsAdapter;
 
 public class EventGroupsBuddiesActivity extends ActionBarActivity implements
@@ -23,16 +24,23 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
     private android.support.v7.app.ActionBar actionBar;
 
     private String[] tabs = {
-            "Events",
+            "Groups",
             "Buddies",
 //            "Stream",
 //            "Messages"
     };
 
+    SocoApp socoApp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_groups_buddies);
+
+        socoApp = (SocoApp) getApplicationContext();
+
+        Log.v(tag, "set activity title as event title");
+        setTitle(socoApp.currentEvent.getTitle());
 
         viewPager = (ViewPager) findViewById(R.id.pager);
 

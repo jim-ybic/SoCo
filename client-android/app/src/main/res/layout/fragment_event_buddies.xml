@@ -7,12 +7,6 @@
     android:focusableInTouchMode="true"
     android:background="@android:color/white">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Event Buddies for Event #1"
-        android:textSize="20dp" />
-
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/buddies"
@@ -23,19 +17,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/buddysections">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:id="@+id/participants">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:text="3 friends going"
+                android:text="3 buddies joined"
                 android:gravity="bottom"
-                android:textColor="@android:color/black" />
+                android:textSize="20sp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,13 +100,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:id="@+id/likers">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:text="6 friends like"
+                android:text="15 buddies liked"
                 android:gravity="bottom"
-                android:textColor="@android:color/black" />
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -178,298 +175,6 @@
                             android:gravity="center_horizontal" />
                     </LinearLayout>
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:src="@drawable/ic_action_person"
-                            android:layout_gravity="center_horizontal"
-                            android:clickable="false"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mary Yan"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:src="@drawable/ic_action_person"
-                            android:layout_gravity="center_horizontal"
-                            android:clickable="false"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mary Yan"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:src="@drawable/ic_action_person"
-                            android:layout_gravity="center_horizontal"
-                            android:clickable="false"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mary Yan"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal" />
-                    </LinearLayout>
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="10dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:text="9 group members going"
-                android:gravity="bottom"
-                android:textColor="@android:color/black" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:src="@drawable/ic_action_person"
-                            android:layout_gravity="center_horizontal"
-                            android:clickable="false"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mary Yan"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:src="@drawable/ic_action_person"
-                            android:layout_gravity="center_horizontal"
-                            android:clickable="false"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mary Yan"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:src="@drawable/ic_action_person"
-                            android:layout_gravity="center_horizontal"
-                            android:clickable="false"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mary Yan"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal" />
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:src="@drawable/ic_action_person"
-                            android:layout_gravity="center_horizontal"
-                            android:clickable="false"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mary Yan"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:src="@drawable/ic_action_person"
-                            android:layout_gravity="center_horizontal"
-                            android:clickable="false"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mary Yan"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:src="@drawable/ic_action_person"
-                            android:layout_gravity="center_horizontal"
-                            android:clickable="false"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mary Yan"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal" />
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:src="@drawable/ic_action_person"
-                            android:layout_gravity="center_horizontal"
-                            android:clickable="false"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mary Yan"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:src="@drawable/ic_action_person"
-                            android:layout_gravity="center_horizontal"
-                            android:clickable="false"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mary Yan"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:src="@drawable/ic_action_person"
-                            android:layout_gravity="center_horizontal"
-                            android:clickable="false"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mary Yan"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal" />
-                    </LinearLayout>
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="10dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:text="12 group members like"
-                android:gravity="bottom"
-                android:textColor="@android:color/black" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
