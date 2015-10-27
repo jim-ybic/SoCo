@@ -68,5 +68,6 @@
     <string name="title_activity_my_profile">My Profile</string>
     <string name="title_activity_create_event">Create Event</string>
     <string name="title_activity_create_group">Create Group</string>
+    <string name="title_activity_event_groups_buddies">Groups &amp; Buddies</string>
 
 </resources>

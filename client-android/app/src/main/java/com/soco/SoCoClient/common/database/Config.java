@@ -156,6 +156,10 @@ public class Config {
     public static final int DASHBOARD_TAB_INDEX_FRIENDS = 1;
 //    public static final int DASHBOARD_TAB_INDEX_MESSAGES = 2;
 
+    public static final int EVENT_GROUPS_BUDDIES_TAB_COUNT = 2;
+    public static final int EVENT_GROUPS_BUDDIES_TAB_INDEX_GROUPS = 0;
+    public static final int EVENT_GROUPS_BUDDIES_TAB_INDEX_BUDDIES = 1;
+
     public static int ACTIVITY_INVITATION_STATUS_COMPLETE = 1;
     public static int ACTIVITY_INVITATION_STATUS_INCOMPLETE = 0;
 

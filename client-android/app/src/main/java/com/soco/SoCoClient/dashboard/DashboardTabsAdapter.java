@@ -15,7 +15,7 @@ public class DashboardTabsAdapter extends FragmentPagerAdapter {
 
     public DashboardTabsAdapter(FragmentManager fm) {
         super(fm);
-        Log.v(tag, "contactsAdapter init");
+        Log.v(tag, "DashboardTabsAdapter init");
     }
 
     @Override

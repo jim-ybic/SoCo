@@ -20,6 +20,7 @@ import com.soco.SoCoClient.events.allevents.AllEventsActivity;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.common.EventBuddiesActivity;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
+import com.soco.SoCoClient.events.common.EventGroupsBuddiesActivity;
 import com.soco.SoCoClient.events.common.EventOrganizersActivity;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.friends.common.CommonFriendsActivity;
@@ -136,7 +137,8 @@ public class Dashboard extends ActionBarActivity implements
 
     public void eventorganizers (View view){
         Log.d(tag, "show all event organizers");
-        Intent i = new Intent(getApplicationContext(), EventOrganizersActivity.class);
+//        Intent i = new Intent(getApplicationContext(), EventOrganizersActivity.class);
+        Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
         startActivity(i);
 
     }

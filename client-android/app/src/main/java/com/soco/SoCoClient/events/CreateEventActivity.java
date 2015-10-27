@@ -94,10 +94,19 @@ public class CreateEventActivity extends ActionBarActivity {
     }
 
     boolean validateInput(){
+        Log.v(tag, "validate user input");
 
-        //TODO
-        //retrieve user input and validate
-        //add to global variables
+        if(mTitle.getText().toString().isEmpty()){
+            Log.e(tag, "title is empty");
+            Toast.makeText(getApplicationContext(), "Title cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(!socoApp.SKIP_LOGIN && (socoApp.user_id.isEmpty() || socoApp.token.isEmpty())){
+            Log.e(tag, "user id or token is empty");
+            Toast.makeText(getApplicationContext(), "Please re-login and try again.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
 
         return true;
     }
@@ -116,6 +125,9 @@ public class CreateEventActivity extends ActionBarActivity {
         Log.v(tag, "start create event service");
         Intent i = new Intent(this, CreateEventService.class);
         startService(i);
+
+        Log.v(tag, "set response flag false");
+        socoApp.createEventResponse = false;
 
         Log.v(tag, "wait and check register status");
         int count = 0;
@@ -141,10 +153,6 @@ public class CreateEventActivity extends ActionBarActivity {
         @Override
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message and dismiss dialog");
-
-            //// TODO: 10/16/2015
-            //check flag for result
-            //inform user
 
             if(socoApp.createEventResponse && socoApp.createEventResult){
                 Log.d(tag, "create event successfully on server");
