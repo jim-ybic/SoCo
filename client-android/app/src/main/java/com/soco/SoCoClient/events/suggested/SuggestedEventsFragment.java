@@ -34,7 +34,7 @@ import com.soco.SoCoClient.userprofile.MyProfileActivity;
 
 public class SuggestedEventsFragment extends Fragment implements View.OnClickListener {
 
-    static String tag = "SelectedEvents";
+    static String tag = "SuggestedEventsFragment";
 
     //local variable
 //    ListView lv_active_programs;
@@ -247,17 +247,17 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
             cardModel.setOnClickListener(new CardModel.OnClickListener() {
                 @Override
                 public void OnClickListener() {
-                    Log.i(tag, "I am pressing the card");
+                    Log.v(tag, "I am pressing the card");
                 }
             });
             cardModel.setOnCardDismissedListener(new CardModel.OnCardDismissedListener() {
                 @Override
                 public void onLike() {
-                    Log.i(tag, "I like the card");
+                    Log.v(tag, "I like the card");
                 }
                 @Override
                 public void onDislike() {
-                    Log.i(tag, "I dislike the card");
+                    Log.v(tag, "I dislike the card");
                 }
             });
             adapter.add(cardModel);

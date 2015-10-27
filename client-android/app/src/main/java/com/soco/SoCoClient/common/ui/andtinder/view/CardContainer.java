@@ -342,6 +342,8 @@ public class CardContainer extends AdapterView<ListAdapter> {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
+        Log.v(tag, "event: " + event);
+
         if (mTopCard == null) {
             return false;
         }
@@ -374,6 +376,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
                 break;
             case MotionEvent.ACTION_MOVE:
                 pointerIndex = event.findPointerIndex(mActivePointerId);
+                Log.v(tag, "ACTION_MOVE, pointerIndex: " + pointerIndex + ", mActivePointerId: " + mActivePointerId);
                 x = event.getX(pointerIndex);
                 y = event.getY(pointerIndex);
                 if (Math.abs(x - mLastTouchX) > mTouchSlop || Math.abs(y - mLastTouchY) > mTouchSlop) {
@@ -438,7 +441,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
             if (Math.abs(dx) > mTouchSlop &&
                     Math.abs(velocityX) > Math.abs(velocityY) &&
                     Math.abs(velocityX) > mFlingSlop * 3) {
-                Log.d(tag, "card dismissing");
+                Log.v(tag, "card dismissing");
 
                 float targetX = topCard.getX();
                 float targetY = topCard.getY();
