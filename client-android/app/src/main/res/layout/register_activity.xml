@@ -3,15 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="5">
-    </LinearLayout>
-
+        android:text="Register"
+        android:gravity="center_horizontal"
+        android:textSize="30dp"
+        android:textColor="@android:color/white"
+        android:id="@+id/header"
+        android:paddingTop="20dp" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -23,25 +27,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="1">
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"/>
+            android:id="@+id/userdetails"
+            android:paddingTop="40dp">
+
             <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="15">
+                android:layout_weight="15"
+                android:id="@+id/userinfo">
                 <TableRow>
                     <EditText
-                        android:id="@+id/name"
+                        android:id="@+id/fname"
                         android:hint="name"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_weight="1"
                         android:inputType="text"
                         android:text="Jim"
+                        android:textColor="@android:color/white" />
+                    <EditText
+                        android:id="@+id/lname"
+                        android:hint="name"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:inputType="text"
+                        android:text="Gong"
                         android:textColor="@android:color/white" />
                 </TableRow>
                 <TableRow>
@@ -86,93 +97,72 @@
                         android:textColor="@android:color/white" />
                 </TableRow>
             </TableLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"/>
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="1">
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/registerbutton"
+            android:paddingTop="60dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Register"
+                android:onClick="register"
                 android:layout_weight="1"
-                android:orientation="vertical"/>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="15"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_alignParentTop="true"
-                android:id="@+id/ll_sproject">
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Register"
-                    android:onClick="register"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_reactangle_transparent"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"/>
+                android:background="@drawable/round_reactangle_transparent"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:id="@+id/declarations"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="40dp">
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:text="By using our app, you agree to our"
+                android:gravity="center_horizontal"
+                android:textSize="10dp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_horizontal" />
+
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_weight="1"
+                android:orientation="horizontal"
                 android:gravity="center_horizontal">
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:text="By using our app, you agree to our"
+                    android:text="@string/termsconditions"
                     android:gravity="center_horizontal"
                     android:textSize="10dp"
                     android:textColor="@android:color/white" />
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
+                <TextView
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:gravity="center_horizontal">
-                    <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:text="@string/termsconditions"
-                        android:gravity="center_horizontal"
-                        android:textSize="10dp"
-                        android:textColor="@android:color/white" />
-                    <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:text=" and "
-                        android:gravity="center_horizontal"
-                        android:textSize="10dp"
-                        android:textColor="@android:color/white" />
-                    <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:text="@string/privacypolicy"
-                        android:gravity="center_horizontal"
-                        android:textSize="10dp"
-                        android:textColor="@android:color/white" />
-                </LinearLayout>
+                    android:layout_width="wrap_content"
+                    android:text=" and "
+                    android:gravity="center_horizontal"
+                    android:textSize="10dp"
+                    android:textColor="@android:color/white" />
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/privacypolicy"
+                    android:gravity="center_horizontal"
+                    android:textSize="10dp"
+                    android:textColor="@android:color/white" />
             </LinearLayout>
         </LinearLayout>
 

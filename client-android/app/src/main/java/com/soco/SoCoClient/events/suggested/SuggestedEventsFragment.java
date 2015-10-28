@@ -108,6 +108,10 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //        rootView.findViewById(R.id.more).setOnClickListener(this);
         rootView.findViewById(R.id.join).setOnClickListener(this);
 
+        //todo
+        //get events from server
+        Log.v(tag, "show progress dialog, fetch suggested events from server");
+
 //        findViewItems(rootView);
 
         //set button listeners
