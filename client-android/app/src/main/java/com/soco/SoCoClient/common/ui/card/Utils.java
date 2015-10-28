@@ -15,18 +15,14 @@
  * @license: Apache License 2.0
  */
 
-package com.soco.SoCoClient.common.ui.andtinder.model;
+package com.soco.SoCoClient.common.ui.card;
 
-public class Orientations {
-	 public enum Orientation {
-	        Ordered, Disordered;
+public class Utils {
 
-	        public static Orientation fromIndex(int index) {
-		        Orientation[] values = Orientation.values();
-		        if(index < 0 || index >= values.length) {
-			        throw new IndexOutOfBoundsException();
-		        }
-		        return values[index];
-	        }
-	    }
+	public static float functionNormalize(int max, int min, int value) {
+		int intermediateValue = max - min;
+		value -= intermediateValue;
+		float var = Math.abs((float)value/(float)intermediateValue);
+		return Math.abs((float)value/(float)intermediateValue);
+	}
 }

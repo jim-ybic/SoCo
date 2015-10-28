@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.common.ui.andtinder.view;
+package com.soco.SoCoClient.common.ui.card.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,34 +7,30 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.common.ui.andtinder.model.CardModel;
-
 //import com.andtinder.R;
 //import com.andtinder.model.CardModel;
+import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.ui.card.model.EventCardModel;
 
-public final class PersonCardStackAdapter extends CardStackAdapter {
+@Deprecated
+public final class SimpleCardStackAdapter extends CardStackAdapter {
 
-	static String tag = "PersonCardStackAdapter";
-
-	public PersonCardStackAdapter(Context mContext) {
+	public SimpleCardStackAdapter(Context mContext) {
 		super(mContext);
 	}
 
 	@Override
-	public View getCardView(int position, CardModel model, View convertView, ViewGroup parent) {
+	public View getCardView(int position, EventCardModel model, View convertView, ViewGroup parent) {
 		if(convertView == null) {
 			LayoutInflater inflater = LayoutInflater.from(getContext());
-			convertView = inflater.inflate(R.layout.card_friend, parent, false);
+			convertView = inflater.inflate(R.layout.std_card_inner, parent, false);
 			assert convertView != null;
 		}
 
 		((ImageView) convertView.findViewById(R.id.banner)).setImageDrawable(model.getCardImageDrawable());
 		((TextView) convertView.findViewById(R.id.title)).setText(model.getTitle());
-//		((TextView) convertView.findViewById(R.id.description)).setText(model.getDescription());
+		((TextView) convertView.findViewById(R.id.description)).setText(model.getDescription());
 
 		return convertView;
 	}
-
-
 }

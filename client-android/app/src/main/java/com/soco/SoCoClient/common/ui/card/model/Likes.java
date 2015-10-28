@@ -15,7 +15,7 @@
  * @license: Apache License 2.0
  */
 
-package com.soco.SoCoClient.common.ui.andtinder.model;
+package com.soco.SoCoClient.common.ui.card.model;
 
 public class Likes {
 	 public enum Like {

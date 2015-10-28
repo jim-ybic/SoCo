@@ -116,9 +116,9 @@ public class CreateEventActivity extends ActionBarActivity {
         Log.v(tag, "create the event object");
         Event e = new Event();
         e.setTitle(mTitle.getText().toString());
-        e.setLocation(mLocation.getText().toString());
-        e.setDate(mDate.getText().toString());
-        e.setTime(mTime.getText().toString());
+        e.setAddress(mLocation.getText().toString());
+        e.setStart_date(mDate.getText().toString());
+        e.setStart_time(mTime.getText().toString());
         e.setIntroduction(mIntroduction.getText().toString());
         socoApp.newEvent = e;
 

@@ -370,7 +370,8 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingTop="5dp"
-                android:gravity="center" />
+                android:gravity="center"
+                android:id="@+id/address" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/date_time"

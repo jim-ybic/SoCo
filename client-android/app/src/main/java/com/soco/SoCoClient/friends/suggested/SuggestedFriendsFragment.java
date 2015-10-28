@@ -17,15 +17,13 @@ import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.database.DataLoader;
+import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.secondary.chat.model.SingleConversation;
-import com.soco.SoCoClient.common.ui.andtinder.model.CardModel;
-import com.soco.SoCoClient.common.ui.andtinder.view.CardContainer;
-import com.soco.SoCoClient.common.ui.andtinder.view.PersonCardStackAdapter;
-import com.soco.SoCoClient.secondary.settings.ActivityProfile;
+import com.soco.SoCoClient.common.ui.card.model.EventCardModel;
+import com.soco.SoCoClient.common.ui.card.view.EventCardContainer;
+import com.soco.SoCoClient.common.ui.card.view.PersonCardStackAdapter;
 import com.soco.SoCoClient.friends.allfriends.ActivityAllFriends;
-import com.soco.SoCoClient.secondary.chat.ActivityChats;
-import com.soco.SoCoClient.secondary.notifications.ActivityNotifications;
 
 import java.util.ArrayList;
 
@@ -48,7 +46,7 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
     DataLoader dataLoader;
     ArrayList<SingleConversation> singleConversations;
 
-    CardContainer mCardContainer;
+    EventCardContainer mFriendCardContainer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,7 +111,8 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
     void cardTest(View rootView){
         Log.v(tag, "start card test");
 
-        mCardContainer = (CardContainer) rootView.findViewById(R.id.personcards);
+        mFriendCardContainer = (EventCardContainer) rootView.findViewById(R.id.personcards);
+        mFriendCardContainer.setOrientation(Orientations.Orientation.Ordered);
 
 //        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
         Resources r = getResources();
@@ -125,17 +124,17 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
 //        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
 
         for(int i=1; i<=10; i++) {
-            CardModel cardModel = new CardModel(
+            EventCardModel eventCardModel = new EventCardModel(
                     "Person #" + i,
                     "Description goes here",
                     r.getDrawable(R.drawable.user));
-            cardModel.setOnClickListener(new CardModel.OnClickListener() {
+            eventCardModel.setOnClickListener(new EventCardModel.OnClickListener() {
                 @Override
                 public void OnClickListener() {
                     Log.i(tag, "I am pressing the card");
                 }
             });
-            cardModel.setOnCardDismissedListener(new CardModel.OnCardDismissedListener() {
+            eventCardModel.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
                 @Override
                 public void onLike() {
                     Log.i(tag, "I like the card");
@@ -145,9 +144,9 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
                     Log.i(tag, "I dislike the card");
                 }
             });
-            adapter.add(cardModel);
+            adapter.add(eventCardModel);
         }
-        mCardContainer.setAdapter(adapter);
+        mFriendCardContainer.setAdapter(adapter);
         //card - end
     }
 

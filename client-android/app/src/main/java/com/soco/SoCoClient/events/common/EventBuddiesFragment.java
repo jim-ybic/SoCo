@@ -10,14 +10,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.common.ui.andtinder.view.CardContainer;
+import com.soco.SoCoClient.common.ui.card.view.EventCardContainer;
 
 //import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 
@@ -41,7 +39,7 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 
     Context context;
 
-    CardContainer mCardContainer;
+//    EventCardContainer mEventCardContainer;
 
     //new variables
 //    DataLoader dataLoader;

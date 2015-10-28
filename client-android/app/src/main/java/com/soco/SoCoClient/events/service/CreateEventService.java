@@ -90,12 +90,12 @@ public class CreateEventService extends IntentService {
             }
 
             data.put(JsonKeys.NAME, event.getTitle());
-            if(!event.getLocation().isEmpty())
-                data.put(JsonKeys.LOCATION, event.getLocation());
-            if(!event.getDate().isEmpty())
-                data.put(JsonKeys.DATE, event.getDate());
-            if(!event.getTime().isEmpty())
-                data.put(JsonKeys.TIME, event.getTime());
+            if(!event.getAddress().isEmpty())
+                data.put(JsonKeys.LOCATION, event.getAddress());
+            if(!event.getStart_date().isEmpty())
+                data.put(JsonKeys.DATE, event.getStart_date());
+            if(!event.getStart_time().isEmpty())
+                data.put(JsonKeys.TIME, event.getStart_time());
             if(!event.getIntroduction().isEmpty())
                 data.put(JsonKeys.INTRODUCTION, event.getIntroduction());
 

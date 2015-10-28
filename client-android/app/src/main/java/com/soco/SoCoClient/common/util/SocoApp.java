@@ -307,8 +307,9 @@ public class SocoApp extends Application {
     //suggested event
     public boolean downloadSuggestedEventsResponse;
     public boolean downloadSuggestedEventsResult;
+    public ArrayList<Event> suggestedEvents;
 
     //event details
-    public Event currentEvent;
+    public int currentEventIndex;
 
 }

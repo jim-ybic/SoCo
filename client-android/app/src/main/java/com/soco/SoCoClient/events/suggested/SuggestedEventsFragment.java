@@ -25,18 +25,21 @@ import android.widget.Toast;
 //import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 import com.soco.SoCoClient.R;
 
+import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
 import com.soco.SoCoClient.events.common.JoinEventActivity;
-import com.soco.SoCoClient.common.ui.andtinder.model.CardModel;
-import com.soco.SoCoClient.common.ui.andtinder.view.CardContainer;
-import com.soco.SoCoClient.common.ui.andtinder.view.EventCardStackAdapter;
+import com.soco.SoCoClient.common.ui.card.model.EventCardModel;
+import com.soco.SoCoClient.common.ui.card.view.EventCardContainer;
+import com.soco.SoCoClient.common.ui.card.view.EventCardStackAdapter;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
 import com.soco.SoCoClient.secondary.chat.ActivityChats;
 import com.soco.SoCoClient.secondary.notifications.ActivityNotifications;
 import com.soco.SoCoClient.userprofile.MyProfileActivity;
+
+import java.util.ArrayList;
 
 public class SuggestedEventsFragment extends Fragment implements View.OnClickListener {
 
@@ -63,7 +66,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 
     Context context;
 
-    CardContainer mCardContainer;
+    EventCardContainer mEventCardContainer;
     SocoApp socoApp;
 
     ProgressDialog pd;
@@ -112,16 +115,6 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         rootView = inflater.inflate(R.layout.suggested_events_fragment, container, false);
 //        Log.d(tag, "Found root view: " + rootView);
 
-        initCards(rootView);
-
-//        rootView.findViewById(R.id.eventfriends).setOnClickListener(this);
-//        rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
-//        rootView.findViewById(R.id.detail).setOnClickListener(this);
-//        rootView.findViewById(R.id.more).setOnClickListener(this);
-        rootView.findViewById(R.id.join).setOnClickListener(this);
-
-        //todo
-        //get events from server
         Log.v(tag, "show progress dialog, fetch suggested events from server");
         pd = ProgressDialog.show(getActivity(), "Downloading events from server", "Please wait...");
         new Thread(new Runnable(){
@@ -130,6 +123,16 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                 downloadEventsHandler.sendEmptyMessage(0);
             }
         }).start();
+
+//        Log.v(tag, "create cards");
+//        initCards(rootView);
+
+//        rootView.findViewById(R.id.eventfriends).setOnClickListener(this);
+//        rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
+//        rootView.findViewById(R.id.detail).setOnClickListener(this);
+//        rootView.findViewById(R.id.more).setOnClickListener(this);
+        rootView.findViewById(R.id.join).setOnClickListener(this);
+
 
 //        findViewItems(rootView);
 
@@ -284,6 +287,8 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
             if(socoApp.downloadSuggestedEventsResult){
                 Log.d(tag, "download suggested event - success");
                 Toast.makeText(getActivity().getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
+
+                initCards(rootView);
             }
             else{
                 Log.e(tag, "download suggested event fail, notify user");
@@ -297,7 +302,8 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
     void initCards(View rootView){
         Log.v(tag, "start card test");
 
-        mCardContainer = (CardContainer) rootView.findViewById(R.id.eventcards);
+        mEventCardContainer = (EventCardContainer) rootView.findViewById(R.id.eventcards);
+        mEventCardContainer.setOrientation(Orientations.Orientation.Ordered);
 
 //        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
         Resources r = getResources();
@@ -308,40 +314,44 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //        adapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
 //        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
 
-        for(int i=1; i<=10; i++) {
-            CardModel cardModel = new CardModel(
-                    "Event #" + i,
-                    "Description goes here",
-                    r.getDrawable(R.drawable.picture3_crop));
-            cardModel.setOnClickListener(new CardModel.OnClickListener() {
+        for(int i=0; i<socoApp.suggestedEvents.size(); i++) {
+            Event e = socoApp.suggestedEvents.get(i);
+
+            EventCardModel eventCardModel = new EventCardModel();
+//                    "Event #" + i,
+//                    "Description goes here",
+//                    r.getDrawable(R.drawable.picture3_crop));
+            eventCardModel.setTitle(e.getTitle());
+            eventCardModel.setAddress(e.getAddress());
+            eventCardModel.setStart_date(e.getStart_date());
+            eventCardModel.setEnd_date(e.getEnd_date());
+            eventCardModel.setEnd_time(e.getEnd_time());
+
+            eventCardModel.setOnClickListener(new EventCardModel.OnClickListener() {
                 @Override
                 public void OnClickListener() {
                     Log.v(tag, "I am pressing the card");
                 }
             });
-            cardModel.setOnCardDismissedListener(new CardModel.OnCardDismissedListener() {
+            eventCardModel.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
                 @Override
                 public void onLike() {
                     Log.v(tag, "I like the card");
+                    socoApp.currentEventIndex++;
                 }
                 @Override
                 public void onDislike() {
                     Log.v(tag, "I dislike the card");
+                    socoApp.currentEventIndex++;
                 }
             });
-            adapter.add(cardModel);
+            adapter.add(eventCardModel);
         }
-        mCardContainer.setAdapter(adapter);
+        mEventCardContainer.setAdapter(adapter);
         //card - end
 
-        Log.v(tag, "set current event");
-        Event e1 = new Event();
-        e1.setTitle("Event #1");
-        socoApp.currentEvent = e1;
-
-        //todo
-        //update current event when the card move out
-
+        Log.v(tag, "set current event index");
+        socoApp.currentEventIndex = 0;
     }
 
 //    void findViewItems(View rootView){

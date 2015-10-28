@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.common.ui.andtinder.view;
+package com.soco.SoCoClient.common.ui.card.view;
 
 import android.widget.BaseAdapter;
 

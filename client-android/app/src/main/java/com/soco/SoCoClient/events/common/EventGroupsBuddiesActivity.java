@@ -40,7 +40,7 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
         socoApp = (SocoApp) getApplicationContext();
 
         Log.v(tag, "set activity title as event title");
-        setTitle(socoApp.currentEvent.getTitle());
+        setTitle(socoApp.suggestedEvents.get(socoApp.currentEventIndex).getTitle());
 
         viewPager = (ViewPager) findViewById(R.id.pager);
 
@@ -120,6 +120,9 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if (id == R.id.close){
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

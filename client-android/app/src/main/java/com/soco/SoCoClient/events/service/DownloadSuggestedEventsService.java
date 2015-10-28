@@ -18,6 +18,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -100,6 +101,9 @@ public class DownloadSuggestedEventsService extends IntentService {
     public static boolean parse(Object response) {
         Log.d(tag, "parse response: " + response.toString());
 
+        Log.v(tag, "clear suggested events");
+        socoApp.suggestedEvents = new ArrayList<>();
+
         try {
             JSONObject json = new JSONObject();
             if(socoApp.USE_SIMULATOR_SUGGESTED_EVENTS) {
@@ -120,23 +124,37 @@ public class DownloadSuggestedEventsService extends IntentService {
                 Log.d(tag, allEvents.length() + " events downloaded");
 
                 for(int i=0; i<allEvents.length(); i++){
-                    JSONObject e = allEvents.getJSONObject(i);
-                    Log.d(tag, "current event: " + e.toString());
-                    String id = e.getString(JsonKeys.ID);
-                    String title = e.getString(JsonKeys.NAME);
+                    Event e = new Event();
 
-                    String timedateStr = e.getString(JsonKeys.TIMEDATE);
+                    JSONObject obj = allEvents.getJSONObject(i);
+                    Log.v(tag, "current event json: " + obj.toString());
+
+                    e.setId(obj.getDouble(JsonKeys.ID));
+                    e.setTitle(obj.getString(JsonKeys.NAME));
+                    e.setIntroduction(obj.getString(JsonKeys.DESCRIPTION));
+
+                    String timedateStr = obj.getString(JsonKeys.TIMEDATE);
                     JSONObject timedate = new JSONObject(timedateStr);
+//                    JSONObject timedate2 = obj.getJSONObject(JsonKeys.TIMEDATE);  //alternative to be investigated
                     Log.v(tag, "current timedate: " + timedate.toString());
-                    String start_date = timedate.getString(JsonKeys.START_DATE);
-                    String start_time = timedate.getString(JsonKeys.START_TIME);
 
-                    //todo
+                    e.setStart_date(timedate.getString(JsonKeys.START_DATE));
+//                    e.setEnd_date(timedate.getString(JsonKeys.END_DATE));
+                    e.setStart_time(timedate.getString(JsonKeys.START_TIME));
+                    e.setEnd_time(timedate.getString(JsonKeys.END_TIME));
+
+                    String venueStr = obj.getString(JsonKeys.VENUE);
+                    JSONObject venue = new JSONObject(venueStr);
+                    Log.v(tag, "current venue: " + venue.toString());
+
+                    e.setAddress(venue.getString(JsonKeys.ADDRESS));
+
+                    Log.d(tag, "event: " + e.toString());
+                    socoApp.suggestedEvents.add(e);
                 }
 
-                //todo
-
                 socoApp.downloadSuggestedEventsResult = true;
+                Log.d(tag, socoApp.suggestedEvents.size() + " events created from json response");
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);

@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.common.ui.andtinder.view;
+package com.soco.SoCoClient.common.ui.card.view;
 
 import android.content.Context;
 import android.view.View;
@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 //import com.andtinder.R;
 //import com.andtinder.model.CardModel;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.common.ui.andtinder.model.CardModel;
+import com.soco.SoCoClient.common.ui.card.model.EventCardModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,16 +21,16 @@ public abstract class CardStackAdapter extends BaseCardStackAdapter {
 	 * performed on the deque should be synchronized on this lock.
 	 */
 	private final Object mLock = new Object();
-	private ArrayList<CardModel> mData;
+	private ArrayList<EventCardModel> mData;
 
 	public CardStackAdapter(Context context) {
 		mContext = context;
-		mData = new ArrayList<CardModel>();
+		mData = new ArrayList<EventCardModel>();
 	}
 
-	public CardStackAdapter(Context context, Collection<? extends CardModel> items) {
+	public CardStackAdapter(Context context, Collection<? extends EventCardModel> items) {
 		mContext = context;
-		mData = new ArrayList<CardModel>(items);
+		mData = new ArrayList<EventCardModel>(items);
 	}
 
 	@Override
@@ -68,21 +68,21 @@ public abstract class CardStackAdapter extends BaseCardStackAdapter {
 		return wrapper;
 	}
 
-	protected abstract View getCardView(int position, CardModel model, View convertView, ViewGroup parent);
+	protected abstract View getCardView(int position, EventCardModel model, View convertView, ViewGroup parent);
 
 	public boolean shouldFillCardBackground() {
 		return true;
 	}
 
-	public void add(CardModel item) {
+	public void add(EventCardModel item) {
 		synchronized (mLock) {
 			mData.add(item);
 		}
 		notifyDataSetChanged();
 	}
 
-	public CardModel pop() {
-		CardModel model;
+	public EventCardModel pop() {
+		EventCardModel model;
 		synchronized (mLock) {
 			model = mData.remove(mData.size() - 1);
 		}
@@ -95,7 +95,7 @@ public abstract class CardStackAdapter extends BaseCardStackAdapter {
 		return getCardModel(position);
 	}
 
-	public CardModel getCardModel(int position) {
+	public EventCardModel getCardModel(int position) {
 		synchronized (mLock) {
 			return mData.get(mData.size() - 1 - position);
 		}
