@@ -3,6 +3,7 @@ package com.soco.SoCoClient.common.http;
 import android.util.Log;
 
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -38,4 +39,24 @@ public class HttpUtil {
 
         return response;
     }
+
+    public static Object executeHttpGet(String url) {
+        Object response = null;
+        Log.v(tag, "executeHttpGet, url: " + url);
+
+        try {
+            DefaultHttpClient httpclient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(url);
+            ResponseHandler responseHandler = new BasicResponseHandler();
+            response = httpclient.execute(httpGet, responseHandler);
+            Log.v(tag, "Get success, response: " + response);
+        } catch (Exception e) {
+            Log.e(tag, "Get fail: " + e.toString());
+            e.printStackTrace();
+            return null;
+        }
+
+        return response;
+    }
+
 }

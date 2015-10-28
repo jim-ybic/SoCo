@@ -12,7 +12,14 @@ import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.model.Event;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class DownloadSuggestedEventsService extends IntentService {
 
@@ -51,7 +58,7 @@ public class DownloadSuggestedEventsService extends IntentService {
         );
 
         Log.v(tag, "set response flag as true");
-        socoApp.createEventResponse = true;
+        socoApp.downloadSuggestedEventsResponse = true;
 
         if (response != null) {
             Log.v(tag, "parse response");
@@ -69,37 +76,63 @@ public class DownloadSuggestedEventsService extends IntentService {
             String user_id,
             String token
     ) {
-        Log.v(tag, "create json request");
+        if(!url.endsWith("?"))
+            url += "?";
 
-        JSONObject data = new JSONObject();
-        try {
-            if(socoApp.SKIP_LOGIN) {
-                data.put(JsonKeys.USER_ID, JsonKeys.TEST_USER_ID);
-                data.put(JsonKeys.TOKEN, JsonKeys.TEST_TOKEN);
-            }
-            else {
-                data.put(JsonKeys.USER_ID, user_id);
-                data.put(JsonKeys.TOKEN, token);
-            }
-
-            Log.d(tag, "create event json: " + data);
-        } catch (Exception e) {
-            Log.e(tag, "cannot create json post data");
-            e.printStackTrace();
+        List<NameValuePair> params = new LinkedList<>();
+        if(socoApp.SKIP_LOGIN) {
+            Log.v(tag, "test user id: " + JsonKeys.TEST_USER_ID + ", test token: " + JsonKeys.TEST_TOKEN);
+            params.add(new BasicNameValuePair(JsonKeys.USER_ID, JsonKeys.TEST_USER_ID));
+            params.add(new BasicNameValuePair(JsonKeys.TOKEN, JsonKeys.TEST_TOKEN));
         }
+        else{
+            params.add(new BasicNameValuePair(JsonKeys.USER_ID, user_id));
+            params.add(new BasicNameValuePair(JsonKeys.TOKEN, token));
+        }
+        String paramString = URLEncodedUtils.format(params, "utf-8");
 
-        return HttpUtil.executeHttpPost(url, data);
+        url += paramString;
+        Log.d(tag, "request url: " + url);
+
+        return HttpUtil.executeHttpGet(url);
     }
 
     public static boolean parse(Object response) {
         Log.d(tag, "parse response: " + response.toString());
 
         try {
-            JSONObject json = new JSONObject(response.toString());
+            JSONObject json = new JSONObject();
+            if(socoApp.USE_SIMULATOR_SUGGESTED_EVENTS) {
+                Log.w(tag, "use simulated response");
+                json = new JSONObject(JsonKeys.TEST_DOWNLOAD_SUGGESTED_EVENTS_RESPONSE);
+            }
+            else
+                json = new JSONObject(response.toString());
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
                 Log.d(tag, "create event success, retrieve event list");
+
+                String alleventsString = json.getString(JsonKeys.EVENTS);
+                Log.v(tag, "all events string: " + alleventsString);
+                JSONArray allEvents = new JSONArray(alleventsString);
+//                JSONArray allEvents2 = json.getJSONArray(JsonKeys.EVENTS);  //alternative to be investigated
+                Log.d(tag, allEvents.length() + " events downloaded");
+
+                for(int i=0; i<allEvents.length(); i++){
+                    JSONObject e = allEvents.getJSONObject(i);
+                    Log.d(tag, "current event: " + e.toString());
+                    String id = e.getString(JsonKeys.ID);
+                    String title = e.getString(JsonKeys.NAME);
+
+                    String timedateStr = e.getString(JsonKeys.TIMEDATE);
+                    JSONObject timedate = new JSONObject(timedateStr);
+                    Log.v(tag, "current timedate: " + timedate.toString());
+                    String start_date = timedate.getString(JsonKeys.START_DATE);
+                    String start_time = timedate.getString(JsonKeys.START_TIME);
+
+                    //todo
+                }
 
                 //todo
 
