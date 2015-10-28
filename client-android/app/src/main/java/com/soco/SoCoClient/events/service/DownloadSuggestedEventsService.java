@@ -9,19 +9,18 @@ import com.soco.SoCoClient.common.HttpStatus;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
-import com.soco.SoCoClient.common.util.JsonSimulator;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.model.Event;
 
 import org.json.JSONObject;
 
-public class CreateEventService extends IntentService {
+public class DownloadSuggestedEventsService extends IntentService {
 
-    static final String tag = "CreateEventService";
+    static final String tag = "DownloadSuggestedEvents";
 
     static SocoApp socoApp;
 
-    public CreateEventService() {
+    public DownloadSuggestedEventsService() {
         super("CreateEventService");
     }
 
@@ -34,8 +33,8 @@ public class CreateEventService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(tag, "register service, handle intent:" + intent
-                        + ", event: " + socoApp.newEvent.toString()
+        Log.d(tag, "download suggested event service, handle intent:" + intent
+                        + ", userid: " + socoApp.user_id + ", token: " + socoApp.token
         );
 
         Log.v(tag, "validate data");
@@ -43,17 +42,12 @@ public class CreateEventService extends IntentService {
             Log.e(tag, "user id or token or event is not available");
             return;
         }
-        if(socoApp.newEvent == null){
-            Log.e(tag, "new event is not available");
-            return;
-        }
 
-        String url = UrlUtil.getCreateEventUrl();
+        String url = UrlUtil.getSuggestedEventsUrl();
         Object response = request(
                 url,
                 socoApp.user_id,
-                socoApp.token,
-                socoApp.newEvent
+                socoApp.token
         );
 
         Log.v(tag, "set response flag as true");
@@ -73,8 +67,7 @@ public class CreateEventService extends IntentService {
     public static Object request(
             String url,
             String user_id,
-            String token,
-            Event event
+            String token
     ) {
         Log.v(tag, "create json request");
 
@@ -88,16 +81,6 @@ public class CreateEventService extends IntentService {
                 data.put(JsonKeys.USER_ID, user_id);
                 data.put(JsonKeys.TOKEN, token);
             }
-
-            data.put(JsonKeys.NAME, event.getTitle());
-            if(!event.getLocation().isEmpty())
-                data.put(JsonKeys.LOCATION, event.getLocation());
-            if(!event.getDate().isEmpty())
-                data.put(JsonKeys.DATE, event.getDate());
-            if(!event.getTime().isEmpty())
-                data.put(JsonKeys.TIME, event.getTime());
-            if(!event.getIntroduction().isEmpty())
-                data.put(JsonKeys.INTRODUCTION, event.getIntroduction());
 
             Log.d(tag, "create event json: " + data);
         } catch (Exception e) {
@@ -116,12 +99,11 @@ public class CreateEventService extends IntentService {
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
-                Log.d(tag, "create event success, retrieve event id");
-//                String event_id = json.getString(JsonKeys.EVENT_ID);
-//                Log.d(tag, "create event success, " +
-//                        "event id: " + event_id
-//                );
-                socoApp.createEventResult = true;
+                Log.d(tag, "create event success, retrieve event list");
+
+                //todo
+
+                socoApp.downloadSuggestedEventsResult = true;
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);
@@ -130,12 +112,12 @@ public class CreateEventService extends IntentService {
                 Log.d(tag, "create event fail, " +
                         "error code: " + error_code + ", message: " + message + ", more info: " + more_info
                 );
-                socoApp.createEventResult = false;
+                socoApp.downloadSuggestedEventsResult = false;
             }
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();
-            socoApp.createEventResult = false;
+            socoApp.downloadSuggestedEventsResult = false;
             return false;
         }
 

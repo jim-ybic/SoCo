@@ -5,8 +5,11 @@ package com.soco.SoCoClient.events.suggested;
 //expected: return to the up level
 //actual: return to login acreen
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 //import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 import com.soco.SoCoClient.R;
@@ -29,6 +33,7 @@ import com.soco.SoCoClient.common.ui.andtinder.model.CardModel;
 import com.soco.SoCoClient.common.ui.andtinder.view.CardContainer;
 import com.soco.SoCoClient.common.ui.andtinder.view.EventCardStackAdapter;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
 import com.soco.SoCoClient.secondary.chat.ActivityChats;
 import com.soco.SoCoClient.secondary.notifications.ActivityNotifications;
 import com.soco.SoCoClient.userprofile.MyProfileActivity;
@@ -36,6 +41,11 @@ import com.soco.SoCoClient.userprofile.MyProfileActivity;
 public class SuggestedEventsFragment extends Fragment implements View.OnClickListener {
 
     static String tag = "SuggestedEventsFragment";
+
+    static final int WAIT_INTERVAL_IN_SECOND = 1;
+    static final int WAIT_ITERATION = 10;
+    static final int THOUSAND = 1000;
+
 
     //local variable
 //    ListView lv_active_programs;
@@ -55,6 +65,8 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 
     CardContainer mCardContainer;
     SocoApp socoApp;
+
+    ProgressDialog pd;
 
     //new variables
 //    DataLoader dataLoader;
@@ -111,6 +123,13 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         //todo
         //get events from server
         Log.v(tag, "show progress dialog, fetch suggested events from server");
+        pd = ProgressDialog.show(getActivity(), "Downloading data from server", "Please wait...");
+        new Thread(new Runnable(){
+            public void run(){
+                downloadEventsInBackgroud();
+                downloadEventsHandler.sendEmptyMessage(0);
+            }
+        }).start();
 
 //        findViewItems(rootView);
 
@@ -230,6 +249,50 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 
         return rootView;
     }
+
+    void downloadEventsInBackgroud() {
+        Log.v(tag, "start download events service at backend");
+        Intent i = new Intent(getActivity(), DownloadSuggestedEventsService.class);
+        getActivity().startService(i);
+
+        Log.v(tag, "set response flag as false");
+        socoApp.downloadSuggestedEventsResponse = false;
+
+        Log.v(tag, "wait and check response flag");
+        int count = 0;
+        while(!socoApp.downloadSuggestedEventsResponse && count < WAIT_ITERATION) {   //wait for 10s
+            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
+            while (System.currentTimeMillis() < endTime) {
+                synchronized (this) {
+                    try {
+                        wait(endTime - System.currentTimeMillis());
+                    } catch (Exception e) {
+                        Log.e(tag, "Error in waiting");
+                    }
+                }
+            }
+            count++;
+        }
+    }
+
+    Handler downloadEventsHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.v(tag, "handle receive message and dismiss dialog");
+
+            if(socoApp.downloadSuggestedEventsResult){
+                Log.d(tag, "download suggested event - success");
+                Toast.makeText(getActivity().getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Log.e(tag, "download suggested event fail, notify user");
+                Toast.makeText(getActivity().getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
+            }
+
+            pd.dismiss();
+        }
+    };
 
     void initCards(View rootView){
         Log.v(tag, "start card test");

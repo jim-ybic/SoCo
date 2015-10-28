@@ -108,6 +108,9 @@
         <service
             android:name=".events.service.CreateEventService"
             android:enabled="true" />
+        <service
+            android:name=".events.service.DownloadSuggestedEventsService"
+            android:enabled="true" />
 
         <activity
             android:name=".events._ref.ActivityLocationActivity"

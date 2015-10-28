@@ -303,6 +303,10 @@ public class SocoApp extends Application {
     public boolean createEventResponse;
     public boolean createEventResult;
 
+    //suggested event
+    public boolean downloadSuggestedEventsResponse;
+    public boolean downloadSuggestedEventsResult;
+
     //event details
     public Event currentEvent;
 

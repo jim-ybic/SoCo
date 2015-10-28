@@ -126,7 +126,6 @@ public class RegisterActivity extends ActionBarActivity {
     }
 
     private void registerInBackground() {
-
         Log.v(tag, "start register service at back end");
         Intent i = new Intent(this, RegisterService.class);
         startService(i);
