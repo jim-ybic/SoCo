@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 //import android.widget.Toolbar;
 import android.support.v7.widget.Toolbar;
+import android.view.ViewGroup;
+import android.support.v7.app.ActionBar.LayoutParams;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
@@ -22,6 +24,7 @@ import com.soco.SoCoClient.events.common.EventBuddiesActivity;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.events.common.EventGroupsBuddiesActivity;
 import com.soco.SoCoClient.events.common.EventOrganizersActivity;
+import com.soco.SoCoClient.events.common.JoinEventActivity;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.friends.common.CommonFriendsActivity;
 import com.soco.SoCoClient.friends.common.CommonGroupsActivity;
@@ -71,10 +74,19 @@ public class Dashboard extends ActionBarActivity implements
         }
 
         mAdapter = new DashboardTabsAdapter(getSupportFragmentManager());
-
         viewPager.setAdapter(mAdapter);
+
+        Log.v(tag, "set actionbar custom view");
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowCustomEnabled(true);
+        View customView = getLayoutInflater().inflate(R.layout.actionbar_dashboard, null);
+        LayoutParams layout = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        actionBar.setCustomView(customView, layout);
+        Toolbar parent = (Toolbar) customView.getParent();
+        Log.v(tag, "remove margin in actionbar area");
+        parent.setContentInsetsAbsolute(0, 0);
+
 
         Log.v(tag, "set actionbar background color");
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
@@ -178,6 +190,18 @@ public class Dashboard extends ActionBarActivity implements
         Log.v(tag, "show all events");
         Intent i = new Intent(getApplicationContext(), AllEventsActivity.class);
         startActivity(i);
+    }
+
+    public void likeevent(View view){
+        Log.v(tag, "tap like event");
+        //todo
+    }
+
+    public void joinevent(View view){
+        Log.v(tag, "tap join event");
+        Intent i = new Intent(getApplicationContext(), JoinEventActivity.class);
+        startActivity(i);
+
     }
 
 }

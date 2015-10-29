@@ -144,15 +144,106 @@
             <!--android:layout_weight="1">-->
         <!--</LinearLayout>-->
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
+        <!--<com.facebook.login.widget.LoginButton-->
+            <!--android:id="@+id/login_button"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:gravity="center_horizontal" />-->
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal" />
+            android:orientation="horizontal"
+            android:id="@+id/socialloginarea"
+            android:gravity="center_horizontal"
+            android:paddingTop="10dp">
 
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:clickable="true"
+            android:onClick="facebooklogin">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/facebook"
+                android:layout_centerInParent="true"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circle_sociallogin_icon"/>
+        </RelativeLayout>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/googleplus"
+                android:layout_centerInParent="true"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circle_sociallogin_icon"/>
+        </RelativeLayout>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/twitter"
+                android:layout_centerInParent="true"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circle_sociallogin_icon"/>
+        </RelativeLayout>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/wechat"
+                android:layout_centerInParent="true"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circle_sociallogin_icon"/>
+        </RelativeLayout>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/linkedin"
+                android:layout_centerInParent="true"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circle_sociallogin_icon"/>
+        </RelativeLayout>
+            </LinearLayout>
     </LinearLayout>
 
 
@@ -182,7 +273,7 @@
                         android:layout_height="60dp"
                         android:layout_weight="1"
                         android:inputType="textEmailAddress"
-                        android:text="jim.ybic@gmail.com"
+                        android:text="jim.ybic2@gmail.com"
                         android:textColor="@android:color/white" />
                 </TableRow>
                 <TableRow>

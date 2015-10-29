@@ -25,6 +25,7 @@ import android.widget.Toast;
 //import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 import com.soco.SoCoClient.R;
 
+import com.soco.SoCoClient._ref.Test2Activity;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.CreateEventActivity;
@@ -131,7 +132,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //        rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
 //        rootView.findViewById(R.id.detail).setOnClickListener(this);
 //        rootView.findViewById(R.id.more).setOnClickListener(this);
-        rootView.findViewById(R.id.join).setOnClickListener(this);
+//        rootView.findViewById(R.id.join).setOnClickListener(this);
 
 
 //        findViewItems(rootView);
@@ -387,16 +388,16 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //        }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_fragment_suggested_events, menu);
-
-//        RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.badge).getActionView();
-//        TextView tv = (TextView) badgeLayout.findViewById(R.id.actionbar_notifcation_textview);
-//        tv.setText("12");
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.menu_fragment_suggested_events, menu);
+//
+////        RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.badge).getActionView();
+////        TextView tv = (TextView) badgeLayout.findViewById(R.id.actionbar_notifcation_textview);
+////        tv.setText("12");
+//
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -442,6 +443,11 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         if (id == R.id.createevent){
             Log.d(tag, "create new event");
             Intent i = new Intent(getActivity().getApplicationContext(), CreateEventActivity.class);
+            startActivity(i);
+        }
+        else if (id == R.id.test){
+            Log.v(tag, "test activity");
+            Intent i = new Intent(getActivity().getApplicationContext(), Test2Activity.class);
             startActivity(i);
         }
 

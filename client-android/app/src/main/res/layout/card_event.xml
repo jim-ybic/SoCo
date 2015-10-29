@@ -115,7 +115,7 @@
                 android:fontFamily="Roboto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="IDSHK Innovation Seminar - The Dyson&apos;s Ways of Making Things!"
+                android:text="Rendering and Shading Technology for DreamWorks Animation"
                 android:padding="10dp"
                 android:gravity="center"
                 android:onClick="eventdetails"/>
@@ -336,13 +336,13 @@
         <!--tools:text="This is the description, it is a long description, as you can see"/>-->
         <LinearLayout
             android:id="@+id/location"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1">
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal">
@@ -358,14 +358,15 @@
                     android:layout_height="fill_parent"
                     android:text="2.6km"
                     android:gravity="center_vertical"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Jocky Club Innovation Tower, PolyU - ... "
+                android:text="Room 308, Chow Yei Ching Building, HKU"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
@@ -375,7 +376,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/date_time"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1">
@@ -395,24 +396,25 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12 Oct"
+                    android:text="30 Oct"
                     android:layout_gravity="center_vertical"
                     android:paddingLeft="5dp"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Monday"
+                android:text="Friday"
                 android:layout_gravity="center_horizontal"
                 android:paddingLeft="5dp"
                 android:paddingTop="5dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="18:15 - 19:30 (HKT)"
+                android:text="17:15 - 18:30 (HKT)"
                 android:layout_gravity="center_horizontal"
                 android:paddingLeft="5dp" />
         </LinearLayout>
@@ -469,22 +471,7 @@
         android:onClick="eventfriends"
         android:paddingLeft="10dp"
         android:paddingTop="10dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:gravity="left">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="John Wu &amp; 3 more"
-                android:gravity="left"
-                android:paddingRight="5dp"
-                android:textSize="10dp"
-                android:textColor="@android:color/black"
-                android:layout_gravity="top" />
-        </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -499,24 +486,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_action_person"
-                android:layout_gravity="center_vertical"
-                android:clickable="false"/>
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_action_person"
+                android:src="@drawable/user1"
                 android:layout_gravity="center_vertical"
                 android:clickable="false"
-                android:adjustViewBounds="false" />
+                android:paddingLeft="10dp" />
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_action_person"
+                android:src="@drawable/user2"
                 android:layout_gravity="center_vertical"
-                android:clickable="false"/>
+                android:clickable="false"
+                android:adjustViewBounds="false"
+                android:paddingLeft="10dp" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/user3"
+                android:layout_gravity="center_vertical"
+                android:clickable="false"
+                android:paddingLeft="10dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -541,12 +531,14 @@
             android:textSize="10dp"
             android:textColor="@android:color/black"
             android:layout_gravity="top"
-            android:background="@drawable/round_reactangle_white"
-            android:layout_marginRight="10dp" />
+            android:background="@drawable/eventcategory_box"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Business"
+            android:text="Research"
             android:gravity="left"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -555,39 +547,105 @@
             android:textSize="10dp"
             android:textColor="@android:color/black"
             android:layout_gravity="top"
-            android:background="@drawable/round_reactangle_white"/>
+            android:background="@drawable/eventcategory_box"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Graphics"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="10dp"
+            android:textColor="@android:color/black"
+            android:layout_gravity="top"
+            android:background="@drawable/eventcategory_box"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
     </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/buttons"
+            android:paddingTop="10dp"
+            android:paddingBottom="1dp">
+            <Button
+                android:id="@+id/like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="163"
+                android:textSize="12dp"
+                android:drawableLeft="@drawable/ic_action_favorite"
+                android:background="@drawable/eventcategory_box"
+                android:paddingLeft="20dp"
+                android:textStyle="bold"
+                android:onClick="likeevent"/>
+
+            <Button
+                android:id="@+id/join"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Join"
+                android:textSize="12dp"
+                android:textColor="@android:color/holo_blue_dark"
+                android:background="@drawable/eventcategory_box"
+                android:paddingLeft="20dp"
+                android:textStyle="bold"
+                android:onClick="joinevent"/>
+        </LinearLayout>
 
 </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
+
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:clickable="true"
-        android:src="@drawable/ic_action_person"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/idshk"
         app:layout_anchor="@id/titlearea"
         app:layout_anchorGravity="bottom|left"
+        android:clickable="true"
         android:onClick="eventorganizers"/>
 
-    <android.support.design.widget.FloatingActionButton
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
-        android:clickable="true"
-        android:src="@drawable/ic_action_person"
+        android:layout_marginLeft="60dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/group1"
         app:layout_anchor="@id/titlearea"
         app:layout_anchorGravity="bottom|left"
+        android:clickable="true"
         android:onClick="eventorganizers"/>
 
-    <android.support.design.widget.FloatingActionButton
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
-        android:clickable="true"
-        android:src="@drawable/ic_action_person"
+        android:layout_marginLeft="110dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/group2"
         app:layout_anchor="@id/titlearea"
         app:layout_anchorGravity="bottom|left"
+        android:clickable="true"
         android:onClick="eventorganizers"/>
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="150dp"-->
+        <!--android:clickable="true"-->
+        <!--android:src="@drawable/ic_action_person"-->
+        <!--app:layout_anchor="@id/titlearea"-->
+        <!--app:layout_anchorGravity="bottom|right"-->
+        <!--android:onClick="eventorganizers"/>-->
 
 </android.support.design.widget.CoordinatorLayout>

@@ -246,7 +246,7 @@
             android:text="Preview"
             android:onClick="preview"
             android:textColor="@android:color/black"
-            android:background="@drawable/round_reactangle_white" />
+            android:background="@drawable/eventcategory_box" />
     </LinearLayout>
 
 </LinearLayout>

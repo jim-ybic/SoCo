@@ -1,0 +1,4 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/circle_sociallogin_icon"/>
+    <item android:drawable="@drawable/facebook"/>
+</layer-list>

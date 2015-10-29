@@ -147,55 +147,55 @@
         <!--</LinearLayout>-->
     <!--</LinearLayout>-->
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
+        <!--&lt;!&ndash;<Button&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/detail"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="Detail"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textSize="12dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:drawableLeft="@drawable/ic_action_about"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:background="@android:color/white"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:paddingLeft="20dp" />&ndash;&gt;-->
         <!--<Button-->
-            <!--android:id="@+id/detail"-->
+            <!--android:id="@+id/like"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_weight="1"-->
-            <!--android:text="Detail"-->
+            <!--android:text="163"-->
             <!--android:textSize="12dp"-->
-            <!--android:drawableLeft="@drawable/ic_action_about"-->
+            <!--android:drawableLeft="@drawable/ic_action_favorite"-->
             <!--android:background="@android:color/white"-->
-            <!--android:paddingLeft="20dp" />-->
-        <Button
-            android:id="@+id/like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="163"
-            android:textSize="12dp"
-            android:drawableLeft="@drawable/ic_action_favorite"
-            android:background="@android:color/white"
-            android:paddingLeft="20dp"
-            android:textStyle="bold" />
+            <!--android:paddingLeft="20dp"-->
+            <!--android:textStyle="bold" />-->
+        <!--&lt;!&ndash;<Button&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/more"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="More"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textSize="12dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:drawableLeft="@drawable/ic_action_about"/>&ndash;&gt;-->
+        <!--<View-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@android:color/darker_gray"/>-->
         <!--<Button-->
-            <!--android:id="@+id/more"-->
+            <!--android:id="@+id/join"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_weight="1"-->
-            <!--android:text="More"-->
+            <!--android:text="Join"-->
             <!--android:textSize="12dp"-->
-            <!--android:drawableLeft="@drawable/ic_action_about"/>-->
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"/>
-        <Button
-            android:id="@+id/join"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Join"
-            android:textSize="12dp"
-            android:textColor="@android:color/holo_blue_dark"
-            android:background="@android:color/white"
-            android:paddingLeft="20dp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            <!--android:textColor="@android:color/holo_blue_dark"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:paddingLeft="20dp"-->
+            <!--android:textStyle="bold" />-->
+    <!--</LinearLayout>-->
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

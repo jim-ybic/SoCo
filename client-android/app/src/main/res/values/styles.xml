@@ -6,7 +6,12 @@
         <item name="android:colorPrimary">@color/primaryColor</item>
         <item name="android:colorPrimaryDark">@color/primaryColorDark</item>
         <item name="android:colorAccent">@color/accentColor</item>
+    </style>
 
+    <style name="TallActionBarTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarSize">140dp</item>
+        <item name="actionBarSize">140dp</item>
     </style>
 
     <style name="CodeFont" parent="@android:style/TextAppearance.Medium">

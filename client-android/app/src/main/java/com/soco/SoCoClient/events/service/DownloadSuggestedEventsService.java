@@ -46,7 +46,9 @@ public class DownloadSuggestedEventsService extends IntentService {
         );
 
         Log.v(tag, "validate data");
-        if(!socoApp.SKIP_LOGIN && (socoApp.user_id.isEmpty() || socoApp.token.isEmpty())){
+        if(!socoApp.SKIP_LOGIN &&
+                (socoApp.user_id == null || socoApp.user_id.isEmpty()
+                        || socoApp.token == null || socoApp.token.isEmpty())){
             Log.e(tag, "user id or token or event is not available");
             return;
         }

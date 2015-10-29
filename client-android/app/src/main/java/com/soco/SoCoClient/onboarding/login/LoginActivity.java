@@ -3,10 +3,13 @@ package com.soco.SoCoClient.onboarding.login;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +21,9 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.soco.SoCoClient.R;
@@ -31,7 +37,14 @@ import com.soco.SoCoClient.onboarding.register.RegisterActivity;
 import com.soco.SoCoClient.dashboard.Dashboard;
 import com.soco.SoCoClient.onboarding.login.service.LoginViaFacebookService;
 
+import org.json.JSONObject;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+//import java.security.Signature;
+import android.content.pm.Signature;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -75,7 +88,7 @@ public class LoginActivity extends ActionBarActivity {
 
     //facebook
     CallbackManager callbackManager;
-    LoginButton loginButton;
+//    LoginButton loginButton;
 
     //controller
     LoginController controller;
@@ -115,6 +128,24 @@ public class LoginActivity extends ActionBarActivity {
             Intent intent = new Intent(this, Dashboard.class);
             startActivity(intent);
         }
+
+        Log.v(tag, "KeyHash start");
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.soco.SoCoClient",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d(tag, "KeyHash: " + Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(tag, "keyhash error");
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+
+        }
+        Log.v(tag, "KeyHash end");
 
 //        socoApp = (SocoApp) getApplicationContext();
 //        profile = new Profile(getApplicationContext());
@@ -161,49 +192,49 @@ public class LoginActivity extends ActionBarActivity {
             loginViaFacebook();
         }
         else {
-            Log.d(tag, "facebook token not available, prepare login facebook");
+            Log.d(tag, "facebook token not available, facebook loginbutton");
 
             callbackManager = CallbackManager.Factory.create();
-            loginButton = (LoginButton) findViewById(R.id.login_button);
-
-            Log.v(tag, "set permission");
-            loginButton.setReadPermissions(Arrays.asList("email", "public_profile", "user_friends"));
-
-            Log.v(tag, "register callback");
-            loginButton.registerCallback(callbackManager,
-                    new FacebookCallback<LoginResult>() {
-                        @Override
-                        public void onSuccess(LoginResult loginResult) {
-                            Log.d(tag, "facebook login success, token: " + loginResult.getAccessToken());
-//                            AccessToken accessToken = AccessToken.getCurrentAccessToken();
-//                            Log.d(tag, "access token: " + accessToken);
-                            loginViaFacebook();
-                        }
-
-                        @Override
-                        public void onCancel() {
-                            if(SocoApp.CAN_SKIP_FACEBOOK_LOGIN) {
-                                Log.e(tag, "facebook login errors, skip for testing mode");
-                                loginViaFacebook();
-                            }
-                            else {
-                                Toast.makeText(getApplicationContext(), "facebook login errors, skip for testing mode", Toast.LENGTH_SHORT).show();
-                                Log.e(tag, "facebook login error");
-                            }
-                        }
-
-                        @Override
-                        public void onError(FacebookException exception) {
-                            if(SocoApp.CAN_SKIP_FACEBOOK_LOGIN) {
-                                Log.e(tag, "testing mode enabled, skipping facebook login errors");
-                                loginViaFacebook();
-                            }
-                            else {
-                                Toast.makeText(getApplicationContext(), "Error login facebook, please try again later.", Toast.LENGTH_SHORT).show();
-                                Log.e(tag, "facebook login error");
-                            }
-                        }
-                    });
+//            loginButton = (LoginButton) findViewById(R.id.login_button);
+//
+//            Log.v(tag, "set permission");
+//            loginButton.setReadPermissions(Arrays.asList("email", "public_profile", "user_friends"));
+//
+//            Log.v(tag, "register callback");
+//            loginButton.registerCallback(callbackManager,
+//                    new FacebookCallback<LoginResult>() {
+//                        @Override
+//                        public void onSuccess(LoginResult loginResult) {
+//                            Log.d(tag, "facebook login success, token: " + loginResult.getAccessToken());
+////                            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+////                            Log.d(tag, "access token: " + accessToken);
+//                            loginViaFacebook();
+//                        }
+//
+//                        @Override
+//                        public void onCancel() {
+//                            if(SocoApp.CAN_SKIP_FACEBOOK_LOGIN) {
+//                                Log.e(tag, "facebook login errors, skip for testing mode");
+//                                loginViaFacebook();
+//                            }
+//                            else {
+//                                Toast.makeText(getApplicationContext(), "facebook login errors, skip for testing mode", Toast.LENGTH_SHORT).show();
+//                                Log.e(tag, "facebook login error");
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onError(FacebookException exception) {
+//                            if(SocoApp.CAN_SKIP_FACEBOOK_LOGIN) {
+//                                Log.e(tag, "testing mode enabled, skipping facebook login errors");
+//                                loginViaFacebook();
+//                            }
+//                            else {
+//                                Toast.makeText(getApplicationContext(), "Error login facebook, please try again later.", Toast.LENGTH_SHORT).show();
+//                                Log.e(tag, "facebook login error");
+//                            }
+//                        }
+//                    });
         }
 
         return;
@@ -511,5 +542,75 @@ public class LoginActivity extends ActionBarActivity {
 //        return true;
 //    }
 
+    public void facebooklogin(View view){
+        Log.d(tag, "tap facebook login");
+
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        Log.v(tag, "facebook access token: " + accessToken);
+
+        if(accessToken != null) {
+            Log.d(tag, "facebook token available: " + accessToken + ", proceed to app");
+            loginViaFacebook();
+            return;
+        }
+
+        Log.d(tag, "facebook token not available, prepare login facebook");
+        List<String> permissionNeeds= Arrays.asList("email", "public_profile", "user_friends");
+
+//        super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().logInWithReadPermissions(
+                this,
+                permissionNeeds);
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResults) {
+                        Log.d(tag, "facebook login success, token: " + loginResults.getAccessToken());
+
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                loginResults.getAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(
+                                            JSONObject object,
+                                            GraphResponse response) {
+                                        // Application code
+                                        Log.v(tag, "me response: " + response.toString());
+                                    }
+                                });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id,name,email,gender, birthday");
+                        request.setParameters(parameters);
+                        request.executeAsync();
+
+                        loginViaFacebook();
+                    }
+                    @Override
+                    public void onCancel() {
+                        if(SocoApp.CAN_SKIP_FACEBOOK_LOGIN) {
+                            Log.e(tag, "facebook login errors, skip for testing mode");
+                            loginViaFacebook();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "facebook login errors, skip for testing mode", Toast.LENGTH_SHORT).show();
+                            Log.e(tag, "facebook login error");
+                        }
+                    }
+
+                    @Override
+                    public void onError(FacebookException e) {
+                        if(SocoApp.CAN_SKIP_FACEBOOK_LOGIN) {
+                            Log.e(tag, "testing mode enabled, skipping facebook login errors");
+                            loginViaFacebook();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Error login facebook, please try again later.", Toast.LENGTH_SHORT).show();
+                            Log.e(tag, "facebook login error");
+                        }
+                    }
+                });
+    }
 
 }

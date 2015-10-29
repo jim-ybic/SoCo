@@ -244,11 +244,11 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
 //        showConversations(singleConversations);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_fragment_suggested_friends, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.menu_fragment_suggested_friends, menu);
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
 
 //    public void addContact() {

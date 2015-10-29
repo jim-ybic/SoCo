@@ -26,7 +26,7 @@ public class RegisterActivity extends ActionBarActivity {
     static final int WAIT_ITERATION = 10;
     static final int THOUSAND = 1000;
 
-    EditText cName;
+    EditText cFName, cLName;
     EditText cEmail;
     EditText cAreacode;
     EditText cPhone;
@@ -58,7 +58,8 @@ public class RegisterActivity extends ActionBarActivity {
 //    }
 
     private void findViews(){
-        cName = (EditText) findViewById(R.id.name);
+        cFName = (EditText) findViewById(R.id.fname);
+        cLName = (EditText) findViewById(R.id.lname);
         cEmail = (EditText) findViewById(R.id.email);
         cAreacode = (EditText) findViewById(R.id.areacode);
         cPhone = (EditText) findViewById(R.id.phone);
@@ -101,7 +102,7 @@ public class RegisterActivity extends ActionBarActivity {
     boolean validateInput() {
         Log.v(tag, "validate user input data");
 
-        socoApp.registerName = cName.getText().toString();
+        socoApp.registerName = cFName.getText().toString() + " " + cLName.getText().toString();
         socoApp.registerEmail = cEmail.getText().toString();
         socoApp.registerPhone = cAreacode.getText().toString() + cPhone.getText().toString();
         socoApp.registerPassword = cPassword.getText().toString();

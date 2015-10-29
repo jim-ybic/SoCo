@@ -45,6 +45,13 @@
         android:icon="@drawable/ic_action_user"/>
 
     <item
+        android:id="@+id/test"
+        android:title="TEST: title stripe"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_action_user"/>
+
+    <item
         android:id="@+id/profile"
         android:title="Profile"
         android:orderInCategory="100"
