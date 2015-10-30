@@ -13,7 +13,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,7 +24,6 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.RequestCode;
 
@@ -36,6 +34,7 @@ import com.soco.SoCoClient.onboarding.login.service.LoginNormalService;
 import com.soco.SoCoClient.onboarding.register.RegisterActivity;
 import com.soco.SoCoClient.dashboard.Dashboard;
 import com.soco.SoCoClient.onboarding.login.service.LoginViaFacebookService;
+import com.soco.SoCoClient.userprofile.SettingsActivity;
 
 import org.json.JSONObject;
 
@@ -256,17 +255,66 @@ public class LoginActivity extends ActionBarActivity {
 //    }
 
     private void loginViaFacebook() {
-        Log.v(tag, "send login info to server");
+        Log.v(tag, "request facebook userinfo");
         LoginController.requestFacebookUserInfo(context);
 
-        Log.v(tag, "start login service - wait for response and login to server");
+        Log.v(tag, "show progress dialog, start login via facebook");
+        pd = ProgressDialog.show(this, "Login in progress", "Please wait...");
+        new Thread(new Runnable(){
+            public void run(){
+                loginViaFacebookInBackground();
+                loginViaFacebookHandler.sendEmptyMessage(0);
+            }
+        }).start();
+    }
+
+    void loginViaFacebookInBackground(){
+        Log.v(tag, "set response flag as false");
+        socoApp.loginViaFacebookResponse = false;
+
+        Log.v(tag, "in background: start login service - wait for response and login to server");
         Intent i = new Intent(this, LoginViaFacebookService.class);
         startService(i);
 
-        Log.v(tag, "start dashboard");
-        Intent intent = new Intent(this, Dashboard.class);
-        startActivity(intent);
+        Log.v(tag, "wait and check response status");
+        int count = 0;
+        while(!socoApp.loginViaFacebookResponse && count < WAIT_ITERATION) {   //wait for 10s
+            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
+            while (System.currentTimeMillis() < endTime) {
+                synchronized (this) {
+                    try {
+                        wait(endTime - System.currentTimeMillis());
+                    } catch (Exception e) {
+                        Log.e(tag, "Error in waiting");
+                    }
+                }
+            }
+            count++;
+        }
     }
+
+    Handler loginViaFacebookHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.v(tag, "handle receive message and dismiss dialog");
+
+            if(socoApp.loginViaFacebookResult){
+                Log.d(tag, "login via facebook success, finish this screen and login to dashboard");
+                Toast.makeText(getApplicationContext(), "Login via Facebook suceess.", Toast.LENGTH_SHORT).show();
+
+                Log.v(tag, "start dashboard");
+                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                startActivity(intent);
+            }
+            else{
+                Log.e(tag, "login via facebook fail, notify user");
+                Toast.makeText(getApplicationContext(), "Login via Facebook fail, please check password and try again.", Toast.LENGTH_SHORT).show();
+            }
+
+            pd.dismiss();
+        }
+    };
 
     public void loginNormal (View view) {
         Log.v(tag, "tap login normal");
@@ -353,12 +401,12 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     private void loginNormalInBackground() {
+        Log.v(tag, "set response flag as false");
+        socoApp.loginNormalResponse = false;
+
         Log.v(tag, "start login normal service, login email " + et_login_email + ", logig password " + et_login_password);
         Intent i = new Intent(this, LoginNormalService.class);
         startService(i);
-
-        Log.v(tag, "set response flag as false");
-        socoApp.loginNormalResponse = false;
 
         Log.v(tag, "wait and check response status");
         int count = 0;
@@ -611,6 +659,12 @@ public class LoginActivity extends ActionBarActivity {
                         }
                     }
                 });
+    }
+
+    public void settings(View view){
+        Log.v(tag, "tap setting");
+        Intent i = new Intent (this, SettingsActivity.class);
+        startActivity(i);
     }
 
 }

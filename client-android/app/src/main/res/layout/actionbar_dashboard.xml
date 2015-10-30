@@ -42,7 +42,9 @@
         android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/actionbar_me"
         android:id="@+id/me"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:onClick="me"/>
     </LinearLayout>
 
 </LinearLayout>

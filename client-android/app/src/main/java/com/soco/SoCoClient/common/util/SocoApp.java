@@ -280,6 +280,8 @@ public class SocoApp extends Application {
     public static boolean USE_SIMILATOR_LOGIN_NORMAL = true;
     public static boolean USE_SIMULATOR_SUGGESTED_EVENTS = false;
 
+    public static boolean OFFLINE_MODE = false;
+
     //onboarding
     public String registerEmail;
     public String registerPassword;
@@ -294,7 +296,8 @@ public class SocoApp extends Application {
     public boolean loginNormalResult;
     public GraphResponse facebookUserinfoResponse;
     public boolean facebookUserinfoReady;
-    public boolean loginViaFacebookStatus;
+    public boolean loginViaFacebookResponse;
+    public boolean loginViaFacebookResult;
 
     public String user_id;
     public String token;

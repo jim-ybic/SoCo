@@ -348,11 +348,15 @@
         <activity
             android:name=".events.common.EventGroupsBuddiesActivity"
             android:label="@string/title_activity_event_groups_buddies"
-            android:theme="@style/TallActionBarTheme">
+            android:theme="@style/TallActionBarTheme" >
         </activity>
         <activity
             android:name="._ref.Test2Activity"
             android:label="@string/title_activity_test2" >
+        </activity>
+        <activity
+            android:name=".userprofile.SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 

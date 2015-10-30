@@ -3,7 +3,7 @@ package com.soco.SoCoClient.common.http;
 public class JsonKeys {
     public static final String ADDRESS = "address";
     public static final String DATE = "date";
-    public static final String DESCRIPTION = "desciption";
+    public static final String DESCRIPTION = "description";
     public static final String EMAIL = "email";
     public static final String END_DATE = "end_date";
     public static final String END_TIME = "end_time";

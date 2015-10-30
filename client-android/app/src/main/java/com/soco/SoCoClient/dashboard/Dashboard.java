@@ -5,7 +5,9 @@ package com.soco.SoCoClient.dashboard;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -16,6 +18,9 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import android.support.v7.app.ActionBar.LayoutParams;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
@@ -175,7 +180,7 @@ public class Dashboard extends ActionBarActivity implements
     }
 
     public void personevents (View view){
-        Log.d(tag, "show the person's upcoming events");
+        Log.v(tag, "tap show the person's upcoming events");
         Intent i = new Intent(getApplicationContext(), UserEventsActivity.class);
         startActivity(i);
     }
@@ -194,14 +199,33 @@ public class Dashboard extends ActionBarActivity implements
 
     public void likeevent(View view){
         Log.v(tag, "tap like event");
+        Toast.makeText(getApplicationContext(), "Liked this event.", Toast.LENGTH_SHORT).show();
+
         //todo
+        //send like signal to server
     }
 
     public void joinevent(View view){
         Log.v(tag, "tap join event");
         Intent i = new Intent(getApplicationContext(), JoinEventActivity.class);
         startActivity(i);
+    }
 
+    public void me(View view){
+        Log.v(tag, "tap me: popup menu window");
+
+        View popup = getLayoutInflater().inflate(R.layout.popup_window, null);
+        PopupWindow window = new PopupWindow(popup, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        window.setTouchable(true);
+        window.setOutsideTouchable(true);
+        window.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        window.showAsDropDown(findViewById(R.id.me));
+    }
+
+    public void closeeventcard(View view){
+        Log.v(tag, "tap close event card");
+
+        //todo
     }
 
 }

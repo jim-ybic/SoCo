@@ -160,15 +160,17 @@ public class LoginViaFacebookService extends IntentService {
     }
 
     public boolean parse(Object response) {
-        Log.d(tag, "parse social login response: " + response.toString());
+        Log.v(tag, "update response flag");
+        socoApp.loginViaFacebookResponse = true;
 
+        Log.d(tag, "parse social login response: " + response.toString());
         try {
             JSONObject json = new JSONObject(response.toString());
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
                 Log.d(tag, "login via Facebook: SUCCESS, update status flag");
-                socoApp.loginViaFacebookStatus = true;
+                socoApp.loginViaFacebookResult = true;
 
                 String user_id = json.getString(JsonKeys.USER_ID);
                 String token = json.getString(JsonKeys.TOKEN);
@@ -182,7 +184,7 @@ public class LoginViaFacebookService extends IntentService {
             }
             else{
                 Log.d(tag, "login via Facebook: FAIL, update status flag");
-                socoApp.loginViaFacebookStatus = false;
+                socoApp.loginViaFacebookResult = false;
 
                 String error_code = json.getString(JsonKeys.ERROR_CODE);
                 String property = json.getString(JsonKeys.PROPERTY);
@@ -194,7 +196,7 @@ public class LoginViaFacebookService extends IntentService {
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();
-            socoApp.loginViaFacebookStatus = false;
+            socoApp.loginViaFacebookResult = false;
             return false;
         }
 

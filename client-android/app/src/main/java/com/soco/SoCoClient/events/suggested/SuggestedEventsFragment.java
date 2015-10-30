@@ -287,13 +287,13 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 
             if(socoApp.downloadSuggestedEventsResult){
                 Log.d(tag, "download suggested event - success");
-                Toast.makeText(getActivity().getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Download events suceess.", Toast.LENGTH_SHORT).show();
 
                 initCards(rootView);
             }
             else{
                 Log.e(tag, "download suggested event fail, notify user");
-                Toast.makeText(getActivity().getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
             }
 
             pd.dismiss();
