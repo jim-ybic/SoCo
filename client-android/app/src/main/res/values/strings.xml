@@ -72,5 +72,8 @@
     <string name="title_activity_event_groups_buddies">Groups &amp; Buddies</string>
     <string name="title_activity_test2">Test2Activity</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_all_events">All Events</string>
+    <string name="title_activity_all_buddy_matches">All Buddy Matches</string>
+    <string name="title_activity_common_events">Common Events</string>
 
 </resources>

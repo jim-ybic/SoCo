@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.common.ui.card.view;
+package com.soco.SoCoClient.events.model.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -24,18 +24,19 @@ import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
-import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.common.ui.card.model.EventCardModel;
-import com.soco.SoCoClient.common.ui.card.model.Orientations.Orientation;
-
-import java.util.Random;
-
 //import com.andtinder.R;
 //import com.andtinder.model.CardModel;
 //import com.andtinder.model.Orientations.Orientation;
 
-public class PersonCardContainer extends AdapterView<ListAdapter> {
-    static String tag = "CardContainer";
+import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.events.model.ui.EventCardModel;
+import com.soco.SoCoClient.common.ui.card.model.Orientations;
+import com.soco.SoCoClient.common.ui.card.model.Orientations.Orientation;
+
+import java.util.Random;
+
+public class EventCardContainer extends AdapterView<ListAdapter> {
+    static String tag = "EventCardContainer";
 
     public static final int INVALID_POINTER_ID = -1;
     private int mActivePointerId = INVALID_POINTER_ID;
@@ -65,7 +66,7 @@ public class PersonCardContainer extends AdapterView<ListAdapter> {
     private int mMaxVisible = 10;
     private GestureDetector mGestureDetector;
     private int mFlingSlop;
-    private Orientation mOrientation;
+    private Orientations.Orientation mOrientation;
     private ListAdapter mListAdapter;
     private float mLastTouchX;
     private float mLastTouchY;
@@ -75,23 +76,26 @@ public class PersonCardContainer extends AdapterView<ListAdapter> {
     private int mNextAdapterPosition;
     private boolean mDragging;
 
-    public PersonCardContainer(Context context) {
+    public EventCardContainer(Context context) {
         super(context);
 
-        setOrientation(Orientation.Disordered);
+        Log.d(tag, "set orientation: ordered");
+//        setOrientation(Orientation.Disordered);
+        setOrientation(Orientation.Ordered);
+
         setGravity(Gravity.CENTER);
         init();
 
     }
 
-    public PersonCardContainer(Context context, AttributeSet attrs) {
+    public EventCardContainer(Context context, AttributeSet attrs) {
         super(context, attrs);
         initFromXml(attrs);
         init();
     }
 
 
-    public PersonCardContainer(Context context, AttributeSet attrs, int defStyle) {
+    public EventCardContainer(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initFromXml(attrs);
         init();
@@ -106,10 +110,10 @@ public class PersonCardContainer extends AdapterView<ListAdapter> {
 
     private void initFromXml(AttributeSet attr) {
         TypedArray a = getContext().obtainStyledAttributes(attr,
-                R.styleable.EventCardContainer);
+                R.styleable.CardContainer);
 
-        setGravity(a.getInteger(R.styleable.EventCardContainer_android_gravity, Gravity.CENTER));
-        int orientation = a.getInteger(R.styleable.EventCardContainer_orientation, 1);
+        setGravity(a.getInteger(R.styleable.CardContainer_android_gravity, Gravity.CENTER));
+        int orientation = a.getInteger(R.styleable.CardContainer_orientation, 1);
         setOrientation(Orientation.fromIndex(orientation));
 
         a.recycle();
@@ -168,6 +172,8 @@ public class PersonCardContainer extends AdapterView<ListAdapter> {
     }
 
     public void setOrientation(Orientation orientation) {
+        Log.d(tag, "set orientation: " + orientation);
+
         if (orientation == null)
             throw new NullPointerException("Orientation may not be null");
         if(mOrientation != orientation) {
@@ -300,7 +306,7 @@ public class PersonCardContainer extends AdapterView<ListAdapter> {
                 mTopCard.setTranslationX(mTopCard.getTranslationX() + dx);
                 mTopCard.setTranslationY(mTopCard.getTranslationY() + dy);
 
-                Log.v(tag, "do not rotate on card move");
+                Log.v(tag, "do not change card rotation after card move");
 //                mTopCard.setRotation(40 * mTopCard.getTranslationX() / (getWidth() / 2.f));
 
                 mLastTouchX = x;

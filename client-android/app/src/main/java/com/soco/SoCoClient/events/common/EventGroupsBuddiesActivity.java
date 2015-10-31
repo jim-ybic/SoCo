@@ -44,7 +44,10 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
         socoApp = (SocoApp) getApplicationContext();
 
         Log.v(tag, "set activity title as event title");
-        setTitle(socoApp.suggestedEvents.get(socoApp.currentEventIndex).getTitle());
+        if(socoApp.OFFLINE_MODE)
+            setTitle("Sample Event Title");
+        else
+            setTitle(socoApp.suggestedEvents.get(socoApp.currentEventIndex).getTitle());
 
         viewPager = (ViewPager) findViewById(R.id.pager);
 

@@ -123,7 +123,7 @@
             android:parentActivityName=".dashboard.Dashboard" >
         </activity>
         <activity
-            android:name=".friends.allfriends.ContactDetailsActivityObs"
+            android:name=".buddies.allbuddies.ContactDetailsActivityObs"
             android:label="@string/title_activity_contact_details"
             android:parentActivityName=".dashboard.Dashboard"
             android:windowSoftInputMode="adjustResize|stateHidden" >
@@ -166,7 +166,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".friends.allfriends.ActivityAllFriends"
+            android:name=".buddies.AllBuddiesActivityV1"
             android:label="@string/title_activity_contact_list"
             android:parentActivityName=".dashboard.Dashboard" >
         </activity>
@@ -180,7 +180,7 @@
             android:label="event buddies"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".events.allevents.AllEventsActivity"
+            android:name=".events.allevents.AllEventsActivityV1"
             android:label="@string/title_activity_activity_all_events"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -274,7 +274,7 @@
             android:label="@string/title_activity_activity_group_details" >
         </activity>
         <activity
-            android:name=".friends.common.CommonGroupsActivity"
+            android:name=".buddies.CommonGroupsActivity"
             android:label="@string/title_activity_activity_common_groups"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -282,7 +282,7 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".friends.common.CommonFriendsActivity"
+            android:name=".buddies.CommonBuddiesActivity"
             android:label="@string/title_activity_activity_common_friends"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -294,7 +294,7 @@
             android:label="@string/title_activity_activity_person_details" >
         </activity>
         <activity
-            android:name=".friends.suggested.AddFriendActivity"
+            android:name=".buddies.AddBuddyActivity"
             android:label="@string/title_activity_activity_add_friend"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -357,6 +357,18 @@
         <activity
             android:name=".userprofile.SettingsActivity"
             android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name=".events.allevents.AllEventsActivity"
+            android:label="@string/title_activity_all_events" >
+        </activity>
+        <activity
+            android:name=".buddies.AllBuddyMatchesActivity"
+            android:label="@string/title_activity_all_buddy_matches" >
+        </activity>
+        <activity
+            android:name=".buddies.CommonEventsActivity"
+            android:label="@string/title_activity_common_events" >
         </activity>
     </application>
 

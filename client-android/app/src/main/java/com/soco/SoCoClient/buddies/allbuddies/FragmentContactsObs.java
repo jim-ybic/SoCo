@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.friends.allfriends;
+package com.soco.SoCoClient.buddies.allbuddies;
 
 //import info.androidhive.tabsswipe.R;
 
@@ -156,7 +156,7 @@ public class FragmentContactsObs extends Fragment implements View.OnClickListene
             contactItems.add(new EntryItem(e.getValue(), e.getKey()));
         }
 
-        Log.d(tag, "set contacts adapter");
+        Log.d(tag, "set contacts eventCardStackAdapter");
         contactsAdapter = new SectionEntryListAdapter(getActivity(), contactItems);
         ListView lv = (ListView) rootView.findViewById(R.id.listview_contacts);
         lv.setAdapter(contactsAdapter);
@@ -220,7 +220,7 @@ public class FragmentContactsObs extends Fragment implements View.OnClickListene
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.join) {
+        if (id == R.id.joinevent) {
             Log.i(tag, "Click on add.");
             addContact();
         }

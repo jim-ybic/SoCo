@@ -13,8 +13,11 @@
         android:layout_height="wrap_content"
         android:text="My Profile"
         android:layout_gravity="center_horizontal"
-        android:padding="10dp"
-        android:textColor="@android:color/white" />
+        android:padding="15dp"
+        android:textColor="@android:color/white"
+        android:id="@+id/popup_profile"
+        android:clickable="true"
+        android:textSize="16sp" />
 
 
     <TextView
@@ -22,24 +25,33 @@
         android:layout_height="wrap_content"
         android:text="All Events"
         android:layout_gravity="center_horizontal"
-        android:padding="10dp"
-        android:textColor="@android:color/white" />
+        android:padding="15dp"
+        android:textColor="@android:color/white"
+        android:id="@+id/popup_allevents"
+        android:clickable="true"
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="All Buddies"
         android:layout_gravity="center_horizontal"
-        android:padding="10dp"
-        android:textColor="@android:color/white" />
+        android:padding="15dp"
+        android:textColor="@android:color/white"
+        android:id="@+id/popup_allbuddies"
+        android:clickable="true"
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="All Groups"
         android:layout_gravity="center_horizontal"
-        android:padding="10dp"
-        android:textColor="@android:color/white" />
+        android:padding="15dp"
+        android:textColor="@android:color/white"
+        android:id="@+id/popup_allgroups"
+        android:clickable="true"
+        android:textSize="16sp" />
 
 
     <TextView
@@ -47,8 +59,11 @@
         android:layout_height="wrap_content"
         android:text="Settings"
         android:layout_gravity="center_horizontal"
-        android:padding="10dp"
-        android:textColor="@android:color/white" />
+        android:padding="15dp"
+        android:textColor="@android:color/white"
+        android:id="@+id/popup_settings"
+        android:clickable="true"
+        android:textSize="16sp" />
 
 </LinearLayout>
 

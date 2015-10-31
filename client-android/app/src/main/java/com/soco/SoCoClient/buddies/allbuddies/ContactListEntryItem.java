@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.friends.allfriends;
+package com.soco.SoCoClient.buddies.allbuddies;
 
 
 import com.soco.SoCoClient._ref.GeneralConfigV1;

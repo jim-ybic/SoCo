@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.friends.suggested;
+package com.soco.SoCoClient.buddies;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import com.soco.SoCoClient.R;
 
-public class AddFriendActivity extends ActionBarActivity {
+public class AddBuddyActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

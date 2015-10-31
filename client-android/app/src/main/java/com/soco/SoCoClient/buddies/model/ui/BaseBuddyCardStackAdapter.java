@@ -1,19 +1,21 @@
-package com.soco.SoCoClient.common.ui.card.view;
+package com.soco.SoCoClient.buddies.model.ui;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-//import com.andtinder.R;
-//import com.andtinder.model.CardModel;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.common.ui.card.model.EventCardModel;
+import com.soco.SoCoClient.buddies.model.ui.BuddyCardModel;
+import com.soco.SoCoClient.common.ui.card.view.BaseCardStackAdapter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class CardStackAdapter extends BaseCardStackAdapter {
+//import com.andtinder.R;
+//import com.andtinder.model.CardModel;
+
+public abstract class BaseBuddyCardStackAdapter extends BaseCardStackAdapter {
 	private final Context mContext;
 
 	/**
@@ -21,16 +23,16 @@ public abstract class CardStackAdapter extends BaseCardStackAdapter {
 	 * performed on the deque should be synchronized on this lock.
 	 */
 	private final Object mLock = new Object();
-	private ArrayList<EventCardModel> mData;
+	private ArrayList<BuddyCardModel> mData;
 
-	public CardStackAdapter(Context context) {
+	public BaseBuddyCardStackAdapter(Context context) {
 		mContext = context;
-		mData = new ArrayList<EventCardModel>();
+		mData = new ArrayList<BuddyCardModel>();
 	}
 
-	public CardStackAdapter(Context context, Collection<? extends EventCardModel> items) {
+	public BaseBuddyCardStackAdapter(Context context, Collection<? extends BuddyCardModel> items) {
 		mContext = context;
-		mData = new ArrayList<EventCardModel>(items);
+		mData = new ArrayList<BuddyCardModel>(items);
 	}
 
 	@Override
@@ -68,21 +70,21 @@ public abstract class CardStackAdapter extends BaseCardStackAdapter {
 		return wrapper;
 	}
 
-	protected abstract View getCardView(int position, EventCardModel model, View convertView, ViewGroup parent);
+	protected abstract View getCardView(int position, BuddyCardModel model, View convertView, ViewGroup parent);
 
 	public boolean shouldFillCardBackground() {
 		return true;
 	}
 
-	public void add(EventCardModel item) {
+	public void add(BuddyCardModel item) {
 		synchronized (mLock) {
 			mData.add(item);
 		}
 		notifyDataSetChanged();
 	}
 
-	public EventCardModel pop() {
-		EventCardModel model;
+	public BuddyCardModel pop() {
+		BuddyCardModel model;
 		synchronized (mLock) {
 			model = mData.remove(mData.size() - 1);
 		}
@@ -95,7 +97,7 @@ public abstract class CardStackAdapter extends BaseCardStackAdapter {
 		return getCardModel(position);
 	}
 
-	public EventCardModel getCardModel(int position) {
+	public BuddyCardModel getCardModel(int position) {
 		synchronized (mLock) {
 			return mData.get(mData.size() - 1 - position);
 		}

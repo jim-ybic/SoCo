@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.friends.suggested;
+package com.soco.SoCoClient.buddies;
 
 //import info.androidhive.tabsswipe.R;
 
@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +16,16 @@ import android.view.ViewGroup;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.database.DataLoader;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
-import com.soco.SoCoClient.userprofile.UserProfileActivity;
+import com.soco.SoCoClient.buddies.model.ui.BuddyCardModel;
+import com.soco.SoCoClient.buddies.model.ui.BuddyCardContainer;
 import com.soco.SoCoClient.secondary.chat.model.SingleConversation;
-import com.soco.SoCoClient.common.ui.card.model.EventCardModel;
-import com.soco.SoCoClient.common.ui.card.view.EventCardContainer;
-import com.soco.SoCoClient.common.ui.card.view.PersonCardStackAdapter;
-import com.soco.SoCoClient.friends.allfriends.ActivityAllFriends;
+import com.soco.SoCoClient.buddies.model.ui.BuddyCardStackAdapter;
 
 import java.util.ArrayList;
 
-public class SuggestedFriendsFragment extends Fragment implements View.OnClickListener {
+public class SuggestedBuddiesFragment extends Fragment implements View.OnClickListener {
 
-    static String tag = "SuggestedFriends";
+    static String tag = "SuggestedBuddies";
 
 
 //    int pid;
@@ -46,7 +42,7 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
     DataLoader dataLoader;
     ArrayList<SingleConversation> singleConversations;
 
-    EventCardContainer mFriendCardContainer;
+    BuddyCardContainer mBuddyCardContainer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,15 +62,15 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
                              Bundle savedInstanceState) {
 
         Log.v(tag, "create fragment view.....");
-        rootView = inflater.inflate(R.layout.fragment_suggested_friends, container, false);
+        rootView = inflater.inflate(R.layout.fragment_suggested_buddies, container, false);
 
-        cardTest(rootView);
+        initCards(rootView);
 
 //        rootView.findViewById(R.id.personevents).setOnClickListener(this);
 //        rootView.findViewById(R.id.persongroups).setOnClickListener(this);
-        rootView.findViewById(R.id.detail).setOnClickListener(this);
+//        rootView.findViewById(R.id.detail).setOnClickListener(this);
 //        rootView.findViewById(R.id.more).setOnClickListener(this);
-        rootView.findViewById(R.id.add).setOnClickListener(this);
+//        rootView.findViewById(R.id.add).setOnClickListener(this);
 
 //        singleConversations = dataLoader.loadSingleConversations();
 //        showConversations(singleConversations);
@@ -108,33 +104,33 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
         return rootView;
     }
 
-    void cardTest(View rootView){
-        Log.v(tag, "start card test");
+    void initCards(View rootView){
+        Log.v(tag, "start card init");
 
-        mFriendCardContainer = (EventCardContainer) rootView.findViewById(R.id.personcards);
-        mFriendCardContainer.setOrientation(Orientations.Orientation.Ordered);
+        mBuddyCardContainer = (BuddyCardContainer) rootView.findViewById(R.id.personcards);
+        mBuddyCardContainer.setOrientation(Orientations.Orientation.Ordered);
 
 //        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
         Resources r = getResources();
-//        SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(getActivity());
-        PersonCardStackAdapter adapter = new PersonCardStackAdapter(getActivity());
-//        adapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
-//        adapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
-//        adapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
+//        SimpleCardStackAdapter eventCardStackAdapter = new SimpleCardStackAdapter(getActivity());
+        BuddyCardStackAdapter adapter = new BuddyCardStackAdapter(getActivity());
+//        eventCardStackAdapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
+//        eventCardStackAdapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
+//        eventCardStackAdapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
 //        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
 
         for(int i=1; i<=10; i++) {
-            EventCardModel eventCardModel = new EventCardModel(
+            BuddyCardModel buddyCardModel = new BuddyCardModel(
                     "Person #" + i,
                     "Description goes here",
                     r.getDrawable(R.drawable.user));
-            eventCardModel.setOnClickListener(new EventCardModel.OnClickListener() {
+            buddyCardModel.setOnClickListener(new BuddyCardModel.OnClickListener() {
                 @Override
                 public void OnClickListener() {
                     Log.i(tag, "I am pressing the card");
                 }
             });
-            eventCardModel.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
+            buddyCardModel.setOnCardDismissedListener(new BuddyCardModel.OnCardDismissedListener() {
                 @Override
                 public void onLike() {
                     Log.i(tag, "I like the card");
@@ -144,9 +140,9 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
                     Log.i(tag, "I dislike the card");
                 }
             });
-            adapter.add(eventCardModel);
+            adapter.add(buddyCardModel);
         }
-        mFriendCardContainer.setAdapter(adapter);
+        mBuddyCardContainer.setAdapter(adapter);
         //card - end
     }
 
@@ -187,16 +183,16 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
 //            case R.id.detail:
 //                Log.d(tag, "pass this event");
 //                break;
-            case R.id.detail:
-                Log.d(tag, "show person details");
-                Intent ipd = new Intent(getActivity().getApplicationContext(), UserProfileActivity.class);
-                startActivity(ipd);
-                break;
-            case R.id.add:
-                Log.d(tag, "add this friend");
-                Intent iaf = new Intent(getActivity().getApplicationContext(), AddFriendActivity.class);
-                startActivity(iaf);
-                break;
+//            case R.id.detail:
+//                Log.d(tag, "show person details");
+//                Intent ipd = new Intent(getActivity().getApplicationContext(), UserProfileActivity.class);
+//                startActivity(ipd);
+//                break;
+//            case R.id.add:
+//                Log.d(tag, "add this friend");
+//                Intent iaf = new Intent(getActivity().getApplicationContext(), AddFriendActivity.class);
+//                startActivity(iaf);
+//                break;
         }
     }
 
@@ -229,7 +225,7 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
 //            contactItems.add(new EntryItem(e.getValue(), e.getKey()));
 //        }
 //
-//        Log.d(tag, "set contacts adapter");
+//        Log.d(tag, "set contacts eventCardStackAdapter");
 //        contactsAdapter = new SectionEntryListAdapter(getActivity(), contactItems);
 //        ListView lv = (ListView) rootView.findViewById(R.id.listview_contacts);
 //        lv.setAdapter(contactsAdapter);
@@ -307,7 +303,7 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
         //primary function
         if (id == R.id.friends) {
             Log.d(tag, "tap menu item: contacts");
-            Intent i = new Intent(getActivity(), ActivityAllFriends.class);
+            Intent i = new Intent(getActivity(), AllBuddiesActivityV1.class);
             startActivity(i);
         }
 
@@ -324,12 +320,12 @@ public class SuggestedFriendsFragment extends Fragment implements View.OnClickLi
 //            items.add(new ConversationListEntryItem(c.getCounterpartyName(), c.getLastMsgContent(), c.getLastMsgTimestamp()));
 //        }
 //
-//        ConversationListAdapter adapter = new ConversationListAdapter(this.getActivity(), items);
+//        ConversationListAdapter eventCardStackAdapter = new ConversationListAdapter(this.getActivity(), items);
 //        ListView conversationList = ((ListView) rootView.findViewById(R.id.conversations));
 //        if(conversationList == null)
 //            Log.e(tag, "cannot find conversation list");
 //        else
-//            conversationList.setAdapter(adapter);
+//            conversationList.setAdapter(eventCardStackAdapter);
 //
 //    }
 

@@ -230,7 +230,7 @@ public class UrlUtil {
     static final String LOGIN_PATH = "/v1/login";
     static final String SOCIAL_LOGIN_PATH = "/v1/social_login";
     static final String REGISTER_PATH = "/v1/register";
-    static final String CREATE_EVENT_PATH = "/v1/event";
+    static final String CREATE_EVENT_PATH = "/v2/event";
     static final String SUGGESTED_EVENTS_PATH = "/v1/suggested_events";
 
     //sample: http://54.254.147.226:8090/v1/login
@@ -254,7 +254,6 @@ public class UrlUtil {
         return url;
     }
 
-    //sample: http://54.254.147.226:8090/v1/event
     public static String getCreateEventUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + CREATE_EVENT_PATH;
         Log.d(tag, "create event url: " + url);

@@ -20,20 +20,25 @@ import android.view.ViewGroup;
 import android.support.v7.app.ActionBar.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.buddies.AddBuddyActivity;
+import com.soco.SoCoClient.buddies.AllBuddyMatchesActivity;
+import com.soco.SoCoClient.buddies.CommonEventsActivity;
+import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.common.EventBuddiesActivity;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.events.common.EventGroupsBuddiesActivity;
-import com.soco.SoCoClient.events.common.EventOrganizersActivity;
 import com.soco.SoCoClient.events.common.JoinEventActivity;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
-import com.soco.SoCoClient.friends.common.CommonFriendsActivity;
-import com.soco.SoCoClient.friends.common.CommonGroupsActivity;
+import com.soco.SoCoClient.buddies.CommonBuddiesActivity;
+import com.soco.SoCoClient.buddies.CommonGroupsActivity;
+import com.soco.SoCoClient.userprofile.SettingsActivity;
 import com.soco.SoCoClient.userprofile.UserEventsActivity;
+import com.soco.SoCoClient.userprofile.UserProfileActivity;
 
 public class Dashboard extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener {
@@ -43,6 +48,8 @@ public class Dashboard extends ActionBarActivity implements
     private ViewPager viewPager;
     private DashboardTabsAdapter mAdapter;
     private android.support.v7.app.ActionBar actionBar;
+
+    SocoApp socoApp;
 
     // Tab titles
     private String[] tabs = {
@@ -54,11 +61,15 @@ public class Dashboard extends ActionBarActivity implements
 
     private Toolbar toolbar;
 
+    boolean isLiked;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
+
+        socoApp = (SocoApp) getApplicationContext();
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 //        setSupportActionBar(toolbar);
@@ -123,6 +134,12 @@ public class Dashboard extends ActionBarActivity implements
         });
     }
 
+    void findViews(){
+        Log.v(tag, "find views");
+
+        //todo
+    }
+
     @Override
     public void onTabSelected(android.support.v7.app.ActionBar.Tab tab,
                               android.support.v4.app.FragmentTransaction fragmentTransaction) {
@@ -173,9 +190,15 @@ public class Dashboard extends ActionBarActivity implements
         startActivity(i);
     }
 
-    public void commonfriends (View view){
-        Log.d(tag, "show all common friends");
-        Intent i = new Intent(getApplicationContext(), CommonFriendsActivity.class);
+    public void commonbuddies (View view){
+        Log.d(tag, "show all common buddies");
+        Intent i = new Intent(getApplicationContext(), CommonBuddiesActivity.class);
+        startActivity(i);
+    }
+
+    public void commonevents (View view){
+        Log.d(tag, "show all common events");
+        Intent i = new Intent(getApplicationContext(), CommonEventsActivity.class);
         startActivity(i);
     }
 
@@ -199,7 +222,44 @@ public class Dashboard extends ActionBarActivity implements
 
     public void likeevent(View view){
         Log.v(tag, "tap like event");
-        Toast.makeText(getApplicationContext(), "Liked this event.", Toast.LENGTH_SHORT).show();
+
+//        isLiked = false;
+
+//        //test
+//        ((TextView) findViewById(R.id.viewallevents)).setText("updated");
+//
+//        socoApp.eventCardStackAdapter.getCardModel(0).setTitle("settitle");
+//        socoApp.mEventCardContainer.setAdapter(socoApp.eventCardStackAdapter);
+
+        //todo
+        //check if user has liked this event before
+        //update isliked value
+
+//        Button button = (Button) findViewById(R.id.likeevent);
+//        Log.d(tag, "button text: " + button.getText().toString());
+//        if(isLiked){
+//
+//            Toast.makeText(getApplicationContext(), "No like.", Toast.LENGTH_SHORT).show();
+//
+//            Button p1_button = (Button)findViewById(R.id.likeevent);
+//            p1_button.setText("No like");
+//
+//            ((Button) view).setCompoundDrawables(getResources().getDrawable(R.drawable.eventcard_nolike), null, null, null);
+////            button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.eventcard_nolike, 0, 0, 0);
+////            button.setText("No like");
+//
+//            isLiked = false;
+////            button.invalidate();
+//            //todo
+//            //update to server
+//        }
+//        else {
+//            Toast.makeText(getApplicationContext(), "Like this event.", Toast.LENGTH_SHORT).show();
+//
+//            button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.eventcard_liked, 0, 0, 0);
+//            button.setText("Liked");
+//            isLiked = true;
+//        }
 
         //todo
         //send like signal to server
@@ -214,18 +274,109 @@ public class Dashboard extends ActionBarActivity implements
     public void me(View view){
         Log.v(tag, "tap me: popup menu window");
 
-        View popup = getLayoutInflater().inflate(R.layout.popup_window, null);
-        PopupWindow window = new PopupWindow(popup, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        View popupView = getLayoutInflater().inflate(R.layout.popup_window, null);
+        PopupWindow window = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         window.setTouchable(true);
         window.setOutsideTouchable(true);
         window.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
         window.showAsDropDown(findViewById(R.id.me));
+
+//        View layout = getLayoutInflater().inflate(R.layout.popup_window, null);
+        setPopupListeners(window, popupView);
     }
 
-    public void closeeventcard(View view){
+    void setPopupListeners(final PopupWindow window, View view){
+
+        TextView myprofile = (TextView) view.findViewById(R.id.popup_profile);
+        Log.d(tag, "myprofile: " + myprofile);
+        myprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                Log.v(tag, "show my profile");
+
+                //todo
+
+            }
+        });
+
+        TextView allevents = (TextView) view.findViewById(R.id.popup_allevents);
+        Log.d(tag, "allevents: " + allevents);
+        allevents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                Log.v(tag, "show all events");
+                Intent i = new Intent(getApplicationContext(), AllEventsActivity.class);
+                startActivity(i);
+            }
+        });
+
+        TextView allbuddies = (TextView) view.findViewById(R.id.popup_allbuddies);
+        Log.d(tag, "allbuddies: " + allbuddies);
+        allbuddies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                Log.v(tag, "show all buddies");
+
+                //todo
+
+            }
+        });
+
+        TextView allgroups = (TextView) view.findViewById(R.id.popup_allgroups);
+        Log.d(tag, "allgroups: " + allgroups);
+        allgroups.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                Log.v(tag, "show all groups");
+
+                //todo
+
+            }
+        });
+
+        TextView settings = (TextView) view.findViewById(R.id.popup_settings);
+        Log.d(tag, "settings: " + settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                Log.v(tag, "show settings");
+                Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(i);
+            }
+        });
+
+    }
+
+    public void closecard(View view){
         Log.v(tag, "tap close event card");
 
         //todo
+        //dismiss current card
     }
+
+    public void allbuddymatches(View view){
+        Log.v(tag, "show all buddy matches");
+        Intent i = new Intent(getApplicationContext(), AllBuddyMatchesActivity.class);
+        startActivity(i);
+    }
+
+    public void addbuddy(View view){
+        Log.v(tag, "show add buddy");
+        Intent i = new Intent(getApplicationContext(), AddBuddyActivity.class);
+        startActivity(i);
+    }
+
+    public void buddydetails(View view){
+        Log.v(tag, "show buddy details");
+        Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+        startActivity(i);
+    }
+
+
 
 }

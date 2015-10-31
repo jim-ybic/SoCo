@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.friends.allfriends;
+package com.soco.SoCoClient.buddies;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.buddies.allbuddies.ContactListAdapter;
+import com.soco.SoCoClient.buddies.allbuddies.ContactListEntryItem;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.database.DataLoader;
@@ -28,7 +30,7 @@ import com.soco.SoCoClient.common.ui.SectionItem;
 
 import java.util.ArrayList;
 
-public class ActivityAllFriends extends ActionBarActivity {
+public class AllBuddiesActivityV1 extends ActionBarActivity {
 
     static String tag = "ContactListActivity";
 

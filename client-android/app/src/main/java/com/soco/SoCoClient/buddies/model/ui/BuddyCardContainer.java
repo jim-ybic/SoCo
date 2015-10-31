@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.common.ui.card.view;
+package com.soco.SoCoClient.buddies.model.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -24,19 +24,18 @@ import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
+import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.ui.card.model.Orientations.Orientation;
+import com.soco.SoCoClient.buddies.model.ui.BuddyCardModel;
+
+import java.util.Random;
+
 //import com.andtinder.R;
 //import com.andtinder.model.CardModel;
 //import com.andtinder.model.Orientations.Orientation;
 
-import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.common.ui.card.model.EventCardModel;
-import com.soco.SoCoClient.common.ui.card.model.Orientations;
-import com.soco.SoCoClient.common.ui.card.model.Orientations.Orientation;
-
-import java.util.Random;
-
-public class EventCardContainer extends AdapterView<ListAdapter> {
-    static String tag = "EventCardContainer";
+public class BuddyCardContainer extends AdapterView<ListAdapter> {
+    static String tag = "CardContainer";
 
     public static final int INVALID_POINTER_ID = -1;
     private int mActivePointerId = INVALID_POINTER_ID;
@@ -66,7 +65,7 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
     private int mMaxVisible = 10;
     private GestureDetector mGestureDetector;
     private int mFlingSlop;
-    private Orientations.Orientation mOrientation;
+    private Orientation mOrientation;
     private ListAdapter mListAdapter;
     private float mLastTouchX;
     private float mLastTouchY;
@@ -76,26 +75,23 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
     private int mNextAdapterPosition;
     private boolean mDragging;
 
-    public EventCardContainer(Context context) {
+    public BuddyCardContainer(Context context) {
         super(context);
 
-        Log.d(tag, "set orientation: ordered");
-//        setOrientation(Orientation.Disordered);
-        setOrientation(Orientation.Ordered);
-
+        setOrientation(Orientation.Disordered);
         setGravity(Gravity.CENTER);
         init();
 
     }
 
-    public EventCardContainer(Context context, AttributeSet attrs) {
+    public BuddyCardContainer(Context context, AttributeSet attrs) {
         super(context, attrs);
         initFromXml(attrs);
         init();
     }
 
 
-    public EventCardContainer(Context context, AttributeSet attrs, int defStyle) {
+    public BuddyCardContainer(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initFromXml(attrs);
         init();
@@ -110,10 +106,10 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
 
     private void initFromXml(AttributeSet attr) {
         TypedArray a = getContext().obtainStyledAttributes(attr,
-                R.styleable.EventCardContainer);
+                R.styleable.CardContainer);
 
-        setGravity(a.getInteger(R.styleable.EventCardContainer_android_gravity, Gravity.CENTER));
-        int orientation = a.getInteger(R.styleable.EventCardContainer_orientation, 1);
+        setGravity(a.getInteger(R.styleable.CardContainer_android_gravity, Gravity.CENTER));
+        int orientation = a.getInteger(R.styleable.CardContainer_orientation, 1);
         setOrientation(Orientation.fromIndex(orientation));
 
         a.recycle();
@@ -172,8 +168,6 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
     }
 
     public void setOrientation(Orientation orientation) {
-        Log.d(tag, "set orientation: " + orientation);
-
         if (orientation == null)
             throw new NullPointerException("Orientation may not be null");
         if(mOrientation != orientation) {
@@ -306,7 +300,7 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
                 mTopCard.setTranslationX(mTopCard.getTranslationX() + dx);
                 mTopCard.setTranslationY(mTopCard.getTranslationY() + dy);
 
-                Log.v(tag, "do not change card rotation after card move");
+                Log.v(tag, "do not rotate on card move");
 //                mTopCard.setRotation(40 * mTopCard.getTranslationX() / (getWidth() / 2.f));
 
                 mLastTouchX = x;
@@ -363,10 +357,10 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
             case MotionEvent.ACTION_DOWN:
                 mTopCard.getHitRect(childRect);
 
-                EventCardModel eventCardModel = (EventCardModel)getAdapter().getItem(getChildCount()-1);
+                BuddyCardModel buddyCardModel = (BuddyCardModel)getAdapter().getItem(getChildCount()-1);
 
-                if (eventCardModel.getOnClickListener() != null) {
-                    eventCardModel.getOnClickListener().OnClickListener();
+                if (buddyCardModel.getOnClickListener() != null) {
+                    buddyCardModel.getOnClickListener().OnClickListener();
                 }
                 pointerIndex = event.getActionIndex();
                 x = event.getX(pointerIndex);
@@ -464,17 +458,17 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
                 duration = Math.min(500, duration);
 
                 mTopCard = getChildAt(getChildCount() - 2);
-                EventCardModel eventCardModel = (EventCardModel)getAdapter().getItem(getChildCount() - 1);
+                BuddyCardModel buddyCardModel = (BuddyCardModel)getAdapter().getItem(getChildCount() - 1);
 
                 if(mTopCard != null)
                     mTopCard.setLayerType(LAYER_TYPE_HARDWARE, null);
 
-                if (eventCardModel.getOnCardDismissedListener() != null) {
+                if (buddyCardModel.getOnCardDismissedListener() != null) {
                     Log.d(tag, "card dismissing, targetX is " + targetX);
                     if ( targetX > 0 ) {
-                        eventCardModel.getOnCardDismissedListener().onLike();
+                        buddyCardModel.getOnCardDismissedListener().onLike();
                     } else {
-                        eventCardModel.getOnCardDismissedListener().onDislike();
+                        buddyCardModel.getOnCardDismissedListener().onDislike();
                     }
                 }
                 else

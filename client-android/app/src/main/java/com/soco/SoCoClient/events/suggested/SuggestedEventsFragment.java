@@ -14,8 +14,6 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
@@ -29,18 +27,16 @@ import com.soco.SoCoClient._ref.Test2Activity;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.CreateEventActivity;
-import com.soco.SoCoClient.events.allevents.AllEventsActivity;
+import com.soco.SoCoClient.events.allevents.AllEventsActivityV1;
 import com.soco.SoCoClient.events.common.JoinEventActivity;
-import com.soco.SoCoClient.common.ui.card.model.EventCardModel;
-import com.soco.SoCoClient.common.ui.card.view.EventCardContainer;
-import com.soco.SoCoClient.common.ui.card.view.EventCardStackAdapter;
+import com.soco.SoCoClient.events.model.ui.EventCardModel;
+import com.soco.SoCoClient.events.model.ui.EventCardContainer;
+import com.soco.SoCoClient.events.model.ui.EventCardStackAdapter;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
 import com.soco.SoCoClient.secondary.chat.ActivityChats;
 import com.soco.SoCoClient.secondary.notifications.ActivityNotifications;
 import com.soco.SoCoClient.userprofile.MyProfileActivity;
-
-import java.util.ArrayList;
 
 public class SuggestedEventsFragment extends Fragment implements View.OnClickListener {
 
@@ -67,7 +63,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 
     Context context;
 
-    EventCardContainer mEventCardContainer;
+//    EventCardContainer mEventCardContainer;
     SocoApp socoApp;
 
     ProgressDialog pd;
@@ -113,7 +109,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                              Bundle savedInstanceState) {
 
 //        Log.d(tag, "on create view");
-        rootView = inflater.inflate(R.layout.suggested_events_fragment, container, false);
+        rootView = inflater.inflate(R.layout.fragment_suggested_events, container, false);
 //        Log.d(tag, "Found root view: " + rootView);
 
         Log.v(tag, "show progress dialog, fetch suggested events from server");
@@ -301,20 +297,46 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
     };
 
     void initCards(View rootView){
-        Log.v(tag, "start card test");
+        Log.v(tag, "start card init");
 
-        mEventCardContainer = (EventCardContainer) rootView.findViewById(R.id.eventcards);
-        mEventCardContainer.setOrientation(Orientations.Orientation.Ordered);
+        socoApp.mEventCardContainer = (EventCardContainer) rootView.findViewById(R.id.eventcards);
+        socoApp.mEventCardContainer.setOrientation(Orientations.Orientation.Ordered);
 
 //        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
         Resources r = getResources();
-//        SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(getActivity());
-        EventCardStackAdapter adapter = new EventCardStackAdapter(getActivity());
-//        adapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
-//        adapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
-//        adapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
+//        SimpleCardStackAdapter eventCardStackAdapter = new SimpleCardStackAdapter(getActivity());
+        socoApp.eventCardStackAdapter = new EventCardStackAdapter(getActivity());
+//        eventCardStackAdapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
+//        eventCardStackAdapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
+//        eventCardStackAdapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
 //        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
 
+        Log.w(tag, "insert testing events in offline mode for testing");
+        if(socoApp.OFFLINE_MODE)
+            for(int i=0; i<10; i++){
+                EventCardModel m = new EventCardModel();
+                m.setOnClickListener(new EventCardModel.OnClickListener() {
+                    @Override
+                    public void OnClickListener() {
+                        Log.v(tag, "I am pressing the card");
+                    }
+                });
+                m.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
+                    @Override
+                    public void onLike() {
+                        Log.v(tag, "I like the card");
+                        socoApp.currentEventIndex++;
+                    }
+                    @Override
+                    public void onDislike() {
+                        Log.v(tag, "I dislike the card");
+                        socoApp.currentEventIndex++;
+                    }
+                });
+                socoApp.eventCardStackAdapter.add(m);
+            }
+
+        Log.v(tag, "insert downloaded event card");
         for(int i=0; i<socoApp.suggestedEvents.size(); i++) {
             Event e = socoApp.suggestedEvents.get(i);
 
@@ -346,9 +368,9 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                     socoApp.currentEventIndex++;
                 }
             });
-            adapter.add(eventCardModel);
+            socoApp.eventCardStackAdapter.add(eventCardModel);
         }
-        mEventCardContainer.setAdapter(adapter);
+        socoApp.mEventCardContainer.setAdapter(socoApp.eventCardStackAdapter);
         //card - end
 
         Log.v(tag, "set current event index");
@@ -419,7 +441,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         //primary function
         if (id == R.id.events){
             Log.d(tag, "click on menu: all events");
-            Intent i = new Intent(getActivity().getApplicationContext(), AllEventsActivity.class);
+            Intent i = new Intent(getActivity().getApplicationContext(), AllEventsActivityV1.class);
             startActivity(i);
         }
         //secondary functions
@@ -579,8 +601,8 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //        }
 //
 ////        Log.d(tag, "refresh UI");
-//        EventListAdapter adapter = new EventListAdapter(getActivity(), allListItems);
-//        lv_active_programs.setAdapter(adapter);
+//        EventListAdapter eventCardStackAdapter = new EventListAdapter(getActivity(), allListItems);
+//        lv_active_programs.setAdapter(eventCardStackAdapter);
 //    }
 
 //    public void showCompletedProjects() {
@@ -663,7 +685,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //                Intent ied = new Intent(getActivity().getApplicationContext(), ActivityEventDetails.class);
 //                startActivity(ied);
 //                break;
-            case R.id.join:
+            case R.id.joinevent:
                 Log.d(tag, "join this event");
                 Intent ije = new Intent(getActivity().getApplicationContext(), JoinEventActivity.class);
                 startActivity(ije);

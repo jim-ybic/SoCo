@@ -433,7 +433,7 @@ public class LoginActivity extends ActionBarActivity {
 
             if(socoApp.loginNormalResult){
                 Log.d(tag, "login normal success, finish this screen and login to dashboard");
-                Toast.makeText(getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Login suceess.", Toast.LENGTH_SHORT).show();
 
                 Log.v(tag, "start dashboard");
                 Intent intent = new Intent(LoginActivity.this, Dashboard.class);
@@ -441,7 +441,7 @@ public class LoginActivity extends ActionBarActivity {
             }
             else{
                 Log.e(tag, "login normal fail, notify user");
-                Toast.makeText(getApplicationContext(), "Fail, please check password and try again.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Login fail, please check password and try again.", Toast.LENGTH_SHORT).show();
             }
 
             pd.dismiss();

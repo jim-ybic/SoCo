@@ -15,7 +15,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="160dp"
         android:orientation="vertical"
         android:background="#ffffb73f"
         android:id="@+id/titlearea">
@@ -36,7 +36,7 @@
                 android:paddingTop="5dp"
                 android:paddingRight="5dp"
                 android:paddingBottom="5dp"
-                android:onClick="closeeventcard">
+                android:onClick="closecard">
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -595,25 +595,25 @@
             android:paddingTop="10dp"
             android:paddingBottom="1dp">
             <Button
-                android:id="@+id/like"
+                android:id="@+id/likeevent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="163"
-                android:textSize="12dp"
-                android:drawableLeft="@drawable/ic_action_favorite"
+                android:textSize="19dp"
                 android:background="@drawable/eventcategory_box"
+                android:text="163"
+                android:drawableLeft="@drawable/eventcard_nolike"
                 android:paddingLeft="20dp"
                 android:textStyle="bold"
                 android:onClick="likeevent"/>
 
             <Button
-                android:id="@+id/join"
+                android:id="@+id/joinevent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Join"
-                android:textSize="12dp"
+                android:textSize="19dp"
                 android:textColor="@android:color/holo_blue_dark"
                 android:background="@drawable/eventcategory_box"
                 android:paddingLeft="20dp"

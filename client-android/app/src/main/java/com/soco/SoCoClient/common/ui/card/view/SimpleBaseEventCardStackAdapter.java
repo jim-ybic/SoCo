@@ -10,12 +10,13 @@ import android.widget.TextView;
 //import com.andtinder.R;
 //import com.andtinder.model.CardModel;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.common.ui.card.model.EventCardModel;
+import com.soco.SoCoClient.events.model.ui.BaseEventCardStackAdapter;
+import com.soco.SoCoClient.events.model.ui.EventCardModel;
 
 @Deprecated
-public final class SimpleCardStackAdapter extends CardStackAdapter {
+public final class SimpleBaseEventCardStackAdapter extends BaseEventCardStackAdapter {
 
-	public SimpleCardStackAdapter(Context mContext) {
+	public SimpleBaseEventCardStackAdapter(Context mContext) {
 		super(mContext);
 	}
 

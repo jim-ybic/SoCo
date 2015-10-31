@@ -4,7 +4,7 @@
     tools:context="com.soco.SoCoClient.ShowActiveProgramActivity">
 
     <item
-        android:id="@+id/join"
+        android:id="@+id/joinevent"
         android:title="Add"
         android:orderInCategory="100"
         app:showAsAction="always"

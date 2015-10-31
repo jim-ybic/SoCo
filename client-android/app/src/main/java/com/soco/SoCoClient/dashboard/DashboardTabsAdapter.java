@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import com.soco.SoCoClient.common.database.Config;
-import com.soco.SoCoClient.friends.suggested.SuggestedFriendsFragment;
+import com.soco.SoCoClient.buddies.SuggestedBuddiesFragment;
 import com.soco.SoCoClient.events.suggested.SuggestedEventsFragment;
 
 public class DashboardTabsAdapter extends FragmentPagerAdapter {
@@ -26,7 +26,7 @@ public class DashboardTabsAdapter extends FragmentPagerAdapter {
                 return new SuggestedEventsFragment();
             case Config.DASHBOARD_TAB_INDEX_FRIENDS:
 //                return new FragmentContactsObs();
-                return new SuggestedFriendsFragment();
+                return new SuggestedBuddiesFragment();
 //            case DataConfig.DASHBOARD_TAB_INDEX_STREAM:
 //                return new FragmentStream();
 //            case DataConfig.DASHBOARD_TAB_INDEX_MESSAGES:

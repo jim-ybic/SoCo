@@ -43,8 +43,8 @@ public class FragmentMessages extends Fragment implements View.OnClickListener {
 //        Log.d(tag, "pid is " + pid + ", pid_onserver is " + pid_onserver);
 
 //        //drop down navigation - start
-//        /** Create an array adapter to populate dropdownlist */
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item, actions);
+//        /** Create an array eventCardStackAdapter to populate dropdownlist */
+//        ArrayAdapter<String> eventCardStackAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item, actions);
 //
 //        /** Enabling dropdown list navigation for the action bar */
 //        ((ActionBarActivity)getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -60,7 +60,7 @@ public class FragmentMessages extends Fragment implements View.OnClickListener {
 //
 //        /** Setting dropdown items and item navigation listener for the actionbar */
 //        ((ActionBarActivity)getActivity()).getSupportActionBar().setListNavigationCallbacks(
-//                adapter, navigationListener);
+//                eventCardStackAdapter, navigationListener);
 //        //drop down navigation - end
     }
 

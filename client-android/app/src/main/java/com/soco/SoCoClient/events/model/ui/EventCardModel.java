@@ -15,13 +15,13 @@
  * @license: Apache License 2.0
  */
 
-package com.soco.SoCoClient.common.ui.card.model;
+package com.soco.SoCoClient.events.model.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-public class PersonCardModel {
+public class EventCardModel {
 
 	private String   title;
 	private String   description;
@@ -29,7 +29,51 @@ public class PersonCardModel {
 	private Drawable cardLikeImageDrawable;
 	private Drawable cardDislikeImageDrawable;
 
-    private OnCardDismissedListener mOnCardDismissedListener = null;
+	String address;
+	String start_date, end_date;
+	String start_time, end_time;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getStart_date() {
+		return start_date;
+	}
+
+	public void setStart_date(String start_date) {
+		this.start_date = start_date;
+	}
+
+	public String getEnd_date() {
+		return end_date;
+	}
+
+	public void setEnd_date(String end_date) {
+		this.end_date = end_date;
+	}
+
+	public String getStart_time() {
+		return start_time;
+	}
+
+	public void setStart_time(String start_time) {
+		this.start_time = start_time;
+	}
+
+	public String getEnd_time() {
+		return end_time;
+	}
+
+	public void setEnd_time(String end_time) {
+		this.end_time = end_time;
+	}
+
+	private OnCardDismissedListener mOnCardDismissedListener = null;
 
     private OnClickListener mOnClickListener = null;
 
@@ -42,17 +86,17 @@ public class PersonCardModel {
         void OnClickListener();
     }
 
-	public PersonCardModel() {
+	public EventCardModel() {
 		this(null, null, (Drawable)null);
 	}
 
-	public PersonCardModel(String title, String description, Drawable cardImage) {
+	public EventCardModel(String title, String description, Drawable cardImage) {
 		this.title = title;
 		this.description = description;
 		this.cardImageDrawable = cardImage;
 	}
 
-	public PersonCardModel(String title, String description, Bitmap cardImage) {
+	public EventCardModel(String title, String description, Bitmap cardImage) {
 		this.title = title;
 		this.description = description;
 		this.cardImageDrawable = new BitmapDrawable(null, cardImage);

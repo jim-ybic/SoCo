@@ -14,6 +14,8 @@ import com.facebook.GraphResponse;
 import com.soco.SoCoClient.common.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.common.model.Person;
 import com.soco.SoCoClient.common.model.Profile;
+import com.soco.SoCoClient.events.model.ui.EventCardContainer;
+import com.soco.SoCoClient.events.model.ui.EventCardStackAdapter;
 import com.soco.SoCoClient.events.model.Event;
 
 import java.util.ArrayList;
@@ -280,7 +282,7 @@ public class SocoApp extends Application {
     public static boolean USE_SIMILATOR_LOGIN_NORMAL = true;
     public static boolean USE_SIMULATOR_SUGGESTED_EVENTS = false;
 
-    public static boolean OFFLINE_MODE = false;
+    public static boolean OFFLINE_MODE = true;
 
     //onboarding
     public String registerEmail;
@@ -311,6 +313,9 @@ public class SocoApp extends Application {
     public boolean downloadSuggestedEventsResponse;
     public boolean downloadSuggestedEventsResult;
     public ArrayList<Event> suggestedEvents;
+    public EventCardStackAdapter eventCardStackAdapter;
+    public EventCardContainer mEventCardContainer;
+
 
     //event details
     public int currentEventIndex;

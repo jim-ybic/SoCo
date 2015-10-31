@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.common.ui.card.view.EventCardContainer;
 
 //import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 
@@ -219,11 +218,11 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 //
 ////        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
 //        Resources r = getResources();
-////        SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(getActivity());
-//        EventCardStackAdapter adapter = new EventCardStackAdapter(getActivity());
-////        adapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
-////        adapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
-////        adapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
+////        SimpleCardStackAdapter eventCardStackAdapter = new SimpleCardStackAdapter(getActivity());
+//        EventCardStackAdapter eventCardStackAdapter = new EventCardStackAdapter(getActivity());
+////        eventCardStackAdapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
+////        eventCardStackAdapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
+////        eventCardStackAdapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
 ////        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
 //
 //        for(int i=1; i<=10; i++) {
@@ -247,9 +246,9 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 //                    Log.v(tag, "I dislike the card");
 //                }
 //            });
-//            adapter.add(cardModel);
+//            eventCardStackAdapter.add(cardModel);
 //        }
-//        mCardContainer.setAdapter(adapter);
+//        mCardContainer.setAdapter(eventCardStackAdapter);
 //        //card - end
 //    }
 
@@ -472,8 +471,8 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 //        }
 //
 ////        Log.d(tag, "refresh UI");
-//        EventListAdapter adapter = new EventListAdapter(getActivity(), allListItems);
-//        lv_active_programs.setAdapter(adapter);
+//        EventListAdapter eventCardStackAdapter = new EventListAdapter(getActivity(), allListItems);
+//        lv_active_programs.setAdapter(eventCardStackAdapter);
 //    }
 
 //    public void showCompletedProjects() {

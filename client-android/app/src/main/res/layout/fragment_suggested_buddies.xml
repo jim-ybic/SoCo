@@ -12,7 +12,7 @@
         <!--android:text="Here are some people you may be interested:"-->
         <!--android:textColor="@android:color/black" />-->
 
-    <com.soco.SoCoClient.common.ui.card.view.EventCardContainer
+    <com.soco.SoCoClient.buddies.model.ui.BuddyCardContainer
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/personcards"
         android:layout_width="fill_parent"
@@ -156,51 +156,68 @@
         <!--</LinearLayout>-->
     <!--</LinearLayout>-->
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Detail"
-            android:textSize="12dp"
-            android:drawableLeft="@drawable/ic_action_about"
-            android:background="@android:color/white"
-            android:paddingLeft="20dp" />
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
         <!--<Button-->
-            <!--android:id="@+id/more"-->
+            <!--android:id="@+id/detail"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_weight="1"-->
-            <!--android:text="More"-->
+            <!--android:text="Detail"-->
             <!--android:textSize="12dp"-->
-            <!--android:drawableLeft="@drawable/ic_action_about"/>-->
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"/>
+            <!--android:drawableLeft="@drawable/ic_action_about"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:paddingLeft="20dp" />-->
+        <!--&lt;!&ndash;<Button&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/more"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="More"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textSize="12dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:drawableLeft="@drawable/ic_action_about"/>&ndash;&gt;-->
+        <!--<View-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@android:color/darker_gray"/>-->
 
-        <Button
-            android:id="@+id/add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Add"
-            android:textSize="12dp"
-            android:drawableLeft="@drawable/ic_action_add_person"
-            android:textColorLink="@android:color/holo_blue_light"
-            android:background="@android:color/white"
-            android:paddingLeft="20dp"
-            android:textColor="@android:color/holo_blue_dark"
-            />
-    </LinearLayout>
+        <!--<Button-->
+            <!--android:id="@+id/add"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="Add"-->
+            <!--android:textSize="12dp"-->
+            <!--android:drawableLeft="@drawable/ic_action_add_person"-->
+            <!--android:textColorLink="@android:color/holo_blue_light"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:paddingLeft="20dp"-->
+            <!--android:textColor="@android:color/holo_blue_dark"-->
+            <!--/>-->
+    <!--</LinearLayout>-->
 
     <!--<ListView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:id="@+id/conversations" />-->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:clickable="true"
+        android:onClick="allbuddymatches">
+        <TextView
+            android:id="@+id/viewallevents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View all buddy matches"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"/>
+    </LinearLayout>
 
 </LinearLayout>
