@@ -8,8 +8,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
+//import com.dropbox.client2.DropboxAPI;
+//import com.dropbox.client2.android.AndroidAuthSession;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.FileUtils;
 
@@ -17,7 +17,7 @@ public class UploaderTask extends AsyncTask<Void, Void, Boolean> {
 
     static String tag = "UploaderTask";
 
-    DropboxAPI<AndroidAuthSession> dropboxApi;
+//    DropboxAPI<AndroidAuthSession> dropboxApi;
     String remoteFilePath;
     Uri uri;
     InputStream inputStream;
@@ -25,16 +25,16 @@ public class UploaderTask extends AsyncTask<Void, Void, Boolean> {
     Context context;
 
     public UploaderTask(//Context context,
-                        DropboxAPI<AndroidAuthSession> dropboxApi,
+//                        DropboxAPI<AndroidAuthSession> dropboxApi,
                         String remoteFilePath,
                         Uri uri,
                         InputStream is,
                         ContentResolver cr,
                         Context context) {
 
-        reAuthenticateDropboxApi(dropboxApi);
-
-        this.dropboxApi = dropboxApi;
+//        reAuthenticateDropboxApi(dropboxApi);
+//
+//        this.dropboxApi = dropboxApi;
         this.remoteFilePath = remoteFilePath;
         this.uri = uri;
         this.inputStream = is;
@@ -42,23 +42,25 @@ public class UploaderTask extends AsyncTask<Void, Void, Boolean> {
         this.context = context;
     }
 
-    void reAuthenticateDropboxApi(DropboxAPI<AndroidAuthSession> dropbox){
-        if (dropbox != null && dropbox.getSession() != null)
-            Log.d(tag, "DropboxAPI and Session success with existing token");
-        else if (dropbox.getSession().authenticationSuccessful()) {
-            Log.d(tag, "Session authentication successful");
-            try {
-                Log.d(tag, "Session finish authentication");
-                dropbox.getSession().finishAuthentication();
-                Log.d(tag, "Token after reAuthentication: " +
-                        dropbox.getSession().getOAuth2AccessToken());
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-                Log.e(tag, "Failed to authenticate dropboxApi api");
-            }
-        } else {
-            Log.e(tag, "Session authentication failed");
-        }
+    void reAuthenticateDropboxApi(
+//            DropboxAPI<AndroidAuthSession> dropbox
+    ){
+//        if (dropbox != null && dropbox.getSession() != null)
+//            Log.d(tag, "DropboxAPI and Session success with existing token");
+//        else if (dropbox.getSession().authenticationSuccessful()) {
+//            Log.d(tag, "Session authentication successful");
+//            try {
+//                Log.d(tag, "Session finish authentication");
+//                dropbox.getSession().finishAuthentication();
+//                Log.d(tag, "Token after reAuthentication: " +
+//                        dropbox.getSession().getOAuth2AccessToken());
+//            } catch (IllegalStateException e) {
+//                e.printStackTrace();
+//                Log.e(tag, "Failed to authenticate dropboxApi api");
+//            }
+//        } else {
+//            Log.e(tag, "Session authentication failed");
+//        }
     }
 
     @Override
@@ -67,9 +69,9 @@ public class UploaderTask extends AsyncTask<Void, Void, Boolean> {
         try {
             Log.i(tag, "Upload to remote: " + remoteFilePath + ", "
                     + inputStream + ", " + len);
-            DropboxAPI.Entry response = dropboxApi.putFile(
-                    remoteFilePath, inputStream, len, null, null);
-            Log.i(tag, "Upload file status: " + response.toString());
+//            DropboxAPI.Entry response = dropboxApi.putFile(
+//                    remoteFilePath, inputStream, len, null, null);
+//            Log.i(tag, "Upload file status: " + response.toString());
             SocoApp app = (SocoApp) context;
             app.setUploadStatus(SocoApp.UPLOAD_STATUS_SUCCESS);
         } catch (Exception e1) {

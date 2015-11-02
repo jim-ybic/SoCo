@@ -8,8 +8,8 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
 
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
+//import com.dropbox.client2.DropboxAPI;
+//import com.dropbox.client2.android.AndroidAuthSession;
 import com.facebook.GraphResponse;
 import com.soco.SoCoClient.common.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.common.model.Person;
@@ -45,7 +45,7 @@ public class SocoApp extends Application {
     public String dropboxDownloadStatus;
     public DBManagerSoco dbManagerSoco;
 //    public String loginEmail, loginPassword;
-    public DropboxAPI<AndroidAuthSession> dropboxApi;
+//    public DropboxAPI<AndroidAuthSession> dropboxApi;
     public Uri uri;
     public String lat, lng, zoom, locationName;
 //    public String pid_onserver;
@@ -315,7 +315,7 @@ public class SocoApp extends Application {
     public ArrayList<Event> suggestedEvents;
     public EventCardStackAdapter eventCardStackAdapter;
     public EventCardContainer mEventCardContainer;
-
+    public int eventGroupsBuddiesTabIndex = 0;
 
     //event details
     public int currentEventIndex;

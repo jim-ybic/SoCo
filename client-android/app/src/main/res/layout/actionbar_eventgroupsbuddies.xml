@@ -57,8 +57,9 @@
                 android:text="20"
                 android:layout_gravity="center_vertical"
                 android:clickable="false"
-                android:paddingRight="20dp"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -74,9 +75,9 @@
                 android:layout_height="wrap_content"
                 android:text="FREE"
                 android:layout_gravity="center_vertical"
-                android:paddingRight="10dp"
                 android:clickable="false"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:paddingLeft="20dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -118,7 +119,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="IDSHK Innovation Seminar"
-            android:padding="10dp"
             android:gravity="center"
             android:onClick="eventdetails"/>
         <!--<ImageView-->

@@ -161,7 +161,7 @@
         <!--android:orientation="vertical"-->
         <!--android:layout_weight="1"-->
         <!--android:gravity="left"-->
-        <!--android:onClick="eventorganizers"-->
+        <!--android:onClick="eventgroups"-->
         <!--android:paddingLeft="10dp"-->
         <!--android:paddingTop="40dp">-->
         <!--<LinearLayout-->
@@ -634,7 +634,7 @@
         app:layout_anchor="@id/titlearea"
         app:layout_anchorGravity="bottom|left"
         android:clickable="true"
-        android:onClick="eventorganizers"/>
+        android:onClick="eventgroups"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -645,7 +645,7 @@
         app:layout_anchor="@id/titlearea"
         app:layout_anchorGravity="bottom|left"
         android:clickable="true"
-        android:onClick="eventorganizers"/>
+        android:onClick="eventgroups"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -656,7 +656,7 @@
         app:layout_anchor="@id/titlearea"
         app:layout_anchorGravity="bottom|left"
         android:clickable="true"
-        android:onClick="eventorganizers"/>
+        android:onClick="eventgroups"/>
 
     <!--<android.support.design.widget.FloatingActionButton-->
         <!--android:layout_width="wrap_content"-->
@@ -666,6 +666,6 @@
         <!--android:src="@drawable/ic_action_person"-->
         <!--app:layout_anchor="@id/titlearea"-->
         <!--app:layout_anchorGravity="bottom|right"-->
-        <!--android:onClick="eventorganizers"/>-->
+        <!--android:onClick="eventgroups"/>-->
 
 </android.support.design.widget.CoordinatorLayout>

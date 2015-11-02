@@ -48,7 +48,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/sociallogin">
+        android:id="@+id/sociallogin"
+        android:layout_gravity="center_horizontal">
         <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
@@ -159,7 +160,8 @@
             android:orientation="horizontal"
             android:id="@+id/socialloginarea"
             android:gravity="center_horizontal"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:layout_gravity="center_horizontal">
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"

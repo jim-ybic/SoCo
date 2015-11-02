@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.events.model.ui.BaseEventCardStackAdapter;
@@ -29,7 +30,7 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 		}
 
 //		((ImageView) convertView.findViewById(R.id.banner)).setImageDrawable(model.getCardImageDrawable());
-//		((TextView) convertView.findViewById(R.id.title)).setText(model.getTitle());
+		((TextView) convertView.findViewById(R.id.title)).setText(model.getTitle());
 //		((TextView) convertView.findViewById(R.id.address)).setText(model.getAddress());
 //		((TextView) convertView.findViewById(R.id.description)).setText(model.getDescription());
 

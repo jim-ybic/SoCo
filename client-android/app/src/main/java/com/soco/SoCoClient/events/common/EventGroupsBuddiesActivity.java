@@ -27,12 +27,14 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
     private EventGroupsBuddiesTabsAdapter mAdapter;
     private android.support.v7.app.ActionBar actionBar;
 
-    private String[] tabs = {
-            "Groups",
-            "Buddies",
-//            "Stream",
-//            "Messages"
-    };
+    static final String GROUPS = "Groups";
+    static final String BUDDIES = "Buddies";
+//    private String[] tabs = {
+//            "Groups",
+//            "Buddies",
+////            "Stream",
+////            "Messages"
+//    };
 
     SocoApp socoApp;
 
@@ -76,10 +78,23 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
         actionBar.setBackgroundDrawable(colorDrawable);
 
         Log.v(tag, "Adding tabs");
-        for (String tab_name : tabs) {
-            actionBar.addTab(actionBar.newTab().setText(tab_name)
-                    .setTabListener(this));
-        }
+//        for (String tab_name : tabs) {
+            android.support.v7.app.ActionBar.Tab tabGroups = actionBar.newTab().setText(GROUPS).setTabListener(this);
+//            actionBar.addTab(actionBar.newTab().setText(tab_name)
+//                    .setTabListener(this));
+            actionBar.addTab(tabGroups);
+//        }
+//        actionBar.selectTab(tab);
+        android.support.v7.app.ActionBar.Tab tabBuddies= actionBar.newTab().setText(GROUPS).setTabListener(this);
+//            actionBar.addTab(actionBar.newTab().setText(tab_name)
+//                    .setTabListener(this));
+        actionBar.addTab(tabBuddies);
+
+        Log.v(tag, "set starting tab");
+        if(socoApp.eventGroupsBuddiesTabIndex == 0)
+            actionBar.selectTab(tabGroups);
+        else if(socoApp.eventGroupsBuddiesTabIndex == 1)
+            actionBar.selectTab(tabBuddies);
 
 //        Log.v(tag, "set action bar tab background color");
 //        actionBar.setStackedBackgroundDrawable(colorDrawable);

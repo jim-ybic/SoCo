@@ -20,7 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.dropbox.client2.DropboxAPI;
+//import com.dropbox.client2.DropboxAPI;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient._ref.GeneralConfigV1;
 import com.soco.SoCoClient.common.util.SocoApp;
@@ -42,7 +42,7 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
 
     SocoApp socoApp;
     int pid, pid_onserver;
-    DropboxAPI dropboxApi;
+//    DropboxAPI dropboxApi;
     DBManagerSoco dbManagerSoco;
     ArrayList<String> sharedFilesLocalPath;
     ArrayList<String> displayFilenames;
@@ -60,7 +60,7 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
         pid_onserver = socoApp.pid_onserver;
         loginEmail = socoApp.loginEmail;
         loginPassword = socoApp.loginPassword;
-        dropboxApi = socoApp.dropboxApi;
+//        dropboxApi = socoApp.dropboxApi;
 
         socoApp.cr = getActivity().getContentResolver();
     }
@@ -121,8 +121,8 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
             Uri uri = data.getData();
             Log.i(tag, "File selected with uri: " + uri.toString());
 //            FileUtils.checkUriMeta(getActivity().getContentResolver(), uri);
-            DropboxUtilV1.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
-                    getActivity().getContentResolver(), getActivity().getApplicationContext());
+//            DropboxUtilV1.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
+//                    getActivity().getContentResolver(), getActivity().getApplicationContext());
             socoApp.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
             // check status
             ((SocoApp)getActivity().getApplicationContext()).uri = uri;
@@ -136,8 +136,8 @@ public class ActivityResourcesFragment extends Fragment implements View.OnClickL
             Uri uri = data.getData();
             Log.d(tag, "Photo uri: " + uri);
 //            FileUtils.checkUriMeta(getActivity().getContentResolver(), uri);
-            DropboxUtilV1.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
-                    getActivity().getContentResolver(), getActivity().getApplicationContext());
+//            DropboxUtilV1.uploadToDropbox(uri, loginEmail, loginPassword, pid, dropboxApi,
+//                    getActivity().getContentResolver(), getActivity().getApplicationContext());
             socoApp.setUploadStatus(SocoApp.UPLOAD_STATUS_START);
             // check status
             socoApp.uri = uri;

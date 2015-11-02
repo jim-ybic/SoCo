@@ -169,8 +169,9 @@ public class Dashboard extends ActionBarActivity implements
         startActivity(i);
     }
 
-    public void eventorganizers (View view){
-        Log.d(tag, "show all event organizers");
+    public void eventgroups(View view){
+        Log.d(tag, "show all event groups");
+        socoApp.eventGroupsBuddiesTabIndex = 0;
 //        Intent i = new Intent(getApplicationContext(), EventOrganizersActivity.class);
         Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
         startActivity(i);
@@ -178,11 +179,10 @@ public class Dashboard extends ActionBarActivity implements
     }
 
     public void eventbuddies(View view){
-        Log.d(tag, "show all event friends");
-        Intent i = new Intent(getApplicationContext(), EventBuddiesActivity.class);
+        Log.d(tag, "show all event buddies");
+        socoApp.eventGroupsBuddiesTabIndex = 1;
+        Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
         startActivity(i);
-
-        //todo: use EventGroupsBuddiesActivity
     }
 
     public void commongroups (View view){

@@ -137,7 +137,7 @@
         <!--android:orientation="vertical"-->
         <!--android:layout_weight="1"-->
         <!--android:gravity="left"-->
-        <!--android:onClick="eventorganizers"-->
+        <!--android:onClick="eventgroups"-->
         <!--android:paddingLeft="10dp"-->
         <!--android:paddingTop="40dp">-->
         <!--<LinearLayout-->

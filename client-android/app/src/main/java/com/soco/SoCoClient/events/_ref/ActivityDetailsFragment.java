@@ -30,8 +30,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
+//import com.dropbox.client2.DropboxAPI;
+//import com.dropbox.client2.android.AndroidAuthSession;
 import com.soco.SoCoClient._ref.DataConfigV1;
 import com.soco.SoCoClient._ref.GeneralConfigV1;
 import com.soco.SoCoClient.R;
@@ -78,7 +78,7 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
     TimePickerDialog ptimePickerDialog = null;
     SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
-    DropboxAPI<AndroidAuthSession> dropboxApi;
+//    DropboxAPI<AndroidAuthSession> dropboxApi;
     int pid, pid_onserver;
 //    String pid_onserver;
 
@@ -169,10 +169,10 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
         activity = dbmgrSoco.loadActivityByAid(pid);
         attrMap = dbmgrSoco.loadActivityAttributesByPid(pid);
 
-        dropboxApi = DropboxUtilV1.initDropboxApiAuthentication(
-                GeneralConfigV1.ACCESS_KEY, GeneralConfigV1.ACCESS_SECRET, GeneralConfigV1.OA2_TOKEN,
-                getActivity().getApplication());
-        socoApp.dropboxApi = dropboxApi;
+//        dropboxApi = DropboxUtilV1.initDropboxApiAuthentication(
+//                GeneralConfigV1.ACCESS_KEY, GeneralConfigV1.ACCESS_SECRET, GeneralConfigV1.OA2_TOKEN,
+//                getActivity().getApplication());
+//        socoApp.dropboxApi = dropboxApi;
     }
 
     public void PopulatePhoneEmailList(){
@@ -766,28 +766,28 @@ public class ActivityDetailsFragment extends Fragment implements View.OnClickLis
         Log.i(tag, "onResume, total attributes loaded: " + attrMap.size());
         showProjectToScreen(activity, attrMap);
 
-        if (dropboxApi != null && dropboxApi.getSession() != null
-                && dropboxApi.getSession().getOAuth2AccessToken() != null) {
-            Log.d(tag, "DropboxAPI and Session created with existing token: "
-                    + dropboxApi.getSession().getOAuth2AccessToken());
-            return;
-        }
-
-        Log.v(tag, "Check OA2 authentication result");
-        if (dropboxApi.getSession().authenticationSuccessful()) {
-            Log.v(tag, "Dropbox OA2 authentication success");
-            try {
-                Log.v(tag, "Session finish authentication, set OA2 token");
-                dropboxApi.getSession().finishAuthentication();
-                Log.v(tag, "Session finish authentication complete with token: "
-                        + dropboxApi.getSession().getOAuth2AccessToken());
-            } catch (IllegalStateException e) {
-                Toast.makeText(getActivity(), "Error during Dropbox authentication",
-                        Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Log.i(tag, "Dropbox OA2 authentication failed (possibly timing issue)");
-        }
+//        if (dropboxApi != null && dropboxApi.getSession() != null
+//                && dropboxApi.getSession().getOAuth2AccessToken() != null) {
+//            Log.d(tag, "DropboxAPI and Session created with existing token: "
+//                    + dropboxApi.getSession().getOAuth2AccessToken());
+//            return;
+//        }
+//
+//        Log.v(tag, "Check OA2 authentication result");
+//        if (dropboxApi.getSession().authenticationSuccessful()) {
+//            Log.v(tag, "Dropbox OA2 authentication success");
+//            try {
+//                Log.v(tag, "Session finish authentication, set OA2 token");
+//                dropboxApi.getSession().finishAuthentication();
+//                Log.v(tag, "Session finish authentication complete with token: "
+//                        + dropboxApi.getSession().getOAuth2AccessToken());
+//            } catch (IllegalStateException e) {
+//                Toast.makeText(getActivity(), "Error during Dropbox authentication",
+//                        Toast.LENGTH_SHORT).show();
+//            }
+//        } else {
+//            Log.i(tag, "Dropbox OA2 authentication failed (possibly timing issue)");
+//        }
     }
 
 //    public void more(View view) {
