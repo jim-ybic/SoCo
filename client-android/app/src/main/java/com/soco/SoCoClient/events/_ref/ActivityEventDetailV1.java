@@ -64,8 +64,8 @@ public class ActivityEventDetailV1 extends ActionBarActivity {
     void findViewItems() {
         et_name = (EditText) findViewById(R.id.name);
         et_desc = (EditText) findViewById(R.id.test_view);
-        et_date = (EditText) findViewById(R.id.date);
-        et_time = (EditText) findViewById(R.id.time);
+        et_date = (EditText) findViewById(R.id.startdate);
+        et_time = (EditText) findViewById(R.id.starttime);
         et_location = (EditText) findViewById(R.id.location);
     }
 

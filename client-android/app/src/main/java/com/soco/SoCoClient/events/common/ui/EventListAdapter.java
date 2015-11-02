@@ -39,7 +39,7 @@ public class EventListAdapter extends ArrayAdapter<Item> {
 				v = vi.inflate(R.layout.event_list_entry, null);
 				final TextView name = (TextView)v.findViewById(R.id.name);
                 final TextView desc = (TextView)v.findViewById(R.id.test_view);
-				final TextView date = (TextView)v.findViewById(R.id.date);
+				final TextView date = (TextView)v.findViewById(R.id.startdate);
 
 				if (name != null)
 					name.setText(ei.name);

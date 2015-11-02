@@ -282,7 +282,7 @@ public class SocoApp extends Application {
     public static boolean USE_SIMILATOR_LOGIN_NORMAL = true;
     public static boolean USE_SIMULATOR_SUGGESTED_EVENTS = false;
 
-    public static boolean OFFLINE_MODE = true;
+    public static boolean OFFLINE_MODE = false;
 
     //onboarding
     public String registerEmail;

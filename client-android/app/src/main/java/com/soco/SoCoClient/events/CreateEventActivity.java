@@ -1,6 +1,8 @@
 package com.soco.SoCoClient.events;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -10,13 +12,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.service.CreateEventService;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class CreateEventActivity extends ActionBarActivity {
 
@@ -31,9 +39,13 @@ public class CreateEventActivity extends ActionBarActivity {
 
     EditText mTitle;
     EditText mLocation;
-    EditText mDate;
-    EditText mTime;
+    EditText mStartdate, mEnddate;
+    EditText mStarttime, mEndtime;
     EditText mIntroduction;
+
+    DatePickerDialog startdatePicker, enddatePicker;
+    TimePickerDialog starttimePicker, endtimePicker;
+    SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +55,7 @@ public class CreateEventActivity extends ActionBarActivity {
         socoApp = (SocoApp) getApplicationContext();
 
         findViews();
+        setTimedatePicker();
     }
 
     @Override
@@ -70,8 +83,10 @@ public class CreateEventActivity extends ActionBarActivity {
     void findViews(){
         mTitle = (EditText)findViewById(R.id.title);
         mLocation = (EditText)findViewById(R.id.location);
-        mDate = (EditText)findViewById(R.id.date);
-        mTime = (EditText)findViewById(R.id.time);
+        mStartdate = (EditText)findViewById(R.id.startdate);
+        mEnddate = (EditText)findViewById(R.id.enddate);
+        mStarttime = (EditText)findViewById(R.id.starttime);
+        mEndtime = (EditText)findViewById(R.id.endtime);
         mIntroduction = (EditText)findViewById(R.id.introduction);
     }
 
@@ -117,9 +132,12 @@ public class CreateEventActivity extends ActionBarActivity {
         Event e = new Event();
         e.setTitle(mTitle.getText().toString());
         e.setAddress(mLocation.getText().toString());
-        e.setStart_date(mDate.getText().toString());
-        e.setStart_time(mTime.getText().toString());
+        e.setStart_date(mStartdate.getText().toString());
+        e.setEnd_date(mEnddate.getText().toString());
+        e.setStart_time(mStarttime.getText().toString());
+        e.setEnd_time(mEndtime.getText().toString());
         e.setIntroduction(mIntroduction.getText().toString());
+        Log.d(tag, "user created event: " + e.toString());
         socoApp.newEvent = e;
 
         Log.v(tag, "start create event service");
@@ -168,5 +186,81 @@ public class CreateEventActivity extends ActionBarActivity {
             pd.dismiss();
         }
     };
+
+
+    void setTimedatePicker() {
+        Calendar newCalendar = Calendar.getInstance();
+        int year = newCalendar.get(Calendar.YEAR);
+        int month = newCalendar.get(Calendar.MONTH);
+        int day = newCalendar.get(Calendar.DAY_OF_MONTH);
+        final int hour = newCalendar.get(Calendar.HOUR_OF_DAY);
+        int minute = newCalendar.get(Calendar.MINUTE);
+
+        startdatePicker = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        mStartdate.setText(dateformatter.format(newDate.getTime()));
+                    }
+                }, year, month, day);
+
+        enddatePicker = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        mEnddate.setText(dateformatter.format(newDate.getTime()));
+                    }
+                }, year, month, day);
+
+        starttimePicker = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        String hourStr, minuteStr;
+                        if(selectedHour<10)
+                            hourStr = "0" + String.valueOf(selectedHour);
+                        else
+                            hourStr = String.valueOf(selectedHour);
+                        if(selectedMinute<10)
+                            minuteStr = "0" + String.valueOf(selectedMinute);
+                        else
+                            minuteStr = String.valueOf(selectedMinute);
+                        mStarttime.setText( hourStr + ":" + minuteStr);
+                    }
+                }, hour, minute, true); //Yes 24 hour time
+
+        endtimePicker = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        String hourStr, minuteStr;
+                        if(selectedHour<10)
+                            hourStr = "0" + String.valueOf(selectedHour);
+                        else
+                            hourStr = String.valueOf(selectedHour);
+                        if(selectedMinute<10)
+                            minuteStr = "0" + String.valueOf(selectedMinute);
+                        else
+                            minuteStr = String.valueOf(selectedMinute);
+                        mEndtime.setText(hourStr + ":" + minuteStr);
+                    }
+                }, hour, minute, true); //Yes 24 hour time
+    }
+
+    public void startdatePick(View view){
+        startdatePicker.show();
+    }
+
+    public void enddatePick(View view){
+        enddatePicker.show();
+    }
+
+    public void starttimePick(View view){
+        starttimePicker.show();
+    }
+
+    public void endtimePick(View view){
+        endtimePicker.show();
+    }
 
 }

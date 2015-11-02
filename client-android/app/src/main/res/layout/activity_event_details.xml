@@ -421,7 +421,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="1"
-                    android:onClick="eventfriends">
+                    android:onClick="eventbuddies">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -2113,49 +2113,49 @@
     <!--fab:fab_colorPressed="@color/pink"-->
     <!--fab:fab_colorRipple="@color/white" />-->
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/right_labels"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        fab:fab_addButtonColorNormal="@color/white"
-        fab:fab_addButtonColorPressed="@color/white_pressed"
-        fab:fab_addButtonPlusIconColor="@color/half_black"
-        fab:fab_labelStyle="@style/menu_labels_style"
-        fab:fab_labelsPosition="left">
+    <!--<com.getbase.floatingactionbutton.FloatingActionsMenu-->
+        <!--android:id="@+id/right_labels"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|right"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--fab:fab_addButtonColorNormal="@color/white"-->
+        <!--fab:fab_addButtonColorPressed="@color/white_pressed"-->
+        <!--fab:fab_addButtonPlusIconColor="@color/half_black"-->
+        <!--fab:fab_labelStyle="@style/menu_labels_style"-->
+        <!--fab:fab_labelsPosition="left">-->
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/white"
-            fab:fab_size="mini"
-            fab:fab_title="Like"
-            fab:fab_colorPressed="@color/white_pressed"/>
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/white"
-            fab:fab_size="mini"
-            fab:fab_title="Share"
-            fab:fab_colorPressed="@color/white_pressed"/>
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/white"
-            fab:fab_size="mini"
-            fab:fab_title="Comment"
-            fab:fab_colorPressed="@color/white_pressed"/>
-       <com.getbase.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/white"
-            fab:fab_size="mini"
-            fab:fab_title="RSVP"
-            fab:fab_colorPressed="@color/white_pressed"/>
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+        <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--fab:fab_colorNormal="@color/white"-->
+            <!--fab:fab_size="mini"-->
+            <!--fab:fab_title="Like"-->
+            <!--fab:fab_colorPressed="@color/white_pressed"/>-->
+        <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--fab:fab_colorNormal="@color/white"-->
+            <!--fab:fab_size="mini"-->
+            <!--fab:fab_title="Share"-->
+            <!--fab:fab_colorPressed="@color/white_pressed"/>-->
+        <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--fab:fab_colorNormal="@color/white"-->
+            <!--fab:fab_size="mini"-->
+            <!--fab:fab_title="Comment"-->
+            <!--fab:fab_colorPressed="@color/white_pressed"/>-->
+       <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--fab:fab_colorNormal="@color/white"-->
+            <!--fab:fab_size="mini"-->
+            <!--fab:fab_title="RSVP"-->
+            <!--fab:fab_colorPressed="@color/white_pressed"/>-->
+    <!--</com.getbase.floatingactionbutton.FloatingActionsMenu>-->
 
 </FrameLayout>

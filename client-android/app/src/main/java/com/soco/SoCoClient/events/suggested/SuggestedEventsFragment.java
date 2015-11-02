@@ -124,7 +124,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //        Log.v(tag, "create cards");
 //        initCards(rootView);
 
-//        rootView.findViewById(R.id.eventfriends).setOnClickListener(this);
+//        rootView.findViewById(R.id.eventbuddies).setOnClickListener(this);
 //        rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
 //        rootView.findViewById(R.id.detail).setOnClickListener(this);
 //        rootView.findViewById(R.id.more).setOnClickListener(this);
@@ -251,6 +251,12 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
     }
 
     void downloadEventsInBackgroud() {
+        if(socoApp.OFFLINE_MODE){
+            Log.w(tag, "offline mode: bypass download events");
+            socoApp.downloadSuggestedEventsResult = true;
+            return;
+        }
+
         Log.v(tag, "start download events service at backend");
         Intent i = new Intent(getActivity(), DownloadSuggestedEventsService.class);
         getActivity().startService(i);
@@ -282,10 +288,14 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
             Log.v(tag, "handle receive message and dismiss dialog");
 
             if(socoApp.downloadSuggestedEventsResult){
-                Log.d(tag, "download suggested event - success");
-                Toast.makeText(getActivity().getApplicationContext(), "Download events suceess.", Toast.LENGTH_SHORT).show();
-
-                initCards(rootView);
+                if(socoApp.OFFLINE_MODE){
+                    Log.w(tag, "offline mode, bypassed downloaded events");
+                }
+                else {
+                    Log.d(tag, "download suggested event - success");
+                    Toast.makeText(getActivity().getApplicationContext(), "Download events suceess.", Toast.LENGTH_SHORT).show();
+                    initCards(rootView);
+                }
             }
             else{
                 Log.e(tag, "download suggested event fail, notify user");
@@ -297,7 +307,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
     };
 
     void initCards(View rootView){
-        Log.v(tag, "start card init");
+        Log.v(tag, "start event card init");
 
         socoApp.mEventCardContainer = (EventCardContainer) rootView.findViewById(R.id.eventcards);
         socoApp.mEventCardContainer.setOrientation(Orientations.Orientation.Ordered);
@@ -311,9 +321,10 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //        eventCardStackAdapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
 //        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
 
-        Log.w(tag, "insert testing events in offline mode for testing");
-        if(socoApp.OFFLINE_MODE)
-            for(int i=0; i<10; i++){
+
+        if(socoApp.OFFLINE_MODE) {
+            Log.w(tag, "insert testing events in offline mode for testing");
+            for (int i = 0; i < 10; i++) {
                 EventCardModel m = new EventCardModel();
                 m.setOnClickListener(new EventCardModel.OnClickListener() {
                     @Override
@@ -327,6 +338,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                         Log.v(tag, "I like the card");
                         socoApp.currentEventIndex++;
                     }
+
                     @Override
                     public void onDislike() {
                         Log.v(tag, "I dislike the card");
@@ -335,41 +347,45 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                 });
                 socoApp.eventCardStackAdapter.add(m);
             }
+        }
+        else {
+            Log.v(tag, "normal online mode: insert downloaded event card");
+            for (int i = 0; i < socoApp.suggestedEvents.size(); i++) {
+                Event e = socoApp.suggestedEvents.get(i);
 
-        Log.v(tag, "insert downloaded event card");
-        for(int i=0; i<socoApp.suggestedEvents.size(); i++) {
-            Event e = socoApp.suggestedEvents.get(i);
-
-            EventCardModel eventCardModel = new EventCardModel();
+                EventCardModel eventCardModel = new EventCardModel();
 //                    "Event #" + i,
 //                    "Description goes here",
 //                    r.getDrawable(R.drawable.picture3_crop));
-            eventCardModel.setTitle(e.getTitle());
-            eventCardModel.setAddress(e.getAddress());
-            eventCardModel.setStart_date(e.getStart_date());
-            eventCardModel.setEnd_date(e.getEnd_date());
-            eventCardModel.setEnd_time(e.getEnd_time());
+                eventCardModel.setTitle(e.getTitle());
+                eventCardModel.setAddress(e.getAddress());
+                eventCardModel.setStart_date(e.getStart_date());
+                eventCardModel.setEnd_date(e.getEnd_date());
+                eventCardModel.setEnd_time(e.getEnd_time());
 
-            eventCardModel.setOnClickListener(new EventCardModel.OnClickListener() {
-                @Override
-                public void OnClickListener() {
-                    Log.v(tag, "I am pressing the card");
-                }
-            });
-            eventCardModel.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
-                @Override
-                public void onLike() {
-                    Log.v(tag, "I like the card");
-                    socoApp.currentEventIndex++;
-                }
-                @Override
-                public void onDislike() {
-                    Log.v(tag, "I dislike the card");
-                    socoApp.currentEventIndex++;
-                }
-            });
-            socoApp.eventCardStackAdapter.add(eventCardModel);
+                eventCardModel.setOnClickListener(new EventCardModel.OnClickListener() {
+                    @Override
+                    public void OnClickListener() {
+                        Log.v(tag, "I am pressing the card");
+                    }
+                });
+                eventCardModel.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
+                    @Override
+                    public void onLike() {
+                        Log.v(tag, "I like the card");
+                        socoApp.currentEventIndex++;
+                    }
+
+                    @Override
+                    public void onDislike() {
+                        Log.v(tag, "I dislike the card");
+                        socoApp.currentEventIndex++;
+                    }
+                });
+                socoApp.eventCardStackAdapter.add(eventCardModel);
+            }
         }
+
         socoApp.mEventCardContainer.setAdapter(socoApp.eventCardStackAdapter);
         //card - end
 
@@ -665,7 +681,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //            case R.id.home:
 //                Log.d(tag, "click on home");
 //                break;
-//            case R.id.eventfriends:
+//            case R.id.eventbuddies:
 //                Log.d(tag, "show all event friends");
 //                Intent ief = new Intent(getActivity().getApplicationContext(), ActivityEventFriends.class);
 //                startActivity(ief);

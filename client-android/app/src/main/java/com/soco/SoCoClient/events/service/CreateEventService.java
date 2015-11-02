@@ -92,12 +92,21 @@ public class CreateEventService extends IntentService {
             data.put(JsonKeys.NAME, event.getTitle());
             if(!event.getAddress().isEmpty())
                 data.put(JsonKeys.LOCATION, event.getAddress());
+
+            JSONObject dateObj = new JSONObject();
             if(!event.getStart_date().isEmpty())
-                data.put(JsonKeys.DATE, event.getStart_date());
+                dateObj.put(JsonKeys.START_DATE, event.getStart_date());
+            if(!event.getStart_date().isEmpty())
+                dateObj.put(JsonKeys.END_DATE, event.getEnd_date());
             if(!event.getStart_time().isEmpty())
-                data.put(JsonKeys.TIME, event.getStart_time());
+                dateObj.put(JsonKeys.START_TIME, event.getStart_time());
+            if(!event.getStart_time().isEmpty())
+                dateObj.put(JsonKeys.END_TIME, event.getEnd_time());
+            data.put(JsonKeys.TIMEDATE, dateObj);
+
             if(!event.getIntroduction().isEmpty())
                 data.put(JsonKeys.INTRODUCTION, event.getIntroduction());
+
 
             Log.d(tag, "create event json: " + data);
         } catch (Exception e) {

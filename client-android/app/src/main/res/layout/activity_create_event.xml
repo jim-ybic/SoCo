@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
@@ -21,7 +19,6 @@
             android:layout_height="wrap_content"
             android:text="upload photo"
             android:onClick="uploadPhoto"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -37,7 +34,6 @@
             android:layout_height="wrap_content"
             android:hint="Title"
             android:text="test event title" />
-
     </LinearLayout>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -92,20 +88,39 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                    <EditText
-                        android:id="@+id/date"
+                    <android.widget.EditText
+                        android:id="@+id/startdate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Date"
-                        android:onClick="date"/>
-                    <EditText
-                        android:id="@+id/time"
+                        android:hint="Start Date"
+                        android:onClick="startdatePick"/>
+                    <android.widget.EditText
+                        android:id="@+id/starttime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Time"
-                        android:onClick="time"/>
+                        android:hint="Start Time"
+                        android:onClick="starttimePick"/>
+                </LinearLayout>
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <android.widget.EditText
+                        android:id="@+id/enddate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="End Date"
+                        android:onClick="enddatePick"/>
+                    <android.widget.EditText
+                        android:id="@+id/endtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="End Time"
+                        android:onClick="endtimePick"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -127,7 +142,13 @@
                     android:layout_height="100dp"
                     android:inputType="textMultiLine"
                     android:hint="Say something"
-                    android:gravity="top" />
+                    android:background="@drawable/eventcategory_box"
+                    android:gravity="top"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_marginTop="5dp" />
             </LinearLayout>
 
 
@@ -192,6 +213,11 @@
                     android:layout_height="100dp"
                     android:hint="Say something more"
                     android:inputType="textMultiLine"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:gravity="top"/>
             </LinearLayout>
 
@@ -221,32 +247,36 @@
                     android:textColor="@android:color/black"/>
             </LinearLayout>
 
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/actionbuttons"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+                <Button
+                    android:id="@+id/save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Apply"
+                    android:onClick="apply"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/round_reactangle_black" />
+                <Button
+                    android:id="@+id/preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Preview"
+                    android:onClick="preview"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/eventcategory_box" />
+            </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/actionbuttons"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
-        <Button
-            android:id="@+id/save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Apply"
-            android:onClick="apply"
-            android:textColor="@android:color/white"
-            android:background="@drawable/round_reactangle_black" />
-        <Button
-            android:id="@+id/preview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Preview"
-            android:onClick="preview"
-            android:textColor="@android:color/black"
-            android:background="@drawable/eventcategory_box" />
-    </LinearLayout>
+
 
 </LinearLayout>

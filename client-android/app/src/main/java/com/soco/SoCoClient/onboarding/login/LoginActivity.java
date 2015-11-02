@@ -70,7 +70,7 @@ public class LoginActivity extends ActionBarActivity {
 
 
     static final int WAIT_INTERVAL_IN_SECOND = 1;
-    static final int WAIT_ITERATION = 10;
+    static final int WAIT_ITERATION = 5;
     static final int THOUSAND = 1000;
 
     // Local views
@@ -272,6 +272,12 @@ public class LoginActivity extends ActionBarActivity {
         Log.v(tag, "set response flag as false");
         socoApp.loginViaFacebookResponse = false;
 
+        if(socoApp.OFFLINE_MODE){
+            Log.w(tag, "offline mode: bypass login via facebook");
+            socoApp.loginViaFacebookResult = true;
+            return;
+        }
+
         Log.v(tag, "in background: start login service - wait for response and login to server");
         Intent i = new Intent(this, LoginViaFacebookService.class);
         startService(i);
@@ -400,9 +406,15 @@ public class LoginActivity extends ActionBarActivity {
         return true;
     }
 
-    private void loginNormalInBackground() {
+    void loginNormalInBackground() {
         Log.v(tag, "set response flag as false");
         socoApp.loginNormalResponse = false;
+
+        if(socoApp.OFFLINE_MODE){
+            Log.w(tag, "offline mode: bypass login normal");
+            socoApp.loginNormalResult = true;
+            return;
+        }
 
         Log.v(tag, "start login normal service, login email " + et_login_email + ", logig password " + et_login_password);
         Intent i = new Intent(this, LoginNormalService.class);

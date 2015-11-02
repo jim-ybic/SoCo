@@ -186,14 +186,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                     <EditText
-                        android:id="@+id/date"
+                        android:id="@+id/startdate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Pick a date"
                         android:onClick="date"/>
                     <EditText
-                        android:id="@+id/time"
+                        android:id="@+id/starttime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

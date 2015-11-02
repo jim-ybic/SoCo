@@ -10,18 +10,24 @@
         android:id="@+id/quickinfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="left"
-            android:gravity="left">
+            android:layout_gravity="center_vertical|left"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="5dp">
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_action_cancel_black"
+                android:src="@drawable/actionbar_close"
                 android:layout_gravity="center_vertical"
                 android:onClick="close"/>
         </LinearLayout>
@@ -42,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_action_chat_black"
+                android:src="@drawable/actionbar_comment"
                 android:layout_gravity="center_vertical"
                 android:clickable="false"/>
             <TextView
@@ -51,7 +57,8 @@
                 android:text="20"
                 android:layout_gravity="center_vertical"
                 android:clickable="false"
-                android:paddingRight="20dp" />
+                android:paddingRight="20dp"
+                android:textColor="@android:color/white" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -68,23 +75,29 @@
                 android:text="FREE"
                 android:layout_gravity="center_vertical"
                 android:paddingRight="10dp"
-                android:clickable="false"/>
+                android:clickable="false"
+                android:textColor="@android:color/white" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="right"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp">
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_action_overflow"
+                android:src="@drawable/actionbar_overflow"
                 android:layout_gravity="center_vertical"
                 android:clickable="true"
-                android:onClick="more" />
+                android:onClick="more"
+                android:padding="5dp" />
 
         </LinearLayout>
     </LinearLayout>

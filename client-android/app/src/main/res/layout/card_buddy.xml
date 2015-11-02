@@ -567,7 +567,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1"
-            android:onClick="eventfriends"
+            android:onClick="eventbuddies"
             android:paddingLeft="10dp"
             android:paddingTop="10dp">
             <TextView

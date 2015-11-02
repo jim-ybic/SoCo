@@ -105,7 +105,7 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
     }
 
     void initCards(View rootView){
-        Log.v(tag, "start card init");
+        Log.v(tag, "start buddy card init");
 
         mBuddyCardContainer = (BuddyCardContainer) rootView.findViewById(R.id.personcards);
         mBuddyCardContainer.setOrientation(Orientations.Orientation.Ordered);

@@ -86,7 +86,7 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
 
 //        cardTest(rootView);
 
-//        rootView.findViewById(R.id.eventfriends).setOnClickListener(this);
+//        rootView.findViewById(R.id.eventbuddies).setOnClickListener(this);
 //        rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
 //        rootView.findViewById(R.id.detail).setOnClickListener(this);
 //        rootView.findViewById(R.id.more).setOnClickListener(this);
@@ -535,7 +535,7 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
 //            case R.id.home:
 //                Log.d(tag, "click on home");
 //                break;
-//            case R.id.eventfriends:
+//            case R.id.eventbuddies:
 //                Log.d(tag, "show all event friends");
 //                Intent ief = new Intent(getActivity().getApplicationContext(), ActivityEventFriends.class);
 //                startActivity(ief);

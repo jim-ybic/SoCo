@@ -177,11 +177,12 @@ public class Dashboard extends ActionBarActivity implements
 
     }
 
-    public void eventfriends (View view){
+    public void eventbuddies(View view){
         Log.d(tag, "show all event friends");
         Intent i = new Intent(getApplicationContext(), EventBuddiesActivity.class);
         startActivity(i);
 
+        //todo: use EventGroupsBuddiesActivity
     }
 
     public void commongroups (View view){
