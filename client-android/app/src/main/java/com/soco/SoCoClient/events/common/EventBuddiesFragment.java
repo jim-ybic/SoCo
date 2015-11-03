@@ -7,12 +7,21 @@ package com.soco.SoCoClient.events.common;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 
@@ -83,6 +92,9 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 //        Log.d(tag, "on create view");
         rootView = inflater.inflate(R.layout.fragment_event_buddies, container, false);
 //        Log.d(tag, "Found root view: " + rootView);
+
+        addDummyBuddyLikers();
+        addDummyBuddyParticipants();
 
 //        cardTest(rootView);
 
@@ -209,6 +221,128 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 //        getActivity().setTitle(socoApp.currentPath);
 
         return rootView;
+    }
+
+    public void addDummyBuddyParticipants(){
+        Log.v(tag, "dynamically add a few ui elements for testing");
+
+        LinearLayout list1 = (LinearLayout) rootView.findViewById(R.id.participantlist1);
+
+        int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
+        TypedArray ta = getActivity().obtainStyledAttributes(attrs);
+        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
+        ta.recycle();
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.weight = 1.0f;
+        params.gravity = Gravity.CENTER_HORIZONTAL;
+
+        LinearLayout layout1 = new LinearLayout(getActivity());
+        layout1.setLayoutParams(params);
+        layout1.setOrientation(LinearLayout.VERTICAL);
+        ImageButton user1 = new ImageButton(getActivity());
+        Drawable image1 = getResources().getDrawable(R.drawable.eventbuddies_person4);
+        user1.setImageDrawable(image1);
+        user1.setLayoutParams(params);
+        user1.setBackground(drawableFromTheme);
+        TextView name1 = new TextView(getActivity());
+        name1.setText("name1");
+        name1.setLayoutParams(params);
+        layout1.addView(user1);
+        layout1.addView(name1);
+        list1.addView(layout1);
+
+        LinearLayout layout2 = new LinearLayout(getActivity());
+        layout2.setLayoutParams(params);
+        layout2.setOrientation(LinearLayout.VERTICAL);
+        ImageButton user2 = new ImageButton(getActivity());
+        Drawable image2 = getResources().getDrawable(R.drawable.eventbuddies_person4);
+        user2.setImageDrawable(image2);
+        user2.setLayoutParams(params);
+        user2.setBackground(drawableFromTheme);
+        TextView name2 = new TextView(getActivity());
+        name2.setText("name2");
+        name2.setLayoutParams(params);
+        layout2.addView(user2);
+        layout2.addView(name2);
+        list1.addView(layout2);
+
+        LinearLayout layout3 = new LinearLayout(getActivity());
+        layout3.setLayoutParams(params);
+        layout3.setOrientation(LinearLayout.VERTICAL);
+        ImageButton user3 = new ImageButton(getActivity());
+        Drawable image3 = getResources().getDrawable(R.drawable.eventbuddies_person4);
+        user3.setImageDrawable(image3);
+        user3.setLayoutParams(params);
+        user3.setBackground(drawableFromTheme);
+        TextView name3 = new TextView(getActivity());
+        name3.setText("name3");
+        name3.setLayoutParams(params);
+        layout3.addView(user3);
+        layout3.addView(name3);
+        list1.addView(layout3);
+
+    }
+
+    public void addDummyBuddyLikers(){
+        Log.v(tag, "dynamically add a few ui elements for testing");
+
+        LinearLayout likerList1 = (LinearLayout) rootView.findViewById(R.id.likerlist1);
+
+        int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
+        TypedArray ta = getActivity().obtainStyledAttributes(attrs);
+        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
+        ta.recycle();
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.weight = 1.0f;
+        params.gravity = Gravity.CENTER_HORIZONTAL;
+
+        LinearLayout layout1 = new LinearLayout(getActivity());
+        layout1.setLayoutParams(params);
+        layout1.setOrientation(LinearLayout.VERTICAL);
+        ImageButton user1 = new ImageButton(getActivity());
+        Drawable image1 = getResources().getDrawable(R.drawable.eventbuddies_person4);
+        user1.setImageDrawable(image1);
+        user1.setLayoutParams(params);
+        user1.setBackground(drawableFromTheme);
+        TextView name1 = new TextView(getActivity());
+        name1.setText("name1");
+        name1.setLayoutParams(params);
+        layout1.addView(user1);
+        layout1.addView(name1);
+        likerList1.addView(layout1);
+
+        LinearLayout layout2 = new LinearLayout(getActivity());
+        layout2.setLayoutParams(params);
+        layout2.setOrientation(LinearLayout.VERTICAL);
+        ImageButton user2 = new ImageButton(getActivity());
+        Drawable image2 = getResources().getDrawable(R.drawable.eventbuddies_person4);
+        user2.setImageDrawable(image2);
+        user2.setLayoutParams(params);
+        user2.setBackground(drawableFromTheme);
+        TextView name2 = new TextView(getActivity());
+        name2.setText("name2");
+        name2.setLayoutParams(params);
+        layout2.addView(user2);
+        layout2.addView(name2);
+        likerList1.addView(layout2);
+
+        LinearLayout layout3 = new LinearLayout(getActivity());
+        layout3.setLayoutParams(params);
+        layout3.setOrientation(LinearLayout.VERTICAL);
+        ImageButton user3 = new ImageButton(getActivity());
+        Drawable image3 = getResources().getDrawable(R.drawable.eventbuddies_person4);
+        user3.setImageDrawable(image3);
+        user3.setLayoutParams(params);
+        user3.setBackground(drawableFromTheme);
+        TextView name3 = new TextView(getActivity());
+        name3.setText("name3");
+        name3.setLayoutParams(params);
+        layout3.addView(user3);
+        layout3.addView(name3);
+        likerList1.addView(layout3);
+
     }
 
 //    void cardTest(View rootView){

@@ -3,6 +3,7 @@ package com.soco.SoCoClient.events.common;
 import android.app.ActionBar;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,6 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.app.ActionBar.LayoutParams;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.soco.SoCoClient.R;
@@ -99,7 +103,6 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
 //        Log.v(tag, "set action bar tab background color");
 //        actionBar.setStackedBackgroundDrawable(colorDrawable);
 
-
         Log.v(tag, "Set listener");
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -114,7 +117,10 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
             public void onPageScrollStateChanged(int arg0) {
             }
         });
+
     }
+
+
 
     @Override
     public void onTabSelected(android.support.v7.app.ActionBar.Tab tab,
