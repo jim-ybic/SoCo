@@ -30,8 +30,10 @@ public class EventCardModel {
 	private Drawable cardDislikeImageDrawable;
 
 	String address;
-	String start_date, end_date;
-	String start_time, end_time;
+	String start_date;
+	String end_date;
+	String start_time;
+	String end_time;
 
 	public String getAddress() {
 		return address;

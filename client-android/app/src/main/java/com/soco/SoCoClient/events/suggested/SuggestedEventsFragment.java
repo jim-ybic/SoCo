@@ -360,6 +360,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                 eventCardModel.setTitle(e.getTitle());
                 eventCardModel.setAddress(e.getAddress());
                 eventCardModel.setStart_date(e.getStart_date());
+                eventCardModel.setStart_time(e.getStart_time());
                 eventCardModel.setEnd_date(e.getEnd_date());
                 eventCardModel.setEnd_time(e.getEnd_time());
 

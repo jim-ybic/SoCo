@@ -193,7 +193,7 @@ public class DownloadSuggestedEventsService extends IntentService {
                     Log.v(tag, "current timedate: " + timedate.toString());
 
                     e.setStart_date(timedate.getString(JsonKeys.START_DATE));
-//                    e.setEnd_date(timedate.getString(JsonKeys.END_DATE));
+                    e.setEnd_date(timedate.getString(JsonKeys.END_DATE));
                     e.setStart_time(timedate.getString(JsonKeys.START_TIME));
                     e.setEnd_time(timedate.getString(JsonKeys.END_TIME));
 
