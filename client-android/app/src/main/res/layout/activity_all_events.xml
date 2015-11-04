@@ -13,16 +13,7 @@
         android:orientation="horizontal"
         android:paddingTop="20dp">
 
-        <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:text="create new events "
-        android:textSize="18sp"
-        android:layout_gravity="center_horizontal"
-        android:clickable="true"
-        android:onClick="createevent"
-        android:layout_weight="1"
-        android:gravity="center" />
+
 
         <TextView
             android:layout_height="wrap_content"
@@ -30,6 +21,17 @@
             android:text="view my events "
             android:textSize="18sp"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="+ create your event"
+            android:textSize="18sp"
+            android:layout_gravity="center_horizontal"
+            android:clickable="true"
+            android:onClick="createevent"
             android:layout_weight="1"
             android:gravity="center" />
     </LinearLayout>

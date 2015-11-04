@@ -1,8 +1,11 @@
 package com.soco.SoCoClient.events.allevents;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,13 +13,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient._ref.Actor;
 import com.soco.SoCoClient._ref.MyAdapter;
+import com.soco.SoCoClient.dashboard.DashboardTabsAdapter;
 import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.events.model.Event;
 
@@ -33,8 +39,11 @@ public class AllEventsActivity extends ActionBarActivity {
     SimpleEventCardAdapter simpleEventCardAdapter;
     List<Event> events = new ArrayList<>();
 
-    Bitmap bitmap;
-    ImageButton user;
+    android.support.v7.app.ActionBar actionBar;
+    View actionbarView;
+
+//    Bitmap bitmap;
+//    ImageButton user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +60,42 @@ public class AllEventsActivity extends ActionBarActivity {
         simpleEventCardAdapter = new SimpleEventCardAdapter(this, events);
         mRecyclerView.setAdapter(simpleEventCardAdapter);
 
+        setActionbar();
+
 //        user = (ImageButton) findViewById(R.id.user);
 //        testFacebookUserProfilePicture(user);
+    }
+
+    private void setActionbar() {
+        //set background color
+//        viewPager.setBackgroundColor(Color.WHITE);
+
+        Log.v(tag, "set custom actionbar");
+
+        actionBar = getSupportActionBar();
+        if(actionBar == null){
+            Log.e(tag, "Cannot get action bar object");
+            return;
+        }
+
+//        mAdapter = new DashboardTabsAdapter(getSupportFragmentManager());
+//        viewPager.setAdapter(mAdapter);
+
+        Log.v(tag, "set actionbar custom view");
+        actionBar.setHomeButtonEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionbarView = getLayoutInflater().inflate(R.layout.actionbar_allevents, null);
+
+        android.support.v7.app.ActionBar.LayoutParams layout = new android.support.v7.app.ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        actionBar.setCustomView(actionbarView, layout);
+        Toolbar parent = (Toolbar) actionbarView.getParent();
+        Log.v(tag, "remove margin in actionbar area");
+        parent.setContentInsetsAbsolute(0, 0);
+
+        Log.v(tag, "set actionbar background color");
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
+        actionBar.setBackgroundDrawable(colorDrawable);
     }
 
 //    private void testFacebookUserProfilePicture(final ImageButton user) {

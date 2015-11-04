@@ -360,7 +360,11 @@
         </activity>
         <activity
             android:name=".events.allevents.AllEventsActivity"
-            android:label="@string/title_activity_all_events" >
+            android:label="@string/title_activity_all_events"
+            android:parentActivityName=".dashboard.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.dashboard.Dashboard" />
         </activity>
         <activity
             android:name=".buddies.AllBuddyMatchesActivity"
@@ -369,6 +373,22 @@
         <activity
             android:name=".buddies.CommonEventsActivity"
             android:label="@string/title_activity_common_events" >
+        </activity>
+        <activity
+            android:name=".events.allevents.SearchEventActivity"
+            android:label="@string/title_activity_search_event"
+            android:parentActivityName=".events.allevents.AllEventsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.events.allevents.AllEventsActivity" />
+        </activity>
+        <activity
+            android:name=".buddies.allbuddies.AllBuddiesActivity"
+            android:label="@string/title_activity_all_buddies"
+            android:parentActivityName=".dashboard.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.dashboard.Dashboard" />
         </activity>
     </application>
 
