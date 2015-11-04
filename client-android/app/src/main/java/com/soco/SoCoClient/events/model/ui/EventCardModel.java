@@ -29,11 +29,29 @@ public class EventCardModel {
 	private Drawable cardLikeImageDrawable;
 	private Drawable cardDislikeImageDrawable;
 
-	String address;
-	String start_date;
-	String end_date;
-	String start_time;
-	String end_time;
+	private String address;
+	private String start_date;
+	private String end_date;
+	private String start_time;
+	private String end_time;
+	private int number_of_likes;
+	private int number_of_comments;
+
+	public int getNumber_of_likes() {
+		return number_of_likes;
+	}
+
+	public int getNumber_of_comments() {
+		return number_of_comments;
+	}
+
+	public void setNumber_of_likes(int number_of_likes) {
+		this.number_of_likes = number_of_likes;
+	}
+
+	public void setNumber_of_comments(int number_of_comments) {
+		this.number_of_comments = number_of_comments;
+	}
 
 	public String getAddress() {
 		return address;

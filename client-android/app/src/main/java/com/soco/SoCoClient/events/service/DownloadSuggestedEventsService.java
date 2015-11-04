@@ -186,6 +186,8 @@ public class DownloadSuggestedEventsService extends IntentService {
                     e.setId(obj.getDouble(JsonKeys.ID));
                     e.setTitle(obj.getString(JsonKeys.NAME));
                     e.setIntroduction(obj.getString(JsonKeys.DESCRIPTION));
+                    e.setNumber_of_comments(obj.getInt(JsonKeys.NUMBER_OF_COMMENTS));
+                    e.setNumber_of_likes(obj.getInt(JsonKeys.NUMBER_OF_LIKES));
 
                     String timedateStr = obj.getString(JsonKeys.TIMEDATE);
                     JSONObject timedate = new JSONObject(timedateStr);
