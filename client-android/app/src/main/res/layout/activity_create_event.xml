@@ -94,14 +94,16 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Start Date"
-                        android:onClick="startdatePick"/>
+                        android:onClick="startdatePick"
+                        android:text="2015-11-04" />
                     <android.widget.EditText
                         android:id="@+id/starttime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Start Time"
-                        android:onClick="starttimePick"/>
+                        android:onClick="starttimePick"
+                        android:text="18:00" />
                 </LinearLayout>
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
@@ -113,14 +115,16 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="End Date"
-                        android:onClick="enddatePick"/>
+                        android:onClick="enddatePick"
+                        android:text="2016-11-04" />
                     <android.widget.EditText
                         android:id="@+id/endtime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="End Time"
-                        android:onClick="endtimePick"/>
+                        android:onClick="endtimePick"
+                        android:text="18:00" />
                 </LinearLayout>
             </LinearLayout>
 

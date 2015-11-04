@@ -293,7 +293,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                 }
                 else {
                     Log.d(tag, "download suggested event - success");
-                    Toast.makeText(getActivity().getApplicationContext(), "Download events suceess.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), socoApp.suggestedEvents.size() + " events downloaded.", Toast.LENGTH_SHORT).show();
                     initCards(rootView);
                 }
             }

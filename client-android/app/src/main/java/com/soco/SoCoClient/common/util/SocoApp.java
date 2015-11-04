@@ -10,6 +10,7 @@ import android.util.Log;
 
 //import com.dropbox.client2.DropboxAPI;
 //import com.dropbox.client2.android.AndroidAuthSession;
+import com.facebook.AccessToken;
 import com.facebook.GraphResponse;
 import com.soco.SoCoClient.common.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.common.model.Person;
@@ -303,6 +304,7 @@ public class SocoApp extends Application {
 
     public String user_id;
     public String token;
+//    public AccessToken facebookAccessToken;
 
     //create event
     public Event newEvent;

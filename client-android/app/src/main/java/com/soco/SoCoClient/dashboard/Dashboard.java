@@ -6,10 +6,14 @@ package com.soco.SoCoClient.dashboard;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -18,6 +22,7 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import android.support.v7.app.ActionBar.LayoutParams;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -29,7 +34,6 @@ import com.soco.SoCoClient.buddies.CommonEventsActivity;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
-import com.soco.SoCoClient.events.common.EventBuddiesActivity;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.events.common.EventGroupsBuddiesActivity;
 import com.soco.SoCoClient.events.common.JoinEventActivity;
@@ -39,6 +43,8 @@ import com.soco.SoCoClient.buddies.CommonGroupsActivity;
 import com.soco.SoCoClient.userprofile.SettingsActivity;
 import com.soco.SoCoClient.userprofile.UserEventsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
+
+import java.net.URL;
 
 public class Dashboard extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener {
@@ -60,8 +66,12 @@ public class Dashboard extends ActionBarActivity implements
     };
 
     private Toolbar toolbar;
-
     boolean isLiked;
+
+
+    Bitmap mePhoto;
+    ImageButton meButton;
+    View actionbarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,53 +80,11 @@ public class Dashboard extends ActionBarActivity implements
         setContentView(R.layout.dashboard_activity);
 
         socoApp = (SocoApp) getApplicationContext();
-
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-//        setSupportActionBar(toolbar);
-
-        //use custom toolbar
-//        toolbar = (Toolbar) findViewById(R.id.app_bar);
-//        setSupportActionBar(toolbar);
-
         viewPager = (ViewPager) findViewById(R.id.pager);
 
-        //set background color
-//        viewPager.setBackgroundColor(Color.WHITE);
-
-        actionBar = getSupportActionBar();
-        if(actionBar == null){
-            Log.e(tag, "Cannot get action bar object");
-            return;
-        }
-
-        mAdapter = new DashboardTabsAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(mAdapter);
-
-        Log.v(tag, "set actionbar custom view");
-        actionBar.setHomeButtonEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setDisplayShowCustomEnabled(true);
-        View customView = getLayoutInflater().inflate(R.layout.actionbar_dashboard, null);
-        LayoutParams layout = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        actionBar.setCustomView(customView, layout);
-        Toolbar parent = (Toolbar) customView.getParent();
-        Log.v(tag, "remove margin in actionbar area");
-        parent.setContentInsetsAbsolute(0, 0);
-
-
-        Log.v(tag, "set actionbar background color");
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
-        actionBar.setBackgroundDrawable(colorDrawable);
-
-        Log.v(tag, "Adding tabs");
-        for (String tab_name : tabs) {
-            actionBar.addTab(actionBar.newTab().setText(tab_name)
-                    .setTabListener(this));
-        }
-
-//        Log.v(tag, "set action bar tab background color");
-//        actionBar.setStackedBackgroundDrawable(colorDrawable);
-
+        setActionbar();
+        findViews();
+        setMyProfilePhoto();
 
         Log.v(tag, "Set listener");
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -134,10 +102,94 @@ public class Dashboard extends ActionBarActivity implements
         });
     }
 
+    private void setActionbar() {
+        //set background color
+//        viewPager.setBackgroundColor(Color.WHITE);
+
+        Log.v(tag, "set custom actionbar");
+
+        actionBar = getSupportActionBar();
+        if(actionBar == null){
+            Log.e(tag, "Cannot get action bar object");
+            return;
+        }
+
+        mAdapter = new DashboardTabsAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(mAdapter);
+
+        Log.v(tag, "set actionbar custom view");
+        actionBar.setHomeButtonEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionbarView = getLayoutInflater().inflate(R.layout.actionbar_dashboard, null);
+        LayoutParams layout = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        actionBar.setCustomView(actionbarView, layout);
+        Toolbar parent = (Toolbar) actionbarView.getParent();
+        Log.v(tag, "remove margin in actionbar area");
+        parent.setContentInsetsAbsolute(0, 0);
+
+        Log.v(tag, "set actionbar background color");
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
+        actionBar.setBackgroundDrawable(colorDrawable);
+
+        Log.v(tag, "Adding tabs");
+        for (String tab_name : tabs) {
+            actionBar.addTab(actionBar.newTab().setText(tab_name)
+                    .setTabListener(this));
+        }
+    }
+
+    private void setMyProfilePhoto() {
+        if(socoApp.loginViaFacebookResult) {
+            Log.v(tag, "login via facebook result is true, get user facebook profile photo");
+            new Thread() {
+                public void run() {
+                    Log.d(tag, "get facebook user profile picture");
+                    try {
+                        URL imageUrl = new URL("https://graph.facebook.com/" + "10153298013434285" + "/picture?type=normal");
+                        mePhoto = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
+                        Log.d(tag, "me photo: " + mePhoto);
+
+                        //todo
+                        //upload image to server
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    downloadProfilehandler.sendEmptyMessage(0);
+                }
+            }.start();
+        }
+        else{
+            //todo
+            //use find user's saved photo for profile
+
+            Log.v(tag, "login via facebook is false, use default photo");
+            Drawable image = getResources().getDrawable(R.drawable.eventbuddies_person1);
+            meButton.setImageDrawable(image);
+        }
+    }
+
+    private Handler downloadProfilehandler = new Handler() {
+        public void handleMessage(Message msg) {
+            Log.d(tag, "handle message");
+            meButton.setImageBitmap(mePhoto);
+        };
+    };
+
     void findViews(){
         Log.v(tag, "find views");
 
-        //todo
+//        Window window = getWindow();
+//        View v = window.getDecorView();
+//        int resId = getResources().getIdentifier("action_bar_container", "id", "android");
+//        Log.d(tag, "resid: " + resId);
+//        View actionbarView = v.findViewById(resId);
+//        Log.d(tag, "actionbar view: " + actionbarView);
+//        meButton = (ImageButton) actionbarView.findViewById(R.id.mebutton);
+        Log.v(tag, "custom view: " + this.actionbarView);
+        meButton = (ImageButton) this.actionbarView.findViewById(R.id.mebutton);
+        Log.v(tag, "me button: " + meButton);
+
     }
 
     @Override
@@ -280,7 +332,7 @@ public class Dashboard extends ActionBarActivity implements
         window.setTouchable(true);
         window.setOutsideTouchable(true);
         window.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
-        window.showAsDropDown(findViewById(R.id.me));
+        window.showAsDropDown(findViewById(R.id.mebutton));
 
 //        View layout = getLayoutInflater().inflate(R.layout.popup_window, null);
         setPopupListeners(window, popupView);

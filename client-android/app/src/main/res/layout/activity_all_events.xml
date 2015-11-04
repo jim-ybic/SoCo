@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="20dp">
-    <TextView
+
+        <TextView
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:text="create new events "

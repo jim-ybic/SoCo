@@ -2,6 +2,7 @@ package com.soco.SoCoClient.events.service;
 
 
 import android.app.IntentService;
+import android.content.Entity;
 import android.content.Intent;
 import android.util.Log;
 
@@ -12,12 +13,22 @@ import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.model.Event;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -98,22 +109,63 @@ public class DownloadSuggestedEventsService extends IntentService {
         Log.d(tag, "request url: " + url);
 
         return HttpUtil.executeHttpGet(url);
+//        HttpUtil.executeHttpGet2(url);
     }
 
-    public static boolean parse(Object response) {
-        Log.d(tag, "parse response: " + response.toString());
+//    JSONObject convertHttpResponseToJsonObject (HttpResponse response) {
+//        HttpEntity entity = response.getEntity();
+//        InputStream is = null;
+//        try {
+//            is = entity.getContent();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+//        StringBuilder sb = new StringBuilder();
+//
+//        String line = null;
+//        try {
+//            while ((line = reader.readLine()) != null) {
+//                sb.append(line + "\n");
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                is.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+////        return sb.toString();
+//
+//        JSONObject myObject = null;
+//        try {
+//            myObject = new JSONObject(sb.toString());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return myObject;
+//    }
+
+    public boolean parse(Object response) {
+//        Log.d(tag, "parse response: " + response.getEntity().toString());
 
         Log.v(tag, "clear suggested events");
         socoApp.suggestedEvents = new ArrayList<>();
 
         try {
-            JSONObject json = new JSONObject();
+            JSONObject json;
             if(socoApp.USE_SIMULATOR_SUGGESTED_EVENTS) {
                 Log.w(tag, "use simulated response");
                 json = new JSONObject(JsonKeys.TEST_DOWNLOAD_SUGGESTED_EVENTS_RESPONSE);
             }
-            else
+            else {
                 json = new JSONObject(response.toString());
+//                json = convertHttpResponseToJsonObject(response);
+                Log.w(tag, "converted json: " + json.toString());
+            }
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
@@ -151,7 +203,7 @@ public class DownloadSuggestedEventsService extends IntentService {
 
                     e.setAddress(venue.getString(JsonKeys.ADDRESS));
 
-                    Log.d(tag, "event: " + e.toString());
+                    Log.d(tag, "event created: " + e.toString());
                     socoApp.suggestedEvents.add(e);
                 }
 
