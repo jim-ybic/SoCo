@@ -2,6 +2,7 @@ package com.soco.SoCoClient._ref;
 
 import android.content.Context;
 
+@Deprecated
 public class Actor
 {
     String name;

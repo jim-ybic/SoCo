@@ -13,6 +13,7 @@ import com.soco.SoCoClient.R;
 
 import java.util.List;
 
+@Deprecated
 public class MyAdapter
         extends RecyclerView.Adapter<MyAdapter.ViewHolder>
 {
@@ -42,7 +43,7 @@ public class MyAdapter
     public void onBindViewHolder( ViewHolder viewHolder, int i )
     {
         // 给ViewHolder设置元素
-        Actor p = actors.get(i);
+//        Actor p = actors.get(i);
 //        viewHolder.mTextView.setText(p.name);
 //        viewHolder.mImageView.setImageDrawable(mContext.getDrawable(p.getImageResourceId(mContext)));
     }
