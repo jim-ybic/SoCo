@@ -112,6 +112,10 @@
         <service
             android:name=".events.service.DownloadSuggestedEventsService"
             android:enabled="true" />
+        <service
+            android:name=".buddies.service.AddBuddyService"
+            android:enabled="true" />
+
 
         <activity
             android:name=".events._ref.ActivityLocationActivity"

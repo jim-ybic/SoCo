@@ -283,8 +283,13 @@ public class SocoApp extends Application {
     public static boolean USE_SIMILATOR_REGISTER = true;
     public static boolean USE_SIMILATOR_LOGIN_NORMAL = true;
     public static boolean USE_SIMULATOR_SUGGESTED_EVENTS = false;
-
+    public static boolean BUDDY_INTERFACE_READY = false;
     public static boolean OFFLINE_MODE = false;
+
+    //error message
+    public static String error_message;
+    public static String error_code;
+    public static String more_info;
 
     //onboarding
     public String registerEmail;
@@ -324,4 +329,8 @@ public class SocoApp extends Application {
     //event details
     public int currentEventIndex;
 
+    //suggested buddy
+    public long currentBuddyId;
+    public boolean addBuddyResponse;
+    public boolean addBuddyResult;
 }

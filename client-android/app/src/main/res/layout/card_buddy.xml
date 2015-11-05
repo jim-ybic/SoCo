@@ -23,19 +23,15 @@
                 android:id="@+id/quickinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
+                android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:layout_gravity="left"
                     android:gravity="left"
                     android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
                     android:paddingRight="5dp"
-                    android:paddingBottom="5dp"
                     android:onClick="closecard">
                     <ImageButton
                         android:layout_width="wrap_content"
@@ -60,8 +56,6 @@
                     android:layout_gravity="center_vertical"
                     android:paddingLeft="20dp"
                     android:paddingRight="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
                     android:onClick="buddydetails">
                     <ImageButton
                         android:layout_width="wrap_content"
@@ -79,7 +73,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:clickable="true"
+                android:onClick="buddydetails">
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -99,9 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Stephen Chow"
-                    android:gravity="center"
-                    android:clickable="true"
-                    android:onClick="eventdetails"/>
+                    android:gravity="center" />
                 <TextView
                     android:id="@+id/whereami"
                     style="@android:style/TextAppearance.Large.Inverse"
@@ -202,7 +196,8 @@
             android:background="@android:color/white"
             android:paddingTop="30dp"
             android:id="@+id/datetimelocation"
-            android:onClick="commongroups">
+            android:onClick="commongroups"
+            android:paddingLeft="10dp">
             <!--<LinearLayout-->
             <!--android:id="@+id/indicators"-->
             <!--android:layout_width="match_parent"-->
@@ -360,9 +355,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="從邊陲出發－霸權..."
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
+                        android:text="Fashion show event..."
                         android:paddingTop="10dp"
                         android:gravity="center"
                         android:id="@+id/address" />
@@ -399,7 +392,6 @@
                         android:layout_height="wrap_content"
                         android:text="common groups"
                         android:layout_gravity="center_vertical"
-                        android:paddingLeft="5dp"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:textColor="#ffc005" />
@@ -413,9 +405,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Google Fans Group"
+                        android:text="Google Fans group..."
                         android:layout_gravity="center_horizontal"
-                        android:paddingLeft="5dp"
                         android:paddingTop="10dp" />
 
                     <TextView
@@ -497,11 +488,13 @@
                 android:textColor="#ffc005" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_weight="1"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
                 <!--<TextView-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
@@ -513,8 +506,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:src="@drawable/user1"
                     android:layout_gravity="center_vertical"
-                    android:clickable="false"
-                    android:paddingLeft="10dp" />
+                    android:clickable="false" />
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

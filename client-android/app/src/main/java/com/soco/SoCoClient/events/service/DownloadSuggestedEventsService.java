@@ -183,7 +183,7 @@ public class DownloadSuggestedEventsService extends IntentService {
                     JSONObject obj = allEvents.getJSONObject(i);
                     Log.v(tag, "current event json: " + obj.toString());
 
-                    e.setId(obj.getDouble(JsonKeys.ID));
+                    e.setId(obj.getDouble(JsonKeys.EVENT_ID));
                     e.setTitle(obj.getString(JsonKeys.NAME));
                     e.setIntroduction(obj.getString(JsonKeys.DESCRIPTION));
 

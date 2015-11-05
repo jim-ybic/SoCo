@@ -10,6 +10,7 @@ public class JsonKeys {
     public static final String ERROR_CODE = "error_code";
     public static final String EVENT_ID = "event_id";
     public static final String EVENTS = "events";
+    public static final String FRIEND_ID = "friend_id";
     public static final String ID = "id";
     public static final String INTRODUCTION = "introduction";
     public static final String LOCATION = "location";
@@ -31,15 +32,10 @@ public class JsonKeys {
     public static final String VENUE = "venue";
 
 
-    public static final String TEST_USER_ID = "1100101445928094431";
-    public static final String TEST_TOKEN = "D92A5032DAB0D200CD4E58F52DCD9D6B7AB3686F23114EB64EF0D1F1DCA0BD17";
+    public static final String TEST_USER_ID = "1100101446605092809";
+    public static final String TEST_TOKEN = "867A168A6BE708119E590A8F6CB37408823F180313289435B2A4CC4B1D4BC9F6";
 
-    public static final String TEST_DOWNLOAD_SUGGESTED_EVENTS_RESPONSE =
-            "[{\"number_of_likes\":0,\"id\":2100101445928148525,\"banner_url\":\"\",\"desciption\":\"\",\"status\":\"\"," +
-                    "\"event_url\":\"\",\"timedate\":\"{\\\"end_time\\\":\\\"12:00\\\",\\\"start_time\\\":\\\"12:00\\\"," +
-                    "\\\"start_date\\\":\\\"01/01/1970\\\"}\",\"name\":\"test event\",\"number_of_photos\":0," +
-                    "\"number_of_comments\":0,\"number_of_views\":0,\"venue\":\"{\\\"lon\\\":30,\\\"address\\\":\\\"hong kong\\\"," +
-                    "\\\"lat\\\":20,\\\"city\\\":\\\"\\\"}\"}]";
-
+    public static final String TEST_DOWNLOAD_SUGGESTED_EVENTS_RESPONSE = "";
+    public static final String TEST_USER_ID2 = "1100101446605090603";
 
 }

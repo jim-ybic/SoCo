@@ -2,6 +2,8 @@ package com.soco.SoCoClient.common.http;
 
 import android.util.Log;
 
+import com.soco.SoCoClient.common.util.SocoApp;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -16,6 +18,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -46,6 +49,25 @@ public class HttpUtil {
         } catch (Exception e) {
             Log.e(tag, "Post fail: " + e.toString());
             e.printStackTrace();
+
+//            try {
+//                JSONObject json = new JSONObject(response.toString());
+//                String error_code = json.getString(JsonKeys.ERROR_CODE);
+//                String message = json.getString(JsonKeys.MESSAGE);
+//                String more_info = json.getString(JsonKeys.MORE_INFO);
+//                Log.e(tag, "server response fail, " +
+//                                "error code: " + error_code +
+//                                ", message: " + message +
+//                                ", more info: " + more_info
+//                );
+//
+//                Log.v(tag, "save error message");
+//                SocoApp.error_message = message;
+//            } catch (Exception e1) {
+//                Log.e(tag, "cannot parse response json");
+//                e1.printStackTrace();
+//            }
+
             return null;
         }
 

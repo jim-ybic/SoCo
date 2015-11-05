@@ -232,6 +232,7 @@ public class UrlUtil {
     static final String REGISTER_PATH = "/v1/register";
     static final String CREATE_EVENT_PATH = "/v1/event";
     static final String SUGGESTED_EVENTS_PATH = "/v1/suggested_events";
+    static final String ADD_BUDDY_PATH = "/v1/add_buddy";
 
     public static String getLoginUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + LOGIN_PATH;
@@ -263,4 +264,9 @@ public class UrlUtil {
         return url;
     }
 
+    public static String getAddBuddyUrl() {
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + ADD_BUDDY_PATH;
+        Log.d(tag, "get add buddy url: " + url);
+        return url;
+    }
 }

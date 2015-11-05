@@ -34,6 +34,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.buddies.AddBuddyActivity;
 import com.soco.SoCoClient.buddies.AllBuddyMatchesActivity;
 import com.soco.SoCoClient.buddies.CommonEventsActivity;
+import com.soco.SoCoClient.buddies.service.AddBuddyService;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
@@ -49,6 +50,7 @@ import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.buddies.CommonBuddiesActivity;
 import com.soco.SoCoClient.buddies.CommonGroupsActivity;
 import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
+import com.soco.SoCoClient.onboarding.register.service.RegisterService;
 import com.soco.SoCoClient.userprofile.SettingsActivity;
 import com.soco.SoCoClient.userprofile.UserEventsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
@@ -593,10 +595,67 @@ public class Dashboard extends ActionBarActivity implements
     }
 
     public void addbuddy(View view){
-        Log.v(tag, "show add buddy");
-        Intent i = new Intent(getApplicationContext(), AddBuddyActivity.class);
-        startActivity(i);
+        Log.v(tag, "add buddy");
+//        Intent i = new Intent(getApplicationContext(), AddBuddyActivity.class);
+//        startActivity(i);
+        Log.v(tag, "show progress dialog, start register");
+        pd = ProgressDialog.show(this, "Sending friend request...", "Please wait...");
+        new Thread(new Runnable(){
+            public void run(){
+                addBuddyInBackground();
+                addBuddyHandler.sendEmptyMessage(0);
+            }
+        }).start();
     }
+
+
+    private void addBuddyInBackground() {
+        Log.v(tag, "start add buddy service at back end");
+        Intent i = new Intent(this, AddBuddyService.class);
+        startService(i);
+
+        Log.v(tag, "set register response flag as false");
+        socoApp.addBuddyResponse = false;
+
+        Log.v(tag, "wait and check status");
+        int count = 0;
+        while(!socoApp.addBuddyResponse && count < WAIT_ITERATION) {   //wait for 10s
+            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
+            while (System.currentTimeMillis() < endTime) {
+                synchronized (this) {
+                    try {
+                        wait(endTime - System.currentTimeMillis());
+                    } catch (Exception e) {
+                        Log.e(tag, "Error in waiting");
+                    }
+                }
+            }
+            count++;
+        }
+    }
+
+    Handler addBuddyHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.v(tag, "handle receive message and dismiss dialog");
+
+            if(socoApp.addBuddyResult){
+                Log.d(tag, "add buddy success");
+                Toast.makeText(getApplicationContext(), "Add buddy suceess.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else{
+                Log.e(tag, "add buddy fail, notify user");
+                if(socoApp.error_message != null && !socoApp.error_message.isEmpty())
+                    Toast.makeText(getApplicationContext(), socoApp.error_message, Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
+            }
+
+            pd.dismiss();
+        }
+    };
 
     public void buddydetails(View view){
         Log.v(tag, "show buddy details");
