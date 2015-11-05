@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.View;
 
 //import com.dropbox.client2.DropboxAPI;
 //import com.dropbox.client2.android.AndroidAuthSession;
@@ -318,6 +319,7 @@ public class SocoApp extends Application {
     public EventCardStackAdapter eventCardStackAdapter;
     public EventCardContainer mEventCardContainer;
     public int eventGroupsBuddiesTabIndex = 0;
+    public View suggestedEventsView;
 
     //event details
     public int currentEventIndex;

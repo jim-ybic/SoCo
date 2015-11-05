@@ -112,6 +112,9 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         rootView = inflater.inflate(R.layout.fragment_suggested_events, container, false);
 //        Log.d(tag, "Found root view: " + rootView);
 
+        Log.v(tag, "update global variable");
+        socoApp.suggestedEventsView = rootView;
+
         Log.v(tag, "show progress dialog, fetch suggested events from server");
         pd = ProgressDialog.show(getActivity(), "Downloading events from server", "Please wait...");
         new Thread(new Runnable(){
