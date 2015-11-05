@@ -186,6 +186,8 @@ public class DownloadSuggestedEventsService extends IntentService {
                     e.setId(obj.getDouble(JsonKeys.EVENT_ID));
                     e.setTitle(obj.getString(JsonKeys.NAME));
                     e.setIntroduction(obj.getString(JsonKeys.DESCRIPTION));
+                    e.setNumber_of_comments(obj.getInt(JsonKeys.NUMBER_OF_COMMENTS));
+                    e.setNumber_of_likes(obj.getInt(JsonKeys.NUMBER_OF_LIKES));
 
                     String timedateStr = obj.getString(JsonKeys.TIMEDATE);
                     JSONObject timedate = new JSONObject(timedateStr);
@@ -193,7 +195,7 @@ public class DownloadSuggestedEventsService extends IntentService {
                     Log.v(tag, "current timedate: " + timedate.toString());
 
                     e.setStart_date(timedate.getString(JsonKeys.START_DATE));
-//                    e.setEnd_date(timedate.getString(JsonKeys.END_DATE));
+                    e.setEnd_date(timedate.getString(JsonKeys.END_DATE));
                     e.setStart_time(timedate.getString(JsonKeys.START_TIME));
                     e.setEnd_time(timedate.getString(JsonKeys.END_TIME));
 
