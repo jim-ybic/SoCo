@@ -1,0 +1,278 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:orientation="horizontal"
+    card_view:cardCornerRadius="5dp" >
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/global_container"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:background="#616161"
+            android:id="@+id/titlearea">
+            <LinearLayout
+                android:id="@+id/quickinfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="right"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:onClick="eventcomments" >
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@drawable/actionbar_comment"
+                        android:layout_gravity="center_vertical"
+                        android:clickable="false"
+                        android:padding="5dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20"
+                        android:layout_gravity="center_vertical"
+                        android:clickable="false"
+                        android:textColor="@android:color/white"
+                        android:paddingLeft="5dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="Roboto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="HK Local Concert Group"
+                android:gravity="center|left"
+                android:clickable="true"
+                android:onClick="eventdetails"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp" />
+
+        </LinearLayout>
+
+        <!--<LinearLayout-->
+        <!--android:id="@+id/eventgroups"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="left"-->
+        <!--android:onClick="eventgroups"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingTop="40dp">-->
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_weight="1">-->
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="left"-->
+        <!--android:text="Organized by:"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:textSize="10dp"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:paddingLeft="5dp" />-->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="left"-->
+        <!--android:paddingLeft="5dp">-->
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/groups"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="Groups: "&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_gravity="top" />&ndash;&gt;-->
+        <!--<ImageButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="?android:attr/selectableItemBackground"-->
+        <!--android:src="@drawable/ic_action_group"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:clickable="false"/>-->
+        <!--<ImageButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="?android:attr/selectableItemBackground"-->
+        <!--android:src="@drawable/ic_action_group"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:clickable="false"/>-->
+        <!--<ImageButton-->
+        <!--android:id="@+id/group3"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="?android:attr/selectableItemBackground"-->
+        <!--android:src="@drawable/ic_action_group"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:clickable="false"-->
+        <!--android:textColor="@android:color/black" />-->
+        <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+
+        <LinearLayout
+            android:id="@+id/date_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Description of the group goes here"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:gravity="center_vertical" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="1,033 Concert lovers"
+                android:gravity="center_vertical"
+                android:id="@+id/distance"
+                android:paddingLeft="5dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/eventbuddiescategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:onClick="eventbuddies"
+                android:layout_weight="1"
+                android:paddingRight="10dp"
+                android:id="@+id/eventbuddies">
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Friends: "-->
+                <!--android:layout_gravity="top" />-->
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/user1"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:paddingLeft="10dp" />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/user2"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:adjustViewBounds="false"
+                    android:paddingLeft="10dp" />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/user3"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:paddingLeft="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/categories"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:onClick="eventbuddies"
+                android:paddingLeft="10dp"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="art"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="10dp"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/eventcategory_box"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/idshk"
+        app:layout_anchor="@id/titlearea"
+        app:layout_anchorGravity="bottom|right"
+        android:clickable="true"
+        android:onClick="eventgroups"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.v7.widget.CardView>
