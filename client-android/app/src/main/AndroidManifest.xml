@@ -295,7 +295,8 @@
         </activity>
         <activity
             android:name=".userprofile.UserProfileActivity"
-            android:label="@string/title_activity_activity_person_details" >
+            android:label="@string/title_activity_activity_person_details"
+            android:theme="@style/TallActionBarTheme">
         </activity>
         <activity
             android:name=".buddies.AddBuddyActivity"
@@ -360,7 +361,7 @@
         </activity>
         <activity
             android:name=".userprofile.SettingsActivity"
-            android:label="@string/title_activity_settings" >
+            android:label="@string/title_activity_settings">
         </activity>
         <activity
             android:name=".events.allevents.AllEventsActivity"

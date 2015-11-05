@@ -77,9 +77,9 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
         Log.v(tag, "remove margin in actionbar area");
         parent.setContentInsetsAbsolute(0, 0);
 
-        Log.v(tag, "set actionbar background color");
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
-        actionBar.setBackgroundDrawable(colorDrawable);
+//        Log.v(tag, "set actionbar background color");
+//        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
+//        actionBar.setBackgroundDrawable(colorDrawable);
 
         Log.v(tag, "Adding tabs");
 //        for (String tab_name : tabs) {
@@ -89,7 +89,7 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
             actionBar.addTab(tabGroups);
 //        }
 //        actionBar.selectTab(tab);
-        android.support.v7.app.ActionBar.Tab tabBuddies= actionBar.newTab().setText(GROUPS).setTabListener(this);
+        android.support.v7.app.ActionBar.Tab tabBuddies= actionBar.newTab().setText(BUDDIES).setTabListener(this);
 //            actionBar.addTab(actionBar.newTab().setText(tab_name)
 //                    .setTabListener(this));
         actionBar.addTab(tabBuddies);

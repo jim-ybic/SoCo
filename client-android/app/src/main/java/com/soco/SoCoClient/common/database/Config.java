@@ -160,6 +160,11 @@ public class Config {
     public static final int EVENT_GROUPS_BUDDIES_TAB_INDEX_GROUPS = 0;
     public static final int EVENT_GROUPS_BUDDIES_TAB_INDEX_BUDDIES = 1;
 
+    public static final int USER_PROFILE_TAB_COUNT = 3;
+    public static final int USER_PROFILE_TAB_INDEX_PROFILE = 0;
+    public static final int USER_PROFILE_TAB_INDEX_GROUPS = 1;
+    public static final int USER_PROFILE_TAB_INDEX_EVENTS = 2;
+
     public static int ACTIVITY_INVITATION_STATUS_COMPLETE = 1;
     public static int ACTIVITY_INVITATION_STATUS_INCOMPLETE = 0;
 
