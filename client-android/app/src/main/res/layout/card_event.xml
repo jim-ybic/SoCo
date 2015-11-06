@@ -98,7 +98,6 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:src="@drawable/actionbar_overflow"
                     android:layout_gravity="center_vertical"
-                    android:clickable="false"
                     android:padding="5dp" />
 
             </LinearLayout>

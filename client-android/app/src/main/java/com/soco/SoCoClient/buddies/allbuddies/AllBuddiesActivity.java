@@ -1,6 +1,8 @@
 package com.soco.SoCoClient.buddies.allbuddies;
 
 import android.app.ActionBar;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -74,9 +76,9 @@ public class AllBuddiesActivity extends ActionBarActivity implements
         Log.v(tag, "remove margin in actionbar area");
         parent.setContentInsetsAbsolute(0, 0);
 
-//        Log.v(tag, "set actionbar background color");
-//        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
-//        actionBar.setBackgroundDrawable(colorDrawable);
+        Log.v(tag, "set actionbar background color");
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
+        actionBar.setBackgroundDrawable(colorDrawable);
 
         Log.v(tag, "Adding tabs");
         android.support.v7.app.ActionBar.Tab tabProfile = actionBar.newTab().setText(MYMATCH).setTabListener(this);
