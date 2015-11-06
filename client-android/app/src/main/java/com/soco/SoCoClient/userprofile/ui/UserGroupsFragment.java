@@ -42,6 +42,9 @@ public class UserGroupsFragment extends Fragment implements View.OnClickListener
     }
 
     private void generateDummyEvents() {
+
+        //todo: use groups, instead of events
+
         Log.v(tag, "add 5 dummy events");
         events.add(new Event());
         events.add(new Event());

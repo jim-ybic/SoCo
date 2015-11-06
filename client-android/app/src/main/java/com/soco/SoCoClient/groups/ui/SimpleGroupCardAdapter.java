@@ -26,8 +26,10 @@ public class SimpleGroupCardAdapter
 
     public SimpleGroupCardAdapter(Context context, List<Event> events)
     {
+        //todo: replace events with groups
+
         this.mContext = context;
-//        this.events = events;
+        this.events = events;
     }
 
     @Override
