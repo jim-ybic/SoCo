@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.soco.SoCoClient.R;
+
+import java.util.ArrayList;
 
 
 public class MyBuddiesFragment extends Fragment implements View.OnClickListener {
@@ -33,6 +37,9 @@ public class MyBuddiesFragment extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_my_buddies, container, false);
+
+        showMyBuddies();
+
         return rootView;
     }
 
@@ -57,5 +64,22 @@ public class MyBuddiesFragment extends Fragment implements View.OnClickListener 
         }
     }
 
+    void showMyBuddies() {
+        Log.v(tag, "show my buddies");
+
+        ArrayList<MyBuddiesListEntryItem> items = new ArrayList<>();
+
+        Log.v(tag, "add dummy suggested buddies");
+        for(int i=0; i<20; i++)
+            items.add(new MyBuddiesListEntryItem());
+
+        //todo: fill in the items with the list of suggested buddies
+
+
+        MyBuddiesListAdapter  adapter = new MyBuddiesListAdapter(getActivity(), items);
+
+        ListView list = (ListView) rootView.findViewById(R.id.friends);
+        list.setAdapter(adapter);
+    }
 
 }

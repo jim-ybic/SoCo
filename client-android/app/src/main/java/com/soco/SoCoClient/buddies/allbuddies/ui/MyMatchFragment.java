@@ -4,12 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient._ref.ContactListAdapter;
+import com.soco.SoCoClient._ref.ContactListEntryItem;
+import com.soco.SoCoClient.common.database.Config;
+import com.soco.SoCoClient.common.model.Person;
+import com.soco.SoCoClient.common.ui.Item;
+import com.soco.SoCoClient.common.ui.SectionItem;
+
+import java.util.ArrayList;
 
 
 public class MyMatchFragment extends Fragment implements View.OnClickListener {
@@ -33,6 +43,9 @@ public class MyMatchFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_my_match, container, false);
+
+        showMyMatches();
+
         return rootView;
     }
 
@@ -57,5 +70,21 @@ public class MyMatchFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    void showMyMatches() {
+        Log.v(tag, "show my matches");
 
+        ArrayList<MyMatchListEntryItem> items = new ArrayList<>();
+
+        Log.v(tag, "add dummy suggested buddies");
+        for(int i=0; i<20; i++)
+            items.add(new MyMatchListEntryItem());
+
+        //todo: fill in the items with the list of suggested buddies
+
+
+        MyMatchListAdapter adapter = new MyMatchListAdapter(getActivity(), items);
+
+        ListView list = (ListView) rootView.findViewById(R.id.friends);
+        list.setAdapter(adapter);
+    }
 }
