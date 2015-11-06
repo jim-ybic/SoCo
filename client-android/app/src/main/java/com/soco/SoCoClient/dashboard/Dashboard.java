@@ -31,9 +31,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.buddies.AddBuddyActivity;
-import com.soco.SoCoClient.buddies.AllBuddyMatchesActivity;
-import com.soco.SoCoClient.buddies.CommonEventsActivity;
+import com.soco.SoCoClient.buddies.allbuddies.AllBuddiesActivity;
+import com.soco.SoCoClient.buddies.suggested.CommonEventsActivity;
 import com.soco.SoCoClient.buddies.service.AddBuddyService;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.common.util.SocoApp;
@@ -47,10 +46,9 @@ import com.soco.SoCoClient.events.model.ui.EventCardContainer;
 import com.soco.SoCoClient.events.model.ui.EventCardModel;
 import com.soco.SoCoClient.events.model.ui.EventCardStackAdapter;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
-import com.soco.SoCoClient.buddies.CommonBuddiesActivity;
-import com.soco.SoCoClient.buddies.CommonGroupsActivity;
+import com.soco.SoCoClient.buddies.suggested.CommonBuddiesActivity;
+import com.soco.SoCoClient.buddies.suggested.CommonGroupsActivity;
 import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
-import com.soco.SoCoClient.onboarding.register.service.RegisterService;
 import com.soco.SoCoClient.userprofile.SettingsActivity;
 import com.soco.SoCoClient.userprofile.UserEventsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
@@ -74,13 +72,16 @@ public class Dashboard extends ActionBarActivity implements
     ProgressDialog pd;
     View suggestedEventsView;
 
-    // Tab titles
-    private String[] tabs = {
-            "Events",
-            "Buddies",
-//            "Stream",
-//            "Messages"
-    };
+//    // Tab titles
+//    private String[] tabs = {
+//            "Events",
+//            "Buddies",
+////            "Stream",
+////            "Messages"
+//    };
+
+    static final String EVENTS = "Events";
+    static final String BUDDIES = "Buddies";
 
     private Toolbar toolbar;
     boolean isLiked;
@@ -150,10 +151,20 @@ public class Dashboard extends ActionBarActivity implements
         actionBar.setBackgroundDrawable(colorDrawable);
 
         Log.v(tag, "Adding tabs");
-        for (String tab_name : tabs) {
-            actionBar.addTab(actionBar.newTab().setText(tab_name)
-                    .setTabListener(this));
-        }
+        android.support.v7.app.ActionBar.Tab tabEvents = actionBar.newTab().setText(EVENTS).setTabListener(this);
+        actionBar.addTab(tabEvents);
+        android.support.v7.app.ActionBar.Tab tabBuddies= actionBar.newTab().setText(BUDDIES).setTabListener(this);
+        actionBar.addTab(tabBuddies);
+//        for (String tab_name : tabs) {
+//            actionBar.addTab(actionBar.newTab().setText(tab_name)
+//                    .setTabListener(this));
+//        }
+
+        Log.v(tag, "set starting tab");
+        if(socoApp.TEST_BUDDY_TAB_FIRST)
+            actionBar.selectTab(tabBuddies);
+        else
+            actionBar.selectTab(tabEvents);
     }
 
     private void setMyProfilePhoto() {
@@ -590,7 +601,7 @@ public class Dashboard extends ActionBarActivity implements
 
     public void allbuddymatches(View view){
         Log.v(tag, "show all buddy matches");
-        Intent i = new Intent(getApplicationContext(), AllBuddyMatchesActivity.class);
+        Intent i = new Intent(getApplicationContext(), AllBuddiesActivity.class);
         startActivity(i);
     }
 

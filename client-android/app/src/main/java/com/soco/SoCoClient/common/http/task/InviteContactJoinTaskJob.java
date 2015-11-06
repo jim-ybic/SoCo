@@ -14,6 +14,7 @@ import com.soco.SoCoClient.common.model.Task;
 
 import org.json.JSONObject;
 
+@Deprecated
 public class InviteContactJoinTaskJob extends AsyncTask<Void, Void, Boolean>{
 
     String tag = "InviteContactJoinTaskJob";

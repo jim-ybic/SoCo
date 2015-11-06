@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.soco.SoCoClient._ref.GeneralConfigV1;
 
+@Deprecated
 public class Profile {
     private static final String NICKNAME_NOT_SET = "NICKNAME NOT SET";
     static String tag = "Profile";

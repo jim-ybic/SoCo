@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.soco.SoCoClient.R;
 
+@Deprecated
 public class Test2Activity extends ActionBarActivity {
 
     @Override

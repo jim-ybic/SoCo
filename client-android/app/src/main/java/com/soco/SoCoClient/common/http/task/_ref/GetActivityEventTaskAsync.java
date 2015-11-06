@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.soco.SoCoClient._ref.HttpConfigV1;
-import com.soco.SoCoClient.common.http._ref.HttpUtilV1;
+import com.soco.SoCoClient._ref.HttpUtilV1;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.common.model.Profile;
@@ -13,6 +13,7 @@ import com.soco.SoCoClient.common.model.Profile;
 import org.json.JSONObject;
 
 //todo
+@Deprecated
 public class GetActivityEventTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
     static String tag = "GetActivityEventTask";

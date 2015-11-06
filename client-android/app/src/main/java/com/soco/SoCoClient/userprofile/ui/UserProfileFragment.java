@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.buddies.common;
+package com.soco.SoCoClient.userprofile.ui;
 
 import android.content.Context;
 import android.content.Intent;

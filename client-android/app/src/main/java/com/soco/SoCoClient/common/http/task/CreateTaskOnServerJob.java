@@ -13,6 +13,7 @@ import com.soco.SoCoClient.common.model.Task;
 
 import org.json.JSONObject;
 
+@Deprecated
 public class CreateTaskOnServerJob extends AsyncTask<Void, Void, Boolean>{
 
     String tag = "CreateTaskOnServerJob";

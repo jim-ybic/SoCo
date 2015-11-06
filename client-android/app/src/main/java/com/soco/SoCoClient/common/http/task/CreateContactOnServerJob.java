@@ -13,6 +13,7 @@ import com.soco.SoCoClient.common.model.Contact;
 
 import org.json.JSONObject;
 
+@Deprecated
 public class CreateContactOnServerJob extends AsyncTask<Void, Void, Boolean>{
 
     String tag = "CreateContactOnServerJob";

@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.buddies.allbuddies;
+package com.soco.SoCoClient._ref;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,12 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient._ref.GeneralConfigV1;
 import com.soco.SoCoClient.common.ui.Item;
 import com.soco.SoCoClient.common.ui.SectionItem;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class ContactListAdapter extends ArrayAdapter<Item> {
 
 	private Context context;

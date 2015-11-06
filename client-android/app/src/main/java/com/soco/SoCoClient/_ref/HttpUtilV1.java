@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.common.http._ref;
+package com.soco.SoCoClient._ref;
 
 import android.util.Log;
 
@@ -9,6 +9,7 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
+@Deprecated
 public class HttpUtilV1 {
 
     public static String tag = "HttpUtilV1";

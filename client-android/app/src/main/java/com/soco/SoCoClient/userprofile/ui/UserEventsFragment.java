@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.buddies.common;
+package com.soco.SoCoClient.userprofile.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,21 +16,20 @@ import android.view.ViewGroup;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.events.allevents.SimpleEventCardAdapter;
 import com.soco.SoCoClient.events.model.Event;
-import com.soco.SoCoClient.groups.SimpleGroupCardAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserGroupsFragment extends Fragment implements View.OnClickListener {
+public class UserEventsFragment extends Fragment implements View.OnClickListener {
 
-    static String tag = "UserGroupsFragment";
+    static String tag = "UserEventsFragment";
 
     View rootView;
     Context context;
 
     RecyclerView mRecyclerView;
-    SimpleGroupCardAdapter simpleGroupCardAdapter;
+    SimpleEventCardAdapter simpleEventCardAdapter;
     List<Event> events = new ArrayList<>();
 
     @Override
@@ -55,15 +54,15 @@ public class UserGroupsFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_userprofile_groups, container, false);
+        rootView = inflater.inflate(R.layout.fragment_userprofile_events, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
 
-        simpleGroupCardAdapter = new SimpleGroupCardAdapter(getActivity(), events);
-        mRecyclerView.setAdapter(simpleGroupCardAdapter);
+        simpleEventCardAdapter = new SimpleEventCardAdapter(getActivity(), events);
+        mRecyclerView.setAdapter(simpleEventCardAdapter);
 
         return rootView;
     }

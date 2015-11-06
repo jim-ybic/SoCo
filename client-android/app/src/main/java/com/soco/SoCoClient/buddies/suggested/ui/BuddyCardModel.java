@@ -15,7 +15,7 @@
  * @license: Apache License 2.0
  */
 
-package com.soco.SoCoClient.buddies.model.ui;
+package com.soco.SoCoClient.buddies.suggested.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;

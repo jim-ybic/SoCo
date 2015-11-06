@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.buddies;
+package com.soco.SoCoClient.buddies.suggested;
 
 //import info.androidhive.tabsswipe.R;
 
@@ -14,12 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient._ref.AllBuddiesActivityV1;
 import com.soco.SoCoClient.common.database.DataLoader;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
-import com.soco.SoCoClient.buddies.model.ui.BuddyCardModel;
-import com.soco.SoCoClient.buddies.model.ui.BuddyCardContainer;
+import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardModel;
+import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardContainer;
 import com.soco.SoCoClient.secondary.chat.model.SingleConversation;
-import com.soco.SoCoClient.buddies.model.ui.BuddyCardStackAdapter;
+import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardStackAdapter;
 
 import java.util.ArrayList;
 

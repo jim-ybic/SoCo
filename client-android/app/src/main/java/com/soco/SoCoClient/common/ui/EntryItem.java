@@ -3,6 +3,7 @@ package com.soco.SoCoClient.common.ui;
 
 import com.soco.SoCoClient._ref.GeneralConfigV1;
 
+@Deprecated
 public class EntryItem implements Item{
 
 	public final String title;

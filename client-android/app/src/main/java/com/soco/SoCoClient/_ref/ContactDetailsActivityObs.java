@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.buddies.allbuddies;
+package com.soco.SoCoClient._ref;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;

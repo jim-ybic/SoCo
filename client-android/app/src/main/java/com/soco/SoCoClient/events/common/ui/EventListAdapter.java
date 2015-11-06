@@ -13,6 +13,7 @@ import com.soco.SoCoClient.common.ui.Item;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class EventListAdapter extends ArrayAdapter<Item> {
 
 	private Context context;

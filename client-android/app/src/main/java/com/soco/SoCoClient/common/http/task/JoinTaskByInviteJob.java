@@ -15,6 +15,7 @@ import com.soco.SoCoClient.common.model.Task;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@Deprecated
 public class JoinTaskByInviteJob extends AsyncTask<Void, Void, Boolean>{
 
     String tag = "JoinTaskByInviteJob";

@@ -17,6 +17,7 @@
 
 package com.soco.SoCoClient.common.ui.card;
 
+@Deprecated
 public class Utils {
 
 	public static float functionNormalize(int max, int min, int value) {

@@ -5,13 +5,14 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.soco.SoCoClient._ref.HttpConfigV1;
-import com.soco.SoCoClient.common.http._ref.HttpUtilV1;
+import com.soco.SoCoClient._ref.HttpUtilV1;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.SignatureUtil;
 import com.soco.SoCoClient.common.model.Profile;
 
 import org.json.JSONObject;
 
+@Deprecated
 public class LoginTaskAsync extends AsyncTask<Void, Void, Boolean> {
 
     static String tag = "LoginTaskAsync";

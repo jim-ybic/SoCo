@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.buddies.model.ui;
+package com.soco.SoCoClient.buddies.suggested.ui;
 
 import android.content.Context;
 import android.view.View;
@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.buddies.model.ui.BuddyCardModel;
 import com.soco.SoCoClient.common.ui.card.view.BaseCardStackAdapter;
 
 import java.util.ArrayList;

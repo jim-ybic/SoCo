@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.buddies.common.UserProfileTabsAdapter;
+import com.soco.SoCoClient.userprofile.ui.UserProfileTabsAdapter;
 import com.soco.SoCoClient.common.util.SocoApp;
 
 public class UserProfileActivity extends ActionBarActivity implements

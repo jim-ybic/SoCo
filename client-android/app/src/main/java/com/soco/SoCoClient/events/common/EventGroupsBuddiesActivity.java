@@ -82,16 +82,9 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
 //        actionBar.setBackgroundDrawable(colorDrawable);
 
         Log.v(tag, "Adding tabs");
-//        for (String tab_name : tabs) {
-            android.support.v7.app.ActionBar.Tab tabGroups = actionBar.newTab().setText(GROUPS).setTabListener(this);
-//            actionBar.addTab(actionBar.newTab().setText(tab_name)
-//                    .setTabListener(this));
-            actionBar.addTab(tabGroups);
-//        }
-//        actionBar.selectTab(tab);
+        android.support.v7.app.ActionBar.Tab tabGroups = actionBar.newTab().setText(GROUPS).setTabListener(this);
+        actionBar.addTab(tabGroups);
         android.support.v7.app.ActionBar.Tab tabBuddies= actionBar.newTab().setText(BUDDIES).setTabListener(this);
-//            actionBar.addTab(actionBar.newTab().setText(tab_name)
-//                    .setTabListener(this));
         actionBar.addTab(tabBuddies);
 
         Log.v(tag, "set starting tab");

@@ -14,6 +14,7 @@ import com.soco.SoCoClient.common.http.task.CreateContactOnServerJob;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class Contact {
 
     String tag = "Contact";

@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.buddies;
+package com.soco.SoCoClient.buddies.suggested;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,19 +7,19 @@ import android.view.MenuItem;
 
 import com.soco.SoCoClient.R;
 
-public class AddBuddyActivity extends ActionBarActivity {
+public class CommonGroupsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friend);
+        setContentView(R.layout.activity_common_groups);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity_add_friend, menu);
+        getMenuInflater().inflate(R.menu.menu_activity_common_groups, menu);
         return true;
     }
 

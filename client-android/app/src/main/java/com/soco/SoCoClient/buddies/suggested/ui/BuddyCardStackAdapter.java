@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.buddies.model.ui;
+package com.soco.SoCoClient.buddies.suggested.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.buddies.allbuddies;
+package com.soco.SoCoClient._ref;
 
 //import info.androidhive.tabsswipe.R;
 
@@ -23,7 +23,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient._ref.GeneralConfigV1;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.common.http.task._ref.AddFriendTaskAsync;

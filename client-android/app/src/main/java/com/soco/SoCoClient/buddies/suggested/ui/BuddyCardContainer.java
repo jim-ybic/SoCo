@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.buddies.model.ui;
+package com.soco.SoCoClient.buddies.suggested.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -26,7 +26,6 @@ import android.widget.ListAdapter;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.ui.card.model.Orientations.Orientation;
-import com.soco.SoCoClient.buddies.model.ui.BuddyCardModel;
 
 import java.util.Random;
 

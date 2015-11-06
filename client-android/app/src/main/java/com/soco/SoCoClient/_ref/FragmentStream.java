@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.util.SocoApp;
 
+@Deprecated
 public class FragmentStream extends Fragment implements View.OnClickListener {
 
     String tag = "StreamFragment";

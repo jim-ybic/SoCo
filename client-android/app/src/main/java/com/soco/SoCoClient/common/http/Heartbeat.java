@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@Deprecated
 public class Heartbeat extends Service {
 
     String tag = "Heartbeat";

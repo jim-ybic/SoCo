@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.buddies.common;
+package com.soco.SoCoClient.userprofile.ui;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -6,8 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import com.soco.SoCoClient.common.database.Config;
-import com.soco.SoCoClient.events.common.EventBuddiesFragment;
-import com.soco.SoCoClient.events.common.EventGroupsFragment;
 
 public class UserProfileTabsAdapter extends FragmentPagerAdapter {
 

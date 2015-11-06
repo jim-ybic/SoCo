@@ -14,6 +14,7 @@ import com.soco.SoCoClient.secondary.chat.model.Message;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@Deprecated
 public class ReceiveMessageJob extends AsyncTask<Void, Void, Boolean>{
 
     String tag = "ReceiveMessageJob";

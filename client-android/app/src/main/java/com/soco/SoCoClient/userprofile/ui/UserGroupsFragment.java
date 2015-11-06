@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.buddies.common;
+package com.soco.SoCoClient.userprofile.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,22 +14,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.events.allevents.SimpleEventCardAdapter;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.groups.ui.SimpleGroupCardAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserEventsFragment extends Fragment implements View.OnClickListener {
+public class UserGroupsFragment extends Fragment implements View.OnClickListener {
 
-    static String tag = "UserEventsFragment";
+    static String tag = "UserGroupsFragment";
 
     View rootView;
     Context context;
 
     RecyclerView mRecyclerView;
-    SimpleEventCardAdapter simpleEventCardAdapter;
+    SimpleGroupCardAdapter simpleGroupCardAdapter;
     List<Event> events = new ArrayList<>();
 
     @Override
@@ -54,15 +54,15 @@ public class UserEventsFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_userprofile_events, container, false);
+        rootView = inflater.inflate(R.layout.fragment_userprofile_groups, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
 
-        simpleEventCardAdapter = new SimpleEventCardAdapter(getActivity(), events);
-        mRecyclerView.setAdapter(simpleEventCardAdapter);
+        simpleGroupCardAdapter = new SimpleGroupCardAdapter(getActivity(), events);
+        mRecyclerView.setAdapter(simpleGroupCardAdapter);
 
         return rootView;
     }

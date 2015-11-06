@@ -1,9 +1,10 @@
-package com.soco.SoCoClient.buddies.allbuddies;
+package com.soco.SoCoClient._ref;
 
 
 import com.soco.SoCoClient._ref.GeneralConfigV1;
 import com.soco.SoCoClient.common.ui.Item;
 
+@Deprecated
 public class ContactListEntryItem implements Item{
 
 	public final String name;

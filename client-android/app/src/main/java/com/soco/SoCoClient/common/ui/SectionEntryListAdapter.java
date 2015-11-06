@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient._ref.GeneralConfigV1;
 
+@Deprecated
 public class SectionEntryListAdapter extends ArrayAdapter<Item> {
 
 	private Context context;
