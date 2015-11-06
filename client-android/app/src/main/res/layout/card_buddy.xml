@@ -5,10 +5,10 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/global_container"
+        android:id="@+id/master"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@android:color/white">
@@ -23,28 +23,22 @@
                 android:id="@+id/quickinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:layout_gravity="left"
                     android:gravity="left"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="5dp"
-                    android:onClick="closecard">
+                    android:onClick="closecard"
+                    android:layout_marginLeft="10dp">
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="?android:attr/selectableItemBackground"
                         android:src="@drawable/actionbar_close"
                         android:layout_gravity="center_vertical"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10"
-                    android:orientation="horizontal">
                 </LinearLayout>
 
 
@@ -53,10 +47,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="right"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="10dp"
-                    android:onClick="buddydetails">
+                    android:onClick="buddydetails"
+                    android:layout_weight="1"
+                    android:layout_gravity="right">
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -64,7 +57,7 @@
                         android:src="@drawable/actionbar_overflow"
                         android:layout_gravity="center_vertical"
                         android:clickable="false"
-                        android:padding="5dp" />
+                        android:layout_marginRight="10dp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -75,7 +68,8 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:clickable="true"
-                android:onClick="buddydetails">
+                android:onClick="buddydetails"
+                android:id="@+id/userinfo">
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -355,7 +349,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Fashion show event..."
+                        android:text="Fashion show ..."
                         android:paddingTop="10dp"
                         android:gravity="center"
                         android:id="@+id/address" />
@@ -405,7 +399,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Google Fans group..."
+                        android:text="Google Fans ..."
                         android:layout_gravity="center_horizontal"
                         android:paddingTop="10dp" />
 
