@@ -52,8 +52,8 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 
 		//date time
 		if(!StringUtil.isEmptyString(model.getStart_date())) {
-			((TextView) convertView.findViewById(R.id.textStartDate)).setText(getTextDate(model.getStart_date(),"dd-MMM"));
-			((TextView) convertView.findViewById(R.id.textStartDayOfWeek)).setText(getDayOfStartDate(model.getStart_date()));
+			((TextView) convertView.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(model.getStart_date(), "dd-MMM"));
+			((TextView) convertView.findViewById(R.id.textStartDayOfWeek)).setText(TimeUtil.getDayOfStartDate(model.getStart_date()));
 		}
 		if(!StringUtil.isEmptyString(model.getStart_time())||StringUtil.isEmptyString(model.getEnd_time())) {
 			((TextView) convertView.findViewById(R.id.textStartEndTime)).setText(getTextTime(model));
@@ -86,19 +86,5 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 			sb.append(model.getEnd_time());
 		}
 		return sb.toString();
-	}
-	private String getDayOfStartDate(String dateString){
-		Date d =  TimeUtil.getDate(dateString);
-		if(d==null){
-			return "";
-		}
-		return TimeUtil.getDayOfWeek(d);
-	}
-	private String getTextDate(String dateString,String format){
-		if("yyyy-MM-dd".equalsIgnoreCase(format)){
-			return dateString;
-		}
-		Date date = TimeUtil.getDate(dateString);
-		return TimeUtil.getDateToString(date, format);
 	}
 }

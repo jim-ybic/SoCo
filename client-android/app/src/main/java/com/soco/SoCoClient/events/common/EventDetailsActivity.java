@@ -7,20 +7,42 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.common.util.StringUtil;
+import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
+import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 
 public class EventDetailsActivity extends ActionBarActivity {
 
     static final String tag = "EventDetailsActivity";
+    public static final String EVENT_ID = "id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
+        Intent i = getIntent();
+
+        SocoApp socoApp = (SocoApp) getApplicationContext();
+        Event event;
+        double eventId = i.getDoubleExtra(EVENT_ID, Double.NaN);
+
+        //if id has been passed from the intent, then get the event id to better locate the event.
+        //else, taking from suggestedEvents (from the list, can only checking the pos, might need to further change)
+        if(!Double.isNaN(eventId) && socoApp.suggestedEventsMap!=null && socoApp.suggestedEventsMap.containsKey(eventId)){
+            event = socoApp.suggestedEventsMap.get(eventId);
+        }else {
+            int size = socoApp.suggestedEvents.size();
+            int pos = size - socoApp.currentEventIndex - 1;
+            event = socoApp.suggestedEvents.get(pos);
+        }
+        setViewFromEvent(event);
     }
 
     @Override
@@ -80,5 +102,24 @@ public class EventDetailsActivity extends ActionBarActivity {
         Log.v(tag, "tap on group details");
         Intent i = new Intent(this, GroupDetailsActivity.class);
         startActivity(i);
+    }
+    private void setViewFromEvent(Event event){
+        ((TextView)this.findViewById(R.id.textNoOfViews)).setText(Integer.toString(event.getNumber_of_views()));
+        ((TextView)this.findViewById(R.id.textNoOfLikes)).setText(Integer.toString(event.getNumber_of_likes()));
+        ((TextView)this.findViewById(R.id.textNoOfComments)).setText(Integer.toString(event.getNumber_of_comments()));
+
+        ((TextView)this.findViewById(R.id.address)).setText(event.getAddress());
+        ((TextView)this.findViewById(R.id.textIntroduction)).setText(event.getIntroduction());
+        ((TextView)this.findViewById(R.id.textTitle)).setText(event.getTitle());
+        //date time
+        if(!StringUtil.isEmptyString(event.getStart_date())) {
+            ((TextView) this.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(event.getStart_date(), "dd-MMM"));
+            ((TextView) this.findViewById(R.id.textStartDayOfWeek)).setText(TimeUtil.getDayOfStartDate(event.getStart_date()));
+        }
+        if(!StringUtil.isEmptyString(event.getStart_time())||StringUtil.isEmptyString(event.getEnd_time())) {
+            ((TextView) this.findViewById(R.id.textStartEndTime)).setText(TimeUtil.getTextStartEndTime(event));
+        }
+
+
     }
 }

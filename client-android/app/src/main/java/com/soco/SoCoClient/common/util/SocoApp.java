@@ -275,6 +275,15 @@ public class SocoApp extends Application {
         return listNamePhone;
     }
 
+    public void mappingSuggestedEventListToMap(){
+        if(suggestedEventsMap==null) {
+            suggestedEventsMap = new HashMap<>();
+        }
+        for (Event e : suggestedEvents) {
+            double id = e.getId();
+            suggestedEventsMap.put(id,e);
+        }
+    }
     /////////////////////////////////////////////////////////////////
 
     //environment
@@ -328,6 +337,7 @@ public class SocoApp extends Application {
     public EventCardContainer mEventCardContainer;
     public int eventGroupsBuddiesTabIndex = 0;
     public View suggestedEventsView;
+    public HashMap<Double, Event> suggestedEventsMap;
 
     //event details
     public int currentEventIndex;

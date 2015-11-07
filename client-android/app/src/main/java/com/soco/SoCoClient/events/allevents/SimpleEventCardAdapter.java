@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.util.StringUtil;
+import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
 
 import java.util.List;
@@ -39,12 +41,31 @@ public class SimpleEventCardAdapter
     @Override
     public void onBindViewHolder( SimpleEventCardViewHolder simpleEventCardViewHolder, int i )
     {
-        Event e = events.get(i);
-        Log.d(tag, "bind event: " + e.toString());
+        Event event = events.get(i);
+        Log.d(tag, "bind event: " + event.toString());
+        double eventId = event.getId();
+
+        ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.title)).setText(event.getTitle());
+         simpleEventCardViewHolder.itemView.findViewById(R.id.title).setTag(eventId);
+        ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.address)).setText(event.getAddress());
+         simpleEventCardViewHolder.itemView.findViewById(R.id.address).setTag(eventId);
+
+        ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textNoOfComments)).setText(Integer.toString(event.getNumber_of_comments()));
+        simpleEventCardViewHolder.itemView.findViewById(R.id.textNoOfComments).setTag(eventId);
+        //date time
+        if(!StringUtil.isEmptyString(event.getStart_date())) {
+            ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(event.getStart_date(), "dd-MMM"));
+            simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDate).setTag(eventId);
+            ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDayOfWeek)).setText(TimeUtil.getDayOfStartDate(event.getStart_date()));
+            simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDayOfWeek).setTag(eventId);
+        }
+        if(!StringUtil.isEmptyString(event.getStart_time())||StringUtil.isEmptyString(event.getEnd_time())) {
+            ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textStartEndTime)).setText(TimeUtil.getTextStartEndTime(event));
+            simpleEventCardViewHolder.itemView.findViewById(R.id.textStartEndTime).setTag(eventId);
+        }
 
         //todo
         //get data attributes and update UI elements
-
 //        viewHolder.mTextView.setText(e.name);
 //        viewHolder.mImageView.setImageDrawable(mContext.getDrawable(e.getImageResourceId(mContext)));
     }

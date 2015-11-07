@@ -22,8 +22,10 @@ import android.widget.ImageButton;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient._ref.Actor;
 import com.soco.SoCoClient._ref.MyAdapter;
+import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.dashboard.DashboardTabsAdapter;
 import com.soco.SoCoClient.events.CreateEventActivity;
+import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.events.model.Event;
 
 import java.io.IOException;
@@ -50,7 +52,9 @@ public class AllEventsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_events);
 
-        generateDummyEvents();
+       // generateDummyEvents();
+        SocoApp socoApp = (SocoApp) getApplicationContext();
+        events = socoApp.suggestedEvents;
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -136,5 +140,12 @@ public class AllEventsActivity extends ActionBarActivity {
         Intent i = new Intent(this, CreateEventActivity.class);
         startActivity(i);
     }
+    public void eventdetails(View view){
 
+        Log.v(tag, "check event details");
+        Intent i = new Intent(this, EventDetailsActivity.class);
+        double id = (double) view.getTag();
+        i.putExtra(EventDetailsActivity.EVENT_ID,id);
+        startActivity(i);
+    }
 }

@@ -210,6 +210,7 @@ public class DownloadSuggestedEventsService extends IntentService {
                 }
 
                 socoApp.downloadSuggestedEventsResult = true;
+                socoApp.mappingSuggestedEventListToMap();
                 Log.d(tag, socoApp.suggestedEvents.size() + " events created from json response");
             }
             else {

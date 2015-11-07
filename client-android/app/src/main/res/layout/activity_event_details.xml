@@ -160,6 +160,7 @@
                         android:src="@drawable/ic_action_search_black"
                         android:layout_gravity="center_vertical" />
                     <TextView
+                        android:id="@+id/textNoOfViews"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="500"
@@ -182,6 +183,7 @@
                         android:paddingBottom="5dp"
                         android:padding="5dp" />
                     <TextView
+                        android:id="@+id/textNoOfLikes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="100"
@@ -195,7 +197,7 @@
                     android:orientation="horizontal"
                     android:gravity="right"
                     android:onClick="eventphotos"
-                    android:paddingLeft="100dp">
+                    android:paddingLeft="70dp">
                     <ImageButton
                         android:id="@+id/photos"
                         android:layout_width="wrap_content"
@@ -233,6 +235,7 @@
                         android:padding="5dp"
                         android:clickable="false"/>
                     <TextView
+                        android:id="@+id/textNoOfComments"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="20"
@@ -251,6 +254,7 @@
                 android:id="@+id/titlearea"
                 android:paddingTop="20dp">
                 <TextView
+                    android:id="@+id/textTitle"
                     style="@android:style/TextAppearance.Large.Inverse"
                     android:textColor="@android:color/primary_text_light"
                     android:textSize="24sp"
@@ -325,6 +329,7 @@
                             android:src="@drawable/ic_action_event"
                             android:layout_gravity="center_vertical" />
                         <TextView
+                            android:id="@+id/textStartDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="30 Oct"
@@ -336,6 +341,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/textStartDayOfWeek"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Friday"
@@ -343,6 +349,7 @@
                         android:paddingLeft="5dp"
                         android:paddingTop="5dp" />
                     <TextView
+                        android:id="@+id/textStartEndTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="17:15 - 18:30 (HKT)"
@@ -612,6 +619,7 @@
                     android:paddingBottom="10dp"
                     android:textColor="@android:color/black" />
                 <TextView
+                    android:id="@+id/textIntroduction"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="80+ wines from around the world!! with Chinese canapes by Michelin starred Dynasty Restaurant!!!

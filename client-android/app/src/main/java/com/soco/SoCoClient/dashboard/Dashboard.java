@@ -292,6 +292,10 @@ public class Dashboard extends ActionBarActivity implements
     public void eventdetails (View view){
         Log.d(tag, "event detail");
         Intent i = new Intent(getApplicationContext(), EventDetailsActivity.class);
+        int size = socoApp.suggestedEvents.size();
+        int pos = size - socoApp.currentEventIndex - 1;
+        Event event = socoApp.suggestedEvents.get(pos);
+        i.putExtra(EventDetailsActivity.EVENT_ID,event.getId());
         startActivity(i);
     }
 
