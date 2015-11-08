@@ -4,9 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.ui.BaseEventCardStackAdapter;
@@ -62,6 +64,9 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 		((TextView) convertView.findViewById(R.id.textNoOfComments)).setText(Integer.toString(model.getNumber_of_comments()));
 
 		((TextView) convertView.findViewById(R.id.likeevent)).setText(Integer.toString(model.getNumber_of_likes()));
+		//todo
+		//to make following depending on the like status, no hard code to not yet liked
+		LikeUtil.initialLikeButton(((Button) convertView.findViewById(R.id.likeevent)), false);
 
 		return convertView;
 	}

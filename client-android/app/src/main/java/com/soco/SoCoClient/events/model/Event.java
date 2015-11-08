@@ -3,7 +3,8 @@ package com.soco.SoCoClient.events.model;
 public class Event {
 
     static final String tag = "Event";
-
+    public static final String LIKED="LIKED";
+    public static final String NOT_YET_LIKED="NOT YET LIKED";
     double id;
     String title;
     String mainThemeColor;
@@ -22,6 +23,7 @@ public class Event {
     String event_url;
     String status;
 
+    String likeStatus;
 
     public Event() {
     }
@@ -160,6 +162,16 @@ public class Event {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getLikeStatus() {
+        return likeStatus;
+    }
+    public boolean isLiked() {
+        return likeStatus!=null&&LIKED.equalsIgnoreCase(likeStatus)?true:false;
+    }
+    public void setLikeStatus(String likeStatus) {
+        this.likeStatus = likeStatus;
     }
 
     @Override

@@ -284,6 +284,14 @@ public class SocoApp extends Application {
             suggestedEventsMap.put(id,e);
         }
     }
+    public Event getCurrentSuggestedEvent(){
+        if(suggestedEvents!=null && suggestedEvents.size()>0) {
+            int size = suggestedEvents.size();
+            int pos = size - currentEventIndex - 1;
+            return suggestedEvents.get(pos);
+        }
+        return null;
+    }
     /////////////////////////////////////////////////////////////////
 
     //environment

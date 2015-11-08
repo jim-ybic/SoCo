@@ -590,9 +590,10 @@
                 android:textSize="19dp"
                 android:background="@drawable/eventcategory_box"
                 android:text="163"
-                android:drawableLeft="@drawable/eventcard_nolike"
+                android:drawableLeft="@drawable/eventcard_like_selector"
                 android:paddingLeft="20dp"
                 android:textStyle="bold"
+                android:enabled="true"
                 android:onClick="likeevent"/>
 
             <Button
