@@ -164,7 +164,8 @@ public class DownloadSuggestedEventsService extends IntentService {
             else {
                 json = new JSONObject(response.toString());
 //                json = convertHttpResponseToJsonObject(response);
-                Log.w(tag, "converted json: " + json.toString());
+                Log.d(tag, "converted json: " + json);
+                Log.d(tag, "converted json string: " + json.toString());
             }
 
             int status = json.getInt(JsonKeys.STATUS);
@@ -189,21 +190,32 @@ public class DownloadSuggestedEventsService extends IntentService {
                     e.setNumber_of_comments(obj.getInt(JsonKeys.NUMBER_OF_COMMENTS));
                     e.setNumber_of_likes(obj.getInt(JsonKeys.NUMBER_OF_LIKES));
 
+                    Log.v(tag, "parse timedate");
                     String timedateStr = obj.getString(JsonKeys.TIMEDATE);
                     JSONObject timedate = new JSONObject(timedateStr);
 //                    JSONObject timedate2 = obj.getJSONObject(JsonKeys.TIMEDATE);  //alternative to be investigated
                     Log.v(tag, "current timedate: " + timedate.toString());
-
                     e.setStart_date(timedate.getString(JsonKeys.START_DATE));
                     e.setEnd_date(timedate.getString(JsonKeys.END_DATE));
                     e.setStart_time(timedate.getString(JsonKeys.START_TIME));
                     e.setEnd_time(timedate.getString(JsonKeys.END_TIME));
 
+                    Log.v(tag, "parse venue and address");
                     String venueStr = obj.getString(JsonKeys.VENUE);
                     JSONObject venue = new JSONObject(venueStr);
                     Log.v(tag, "current venue: " + venue.toString());
-
                     e.setAddress(venue.getString(JsonKeys.ADDRESS));
+
+                    Log.v(tag, "parse categories");
+                    String allCategoriesString = obj.getString(JsonKeys.CATEGORIES);
+                    JSONArray allCategories = new JSONArray(allCategoriesString);
+                    Log.v(tag, allCategories.length() + " categories found: " + allCategories);
+                    for(int j=0; j<allCategories.length(); j++){
+                        JSONObject cat = allCategories.getJSONObject(j);
+                        String category = cat.getString(JsonKeys.CATEGORY);
+//                        Log.v(tag, "found category: " + category);
+                        e.addCategory(category);
+                    }
 
                     Log.d(tag, "event created: " + e.toString());
                     socoApp.suggestedEvents.add(e);

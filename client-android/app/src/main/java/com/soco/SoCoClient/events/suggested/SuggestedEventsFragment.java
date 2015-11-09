@@ -368,7 +368,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                 eventCardModel.setEnd_time(e.getEnd_time());
                 eventCardModel.setNumber_of_comments(e.getNumber_of_comments());
                 eventCardModel.setNumber_of_likes(e.getNumber_of_likes());
-
+                eventCardModel.setCategories(e.getCategories());
 
                 eventCardModel.setOnClickListener(new EventCardModel.OnClickListener() {
                     @Override

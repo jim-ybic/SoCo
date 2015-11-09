@@ -21,6 +21,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import java.util.ArrayList;
+
 public class EventCardModel {
 
 	private String   title;
@@ -36,6 +38,16 @@ public class EventCardModel {
 	private String end_time;
 	private int number_of_likes;
 	private int number_of_comments;
+
+	ArrayList<String> categories;
+
+	public ArrayList<String> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(ArrayList<String> categories) {
+		this.categories = categories;
+	}
 
 	public int getNumber_of_likes() {
 		return number_of_likes;

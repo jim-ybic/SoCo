@@ -23,84 +23,83 @@
             android:id="@+id/quickinfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
+            android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="left"
                 android:gravity="left"
-                android:onClick="closecard"
-                android:layout_marginLeft="10dp">
+                android:onClick="closecard">
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="?android:attr/selectableItemBackground"
                     android:src="@drawable/actionbar_close"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="right"
-                android:layout_gravity="center_vertical"
-                android:onClick="eventcomments"
-                android:layout_marginLeft="200dp">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/actionbar_comment"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="false" />
-                <TextView
-                    android:id="@+id/textNoOfComments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="20"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="false"
-                    android:textColor="@android:color/white"
-                    android:layout_marginLeft="5dp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="right"
-                android:onClick="eventphotos"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="FREE"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="false"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="right"
-                android:onClick="eventdetails"
-                android:layout_weight="1"
-                android:layout_marginRight="15dp">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/actionbar_overflow"
-                    android:layout_gravity="center_vertical"
-                    android:padding="5dp" />
-
-            </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="right"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:onClick="eventcomments"-->
+                <!--android:layout_marginLeft="200dp">-->
+                <!--<ImageButton-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="?android:attr/selectableItemBackground"-->
+                    <!--android:src="@drawable/actionbar_comment"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:clickable="false" />-->
+                <!--<TextView-->
+                    <!--android:id="@+id/textNoOfComments"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="20"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:clickable="false"-->
+                    <!--android:textColor="@android:color/white"-->
+                    <!--android:layout_marginLeft="5dp" />-->
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="right"-->
+                <!--android:onClick="eventphotos"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginLeft="15dp">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="FREE"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:clickable="false"-->
+                    <!--android:textColor="@android:color/white" />-->
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="right"-->
+                <!--android:onClick="eventdetails"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_marginRight="15dp">-->
+                <!--<ImageButton-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="?android:attr/selectableItemBackground"-->
+                    <!--android:src="@drawable/actionbar_overflow"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:padding="5dp" />-->
+            <!--</LinearLayout>-->
         </LinearLayout>
 
         <LinearLayout
@@ -526,53 +525,53 @@
         android:onClick="eventbuddies"
         android:paddingLeft="10dp"
         android:paddingTop="10dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Seminar"
-            android:gravity="left"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:textSize="10dp"
-            android:textColor="@android:color/black"
-            android:layout_gravity="top"
-            android:background="@drawable/eventcategory_box"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Research"
-            android:gravity="left"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:textSize="10dp"
-            android:textColor="@android:color/black"
-            android:layout_gravity="top"
-            android:background="@drawable/eventcategory_box"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Graphics"
-            android:gravity="left"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:textSize="10dp"
-            android:textColor="@android:color/black"
-            android:layout_gravity="top"
-            android:background="@drawable/eventcategory_box"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Seminar"-->
+            <!--android:gravity="left"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:paddingRight="10dp"-->
+            <!--android:paddingTop="5dp"-->
+            <!--android:paddingBottom="5dp"-->
+            <!--android:textSize="10dp"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:layout_gravity="top"-->
+            <!--android:background="@drawable/eventcategory_box"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_marginBottom="5dp" />-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Research"-->
+            <!--android:gravity="left"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:paddingRight="10dp"-->
+            <!--android:paddingTop="5dp"-->
+            <!--android:paddingBottom="5dp"-->
+            <!--android:textSize="10dp"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:layout_gravity="top"-->
+            <!--android:background="@drawable/eventcategory_box"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_marginBottom="5dp" />-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Graphics"-->
+            <!--android:gravity="left"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:paddingRight="10dp"-->
+            <!--android:paddingTop="5dp"-->
+            <!--android:paddingBottom="5dp"-->
+            <!--android:textSize="10dp"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:layout_gravity="top"-->
+            <!--android:background="@drawable/eventcategory_box"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_marginBottom="5dp" />-->
     </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

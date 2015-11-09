@@ -1,9 +1,16 @@
 package com.soco.SoCoClient.events.model.ui;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
@@ -12,6 +19,7 @@ import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.ui.BaseEventCardStackAdapter;
 import com.soco.SoCoClient.events.model.ui.EventCardModel;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -21,9 +29,12 @@ import java.util.Date;
 public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 
 	static String tag = "EventCardStackAdapter";
+    View mConvertView;
+    Context mContext;
 
-	public EventCardStackAdapter(Context mContext) {
-		super(mContext);
+	public EventCardStackAdapter(Context context) {
+		super(context);
+        mContext = context;
 	}
 
 	@Override
@@ -33,6 +44,8 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 			convertView = inflater.inflate(R.layout.card_event, parent, false);
 			assert convertView != null;
 		}
+
+        mConvertView = convertView;
 
 //		((ImageView) convertView.findViewById(R.id.banner)).setImageDrawable(model.getCardImageDrawable());
 		((TextView) convertView.findViewById(R.id.title)).setText(model.getTitle());
@@ -63,8 +76,53 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 
 		((TextView) convertView.findViewById(R.id.likeevent)).setText(Integer.toString(model.getNumber_of_likes()));
 
+        if(model.getCategories() != null && !model.getCategories().isEmpty())
+        showCategories(model.getCategories());
+
 		return convertView;
 	}
+
+    void showCategories(ArrayList<String> categories){
+        Log.v(tag, "show event categories: " + categories);
+
+        LinearLayout categoryList = (LinearLayout) mConvertView.findViewById(R.id.categories);
+
+        for(int i=0; i<categories.size(); i++){
+            String cat = categories.get(i);
+            TextView view = new TextView(mContext);
+            view.setText(cat);
+            view.setBackgroundResource(R.drawable.eventcategory_box);
+            view.setPadding(10, 5, 10, 5);
+            view.setTextColor(Color.BLACK);
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 5, 10, 5);
+            view.setLayoutParams(params);
+
+            categoryList.addView(view);
+        }
+
+//        <TextView
+//        android:layout_width="wrap_content"
+//        android:layout_height="wrap_content"
+//        android:text="Seminar"
+//        android:gravity="left"
+//        android:paddingLeft="10dp"
+//        android:paddingRight="10dp"
+//        android:paddingTop="5dp"
+//        android:paddingBottom="5dp"
+//        android:textSize="10dp"
+//        android:textColor="@android:color/black"
+//        android:layout_gravity="top"
+//        android:background="@drawable/eventcategory_box"
+//        android:layout_marginRight="10dp"
+//        android:layout_marginTop="5dp"
+//        android:layout_marginBottom="5dp" />
+
+
+        //todo
+    }
+
 //	private String getTextDate(EventCardModel model){
 //		StringBuffer sb = new StringBuffer();
 //		if(!StringUtil.isEmptyString(model.getStart_date())){
@@ -76,6 +134,7 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 ////		}
 //		return sb.toString();
 //	}
+
 	private String getTextTime(EventCardModel model){
 		StringBuffer sb = new StringBuffer();
 		if(!StringUtil.isEmptyString(model.getStart_time())){
