@@ -340,7 +340,11 @@
         </activity>
         <activity
             android:name=".events.CreateEventActivity"
-            android:label="@string/title_activity_create_event" >
+            android:label="@string/title_activity_create_event"
+            android:parentActivityName=".events.allevents.AllEventsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.events.allevents.AllEventsActivity" />
         </activity>
         <activity
             android:name=".groups.CreateGroupActivity"
