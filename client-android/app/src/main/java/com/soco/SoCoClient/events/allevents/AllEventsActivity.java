@@ -66,7 +66,7 @@ public class AllEventsActivity extends ActionBarActivity {
         simpleEventCardAdapter = new SimpleEventCardAdapter(this, events);
         mRecyclerView.setAdapter(simpleEventCardAdapter);
 
-        setActionbar();
+//        setActionbar();
 
 //        user = (ImageButton) findViewById(R.id.user);
 //        testFacebookUserProfilePicture(user);
@@ -89,7 +89,7 @@ public class AllEventsActivity extends ActionBarActivity {
 
         Log.v(tag, "set actionbar custom view");
         actionBar.setHomeButtonEnabled(false);
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);  //comment out due to no tabs
         actionBar.setDisplayShowCustomEnabled(true);
         actionbarView = getLayoutInflater().inflate(R.layout.actionbar_allevents, null);
 
