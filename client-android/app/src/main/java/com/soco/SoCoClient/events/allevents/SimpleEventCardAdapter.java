@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.events.allevents;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
 
 import java.util.List;
+import java.util.Random;
 
 public class SimpleEventCardAdapter
         extends RecyclerView.Adapter<SimpleEventCardAdapter.SimpleEventCardViewHolder>
@@ -50,8 +52,10 @@ public class SimpleEventCardAdapter
         ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.address)).setText(event.getAddress());
          simpleEventCardViewHolder.itemView.findViewById(R.id.address).setTag(eventId);
 
-        ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textNoOfComments)).setText(Integer.toString(event.getNumber_of_comments()));
-        simpleEventCardViewHolder.itemView.findViewById(R.id.textNoOfComments).setTag(eventId);
+        Log.v(tag, "comment out below line due to the function (event comment) not available in system");
+//        ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textNoOfComments)).setText(Integer.toString(event.getNumber_of_comments()));
+//        simpleEventCardViewHolder.itemView.findViewById(R.id.textNoOfComments).setTag(eventId);
+
         //date time
         if(!StringUtil.isEmptyString(event.getStart_date())) {
             ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(event.getStart_date(), "dd-MMM"));
@@ -64,10 +68,21 @@ public class SimpleEventCardAdapter
             simpleEventCardViewHolder.itemView.findViewById(R.id.textStartEndTime).setTag(eventId);
         }
 
+        Log.v(tag, "set randome titlearea color");
+        setTitleareaRandomColor(simpleEventCardViewHolder.itemView);
+
         //todo
         //get data attributes and update UI elements
 //        viewHolder.mTextView.setText(e.name);
 //        viewHolder.mImageView.setImageDrawable(mContext.getDrawable(e.getImageResourceId(mContext)));
+    }
+
+    void setTitleareaRandomColor(View view) {
+        Log.v(tag, "set title area random color: begin");
+        View titleareaView = view.findViewById(R.id.titlearea);
+        Random rnd = new Random();
+        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        titleareaView.setBackgroundColor(color);
     }
 
     @Override

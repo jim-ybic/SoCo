@@ -26,6 +26,7 @@ import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.dashboard.DashboardTabsAdapter;
 import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
+import com.soco.SoCoClient.events.common.EventGroupsBuddiesActivity;
 import com.soco.SoCoClient.events.model.Event;
 
 import java.io.IOException;
@@ -46,6 +47,7 @@ public class AllEventsActivity extends ActionBarActivity {
 
 //    Bitmap bitmap;
 //    ImageButton user;
+    SocoApp socoApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class AllEventsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_all_events);
 
        // generateDummyEvents();
-        SocoApp socoApp = (SocoApp) getApplicationContext();
+        socoApp = (SocoApp) getApplicationContext();
         events = socoApp.suggestedEvents;
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
@@ -140,12 +142,33 @@ public class AllEventsActivity extends ActionBarActivity {
         Intent i = new Intent(this, CreateEventActivity.class);
         startActivity(i);
     }
-    public void eventdetails(View view){
 
+    public void eventdetails(View view){
         Log.v(tag, "check event details");
         Intent i = new Intent(this, EventDetailsActivity.class);
         double id = (double) view.getTag();
         i.putExtra(EventDetailsActivity.EVENT_ID,id);
         startActivity(i);
+    }
+
+    public void eventgroups(View view){
+        Log.d(tag, "show all event groups");
+        socoApp.eventGroupsBuddiesTabIndex = 0;
+//        Intent i = new Intent(getApplicationContext(), EventOrganizersActivity.class);
+        Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
+        startActivity(i);
+
+        //todo: passing event id to the new activity to get event details
+
+    }
+
+    public void eventbuddies(View view){
+        Log.d(tag, "show all event buddies");
+        socoApp.eventGroupsBuddiesTabIndex = 1;
+        Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
+        startActivity(i);
+
+        //todo: passing event id to the new activity to get event details
+
     }
 }

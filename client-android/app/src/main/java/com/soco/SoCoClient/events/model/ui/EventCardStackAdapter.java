@@ -21,6 +21,7 @@ import com.soco.SoCoClient.events.model.ui.EventCardModel;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 
 //import com.andtinder.R;
@@ -77,13 +78,25 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 
 		((TextView) convertView.findViewById(R.id.likeevent)).setText(Integer.toString(model.getNumber_of_likes()));
 
+		Log.v(tag, "show event categories");
         if(model.getCategories() != null && !model.getCategories().isEmpty())
-        showCategories(model.getCategories());
+	        showCategories(model.getCategories());
+
+		Log.v(tag, "set title area random color");
+		setTitleareaRandomColor();
 
 		return convertView;
 	}
 
-    void showCategories(ArrayList<String> categories){
+	void setTitleareaRandomColor() {
+		Log.v(tag, "set title area random color: begin");
+		View titleareaView = mConvertView.findViewById(R.id.titlearea);
+		Random rnd = new Random();
+		int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+		titleareaView.setBackgroundColor(color);
+	}
+
+	void showCategories(ArrayList<String> categories){
         Log.v(tag, "show event categories: " + categories);
 
         LinearLayout categoryList = (LinearLayout) mConvertView.findViewById(R.id.categories);

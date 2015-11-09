@@ -256,6 +256,8 @@ public class Dashboard extends ActionBarActivity implements
         Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
         startActivity(i);
 
+        //todo: passing event id to the new activity to get event details
+
     }
 
     public void eventbuddies(View view){
@@ -263,6 +265,9 @@ public class Dashboard extends ActionBarActivity implements
         socoApp.eventGroupsBuddiesTabIndex = 1;
         Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
         startActivity(i);
+
+        //todo: passing event id to the new activity to get event details
+
     }
 
     public void commongroups (View view){
