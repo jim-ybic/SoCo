@@ -72,7 +72,8 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 			((TextView) convertView.findViewById(R.id.textStartEndTime)).setText(getTextTime(model));
 		}
 
-		((TextView) convertView.findViewById(R.id.textNoOfComments)).setText(Integer.toString(model.getNumber_of_comments()));
+		Log.v(tag, "comment out below line since feature is not available in system");
+//		((TextView) convertView.findViewById(R.id.textNoOfComments)).setText(Integer.toString(model.getNumber_of_comments()));
 
 		((TextView) convertView.findViewById(R.id.likeevent)).setText(Integer.toString(model.getNumber_of_likes()));
 

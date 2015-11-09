@@ -126,14 +126,14 @@ public class AllEventsActivity extends ActionBarActivity {
 //        };
 //    };
 
-    private void generateDummyEvents() {
-        Log.v(tag, "add 5 dummy events");
-        events.add(new Event());
-        events.add(new Event());
-        events.add(new Event());
-        events.add(new Event());
-        events.add(new Event());
-    }
+//    private void generateDummyEvents() {
+//        Log.v(tag, "add 5 dummy events");
+//        events.add(new Event());
+//        events.add(new Event());
+//        events.add(new Event());
+//        events.add(new Event());
+//        events.add(new Event());
+//    }
 
     public void createevent(View view){
         Log.v(tag, "create event");
