@@ -77,8 +77,8 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 		Log.v(tag, "set color");
 		setTitleareaRandomColor(convertView);
 
-		if(model.getCategories() != null && !model.getCategories().isEmpty());
-		showCategories(model.getCategories());
+		if(model.getCategories() != null && !model.getCategories().isEmpty())
+			showCategories(model.getCategories());
 
 		return convertView;
 	}
