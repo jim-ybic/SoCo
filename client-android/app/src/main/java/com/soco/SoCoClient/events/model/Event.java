@@ -1,7 +1,5 @@
 package com.soco.SoCoClient.events.model;
 
-import java.util.ArrayList;
-
 public class Event {
 
     static final String tag = "Event";
@@ -23,8 +21,6 @@ public class Event {
     String banner_url;
     String event_url;
     String status;
-
-    ArrayList<String> categories = new ArrayList<>();
 
 
     public Event() {
@@ -166,18 +162,6 @@ public class Event {
         this.status = status;
     }
 
-    public ArrayList<String> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(ArrayList<String> categories) {
-        this.categories = categories;
-    }
-
-    public void addCategory(String category){
-        this.categories.add(category);
-    }
-
     @Override
     public String toString() {
         return "Event{" +
@@ -197,7 +181,6 @@ public class Event {
                 ", address='" + address + '\'' +
                 ", mainThemeColor='" + mainThemeColor + '\'' +
                 ", title='" + title + '\'' +
-                ", category='" + categories.toString() + '\'' +
                 '}';
     }
 

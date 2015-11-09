@@ -24,6 +24,7 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import android.support.v7.app.ActionBar.LayoutParams;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -35,6 +36,7 @@ import com.soco.SoCoClient.buddies.allbuddies.AllBuddiesActivity;
 import com.soco.SoCoClient.buddies.suggested.CommonEventsActivity;
 import com.soco.SoCoClient.buddies.service.AddBuddyService;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
+import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
@@ -297,9 +299,7 @@ public class Dashboard extends ActionBarActivity implements
     public void eventdetails (View view){
         Log.d(tag, "event detail");
         Intent i = new Intent(getApplicationContext(), EventDetailsActivity.class);
-        int size = socoApp.suggestedEvents.size();
-        int pos = size - socoApp.currentEventIndex - 1;
-        Event event = socoApp.suggestedEvents.get(pos);
+        Event event = socoApp.getCurrentSuggestedEvent();
         i.putExtra(EventDetailsActivity.EVENT_ID,event.getId());
         startActivity(i);
     }
@@ -474,45 +474,17 @@ public class Dashboard extends ActionBarActivity implements
 
     public void likeevent(View view){
         Log.v(tag, "tap like event");
-
-//        isLiked = false;
-
-//        //test
-//        ((TextView) findViewById(R.id.viewallevents)).setText("updated");
-//
-//        socoApp.eventCardStackAdapter.getCardModel(0).setTitle("settitle");
-//        socoApp.mEventCardContainer.setAdapter(socoApp.eventCardStackAdapter);
-
         //todo
         //check if user has liked this event before
         //update isliked value
 
-//        Button button = (Button) findViewById(R.id.likeevent);
-//        Log.d(tag, "button text: " + button.getText().toString());
-//        if(isLiked){
-//
-//            Toast.makeText(getApplicationContext(), "No like.", Toast.LENGTH_SHORT).show();
-//
-//            Button p1_button = (Button)findViewById(R.id.likeevent);
-//            p1_button.setText("No like");
-//
-//            ((Button) view).setCompoundDrawables(getResources().getDrawable(R.drawable.eventcard_nolike), null, null, null);
-////            button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.eventcard_nolike, 0, 0, 0);
-////            button.setText("No like");
-//
-//            isLiked = false;
-////            button.invalidate();
-//            //todo
-//            //update to server
-//        }
-//        else {
-//            Toast.makeText(getApplicationContext(), "Like this event.", Toast.LENGTH_SHORT).show();
-//
-//            button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.eventcard_liked, 0, 0, 0);
-//            button.setText("Liked");
-//            isLiked = true;
-//        }
+        Button button = (Button) view.findViewById(R.id.likeevent);
+        //update the event item in the SocoApp
+        SocoApp socoApp = (SocoApp) getApplicationContext();
+        Event event = socoApp.getCurrentSuggestedEvent();
 
+        //update the button: image + count
+        LikeUtil.updateLikeButtonStatus(button,event);
         //todo
         //send like signal to server
     }
