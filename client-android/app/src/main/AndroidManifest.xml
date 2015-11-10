@@ -116,7 +116,6 @@
             android:name=".buddies.service.AddBuddyService"
             android:enabled="true" />
 
-
         <activity
             android:name=".events._ref.ActivityLocationActivity"
             android:label="@string/title_activity_project_location" >
@@ -226,7 +225,7 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".events.common.EventBuddiesActivity"
+            android:name=".events._ref.EventBuddiesActivity"
             android:label="@string/title_activity_activity_event_buddies"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -234,7 +233,7 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".events.common.EventOrganizersActivity"
+            android:name=".events._ref.EventOrganizersActivity"
             android:label="@string/title_activity_activity_event_organizers"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -274,8 +273,8 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".groups.GroupDetailsActivity"
-            android:label="@string/title_activity_activity_group_details" >
+            android:name=".groups.GroupDetailsActivityV1"
+            android:label="@string/title_activity_activity_group_details">
         </activity>
         <activity
             android:name=".buddies.suggested.CommonGroupsActivity"
@@ -296,7 +295,7 @@
         <activity
             android:name=".userprofile.UserProfileActivity"
             android:label="@string/title_activity_activity_person_details"
-            android:theme="@style/TallActionBarTheme">
+            android:theme="@style/TallActionBarTheme" >
         </activity>
         <activity
             android:name=".buddies.suggested.AddBuddyActivity"
@@ -325,10 +324,10 @@
         <activity
             android:name=".groups.GroupMembersActivity"
             android:label="@string/title_activity_group_members"
-            android:parentActivityName=".groups.GroupDetailsActivity" >
+            android:parentActivityName=".groups.GroupDetailsActivityV1" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".groups.GroupDetailsActivity" />
+                android:value=".groups.GroupDetailsActivityV1" />
         </activity>
         <activity
             android:name=".userprofile.MyProfileActivity"
@@ -348,7 +347,11 @@
         </activity>
         <activity
             android:name=".groups.CreateGroupActivity"
-            android:label="@string/title_activity_create_group" >
+            android:label="@string/title_activity_create_group"
+            android:parentActivityName=".groups.AllGroupsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.groups.AllGroupsActivity" />
         </activity>
         <activity
             android:name=".events.common.EventGroupsBuddiesActivity"
@@ -361,7 +364,7 @@
         </activity>
         <activity
             android:name=".userprofile.SettingsActivity"
-            android:label="@string/title_activity_settings">
+            android:label="@string/title_activity_settings" >
         </activity>
         <activity
             android:name=".events.allevents.AllEventsActivity"
@@ -390,6 +393,19 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.soco.SoCoClient.events.allevents.AllEventsActivity" />
+        </activity>
+        <activity
+            android:name=".groups.AllGroupsActivity"
+            android:label="@string/title_activity_all_groups"
+            android:parentActivityName=".dashboard.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.dashboard.Dashboard" />
+        </activity>
+        <activity
+            android:name=".groups.GroupDetailsActivity"
+            android:label="@string/title_activity_group_details"
+            android:theme="@style/GroupDetailsTallActionBarTheme">
         </activity>
     </application>
 

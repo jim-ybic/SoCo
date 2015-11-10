@@ -461,40 +461,40 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //            createActivity(null);
 //        }
 
-        //primary function
-        if (id == R.id.events){
-            Log.d(tag, "click on menu: all events");
-            Intent i = new Intent(getActivity().getApplicationContext(), AllEventsActivityV1.class);
-            startActivity(i);
-        }
-        //secondary functions
-        else if (id == R.id.profile){
-            Log.d(tag, "click on menu: profile");
-            Intent i = new Intent(getActivity().getApplicationContext(), MyProfileActivity.class);
-            startActivity(i);
-        }
-        else if (id == R.id.notifications){
-            Log.d(tag, "click on menu: notifications");
-            Intent i = new Intent(getActivity().getApplicationContext(), ActivityNotifications.class);
-            startActivity(i);
-        }
-        else if (id == R.id.chats){
-            Log.d(tag, "click on menu: chats");
-            Intent i = new Intent(getActivity().getApplicationContext(), ActivityChats.class);
-            startActivity(i);
-        }
-
-        //for testing
-        if (id == R.id.createevent){
-            Log.d(tag, "create new event");
-            Intent i = new Intent(getActivity().getApplicationContext(), CreateEventActivity.class);
-            startActivity(i);
-        }
-        else if (id == R.id.test){
-            Log.v(tag, "test activity");
-            Intent i = new Intent(getActivity().getApplicationContext(), Test2Activity.class);
-            startActivity(i);
-        }
+//        //primary function
+//        if (id == R.id.events){
+//            Log.d(tag, "click on menu: all events");
+//            Intent i = new Intent(getActivity().getApplicationContext(), AllEventsActivityV1.class);
+//            startActivity(i);
+//        }
+//        //secondary functions
+//        else if (id == R.id.profile){
+//            Log.d(tag, "click on menu: profile");
+//            Intent i = new Intent(getActivity().getApplicationContext(), MyProfileActivity.class);
+//            startActivity(i);
+//        }
+//        else if (id == R.id.notifications){
+//            Log.d(tag, "click on menu: notifications");
+//            Intent i = new Intent(getActivity().getApplicationContext(), ActivityNotifications.class);
+//            startActivity(i);
+//        }
+//        else if (id == R.id.chats){
+//            Log.d(tag, "click on menu: chats");
+//            Intent i = new Intent(getActivity().getApplicationContext(), ActivityChats.class);
+//            startActivity(i);
+//        }
+//
+//        //for testing
+//        if (id == R.id.createevent){
+//            Log.d(tag, "create new event");
+//            Intent i = new Intent(getActivity().getApplicationContext(), CreateEventActivity.class);
+//            startActivity(i);
+//        }
+//        else if (id == R.id.test){
+//            Log.v(tag, "test activity");
+//            Intent i = new Intent(getActivity().getApplicationContext(), Test2Activity.class);
+//            startActivity(i);
+//        }
 
         return super.onOptionsItemSelected(item);
     }

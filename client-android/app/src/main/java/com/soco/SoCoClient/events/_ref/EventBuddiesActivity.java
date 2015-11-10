@@ -1,31 +1,25 @@
-package com.soco.SoCoClient.events.common;
+package com.soco.SoCoClient.events._ref;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.groups.GroupDetailsActivity;
 
 @Deprecated
-public class EventOrganizersActivity extends ActionBarActivity {
-
-    static String tag = "EventOrganizers";
+public class EventBuddiesActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_event_groups);
+        setContentView(R.layout.fragment_event_buddies);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_fragment_event_groups, menu);
+        getMenuInflater().inflate(R.menu.menu_fragment_event_buddies, menu);
         return true;
     }
 
@@ -42,11 +36,5 @@ public class EventOrganizersActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void groupdetails(View view){
-        Log.d(tag, "tap on group details");
-        Intent i = new Intent(getApplicationContext(), GroupDetailsActivity.class);
-        startActivity(i);
     }
 }

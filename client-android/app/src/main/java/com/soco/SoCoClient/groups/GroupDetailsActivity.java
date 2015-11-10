@@ -1,78 +1,105 @@
 package com.soco.SoCoClient.groups;
 
-import android.content.Intent;
+import android.app.ActionBar;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.events.common.EventDetailsActivity;
+import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.groups.ui.GroupDetailsTabsAdapter;
 
-public class GroupDetailsActivity extends ActionBarActivity {
+public class GroupDetailsActivity extends ActionBarActivity implements
+        android.support.v7.app.ActionBar.TabListener{
 
-    static String tag = "GroupDetailsActivity";
+    String tag = "GroupDetailActivity";
 
-//    private ViewPager viewPager;
-//    private DashboardTabsAdapter mAdapter;
-//    private android.support.v7.app.ActionBar actionBar;
+    private ViewPager viewPager;
+    private GroupDetailsTabsAdapter mAdapter;
+    private android.support.v7.app.ActionBar actionBar;
 
-    // Tab titles
-//    private String[] tabs = {
-//            "Upcoming Events",
-//            "Past Events",
-//            "Stream",
-//            "Messages"
-//    };
+    static final String UPCOMING = "Upcoming";
+    static final String PASTEVENTS = "Past Events";
+
+    SocoApp socoApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_details);
 
-//        viewPager = (ViewPager) findViewById(R.id.pager);
-//
-//        actionBar = getSupportActionBar();
-//        if(actionBar == null){
-//            Log.e(tag, "Cannot get action bar object");
-//            return;
-//        }
-//
-//        mAdapter = new DashboardTabsAdapter(getSupportFragmentManager());
-//
-//        viewPager.setAdapter(mAdapter);
-//        actionBar.setHomeButtonEnabled(false);
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//
-//        Log.d(tag, "Adding tabs");
-//        for (String tab_name : tabs) {
-//            actionBar.addTab(actionBar.newTab().setText(tab_name)
-//                    .setTabListener(this));
-//        }
+        socoApp = (SocoApp) getApplicationContext();
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
-//        Log.v(tag, "Set listener");
-//        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageSelected(int position) {
-//                Log.v(tag, "position is " + position);
-//                actionBar.setSelectedNavigationItem(position);
-//            }
-//            @Override
-//            public void onPageScrolled(int arg0, float arg1, int arg2) {
-//            }
-//            @Override
-//            public void onPageScrollStateChanged(int arg0) {
-//            }
-//        });
+        setActionbar();
+
+        Log.v(tag, "Set listener");
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                Log.v(tag, "position is " + position);
+                actionBar.setSelectedNavigationItem(position);
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
+    }
+
+    void setActionbar(){
+        actionBar = getSupportActionBar();
+        if(actionBar == null){
+            Log.e(tag, "Cannot get action bar object");
+            return;
+        }
+
+        mAdapter = new GroupDetailsTabsAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(mAdapter);
+
+        Log.v(tag, "set actionbar custom view");
+        actionBar.setHomeButtonEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowCustomEnabled(true);
+        View customView = getLayoutInflater().inflate(R.layout.actionbar_group_details, null);
+
+        android.support.v7.app.ActionBar.LayoutParams layout = new android.support.v7.app.ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        actionBar.setCustomView(customView, layout);
+        Toolbar parent = (Toolbar) customView.getParent();
+        Log.v(tag, "remove margin in actionbar area");
+        parent.setContentInsetsAbsolute(0, 0);
+
+//        Log.v(tag, "set actionbar background color");
+//        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
+//        actionBar.setBackgroundDrawable(colorDrawable);
+
+        Log.v(tag, "Adding tabs");
+        android.support.v7.app.ActionBar.Tab tabProfile = actionBar.newTab().setText(UPCOMING).setTabListener(this);
+        actionBar.addTab(tabProfile);
+        android.support.v7.app.ActionBar.Tab tabGroups = actionBar.newTab().setText(PASTEVENTS).setTabListener(this);
+        actionBar.addTab(tabGroups);
+
+//        Log.v(tag, "set starting tab");
+//        if(socoApp.eventGroupsBuddiesTabIndex == 0)
+//            actionBar.selectTab(tabGroups);
+//        else if(socoApp.eventGroupsBuddiesTabIndex == 1)
+//            actionBar.selectTab(tabBuddies);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity_group_details, menu);
+        getMenuInflater().inflate(R.menu.menu_group_detail, menu);
         return true;
     }
 
@@ -91,38 +118,25 @@ public class GroupDetailsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    public void onTabSelected(android.support.v7.app.ActionBar.Tab tab,
-//                              android.support.v4.app.FragmentTransaction fragmentTransaction) {
-//        Log.d(tag, "get position: " + tab.getPosition());
-//        viewPager.setCurrentItem(tab.getPosition());
-//    }
-//
-//    @Override
-//    public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab,
-//                                android.support.v4.app.FragmentTransaction fragmentTransaction) {
-//
-//    }
-//
-//    @Override
-//    public void onTabReselected(android.support.v7.app.ActionBar.Tab tab,
-//                                android.support.v4.app.FragmentTransaction fragmentTransaction) {
-//
-//    }
-
-    public void groupmembers (View view){
-        Log.d(tag, "tap on group members");
-
-        Intent i = new Intent(this, GroupMembersActivity.class);
-        startActivity(i);
+    @Override
+    public void onTabSelected(android.support.v7.app.ActionBar.Tab tab,
+                              android.support.v4.app.FragmentTransaction fragmentTransaction) {
+        Log.v(tag, "get position: " + tab.getPosition());
+        viewPager.setCurrentItem(tab.getPosition());
     }
 
-    public void eventdetails (View view){
-        Log.d(tag, "tap on event details");
-
-        Intent i = new Intent(this, EventDetailsActivity.class);
-        startActivity(i);
+    @Override
+    public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab,
+                                android.support.v4.app.FragmentTransaction fragmentTransaction) {
     }
 
+    @Override
+    public void onTabReselected(android.support.v7.app.ActionBar.Tab tab,
+                                android.support.v4.app.FragmentTransaction fragmentTransaction) {
+    }
 
+    public void close(View view){
+        Log.v(tag, "tap on close");
+        finish();
+    }
 }

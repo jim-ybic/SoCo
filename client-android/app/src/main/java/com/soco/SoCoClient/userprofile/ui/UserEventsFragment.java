@@ -42,12 +42,12 @@ public class UserEventsFragment extends Fragment implements View.OnClickListener
     }
 
     private void generateDummyEvents() {
-        Log.v(tag, "add 5 dummy events");
-        events.add(new Event());
-        events.add(new Event());
-        events.add(new Event());
-        events.add(new Event());
-        events.add(new Event());
+        Log.v(tag, "add dummy events");
+        for(int i=0; i<10; i++) {
+            Event e = new Event();
+            e.setTitle("#" + i + " event");
+            events.add(e);
+        }
     }
 
     @Override

@@ -28,41 +28,39 @@
             android:orientation="vertical"
             android:background="#616161"
             android:id="@+id/titlearea">
-            <LinearLayout
-                android:id="@+id/quickinfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="right"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:onClick="eventcomments" >
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/actionbar_comment"
-                        android:layout_gravity="center_vertical"
-                        android:clickable="false"
-                        android:padding="5dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="20"
-                        android:layout_gravity="center_vertical"
-                        android:clickable="false"
-                        android:textColor="@android:color/white"
-                        android:paddingLeft="5dp" />
-                </LinearLayout>
-
-            </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:id="@+id/quickinfo"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_marginTop="10dp">-->
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:gravity="right"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:paddingLeft="5dp"-->
+                    <!--android:paddingRight="5dp"-->
+                    <!--android:onClick="eventcomments" >-->
+                    <!--<ImageButton-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:background="?android:attr/selectableItemBackground"-->
+                        <!--android:src="@drawable/actionbar_comment"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:clickable="false"-->
+                        <!--android:padding="5dp" />-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="20"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:clickable="false"-->
+                        <!--android:textColor="@android:color/white"-->
+                        <!--android:paddingLeft="5dp" />-->
+                <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
 
             <TextView
                 android:id="@+id/title"
@@ -75,10 +73,12 @@
                 android:text="HK Local Concert Group"
                 android:gravity="center|left"
                 android:clickable="true"
-                android:onClick="eventdetails"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp" />
+                android:onClick="groupdetails"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginTop="10dp" />
 
         </LinearLayout>
 
@@ -195,7 +195,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:onClick="eventbuddies"
                 android:layout_weight="1"
                 android:paddingRight="10dp"
                 android:id="@+id/eventbuddies">
@@ -236,7 +235,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:onClick="eventbuddies"
                 android:paddingLeft="10dp"
                 android:layout_marginRight="10dp">
                 <TextView
@@ -269,9 +267,7 @@
         android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/idshk"
         app:layout_anchor="@id/titlearea"
-        app:layout_anchorGravity="bottom|right"
-        android:clickable="true"
-        android:onClick="eventgroups"/>
+        app:layout_anchorGravity="bottom|right" />
 
     </android.support.design.widget.CoordinatorLayout>
 

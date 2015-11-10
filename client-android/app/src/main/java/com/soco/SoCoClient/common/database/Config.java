@@ -165,6 +165,10 @@ public class Config {
     public static final int USER_PROFILE_TAB_INDEX_GROUPS = 1;
     public static final int USER_PROFILE_TAB_INDEX_EVENTS = 2;
 
+    public static final int GROUP_DETAILS_TAB_COUNT = 2;
+    public static final int GROUP_DETAILS_TAB_INDEX_UPCOMINGEVENTS = 0;
+    public static final int GROUP_DETAILS_TAB_INDEX_PASTEVENTS = 1;
+
     public static final int ALL_BUDDIES_TAB_COUNT = 2;
     public static final int ALL_BUDDIES_TAB_INDEX_MYMATCH = 0;
     public static final int ALL_BUDDIES_TAB_INDEX_MYBUDDIES = 1;

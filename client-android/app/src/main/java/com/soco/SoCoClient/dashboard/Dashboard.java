@@ -51,6 +51,7 @@ import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.buddies.suggested.CommonBuddiesActivity;
 import com.soco.SoCoClient.buddies.suggested.CommonGroupsActivity;
 import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
+import com.soco.SoCoClient.groups.AllGroupsActivity;
 import com.soco.SoCoClient.userprofile.SettingsActivity;
 import com.soco.SoCoClient.userprofile.UserEventsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
@@ -543,9 +544,8 @@ public class Dashboard extends ActionBarActivity implements
             public void onClick(View view) {
                 window.dismiss();
                 Log.v(tag, "show all buddies");
-
-                //todo
-
+                Intent i = new Intent(getApplicationContext(), AllBuddiesActivity.class);
+                startActivity(i);
             }
         });
 
@@ -556,9 +556,8 @@ public class Dashboard extends ActionBarActivity implements
             public void onClick(View view) {
                 window.dismiss();
                 Log.v(tag, "show all groups");
-
-                //todo
-
+                Intent i = new Intent(getApplicationContext(), AllGroupsActivity.class);
+                startActivity(i);
             }
         });
 

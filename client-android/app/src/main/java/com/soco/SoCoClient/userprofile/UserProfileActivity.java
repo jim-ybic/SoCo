@@ -142,4 +142,10 @@ public class UserProfileActivity extends ActionBarActivity implements
 //
 //        return super.onOptionsItemSelected(item);
 //    }
+
+    public void close(View view){
+        Log.v(tag, "tap on close");
+        finish();
+    }
+
 }

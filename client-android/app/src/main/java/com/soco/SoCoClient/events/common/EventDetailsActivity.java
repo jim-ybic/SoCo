@@ -13,6 +13,8 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
+import com.soco.SoCoClient.events._ref.EventBuddiesActivity;
+import com.soco.SoCoClient.events._ref.EventOrganizersActivity;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
@@ -101,8 +103,12 @@ public class EventDetailsActivity extends ActionBarActivity {
     public void groupdetails (View view){
         Log.v(tag, "tap on group details");
         Intent i = new Intent(this, GroupDetailsActivity.class);
+
+        //todo: pass group id as parameters
+
         startActivity(i);
     }
+
     private void setViewFromEvent(Event event){
         ((TextView)this.findViewById(R.id.textNoOfViews)).setText(Integer.toString(event.getNumber_of_views()));
         ((TextView)this.findViewById(R.id.textNoOfLikes)).setText(Integer.toString(event.getNumber_of_likes()));
