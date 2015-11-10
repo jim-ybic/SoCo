@@ -564,40 +564,40 @@
                     android:layout_marginBottom="5dp" />
             </LinearLayout>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/buttons"
-                android:paddingTop="20dp"
-                android:paddingBottom="1dp">
-                <Button
-                    android:id="@+id/likeevent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="12dp"
-                    android:background="@drawable/eventcategory_box"
-                    android:text="take photo"
-                    android:drawableLeft="@drawable/ic_action_camera"
-                    android:paddingLeft="10dp"
-                    android:textStyle="bold"
-                    android:onClick="likeevent"/>
+            <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:id="@+id/buttons"-->
+                <!--android:paddingTop="20dp"-->
+                <!--android:paddingBottom="1dp">-->
+                <!--<Button-->
+                    <!--android:id="@+id/likeevent"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:textSize="12dp"-->
+                    <!--android:background="@drawable/eventcategory_box"-->
+                    <!--android:text="take photo"-->
+                    <!--android:drawableLeft="@drawable/ic_action_camera"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:onClick="likeevent"/>-->
 
-                <Button
-                    android:id="@+id/joinevent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="post"
-                    android:textSize="12dp"
-                    android:drawableLeft="@drawable/ic_action_edit_black"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:background="@drawable/eventcategory_box"
-                    android:paddingLeft="10dp"
-                    android:textStyle="bold"
-                    android:onClick="joinevent"/>
-            </LinearLayout>
+                <!--<Button-->
+                    <!--android:id="@+id/joinevent"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="post"-->
+                    <!--android:textSize="12dp"-->
+                    <!--android:drawableLeft="@drawable/ic_action_edit_black"-->
+                    <!--android:textColor="@android:color/holo_blue_dark"-->
+                    <!--android:background="@drawable/eventcategory_box"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:onClick="joinevent"/>-->
+            <!--</LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -636,42 +636,42 @@ See you all on 3Nov night! "
             </LinearLayout>
 
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="20dp"
-                android:id="@+id/moreinfobuttons">
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="12dp"
-                    android:background="@drawable/eventcategory_box"
-                    android:text="$75"
-                    android:paddingLeft="10dp"
-                    android:textStyle="bold"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Chinese"
-                    android:textSize="12dp"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:background="@drawable/eventcategory_box"
-                    android:paddingLeft="10dp"
-                    android:textStyle="bold"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Website"
-                    android:textSize="12dp"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:background="@drawable/eventcategory_box"
-                    android:paddingLeft="10dp"
-                    android:textStyle="bold"/>
-            </LinearLayout>
+            <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:paddingTop="20dp"-->
+                <!--android:id="@+id/moreinfobuttons">-->
+                <!--<Button-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:textSize="12dp"-->
+                    <!--android:background="@drawable/eventcategory_box"-->
+                    <!--android:text="$75"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:textStyle="bold"/>-->
+                <!--<Button-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="Chinese"-->
+                    <!--android:textSize="12dp"-->
+                    <!--android:textColor="@android:color/holo_blue_dark"-->
+                    <!--android:background="@drawable/eventcategory_box"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:textStyle="bold"/>-->
+                <!--<Button-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="Website"-->
+                    <!--android:textSize="12dp"-->
+                    <!--android:textColor="@android:color/holo_blue_dark"-->
+                    <!--android:background="@drawable/eventcategory_box"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:textStyle="bold"/>-->
+            <!--</LinearLayout>-->
 
             <!--<LinearLayout-->
                 <!--android:layout_width="match_parent"-->
