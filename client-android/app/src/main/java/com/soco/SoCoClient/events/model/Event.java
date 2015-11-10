@@ -3,7 +3,7 @@ package com.soco.SoCoClient.events.model;
 import java.util.ArrayList;
 
 public class Event {
-
+    public static final String EVENT_ID="EVENT_ID";
     static final String tag = "Event";
 
     double id;

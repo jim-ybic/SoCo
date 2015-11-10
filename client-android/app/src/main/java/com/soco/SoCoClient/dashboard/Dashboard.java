@@ -479,16 +479,25 @@ public class Dashboard extends ActionBarActivity implements
         //check if user has liked this event before
         //update isliked value
 
-        Button button = (Button) view.findViewById(R.id.likeevent);
         //update the event item in the SocoApp
         SocoApp socoApp = (SocoApp) getApplicationContext();
         Event event = socoApp.getCurrentSuggestedEvent();
 
-        //update the button: image + count
-        LikeUtil.updateLikeButtonStatus(button,event);
-        //todo
-        //send like signal to server
+        Button button = (Button) view.findViewById(R.id.likeevent);
+        boolean isLiked = button.isActivated();
+        if(isLiked){
+            //trigger the cancel action for previous like
+            LikeUtil.updateLikeButtonStatus(button,event,!isLiked);
+        }else {
+
+            //update the button: image + count
+            LikeUtil.updateLikeButtonStatus(button, event, !isLiked);
+            //todo
+            //send like signal to server
+
+        }
     }
+
 
     public void joinevent(View view){
         Log.v(tag, "tap join event");
