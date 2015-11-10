@@ -60,7 +60,7 @@ public class JoinEventActivity extends ActionBarActivity {
         ((TextView) this.findViewById(R.id.edit_areacode)).setText("+852");
         //date time
         if (!StringUtil.isEmptyString(event.getStart_date())) {
-            ((TextView) this.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(event.getStart_date(), "dd-MMM"));
+            ((TextView) this.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(event.getStart_date(), "dd-MMM-yyyy"));
             ((TextView) this.findViewById(R.id.textStartDayOfWeek)).setText(TimeUtil.getDayOfStartDate(event.getStart_date()));
         }
         if (!StringUtil.isEmptyString(event.getStart_time()) || StringUtil.isEmptyString(event.getEnd_time())) {
