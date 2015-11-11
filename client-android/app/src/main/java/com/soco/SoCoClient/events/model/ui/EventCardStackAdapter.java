@@ -79,8 +79,9 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 		//to make this driven by the json response(like status)
 		//for now, make it as not yet liked
 		LikeUtil.initialLikeButton(((Button) convertView.findViewById(R.id.likeevent)),false);
-		Log.v(tag, "set color");
-		setTitleareaRandomColor(convertView);
+
+//		Log.v(tag, "set color");	//comment out, not beautiful
+//		setTitleareaRandomColor(convertView);
 
 		if(model.getCategories() != null && !model.getCategories().isEmpty())
 			showCategories(model.getCategories());

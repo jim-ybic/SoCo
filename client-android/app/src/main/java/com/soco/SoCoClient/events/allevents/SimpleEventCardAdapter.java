@@ -68,8 +68,8 @@ public class SimpleEventCardAdapter
             simpleEventCardViewHolder.itemView.findViewById(R.id.textStartEndTime).setTag(eventId);
         }
 
-        Log.v(tag, "set randome titlearea color");
-        setTitleareaRandomColor(simpleEventCardViewHolder.itemView);
+//        Log.v(tag, "set randome titlearea color");  //comment out due to not beautiful
+//        setTitleareaRandomColor(simpleEventCardViewHolder.itemView);
 
         //todo
         //get data attributes and update UI elements
