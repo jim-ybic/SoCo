@@ -12,6 +12,7 @@ import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.groups.model.Group;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -163,59 +164,27 @@ public class DownloadSuggestedEventsService extends IntentService {
             }
             else {
                 json = new JSONObject(response.toString());
-//                json = convertHttpResponseToJsonObject(response);
                 Log.d(tag, "converted json: " + json);
-                Log.d(tag, "converted json string: " + json.toString());
             }
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
-                Log.d(tag, "create event success, retrieve event list");
-
                 String alleventsString = json.getString(JsonKeys.EVENTS);
                 Log.v(tag, "all events string: " + alleventsString);
                 JSONArray allEvents = new JSONArray(alleventsString);
 //                JSONArray allEvents2 = json.getJSONArray(JsonKeys.EVENTS);  //alternative to be investigated
-                Log.d(tag, allEvents.length() + " events downloaded");
+                Log.d(tag, "retrieve event list: " + allEvents.length() + " events downloaded");
 
                 for(int i=0; i<allEvents.length(); i++){
                     Event e = new Event();
-
                     JSONObject obj = allEvents.getJSONObject(i);
                     Log.v(tag, "current event json: " + obj.toString());
 
-                    e.setId(obj.getDouble(JsonKeys.EVENT_ID));
-                    e.setTitle(obj.getString(JsonKeys.NAME));
-                    e.setIntroduction(obj.getString(JsonKeys.DESCRIPTION));
-                    e.setNumber_of_comments(obj.getInt(JsonKeys.NUMBER_OF_COMMENTS));
-                    e.setNumber_of_likes(obj.getInt(JsonKeys.NUMBER_OF_LIKES));
-
-                    Log.v(tag, "parse timedate");
-                    String timedateStr = obj.getString(JsonKeys.TIMEDATE);
-                    JSONObject timedate = new JSONObject(timedateStr);
-//                    JSONObject timedate2 = obj.getJSONObject(JsonKeys.TIMEDATE);  //alternative to be investigated
-                    Log.v(tag, "current timedate: " + timedate.toString());
-                    e.setStart_date(timedate.getString(JsonKeys.START_DATE));
-                    e.setEnd_date(timedate.getString(JsonKeys.END_DATE));
-                    e.setStart_time(timedate.getString(JsonKeys.START_TIME));
-                    e.setEnd_time(timedate.getString(JsonKeys.END_TIME));
-
-                    Log.v(tag, "parse venue and address");
-                    String venueStr = obj.getString(JsonKeys.VENUE);
-                    JSONObject venue = new JSONObject(venueStr);
-                    Log.v(tag, "current venue: " + venue.toString());
-                    e.setAddress(venue.getString(JsonKeys.ADDRESS));
-
-                    Log.v(tag, "parse categories");
-                    String allCategoriesString = obj.getString(JsonKeys.CATEGORIES);
-                    JSONArray allCategories = new JSONArray(allCategoriesString);
-                    Log.v(tag, allCategories.length() + " categories found: " + allCategories);
-                    for(int j=0; j<allCategories.length(); j++){
-                        JSONObject cat = allCategories.getJSONObject(j);
-                        String category = cat.getString(JsonKeys.CATEGORY);
-//                        Log.v(tag, "found category: " + category);
-                        e.addCategory(category);
-                    }
+                    parseEventBasics(e, obj);
+                    parseTimedate(e, obj);
+                    parseAddress(e, obj);
+                    parseCategories(e, obj);
+                    parseOrganizers(e, obj);
 
                     Log.d(tag, "event created: " + e.toString());
                     socoApp.suggestedEvents.add(e);
@@ -242,6 +211,99 @@ public class DownloadSuggestedEventsService extends IntentService {
         }
 
         return true;
+    }
+
+    private void parseEventBasics(Event e, JSONObject obj) throws JSONException {
+        e.setId(obj.getDouble(JsonKeys.EVENT_ID));
+        e.setTitle(obj.getString(JsonKeys.NAME));
+        e.setIntroduction(obj.getString(JsonKeys.DESCRIPTION));
+        e.setNumber_of_comments(obj.getInt(JsonKeys.NUMBER_OF_COMMENTS));
+        e.setNumber_of_likes(obj.getInt(JsonKeys.NUMBER_OF_LIKES));
+    }
+
+    private void parseCategories(Event e, JSONObject obj) throws JSONException {
+        Log.v(tag, "parse categories");
+        if(obj.has(JsonKeys.CATEGORIES)) {
+            String allCategoriesString = obj.getString(JsonKeys.CATEGORIES);
+            JSONArray allCategories = new JSONArray(allCategoriesString);
+            Log.v(tag, allCategories.length() + " categories found: " + allCategories);
+            for (int j = 0; j < allCategories.length(); j++) {
+                JSONObject cat = allCategories.getJSONObject(j);
+                String category = cat.getString(JsonKeys.CATEGORY);
+                e.addCategory(category);
+            }
+        }
+        else
+            Log.v(tag, "no category info found in json");
+    }
+
+    private void parseAddress(Event e, JSONObject obj) throws JSONException {
+        Log.v(tag, "parse venue and address");
+        if(obj.has(JsonKeys.VENUE)) {
+            String venueStr = obj.getString(JsonKeys.VENUE);
+            JSONObject venue = new JSONObject(venueStr);
+            Log.v(tag, "current venue: " + venue.toString());
+            e.setAddress(venue.getString(JsonKeys.ADDRESS));
+        }
+        else
+            Log.v(tag, "no address info found in json");
+    }
+
+    private void parseTimedate(Event e, JSONObject obj) throws JSONException {
+        Log.v(tag, "parse timedate");
+        if(obj.has(JsonKeys.TIMEDATE)) {
+            String timedateStr = obj.getString(JsonKeys.TIMEDATE);
+            JSONObject timedate = new JSONObject(timedateStr);
+            Log.v(tag, "current timedate: " + timedate.toString());
+            e.setStart_date(timedate.getString(JsonKeys.START_DATE));
+            e.setEnd_date(timedate.getString(JsonKeys.END_DATE));
+            e.setStart_time(timedate.getString(JsonKeys.START_TIME));
+            e.setEnd_time(timedate.getString(JsonKeys.END_TIME));
+        }
+        else
+            Log.v(tag, "no timedate info found in json");
+    }
+
+    private void parseOrganizers(Event e, JSONObject obj2)throws JSONException {
+        Log.v(tag, "parse organizers: creator and groups");
+        if(obj2.has(JsonKeys.ORGANIZER)) {
+            String organizerStr = obj2.getString(JsonKeys.ORGANIZER);
+            JSONObject obj = new JSONObject(organizerStr);
+
+            if (obj.has(JsonKeys.CREATOR_ID)) {
+                e.setCreator_id(obj.getString(JsonKeys.CREATOR_ID));
+                e.setCreator_name(obj.getString(JsonKeys.CREATOR_NAME));
+                e.setCreator_icon_url(obj.getString(JsonKeys.CREATOR_ICON_URL));
+                Log.v(tag, "creator info: " + e.getCreator_id() + ", " + e.getCreator_name() + ", " + e.getCreator_icon_url());
+            } else
+                Log.v(tag, "no creator info found in json");
+
+            if (obj.has(JsonKeys.ENTERPRISE_ID)) {
+                e.setEnterprise_id(obj.getString(JsonKeys.ENTERPRISE_ID));
+                e.setEnterprise_name(obj.getString(JsonKeys.ENTERPRISE_NAME));
+                e.setEnterprise_icon_url(obj.getString(JsonKeys.ENTERPRISE_ICON_URL));
+                Log.v(tag, "enterprise info: " + e.getEnterprise_id() + ", " + e.getEnterprise_name() + ", " + e.getEnterprise_icon_url());
+            } else
+                Log.v(tag, "no enterprise info found in json");
+
+            if (obj.has(JsonKeys.SUPPORTING_GROUPS)) {
+                String allGroupsString = obj.getString(JsonKeys.SUPPORTING_GROUPS);
+                JSONArray allGroups = new JSONArray(allGroupsString);
+                Log.v(tag, allGroups.length() + " groups found: " + allGroups);
+                for (int i = 0; i < allGroups.length(); i++) {
+                    JSONObject group = allGroups.getJSONObject(i);
+                    Group g = new Group();
+                    g.setGroup_id(group.getString(JsonKeys.GROUP_ID));
+                    g.setGroup_name(group.getString(JsonKeys.GROUP_NAME));
+                    g.setGroup_icon_url(group.getString(JsonKeys.GROUP_ICON_URL));
+                    Log.v(tag, "adding group: " + g.getGroup_id() + ", " + g.getGroup_name() + ", " + g.getGroup_icon_url());
+                    e.addSupporting_group(g);
+                }
+            } else
+                Log.v(tag, "no supporting groups info found in json");
+        }
+        else
+            Log.v(tag, "no organizer info found in json");
     }
 
 }

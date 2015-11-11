@@ -79,7 +79,7 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
     public EventCardContainer(Context context) {
         super(context);
 
-        Log.d(tag, "set orientation: ordered");
+        Log.v(tag, "set orientation: ordered");
 //        setOrientation(Orientation.Disordered);
         setOrientation(Orientation.Ordered);
 

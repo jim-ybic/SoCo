@@ -1,10 +1,11 @@
 package com.soco.SoCoClient.events.model;
 
+import com.soco.SoCoClient.groups.model.Group;
+
 import java.util.ArrayList;
 
 public class Event {
     public static final String EVENT_ID="EVENT_ID";
-    static final String tag = "Event";
 
     double id;
     String title;
@@ -25,6 +26,11 @@ public class Event {
     String status;
 
     ArrayList<String> categories = new ArrayList<>();
+
+    //event organizers
+    String creator_id, creator_name, creator_icon_url;
+    String enterprise_id, enterprise_name, enterprise_icon_url;
+    ArrayList<Group> supporting_groups = new ArrayList<>();
 
     public Event() {
     }
@@ -177,27 +183,94 @@ public class Event {
         this.categories.add(category);
     }
 
+    public String getCreator_id() {
+        return creator_id;
+    }
+
+    public void setCreator_id(String creator_id) {
+        this.creator_id = creator_id;
+    }
+
+    public String getCreator_name() {
+        return creator_name;
+    }
+
+    public void setCreator_name(String creator_name) {
+        this.creator_name = creator_name;
+    }
+
+    public String getCreator_icon_url() {
+        return creator_icon_url;
+    }
+
+    public void setCreator_icon_url(String creator_icon_url) {
+        this.creator_icon_url = creator_icon_url;
+    }
+
+    public String getEnterprise_id() {
+        return enterprise_id;
+    }
+
+    public void setEnterprise_id(String enterprise_id) {
+        this.enterprise_id = enterprise_id;
+    }
+
+    public String getEnterprise_name() {
+        return enterprise_name;
+    }
+
+    public void setEnterprise_name(String enterprise_name) {
+        this.enterprise_name = enterprise_name;
+    }
+
+    public String getEnterprise_icon_url() {
+        return enterprise_icon_url;
+    }
+
+    public void setEnterprise_icon_url(String enterprise_icon_url) {
+        this.enterprise_icon_url = enterprise_icon_url;
+    }
+
+    public ArrayList<Group> getSupporting_groups() {
+        return supporting_groups;
+    }
+
+    public void setSupporting_groups(ArrayList<Group> supporting_groups) {
+        this.supporting_groups = supporting_groups;
+    }
+
+    public void addSupporting_group(Group g){
+        this.supporting_groups.add(g);
+    }
+
     @Override
     public String toString() {
         return "Event{" +
-                "status='" + status + '\'' +
-                ", event_url='" + event_url + '\'' +
-                ", banner_url='" + banner_url + '\'' +
-                ", number_of_views=" + number_of_views +
-                ", number_of_comments=" + number_of_comments +
-                ", number_of_photos=" + number_of_photos +
-                ", number_of_likes=" + number_of_likes +
-                ", introduction='" + introduction + '\'' +
-                ", end_time='" + end_time + '\'' +
-                ", start_time='" + start_time + '\'' +
-                ", end_date='" + end_date + '\'' +
-                ", start_date='" + start_date + '\'' +
-                ", city='" + city + '\'' +
-                ", address='" + address + '\'' +
-                ", mainThemeColor='" + mainThemeColor + '\'' +
+                "id=" + id +
                 ", title='" + title + '\'' +
+                ", mainThemeColor='" + mainThemeColor + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", start_date='" + start_date + '\'' +
+                ", end_date='" + end_date + '\'' +
+                ", start_time='" + start_time + '\'' +
+                ", end_time='" + end_time + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", number_of_likes=" + number_of_likes +
+                ", number_of_photos=" + number_of_photos +
+                ", number_of_comments=" + number_of_comments +
+                ", number_of_views=" + number_of_views +
+                ", banner_url='" + banner_url + '\'' +
+                ", event_url='" + event_url + '\'' +
+                ", status='" + status + '\'' +
+                ", categories=" + categories +
+                ", creator_id='" + creator_id + '\'' +
+                ", creator_name='" + creator_name + '\'' +
+                ", creator_icon_url='" + creator_icon_url + '\'' +
+                ", enterprise_id='" + enterprise_id + '\'' +
+                ", enterprise_name='" + enterprise_name + '\'' +
+                ", enterprise_icon_url='" + enterprise_icon_url + '\'' +
+                ", supporting_groups=" + supporting_groups +
                 '}';
     }
-
-
 }

@@ -295,7 +295,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                     Log.w(tag, "offline mode, bypassed downloaded events");
                 }
                 else {
-                    Log.d(tag, "download suggested event - success");
+                    Log.v(tag, "download suggested event - success");
                     Toast.makeText(getActivity().getApplicationContext(), socoApp.suggestedEvents.size() + " events downloaded.", Toast.LENGTH_SHORT).show();
                     initCards(rootView);
                 }
