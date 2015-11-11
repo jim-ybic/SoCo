@@ -360,6 +360,10 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
 //                    "Event #" + i,
 //                    "Description goes here",
 //                    r.getDrawable(R.drawable.picture3_crop));
+                eventCardModel.setEvent(e);
+
+                //todo: use the above event object to set/get event attribute,
+                //todo: and remove all the below statements
                 eventCardModel.setTitle(e.getTitle());
                 eventCardModel.setAddress(e.getAddress());
                 eventCardModel.setStart_date(e.getStart_date());

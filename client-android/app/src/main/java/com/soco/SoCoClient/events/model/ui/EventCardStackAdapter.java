@@ -1,12 +1,16 @@
 package com.soco.SoCoClient.events.model.ui;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +18,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
+import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.model.ui.BaseEventCardStackAdapter;
 import com.soco.SoCoClient.events.model.ui.EventCardModel;
 
@@ -83,10 +88,59 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 //		Log.v(tag, "set color");	//comment out, not beautiful
 //		setTitleareaRandomColor(convertView);
 
+		Log.v(tag, "show event categories");
 		if(model.getCategories() != null && !model.getCategories().isEmpty())
 			showCategories(model.getCategories());
 
+		Log.v(tag, "show event organizers");
+		showOrganizers(model);
+
 		return convertView;
+	}
+
+	void showOrganizers(EventCardModel model){
+		Log.v(tag, "check event creator");
+		ImageButton viewOrg1 = (ImageButton) mConvertView.findViewById(R.id.event_org1);
+		if(model.getEvent().getCreator_id().isEmpty()) {
+			Log.v(tag, "no event creator info, hide the button org1");
+			viewOrg1.setVisibility(View.INVISIBLE);
+		}
+		else{
+			Log.v(tag, "show event creator: " + model.getEvent().getCreator_name());
+			//todo: download creator icon and show it
+
+			Drawable image1 = mContext.getResources().getDrawable(R.drawable.idshk);	//testing icon
+			viewOrg1.setImageDrawable(image1);
+
+//			int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
+//			TypedArray ta = mContext.obtainStyledAttributes(attrs);
+//			Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
+//			ta.recycle();
+//			view.setBackground(drawableFromTheme);
+
+//			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//			params.setMargins(0, 5, 10, 5);
+//			view.setLayoutParams(params);
+		}
+
+		//todo: handle enterprise info when data available
+
+		Log.v(tag, "check event supporting groups");
+		ImageButton viewOrg2 = (ImageButton) mConvertView.findViewById(R.id.event_org2);
+		ImageButton viewOrg3 = (ImageButton) mConvertView.findViewById(R.id.event_org3);
+		if(model.getEvent().getSupporting_groups().isEmpty()){
+			Log.v(tag, "no event creator info, hide the button org2 and org3");
+			viewOrg2.setVisibility(View.INVISIBLE);
+			viewOrg3.setVisibility(View.INVISIBLE);
+		}
+		else{
+			Log.v(tag, "show event supporting groups: " + model.getEvent().getSupporting_groups().toString());
+			//todo: download supporting group icon and show
+
+			Drawable image1 = mContext.getResources().getDrawable(R.drawable.group1);	//testing icon
+			viewOrg2.setImageDrawable(image1);
+			viewOrg3.setImageDrawable(image1);
+		}
 	}
 
 	void showCategories(ArrayList<String> categories){

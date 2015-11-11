@@ -21,6 +21,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.groups.model.Group;
+
 import java.util.ArrayList;
 
 public class EventCardModel {
@@ -39,7 +42,21 @@ public class EventCardModel {
 	private int number_of_likes;
 	private int number_of_comments;
 
+	//event categories
 	ArrayList<String> categories;
+
+	//the corresponding event object
+	//todo: should use this object to replace the event attributes objects
+	//todo: e.g. title, description, address, categories, etc.
+	Event event;
+
+	public Event getEvent(){
+		return event;
+	}
+
+	public void setEvent(Event e){
+		this.event = e;
+	}
 
 	public ArrayList<String> getCategories() {
 		return categories;
@@ -190,4 +207,5 @@ public class EventCardModel {
     public OnClickListener getOnClickListener() {
         return this.mOnClickListener;
     }
+
 }

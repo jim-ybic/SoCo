@@ -75,6 +75,10 @@ public class SimpleEventCardAdapter
         //get data attributes and update UI elements
 //        viewHolder.mTextView.setText(e.name);
 //        viewHolder.mImageView.setImageDrawable(mContext.getDrawable(e.getImageResourceId(mContext)));
+
+        //todo: set event categories
+        //todo: set event organizers (creator, groups)
+
     }
 
     void setTitleareaRandomColor(View view) {

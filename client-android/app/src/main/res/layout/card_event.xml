@@ -613,28 +613,31 @@
 
 
     <ImageButton
+        android:id="@+id/event_org1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:background="?android:attr/selectableItemBackground"
-        android:src="@drawable/idshk"
+        android:src="@drawable/group2"
         app:layout_anchor="@id/titlearea"
         app:layout_anchorGravity="bottom|left"
         android:clickable="true"
         android:onClick="eventgroups"/>
 
     <ImageButton
+        android:id="@+id/event_org2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:background="?android:attr/selectableItemBackground"
-        android:src="@drawable/group1"
+        android:src="@drawable/group2"
         app:layout_anchor="@id/titlearea"
         app:layout_anchorGravity="bottom|left"
         android:clickable="true"
         android:onClick="eventgroups"/>
 
     <ImageButton
+        android:id="@+id/event_org3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="110dp"

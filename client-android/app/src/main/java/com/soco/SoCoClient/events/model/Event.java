@@ -25,6 +25,7 @@ public class Event {
     String event_url;
     String status;
 
+    //event categories
     ArrayList<String> categories = new ArrayList<>();
 
     //event organizers
