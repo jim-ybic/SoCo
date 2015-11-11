@@ -12,12 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient._ref.ContactListAdapter;
-import com.soco.SoCoClient._ref.ContactListEntryItem;
-import com.soco.SoCoClient.common.database.Config;
-import com.soco.SoCoClient.common.model.Person;
-import com.soco.SoCoClient.common.ui.Item;
-import com.soco.SoCoClient.common.ui.SectionItem;
 
 import java.util.ArrayList;
 

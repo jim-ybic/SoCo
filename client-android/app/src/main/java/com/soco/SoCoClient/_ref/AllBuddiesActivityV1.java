@@ -20,11 +20,12 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.database.DataLoader;
+import com.soco.SoCoClient.events.ui.EventGroupListEntryItem;
 import com.soco.SoCoClient.secondary.chat.model.SingleConversation;
 import com.soco.SoCoClient.common.model.Person;
 import com.soco.SoCoClient.secondary.chat.ConversationDetail;
-import com.soco.SoCoClient.common.ui.Item;
-import com.soco.SoCoClient.common.ui.SectionItem;
+import com.soco.SoCoClient.events.ui.Item;
+import com.soco.SoCoClient.events.ui.EventGroupListSectionItem;
 
 import java.util.ArrayList;
 
@@ -222,14 +223,14 @@ public class AllBuddiesActivityV1 extends ActionBarActivity {
         Log.v(tag, "show contacts: " + persons.size() + " friends, " + phoneContacts.size() + " phone contacts");
         ArrayList<Item> items = new ArrayList<>();
 
-        items.add(new SectionItem(Config.CONTACT_LIST_SECTION_MYFRIENDS));
+        items.add(new EventGroupListSectionItem(Config.CONTACT_LIST_SECTION_MYFRIENDS));
         for(Person p : persons){
-            items.add(new ContactListEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
+            items.add(new EventGroupListEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
         }
 
-        items.add(new SectionItem(Config.CONTACT_LIST_SECTION_MYPHONECONTACTS));
+        items.add(new EventGroupListSectionItem(Config.CONTACT_LIST_SECTION_MYPHONECONTACTS));
         for(Person p : phoneContacts){
-            items.add(new ContactListEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
+            items.add(new EventGroupListEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
         }
 
         ContactListAdapter adapter = new ContactListAdapter(this, items);

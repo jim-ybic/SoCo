@@ -21,7 +21,7 @@ import com.soco.SoCoClient.events._ref.ActivityEventDetailV1;
 import com.soco.SoCoClient.events.common.ui.EventListAdapter;
 import com.soco.SoCoClient.events.common.ui.EventListEntryItem;
 import com.soco.SoCoClient.events.model.EventV1;
-import com.soco.SoCoClient.common.ui.Item;
+import com.soco.SoCoClient.events.ui.Item;
 
 import java.util.ArrayList;
 

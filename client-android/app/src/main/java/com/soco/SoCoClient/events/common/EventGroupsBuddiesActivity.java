@@ -19,6 +19,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.service.EventGroupsBuddiesService;
+import com.soco.SoCoClient.groups.GroupDetailsActivity;
 import com.soco.SoCoClient.onboarding.register.service.RegisterService;
 
 public class EventGroupsBuddiesActivity extends ActionBarActivity implements
@@ -54,7 +55,7 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
 
         //todo: send request to server - event groups and buddies
         Log.v(tag, "show progress dialog");
-        pd = ProgressDialog.show(this, "Downloading groups and buddies details in progress", "Please wait...");
+        pd = ProgressDialog.show(this, "Downloading data", "Please wait...");
         new Thread(new Runnable(){
             public void run(){
                 eventGBInBackground();
@@ -238,6 +239,15 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
     public void close(View view){
         Log.v(tag, "tap on close");
         finish();
+    }
+
+    public void groupdetails(View view){
+        Log.v(tag, "tap on a single group, show details");
+        Intent i = new Intent(this, GroupDetailsActivity.class);
+
+        //todo: pass group id as parameter (currently only testing ui)
+
+        startActivity(i);
     }
 
 }

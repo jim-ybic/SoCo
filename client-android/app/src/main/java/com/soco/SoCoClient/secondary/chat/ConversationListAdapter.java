@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient._ref.GeneralConfigV1;
-import com.soco.SoCoClient.common.ui.Item;
+import com.soco.SoCoClient.events.ui.Item;
 
 import java.util.ArrayList;
 

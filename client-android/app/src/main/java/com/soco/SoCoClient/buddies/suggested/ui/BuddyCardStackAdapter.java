@@ -28,7 +28,7 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 		}
 
 //		((ImageView) convertView.findViewById(R.id.banner)).setImageDrawable(model.getCardImageDrawable());
-//		((TextView) convertView.findViewById(R.id.title)).setText(model.getTitle());
+//		((TextView) convertView.findViewById(R.id.title)).setText(model.getLabel());
 //		((TextView) convertView.findViewById(R.id.description)).setText(model.getDescription());
 
 		return convertView;

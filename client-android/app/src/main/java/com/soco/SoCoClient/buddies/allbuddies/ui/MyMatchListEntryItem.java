@@ -1,9 +1,6 @@
 package com.soco.SoCoClient.buddies.allbuddies.ui;
 
 
-import com.soco.SoCoClient._ref.GeneralConfigV1;
-import com.soco.SoCoClient.common.ui.Item;
-
 public class MyMatchListEntryItem //implements Item
 {
 

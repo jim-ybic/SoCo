@@ -2,9 +2,10 @@ package com.soco.SoCoClient.common.ui;
 
 
 import com.soco.SoCoClient._ref.GeneralConfigV1;
+import com.soco.SoCoClient.events.ui.Item;
 
 @Deprecated
-public class FolderItem implements Item{
+public class FolderItem implements Item {
 
 	public final String title;
 	public final String subtitle;

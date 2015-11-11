@@ -11,7 +11,7 @@ import com.soco.SoCoClient.common.http.task._ref.SendMessageTaskAsync;
 import com.soco.SoCoClient.common.util.SignatureUtil;
 import com.soco.SoCoClient.common.ui.SectionEntryListAdapter;
 import com.soco.SoCoClient.common.ui.EntryItem;
-import com.soco.SoCoClient.common.ui.Item;
+import com.soco.SoCoClient.events.ui.Item;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.model.Profile;
 

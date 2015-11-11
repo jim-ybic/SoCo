@@ -8,8 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.common.ui.Item;
-import com.soco.SoCoClient.common.ui.SectionItem;
+import com.soco.SoCoClient.events.ui.EventGroupListEntryItem;
+import com.soco.SoCoClient.events.ui.Item;
+import com.soco.SoCoClient.events.ui.EventGroupListSectionItem;
 
 import java.util.ArrayList;
 
@@ -40,19 +41,19 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
 //            Log.v(tag, "item type: " + i.getType() + ", " + i.toString());
 
 			if(i.getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_SECTION)){   //section
-				SectionItem si = (SectionItem)i;
-//                Log.v(tag, "item name: " + si.getTitle());
-				v = vi.inflate(R.layout.contact_list_section, null);
+				EventGroupListSectionItem si = (EventGroupListSectionItem)i;
+//                Log.v(tag, "item name: " + si.getLabel());
+				v = vi.inflate(R.layout.eventgrouplist_section, null);
 
 				v.setOnClickListener(null);
 				v.setOnLongClickListener(null);
 				v.setLongClickable(false);
 
-				final TextView sectionView = (TextView) v.findViewById(R.id.list_item_section_text);
-				sectionView.setText(si.getTitle());
+				final TextView sectionView = (TextView) v.findViewById(R.id.label);
+				sectionView.setText(si.getLabel());
 			}
 			if(i.getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_ENTRY)){ //entry
-				ContactListEntryItem ei = (ContactListEntryItem)i;
+				EventGroupListEntryItem ei = (EventGroupListEntryItem)i;
 //                Log.v(tag, "item name: " + ei.name);
 				v = vi.inflate(R.layout.contact_list_entry, null);
 				final TextView name = (TextView)v.findViewById(R.id.name);

@@ -2,7 +2,7 @@ package com.soco.SoCoClient.secondary.chat.common;
 
 
 import com.soco.SoCoClient._ref.GeneralConfigV1;
-import com.soco.SoCoClient.common.ui.Item;
+import com.soco.SoCoClient.events.ui.Item;
 
 public class MessageListEntryItem implements Item{
 

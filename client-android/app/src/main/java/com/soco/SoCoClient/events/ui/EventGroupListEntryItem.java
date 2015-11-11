@@ -1,11 +1,10 @@
-package com.soco.SoCoClient._ref;
+package com.soco.SoCoClient.events.ui;
 
 
 import com.soco.SoCoClient._ref.GeneralConfigV1;
-import com.soco.SoCoClient.common.ui.Item;
+import com.soco.SoCoClient.events.ui.Item;
 
-@Deprecated
-public class ContactListEntryItem implements Item{
+public class EventGroupListEntryItem implements Item{
 
 	public final String name;
     public final String phone;
@@ -19,7 +18,9 @@ public class ContactListEntryItem implements Item{
 //        status = "";
 //    }
 
-    public ContactListEntryItem(String name, String phone, String email, String status) {
+    public EventGroupListEntryItem(
+            String name, String phone, String email, String status
+    ) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -33,7 +34,7 @@ public class ContactListEntryItem implements Item{
 
     @Override
     public String getType() {
-        return GeneralConfigV1.LIST_ITEM_TYPE_ENTRY;
+        return Item.LIST_ITEM_TYPE_ENTRY;
     }
 
 }

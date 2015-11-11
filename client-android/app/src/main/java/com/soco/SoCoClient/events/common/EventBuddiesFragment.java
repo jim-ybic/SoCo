@@ -18,18 +18,27 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 //import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 
 public class EventBuddiesFragment extends Fragment implements View.OnClickListener {
 
-    static String tag = "EventBuddiesFragment";
+    public static String tag = "EventBuddiesFragment";
+
+    static final String ItemImage = "ItemImage";
+    static final String ItemText = "ItemText";
 
     View rootView;
 //    SocoApp socoApp;
@@ -51,13 +60,46 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_event_buddies, container, false);
+        rootView = inflater.inflate(R.layout.fragment_event_buddies2, container, false);
 
-        addDummyBuddyLikers();
-        addDummyBuddyParticipants();
+        GridView gridview = (GridView) rootView.findViewById(R.id.gridview);
+
+        ArrayList<HashMap<String, Object>> lstImageItem = new ArrayList<>();
+        for(int i=0;i<10;i++)
+        {
+            //todo: load data to display
+            HashMap<String, Object> map = new HashMap<>();
+            map.put(ItemImage, R.drawable.user1);
+            map.put(ItemText, "NO."+String.valueOf(i));
+            lstImageItem.add(map);
+        }
+
+        SimpleAdapter saImageItems = new SimpleAdapter(getActivity(),
+                lstImageItem,
+                R.layout.eventbuddiesgrid_entry,
+                new String[] {ItemImage,ItemText},
+                new int[] {R.id.image,R.id.name});
+        gridview.setAdapter(saImageItems);
+        gridview.setOnItemClickListener(
+                new AdapterView.OnItemClickListener(){
+                    public void onItemClick(AdapterView<?> arg0,//The AdapterView where the click happened
+                                            View arg1,//The view within the AdapterView that was clicked
+                                            int arg2,//The position of the view in the adapter
+                                            long arg3//The row id of the item that was clicked
+                    ) {
+                        HashMap<String, Object> item = (HashMap<String, Object>) arg0.getItemAtPosition(arg2);
+                        Log.v(EventBuddiesFragment.tag, "text: " + item.get(ItemText));
+                    }
+                }
+        );
+
+//        addDummyBuddyLikers();
+//        addDummyBuddyParticipants();
 
         return rootView;
     }
+
+
 
     public void addDummyBuddyParticipants(){
         Log.v(tag, "dynamically add a few ui elements for testing");
@@ -181,9 +223,9 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
 //        switch (requestCode) {
 //            case com.soco.SoCoClient.control.config.DataConfigV1.INTENT_SHOW_EVENT_DETAIL: {
 //                Log.i(tag, "return from event details");
@@ -196,7 +238,7 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 //                break;
 //            }
 //        }
-    }
+//    }
 
 //    @Override
 //    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -246,3 +288,14 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 
 
 }
+
+//class  ItemClickListener implements AdapterView.OnItemClickListener {
+//    public void onItemClick(AdapterView<?> arg0,//The AdapterView where the click happened
+//                            View arg1,//The view within the AdapterView that was clicked
+//                            int arg2,//The position of the view in the adapter
+//                            long arg3//The row id of the item that was clicked
+//    ) {
+//        HashMap<String, Object> item = (HashMap<String, Object>) arg0.getItemAtPosition(arg2);
+//        Log.v(EventBuddiesFragment.tag, "text: " + item.get("ItemText"));
+//    }
+//}

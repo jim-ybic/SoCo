@@ -363,7 +363,7 @@
         <activity
             android:name=".events.common.EventGroupsBuddiesActivity"
             android:label="@string/title_activity_event_groups_buddies"
-            android:theme="@style/TallActionBarTheme" >
+            android:theme="@style/EventGroupBuddiesTallActionBarTheme" >
         </activity>
         <activity
             android:name="._ref.Test2Activity"

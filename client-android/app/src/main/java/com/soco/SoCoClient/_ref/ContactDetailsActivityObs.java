@@ -13,15 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient._ref.DataConfigV1;
-import com.soco.SoCoClient._ref.GeneralConfigV1;
-import com.soco.SoCoClient._ref.HttpConfigV1;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.common.http.task._ref.SendMessageTaskAsync;
 import com.soco.SoCoClient.common.util.SignatureUtil;
 import com.soco.SoCoClient.common.ui.EntryItem;
-import com.soco.SoCoClient.common.ui.Item;
+import com.soco.SoCoClient.events.ui.Item;
 import com.soco.SoCoClient.common.ui.SectionEntryListAdapter;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.model.Profile;

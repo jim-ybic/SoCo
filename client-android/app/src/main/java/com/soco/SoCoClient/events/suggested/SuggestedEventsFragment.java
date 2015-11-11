@@ -116,7 +116,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         socoApp.suggestedEventsView = rootView;
 
         Log.v(tag, "show progress dialog, fetch suggested events from server");
-        pd = ProgressDialog.show(getActivity(), "Downloading events from server", "Please wait...");
+        pd = ProgressDialog.show(getActivity(), "Downloading events", "Please wait...");
         new Thread(new Runnable(){
             public void run(){
                 downloadEventsInBackgroud();

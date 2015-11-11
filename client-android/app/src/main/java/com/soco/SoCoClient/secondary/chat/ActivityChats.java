@@ -14,7 +14,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.database.DataLoader;
 import com.soco.SoCoClient.secondary.chat.model.SingleConversation;
-import com.soco.SoCoClient.common.ui.Item;
+import com.soco.SoCoClient.events.ui.Item;
 
 import java.util.ArrayList;
 

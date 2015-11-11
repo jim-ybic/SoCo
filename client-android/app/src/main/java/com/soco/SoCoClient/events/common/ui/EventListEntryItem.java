@@ -2,7 +2,7 @@ package com.soco.SoCoClient.events.common.ui;
 
 
 import com.soco.SoCoClient._ref.GeneralConfigV1;
-import com.soco.SoCoClient.common.ui.Item;
+import com.soco.SoCoClient.events.ui.Item;
 
 @Deprecated
 public class EventListEntryItem implements Item{

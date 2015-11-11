@@ -5,13 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient._ref.ContactListEntryItem;
-import com.soco.SoCoClient._ref.GeneralConfigV1;
-import com.soco.SoCoClient.common.ui.Item;
-import com.soco.SoCoClient.common.ui.SectionItem;
 
 import java.util.ArrayList;
 

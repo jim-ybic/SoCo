@@ -39,7 +39,7 @@ public class UserProfileActivity extends ActionBarActivity implements
 //        if(socoApp.OFFLINE_MODE)
 //            setTitle("Sample Event Title");
 //        else
-//            setTitle(socoApp.suggestedEvents.get(socoApp.currentEventIndex).getTitle());
+//            setTitle(socoApp.suggestedEvents.get(socoApp.currentEventIndex).getLabel());
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         setActionbar();
