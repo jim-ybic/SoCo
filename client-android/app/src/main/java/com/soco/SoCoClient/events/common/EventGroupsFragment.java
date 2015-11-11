@@ -2,6 +2,7 @@ package com.soco.SoCoClient.events.common;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,17 +10,26 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.events.model.Event;
 
 public class EventGroupsFragment extends Fragment implements View.OnClickListener {
 
     static String tag = "EventGroupsFragment";
 
 //    public static final String EVENT_ID = "event_id";
+    static final int WAIT_INTERVAL_IN_SECOND = 1;
+    static final int WAIT_ITERATION = 10;
+    static final int THOUSAND = 1000;
 
     View rootView;
     Context context;
+    SocoApp socoApp;
+    Event event;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +37,7 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
         setHasOptionsMenu(true);
 
         context = getActivity().getApplicationContext();
+        socoApp = (SocoApp) context;
     }
 
     @Override
@@ -34,7 +45,41 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_event_groups, container, false);
 
+        showGroups();
+
         return rootView;
+    }
+
+    private void showGroups() {
+//        Log.v(tag, "wait and check register status");
+//        int count = 0;
+//        while(!socoApp.eventGroupsBuddiesResponse && count < WAIT_ITERATION) {   //wait for 10s
+//            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+//            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
+//            while (System.currentTimeMillis() < endTime) {
+//                synchronized (this) {
+//                    try {
+//                        wait(endTime - System.currentTimeMillis());
+//                    } catch (Exception e) {
+//                        Log.e(tag, "Error in waiting");
+//                    }
+//                }
+//            }
+//            count++;
+//        }
+        event = socoApp.getCurrentSuggestedEvent();
+        Log.v(tag, "current event: " + event.toString());
+
+        Log.v(tag, "show groups on the screen");
+        ImageButton viewOrg1Icon = (ImageButton) rootView.findViewById(R.id.org1icon);
+        //todo: download group image
+        Drawable image1 = context.getResources().getDrawable(R.drawable.eventgroups_group1);	//testing icon
+        viewOrg1Icon.setImageDrawable(image1);
+
+        TextView viewOrg1Name = (TextView) rootView.findViewById(R.id.org1name);
+        viewOrg1Name.setText("abc group");
+
+        //todo: not finished yet
     }
 
 

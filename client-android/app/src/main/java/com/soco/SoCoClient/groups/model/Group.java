@@ -1,8 +1,13 @@
 package com.soco.SoCoClient.groups.model;
 
+import com.soco.SoCoClient.userprofile.model.User;
+
+import java.util.ArrayList;
+
 public class Group {
 
     String group_id, group_name, group_icon_url;
+    ArrayList<User> members;
 
     public String getGroup_id() {
         return group_id;
@@ -28,12 +33,25 @@ public class Group {
         this.group_icon_url = group_icon_url;
     }
 
+    public ArrayList<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<User> members) {
+        this.members = members;
+    }
+
+    public void addMember(User user){
+        this.members.add(user);
+    }
+
     @Override
     public String toString() {
         return "Group{" +
                 "group_id='" + group_id + '\'' +
                 ", group_name='" + group_name + '\'' +
                 ", group_icon_url='" + group_icon_url + '\'' +
+                ", members=" + members +
                 '}';
     }
 }

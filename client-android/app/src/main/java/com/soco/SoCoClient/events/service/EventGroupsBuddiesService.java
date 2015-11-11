@@ -11,11 +11,14 @@ import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.groups.model.Group;
+import com.soco.SoCoClient.userprofile.model.User;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.LinkedList;
@@ -27,6 +30,7 @@ public class EventGroupsBuddiesService extends IntentService {
     public static final String EVENT_ID="event_id";
 
     static SocoApp socoApp;
+    static Event event;
 
     public EventGroupsBuddiesService() {
         super("EventGroupsBuddiesService");
@@ -37,6 +41,7 @@ public class EventGroupsBuddiesService extends IntentService {
         super.onCreate();   //important
 
         socoApp = (SocoApp) getApplicationContext();
+        event = socoApp.getCurrentSuggestedEvent();
     }
 
     @Override
@@ -125,53 +130,8 @@ public class EventGroupsBuddiesService extends IntentService {
                 JSONObject eventObj = new JSONObject(eventStr);
                 Log.v(tag, "event obj: " + eventObj);
 
-                if(!eventObj.has(JsonKeys.ORGANIZER)) {
-                    Log.w(tag, "no organizer info is found in json");
-                }
-                else {
-                    String organizerStr = eventObj.getString(JsonKeys.ORGANIZER);
-                    JSONObject orgObj = new JSONObject(organizerStr);
-                    Log.v(tag, "org obj: " + orgObj);
-
-                    String creatorId = orgObj.getString(JsonKeys.CREATOR_ID);
-                    String creatorName = orgObj.getString(JsonKeys.CREATOR_NAME);
-                    String creatorIconUrl = orgObj.getString(JsonKeys.CREATOR_ICON_URL);
-                    Log.v(tag, "creator info: " + creatorId + ", " + creatorName + ", " + creatorIconUrl);
-
-                    if(!orgObj.has(JsonKeys.SUPPORTING_GROUPS)) {
-                        Log.w(tag, "no supporting groups info is found in json");
-                    }
-                    else {
-                        String groupsStr = orgObj.getString(JsonKeys.SUPPORTING_GROUPS);
-                        JSONArray allGroups = new JSONArray(groupsStr);
-                        Log.v(tag, "all groups: " + allGroups);
-
-                        for (int i = 0; i < allGroups.length(); i++) {
-                            JSONObject group = allGroups.getJSONObject(i);
-                            String groupId = group.getString(JsonKeys.GROUP_ID);
-                            String groupName = group.getString(JsonKeys.GROUP_NAME);
-                            String groupIconUrl = group.getString(JsonKeys.GROUP_ICON_URL);
-                            Log.v(tag, "group info: " + groupId + ", " + groupName + ", " + groupIconUrl);
-
-                            if(!group.has(JsonKeys.GROUP_MEMBERS)) {
-                                Log.w(tag, "no group members info is found in json");
-                            }
-                            else {
-                                String membersStr = group.getString(JsonKeys.GROUP_MEMBERS);
-                                JSONArray allMembers = new JSONArray(membersStr);
-                                Log.v(tag, "all members: " + allMembers);
-
-                                for (int j = 0; j < allMembers.length(); j++) {
-                                    JSONObject member = allMembers.getJSONObject(j);
-                                    String memberId = member.getString(JsonKeys.MEMBER_ID);
-                                    String memberName = member.getString(JsonKeys.MEMBER_NAME);
-                                    String memberIconUrl = member.getString(JsonKeys.MEMBER_ICON_URL);
-                                    Log.v(tag, "member info: " + memberId + ", " + memberName + ", " + memberIconUrl);
-                                }
-                            }
-                        }
-                    }
-                }
+                //comment out below line since needed info already downloaded in suggested event interface
+                //parseOrganizer(eventObj);
 
                 if(!eventObj.has(JsonKeys.BUDDIES)){
                     Log.w(tag, "no buddies info is found in json");
@@ -179,6 +139,8 @@ public class EventGroupsBuddiesService extends IntentService {
                 else {
                     //todo: parse buddies details
                 }
+
+                Log.v(tag, "updated event: " + event.toString());
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);
@@ -197,6 +159,74 @@ public class EventGroupsBuddiesService extends IntentService {
         }
 
         return true;
+    }
+
+    private static void parseOrganizer(JSONObject eventObj) throws JSONException {
+        if(!eventObj.has(JsonKeys.ORGANIZER)) {
+            Log.w(tag, "no organizer info is found in json");
+        }
+        else {
+            String organizerStr = eventObj.getString(JsonKeys.ORGANIZER);
+            JSONObject orgObj = new JSONObject(organizerStr);
+            Log.v(tag, "org obj: " + orgObj);
+
+            String creatorId = orgObj.getString(JsonKeys.CREATOR_ID);
+            String creatorName = orgObj.getString(JsonKeys.CREATOR_NAME);
+            String creatorIconUrl = orgObj.getString(JsonKeys.CREATOR_ICON_URL);
+            Log.v(tag, "creator info: " + creatorId + ", " + creatorName + ", " + creatorIconUrl);
+
+            event.setCreator_id(creatorId);
+            event.setCreator_name(creatorName);
+            event.setCreator_icon_url(creatorIconUrl);
+
+            if(!orgObj.has(JsonKeys.SUPPORTING_GROUPS)) {
+                Log.w(tag, "no supporting groups info is found in json");
+            }
+            else {
+                String groupsStr = orgObj.getString(JsonKeys.SUPPORTING_GROUPS);
+                JSONArray allGroups = new JSONArray(groupsStr);
+                Log.v(tag, "all groups: " + allGroups);
+
+                for (int i = 0; i < allGroups.length(); i++) {
+                    JSONObject group = allGroups.getJSONObject(i);
+                    String groupId = group.getString(JsonKeys.GROUP_ID);
+                    String groupName = group.getString(JsonKeys.GROUP_NAME);
+                    String groupIconUrl = group.getString(JsonKeys.GROUP_ICON_URL);
+                    Log.v(tag, "group info: " + groupId + ", " + groupName + ", " + groupIconUrl);
+
+                    Group g = new Group();
+                    g.setGroup_id(groupId);
+                    g.setGroup_name(groupName);
+                    g.setGroup_icon_url(groupIconUrl);
+
+                    if(!group.has(JsonKeys.GROUP_MEMBERS)) {
+                        Log.w(tag, "no group members info is found in json");
+                    }
+                    else {
+                        String membersStr = group.getString(JsonKeys.GROUP_MEMBERS);
+                        JSONArray allMembers = new JSONArray(membersStr);
+                        Log.v(tag, "all members: " + allMembers);
+
+                        for (int j = 0; j < allMembers.length(); j++) {
+                            JSONObject member = allMembers.getJSONObject(j);
+                            String memberId = member.getString(JsonKeys.MEMBER_ID);
+                            String memberName = member.getString(JsonKeys.MEMBER_NAME);
+                            String memberIconUrl = member.getString(JsonKeys.MEMBER_ICON_URL);
+                            Log.v(tag, "member info: " + memberId + ", " + memberName + ", " + memberIconUrl);
+
+                            User user = new User();
+                            user.setUser_id(memberId);
+                            user.setUser_name(memberName);
+                            user.setUser_icon_url(memberIconUrl);
+                            g.addMember(user);
+                        }
+                    }
+
+                            Log.v(tag, "add group: " + g);
+                            event.addSupporting_group(g);
+                }
+            }
+        }
     }
 
 }
