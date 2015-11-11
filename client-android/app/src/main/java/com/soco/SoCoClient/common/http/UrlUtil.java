@@ -233,40 +233,55 @@ public class UrlUtil {
     static final String CREATE_EVENT_PATH = "/v1/event";
     static final String SUGGESTED_EVENTS_PATH = "/v1/suggested_events";
     static final String ADD_BUDDY_PATH = "/v1/add_buddy";
+    static final String LIKE_EVENT_PATH = "/v1/like_event";
+    static final String REVERT_LIKE_EVENT_PATH = "/v1/revert_like_event";
 
     public static String getLoginUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + LOGIN_PATH;
-        Log.d(tag, "login url: " + url);
+        Log.v(tag, "login url: " + url);
         return url;
     }
 
     public static String getSocialLoginUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + SOCIAL_LOGIN_PATH;
-        Log.d(tag, "social login url: " + url);
+        Log.v(tag, "social login url: " + url);
         return url;
     }
 
     public static String getRegisterUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + REGISTER_PATH;
-        Log.d(tag, "register url: " + url);
+        Log.v(tag, "register url: " + url);
         return url;
     }
 
     public static String getCreateEventUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + CREATE_EVENT_PATH;
-        Log.d(tag, "create event url: " + url);
+        Log.v(tag, "create event url: " + url);
         return url;
     }
 
     public static String getSuggestedEventsUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + SUGGESTED_EVENTS_PATH;
-        Log.d(tag, "get suggested events url: " + url);
+        Log.v(tag, "get suggested events url: " + url);
         return url;
     }
 
     public static String getAddBuddyUrl() {
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + ADD_BUDDY_PATH;
-        Log.d(tag, "get add buddy url: " + url);
+        Log.v(tag, "get add buddy url: " + url);
         return url;
     }
+
+    public static String getLikeEventUrl() {
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + LIKE_EVENT_PATH;
+        Log.v(tag, "get like event url: " + url);
+        return url;
+    }
+
+    public static String getRevertLikeEventUrl() {
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + REVERT_LIKE_EVENT_PATH;
+        Log.v(tag, "get revert like event url: " + url);
+        return url;
+    }
+
 }

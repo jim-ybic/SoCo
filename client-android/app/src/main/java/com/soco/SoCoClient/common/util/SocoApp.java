@@ -354,4 +354,12 @@ public class SocoApp extends Application {
     public long currentBuddyId;
     public boolean addBuddyResponse;
     public boolean addBuddyResult;
+
+    //like event or revert like event
+    public boolean likeEventResponse;
+    public boolean likeEventResult;
+    public boolean revertLikeEventResponse;
+    public boolean revertLikeEventResult;
+
+
 }
