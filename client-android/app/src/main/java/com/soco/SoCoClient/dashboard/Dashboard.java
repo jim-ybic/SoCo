@@ -40,8 +40,10 @@ import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
+import com.soco.SoCoClient.events.common.EventBuddiesFragment;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.events.common.EventGroupsBuddiesActivity;
+import com.soco.SoCoClient.events.common.EventGroupsFragment;
 import com.soco.SoCoClient.events.common.JoinEventActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.model.ui.EventCardContainer;
@@ -257,20 +259,20 @@ public class Dashboard extends ActionBarActivity implements
         socoApp.eventGroupsBuddiesTabIndex = 0;
 //        Intent i = new Intent(getApplicationContext(), EventOrganizersActivity.class);
         Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
+        Event event = socoApp.getCurrentSuggestedEvent();
+        i.putExtra(EventGroupsBuddiesActivity.EVENT_ID, event.getId());
+        Log.v(tag, "current event id: " + event.getId());
         startActivity(i);
-
-        //todo: passing event id to the new activity to get event details
-
     }
 
     public void eventbuddies(View view){
         Log.d(tag, "show all event buddies");
         socoApp.eventGroupsBuddiesTabIndex = 1;
         Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
+        Event event = socoApp.getCurrentSuggestedEvent();
+        i.putExtra(EventGroupsBuddiesActivity.EVENT_ID, event.getId());
+        Log.v(tag, "current event id: " + event.getId());
         startActivity(i);
-
-        //todo: passing event id to the new activity to get event details
-
     }
 
     public void commongroups (View view){

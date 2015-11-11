@@ -280,7 +280,7 @@ public class SocoApp extends Application {
             suggestedEventsMap = new HashMap<>();
         }
         for (Event e : suggestedEvents) {
-            double id = e.getId();
+            long id = e.getId();
             suggestedEventsMap.put(id,e);
         }
     }
@@ -345,7 +345,7 @@ public class SocoApp extends Application {
     public EventCardContainer mEventCardContainer;
     public int eventGroupsBuddiesTabIndex = 0;
     public View suggestedEventsView;
-    public HashMap<Double, Event> suggestedEventsMap;
+    public HashMap<Long, Event> suggestedEventsMap;
 
     //event details
     public int currentEventIndex;
@@ -361,5 +361,8 @@ public class SocoApp extends Application {
     public boolean revertLikeEventResponse;
     public boolean revertLikeEventResult;
 
+    //event groups and buddies
+    public boolean eventGroupsBuddiesResponse;
+    public boolean eventGroupsBuddiesResult;
 
 }

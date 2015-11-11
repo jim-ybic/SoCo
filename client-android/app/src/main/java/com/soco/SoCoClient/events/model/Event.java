@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Event {
     public static final String EVENT_ID="EVENT_ID";
 
-    double id;
+    long id;
     String title;
     String mainThemeColor;
     String address;
@@ -36,11 +36,11 @@ public class Event {
     public Event() {
     }
 
-    public double getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(double id) {
+    public void setId(long id) {
         this.id = id;
     }
 

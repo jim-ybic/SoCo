@@ -23,7 +23,7 @@ import com.soco.SoCoClient.groups.GroupDetailsActivity;
 public class EventDetailsActivity extends ActionBarActivity {
 
     static final String tag = "EventDetailsActivity";
-    public static final String EVENT_ID = "id";
+    public static final String EVENT_ID = "event_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class EventDetailsActivity extends ActionBarActivity {
 
         SocoApp socoApp = (SocoApp) getApplicationContext();
         Event event;
-        double eventId = i.getDoubleExtra(EVENT_ID, Double.NaN);
+        long eventId = i.getLongExtra(EVENT_ID, 0);
 
         //if id has been passed from the intent, then get the event id to better locate the event.
         //else, taking from suggestedEvents (from the list, can only checking the pos, might need to further change)

@@ -214,7 +214,7 @@ public class DownloadSuggestedEventsService extends IntentService {
     }
 
     private void parseEventBasics(Event e, JSONObject obj) throws JSONException {
-        e.setId(obj.getDouble(JsonKeys.EVENT_ID));
+        e.setId(obj.getLong(JsonKeys.EVENT_ID));
         e.setTitle(obj.getString(JsonKeys.NAME));
         e.setIntroduction(obj.getString(JsonKeys.DESCRIPTION));
         e.setNumber_of_comments(obj.getInt(JsonKeys.NUMBER_OF_COMMENTS));

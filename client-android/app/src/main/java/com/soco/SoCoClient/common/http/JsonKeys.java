@@ -2,6 +2,9 @@ package com.soco.SoCoClient.common.http;
 
 public class JsonKeys {
     public static final String ADDRESS = "address";
+    public static final String BUDDIES = "buddies";
+    public static final String BUDDIES_JOINED = "buddies_joined";
+    public static final String BUDDIES_LIKED = "buddies_liked";
     public static final String CATEGORIES = "categories";
     public static final String CATEGORY = "category";
     public static final String CREATOR_ICON_URL = "creator_icon_url";
@@ -16,15 +19,23 @@ public class JsonKeys {
     public static final String ENTERPRISE_ID = "enterprise_id";
     public static final String ENTERPRISE_NAME = "enterprise_name";
     public static final String ERROR_CODE = "error_code";
+    public static final String EVENT = "event";
     public static final String EVENT_ID = "event_id";
     public static final String EVENTS = "events";
+    public static final String FRIEND_ICON_URL = "friend_icon_url";
     public static final String FRIEND_ID = "friend_id";
+    public static final String FRIEND_NAME = "friend_name";
+    public static final String FRIENDS = "friends";
     public static final String GROUP_ICON_URL = "group_icon_url";
     public static final String GROUP_ID = "group_id";
+    public static final String GROUP_MEMBERS = "group_members";
     public static final String GROUP_NAME = "group_name";
     public static final String ID = "id";
     public static final String INTRODUCTION = "introduction";
     public static final String LOCATION = "location";
+    public static final String MEMBER_ICON_URL = "member_icon_url";
+    public static final String MEMBER_ID = "member_id";
+    public static final String MEMBER_NAME = "member_name";
     public static final String MESSAGE = "message";
     public static final String MORE_INFO = "more_info";
     public static final String NAME = "name";

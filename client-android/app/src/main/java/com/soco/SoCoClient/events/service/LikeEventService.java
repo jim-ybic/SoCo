@@ -44,7 +44,7 @@ public class LikeEventService extends IntentService {
 //            Log.e(tag, "new event is not available");
 //            return;
 //        }
-        double event_id = intent.getDoubleExtra(EVENT_ID,Double.NaN);
+        long event_id = intent.getLongExtra(EVENT_ID,0);
         if(Double.isNaN(event_id)) {
             Event event = socoApp.getCurrentSuggestedEvent();
             event_id = event.getId();

@@ -1,31 +1,36 @@
 package com.soco.SoCoClient.events.common;
 
 import android.app.ActionBar;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.app.ActionBar.LayoutParams;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.events.service.EventGroupsBuddiesService;
+import com.soco.SoCoClient.onboarding.register.service.RegisterService;
 
 public class EventGroupsBuddiesActivity extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener{
 
     String tag = "EventGroupsBuddiesActivity";
+
+    static final int WAIT_INTERVAL_IN_SECOND = 1;
+    static final int WAIT_ITERATION = 10;
+    static final int THOUSAND = 1000;
+
+    public static final String EVENT_ID = "event_id";
 
     private ViewPager viewPager;
     private EventGroupsBuddiesTabsAdapter mAdapter;
@@ -33,21 +38,83 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
 
     static final String GROUPS = "Groups";
     static final String BUDDIES = "Buddies";
-//    private String[] tabs = {
-//            "Groups",
-//            "Buddies",
-////            "Stream",
-////            "Messages"
-//    };
 
     SocoApp socoApp;
+    ProgressDialog pd;
+    long eventId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_groups_buddies);
 
+        Intent i = getIntent();
+        eventId = i.getLongExtra(EVENT_ID, 0);
+        Log.d(tag, "get event id: " + eventId);
+
+        //todo: send request to server - event groups and buddies
+        Log.v(tag, "show progress dialog");
+        pd = ProgressDialog.show(this, "Downloading groups and buddies details in progress", "Please wait...");
+        new Thread(new Runnable(){
+            public void run(){
+                eventGBInBackground();
+                eventGBhandler.sendEmptyMessage(0);
+            }
+        }).start();
+
         socoApp = (SocoApp) getApplicationContext();
+        setActionbar();
+    }
+
+    private void eventGBInBackground() {
+        Log.v(tag, "start service at back end");
+        Intent i = new Intent(this, EventGroupsBuddiesService.class);
+//        Event event = socoApp.getCurrentSuggestedEvent();
+//        Log.v(tag, "current event id: " + event.getId());
+        i.putExtra(EventGroupsBuddiesService.EVENT_ID, eventId);
+        startService(i);
+
+        Log.v(tag, "set response flag as false");
+        socoApp.eventGroupsBuddiesResponse = false;
+
+        Log.v(tag, "wait and check register status");
+        int count = 0;
+        while(!socoApp.eventGroupsBuddiesResponse && count < WAIT_ITERATION) {   //wait for 10s
+            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
+            while (System.currentTimeMillis() < endTime) {
+                synchronized (this) {
+                    try {
+                        wait(endTime - System.currentTimeMillis());
+                    } catch (Exception e) {
+                        Log.e(tag, "Error in waiting");
+                    }
+                }
+            }
+            count++;
+        }
+    }
+
+    Handler eventGBhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.v(tag, "handle receive message and dismiss dialog");
+
+            if(socoApp.eventGroupsBuddiesResult){
+                Log.d(tag, "eventGB: success");
+                Toast.makeText(getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Log.e(tag, "event GB fail, notify user");
+                Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
+            }
+
+            pd.dismiss();
+        }
+    };
+
+    private void setActionbar() {
+        Log.v(tag, "customize actionbar");
 
         Log.v(tag, "set activity title as event title");
         if(socoApp.OFFLINE_MODE)
@@ -110,9 +177,7 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
             public void onPageScrollStateChanged(int arg0) {
             }
         });
-
     }
-
 
 
     @Override

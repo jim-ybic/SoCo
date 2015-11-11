@@ -1,14 +1,10 @@
 package com.soco.SoCoClient.events.common;
 
-//todo: a bug to be fixed, steps to replicate-
-//1) go inside a folder, 2) quick create an activity, 3) press android Back button
-//expected: return to the up level
-//actual: return to login acreen
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,33 +12,14 @@ import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
 
-//import com.soco.SoCoClient.control.config.ref.DataConfigV1;
-
 public class EventGroupsFragment extends Fragment implements View.OnClickListener {
 
     static String tag = "EventGroupsFragment";
 
-    //local variable
-//    ListView lv_active_programs;
-//    EditText et_quick_add;
-
-    // Local variable
-//    private DBManagerSoco dbmgrSoco;
-//    private ArrayList<Activity> activities;
-//    private String loginEmail, loginPassword;
-//    ArrayList<Item> allListItems;
-//    ArrayList<Folder> folders; //name, desc
+//    public static final String EVENT_ID = "event_id";
 
     View rootView;
-//    SocoApp socoApp;
-
     Context context;
-
-//    EventCardContainer mEventCardContainer;
-
-    //new variables
-//    DataLoader dataLoader;
-//    ArrayList<Event> events;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,18 +27,12 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
         setHasOptionsMenu(true);
 
         context = getActivity().getApplicationContext();
-
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         rootView = inflater.inflate(R.layout.fragment_event_groups, container, false);
-
-
 
         return rootView;
     }
@@ -70,18 +41,6 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        switch (requestCode) {
-//            case com.soco.SoCoClient.control.config.DataConfigV1.INTENT_SHOW_EVENT_DETAIL: {
-//                Log.i(tag, "return from event details");
-//                Log.i(tag, "Current email and password: " + loginEmail + ", " + loginPassword);
-//                activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigV1.VALUE_ACTIVITY_ACTIVE);
-//                activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
-//                refreshList();
-//                events = dataLoader.loadEvents();
-//                show(events);
-//                break;
-//            }
-//        }
     }
 
 //    @Override
@@ -105,24 +64,12 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
 //            intent.putExtra(GeneralConfigV1.LOGIN_PASSWORD, loginPassword);
 //            startActivity(intent);
 //        }
-//        if (id == R.id.archive) {
-//            showCompletedProjects();
-//        }
-//        else if (id == R.id.add) {
-//            createActivity(null);
-//        }
 
         return super.onOptionsItemSelected(item);
     }
 
     public void onResume() {
         super.onResume();
-//        Log.i(tag, "onResume start, reload active projects");
-//        activities = dbmgrSoco.loadActivitiessByActiveness(DataConfigV1.VALUE_ACTIVITY_ACTIVE);
-//        activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
-//        refreshList();
-//        events = dataLoader.loadEvents();
-//        show(events);
     }
 
 

@@ -45,7 +45,7 @@ public class SimpleEventCardAdapter
     {
         Event event = events.get(i);
         Log.d(tag, "bind event: " + event.toString());
-        double eventId = event.getId();
+        Long eventId = event.getId();
 
         ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.title)).setText(event.getTitle());
          simpleEventCardViewHolder.itemView.findViewById(R.id.title).setTag(eventId);

@@ -115,6 +115,13 @@
         <service
             android:name=".buddies.service.AddBuddyService"
             android:enabled="true" />
+        <service
+            android:name=".events.service.EventGroupsBuddiesService"
+            android:enabled="true" />
+        <service
+            android:name=".events.service.LikeEventService"
+            android:enabled="true" />
+
 
         <activity
             android:name=".events._ref.ActivityLocationActivity"

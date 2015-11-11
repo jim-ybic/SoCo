@@ -235,6 +235,7 @@ public class UrlUtil {
     static final String ADD_BUDDY_PATH = "/v1/add_buddy";
     static final String LIKE_EVENT_PATH = "/v1/like_event";
     static final String REVERT_LIKE_EVENT_PATH = "/v1/revert_like_event";
+    static final String EVENT_GROUPS_BUDDIES_PATH = "/v1/event_groups_buddies";
 
     public static String getLoginUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + LOGIN_PATH;
@@ -281,6 +282,12 @@ public class UrlUtil {
     public static String getRevertLikeEventUrl() {
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + REVERT_LIKE_EVENT_PATH;
         Log.v(tag, "get revert like event url: " + url);
+        return url;
+    }
+
+    public static String getEventGroupsBuddiesUrl() {
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + EVENT_GROUPS_BUDDIES_PATH;
+        Log.v(tag, "get event groups buddies url: " + url);
         return url;
     }
 
