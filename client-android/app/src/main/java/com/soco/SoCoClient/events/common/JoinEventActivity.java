@@ -1,29 +1,41 @@
 package com.soco.SoCoClient.events.common;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.events.service.JoinEventService;
 
 public class JoinEventActivity extends ActionBarActivity {
-
+    public static final String PHONE="PHONE";
+    public static final String EMAIL="EMAIL";
+    private static final String tag="JoinEventActivity";
+    Event event;
+    ProgressDialog pd;
+    SocoApp socoApp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_event);
         Intent intent = getIntent();
-        SocoApp socoApp = (SocoApp) getApplicationContext();
-        double event_id = intent.getDoubleExtra(Event.EVENT_ID,Double.NaN);
-        Event event;
-        if(Double.isNaN(event_id)){
+        socoApp = (SocoApp) getApplicationContext();
+        long event_id = intent.getLongExtra(Event.EVENT_ID,0);
+
+        if(event_id==0){
             event = socoApp.getCurrentSuggestedEvent();
         }else{
             event = socoApp.suggestedEventsMap.get(event_id);
@@ -57,7 +69,7 @@ public class JoinEventActivity extends ActionBarActivity {
 
         ((TextView) this.findViewById(R.id.address)).setText(event.getAddress());
         ((TextView) this.findViewById(R.id.textTitle)).setText(event.getTitle());
-        ((TextView) this.findViewById(R.id.edit_areacode)).setText("+852");
+//        ((TextView) this.findViewById(R.id.edit_areacode)).setText("+852");
         //date time
         if (!StringUtil.isEmptyString(event.getStart_date())) {
             ((TextView) this.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(event.getStart_date(), "dd-MMM-yyyy"));
@@ -70,6 +82,85 @@ public class JoinEventActivity extends ActionBarActivity {
             ((TextView) this.findViewById(R.id.edit_email)).setText(email);
         }
     }
+    public void joinRequest(View view){
+        Log.v(tag, "start join event service at back end");
 
-
+        Log.v(tag, "show progress dialog, start joining event");
+        pd = ProgressDialog.show(this, "Sending join event request...", "Please wait...");
+        new Thread(new Runnable(){
+            public void run(){
+                joinEventRequestInBackground();
+                joinEventHandler.sendEmptyMessage(0);
+            }
+        }).start();
     }
+
+
+    private void joinEventRequestInBackground() {
+        Log.v(tag, "start join event service at back end");
+        Intent i = new Intent(this, JoinEventService.class);
+        i.putExtra(Event.EVENT_ID, Long.toString(event.getId()));
+        String areacode = StringUtil.isEmptyString(((TextView) findViewById(R.id.edit_areacode)).getText().toString())?"+852":((TextView)findViewById(R.id.edit_areacode)).getText().toString();
+        String phone = StringUtil.isEmptyString(((TextView) findViewById(R.id.edit_mobile)).getText().toString())?"":((TextView)findViewById(R.id.edit_mobile)).getText().toString();
+       String email =  ((TextView)findViewById(R.id.edit_email)).getText().toString();
+        if(!StringUtil.isEmptyString(phone)) {
+            StringBuffer phoneSb = new StringBuffer();
+            phoneSb.append(areacode);
+            phoneSb.append(phone);
+            i.putExtra(PHONE, phoneSb.toString());
+        }
+        if(!StringUtil.isEmptyString(email)) {
+            i.putExtra(EMAIL, email);
+        }
+        startService(i);
+
+        Log.v(tag, "set join event response flag as false");
+        socoApp.addBuddyResponse = false;
+
+        Log.v(tag, "set join response flag as false");
+        socoApp.joinEventResponse = false;
+        Log.v(tag, "wait and check status");
+        int count = 0;
+        while(!socoApp.joinEventResponse && count < 10) {   //wait for 10s
+            Log.d(tag, "wait for response: " + count * 1 + "s");
+            long endTime = System.currentTimeMillis() + 1*1000;
+            while (System.currentTimeMillis() < endTime) {
+                synchronized (this) {
+                    try {
+                        wait(endTime - System.currentTimeMillis());
+                    } catch (Exception e) {
+                        Log.e(tag, "Error in waiting");
+                    }
+                }
+            }
+            count++;
+        }
+    }
+
+    Handler joinEventHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.v(tag, "handle receive message and dismiss dialog");
+
+            if(socoApp.joinEventResult){
+                Log.d(tag, "join event success");
+                Toast.makeText(getApplicationContext(), "Join event suceess.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else{
+                Log.e(tag, "join event fail, notify user");
+                if(socoApp.error_message != null && !socoApp.error_message.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), socoApp.error_message, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else
+                    Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
+            }
+
+            pd.dismiss();
+        }
+    };
+
+
+
+}

@@ -53,6 +53,8 @@ import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.buddies.suggested.CommonBuddiesActivity;
 import com.soco.SoCoClient.buddies.suggested.CommonGroupsActivity;
 import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
+import com.soco.SoCoClient.events.service.LikeEventService;
+import com.soco.SoCoClient.events.service.RevertLikeEventService;
 import com.soco.SoCoClient.groups.AllGroupsActivity;
 import com.soco.SoCoClient.userprofile.SettingsActivity;
 import com.soco.SoCoClient.userprofile.UserEventsActivity;
@@ -303,7 +305,7 @@ public class Dashboard extends ActionBarActivity implements
         Log.d(tag, "event detail");
         Intent i = new Intent(getApplicationContext(), EventDetailsActivity.class);
         Event event = socoApp.getCurrentSuggestedEvent();
-        i.putExtra(EventDetailsActivity.EVENT_ID,event.getId());
+        i.putExtra(Event.EVENT_ID,event.getId());
         startActivity(i);
     }
 
@@ -477,33 +479,140 @@ public class Dashboard extends ActionBarActivity implements
 
     public void likeevent(View view){
         Log.v(tag, "tap like event");
-        //todo
-        //check if user has liked this event before
-        //update isliked value
 
         //update the event item in the SocoApp
         SocoApp socoApp = (SocoApp) getApplicationContext();
         Event event = socoApp.getCurrentSuggestedEvent();
-
+        final long event_id = event.getId();
         Button button = (Button) view.findViewById(R.id.likeevent);
         boolean isLiked = button.isActivated();
         if(isLiked){
             //trigger the cancel action for previous like
             LikeUtil.updateLikeButtonStatus(button,event,!isLiked);
+            //send like signal to server
+//            pd = ProgressDialog.show(this, "Revert Like event request...", "Please wait...");
+            new Thread(new Runnable(){
+                public void run(){
+                    revertLikeEventRequestInBackground(event_id);
+                    revertLikeEventHandler.sendEmptyMessage(0);
+                }
+            }).start();
         }else {
 
             //update the button: image + count
             LikeUtil.updateLikeButtonStatus(button, event, !isLiked);
-            //todo
-            //send like signal to server
 
+            //send like signal to server
+//            pd = ProgressDialog.show(this, "Like event request...", "Please wait...");
+            new Thread(new Runnable(){
+                public void run(){
+                    likeEventRequestInBackground(event_id);
+                    likeEventHandler.sendEmptyMessage(0);
+                }
+            }).start();
         }
     }
+    private void likeEventRequestInBackground(long event_id) {
+        Log.v(tag, "start like event service at back end");
+        Intent i = new Intent(this, LikeEventService.class);
+        i.putExtra(Event.EVENT_ID,event_id);
+        startService(i);
+
+        Log.v(tag, "set like response flag as false");
+        socoApp.likeEventResponse = false;
+        Log.v(tag, "wait and check status");
+        int count = 0;
+        while(!socoApp.likeEventResponse && count < WAIT_ITERATION) {   //wait for 10s
+            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
+            while (System.currentTimeMillis() < endTime) {
+                synchronized (this) {
+                    try {
+                        wait(endTime - System.currentTimeMillis());
+                    } catch (Exception e) {
+                        Log.e(tag, "Error in waiting");
+                    }
+                }
+            }
+            count++;
+        }
+    }
+
+    Handler likeEventHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.v(tag, "handle receive message ");
+
+            if(socoApp.likeEventResult){
+                Log.d(tag, "Like event success");
+//                Toast.makeText(getApplicationContext(), "Like event suceess.", Toast.LENGTH_SHORT).show();
+//                finish();
+            }
+            else{
+                Log.e(tag, "like event fail, notify user");
+                if(socoApp.error_message != null && !socoApp.error_message.isEmpty())
+                    Toast.makeText(getApplicationContext(), socoApp.error_message, Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
+            }
+
+//            pd.dismiss();
+        }
+    };
+    private void revertLikeEventRequestInBackground(long event_id) {
+        Log.v(tag, "start revert like event service at back end");
+        Intent i = new Intent(this, RevertLikeEventService.class);
+        i.putExtra(Event.EVENT_ID, event_id);
+        startService(i);
+
+        Log.v(tag, "set revert like response flag as false");
+        socoApp.revertLikeEventResponse = false;
+        Log.v(tag, "wait and check status");
+        int count = 0;
+        while(!socoApp.revertLikeEventResponse && count < WAIT_ITERATION) {   //wait for 10s
+            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
+            while (System.currentTimeMillis() < endTime) {
+                synchronized (this) {
+                    try {
+                        wait(endTime - System.currentTimeMillis());
+                    } catch (Exception e) {
+                        Log.e(tag, "Error in waiting");
+                    }
+                }
+            }
+            count++;
+        }
+    }
+
+    Handler revertLikeEventHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.v(tag, "handle receive message");
+
+            if(socoApp.revertLikeEventResult){
+                Log.d(tag, "revert like event success");
+//                Toast.makeText(getApplicationContext(), "revert Like event suceess.", Toast.LENGTH_SHORT).show();
+//                finish();
+            }
+            else{
+                Log.e(tag, "revert like event fail, notify user");
+                if(socoApp.error_message != null && !socoApp.error_message.isEmpty())
+                    Toast.makeText(getApplicationContext(), socoApp.error_message, Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
+            }
+
+//            pd.dismiss();
+        }
+    };
 
 
     public void joinevent(View view){
         Log.v(tag, "tap join event");
         Intent i = new Intent(getApplicationContext(), JoinEventActivity.class);
+        Event event = socoApp.getCurrentSuggestedEvent();
+        i.putExtra(Event.EVENT_ID,event.getId());
         startActivity(i);
     }
 

@@ -361,6 +361,9 @@ public class SocoApp extends Application {
     public boolean revertLikeEventResponse;
     public boolean revertLikeEventResult;
 
+    //join event
+    public boolean joinEventResponse;
+    public boolean joinEventResult;
     //event groups and buddies
     public boolean eventGroupsBuddiesResponse;
     public boolean eventGroupsBuddiesResult;

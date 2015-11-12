@@ -121,6 +121,12 @@
         <service
             android:name=".events.service.LikeEventService"
             android:enabled="true" />
+        <service
+            android:name=".events.service.RevertLikeEventService"
+            android:enabled="true" />
+        <service
+            android:name=".events.service.JoinEventService"
+            android:enabled="true" />
 
 
         <activity

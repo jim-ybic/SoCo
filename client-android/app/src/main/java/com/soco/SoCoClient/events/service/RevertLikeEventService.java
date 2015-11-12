@@ -14,13 +14,13 @@ import com.soco.SoCoClient.events.model.Event;
 
 import org.json.JSONObject;
 
-public class LikeEventService extends IntentService {
-    static final String tag = "LikeEventService";
+public class RevertLikeEventService extends IntentService {
+    static final String tag = "RevertLikeEventService";
 
     static SocoApp socoApp;
 
-    public LikeEventService() {
-        super("LikeEventService");
+    public RevertLikeEventService() {
+        super("RevertLikeEventService");
     }
 
     @Override
@@ -39,14 +39,13 @@ public class LikeEventService extends IntentService {
             Log.e(tag, "user id or token or event is not available");
             return;
         }
-
         long event_id = intent.getLongExtra(Event.EVENT_ID,0);
         if(event_id==0) {
             Event event = socoApp.getCurrentSuggestedEvent();
             event_id = event.getId();
         }
 
-        String url = UrlUtil.getLikeEventUrl();
+        String url = UrlUtil.getRevertLikeEventUrl();
         Object response = request(
                 url,
                 socoApp.user_id,
@@ -55,7 +54,7 @@ public class LikeEventService extends IntentService {
         );
 
         Log.v(tag, "set response flag as true");
-        socoApp.likeEventResponse = true;
+        socoApp.revertLikeEventResponse = true;
 
         if (response != null) {
             Log.v(tag, "parse response");
@@ -99,22 +98,22 @@ public class LikeEventService extends IntentService {
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
-                Log.d(tag, "like event success, retrieve event id");
-                socoApp.likeEventResult = true;
+                Log.d(tag, "revert like event success, retrieve event id");
+                socoApp.revertLikeEventResult = true;
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);
                 String message = json.getString(JsonKeys.MESSAGE);
                 String more_info = json.getString(JsonKeys.MORE_INFO);
-                Log.d(tag, "like event fail, " +
+                Log.d(tag, "revert like event fail, " +
                         "error code: " + error_code + ", message: " + message + ", more info: " + more_info
                 );
-                socoApp.likeEventResult = false;
+                socoApp.revertLikeEventResult = false;
             }
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();
-            socoApp.createEventResult = false;
+            socoApp.revertLikeEventResult = false;
             return false;
         }
 

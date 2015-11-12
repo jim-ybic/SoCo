@@ -2114,7 +2114,8 @@ See you all on 3Nov night! "
                     android:textColor="@android:color/holo_blue_dark"
                     android:background="@drawable/eventcategory_box"
                     android:paddingLeft="10dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:onClick="joinevent"/>
             </LinearLayout>
 
             <!--<LinearLayout-->

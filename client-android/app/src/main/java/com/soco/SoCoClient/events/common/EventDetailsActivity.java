@@ -23,6 +23,8 @@ import com.soco.SoCoClient.groups.GroupDetailsActivity;
 public class EventDetailsActivity extends ActionBarActivity {
 
     static final String tag = "EventDetailsActivity";
+    private long Current_Event_Id = 0;
+    private SocoApp socoApp;
     public static final String EVENT_ID = "event_id";
 
     @Override
@@ -31,19 +33,18 @@ public class EventDetailsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_event_details);
         Intent i = getIntent();
 
-        SocoApp socoApp = (SocoApp) getApplicationContext();
+        socoApp = (SocoApp) getApplicationContext();
         Event event;
         long eventId = i.getLongExtra(EVENT_ID, 0);
 
         //if id has been passed from the intent, then get the event id to better locate the event.
         //else, taking from suggestedEvents (from the list, can only checking the pos, might need to further change)
-        if(!Double.isNaN(eventId) && socoApp.suggestedEventsMap!=null && socoApp.suggestedEventsMap.containsKey(eventId)){
+        if(eventId!=0 && socoApp.suggestedEventsMap!=null && socoApp.suggestedEventsMap.containsKey(eventId)){
             event = socoApp.suggestedEventsMap.get(eventId);
         }else {
-            int size = socoApp.suggestedEvents.size();
-            int pos = size - socoApp.currentEventIndex - 1;
-            event = socoApp.suggestedEvents.get(pos);
+            event = socoApp.getCurrentSuggestedEvent();
         }
+        Current_Event_Id = event.getId();
         setViewFromEvent(event);
     }
 

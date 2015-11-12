@@ -1,6 +1,5 @@
 package com.soco.SoCoClient.events.service;
 
-
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
@@ -10,17 +9,20 @@ import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.common.util.StringUtil;
+import com.soco.SoCoClient.events.common.JoinEventActivity;
 import com.soco.SoCoClient.events.model.Event;
 
 import org.json.JSONObject;
 
-public class LikeEventService extends IntentService {
-    static final String tag = "LikeEventService";
+public class JoinEventService extends IntentService {
+
+    static final String tag = "JoinEventService";
 
     static SocoApp socoApp;
 
-    public LikeEventService() {
-        super("LikeEventService");
+    public JoinEventService() {
+        super("JoinEventService");
     }
 
     @Override
@@ -32,30 +34,33 @@ public class LikeEventService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-//        Log.d(tag, "like event service, handle intent:" + intent);
+        Log.d(tag, "join event service, handle intent:" + intent);
 
         Log.v(tag, "validate data");
         if(socoApp.user_id.isEmpty() || socoApp.token.isEmpty()){
             Log.e(tag, "user id or token or event is not available");
             return;
         }
+//        if(socoApp.newEvent == null){
+//            Log.e(tag, "new event is not available");
+//            return;
+//        }
+        String event_id = intent.getStringExtra(Event.EVENT_ID);
+        String phone = intent.getStringExtra(JoinEventActivity.PHONE);
+        String email = intent.getStringExtra(JoinEventActivity.EMAIL);
 
-        long event_id = intent.getLongExtra(Event.EVENT_ID,0);
-        if(event_id==0) {
-            Event event = socoApp.getCurrentSuggestedEvent();
-            event_id = event.getId();
-        }
-
-        String url = UrlUtil.getLikeEventUrl();
+        String url = UrlUtil.getJoinEventUrl();
         Object response = request(
                 url,
                 socoApp.user_id,
                 socoApp.token,
-                event_id
+                event_id,
+                phone,
+                email
         );
 
         Log.v(tag, "set response flag as true");
-        socoApp.likeEventResponse = true;
+        socoApp.joinEventResponse = true;
 
         if (response != null) {
             Log.v(tag, "parse response");
@@ -72,22 +77,30 @@ public class LikeEventService extends IntentService {
             String url,
             String user_id,
             String token,
-            long event_id
+            String event_id,
+            String phone,
+            String email
     ) {
-        Log.v(tag, "create json request");
+        Log.v(tag, "join json request");
 
         JSONObject data = new JSONObject();
         try {
             data.put(JsonKeys.USER_ID, user_id);
             data.put(JsonKeys.TOKEN, token);
-            data.put(JsonKeys.EVENT_ID, Long.toString(event_id));
+            data.put(JsonKeys.EVENT_ID, event_id);
+            if(!StringUtil.isEmptyString(phone)) {
+                data.put(JsonKeys.PHONE, phone);
+            }
+            if(!StringUtil.isEmptyString(email)) {
+                data.put(JsonKeys.EMAIL, email);
+            }
+
             Log.d(tag, "create event json: " + data);
         } catch (Exception e) {
             Log.e(tag, "cannot create json post data");
             e.printStackTrace();
         }
-        Log.d(tag,url);
-        Log.d(tag,data.toString());
+
         return HttpUtil.executeHttpPost(url, data);
     }
 
@@ -99,22 +112,27 @@ public class LikeEventService extends IntentService {
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
-                Log.d(tag, "like event success, retrieve event id");
-                socoApp.likeEventResult = true;
+                Log.d(tag, "join event success, retrieve event id");
+//                String event_id = json.getString(JsonKeys.EVENT_ID);
+//                Log.d(tag, "create event success, " +
+//                        "event id: " + event_id
+//                );
+                socoApp.joinEventResult = true;
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);
                 String message = json.getString(JsonKeys.MESSAGE);
                 String more_info = json.getString(JsonKeys.MORE_INFO);
-                Log.d(tag, "like event fail, " +
+                Log.d(tag, "join event fail, " +
                         "error code: " + error_code + ", message: " + message + ", more info: " + more_info
                 );
-                socoApp.likeEventResult = false;
+                socoApp.error_message=message;
+                socoApp.joinEventResult = false;
             }
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();
-            socoApp.createEventResult = false;
+            socoApp.joinEventResult = false;
             return false;
         }
 
