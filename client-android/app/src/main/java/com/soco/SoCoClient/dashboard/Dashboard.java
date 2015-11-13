@@ -407,6 +407,7 @@ public class Dashboard extends ActionBarActivity implements
             Log.w(tag, "insert testing events in offline mode for testing");
             for (int i = 0; i < 10; i++) {
                 EventCardModel m = new EventCardModel();
+                m.setEvent(new Event());
                 m.setOnClickListener(new EventCardModel.OnClickListener() {
                     @Override
                     public void OnClickListener() {
@@ -446,6 +447,8 @@ public class Dashboard extends ActionBarActivity implements
                 eventCardModel.setEnd_time(e.getEnd_time());
                 eventCardModel.setNumber_of_comments(e.getNumber_of_comments());
                 eventCardModel.setNumber_of_likes(e.getNumber_of_likes());
+
+                eventCardModel.setEvent(e);
 
                 eventCardModel.setOnClickListener(new EventCardModel.OnClickListener() {
                     @Override

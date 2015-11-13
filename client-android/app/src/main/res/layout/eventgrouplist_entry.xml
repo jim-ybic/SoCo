@@ -20,6 +20,7 @@
             android:orientation="vertical"
             android:gravity="left">
             <ImageButton
+                android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?android:attr/selectableItemBackground"
@@ -36,6 +37,7 @@
             android:gravity="left"
             android:paddingLeft="10dp">
             <TextView
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Group Name A"
@@ -47,28 +49,35 @@
                 android:orientation="horizontal"
                 android:layout_weight="1"
                 android:gravity="left">
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:src="@drawable/eventgroups_like" />-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="1,293"-->
+                    <!--android:gravity="center_horizontal"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:paddingLeft="5dp" />-->
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/eventgroups_like" />
+                    android:src="@drawable/group_participant" />
                 <TextView
+                    android:id="@+id/number_of_participants"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1,293"
+                    android:text="4"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_vertical"
                     android:paddingLeft="5dp" />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/eventgroups_members"
-                    android:paddingLeft="10dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4 participants"
+                    android:text="participants"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_vertical"
                     android:paddingLeft="5dp" />
@@ -79,6 +88,7 @@
                 android:orientation="horizontal"
                 android:layout_weight="1">
                 <ImageButton
+                    android:id="@+id/image_participant1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
@@ -86,6 +96,7 @@
                     android:layout_gravity="center_vertical"
                     android:clickable="false"/>
                 <ImageButton
+                    android:id="@+id/image_participant2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
@@ -94,6 +105,7 @@
                     android:clickable="false"
                     android:layout_marginLeft="5dp" />
                 <ImageButton
+                    android:id="@+id/image_participant3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"

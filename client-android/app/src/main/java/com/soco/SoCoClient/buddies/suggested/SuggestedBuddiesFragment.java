@@ -302,11 +302,11 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
 //        }
 
         //primary function
-        if (id == R.id.friends) {
-            Log.d(tag, "tap menu item: contacts");
-            Intent i = new Intent(getActivity(), AllBuddiesActivityV1.class);
-            startActivity(i);
-        }
+//        if (id == R.id.friends) {
+//            Log.d(tag, "tap menu item: contacts");
+//            Intent i = new Intent(getActivity(), AllBuddiesActivityV1.class);
+//            startActivity(i);
+//        }
 
         return super.onOptionsItemSelected(item);
     }

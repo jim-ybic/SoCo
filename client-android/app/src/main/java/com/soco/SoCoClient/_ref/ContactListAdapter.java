@@ -41,34 +41,34 @@ public class ContactListAdapter extends ArrayAdapter<Item> {
 //            Log.v(tag, "item type: " + i.getType() + ", " + i.toString());
 
 			if(i.getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_SECTION)){   //section
-				EventGroupListSectionItem si = (EventGroupListSectionItem)i;
-//                Log.v(tag, "item name: " + si.getLabel());
-				v = vi.inflate(R.layout.eventgrouplist_section, null);
-
-				v.setOnClickListener(null);
-				v.setOnLongClickListener(null);
-				v.setLongClickable(false);
-
-				final TextView sectionView = (TextView) v.findViewById(R.id.label);
-				sectionView.setText(si.getLabel());
+//				EventGroupListSectionItem si = (EventGroupListSectionItem)i;
+////                Log.v(tag, "item name: " + si.getLabel());
+//				v = vi.inflate(R.layout.eventgrouplist_section, null);
+//
+//				v.setOnClickListener(null);
+//				v.setOnLongClickListener(null);
+//				v.setLongClickable(false);
+//
+//				final TextView sectionView = (TextView) v.findViewById(R.id.label);
+//				sectionView.setText(si.getLabel());
 			}
 			if(i.getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_ENTRY)){ //entry
-				EventGroupListEntryItem ei = (EventGroupListEntryItem)i;
-//                Log.v(tag, "item name: " + ei.name);
-				v = vi.inflate(R.layout.contact_list_entry, null);
-				final TextView name = (TextView)v.findViewById(R.id.name);
-                final TextView phone = (TextView)v.findViewById(R.id.phone);
-				final TextView email = (TextView)v.findViewById(R.id.email);
-                final TextView status = (TextView)v.findViewById(R.id.status);
-
-				if (name != null)
-					name.setText(ei.name);
-                if (phone != null)
-                    phone.setText(ei.phone);
-				if (email != null)
-					email.setText(ei.email);
-                if (status != null)
-                    status.setText(ei.status);
+//				EventGroupListEntryItem ei = (EventGroupListEntryItem)i;
+////                Log.v(tag, "item name: " + ei.name);
+//				v = vi.inflate(R.layout.contact_list_entry, null);
+//				final TextView name = (TextView)v.findViewById(R.id.name);
+//                final TextView phone = (TextView)v.findViewById(R.id.phone);
+//				final TextView email = (TextView)v.findViewById(R.id.email);
+//                final TextView status = (TextView)v.findViewById(R.id.status);
+//
+//				if (name != null)
+//					name.setText(ei.name);
+//                if (phone != null)
+//                    phone.setText(ei.phone);
+//				if (email != null)
+//					email.setText(ei.email);
+//                if (status != null)
+//                    status.setText(ei.status);
 			}
 //			if(i.getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_FOLDER)){
 //                FolderItem fi = (FolderItem)i;

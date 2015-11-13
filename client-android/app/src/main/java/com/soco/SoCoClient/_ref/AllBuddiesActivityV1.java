@@ -225,12 +225,12 @@ public class AllBuddiesActivityV1 extends ActionBarActivity {
 
         items.add(new EventGroupListSectionItem(Config.CONTACT_LIST_SECTION_MYFRIENDS));
         for(Person p : persons){
-            items.add(new EventGroupListEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
+//            items.add(new EventGroupListEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
         }
 
         items.add(new EventGroupListSectionItem(Config.CONTACT_LIST_SECTION_MYPHONECONTACTS));
         for(Person p : phoneContacts){
-            items.add(new EventGroupListEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
+//            items.add(new EventGroupListEntryItem(p.getName(), p.getPhone(), p.getEmail(), p.getStatus()));
         }
 
         ContactListAdapter adapter = new ContactListAdapter(this, items);

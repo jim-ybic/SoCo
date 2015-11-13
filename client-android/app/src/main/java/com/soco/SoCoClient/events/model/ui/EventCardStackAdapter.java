@@ -101,7 +101,7 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 	void showOrganizers(EventCardModel model){
 		Log.v(tag, "check event creator");
 		ImageButton viewOrg1 = (ImageButton) mConvertView.findViewById(R.id.event_org1);
-		if(model.getEvent().getCreator_id().isEmpty()) {
+		if(model.getEvent().getCreator_id() == null || model.getEvent().getCreator_id().isEmpty()) {
 			Log.v(tag, "no event creator info, hide the button org1");
 			viewOrg1.setVisibility(View.INVISIBLE);
 		}
@@ -128,7 +128,7 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 		Log.v(tag, "check event supporting groups");
 		ImageButton viewOrg2 = (ImageButton) mConvertView.findViewById(R.id.event_org2);
 		ImageButton viewOrg3 = (ImageButton) mConvertView.findViewById(R.id.event_org3);
-		if(model.getEvent().getSupporting_groups().isEmpty()){
+		if(model.getEvent().getSupporting_groups() == null || model.getEvent().getSupporting_groups().isEmpty()){
 			Log.v(tag, "no event creator info, hide the button org2 and org3");
 			viewOrg2.setVisibility(View.INVISIBLE);
 			viewOrg3.setVisibility(View.INVISIBLE);

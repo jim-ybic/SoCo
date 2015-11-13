@@ -348,7 +348,7 @@ public class SocoApp extends Application {
     public HashMap<Long, Event> suggestedEventsMap;
 
     //event details
-    public int currentEventIndex;
+    public int currentEventIndex;   //increate by 1 when an event card is dismissed
 
     //suggested buddy
     public long currentBuddyId;

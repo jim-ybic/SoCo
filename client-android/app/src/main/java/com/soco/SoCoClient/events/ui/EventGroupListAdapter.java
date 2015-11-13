@@ -52,7 +52,7 @@ public class EventGroupListAdapter extends ArrayAdapter<Item> {
 			}
 			if(i.getType().equals(Item.LIST_ITEM_TYPE_ENTRY)){ //entry
 				EventGroupListEntryItem ei = (EventGroupListEntryItem)i;
-                Log.v(tag, "item name: " + ei.name);
+                Log.v(tag, "item name: " + ei.getGroup_name());
 				v = vi.inflate(R.layout.eventgrouplist_entry, null);
 
 				Log.v(tag, "set view data");
