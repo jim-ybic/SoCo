@@ -13,12 +13,15 @@ import android.view.View;
 //import com.dropbox.client2.android.AndroidAuthSession;
 import com.facebook.AccessToken;
 import com.facebook.GraphResponse;
+import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardContainer;
+import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardStackAdapter;
 import com.soco.SoCoClient.common.database._ref.DBManagerSoco;
 import com.soco.SoCoClient.common.model.Person;
 import com.soco.SoCoClient.common.model.Profile;
 import com.soco.SoCoClient.events.model.ui.EventCardContainer;
 import com.soco.SoCoClient.events.model.ui.EventCardStackAdapter;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -292,6 +295,23 @@ public class SocoApp extends Application {
         }
         return null;
     }
+    public void mappingSuggestedBuddyListToMap(){
+        if(suggestedBuddiesMap==null) {
+            suggestedBuddiesMap = new HashMap<>();
+        }
+        for (User u : suggestedBuddies) {
+            String id = u.getUser_id();
+            suggestedBuddiesMap.put(id, u);
+        }
+    }
+    public User getCurrentSuggestedBuddy(){
+        if(suggestedBuddies!=null && suggestedBuddies.size()>0) {
+            int size = suggestedBuddies.size();
+            int pos = size - currentBuddyIndex - 1;
+            return suggestedBuddies.get(pos);
+        }
+        return null;
+    }
     /////////////////////////////////////////////////////////////////
 
     //environment
@@ -346,6 +366,18 @@ public class SocoApp extends Application {
     public int eventGroupsBuddiesTabIndex = 0;
     public View suggestedEventsView;
     public HashMap<Long, Event> suggestedEventsMap;
+
+
+    //suggested event
+    public boolean downloadSuggestedBuddiesResponse;
+    public boolean downloadSuggestedBuddiesResult;
+    public ArrayList<User> suggestedBuddies;
+    public BuddyCardStackAdapter buddyCardStackAdapter;
+    public BuddyCardContainer mBuddyCardContainer;
+    public View suggestedBuddiesView;
+    public HashMap<String, User> suggestedBuddiesMap;
+    //event details
+    public int currentBuddyIndex;
 
     //event details
     public int currentEventIndex;   //increate by 1 when an event card is dismissed

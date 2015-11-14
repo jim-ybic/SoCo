@@ -57,6 +57,16 @@ public class JsonKeys {
     public static final String NUMBER_OF_LIKES = "number_of_likes";
     public static final String NUMBER_OF_COMMENTS = "number_of_comments";
 
+    public static final String USER_NAME = "user_name";
+    public static final String USER_ICON_URL = "user_icon_url";
+    public static final String INTERESTS = "interests";
+    public static final String NUMBER_OF_COMMON_EVENT = "number_of_common_events";
+    public static final String FIRST_COMMON_EVENT_NAME = "first_common_event_name";
+    public static final String NUMBER_OF_COMMON_GROUP = "number_of_common_groups";
+    public static final String FIRST_COMMON_GROUP_NAME = "first_common_group_name";
+    public static final String NUMBER_OF_COMMON_BUDDIES = "number_of_common_buddies";
+    public static final String COMMON_BUDDIES = "common_buddies";
+
 
     public static final String TEST_USER_ID = "1100101446605092809";
     public static final String TEST_TOKEN = "867A168A6BE708119E590A8F6CB37408823F180313289435B2A4CC4B1D4BC9F6";

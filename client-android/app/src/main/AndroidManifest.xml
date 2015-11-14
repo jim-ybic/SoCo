@@ -113,6 +113,9 @@
             android:name=".events.service.DownloadSuggestedEventsService"
             android:enabled="true" />
         <service
+            android:name=".buddies.service.DownloadSuggestedBuddiesService"
+            android:enabled="true" />
+        <service
             android:name=".buddies.service.AddBuddyService"
             android:enabled="true" />
         <service

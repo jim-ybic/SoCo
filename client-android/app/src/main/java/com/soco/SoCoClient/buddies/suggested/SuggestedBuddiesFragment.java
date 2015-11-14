@@ -2,25 +2,31 @@ package com.soco.SoCoClient.buddies.suggested;
 
 //import info.androidhive.tabsswipe.R;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient._ref.AllBuddiesActivityV1;
+import com.soco.SoCoClient.buddies.service.DownloadSuggestedBuddiesService;
 import com.soco.SoCoClient.common.database.DataLoader;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardModel;
 import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardContainer;
+import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.secondary.chat.model.SingleConversation;
 import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardStackAdapter;
+import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
 
@@ -29,9 +35,14 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
     static String tag = "SuggestedBuddies";
 
 
+    static final int WAIT_INTERVAL_IN_SECOND = 1;
+    static final int WAIT_ITERATION = 10;
+    static final int THOUSAND = 1000;
+
 //    int pid;
 //    String pid_onserver;
-//    SocoApp socoApp;
+    SocoApp socoApp;
+    ProgressDialog pd;
 //    Profile profile;
 //    DBManagerSoco dbManagerSoco;
 //    ArrayList<Item> contactItems;
@@ -51,11 +62,10 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
         setHasOptionsMenu(true);
 
         context = getActivity().getApplicationContext();
+
+        socoApp = (SocoApp) context;
         dataLoader = new DataLoader(context);
 
-//        socoApp = (SocoApp)(getActivity().getApplication());
-//        profile = socoApp.profile;
-//        dbManagerSoco = socoApp.dbManagerSoco;
     }
 
     @Override
@@ -65,45 +75,71 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
         Log.v(tag, "create fragment view.....");
         rootView = inflater.inflate(R.layout.fragment_suggested_buddies, container, false);
 
+        Log.v(tag, "update global variable");
+        socoApp.suggestedBuddiesView = rootView;
+
+        Log.v(tag, "show progress dialog, fetch suggested users from server");
+        pd = ProgressDialog.show(getActivity(), "Downloading users", "Please wait...");
+        new Thread(new Runnable(){
+            public void run(){
+                downloadBuddiesInBackgroud();
+                downloadBuddiesHandler.sendEmptyMessage(0);
+            }
+        }).start();
         initCards(rootView);
-
-//        rootView.findViewById(R.id.personevents).setOnClickListener(this);
-//        rootView.findViewById(R.id.persongroups).setOnClickListener(this);
-//        rootView.findViewById(R.id.detail).setOnClickListener(this);
-//        rootView.findViewById(R.id.more).setOnClickListener(this);
-//        rootView.findViewById(R.id.add).setOnClickListener(this);
-
-//        singleConversations = dataLoader.loadSingleConversations();
-//        showConversations(singleConversations);
-
-//        ((ListView)rootView.findViewById(R.id.conversations)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @SuppressWarnings("unchecked")
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-////                    EntryItem item = (EntryItem) contactItems.get(position);
-////                    Log.d(tag, "You clicked: " + item.title);
-////                    String name = item.title;
-////                    String email = item.subtitle;
-////                    //new fragment-based activity
-////                    Intent i = new Intent(view.getContext(), ContactDetailsActivityObs.class);
-////                    i.putExtra(GeneralConfigV1.INTENT_KEY_NAME, name);
-////                    i.putExtra(GeneralConfigV1.INTENT_KEY_EMAIL, email);
-////                    startActivity(i);
-//
-//                SingleConversation c = singleConversations.get(position);
-//                Log.v(tag, "click on conversation: " + c.toString());
-//
-//                Intent i = new Intent(getActivity(), ConversationDetail.class);
-//                i.putExtra(DataConfig.EXTRA_CONVERSATION_SEQ, c.getSeq());
-//                startActivity(i);
-//            }
-//        });
-
-//        rootView.findViewById(R.id.add).setOnClickListener(this);
-//        listContacts();
-
         return rootView;
     }
+
+    void downloadBuddiesInBackgroud() {
+
+        Log.v(tag, "start download users service at backend");
+        Intent i = new Intent(getActivity(), DownloadSuggestedBuddiesService.class);
+        getActivity().startService(i);
+
+        Log.v(tag, "set response flag as false");
+        socoApp.downloadSuggestedBuddiesResponse = false;
+
+        Log.v(tag, "wait and check response flag");
+        int count = 0;
+        while(!socoApp.downloadSuggestedBuddiesResponse && count < WAIT_ITERATION) {   //wait for 10s
+            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
+            while (System.currentTimeMillis() < endTime) {
+                synchronized (this) {
+                    try {
+                        wait(endTime - System.currentTimeMillis());
+                    } catch (Exception e) {
+                        Log.e(tag, "Error in waiting");
+                    }
+                }
+            }
+            count++;
+        }
+    }
+
+    Handler downloadBuddiesHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.v(tag, "handle receive message and dismiss dialog");
+
+            if(socoApp.downloadSuggestedBuddiesResult){
+//                if(socoApp.OFFLINE_MODE){
+//                    Log.w(tag, "offline mode, bypassed downloaded events");
+//                }
+//                else {
+                    Log.v(tag, "download suggested event - success");
+                    Toast.makeText(getActivity().getApplicationContext(), socoApp.suggestedBuddies.size() + " events downloaded.", Toast.LENGTH_SHORT).show();
+                    initCards(rootView);
+//                }
+            }
+            else{
+                Log.e(tag, "download suggested event fail, notify user");
+                Toast.makeText(getActivity().getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
+            }
+
+            pd.dismiss();
+        }
+    };
 
     void initCards(View rootView){
         Log.v(tag, "start buddy card init");
@@ -111,58 +147,62 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
         mBuddyCardContainer = (BuddyCardContainer) rootView.findViewById(R.id.personcards);
         mBuddyCardContainer.setOrientation(Orientations.Orientation.Ordered);
 
-//        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
         Resources r = getResources();
-//        SimpleCardStackAdapter eventCardStackAdapter = new SimpleCardStackAdapter(getActivity());
-        BuddyCardStackAdapter adapter = new BuddyCardStackAdapter(getActivity());
-//        eventCardStackAdapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
-//        eventCardStackAdapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
-//        eventCardStackAdapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
-//        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
+        socoApp.buddyCardStackAdapter = new BuddyCardStackAdapter(getActivity());
 
-        for(int i=1; i<=10; i++) {
-            BuddyCardModel buddyCardModel = new BuddyCardModel(
-                    "Person #" + i,
-                    "Description goes here",
-                    r.getDrawable(R.drawable.user));
-            buddyCardModel.setOnClickListener(new BuddyCardModel.OnClickListener() {
-                @Override
-                public void OnClickListener() {
-                    Log.i(tag, "I am pressing the card");
-                }
-            });
-            buddyCardModel.setOnCardDismissedListener(new BuddyCardModel.OnCardDismissedListener() {
-                @Override
-                public void onLike() {
-                    Log.i(tag, "I like the card");
-                }
-                @Override
-                public void onDislike() {
-                    Log.i(tag, "I dislike the card");
-                }
-            });
-            adapter.add(buddyCardModel);
+        Log.v(tag, "normal online mode: insert downloaded event card");
+        if(socoApp.suggestedBuddies!=null) {
+            for (int i = 0; i < socoApp.suggestedBuddies.size(); i++) {
+                int pos = socoApp.suggestedBuddies.size() - 1 - i;
+                User u = socoApp.suggestedBuddies.get(pos);
+
+                BuddyCardModel buddyCardModel = new BuddyCardModel();
+                buddyCardModel.setUser(u);
+                buddyCardModel.setOnClickListener(new BuddyCardModel.OnClickListener() {
+                    @Override
+                    public void OnClickListener() {
+                        Log.v(tag, "I am pressing the card");
+                    }
+                });
+                buddyCardModel.setOnCardDismissedListener(new BuddyCardModel.OnCardDismissedListener() {
+                    @Override
+                    public void onLike() {
+                        Log.v(tag, "I like the card");
+                        socoApp.currentBuddyIndex++;
+                    }
+
+                    @Override
+                    public void onDislike() {
+                        Log.v(tag, "I dislike the card");
+                        socoApp.currentBuddyIndex++;
+                    }
+                });
+                socoApp.buddyCardStackAdapter.add(buddyCardModel);
+            }
+        }else{
+            BuddyCardModel dummy = new BuddyCardModel();
+            User u = new User();
+            u.setUser_id("10101010101010");
+            u.setUser_name("david");
+            u.setLocation("Hong Kong");
+            u.setCommon_group_name("JoggingHK");
+            u.setNumber_common_group(1);
+            u.setCommon_event_name("hiking");
+            u.setNumber_common_event(2);
+            u.setNumber_common_buddy(10);
+            u.addInterest("Hiking");
+            u.addInterest("Jogging");
+            dummy.setUser(u);
+
+            socoApp.buddyCardStackAdapter.add(dummy);
         }
-        mBuddyCardContainer.setAdapter(adapter);
+        mBuddyCardContainer.setAdapter(socoApp.buddyCardStackAdapter);
         //card - end
+        Log.v(tag, "set current user index");
+        socoApp.currentBuddyIndex = 0;
     }
 
-//    public void updateContactName(final String email) {
-//        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-//        alert.setTitle("New contact name");
-//        alert.setMessage("So I want to ...");
-//        final EditText input = new EditText(getActivity());
-//        alert.setView(input);
-//
-//        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                String name = input.getText().toString();
-//                dbManagerSoco.updateContactName(email, name);
-//            }
-//        });
-//
-//        alert.show();
-//    }
+
 
 
     @Override
@@ -241,53 +281,6 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
 //        showConversations(singleConversations);
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.menu_fragment_suggested_friends, menu);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-
-
-//    public void addContact() {
-//        Log.d(tag, "create dialog elements");
-//        Context context = getActivity();
-//        LinearLayout layout = new LinearLayout(context);
-//        layout.setOrientation(LinearLayout.VERTICAL);
-//
-//        final EditText emailBox = new EditText(context);
-//        emailBox.setHint("Email address");
-//        emailBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-//                | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-//        layout.addView(emailBox);
-//
-//        final EditText nicknameBox = new EditText(context);
-//        nicknameBox.setHint("Nick name");
-//        layout.addView(nicknameBox);
-//
-////        dialog.setView(layout);
-//
-//        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-//        alert.setTitle("Add new contact");
-////        alert.setMessage("Email address:");
-////        final EditText input = new EditText(getActivity());
-//        alert.setView(layout);
-//
-//        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                String email = emailBox.getText().toString();
-//                String nickname = nicknameBox.getText().toString();
-//                add(email, nickname);
-////                Toast.makeText(getActivity().getApplicationContext(),
-////                        "Invited contact complete.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//            }
-//        });
-//
-//        alert.show();
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -311,24 +304,6 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
         return super.onOptionsItemSelected(item);
     }
 
-
-//    void showConversations(ArrayList<SingleConversation> conversations){
-//        Log.v(tag, "show conversations, total " + conversations.size());
-//        ArrayList<Item>  items = new ArrayList<>();
-//
-////        items.add(new ConversationListEntryItem("abc", "xyz", "123"));
-//        for(SingleConversation c : conversations){
-//            items.add(new ConversationListEntryItem(c.getCounterpartyName(), c.getLastMsgContent(), c.getLastMsgTimestamp()));
-//        }
-//
-//        ConversationListAdapter eventCardStackAdapter = new ConversationListAdapter(this.getActivity(), items);
-//        ListView conversationList = ((ListView) rootView.findViewById(R.id.conversations));
-//        if(conversationList == null)
-//            Log.e(tag, "cannot find conversation list");
-//        else
-//            conversationList.setAdapter(eventCardStackAdapter);
-//
-//    }
 
 
 }

@@ -21,6 +21,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import com.soco.SoCoClient.userprofile.model.User;
+
 public class BuddyCardModel {
 
 	private String   title;
@@ -28,8 +30,17 @@ public class BuddyCardModel {
 	private Drawable cardImageDrawable;
 	private Drawable cardLikeImageDrawable;
 	private Drawable cardDislikeImageDrawable;
+	private User user;
 
-    private OnCardDismissedListener mOnCardDismissedListener = null;
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	private OnCardDismissedListener mOnCardDismissedListener = null;
 
     private OnClickListener mOnClickListener = null;
 
