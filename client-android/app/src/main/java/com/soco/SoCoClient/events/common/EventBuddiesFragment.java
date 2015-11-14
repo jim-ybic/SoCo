@@ -1,37 +1,26 @@
 package com.soco.SoCoClient.events.common;
 
-//todo: a bug to be fixed, steps to replicate-
-//1) go inside a folder, 2) quick create an activity, 3) press android Back button
-//expected: return to the up level
-//actual: return to login acreen
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
-import android.widget.TableLayout;
-import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.events.ui.Item;
+import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-//import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 
 public class EventBuddiesFragment extends Fragment implements View.OnClickListener {
 
@@ -41,9 +30,10 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
     static final String ItemText = "ItemText";
 
     View rootView;
-//    SocoApp socoApp;
-
+    SocoApp socoApp;
     Context context;
+    Event event;
+    ArrayList<HashMap<String, Object>> items = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +41,10 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
         setHasOptionsMenu(true);
 
         context = getActivity().getApplicationContext();
+        socoApp = (SocoApp) context;
 
+        event = socoApp.getCurrentSuggestedEvent();
+        Log.v(tag, "current event: " + event.toString());
     }
 
 
@@ -60,25 +53,18 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_event_buddies2, container, false);
+        rootView = inflater.inflate(R.layout.fragment_event_buddies, container, false);
 
-        GridView gridview = (GridView) rootView.findViewById(R.id.gridview);
-
-        ArrayList<HashMap<String, Object>> lstImageItem = new ArrayList<>();
-        for(int i=0;i<10;i++)
-        {
-            //todo: load data to display
-            HashMap<String, Object> map = new HashMap<>();
-            map.put(ItemImage, R.drawable.user1);
-            map.put(ItemText, "NO."+String.valueOf(i));
-            lstImageItem.add(map);
-        }
+        addBuddies();
 
         SimpleAdapter saImageItems = new SimpleAdapter(getActivity(),
-                lstImageItem,
+                items,
                 R.layout.eventbuddiesgrid_entry,
                 new String[] {ItemImage,ItemText},
                 new int[] {R.id.image,R.id.name});
+
+        //todo: show buddies in different views: joiners and likers
+        GridView gridview = (GridView) rootView.findViewById(R.id.gridJoiners);
         gridview.setAdapter(saImageItems);
         gridview.setOnItemClickListener(
                 new AdapterView.OnItemClickListener(){
@@ -99,129 +85,179 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
         return rootView;
     }
 
+    private void addBuddies() {
 
+        Log.v(tag, "add dummy buddies for testing");
+        for(int i=0;i<10;i++) {
+            HashMap<String, Object> item = new HashMap<>();
+            item.put(ItemImage, R.drawable.user1);
+            item.put(ItemText, "NO." + String.valueOf(i));
+            items.add(item);
+        }
 
-    public void addDummyBuddyParticipants(){
-        Log.v(tag, "dynamically add a few ui elements for testing");
+        Log.v(tag, "add joined friends");
+        for(User user : event.getJoinedFriends()){
+            HashMap<String, Object> item = new HashMap<>();
+            //todo: load user's image from url
+            item.put(ItemImage, R.drawable.user1);  //use user1's image for now
+            item.put(ItemText, user.getUser_name());
+            items.add(item);
+            Log.v(tag, "added buddy: " + user.getUser_name());
+        }
 
-        LinearLayout list1 = (LinearLayout) rootView.findViewById(R.id.participantlist1);
+        Log.v(tag, "add joined group members");
+        for(User user : event.getJoinedGroupMemebers()){
+            HashMap<String, Object> item = new HashMap<>();
+            //todo: load user's image from url
+            item.put(ItemImage, R.drawable.user1);  //use user1's image for now
+            item.put(ItemText, user.getUser_name());
+            items.add(item);
+            Log.v(tag, "added buddy: " + user.getUser_name());
+        }
 
-        int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
-        TypedArray ta = getActivity().obtainStyledAttributes(attrs);
-        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
-        ta.recycle();
+        Log.v(tag, "add liked friends");
+        for(User user : event.getLikedFriends()){
+            HashMap<String, Object> item = new HashMap<>();
+            //todo: load user's image from url
+            item.put(ItemImage, R.drawable.user1);  //use user1's image for now
+            item.put(ItemText, user.getUser_name());
+            items.add(item);
+            Log.v(tag, "added buddy: " + user.getUser_name());
+        }
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.weight = 1.0f;
-        params.gravity = Gravity.CENTER_HORIZONTAL;
-
-        LinearLayout layout1 = new LinearLayout(getActivity());
-        layout1.setLayoutParams(params);
-        layout1.setOrientation(LinearLayout.VERTICAL);
-        ImageButton user1 = new ImageButton(getActivity());
-        Drawable image1 = getResources().getDrawable(R.drawable.eventbuddies_person4);
-        user1.setImageDrawable(image1);
-        user1.setLayoutParams(params);
-        user1.setBackground(drawableFromTheme);
-        TextView name1 = new TextView(getActivity());
-        name1.setText("name1");
-        name1.setLayoutParams(params);
-        layout1.addView(user1);
-        layout1.addView(name1);
-        list1.addView(layout1);
-
-        LinearLayout layout2 = new LinearLayout(getActivity());
-        layout2.setLayoutParams(params);
-        layout2.setOrientation(LinearLayout.VERTICAL);
-        ImageButton user2 = new ImageButton(getActivity());
-        Drawable image2 = getResources().getDrawable(R.drawable.eventbuddies_person4);
-        user2.setImageDrawable(image2);
-        user2.setLayoutParams(params);
-        user2.setBackground(drawableFromTheme);
-        TextView name2 = new TextView(getActivity());
-        name2.setText("name2");
-        name2.setLayoutParams(params);
-        layout2.addView(user2);
-        layout2.addView(name2);
-        list1.addView(layout2);
-
-        LinearLayout layout3 = new LinearLayout(getActivity());
-        layout3.setLayoutParams(params);
-        layout3.setOrientation(LinearLayout.VERTICAL);
-        ImageButton user3 = new ImageButton(getActivity());
-        Drawable image3 = getResources().getDrawable(R.drawable.eventbuddies_person4);
-        user3.setImageDrawable(image3);
-        user3.setLayoutParams(params);
-        user3.setBackground(drawableFromTheme);
-        TextView name3 = new TextView(getActivity());
-        name3.setText("name3");
-        name3.setLayoutParams(params);
-        layout3.addView(user3);
-        layout3.addView(name3);
-        list1.addView(layout3);
-
+        Log.v(tag, "add liked group members");
+        for(User user : event.getLikedGroupMembers()){
+            HashMap<String, Object> item = new HashMap<>();
+            //todo: load user's image from url
+            item.put(ItemImage, R.drawable.user1);  //use user1's image for now
+            item.put(ItemText, user.getUser_name());
+            items.add(item);
+            Log.v(tag, "added buddy: " + user.getUser_name());
+        }
     }
 
-    public void addDummyBuddyLikers(){
-        Log.v(tag, "dynamically add a few ui elements for testing");
 
-        LinearLayout likerList1 = (LinearLayout) rootView.findViewById(R.id.likerlist1);
-
-        int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
-        TypedArray ta = getActivity().obtainStyledAttributes(attrs);
-        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
-        ta.recycle();
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.weight = 1.0f;
-        params.gravity = Gravity.CENTER_HORIZONTAL;
-
-        LinearLayout layout1 = new LinearLayout(getActivity());
-        layout1.setLayoutParams(params);
-        layout1.setOrientation(LinearLayout.VERTICAL);
-        ImageButton user1 = new ImageButton(getActivity());
-        Drawable image1 = getResources().getDrawable(R.drawable.eventbuddies_person4);
-        user1.setImageDrawable(image1);
-        user1.setLayoutParams(params);
-        user1.setBackground(drawableFromTheme);
-        TextView name1 = new TextView(getActivity());
-        name1.setText("name1");
-        name1.setLayoutParams(params);
-        layout1.addView(user1);
-        layout1.addView(name1);
-        likerList1.addView(layout1);
-
-        LinearLayout layout2 = new LinearLayout(getActivity());
-        layout2.setLayoutParams(params);
-        layout2.setOrientation(LinearLayout.VERTICAL);
-        ImageButton user2 = new ImageButton(getActivity());
-        Drawable image2 = getResources().getDrawable(R.drawable.eventbuddies_person4);
-        user2.setImageDrawable(image2);
-        user2.setLayoutParams(params);
-        user2.setBackground(drawableFromTheme);
-        TextView name2 = new TextView(getActivity());
-        name2.setText("name2");
-        name2.setLayoutParams(params);
-        layout2.addView(user2);
-        layout2.addView(name2);
-        likerList1.addView(layout2);
-
-        LinearLayout layout3 = new LinearLayout(getActivity());
-        layout3.setLayoutParams(params);
-        layout3.setOrientation(LinearLayout.VERTICAL);
-        ImageButton user3 = new ImageButton(getActivity());
-        Drawable image3 = getResources().getDrawable(R.drawable.eventbuddies_person4);
-        user3.setImageDrawable(image3);
-        user3.setLayoutParams(params);
-        user3.setBackground(drawableFromTheme);
-        TextView name3 = new TextView(getActivity());
-        name3.setText("name3");
-        name3.setLayoutParams(params);
-        layout3.addView(user3);
-        layout3.addView(name3);
-        likerList1.addView(layout3);
-
-    }
+//    public void addDummyBuddyParticipants(){
+//        Log.v(tag, "dynamically add a few ui elements for testing");
+//
+//        LinearLayout list1 = (LinearLayout) rootView.findViewById(R.id.participantlist1);
+//
+//        int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
+//        TypedArray ta = getActivity().obtainStyledAttributes(attrs);
+//        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
+//        ta.recycle();
+//
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        params.weight = 1.0f;
+//        params.gravity = Gravity.CENTER_HORIZONTAL;
+//
+//        LinearLayout layout1 = new LinearLayout(getActivity());
+//        layout1.setLayoutParams(params);
+//        layout1.setOrientation(LinearLayout.VERTICAL);
+//        ImageButton user1 = new ImageButton(getActivity());
+//        Drawable image1 = getResources().getDrawable(R.drawable.eventbuddies_person4);
+//        user1.setImageDrawable(image1);
+//        user1.setLayoutParams(params);
+//        user1.setBackground(drawableFromTheme);
+//        TextView name1 = new TextView(getActivity());
+//        name1.setText("name1");
+//        name1.setLayoutParams(params);
+//        layout1.addView(user1);
+//        layout1.addView(name1);
+//        list1.addView(layout1);
+//
+//        LinearLayout layout2 = new LinearLayout(getActivity());
+//        layout2.setLayoutParams(params);
+//        layout2.setOrientation(LinearLayout.VERTICAL);
+//        ImageButton user2 = new ImageButton(getActivity());
+//        Drawable image2 = getResources().getDrawable(R.drawable.eventbuddies_person4);
+//        user2.setImageDrawable(image2);
+//        user2.setLayoutParams(params);
+//        user2.setBackground(drawableFromTheme);
+//        TextView name2 = new TextView(getActivity());
+//        name2.setText("name2");
+//        name2.setLayoutParams(params);
+//        layout2.addView(user2);
+//        layout2.addView(name2);
+//        list1.addView(layout2);
+//
+//        LinearLayout layout3 = new LinearLayout(getActivity());
+//        layout3.setLayoutParams(params);
+//        layout3.setOrientation(LinearLayout.VERTICAL);
+//        ImageButton user3 = new ImageButton(getActivity());
+//        Drawable image3 = getResources().getDrawable(R.drawable.eventbuddies_person4);
+//        user3.setImageDrawable(image3);
+//        user3.setLayoutParams(params);
+//        user3.setBackground(drawableFromTheme);
+//        TextView name3 = new TextView(getActivity());
+//        name3.setText("name3");
+//        name3.setLayoutParams(params);
+//        layout3.addView(user3);
+//        layout3.addView(name3);
+//        list1.addView(layout3);
+//
+//    }
+//
+//    public void addDummyBuddyLikers(){
+//        Log.v(tag, "dynamically add a few ui elements for testing");
+//
+//        LinearLayout likerList1 = (LinearLayout) rootView.findViewById(R.id.likerlist1);
+//
+//        int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
+//        TypedArray ta = getActivity().obtainStyledAttributes(attrs);
+//        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
+//        ta.recycle();
+//
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        params.weight = 1.0f;
+//        params.gravity = Gravity.CENTER_HORIZONTAL;
+//
+//        LinearLayout layout1 = new LinearLayout(getActivity());
+//        layout1.setLayoutParams(params);
+//        layout1.setOrientation(LinearLayout.VERTICAL);
+//        ImageButton user1 = new ImageButton(getActivity());
+//        Drawable image1 = getResources().getDrawable(R.drawable.eventbuddies_person4);
+//        user1.setImageDrawable(image1);
+//        user1.setLayoutParams(params);
+//        user1.setBackground(drawableFromTheme);
+//        TextView name1 = new TextView(getActivity());
+//        name1.setText("name1");
+//        name1.setLayoutParams(params);
+//        layout1.addView(user1);
+//        layout1.addView(name1);
+//        likerList1.addView(layout1);
+//
+//        LinearLayout layout2 = new LinearLayout(getActivity());
+//        layout2.setLayoutParams(params);
+//        layout2.setOrientation(LinearLayout.VERTICAL);
+//        ImageButton user2 = new ImageButton(getActivity());
+//        Drawable image2 = getResources().getDrawable(R.drawable.eventbuddies_person4);
+//        user2.setImageDrawable(image2);
+//        user2.setLayoutParams(params);
+//        user2.setBackground(drawableFromTheme);
+//        TextView name2 = new TextView(getActivity());
+//        name2.setText("name2");
+//        name2.setLayoutParams(params);
+//        layout2.addView(user2);
+//        layout2.addView(name2);
+//        likerList1.addView(layout2);
+//
+//        LinearLayout layout3 = new LinearLayout(getActivity());
+//        layout3.setLayoutParams(params);
+//        layout3.setOrientation(LinearLayout.VERTICAL);
+//        ImageButton user3 = new ImageButton(getActivity());
+//        Drawable image3 = getResources().getDrawable(R.drawable.eventbuddies_person4);
+//        user3.setImageDrawable(image3);
+//        user3.setLayoutParams(params);
+//        user3.setBackground(drawableFromTheme);
+//        TextView name3 = new TextView(getActivity());
+//        name3.setText("name3");
+//        name3.setLayoutParams(params);
+//        layout3.addView(user3);
+//        layout3.addView(name3);
+//        likerList1.addView(layout3);
+//
+//    }
 
 //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {

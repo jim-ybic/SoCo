@@ -13,7 +13,7 @@ public class EventBuddiesActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_event_buddies);
+        setContentView(R.layout.fragment_event_buddies_v1);
     }
 
     @Override
