@@ -29,8 +29,8 @@ public class EventGroupsBuddiesService extends IntentService {
 
     public static final String EVENT_ID="event_id";
 
-    static SocoApp socoApp;
-    static Event event;
+    SocoApp socoApp;
+    Event event;
 
     public EventGroupsBuddiesService() {
         super("EventGroupsBuddiesService");
@@ -86,7 +86,7 @@ public class EventGroupsBuddiesService extends IntentService {
         return;
     }
 
-    public static Object request(
+    public Object request(
             String url,
             String user_id,
             String token,
@@ -115,7 +115,7 @@ public class EventGroupsBuddiesService extends IntentService {
         return HttpUtil.executeHttpGet(url);
     }
 
-    public static boolean parse(Object response) {
+    public boolean parse(Object response) {
         Log.d(tag, "parse response: " + response.toString());
 
         try {
@@ -133,12 +133,7 @@ public class EventGroupsBuddiesService extends IntentService {
                 //comment out below line since needed info already downloaded in suggested event interface
                 //parseOrganizer(eventObj);
 
-                if(!eventObj.has(JsonKeys.BUDDIES)){
-                    Log.w(tag, "no buddies info is found in json");
-                }
-                else {
-                    //todo: parse buddies details
-                }
+                parseBuddies(eventObj);
 
                 Log.v(tag, "updated event: " + event.toString());
             }
@@ -161,7 +156,7 @@ public class EventGroupsBuddiesService extends IntentService {
         return true;
     }
 
-    private static void parseOrganizer(JSONObject eventObj) throws JSONException {
+    private void parseOrganizer(JSONObject eventObj) throws JSONException {
         if(!eventObj.has(JsonKeys.ORGANIZER)) {
             Log.w(tag, "no organizer info is found in json");
         }
@@ -224,6 +219,139 @@ public class EventGroupsBuddiesService extends IntentService {
 
                             Log.v(tag, "add group: " + g);
                             event.addSupporting_group(g);
+                }
+            }
+        }
+    }
+
+    /* sample response for buddies:
+    buddies: list of event buddies
+        buddies_joined:
+            friends [array]: list of friends
+                friend_id: friend id
+                friend_name: friend name
+                friend_icon_url: url of friend’s icon
+            group_members [array]: list of group members
+                member_id: group member id
+                member_name: group member name
+                member_icon_url: url of group member’s icon
+        buddies_liked:
+            friends [array]: list of friends
+                friend_id: friend id
+                friend_name: friend name
+                friend_icon_url: url of friend’s icon
+            group_members [array]: list of group members
+                member_id: group member id
+                member_name: group member name
+                member_icon_url: url of group member’s icon
+     */
+    private void parseBuddies(JSONObject eventObj) throws JSONException {
+        if(!eventObj.has(JsonKeys.BUDDIES))
+            Log.w(tag, "no buddies info is found in json");
+        else {
+            String buddiesStr = eventObj.getString(JsonKeys.BUDDIES);
+            JSONObject buddiesObj = new JSONObject(buddiesStr);
+            Log.v(tag, "buddies obj: " + buddiesObj);
+
+            if(!buddiesObj.has(JsonKeys.BUDDIES_JOINED))
+                Log.w(tag, "no joined buddies found in json");
+            else{
+                String joinedStr = buddiesObj.getString(JsonKeys.BUDDIES_JOINED);
+                JSONObject joinedObj = new JSONObject(joinedStr);
+                if(!joinedObj.has(JsonKeys.FRIENDS))
+                    Log.w(tag, "no joined friends found in json");
+                else{
+                    String joinedFriends = joinedObj.getString(JsonKeys.FRIENDS);
+                    JSONArray friends = new JSONArray(joinedFriends);
+                    Log.v(tag, "all joined friends: " + friends);
+                    for(int i=0; i<friends.length(); i++){
+                        JSONObject friend = friends.getJSONObject(i);
+                        String friendId = friend.getString(JsonKeys.FRIEND_ID);
+                        String friendName = friend.getString(JsonKeys.FRIEND_NAME);
+                        String friendIconUrl = friend.getString(JsonKeys.FRIEND_ICON_URL);
+                        Log.v(tag, "friend info: " + friendId + ", " + friendName + ", " + friendIconUrl);
+
+                        User user = new User();
+                        user.setUser_id(friendId);
+                        user.setUser_name(friendName);
+                        user.setUser_icon_url(friendIconUrl);
+
+                        Log.v(tag, "add event joined friend: " + user.toString());
+                        event.addJoinedFriends(user);
+                    }
+                }
+                if(!joinedObj.has(JsonKeys.GROUP_MEMBERS))
+                    Log.w(tag, "no joined group members found in json");
+                else{
+                    String joinedGroupMembersStr = joinedObj.getString(JsonKeys.GROUP_MEMBERS);
+                    JSONArray groupMembers = new JSONArray(joinedGroupMembersStr);
+                    Log.v(tag, "all joined group members: " + groupMembers);
+                    for(int i=0; i<groupMembers.length(); i++){
+                        JSONObject member = groupMembers.getJSONObject(i);
+                        String memberId = member.getString(JsonKeys.FRIEND_ID);
+                        String memberName = member.getString(JsonKeys.FRIEND_NAME);
+                        String memberIconUrl = member.getString(JsonKeys.FRIEND_ICON_URL);
+                        Log.v(tag, "group member info: " + memberId + ", " + memberName + ", " + memberIconUrl);
+
+                        User user = new User();
+                        user.setUser_id(memberId);
+                        user.setUser_name(memberName);
+                        user.setUser_icon_url(memberIconUrl);
+
+                        Log.v(tag, "add event joined group member: " + user.toString());
+                        event.addJoinedGroupMembers(user);
+                    }
+                }
+            }
+
+            if(!buddiesObj.has(JsonKeys.BUDDIES_LIKED))
+                Log.w(tag, "no liked buddies found in json");
+            else{
+                String likedStr = buddiesObj.getString(JsonKeys.BUDDIES_LIKED);
+                JSONObject likedObj = new JSONObject(likedStr);
+                if(!likedObj.has(JsonKeys.FRIENDS))
+                    Log.w(tag, "no liked friends found in json");
+                else{
+                    String likedFriends = likedObj.getString(JsonKeys.FRIENDS);
+                    JSONArray friends = new JSONArray(likedFriends);
+                    Log.v(tag, "all liked friends: " + friends);
+                    for(int i=0; i<friends.length(); i++){
+                        JSONObject friend = friends.getJSONObject(i);
+                        String friendId = friend.getString(JsonKeys.FRIEND_ID);
+                        String friendName = friend.getString(JsonKeys.FRIEND_NAME);
+                        String friendIconUrl = friend.getString(JsonKeys.FRIEND_ICON_URL);
+                        Log.v(tag, "friend info: " + friendId + ", " + friendName + ", " + friendIconUrl);
+
+                        User user = new User();
+                        user.setUser_id(friendId);
+                        user.setUser_name(friendName);
+                        user.setUser_icon_url(friendIconUrl);
+
+                        Log.v(tag, "add event liked friend: " + user.toString());
+                        event.addLikedFriends(user);
+                    }
+                }
+                if(!likedObj.has(JsonKeys.GROUP_MEMBERS))
+                    Log.w(tag, "no liked group members found in json");
+                else{
+                    String likedGroupMembersStr = likedObj.getString(JsonKeys.GROUP_MEMBERS);
+                    JSONArray groupMembers = new JSONArray(likedGroupMembersStr);
+                    Log.v(tag, "all liked group members: " + groupMembers);
+                    for(int i=0; i<groupMembers.length(); i++){
+                        JSONObject member = groupMembers.getJSONObject(i);
+                        String memberId = member.getString(JsonKeys.FRIEND_ID);
+                        String memberName = member.getString(JsonKeys.FRIEND_NAME);
+                        String memberIconUrl = member.getString(JsonKeys.FRIEND_ICON_URL);
+                        Log.v(tag, "group member info: " + memberId + ", " + memberName + ", " + memberIconUrl);
+
+                        User user = new User();
+                        user.setUser_id(memberId);
+                        user.setUser_name(memberName);
+                        user.setUser_icon_url(memberIconUrl);
+
+                        Log.v(tag, "add event liked group member: " + user.toString());
+                        event.addLikedGroupMembers(user);
+                    }
                 }
             }
         }

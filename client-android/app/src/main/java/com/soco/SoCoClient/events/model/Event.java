@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.events.model;
 
 import com.soco.SoCoClient.groups.model.Group;
+import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,12 @@ public class Event {
     String creator_id, creator_name, creator_icon_url;
     String enterprise_id, enterprise_name, enterprise_icon_url;
     ArrayList<Group> supporting_groups = new ArrayList<>();
+
+    //event buddies
+    ArrayList<User> joinedFriends = new ArrayList<>();
+    ArrayList<User> joinedGroupMemebers = new ArrayList<>();
+    ArrayList<User> likedFriends = new ArrayList<>();
+    ArrayList<User> likedGroupMembers = new ArrayList<>();
 
     public Event() {
     }
@@ -242,6 +249,54 @@ public class Event {
 
     public void addSupporting_group(Group g){
         this.supporting_groups.add(g);
+    }
+
+    public ArrayList<User> getJoinedFriends() {
+        return joinedFriends;
+    }
+
+    public void setJoinedFriends(ArrayList<User> joinedFriends) {
+        this.joinedFriends = joinedFriends;
+    }
+
+    public void addJoinedFriends(User user){
+        this.joinedFriends.add(user);
+    }
+
+    public ArrayList<User> getJoinedGroupMemebers() {
+        return joinedGroupMemebers;
+    }
+
+    public void setJoinedGroupMemebers(ArrayList<User> joinedGroupMemebers) {
+        this.joinedGroupMemebers = joinedGroupMemebers;
+    }
+
+    public void addJoinedGroupMembers(User user){
+        this.joinedGroupMemebers.add(user);
+    }
+
+    public ArrayList<User> getLikedFriends() {
+        return likedFriends;
+    }
+
+    public void setLikedFriends(ArrayList<User> likedFriends) {
+        this.likedFriends = likedFriends;
+    }
+
+    public void addLikedFriends(User user){
+        this.likedFriends.add(user);
+    }
+
+    public ArrayList<User> getLikedGroupMembers() {
+        return likedGroupMembers;
+    }
+
+    public void setLikedGroupMembers(ArrayList<User> likedGroupMembers) {
+        this.likedGroupMembers = likedGroupMembers;
+    }
+
+    public void addLikedGroupMembers(User user){
+        this.likedGroupMembers.add(user);
     }
 
     @Override
