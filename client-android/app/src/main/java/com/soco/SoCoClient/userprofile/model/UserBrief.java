@@ -21,9 +21,10 @@ public class UserBrief {
     public void setUser_name(String user_name) {
         this.user_name = user_name;
     }
-
+    //todo
+    // to change below dummy to the actual server URL. Might need to append the prefix. can define in UrlUtil then append here
     public String getUser_icon_url() {
-        return user_icon_url;
+        return "https://graph.facebook.com/10153298013434285/picture?type=normal";
     }
 
     public void setUser_icon_url(String user_icon_url) {

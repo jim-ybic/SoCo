@@ -105,7 +105,7 @@ public class DownloadSuggestedBuddiesService extends IntentService {
     public boolean parse(Object response) {
 //        Log.d(tag, "parse response: " + response.getEntity().toString());
 
-        Log.v(tag, "clear suggested events");
+        Log.v(tag, "clear suggested buddies");
         socoApp.suggestedBuddies = new ArrayList<>();
 
         try {
@@ -124,7 +124,7 @@ public class DownloadSuggestedBuddiesService extends IntentService {
                 for(int i=0; i<allBuddies.length(); i++){
                     User u = new User();
                     JSONObject obj = allBuddies.getJSONObject(i);
-                    Log.v(tag, "current event json: " + obj.toString());
+                    Log.v(tag, "current buddy json: " + obj.toString());
                     parseUserBasics(u, obj);
                     parseInterests(u, obj);
                     parseCommonUsers(u, obj);
@@ -132,14 +132,14 @@ public class DownloadSuggestedBuddiesService extends IntentService {
                 }
 
                 socoApp.downloadSuggestedBuddiesResult = true;
-                socoApp.mappingSuggestedEventListToMap();
-                Log.d(tag, socoApp.suggestedBuddies.size() + " events created from json response");
+                socoApp.mappingSuggestedBuddyListToMap();
+                Log.d(tag, socoApp.suggestedBuddies.size() + " buddies created from json response");
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);
                 String message = json.getString(JsonKeys.MESSAGE);
                 String more_info = json.getString(JsonKeys.MORE_INFO);
-                Log.d(tag, "create event fail, " +
+                Log.d(tag, "create buddy fail, " +
                         "error code: " + error_code + ", message: " + message + ", more info: " + more_info
                 );
                 socoApp.downloadSuggestedBuddiesResult = false;
