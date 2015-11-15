@@ -259,7 +259,7 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
         if (mGestureDetector.onTouchEvent(event)) {
             return true;
         }
-        Log.v(tag, MotionEvent.actionToString(event.getActionMasked()) + " ");
+//        Log.v(tag, "MotionEvent action: " + MotionEvent.actionToString(event.getActionMasked()) + " ");
         final int pointerIndex;
         final float x, y;
         final float dx, dy;
@@ -306,7 +306,7 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
                 mTopCard.setTranslationX(mTopCard.getTranslationX() + dx);
                 mTopCard.setTranslationY(mTopCard.getTranslationY() + dy);
 
-                Log.v(tag, "do not change card rotation after card move");
+//                Log.v(tag, "do not change card rotation after card move");
 //                mTopCard.setRotation(40 * mTopCard.getTranslationX() / (getWidth() / 2.f));
 
                 mLastTouchX = x;
@@ -382,7 +382,7 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
                 break;
             case MotionEvent.ACTION_MOVE:
                 pointerIndex = event.findPointerIndex(mActivePointerId);
-                Log.v(tag, "ACTION_MOVE, pointerIndex: " + pointerIndex + ", mActivePointerId: " + mActivePointerId);
+//                Log.v(tag, "ACTION_MOVE, pointerIndex: " + pointerIndex + ", mActivePointerId: " + mActivePointerId);
                 x = event.getX(pointerIndex);
                 y = event.getY(pointerIndex);
                 if (Math.abs(x - mLastTouchX) > mTouchSlop || Math.abs(y - mLastTouchY) > mTouchSlop) {

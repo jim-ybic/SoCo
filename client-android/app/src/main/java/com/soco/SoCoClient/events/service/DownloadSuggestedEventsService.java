@@ -184,7 +184,9 @@ public class DownloadSuggestedEventsService extends IntentService {
                     parseTimedate(e, obj);
                     parseAddress(e, obj);
                     parseCategories(e, obj);
-                    parseOrganizers(e, obj);
+
+                    EventGroupsBuddiesService.parseOrganizer(obj, e);
+                    EventGroupsBuddiesService.parseBuddies(obj, e);
 
                     Log.d(tag, "event created: " + e.toString());
                     socoApp.suggestedEvents.add(e);
@@ -264,46 +266,47 @@ public class DownloadSuggestedEventsService extends IntentService {
             Log.v(tag, "no timedate info found in json");
     }
 
-    private void parseOrganizers(Event e, JSONObject obj2)throws JSONException {
-        Log.v(tag, "parse organizers: creator and groups");
-        if(obj2.has(JsonKeys.ORGANIZER)) {
-            String organizerStr = obj2.getString(JsonKeys.ORGANIZER);
-            JSONObject obj = new JSONObject(organizerStr);
-
-            if (obj.has(JsonKeys.CREATOR_ID)) {
-                e.setCreator_id(obj.getString(JsonKeys.CREATOR_ID));
-                e.setCreator_name(obj.getString(JsonKeys.CREATOR_NAME));
-                e.setCreator_icon_url(obj.getString(JsonKeys.CREATOR_ICON_URL));
-                Log.v(tag, "creator info: " + e.getCreator_id() + ", " + e.getCreator_name() + ", " + e.getCreator_icon_url());
-            } else
-                Log.v(tag, "no creator info found in json");
-
-            if (obj.has(JsonKeys.ENTERPRISE_ID)) {
-                e.setEnterprise_id(obj.getString(JsonKeys.ENTERPRISE_ID));
-                e.setEnterprise_name(obj.getString(JsonKeys.ENTERPRISE_NAME));
-                e.setEnterprise_icon_url(obj.getString(JsonKeys.ENTERPRISE_ICON_URL));
-                Log.v(tag, "enterprise info: " + e.getEnterprise_id() + ", " + e.getEnterprise_name() + ", " + e.getEnterprise_icon_url());
-            } else
-                Log.v(tag, "no enterprise info found in json");
-
-            if (obj.has(JsonKeys.SUPPORTING_GROUPS)) {
-                String allGroupsString = obj.getString(JsonKeys.SUPPORTING_GROUPS);
-                JSONArray allGroups = new JSONArray(allGroupsString);
-                Log.v(tag, allGroups.length() + " groups found: " + allGroups);
-                for (int i = 0; i < allGroups.length(); i++) {
-                    JSONObject group = allGroups.getJSONObject(i);
-                    Group g = new Group();
-                    g.setGroup_id(group.getString(JsonKeys.GROUP_ID));
-                    g.setGroup_name(group.getString(JsonKeys.GROUP_NAME));
-                    g.setGroup_icon_url(group.getString(JsonKeys.GROUP_ICON_URL));
-                    Log.v(tag, "adding group: " + g.getGroup_id() + ", " + g.getGroup_name() + ", " + g.getGroup_icon_url());
-                    e.addSupporting_group(g);
-                }
-            } else
-                Log.v(tag, "no supporting groups info found in json");
-        }
-        else
-            Log.v(tag, "no organizer info found in json");
-    }
+//    private void parseOrganizers(Event e, JSONObject obj2)throws JSONException {
+//        Log.v(tag, "parse organizers (creator and groups)");
+//        if(obj2.has(JsonKeys.ORGANIZER)) {
+//            String organizerStr = obj2.getString(JsonKeys.ORGANIZER);
+//            Log.v(tag, "json string: " + organizerStr);
+//            JSONObject obj = new JSONObject(organizerStr);
+//
+//            if (obj.has(JsonKeys.CREATOR_ID)) {
+//                e.setCreator_id(obj.getString(JsonKeys.CREATOR_ID));
+//                e.setCreator_name(obj.getString(JsonKeys.CREATOR_NAME));
+//                e.setCreator_icon_url(obj.getString(JsonKeys.CREATOR_ICON_URL));
+//                Log.v(tag, "creator info: " + e.getCreator_id() + ", " + e.getCreator_name() + ", " + e.getCreator_icon_url());
+//            } else
+//                Log.v(tag, "no creator info found in json");
+//
+//            if (obj.has(JsonKeys.ENTERPRISE_ID)) {
+//                e.setEnterprise_id(obj.getString(JsonKeys.ENTERPRISE_ID));
+//                e.setEnterprise_name(obj.getString(JsonKeys.ENTERPRISE_NAME));
+//                e.setEnterprise_icon_url(obj.getString(JsonKeys.ENTERPRISE_ICON_URL));
+//                Log.v(tag, "enterprise info: " + e.getEnterprise_id() + ", " + e.getEnterprise_name() + ", " + e.getEnterprise_icon_url());
+//            } else
+//                Log.v(tag, "no enterprise info found in json");
+//
+//            if (obj.has(JsonKeys.SUPPORTING_GROUPS)) {
+//                String allGroupsString = obj.getString(JsonKeys.SUPPORTING_GROUPS);
+//                JSONArray allGroups = new JSONArray(allGroupsString);
+//                Log.v(tag, allGroups.length() + " groups found: " + allGroups);
+//                for (int i = 0; i < allGroups.length(); i++) {
+//                    JSONObject group = allGroups.getJSONObject(i);
+//                    Group g = new Group();
+//                    g.setGroup_id(group.getString(JsonKeys.GROUP_ID));
+//                    g.setGroup_name(group.getString(JsonKeys.GROUP_NAME));
+//                    g.setGroup_icon_url(group.getString(JsonKeys.GROUP_ICON_URL));
+//                    Log.v(tag, "adding group: " + g.getGroup_id() + ", " + g.getGroup_name() + ", " + g.getGroup_icon_url());
+//                    e.addSupporting_group(g);
+//                }
+//            } else
+//                Log.v(tag, "no supporting groups info found in json");
+//        }
+//        else
+//            Log.v(tag, "no organizer info found in json");
+//    }
 
 }

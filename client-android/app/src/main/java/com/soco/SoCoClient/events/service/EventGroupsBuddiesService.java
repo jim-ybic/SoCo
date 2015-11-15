@@ -131,9 +131,9 @@ public class EventGroupsBuddiesService extends IntentService {
                 Log.v(tag, "event obj: " + eventObj);
 
                 //comment out below line since needed info already downloaded in suggested event interface
-                //parseOrganizer(eventObj);
+                //parseOrganizer(eventObj, event);
 
-                parseBuddies(eventObj);
+                parseBuddies(eventObj, event);
 
                 Log.v(tag, "updated event: " + event.toString());
             }
@@ -156,7 +156,8 @@ public class EventGroupsBuddiesService extends IntentService {
         return true;
     }
 
-    private void parseOrganizer(JSONObject eventObj) throws JSONException {
+    public static void parseOrganizer(JSONObject eventObj, Event event) throws JSONException {
+        Log.v(tag, "parse organizer: " + eventObj);
         if(!eventObj.has(JsonKeys.ORGANIZER)) {
             Log.w(tag, "no organizer info is found in json");
         }
@@ -165,14 +166,27 @@ public class EventGroupsBuddiesService extends IntentService {
             JSONObject orgObj = new JSONObject(organizerStr);
             Log.v(tag, "org obj: " + orgObj);
 
-            String creatorId = orgObj.getString(JsonKeys.CREATOR_ID);
-            String creatorName = orgObj.getString(JsonKeys.CREATOR_NAME);
-            String creatorIconUrl = orgObj.getString(JsonKeys.CREATOR_ICON_URL);
-            Log.v(tag, "creator info: " + creatorId + ", " + creatorName + ", " + creatorIconUrl);
+            if(!orgObj.has(JsonKeys.CREATOR_ID))
+                Log.w(tag, "no creator info found in json");
+            else {
+                String creatorId = orgObj.getString(JsonKeys.CREATOR_ID);
+                String creatorName = orgObj.getString(JsonKeys.CREATOR_NAME);
+                String creatorIconUrl = orgObj.getString(JsonKeys.CREATOR_ICON_URL);
+                Log.v(tag, "creator info: " + creatorId + ", " + creatorName + ", " + creatorIconUrl);
 
-            event.setCreator_id(creatorId);
-            event.setCreator_name(creatorName);
-            event.setCreator_icon_url(creatorIconUrl);
+                event.setCreator_id(creatorId);
+                event.setCreator_name(creatorName);
+                event.setCreator_icon_url(creatorIconUrl);
+            }
+
+            if (!orgObj.has(JsonKeys.ENTERPRISE_ID))
+                Log.w(tag, "no enterprise info found in json");
+            else{
+                event.setEnterprise_id(orgObj.getString(JsonKeys.ENTERPRISE_ID));
+                event.setEnterprise_name(orgObj.getString(JsonKeys.ENTERPRISE_NAME));
+                event.setEnterprise_icon_url(orgObj.getString(JsonKeys.ENTERPRISE_ICON_URL));
+                Log.v(tag, "enterprise info: " + event.getEnterprise_id() + ", " + event.getEnterprise_name() + ", " + event.getEnterprise_icon_url());
+            }
 
             if(!orgObj.has(JsonKeys.SUPPORTING_GROUPS)) {
                 Log.w(tag, "no supporting groups info is found in json");
@@ -245,7 +259,7 @@ public class EventGroupsBuddiesService extends IntentService {
                 member_name: group member name
                 member_icon_url: url of group member’s icon
      */
-    private void parseBuddies(JSONObject eventObj) throws JSONException {
+    public static void parseBuddies(JSONObject eventObj, Event event) throws JSONException {
         if(!eventObj.has(JsonKeys.BUDDIES))
             Log.w(tag, "no buddies info is found in json");
         else {

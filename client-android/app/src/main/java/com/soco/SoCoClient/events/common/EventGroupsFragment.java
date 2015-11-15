@@ -107,7 +107,7 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
         }
 
         Log.v(tag, "add event organizer (enterprise)");
-        if(!event.getEnterprise_id().isEmpty()){
+        if(event.getEnterprise_id() != null && !event.getEnterprise_id().isEmpty()){
             EventGroupListEntryItem enterpriseItem = new EventGroupListEntryItem();
             enterpriseItem.setGroup_name(event.getEnterprise_name());
             enterpriseItem.setGroup_icon_url(event.getEnterprise_icon_url());
@@ -121,7 +121,7 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
             Log.w(tag, "no enterprise info found");
 
         Log.v(tag, "add event organizer (creator)");
-        if(!event.getCreator_id().isEmpty()){
+        if(event.getCreator_id()!= null && !event.getCreator_id().isEmpty()){
             EventGroupListEntryItem creatorItem = new EventGroupListEntryItem();
             creatorItem.setGroup_name(event.getCreator_name());
             creatorItem.setGroup_icon_url(event.getCreator_icon_url());
