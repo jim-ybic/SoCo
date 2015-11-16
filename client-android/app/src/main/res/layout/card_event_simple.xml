@@ -24,7 +24,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:orientation="vertical"
             android:background="#ffffb73f"
             android:id="@+id/titlearea">
@@ -116,8 +116,8 @@
                 android:gravity="center|left"
                 android:clickable="true"
                 android:onClick="eventdetails"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:paddingTop="10dp" />
 
         </LinearLayout>
@@ -191,8 +191,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp">
+            android:layout_weight="1">
 
             <ImageButton
                 android:id="@+id/calendar"
@@ -269,8 +268,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp">
+            android:paddingLeft="10dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -279,7 +277,9 @@
                 android:onClick="eventbuddies"
                 android:layout_weight="1"
                 android:paddingRight="10dp"
-                android:id="@+id/eventbuddies">
+                android:id="@+id/eventbuddies"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp">
                 <!--<TextView-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->

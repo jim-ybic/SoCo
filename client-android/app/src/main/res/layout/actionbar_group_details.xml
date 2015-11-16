@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="80dp"
         android:orientation="vertical"
         android:background="#4a4a4a"
         android:id="@+id/titlearea">
@@ -108,8 +108,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:clickable="true"
-            android:id="@+id/userinfo"
-            android:layout_marginTop="5dp">
+            android:id="@+id/userinfo">
 
             <!--<ImageButton-->
             <!--android:layout_width="wrap_content"-->
@@ -158,7 +157,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/introductionarea"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
         <TextView
             android:id="@+id/intro"
             android:layout_width="match_parent"
@@ -170,14 +169,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/members"
-        android:layout_marginTop="20dp">
+        android:id="@+id/members">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal"
-            android:paddingTop="5dp">
+            android:onClick="groupmembers"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp">
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -234,8 +236,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/categoriesarea"
-        android:layout_marginTop="20dp">
+        android:id="@+id/categoriesarea">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -246,9 +247,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1"
-            android:onClick="eventbuddies"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp">
+            android:onClick="eventbuddies">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

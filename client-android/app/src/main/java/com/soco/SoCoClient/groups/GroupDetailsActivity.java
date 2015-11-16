@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.groups;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -138,5 +139,13 @@ public class GroupDetailsActivity extends ActionBarActivity implements
     public void close(View view){
         Log.v(tag, "tap on close");
         finish();
+    }
+
+    public void groupmembers(View view){
+        Log.v(tag, "tap group members");
+        Intent i = new Intent(this, GroupMembersActivity.class);
+
+        //todo: pass group id
+        startActivity(i);
     }
 }
