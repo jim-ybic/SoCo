@@ -4,18 +4,17 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -53,6 +52,10 @@ public class LoginActivity //extends ActionBarActivity
 {
 
     public static String tag = "LoginActivity";
+
+    static final String PERFS_NAME = "EVENT_BUDDY_PERFS";
+    static final String LOGIN_EMAIL = "login_email";
+    static final String LOGIN_PASSWORD = "login_password";
 
 //    public static String FLAG_EXIT = "exit";
 //    public String SOCO_SERVER_IP = "192.168.0.104";
@@ -131,23 +134,18 @@ public class LoginActivity //extends ActionBarActivity
             startActivity(intent);
         }
 
-        Log.v(tag, "KeyHash start");
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.soco.SoCoClient",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d(tag, "KeyHash: " + Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e(tag, "keyhash error");
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
+        keyHashTest();
 
+        Log.v(tag, "check if have saved login detail");
+        SharedPreferences settings = context.getSharedPreferences(PERFS_NAME, 0);
+        String loginEmail = settings.getString(LOGIN_EMAIL, "");
+        String loingPassword = settings.getString(LOGIN_PASSWORD, "");
+        Log.v(tag, "get stored login detail: " + loginEmail + ", " + loingPassword);
+        if(loginEmail != null && !loginEmail.isEmpty()){
+            ((TextView) findViewById(R.id.et_login_email)).setText(loginEmail);
+            ((TextView) findViewById(R.id.et_login_password)).setText(loingPassword);
+            loginNormal(null);
         }
-        Log.v(tag, "KeyHash end");
 
 //        socoApp = (SocoApp) getApplicationContext();
 //        profile = new Profile(getApplicationContext());
@@ -183,20 +181,42 @@ public class LoginActivity //extends ActionBarActivity
 
     }
 
+    private void keyHashTest() {
+        Log.v(tag, "KeyHash start");
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.soco.SoCoClient",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d(tag, "KeyHash: " + Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(tag, "keyhash error");
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+
+        }
+        Log.v(tag, "KeyHash end");
+    }
+
     private void initFacebook() {
         Log.d(tag, "init facebook");
 
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         Log.v(tag, "facebook access token: " + accessToken);
 
-        if(accessToken != null) {
-            Log.d(tag, "facebook token available: " + accessToken + ", proceed to app");
-            loginViaFacebook();
-        }
-        else {
-            Log.d(tag, "facebook token not available, facebook loginbutton");
+        //todo: auto login via facebook when facebook token available
+//        if(accessToken != null) {
+//            Log.d(tag, "facebook token available: " + accessToken + ", proceed to app");
+//            loginViaFacebook();
+//        }
+//        else {
+//            Log.d(tag, "facebook token not available, facebook loginbutton");
 
-            callbackManager = CallbackManager.Factory.create();
+        callbackManager = CallbackManager.Factory.create();
+
 //            loginButton = (LoginButton) findViewById(R.id.login_button);
 //
 //            Log.v(tag, "set permission");
@@ -237,14 +257,9 @@ public class LoginActivity //extends ActionBarActivity
 //                            }
 //                        }
 //                    });
-        }
-
+//        }
         return;
     }
-
-
-
-
 
     private void findViews() {
         et_login_email = (EditText) findViewById(R.id.et_login_email);
@@ -262,7 +277,7 @@ public class LoginActivity //extends ActionBarActivity
         LoginController.requestFacebookUserInfo(context);
 
         Log.v(tag, "show progress dialog, start login via facebook");
-        pd = ProgressDialog.show(this, "Login in progress", "Please wait...");
+        pd = ProgressDialog.show(this, "Login via Facebook in progress", "Please wait...");
         new Thread(new Runnable(){
             public void run(){
                 loginViaFacebookInBackground();
@@ -331,6 +346,16 @@ public class LoginActivity //extends ActionBarActivity
             Log.e(tag, "error validating error");
             return;
         }
+
+        Log.v(tag, "saved login details");
+        SharedPreferences settings = context.getSharedPreferences(PERFS_NAME, 0);
+        String loginEmail = ((TextView) findViewById(R.id.et_login_email)).getText().toString();
+        String loginPassword = ((TextView) findViewById(R.id.et_login_password)).getText().toString();
+        Log.v(tag, "save login detail: " + loginEmail + ", " + loginPassword);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(LOGIN_EMAIL, loginEmail);
+        editor.putString(LOGIN_PASSWORD, loginPassword);
+        editor.commit();
 
         Log.v(tag, "show progress dialog, start register");
         pd = ProgressDialog.show(this, "Login in progress", "Please wait...");
