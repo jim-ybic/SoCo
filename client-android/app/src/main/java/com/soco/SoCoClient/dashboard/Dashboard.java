@@ -698,7 +698,7 @@ public class Dashboard extends ActionBarActivity implements
 
     }
 
-    public void closecard(View view){
+    public void closeeventcard(View view){
         Log.v(tag, "tap close event card");
 
         //todo

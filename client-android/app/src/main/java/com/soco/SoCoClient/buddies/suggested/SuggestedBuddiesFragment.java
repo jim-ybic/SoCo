@@ -127,13 +127,13 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
 //                    Log.w(tag, "offline mode, bypassed downloaded events");
 //                }
 //                else {
-                    Log.v(tag, "download suggested event - success");
-                    Toast.makeText(getActivity().getApplicationContext(), socoApp.suggestedBuddies.size() + " events downloaded.", Toast.LENGTH_SHORT).show();
+                    Log.v(tag, "download suggested buddy - success");
+                    Toast.makeText(getActivity().getApplicationContext(), socoApp.suggestedBuddies.size() + " buddies found.", Toast.LENGTH_SHORT).show();
                     initCards(rootView);
 //                }
             }
             else{
-                Log.e(tag, "download suggested event fail, notify user");
+                Log.e(tag, "download suggested buddy fail, notify user");
                 Toast.makeText(getActivity().getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
             }
 

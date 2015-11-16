@@ -15,52 +15,50 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:orientation="vertical"
             android:background="#4a4a4a"
             android:id="@+id/titlearea">
-            <LinearLayout
-                android:id="@+id/quickinfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_gravity="left"
-                    android:gravity="left"
-                    android:onClick="closecard"
-                    android:layout_marginLeft="10dp">
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/actionbar_close"
-                        android:layout_gravity="center_vertical"/>
-                </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:id="@+id/quickinfo"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_marginTop="5dp">-->
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:layout_gravity="left"-->
+                    <!--android:gravity="left"-->
+                    <!--android:onClick="closeeventcard"-->
+                    <!--android:layout_marginLeft="10dp">-->
+                    <!--<ImageButton-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:background="?android:attr/selectableItemBackground"-->
+                        <!--android:src="@drawable/actionbar_close"-->
+                        <!--android:layout_gravity="center_vertical"/>-->
+                <!--</LinearLayout>-->
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:gravity="right"-->
+                    <!--android:onClick="buddydetails"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_gravity="right">-->
+                    <!--<ImageButton-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:background="?android:attr/selectableItemBackground"-->
+                        <!--android:src="@drawable/actionbar_overflow"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:clickable="false"-->
+                        <!--android:layout_marginRight="10dp" />-->
 
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="right"
-                    android:onClick="buddydetails"
-                    android:layout_weight="1"
-                    android:layout_gravity="right">
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/actionbar_overflow"
-                        android:layout_gravity="center_vertical"
-                        android:clickable="false"
-                        android:layout_marginRight="10dp" />
-
-                </LinearLayout>
-            </LinearLayout>
+                <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -79,7 +77,8 @@
                     android:src="@drawable/buddycard_me"
                     android:layout_gravity="center_horizontal"
                     android:clickable="false"
-                    android:paddingLeft="10dp" />
+                    android:paddingLeft="10dp"
+                    android:layout_marginTop="10dp" />
                 <TextView
                     android:id="@+id/textUserName"
                     style="@android:style/TextAppearance.Large.Inverse"

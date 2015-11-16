@@ -15,33 +15,33 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="140dp"
         android:orientation="vertical"
         android:background="#ffffb73f"
         android:id="@+id/titlearea">
-        <LinearLayout
-            android:id="@+id/quickinfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="left"
-                android:gravity="left"
-                android:onClick="closecard">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/actionbar_close"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp" />
-            </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:id="@+id/quickinfo"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_gravity="left"-->
+                <!--android:gravity="left"-->
+                <!--android:onClick="closeeventcard">-->
+                <!--<ImageButton-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="?android:attr/selectableItemBackground"-->
+                    <!--android:src="@drawable/actionbar_close"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:paddingTop="10dp"-->
+                    <!--android:paddingBottom="10dp" />-->
+            <!--</LinearLayout>-->
 
             <!--<LinearLayout-->
                 <!--android:layout_width="wrap_content"-->
@@ -100,7 +100,7 @@
                     <!--android:layout_gravity="center_vertical"-->
                     <!--android:padding="5dp" />-->
             <!--</LinearLayout>-->
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -109,7 +109,6 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/title"
-                style="@android:style/TextAppearance.Large.Inverse"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
