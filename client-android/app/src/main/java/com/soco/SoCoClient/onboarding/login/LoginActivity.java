@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.onboarding.login;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -46,7 +48,9 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity //extends ActionBarActivity
+    extends Activity
+{
 
     public static String tag = "LoginActivity";
 
@@ -101,14 +105,13 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
 //        Remove title bar
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        Remove notification bar
 //        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
-
 
         setContentView(R.layout.login_activity);
 

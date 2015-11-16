@@ -11,13 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="40dp"
         android:id="@+id/logoarea">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo"
+            android:layout_marginTop="80dp" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,7 +49,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/sociallogin"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
         <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
@@ -328,7 +329,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="40dp"
                 android:paddingTop="10dp"
                 android:id="@+id/register">
                 <TextView
@@ -354,26 +355,25 @@
                     android:clickable="true"/>
             </LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:paddingTop="10dp"
-            android:id="@+id/settings">
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/settings"
-                android:textSize="16dp"
-                android:onClick="settings"
-                android:gravity="left"
-                android:textColor="@android:color/white"
-                android:clickable="true"/>
-
-        </LinearLayout>
+        <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:paddingTop="10dp"-->
+            <!--android:id="@+id/settings">-->
+            <!--<TextView-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="@string/settings"-->
+                <!--android:textSize="16dp"-->
+                <!--android:onClick="settings"-->
+                <!--android:gravity="left"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:clickable="true"/>-->
+        <!--</LinearLayout>-->
 
         <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
