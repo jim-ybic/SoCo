@@ -469,51 +469,42 @@
 
     <LinearLayout
         android:id="@+id/eventbuddies"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:onClick="eventbuddies"
         android:paddingLeft="10dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:onClick="eventbuddies"
-            android:layout_weight="1"
-            android:paddingRight="10dp">
-            <!--<TextView-->
+        <!--<ImageButton-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:text="Friends: "-->
-            <!--android:layout_gravity="top" />-->
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/user1"
-                android:layout_gravity="center_vertical"
-                android:clickable="false"
-                android:paddingLeft="10dp" />
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/user2"
-                android:layout_gravity="center_vertical"
-                android:clickable="false"
-                android:adjustViewBounds="false"
-                android:paddingLeft="10dp" />
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/user3"
-                android:layout_gravity="center_vertical"
-                android:clickable="false"
-                android:paddingLeft="10dp" />
-        </LinearLayout>
+            <!--android:background="?android:attr/selectableItemBackground"-->
+            <!--android:src="@drawable/user1"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:clickable="false"-->
+            <!--android:paddingLeft="10dp" />-->
+
+        <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="?android:attr/selectableItemBackground"-->
+            <!--android:src="@drawable/user2"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:clickable="false"-->
+            <!--android:adjustViewBounds="false"-->
+            <!--android:paddingLeft="10dp" />-->
+
+        <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="?android:attr/selectableItemBackground"-->
+            <!--android:src="@drawable/user3"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:clickable="false"-->
+            <!--android:paddingLeft="10dp" />-->
     </LinearLayout>
 
     <LinearLayout
@@ -522,7 +513,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_weight="1"
-        android:onClick="eventbuddies"
         android:paddingLeft="10dp"
         android:paddingTop="10dp">
         <!--<TextView-->

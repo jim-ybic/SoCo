@@ -44,6 +44,7 @@ public class JsonKeys {
     public static final String PHONE = "phone";
     public static final String PROPERTY = "property";
     public static final String VERIFIED = "verified";
+    public static final String REPRESENTATIVE_BUDDIES = "representative_buddies";
     public static final String START_DATE = "start_date";
     public static final String START_TIME = "start_time";
     public static final String STATUS = "status";

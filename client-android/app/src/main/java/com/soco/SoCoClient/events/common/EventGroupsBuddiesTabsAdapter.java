@@ -18,7 +18,7 @@ public class EventGroupsBuddiesTabsAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int index) {
-        Log.v(tag, "get item from index: " + index);
+//        Log.v(tag, "get item from index: " + index);
         switch (index) {
             case Config.EVENT_GROUPS_BUDDIES_TAB_INDEX_GROUPS:
                 return new EventGroupsFragment();

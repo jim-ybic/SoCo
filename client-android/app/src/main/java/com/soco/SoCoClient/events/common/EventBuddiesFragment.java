@@ -2,6 +2,7 @@ package com.soco.SoCoClient.events.common;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.ui.Item;
+import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
@@ -33,7 +35,8 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
     SocoApp socoApp;
     Context context;
     Event event;
-    ArrayList<HashMap<String, Object>> items = new ArrayList<>();
+    ArrayList<HashMap<String, Object>> joinedBuddies = new ArrayList<>();
+    ArrayList<HashMap<String, Object>> likedBuddies = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,16 +60,38 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 
         addBuddies();
 
-        SimpleAdapter saImageItems = new SimpleAdapter(getActivity(),
-                items,
+        SimpleAdapter saJoinedBuddies = new SimpleAdapter(getActivity(),
+                joinedBuddies,
                 R.layout.eventbuddiesgrid_entry,
                 new String[] {ItemImage,ItemText},
                 new int[] {R.id.image,R.id.name});
+        GridView gridviewJB = (GridView) rootView.findViewById(R.id.gridJoiners);
+        gridviewJB.setAdapter(saJoinedBuddies);
+        gridviewJB.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> arg0,//The AdapterView where the click happened
+                                            View arg1,//The view within the AdapterView that was clicked
+                                            int arg2,//The position of the view in the adapter
+                                            long arg3//The row id of the item that was clicked
+                    ) {
+                        HashMap<String, Object> item = (HashMap<String, Object>) arg0.getItemAtPosition(arg2);
+                        Log.v(EventBuddiesFragment.tag, "text: " + item.get(ItemText));
 
-        //todo: show buddies in different views: joiners and likers
-        GridView gridview = (GridView) rootView.findViewById(R.id.gridJoiners);
-        gridview.setAdapter(saImageItems);
-        gridview.setOnItemClickListener(
+                        Intent i = new Intent(context, UserProfileActivity.class);
+                        //todo: pass parameter for user id
+                        startActivity(i);
+                    }
+                }
+        );
+
+        SimpleAdapter saLikedBuddies = new SimpleAdapter(getActivity(),
+                likedBuddies,
+                R.layout.eventbuddiesgrid_entry,
+                new String[] {ItemImage,ItemText},
+                new int[] {R.id.image,R.id.name});
+        GridView gridviewLB = (GridView) rootView.findViewById(R.id.gridLikers);
+        gridviewLB.setAdapter(saLikedBuddies);
+        gridviewLB.setOnItemClickListener(
                 new AdapterView.OnItemClickListener(){
                     public void onItemClick(AdapterView<?> arg0,//The AdapterView where the click happened
                                             View arg1,//The view within the AdapterView that was clicked
@@ -75,6 +100,10 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
                     ) {
                         HashMap<String, Object> item = (HashMap<String, Object>) arg0.getItemAtPosition(arg2);
                         Log.v(EventBuddiesFragment.tag, "text: " + item.get(ItemText));
+
+                        Intent i = new Intent(context, UserProfileActivity.class);
+                        //todo: pass parameter for user id
+                        startActivity(i);
                     }
                 }
         );
@@ -87,13 +116,13 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 
     private void addBuddies() {
 
-        Log.v(tag, "add dummy buddies for testing");
-        for(int i=0;i<10;i++) {
-            HashMap<String, Object> item = new HashMap<>();
-            item.put(ItemImage, R.drawable.user1);
-            item.put(ItemText, "NO." + String.valueOf(i));
-            items.add(item);
-        }
+//        Log.v(tag, "add dummy buddies for testing");
+//        for(int i=0;i<10;i++) {
+//            HashMap<String, Object> item = new HashMap<>();
+//            item.put(ItemImage, R.drawable.user1);
+//            item.put(ItemText, "NO." + String.valueOf(i));
+//            items.add(item);
+//        }
 
         Log.v(tag, "add joined friends");
         for(User user : event.getJoinedFriends()){
@@ -101,7 +130,7 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
             //todo: load user's image from url
             item.put(ItemImage, R.drawable.user1);  //use user1's image for now
             item.put(ItemText, user.getUser_name());
-            items.add(item);
+            joinedBuddies.add(item);
             Log.v(tag, "added buddy: " + user.getUser_name());
         }
 
@@ -111,7 +140,7 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
             //todo: load user's image from url
             item.put(ItemImage, R.drawable.user1);  //use user1's image for now
             item.put(ItemText, user.getUser_name());
-            items.add(item);
+            joinedBuddies.add(item);
             Log.v(tag, "added buddy: " + user.getUser_name());
         }
 
@@ -121,7 +150,7 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
             //todo: load user's image from url
             item.put(ItemImage, R.drawable.user1);  //use user1's image for now
             item.put(ItemText, user.getUser_name());
-            items.add(item);
+            likedBuddies.add(item);
             Log.v(tag, "added buddy: " + user.getUser_name());
         }
 
@@ -131,7 +160,7 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
             //todo: load user's image from url
             item.put(ItemImage, R.drawable.user1);  //use user1's image for now
             item.put(ItemText, user.getUser_name());
-            items.add(item);
+            likedBuddies.add(item);
             Log.v(tag, "added buddy: " + user.getUser_name());
         }
     }

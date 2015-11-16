@@ -128,7 +128,7 @@ public class EventGroupsBuddiesService extends IntentService {
 
                 String eventStr = json.getString(JsonKeys.EVENT);
                 JSONObject eventObj = new JSONObject(eventStr);
-                Log.v(tag, "event obj: " + eventObj);
+                Log.v(tag, "parse event obj: " + eventObj);
 
                 //comment out below line since needed info already downloaded in suggested event interface
                 //parseOrganizer(eventObj, event);
@@ -156,8 +156,8 @@ public class EventGroupsBuddiesService extends IntentService {
         return true;
     }
 
-    public static void parseOrganizer(JSONObject eventObj, Event event) throws JSONException {
-        Log.v(tag, "parse organizer: " + eventObj);
+    void parseOrganizer(JSONObject eventObj, Event event) throws JSONException {
+//        Log.v(tag, "parse organizer: " + eventObj);
         if(!eventObj.has(JsonKeys.ORGANIZER)) {
             Log.w(tag, "no organizer info is found in json");
         }
@@ -259,7 +259,7 @@ public class EventGroupsBuddiesService extends IntentService {
                 member_name: group member name
                 member_icon_url: url of group member’s icon
      */
-    public static void parseBuddies(JSONObject eventObj, Event event) throws JSONException {
+    void parseBuddies(JSONObject eventObj, Event event) throws JSONException {
         if(!eventObj.has(JsonKeys.BUDDIES))
             Log.w(tag, "no buddies info is found in json");
         else {
@@ -285,13 +285,16 @@ public class EventGroupsBuddiesService extends IntentService {
                         String friendIconUrl = friend.getString(JsonKeys.FRIEND_ICON_URL);
                         Log.v(tag, "friend info: " + friendId + ", " + friendName + ", " + friendIconUrl);
 
-                        User user = new User();
-                        user.setUser_id(friendId);
-                        user.setUser_name(friendName);
-                        user.setUser_icon_url(friendIconUrl);
-
-                        Log.v(tag, "add event joined friend: " + user.toString());
-                        event.addJoinedFriends(user);
+                        if(event.hasJoinedFriend(friendId))
+                            Log.w(tag, "joined friend already added: " + friendId + ", " + friendName + ", " + friendIconUrl);
+                        else {
+                            User user = new User();
+                            user.setUser_id(friendId);
+                            user.setUser_name(friendName);
+                            user.setUser_icon_url(friendIconUrl);
+                            Log.v(tag, "add event joined friend: " + user.toString());
+                            event.addJoinedFriends(user);
+                        }
                     }
                 }
                 if(!joinedObj.has(JsonKeys.GROUP_MEMBERS))
@@ -302,18 +305,21 @@ public class EventGroupsBuddiesService extends IntentService {
                     Log.v(tag, "all joined group members: " + groupMembers);
                     for(int i=0; i<groupMembers.length(); i++){
                         JSONObject member = groupMembers.getJSONObject(i);
-                        String memberId = member.getString(JsonKeys.FRIEND_ID);
-                        String memberName = member.getString(JsonKeys.FRIEND_NAME);
-                        String memberIconUrl = member.getString(JsonKeys.FRIEND_ICON_URL);
+                        String memberId = member.getString(JsonKeys.MEMBER_ID);
+                        String memberName = member.getString(JsonKeys.MEMBER_NAME);
+                        String memberIconUrl = member.getString(JsonKeys.MEMBER_ICON_URL);
                         Log.v(tag, "group member info: " + memberId + ", " + memberName + ", " + memberIconUrl);
 
-                        User user = new User();
-                        user.setUser_id(memberId);
-                        user.setUser_name(memberName);
-                        user.setUser_icon_url(memberIconUrl);
-
-                        Log.v(tag, "add event joined group member: " + user.toString());
-                        event.addJoinedGroupMembers(user);
+                        if(event.hasJoinedGroupMembers(memberId))
+                            Log.w(tag, "joined group members already added: " + member);
+                        else {
+                            User user = new User();
+                            user.setUser_id(memberId);
+                            user.setUser_name(memberName);
+                            user.setUser_icon_url(memberIconUrl);
+                            Log.v(tag, "add event joined group member: " + user.toString());
+                            event.addJoinedGroupMembers(user);
+                        }
                     }
                 }
             }
@@ -336,13 +342,16 @@ public class EventGroupsBuddiesService extends IntentService {
                         String friendIconUrl = friend.getString(JsonKeys.FRIEND_ICON_URL);
                         Log.v(tag, "friend info: " + friendId + ", " + friendName + ", " + friendIconUrl);
 
-                        User user = new User();
-                        user.setUser_id(friendId);
-                        user.setUser_name(friendName);
-                        user.setUser_icon_url(friendIconUrl);
-
-                        Log.v(tag, "add event liked friend: " + user.toString());
-                        event.addLikedFriends(user);
+                        if(event.hasLikedFriend(friendId))
+                            Log.w(tag, "liked friend already added: " + friend);
+                        else {
+                            User user = new User();
+                            user.setUser_id(friendId);
+                            user.setUser_name(friendName);
+                            user.setUser_icon_url(friendIconUrl);
+                            Log.v(tag, "add event liked friend: " + user.toString());
+                            event.addLikedFriends(user);
+                        }
                     }
                 }
                 if(!likedObj.has(JsonKeys.GROUP_MEMBERS))
@@ -353,18 +362,21 @@ public class EventGroupsBuddiesService extends IntentService {
                     Log.v(tag, "all liked group members: " + groupMembers);
                     for(int i=0; i<groupMembers.length(); i++){
                         JSONObject member = groupMembers.getJSONObject(i);
-                        String memberId = member.getString(JsonKeys.FRIEND_ID);
-                        String memberName = member.getString(JsonKeys.FRIEND_NAME);
-                        String memberIconUrl = member.getString(JsonKeys.FRIEND_ICON_URL);
+                        String memberId = member.getString(JsonKeys.MEMBER_ID);
+                        String memberName = member.getString(JsonKeys.MEMBER_NAME);
+                        String memberIconUrl = member.getString(JsonKeys.MEMBER_ICON_URL);
                         Log.v(tag, "group member info: " + memberId + ", " + memberName + ", " + memberIconUrl);
 
-                        User user = new User();
-                        user.setUser_id(memberId);
-                        user.setUser_name(memberName);
-                        user.setUser_icon_url(memberIconUrl);
-
-                        Log.v(tag, "add event liked group member: " + user.toString());
-                        event.addLikedGroupMembers(user);
+                        if(event.hasLikedGroupMembers(memberId))
+                            Log.w(tag, "liked group member already added: " + member);
+                        else {
+                            User user = new User();
+                            user.setUser_id(memberId);
+                            user.setUser_name(memberName);
+                            user.setUser_icon_url(memberIconUrl);
+                            Log.v(tag, "add event liked group member: " + user.toString());
+                            event.addLikedGroupMembers(user);
+                        }
                     }
                 }
             }

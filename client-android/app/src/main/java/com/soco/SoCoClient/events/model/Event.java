@@ -40,6 +40,8 @@ public class Event {
     ArrayList<User> likedFriends = new ArrayList<>();
     ArrayList<User> likedGroupMembers = new ArrayList<>();
 
+
+
     public Event() {
     }
 
@@ -297,6 +299,38 @@ public class Event {
 
     public void addLikedGroupMembers(User user){
         this.likedGroupMembers.add(user);
+    }
+
+    public boolean hasJoinedFriend(String uid){
+        for(User u : joinedFriends){
+            if(u.getUser_id().equals(uid))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean hasJoinedGroupMembers(String uid){
+        for(User u : joinedGroupMemebers){
+            if(u.getUser_id().equals(uid))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean hasLikedFriend(String uid){
+        for(User u : likedFriends){
+            if(u.getUser_id().equals(uid))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean hasLikedGroupMembers(String uid){
+        for(User u : likedGroupMembers){
+            if(u.getUser_id().equals(uid))
+                return true;
+        }
+        return false;
     }
 
     @Override

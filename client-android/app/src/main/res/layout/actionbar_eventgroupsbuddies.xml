@@ -104,7 +104,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:id="@+id/titlearea">
+        android:id="@+id/titlearea"
+        android:layout_marginTop="5dp">
         <TextView
             android:id="@+id/title"
             style="@android:style/TextAppearance.Large.Inverse"
@@ -113,7 +114,7 @@
             android:textStyle="bold"
             android:fontFamily="Roboto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="IDSHK Innovation Seminar"
             android:gravity="center"
             android:onClick="eventdetails"/>

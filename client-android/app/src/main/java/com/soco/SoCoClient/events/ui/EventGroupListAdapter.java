@@ -30,7 +30,7 @@ public class EventGroupListAdapter extends ArrayAdapter<Item> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-        Log.v(tag, "getView: " + position);
+        Log.v(tag, "getView: " + position + ", " + convertView + ", " + parent);
 		View v = convertView;
 
 		final Item i = items.get(position);
@@ -47,8 +47,8 @@ public class EventGroupListAdapter extends ArrayAdapter<Item> {
 				v.setLongClickable(false);
 
 				Log.v(tag, "set view data");
-				final TextView sectionView = (TextView) v.findViewById(R.id.label);
-				sectionView.setText(si.getLabel());
+				TextView label = (TextView) v.findViewById(R.id.label);
+				label.setText(si.getLabel());
 			}
 			if(i.getType().equals(Item.LIST_ITEM_TYPE_ENTRY)){ //entry
 				EventGroupListEntryItem ei = (EventGroupListEntryItem)i;
@@ -56,21 +56,10 @@ public class EventGroupListAdapter extends ArrayAdapter<Item> {
 				v = vi.inflate(R.layout.eventgrouplist_entry, null);
 
 				Log.v(tag, "set view data");
-				//todo
+				TextView name = (TextView) v.findViewById(R.id.name);
+				name.setText(ei.getGroup_name());
+				//todo: show other group properties
 
-//				final TextView name = (TextView)v.findViewById(R.id.name);
-//                final TextView phone = (TextView)v.findViewById(R.id.phone);
-//				final TextView email = (TextView)v.findViewById(R.id.email);
-//                final TextView status = (TextView)v.findViewById(R.id.status);
-
-//				if (name != null)
-//					name.setText(ei.name);
-//                if (phone != null)
-//                    phone.setText(ei.phone);
-//				if (email != null)
-//					email.setText(ei.email);
-//                if (status != null)
-//                    status.setText(ei.status);
 			}
 		}
 		return v;

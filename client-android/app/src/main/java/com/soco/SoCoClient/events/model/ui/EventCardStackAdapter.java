@@ -6,11 +6,13 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.model.ui.BaseEventCardStackAdapter;
 import com.soco.SoCoClient.events.model.ui.EventCardModel;
+import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +36,8 @@ import java.util.Random;
 public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 
 	static String tag = "EventCardStackAdapter";
+
+	static final int MAX_NUMBER_BUDDIES_SHOW_ON_CARD = 6;
 
 	View mConvertView;
 	Context mContext;
@@ -88,44 +93,37 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 //		Log.v(tag, "set color");	//comment out, not beautiful
 //		setTitleareaRandomColor(convertView);
 
-		Log.v(tag, "show event categories");
+//		Log.v(tag, "show event categories");
 		if(model.getCategories() != null && !model.getCategories().isEmpty())
 			showCategories(model.getCategories());
 
-		Log.v(tag, "show event organizers");
+//		Log.v(tag, "show event organizers");
 		showOrganizers(model);
+		showBuddies(model);
 
 		return convertView;
 	}
 
 	void showOrganizers(EventCardModel model){
-		Log.v(tag, "check event creator");
+		Event e = model.getEvent();
+		Log.v(tag, "check event creator: " + e.toString());
+
 		ImageButton viewOrg1 = (ImageButton) mConvertView.findViewById(R.id.event_org1);
 		if(model.getEvent().getCreator_id() == null || model.getEvent().getCreator_id().isEmpty()) {
 			Log.v(tag, "no event creator info, hide the button org1");
 			viewOrg1.setVisibility(View.INVISIBLE);
 		}
 		else{
-			Log.v(tag, "show event creator: " + model.getEvent().getCreator_name());
+			Log.v(tag, "show event creator: " + model.getEvent().getCreator_id() + ", " + model.getEvent().getCreator_name() + ", " + model.getEvent().getCreator_icon_url());
 			//todo: download creator icon and show it
 
 			Drawable image1 = mContext.getResources().getDrawable(R.drawable.idshk);	//testing icon
 			viewOrg1.setImageDrawable(image1);
-
-//			int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
-//			TypedArray ta = mContext.obtainStyledAttributes(attrs);
-//			Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
-//			ta.recycle();
-//			view.setBackground(drawableFromTheme);
-
-//			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//			params.setMargins(0, 5, 10, 5);
-//			view.setLayoutParams(params);
 		}
 
 		//todo: handle enterprise info when data available
 
-		Log.v(tag, "check event supporting groups");
+		Log.v(tag, "check event supporting groups: " + model.getEvent().getSupporting_groups());
 		ImageButton viewOrg2 = (ImageButton) mConvertView.findViewById(R.id.event_org2);
 		ImageButton viewOrg3 = (ImageButton) mConvertView.findViewById(R.id.event_org3);
 		if(model.getEvent().getSupporting_groups() == null || model.getEvent().getSupporting_groups().isEmpty()){
@@ -138,8 +136,93 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 			//todo: download supporting group icon and show
 
 			Drawable image1 = mContext.getResources().getDrawable(R.drawable.group1);	//testing icon
-			viewOrg2.setImageDrawable(image1);
-			viewOrg3.setImageDrawable(image1);
+
+			int number_of_supporting_groups = model.getEvent().getSupporting_groups().size();
+			if(number_of_supporting_groups == 1) {	//show only one icon for group
+				viewOrg2.setImageDrawable(image1);
+				viewOrg3.setVisibility(View.INVISIBLE);
+			}
+			else{	//show at most two icons for group
+				viewOrg2.setImageDrawable(image1);
+				viewOrg3.setImageDrawable(image1);
+			}
+		}
+	}
+
+	void showBuddies(EventCardModel model){
+		Event e = model.getEvent();
+		Log.v(tag, "check event buddies: " + e.toString());
+
+		LinearLayout list = (LinearLayout) mConvertView.findViewById(R.id.eventbuddies);
+
+	    int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
+        TypedArray ta = mContext.obtainStyledAttributes(attrs);
+        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
+        ta.recycle();
+
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		params.weight = 1.0f;
+        params.gravity = Gravity.CENTER_HORIZONTAL;
+
+		int countBuddy = 0;
+
+		for(User u : e.getJoinedFriends()){
+			ImageView user = new ImageView(mContext);
+			//todo: download user icon from url
+			Drawable image1 = mContext.getResources().getDrawable(R.drawable.user1);
+			user.setImageDrawable(image1);
+			user.setLayoutParams(params);
+			user.setBackground(drawableFromTheme);
+			user.setPadding(0, 0, 15, 0);
+			list.addView(user);
+			Log.v(tag, "added joined friend into view: " + u.toString());
+			if(++countBuddy>MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+				break;
+		}
+
+		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
+			for (User u : e.getJoinedGroupMemebers()) {
+				ImageView user = new ImageView(mContext);
+				//todo: download user icon from url
+				Drawable image1 = mContext.getResources().getDrawable(R.drawable.user2);
+				user.setImageDrawable(image1);
+				user.setLayoutParams(params);
+				user.setBackground(drawableFromTheme);
+				list.addView(user);
+				Log.v(tag, "added joined group members into view: " + u.toString());
+				if(++countBuddy>MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+					break;
+			}
+		}
+
+		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
+			for (User u : e.getLikedFriends()) {
+				ImageView user = new ImageView(mContext);
+				//todo: download user icon from url
+				Drawable image1 = mContext.getResources().getDrawable(R.drawable.user3);
+				user.setImageDrawable(image1);
+				user.setLayoutParams(params);
+				user.setBackground(drawableFromTheme);
+				list.addView(user);
+				Log.v(tag, "added liked friend into view: " + u.toString());
+				if (++countBuddy > MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+					break;
+			}
+		}
+
+		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
+			for (User u : e.getLikedGroupMembers()) {
+				ImageView user = new ImageView(mContext);
+				//todo: download user icon from url
+				Drawable image1 = mContext.getResources().getDrawable(R.drawable.user3);
+				user.setImageDrawable(image1);
+				user.setLayoutParams(params);
+				user.setBackground(drawableFromTheme);
+				list.addView(user);
+				Log.v(tag, "added liked group members into view: " + u.toString());
+				if (++countBuddy > MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+					break;
+			}
 		}
 	}
 

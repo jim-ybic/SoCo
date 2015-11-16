@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.app.ActionBar.LayoutParams;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
@@ -49,6 +50,8 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_groups_buddies);
 
+        socoApp = (SocoApp) getApplicationContext();
+
         Intent i = getIntent();
         eventId = i.getLongExtra(EVENT_ID, 0);
         Log.d(tag, "get event id: " + eventId);
@@ -63,8 +66,8 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
             }
         }).start();
 
-        socoApp = (SocoApp) getApplicationContext();
-        setActionbar();
+
+
     }
 
     private void eventGBInBackground() {
@@ -104,6 +107,7 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
             if(socoApp.eventGroupsBuddiesResult){
                 Log.d(tag, "eventGB: success");
                 Toast.makeText(getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
+                setActionbar();
             }
             else{
                 Log.e(tag, "event GB fail, notify user");
@@ -144,6 +148,10 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
         Toolbar parent = (Toolbar) customView.getParent();
         Log.v(tag, "remove margin in actionbar area");
         parent.setContentInsetsAbsolute(0, 0);
+
+        TextView eventtitle= (TextView) customView.findViewById(R.id.title);
+        eventtitle.setText(socoApp.getCurrentSuggestedEvent().getTitle());
+        Log.v(tag, "set toolbar event title: " + socoApp.getCurrentSuggestedEvent().getTitle());
 
 //        Log.v(tag, "set actionbar background color");
 //        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));

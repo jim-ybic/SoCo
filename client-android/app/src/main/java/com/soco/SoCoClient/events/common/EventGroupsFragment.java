@@ -96,15 +96,15 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
 //    }
 
     void addOrganizers() {
-        Log.v(tag, "add new section label for organizer");
+        Log.v(tag, "add new section >>> event organizer");
         items.add(new EventGroupListSectionItem(EVENT_ORGANIZER));
 
-        Log.v(tag, "add dummy items for testing");
-        for(int i=0; i<1; i++){
-            EventGroupListEntryItem item = new EventGroupListEntryItem();
-            item.setGroup_name("Testing Organizer " + i);
-            items.add(item);
-        }
+//        Log.v(tag, "add dummy items for testing");
+//        for(int i=0; i<1; i++){
+//            EventGroupListEntryItem item = new EventGroupListEntryItem();
+//            item.setGroup_name("Testing Organizer " + i);
+//            items.add(item);
+//        }
 
         Log.v(tag, "add event organizer (enterprise)");
         if(event.getEnterprise_id() != null && !event.getEnterprise_id().isEmpty()){
@@ -116,6 +116,7 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
             //todo: set representative follower's icon
 
             items.add(enterpriseItem);
+            Log.v(tag, "added enterprise item: " + enterpriseItem);
         }
         else
             Log.w(tag, "no enterprise info found");
@@ -130,21 +131,22 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
             //todo: set representative member's icon
 
             items.add(creatorItem);
+            Log.v(tag, "added creator item: " + creatorItem);
         }
         else
             Log.w(tag, "no creator found");
     }
 
     void addSupportingGroups() {
-        Log.v(tag, "add new section lable for supporting groups");
+        Log.v(tag, "add new section >>> supporting groups");
         items.add(new EventGroupListSectionItem(SUPPORTING_GROUPS));
 
-        Log.v(tag, "add dummy groups for testing");
-        for(int i=0; i<5; i++){
-            EventGroupListEntryItem item = new EventGroupListEntryItem();
-            item.setGroup_name("Testing Supporting Group " + i);
-            items.add(item);
-        }
+//        Log.v(tag, "add dummy groups for testing");
+//        for(int i=0; i<5; i++){
+//            EventGroupListEntryItem item = new EventGroupListEntryItem();
+//            item.setGroup_name("Testing Supporting Group " + i);
+//            items.add(item);
+//        }
 
         Log.v(tag, "add event supporting groups");
         if(!event.getSupporting_groups().isEmpty()){
@@ -157,76 +159,14 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
                 //todo: set representative follower's icon
 
                 items.add(groupItem);
+                Log.v(tag, "added supporting group: " + groupItem);
             }
         }
         else
             Log.w(tag, "no supporting group found");
     }
 
-//    void showMyMatches() {
-//        Log.v(tag, "show my matches");
-//
-//        ArrayList<MyMatchListEntryItem> items = new ArrayList<>();
-//
-//        Log.v(tag, "add dummy suggested buddies");
-//        for(int i=0; i<20; i++)
-//            items.add(new MyMatchListEntryItem());
-//
-//        //todo: fill in the items with the list of suggested buddies
-//
-//
-//        MyMatchListAdapter adapter = new MyMatchListAdapter(getActivity(), items);
-//
-//        ListView list = (ListView) rootView.findViewById(R.id.friends);
-//        list.setAdapter(adapter);
-//    }
-
-//    private void generateDummyEvents() {
-//
-//        //todo: use groups, instead of events
-//
-//        Log.v(tag, "add 5 dummy events");
-//        events.add(new Event());
-//        events.add(new Event());
-//        events.add(new Event());
-//        events.add(new Event());
-//        events.add(new Event());
-//    }
-
-//    private void showOrganizers() {
-////        Log.v(tag, "wait and check register status");
-////        int count = 0;
-////        while(!socoApp.eventGroupsBuddiesResponse && count < WAIT_ITERATION) {   //wait for 10s
-////            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
-////            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
-////            while (System.currentTimeMillis() < endTime) {
-////                synchronized (this) {
-////                    try {
-////                        wait(endTime - System.currentTimeMillis());
-////                    } catch (Exception e) {
-////                        Log.e(tag, "Error in waiting");
-////                    }
-////                }
-////            }
-////            count++;
-////        }
-//        event = socoApp.getCurrentSuggestedEvent();
-//        Log.v(tag, "current event: " + event.toString());
-//
-////        Log.v(tag, "show organizer on the screen");
-////        ImageButton viewOrg1Icon = (ImageButton) rootView.findViewById(R.id.org1icon);
-//        //todo: download organizer image
-////        Drawable image1 = context.getResources().getDrawable(R.drawable.eventgroups_group1);	//testing icon
-////        viewOrg1Icon.setImageDrawable(image1);
-//
-////        TextView viewOrg1Name = (TextView) rootView.findViewById(R.id.org1name);
-////        viewOrg1Name.setText("abc group");
-//
-//        //todo: not finished yet
-//    }
-
-
-    @Override
+   @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
