@@ -83,7 +83,7 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 	}
 	private void showIconUrl(User u){
 		ImageButton ib = (ImageButton) mConvertView.findViewById(R.id.iconUser);
-		IconUrlUtil.setImageForButton(ib, u.getUser_icon_url(), 200);
+		IconUrlUtil.setImageForButtonNormal(ib, u.getUser_icon_url());
 		if(u.getCommon_buddies()!=null&&u.getCommon_buddies().size()>0){
 			Log.v(tag, "loading photo for common users : " + u.getCommon_buddies());
 			LinearLayout commonBuddiesList = (LinearLayout) mConvertView.findViewById(R.id.layoutCommonBuddies);
@@ -91,6 +91,7 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 			int[] attrs = new int[]{R.attr.selectableItemBackground};
 			TypedArray typedArray = mContext.obtainStyledAttributes(attrs);
 			int backgroundResource = typedArray.getResourceId(0, 0);
+
 //			view.setBackgroundResource(backgroundResource);
 			typedArray.recycle();
 			for(int i=0; i<u.getCommon_buddies().size()&&i<6; i++) {
@@ -102,7 +103,8 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //				params.setMargins(0, 5, 10, 5);
 				b.setLayoutParams(params);
-				IconUrlUtil.setImageForButton(b,ub.getUser_icon_url(),120);
+//				b.setScaleType(ImageView.ScaleType.FIT_XY);
+				IconUrlUtil.setImageForButtonSmall(b,ub.getUser_icon_url());
 				commonBuddiesList.addView(b);
 			}
 		}

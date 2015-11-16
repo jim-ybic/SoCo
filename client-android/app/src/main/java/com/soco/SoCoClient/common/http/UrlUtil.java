@@ -238,7 +238,7 @@ public class UrlUtil {
     static final String JOIN_EVENT_PATH = "/v1/join_event";
     static final String EVENT_GROUPS_BUDDIES_PATH = "/v1/event_groups_buddies";
     static final String SUGGESTED_BUDDIES_PATH = "/v1/suggested_buddies";
-
+    static final String USER_ICON="/v1/user_icon?user_id=";
     public static String getLoginUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + LOGIN_PATH;
         Log.v(tag, "login url: " + url);
@@ -302,5 +302,9 @@ public class UrlUtil {
         Log.v(tag, "get event groups buddies url: " + url);
         return url;
     }
-
+    public static String getUserIconUrlPrefix(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_ICON;
+        Log.v(tag, "user icon url: " + url);
+        return url;
+    }
 }

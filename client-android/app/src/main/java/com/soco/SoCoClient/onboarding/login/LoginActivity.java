@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.RequestCode;
 
 import com.facebook.FacebookSdk;
+import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.onboarding.forgotpassword.ForgotPasswordActivity;
 import com.soco.SoCoClient.onboarding.login.service.LoginNormalService;
@@ -121,6 +124,16 @@ public class LoginActivity //extends ActionBarActivity
         findViews();
         context = getApplicationContext();
         socoApp = (SocoApp) context;
+
+
+        //initial screen resolution to app
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+//        IconUrlUtil = size.x;
+        display.getRealSize(size);
+        IconUrlUtil.setSize(Math.min(size.x, size.y));
+
 
         Log.v(tag, "create controller");
         controller = new LoginController();

@@ -15,10 +15,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="#4a4a4a"
-            android:id="@+id/titlearea">
+            android:id="@+id/titlearea"
+            android:layout_weight="1">
             <!--<LinearLayout-->
                 <!--android:id="@+id/quickinfo"-->
                 <!--android:layout_width="match_parent"-->
@@ -63,11 +64,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical"
                 android:clickable="true"
                 android:onClick="buddydetails"
-                android:id="@+id/userinfo">
+                android:id="@+id/userinfo"
+                android:paddingTop="20dp">
 
                 <ImageButton
                     android:id="@+id/iconUser"
@@ -77,7 +78,6 @@
                     android:src="@drawable/buddycard_me"
                     android:layout_gravity="center_horizontal"
                     android:clickable="false"
-                    android:paddingLeft="10dp"
                     android:layout_marginTop="10dp" />
                 <TextView
                     android:id="@+id/textUserName"
@@ -89,7 +89,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Stephen Chow"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp" />
                 <TextView
                     android:id="@+id/textLocation"
                     style="@android:style/TextAppearance.Large.Inverse"
@@ -101,7 +103,8 @@
                     android:text="Hong Kong Island, HK"
                     android:gravity="center"
                     android:clickable="true"
-                    android:onClick="eventdetails"/>
+                    android:onClick="eventdetails"
+                    android:paddingBottom="15dp" />
                 <!--<ImageView-->
                 <!--android:id="@+id/banner"-->
                 <!--android:layout_width="wrap_content"-->

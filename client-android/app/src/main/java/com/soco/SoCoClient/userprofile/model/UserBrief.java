@@ -1,5 +1,7 @@
 package com.soco.SoCoClient.userprofile.model;
 
+import com.soco.SoCoClient.common.http.UrlUtil;
+
 import java.util.ArrayList;
 
 public class UserBrief {
@@ -21,10 +23,13 @@ public class UserBrief {
     public void setUser_name(String user_name) {
         this.user_name = user_name;
     }
-    //todo
-    // to change below dummy to the actual server URL. Might need to append the prefix. can define in UrlUtil then append here
+
     public String getUser_icon_url() {
-        return "https://graph.facebook.com/10153298013434285/picture?type=normal";
+//        return "https://graph.facebook.com/10153298013434285/picture?type=normal";
+        StringBuffer sb = new StringBuffer();
+        sb.append(UrlUtil.getUserIconUrlPrefix());
+        sb.append(this.user_id);
+        return sb.toString();
     }
 
     public void setUser_icon_url(String user_icon_url) {
