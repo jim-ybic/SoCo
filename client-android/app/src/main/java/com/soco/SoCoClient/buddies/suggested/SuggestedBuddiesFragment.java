@@ -36,7 +36,7 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
 
 
     static final int WAIT_INTERVAL_IN_SECOND = 1;
-    static final int WAIT_ITERATION = 10;
+    static final int WAIT_ITERATION = 5;
     static final int THOUSAND = 1000;
 
 //    int pid;
