@@ -37,7 +37,7 @@ public class EventGroupListAdapter extends ArrayAdapter<Item> {
 		if (i != null) {
             Log.v(tag, "item type: " + i.getType() + ", " + i.toString());
 
-			if(i.getType().equals(Item.LIST_ITEM_TYPE_SECTION)){   //section
+			if (i.getType().equals(Item.LIST_ITEM_TYPE_SECTION)){   //section
 				EventGroupListSectionItem si = (EventGroupListSectionItem)i;
                 Log.v(tag, "item name: " + si.getLabel());
 				v = vi.inflate(R.layout.eventgrouplist_section, null);
@@ -50,7 +50,7 @@ public class EventGroupListAdapter extends ArrayAdapter<Item> {
 				TextView label = (TextView) v.findViewById(R.id.label);
 				label.setText(si.getLabel());
 			}
-			if(i.getType().equals(Item.LIST_ITEM_TYPE_ENTRY)){ //entry
+			else if (i.getType().equals(Item.LIST_ITEM_TYPE_ENTRY)){ //entry
 				EventGroupListEntryItem ei = (EventGroupListEntryItem)i;
                 Log.v(tag, "item name: " + ei.getGroup_name());
 				v = vi.inflate(R.layout.eventgrouplist_entry, null);
@@ -60,6 +60,16 @@ public class EventGroupListAdapter extends ArrayAdapter<Item> {
 				name.setText(ei.getGroup_name());
 				//todo: show other group properties
 
+			}
+			else if (i.getType().equals(Item.LIST_ITEM_TYPE_USER)){ //user
+				EventGroupListUserItem item = (EventGroupListUserItem) i;
+				Log.v(tag, "item name: " + ((EventGroupListUserItem) i).getUser_name());
+				v = vi.inflate(R.layout.eventgrouplist_user, null);
+
+				Log.v(tag, "set view data");
+				TextView name = (TextView) v.findViewById(R.id.name);
+				name.setText(item.getUser_name());
+				//todo: show other user properties
 			}
 		}
 		return v;

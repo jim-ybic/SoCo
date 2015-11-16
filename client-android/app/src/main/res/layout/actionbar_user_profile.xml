@@ -36,12 +36,6 @@
                     android:src="@drawable/actionbar_close"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:orientation="horizontal">
-            </LinearLayout>
             <!--<LinearLayout-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
@@ -107,8 +101,7 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:clickable="true"
-            android:id="@+id/userinfo"
-            android:layout_marginTop="5dp">
+            android:id="@+id/userinfo">
 
         <ImageButton
             android:layout_width="wrap_content"

@@ -311,7 +311,7 @@
         <activity
             android:name=".userprofile.UserProfileActivity"
             android:label="@string/title_activity_activity_person_details"
-            android:theme="@style/TallActionBarTheme" >
+            android:theme="@style/UserProfileTallActionBarTheme" >
         </activity>
         <activity
             android:name=".buddies.suggested.AddBuddyActivity"

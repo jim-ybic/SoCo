@@ -22,6 +22,7 @@ import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.service.EventGroupsBuddiesService;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 import com.soco.SoCoClient.onboarding.register.service.RegisterService;
+import com.soco.SoCoClient.userprofile.UserProfileActivity;
 
 public class EventGroupsBuddiesActivity extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener{
@@ -254,6 +255,15 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
         Intent i = new Intent(this, GroupDetailsActivity.class);
 
         //todo: pass group id as parameter (currently only testing ui)
+
+        startActivity(i);
+    }
+
+    public void userprofile(View view){
+        Log.v(tag, "tap on single user, show user profile");
+        Intent i = new Intent(this, UserProfileActivity.class);
+
+        //todo: pass user id as parameter
 
         startActivity(i);
     }

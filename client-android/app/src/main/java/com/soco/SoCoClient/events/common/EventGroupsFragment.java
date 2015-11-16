@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.events.ui.EventGroupListEntryItem;
+import com.soco.SoCoClient.events.ui.EventGroupListUserItem;
 import com.soco.SoCoClient.events.ui.Item;
 import com.soco.SoCoClient.events.ui.EventGroupListSectionItem;
 import com.soco.SoCoClient.common.util.SocoApp;
@@ -102,36 +103,36 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
 //        Log.v(tag, "add dummy items for testing");
 //        for(int i=0; i<1; i++){
 //            EventGroupListEntryItem item = new EventGroupListEntryItem();
-//            item.setGroup_name("Testing Organizer " + i);
+//            item.setUser_name("Testing Organizer " + i);
 //            items.add(item);
 //        }
 
         Log.v(tag, "add event organizer (enterprise)");
         if(event.getEnterprise_id() != null && !event.getEnterprise_id().isEmpty()){
-            EventGroupListEntryItem enterpriseItem = new EventGroupListEntryItem();
-            enterpriseItem.setGroup_name(event.getEnterprise_name());
-            enterpriseItem.setGroup_icon_url(event.getEnterprise_icon_url());
+            EventGroupListUserItem item = new EventGroupListUserItem();
+            item.setUser_name(event.getEnterprise_name());
+            item.setUser_icon_url(event.getEnterprise_icon_url());
 
             //todo: set number of Like
             //todo: set representative follower's icon
 
-            items.add(enterpriseItem);
-            Log.v(tag, "added enterprise item: " + enterpriseItem);
+            items.add(item);
+            Log.v(tag, "added enterprise item: " + item);
         }
         else
             Log.w(tag, "no enterprise info found");
 
         Log.v(tag, "add event organizer (creator)");
         if(event.getCreator_id()!= null && !event.getCreator_id().isEmpty()){
-            EventGroupListEntryItem creatorItem = new EventGroupListEntryItem();
-            creatorItem.setGroup_name(event.getCreator_name());
-            creatorItem.setGroup_icon_url(event.getCreator_icon_url());
+            EventGroupListUserItem item = new EventGroupListUserItem();
+            item.setUser_name(event.getCreator_name());
+            item.setUser_icon_url(event.getCreator_icon_url());
 
             //todo: set number of participants
             //todo: set representative member's icon
 
-            items.add(creatorItem);
-            Log.v(tag, "added creator item: " + creatorItem);
+            items.add(item);
+            Log.v(tag, "added creator item: " + item);
         }
         else
             Log.w(tag, "no creator found");
@@ -144,7 +145,7 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
 //        Log.v(tag, "add dummy groups for testing");
 //        for(int i=0; i<5; i++){
 //            EventGroupListEntryItem item = new EventGroupListEntryItem();
-//            item.setGroup_name("Testing Supporting Group " + i);
+//            item.setUser_name("Testing Supporting Group " + i);
 //            items.add(item);
 //        }
 
