@@ -1,3 +1,3 @@
-include ':app', ':dropbox-android-sdk-1.6.2', ':bcprov-jdk16-146', ':httpclient-4.0.3', ':httpmime-4.0.3', ':json_simple-1.1', ':facebook'
+include ':facebook', ':app', ':bcprov-jdk16-146', ':dropbox-android-sdk-1.6.2'
 //include ':libs:AndTinder'
 //project(':AndTinder').projectDir = new File('libs/AndTinder')
