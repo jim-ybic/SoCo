@@ -413,9 +413,9 @@ public class DownloadSuggestedEventsService extends IntentService {
                     Log.v(tag, "all joined group members: " + groupMembers);
                     for(int i=0; i<groupMembers.length(); i++){
                         JSONObject member = groupMembers.getJSONObject(i);
-                        String memberId = member.getString(JsonKeys.FRIEND_ID);
-                        String memberName = member.getString(JsonKeys.FRIEND_NAME);
-                        String memberIconUrl = member.getString(JsonKeys.FRIEND_ICON_URL);
+                        String memberId = member.getString(JsonKeys.MEMBER_ID);
+                        String memberName = member.getString(JsonKeys.MEMBER_NAME);
+                        String memberIconUrl = member.getString(JsonKeys.MEMBER_ICON_URL);
                         Log.v(tag, "group member info: " + memberId + ", " + memberName + ", " + memberIconUrl);
 
                         User user = new User();
