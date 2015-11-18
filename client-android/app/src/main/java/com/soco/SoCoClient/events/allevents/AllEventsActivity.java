@@ -57,6 +57,7 @@ public class AllEventsActivity extends ActionBarActivity {
        // generateDummyEvents();
         socoApp = (SocoApp) getApplicationContext();
         events = socoApp.suggestedEvents;
+        Log.v(tag, events.size() + " events loaded");
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -146,7 +147,7 @@ public class AllEventsActivity extends ActionBarActivity {
     public void eventdetails(View view){
         Log.v(tag, "check event details");
         Intent i = new Intent(this, EventDetailsActivity.class);
-        double id = (double) view.getTag();
+        Long id = (Long) view.getTag();
         i.putExtra(EventDetailsActivity.EVENT_ID,id);
         startActivity(i);
     }
