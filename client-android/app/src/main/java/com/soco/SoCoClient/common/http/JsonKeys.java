@@ -61,6 +61,7 @@ public class JsonKeys {
 
     public static final String USER_NAME = "user_name";
     public static final String USER_ICON_URL = "user_icon_url";
+    public static final String INTEREST = "interest";
     public static final String INTERESTS = "interests";
     public static final String NUMBER_OF_COMMON_EVENT = "number_of_common_events";
     public static final String FIRST_COMMON_EVENT_NAME = "first_common_event_name";

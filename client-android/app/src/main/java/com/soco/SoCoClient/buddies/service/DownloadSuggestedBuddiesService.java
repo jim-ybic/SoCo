@@ -173,7 +173,7 @@ public class DownloadSuggestedBuddiesService extends IntentService {
             Log.v(tag, allInterests.length() + " interests found: " + allInterests);
             for (int j = 0; j < allInterests.length(); j++) {
                 JSONObject cat = allInterests.getJSONObject(j);
-                String interest = cat.getString(JsonKeys.INTERESTS);
+                String interest = cat.getString(JsonKeys.INTEREST);
                 u.addInterest(interest);
             }
         }
