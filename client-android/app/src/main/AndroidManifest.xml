@@ -288,7 +288,7 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".groups.GroupDetailsActivityV1"
+            android:name="._ref.GroupDetailsActivityV1"
             android:label="@string/title_activity_activity_group_details">
         </activity>
         <activity
@@ -339,10 +339,10 @@
         <activity
             android:name=".groups.GroupMembersActivity"
             android:label="@string/title_activity_group_members"
-            android:parentActivityName=".groups.GroupDetailsActivityV1" >
+            android:parentActivityName="._ref.GroupDetailsActivityV1" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".groups.GroupDetailsActivityV1" />
+                android:value="._ref.GroupDetailsActivityV1" />
         </activity>
         <activity
             android:name=".userprofile.MyProfileActivity"

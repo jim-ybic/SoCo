@@ -43,7 +43,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
     static String tag = "SuggestedEventsFragment";
 
     static final int WAIT_INTERVAL_IN_SECOND = 1;
-    static final int WAIT_ITERATION = 5;
+    static final int WAIT_ITERATION = 10;
     static final int THOUSAND = 1000;
 
 

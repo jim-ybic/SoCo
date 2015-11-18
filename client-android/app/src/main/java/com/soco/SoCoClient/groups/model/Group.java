@@ -8,6 +8,7 @@ public class Group {
 
     String group_id, group_name, group_icon_url;
     ArrayList<User> members;
+    String description;
 
     public String getGroup_id() {
         return group_id;
@@ -45,6 +46,14 @@ public class Group {
         this.members.add(user);
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Group{" +
@@ -52,6 +61,7 @@ public class Group {
                 ", group_name='" + group_name + '\'' +
                 ", group_icon_url='" + group_icon_url + '\'' +
                 ", members=" + members +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

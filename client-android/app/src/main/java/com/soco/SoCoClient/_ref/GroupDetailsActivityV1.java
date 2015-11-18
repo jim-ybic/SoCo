@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.groups;
+package com.soco.SoCoClient._ref;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
+import com.soco.SoCoClient.groups.GroupMembersActivity;
 
 @Deprecated
 public class GroupDetailsActivityV1 extends ActionBarActivity {

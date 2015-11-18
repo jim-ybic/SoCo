@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:textSize="40sp"
             android:hint="Group Name"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:text="test group name" />
 
     </LinearLayout>
 
@@ -53,7 +54,8 @@
                     android:id="@+id/desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Say something about this group"/>
+                    android:hint="Say something about this group"
+                    android:text="this is the group introduction" />
             </LinearLayout>
 
 
@@ -73,7 +75,7 @@
             android:layout_height="wrap_content"
             android:textSize="10dp"
             android:text="Done"
-            android:onClick="done"/>
+            android:onClick="creategroup"/>
     </LinearLayout>
 
 </LinearLayout>

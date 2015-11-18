@@ -400,4 +400,7 @@ public class SocoApp extends Application {
     public boolean eventGroupsBuddiesResponse;
     public boolean eventGroupsBuddiesResult;
 
+    //create group
+    public boolean createGroupResult;
+    public String newGroupId;
 }

@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.groups.GroupDetailsActivityV1;
+import com.soco.SoCoClient._ref.GroupDetailsActivityV1;
 
 @Deprecated
 public class EventOrganizersActivity extends ActionBarActivity {
