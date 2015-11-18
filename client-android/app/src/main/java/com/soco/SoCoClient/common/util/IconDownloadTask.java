@@ -5,46 +5,56 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageButton;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
  * Created by David_WANG on 11/15/2015.
  */
-public class IconDownloadTask extends AsyncTask<String, Void, Void> {
+public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private static final String tag = "IconDownloadTask";
-    private ArrayList<ImageButton> ibs;
-    private ArrayList<String> urlList;
+
+    private final WeakReference<ImageButton> imageButtonReference;
+    public String url;
     private int size;
     public IconDownloadTask(ImageButton button,int size){
-        this.ibs = new ArrayList<>();
-        this.ibs.add(button);
-        this.size=size;
-    }
-    public IconDownloadTask(ArrayList<ImageButton> buttons,int size){
-        this.ibs = buttons;
+        imageButtonReference = new WeakReference<>(button);
         this.size=size;
     }
 
-    protected Void doInBackground(String... urls) {
-        urlList= new ArrayList<>();
+    protected Bitmap doInBackground(String... urls) {
+//        urlList= new ArrayList<>();
+        Bitmap bp = null;
         for(String url:urls){
-            Log.v(tag, "Downloading image from server"+url);
-            urlList.add(url);
-            Bitmap bp = IconUrlUtil.getBitmapFromURL(url);
-            IconUrlUtil.addToImageCacheMap(url,bp);
-//            publishProgress();
+            this.url = url;
+            Log.v(tag, "Trying to find in cache for url: "+url);
+            bp = IconUrlUtil.getBitmapFromImageCache(url);
+            if(bp==null) {
+                Log.v(tag, "No result found in cache for url: "+url);
+                Log.v(tag, "Downloading image from server: "+url);
+                bp = IconUrlUtil.getBitmapFromURL(url);
+                if(bp!=null) {
+                    IconUrlUtil.addBitmapToImageCache(url, bp);
+                }
+            }
+            bp = IconUrlUtil.processBitmap(bp,this.size);
         }
-        return null;
+        return bp;
     }
 
     /** The system calls this to perform work in the UI thread and delivers
      * the result from doInBackground() */
-    protected void onPostExecute(Void v) {
-        for(int i=0;i<ibs.size()&&i<urlList.size();i++){
-            String url = urlList.get(i);
-            IconUrlUtil.assignBitmapToImageButton(IconUrlUtil.getBitmapFromImageCacheMap(url),ibs.get(i),size);
+    protected void onPostExecute(Bitmap bitmap) {
+        if (isCancelled()) {
+            bitmap = null;
         }
-        ibs = new ArrayList<>();
-        urlList = new ArrayList<>();
+        if (bitmap != null) {
+            final ImageButton imageButton = imageButtonReference.get();
+            final IconDownloadTask bitmapWorkerTask =
+                    IconUrlUtil.getBitmapWorkerTask(imageButton);
+            if (this == bitmapWorkerTask){
+                imageButton.setImageBitmap(bitmap);
+            }
+        }
     }
 }

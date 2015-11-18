@@ -22,6 +22,7 @@ public class Event {
     int number_of_comments;
     int number_of_views;
 
+    boolean isLikedEvent;
     String banner_url;
     String event_url;
     String status;
@@ -331,6 +332,14 @@ public class Event {
                 return true;
         }
         return false;
+    }
+
+    public boolean isLikedEvent() {
+        return isLikedEvent;
+    }
+
+    public void setIsLikedEvent(boolean isLikedEvent) {
+        this.isLikedEvent = isLikedEvent;
     }
 
     @Override

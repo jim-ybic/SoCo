@@ -16,6 +16,7 @@ public class LikeUtil {
             int originalNumber = event.getNumber_of_likes();
             event.setNumber_of_likes(originalNumber + 1);
             button.setText(Integer.toString(event.getNumber_of_likes()));
+            event.setIsLikedEvent(true);
             return;
         }else{
             //update status
@@ -24,6 +25,7 @@ public class LikeUtil {
             int originalNumber = event.getNumber_of_likes();
             event.setNumber_of_likes(originalNumber - 1);
             button.setText(Integer.toString(event.getNumber_of_likes()));
+            event.setIsLikedEvent(false);
             return;
         }
     }

@@ -132,7 +132,13 @@ public class LoginActivity //extends ActionBarActivity
         display.getSize(size);
 //        IconUrlUtil = size.x;
         display.getRealSize(size);
-        IconUrlUtil.setSize(Math.min(size.x, size.y));
+
+        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+
+        // Use 1/8th of the available memory for this memory cache.
+        final int cacheSize = maxMemory / 8;
+
+        IconUrlUtil.initialForIconDownloader(Math.min(size.x, size.y),cacheSize);
 
 
         Log.v(tag, "create controller");

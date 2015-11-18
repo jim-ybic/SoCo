@@ -57,6 +57,7 @@ public class JsonKeys {
     public static final String VENUE = "venue";
     public static final String NUMBER_OF_LIKES = "number_of_likes";
     public static final String NUMBER_OF_COMMENTS = "number_of_comments";
+    public static final String IS_LIKED_BY_USER = "is_liked_by_user";
 
     public static final String USER_NAME = "user_name";
     public static final String USER_ICON_URL = "user_icon_url";

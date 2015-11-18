@@ -222,6 +222,12 @@ public class DownloadSuggestedEventsService extends IntentService {
         e.setIntroduction(obj.getString(JsonKeys.DESCRIPTION));
         e.setNumber_of_comments(obj.getInt(JsonKeys.NUMBER_OF_COMMENTS));
         e.setNumber_of_likes(obj.getInt(JsonKeys.NUMBER_OF_LIKES));
+        try {
+            e.setIsLikedEvent(obj.getBoolean(JsonKeys.IS_LIKED_BY_USER));
+        }catch (JSONException exc){
+            //in case of exception, set false as the default value
+            e.setIsLikedEvent(false);
+        }
     }
 
     private void parseCategories(Event e, JSONObject obj) throws JSONException {

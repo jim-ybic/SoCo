@@ -9,76 +9,112 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.util.LruCache;
 import android.widget.ImageButton;
+
+import android.content.res.Resources;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 
 /**
  * Created by David_WANG on 11/15/2015.
  */
 public class IconUrlUtil {
     private static final String tag="IconUrlUtil";
-    private static HashMap<String, Bitmap> imageCacheMap;
-    private static int screenSize=0;
+    private static LruCache<String, Bitmap> iconImageCache;
+//    private static int screenSize=0;
     private static int sizeSmall=0;
     private static int sizeNormal=0;
     private static int sizeLarge=0;
-    private static int counter=0;
+//    private static int counter=0;
 
-    public static void setSize(int size){
-        screenSize=size;
+    public static void initialForIconDownloader(int screenSize,int cacheSize){
+//        screenSize=screenSize;
         sizeSmall = Math.round(screenSize * 0.11111f);
         sizeNormal = Math.round(screenSize * 0.185185f);
         sizeLarge = Math.round(screenSize * 0.27778f);
+        iconImageCache = new LruCache<String, Bitmap>(cacheSize) {
+            @Override
+            protected int sizeOf(String key, Bitmap bitmap) {
+                // The cache size will be measured in kilobytes rather than
+                // number of items.
+                return bitmap.getByteCount() / 1024;
+            }
+        };
     }
 
-    public static void setImageForButtonSmall(ImageButton mButton, String urlString){
-        updateImageButton(mButton,urlString,sizeSmall);
+    public static void setImageForButtonSmall(Resources res, ImageButton mButton, String urlString){
+        updateImageButton( res,mButton,urlString,sizeSmall);
     }
-    public static void setImageForButtonNormal(ImageButton mButton, String urlString){
-        updateImageButton(mButton, urlString,sizeNormal);
+    public static void setImageForButtonNormal(Resources res, ImageButton mButton, String urlString){
+        updateImageButton( res,mButton, urlString,sizeNormal);
     }
-    public static void setImageForButtonLarge(ImageButton mButton, String urlString){
-        updateImageButton(mButton, urlString, sizeLarge);
+    public static void setImageForButtonLarge(Resources res, ImageButton mButton, String urlString){
+        updateImageButton( res,mButton, urlString, sizeLarge);
     }
     //Please use above method to get 3 fixed size image
     //below method for limited usage.
-    private static void updateImageButton(ImageButton mButton, String urlString,int size){
-        if(imageCacheMap!=null&&imageCacheMap.containsKey(urlString)){
-            assignBitmapToImageButton(imageCacheMap.get(urlString),mButton,size);
-        }else{
-            IconDownloadTask idt = new IconDownloadTask(mButton,size);
-            idt.execute(urlString);
+    private static void updateImageButton(Resources res, ImageButton mButton, String urlString,int size){
+        if (cancelPotentialWork(urlString, mButton)) {
+            final IconDownloadTask task = new IconDownloadTask(mButton,size);
+            final IconAsyncDrawable asyncDrawable =
+                    new IconAsyncDrawable(res, Bitmap.createBitmap(size,size, Bitmap.Config.ARGB_8888), task);
+            mButton.setImageDrawable(asyncDrawable);
+            task.execute(urlString);
         }
     }
+    public static boolean cancelPotentialWork(String url, ImageButton mButton) {
+        final IconDownloadTask iconDownloadTask = getBitmapWorkerTask(mButton);
 
-    public static void addToImageCacheMap(String url,Bitmap image){
-        if(imageCacheMap==null){
-            imageCacheMap=new HashMap<>();
+        if (iconDownloadTask != null) {
+            final String bitmapUrl = iconDownloadTask.url;
+            // If bitmapData is not yet set or it differs from the new data
+            if (StringUtil.isEmptyString(bitmapUrl) || !bitmapUrl.equalsIgnoreCase(url)) {
+                // Cancel previous task
+                iconDownloadTask.cancel(true);
+            } else {
+                // The same work is already in progress
+                return false;
+            }
         }
-        imageCacheMap.put(url,image);
+        // No task associated with the ImageView, or an existing task was cancelled
+        return true;
     }
-    public static Bitmap getBitmapFromImageCacheMap(String url){
-        if(imageCacheMap.containsKey(url)){
-            return imageCacheMap.get(url);
+    public static IconDownloadTask getBitmapWorkerTask(ImageButton button) {
+        if (button != null) {
+            final Drawable drawable = button.getDrawable();
+            if (drawable instanceof IconAsyncDrawable) {
+                final IconAsyncDrawable asyncDrawable = (IconAsyncDrawable) drawable;
+                return asyncDrawable.getBitmapWorkerTask();
+            }
         }
         return null;
     }
-    public static void assignBitmapToImageButton(Bitmap bp, ImageButton button,int size){
+    public static void addBitmapToImageCache(String url, Bitmap bitmap) {
+        if (getBitmapFromImageCache(url) == null) {
+            iconImageCache.put(url, bitmap);
+        }
+    }
+    public static Bitmap getBitmapFromImageCache(String url) {
+        return iconImageCache.get(url);
+    }
+    public static Bitmap processBitmap(Bitmap bp, int size){
         if(bp==null){
-            Log.v(tag, "Not able to download image from server");
-            return;
+            Log.e(tag, "Not able to process bitmap as the input is empty");
+        }else {
+            if (size != 0) {
+                bp = getResizedBitmap(bp, size, size);
+                Log.d(tag, "Finished re-size bitmap");
+                bp = getRoundedCornerBitmap(bp, size * size);
+                Log.d(tag, "Finished round corner bitmap");
+            }
         }
-        if(size!=0) {
-            bp = getResizedBitmap(bp, size, size);
-            bp = getRoundedCornerBitmap(bp, size * size);
-        }
-        button.setImageBitmap(bp);
+        return bp;
     }
     public static Bitmap getBitmapFromURL(String urlString) {
         try {
@@ -87,8 +123,6 @@ public class IconUrlUtil {
                     .openConnection();
             connection.setDoInput(true);
             connection.connect();
-            counter++;
-            Log.v(tag, counter +"Image downloaded from server");
             InputStream input = connection.getInputStream();
             return BitmapFactory.decodeStream(input);
         } catch (IOException e) {
