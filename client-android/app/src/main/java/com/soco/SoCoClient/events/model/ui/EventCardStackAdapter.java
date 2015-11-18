@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
@@ -55,12 +57,12 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 			assert convertView != null;
 		}
 		mConvertView = convertView;
-
+		Event e = model.getEvent();
 //		((ImageView) convertView.findViewById(R.id.banner)).setImageDrawable(model.getCardImageDrawable());
-		((TextView) convertView.findViewById(R.id.title)).setText(model.getTitle());
+		((TextView) convertView.findViewById(R.id.title)).setText(e.getTitle());
 
-		if(!StringUtil.isEmptyString(model.getAddress())){
-			((TextView) convertView.findViewById(R.id.address)).setText(model.getAddress());
+		if(!StringUtil.isEmptyString(e.getAddress())){
+			((TextView) convertView.findViewById(R.id.address)).setText(e.getAddress());
 		}
 //		if(!StringUtil.isEmptyString(model.getDescription())) {
 //			((TextView) convertView.findViewById(R.id.description)).setText(model.getDescription());
@@ -68,27 +70,21 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 //		if(!StringUtil.isEmptyString(model.getDescription())) {
 //			((TextView) convertView.findViewById(R.id.description)).setText(model.getDescription());
 //		}
-
-		//todo
-		//set other card content
-
 		//date time
-		if(!StringUtil.isEmptyString(model.getStart_date())) {
-			((TextView) convertView.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(model.getStart_date(), "dd-MMM"));
-			((TextView) convertView.findViewById(R.id.textStartDayOfWeek)).setText(TimeUtil.getDayOfStartDate(model.getStart_date()));
+		if(!StringUtil.isEmptyString(e.getStart_date())) {
+			((TextView) convertView.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(e.getStart_date(), "dd-MMM"));
+			((TextView) convertView.findViewById(R.id.textStartDayOfWeek)).setText(TimeUtil.getDayOfStartDate(e.getStart_date()));
 		}
-		if(!StringUtil.isEmptyString(model.getStart_time())||StringUtil.isEmptyString(model.getEnd_time())) {
-			((TextView) convertView.findViewById(R.id.textStartEndTime)).setText(getTextTime(model));
+		if(!StringUtil.isEmptyString(e.getStart_time())||StringUtil.isEmptyString(e.getEnd_time())) {
+			((TextView) convertView.findViewById(R.id.textStartEndTime)).setText(TimeUtil.getTextStartEndTime(e));
 		}
 
 		Log.v(tag, "comment out below line as event comment function not available yet");
 //		((TextView) convertView.findViewById(R.id.textNoOfComments)).setText(Integer.toString(model.getNumber_of_comments()));
 
-		((TextView) convertView.findViewById(R.id.likeevent)).setText(Integer.toString(model.getNumber_of_likes()));
-		//todo
-		//to make this driven by the json response(like status)
+		((TextView) convertView.findViewById(R.id.likeevent)).setText(Integer.toString(e.getNumber_of_likes()));
 		//for now, make it as not yet liked
-		LikeUtil.initialLikeButton(((Button) convertView.findViewById(R.id.likeevent)),false);
+		LikeUtil.initialLikeButton(((Button) convertView.findViewById(R.id.likeevent)),e.isLikedEvent());
 
 //		Log.v(tag, "set color");	//comment out, not beautiful
 //		setTitleareaRandomColor(convertView);

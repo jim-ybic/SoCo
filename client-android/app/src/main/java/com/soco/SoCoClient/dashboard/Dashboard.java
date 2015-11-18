@@ -485,7 +485,7 @@ public class Dashboard extends ActionBarActivity implements
 
         //update the event item in the SocoApp
         SocoApp socoApp = (SocoApp) getApplicationContext();
-        Event event = socoApp.getCurrentSuggestedEvent();
+        final Event event = socoApp.getCurrentSuggestedEvent();
         final long event_id = event.getId();
         Button button = (Button) view.findViewById(R.id.likeevent);
         boolean isLiked = button.isActivated();
@@ -497,7 +497,9 @@ public class Dashboard extends ActionBarActivity implements
             new Thread(new Runnable(){
                 public void run(){
                     revertLikeEventRequestInBackground(event_id);
-                    revertLikeEventHandler.sendEmptyMessage(0);
+                    Message msg = new Message();
+                    msg.obj = event;
+                    revertLikeEventHandler.sendMessage(msg);
                 }
             }).start();
         }else {
@@ -510,7 +512,9 @@ public class Dashboard extends ActionBarActivity implements
             new Thread(new Runnable(){
                 public void run(){
                     likeEventRequestInBackground(event_id);
-                    likeEventHandler.sendEmptyMessage(0);
+                    Message msg = new Message();
+                    msg.obj = event;
+                    likeEventHandler.sendMessage(msg);
                 }
             }).start();
         }
@@ -548,6 +552,7 @@ public class Dashboard extends ActionBarActivity implements
 
             if(socoApp.likeEventResult){
                 Log.d(tag, "Like event success");
+                ((Event) msg.obj).setIsLikedEvent(true);
 //                Toast.makeText(getApplicationContext(), "Like event suceess.", Toast.LENGTH_SHORT).show();
 //                finish();
             }
@@ -595,6 +600,7 @@ public class Dashboard extends ActionBarActivity implements
 
             if(socoApp.revertLikeEventResult){
                 Log.d(tag, "revert like event success");
+                ((Event) msg.obj).setIsLikedEvent(false);
 //                Toast.makeText(getApplicationContext(), "revert Like event suceess.", Toast.LENGTH_SHORT).show();
 //                finish();
             }

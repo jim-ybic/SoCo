@@ -83,7 +83,7 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 	}
 	private void showIconUrl(User u){
 		ImageButton ib = (ImageButton) mConvertView.findViewById(R.id.iconUser);
-		IconUrlUtil.setImageForButtonNormal(ib, u.getUser_icon_url());
+		IconUrlUtil.setImageForButtonNormal(mContext.getResources(),ib, u.getUser_icon_url());
 		if(u.getCommon_buddies()!=null&&u.getCommon_buddies().size()>0){
 			Log.v(tag, "loading photo for common users : " + u.getCommon_buddies());
 			LinearLayout commonBuddiesList = (LinearLayout) mConvertView.findViewById(R.id.layoutCommonBuddies);
@@ -104,7 +104,7 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 //				params.setMargins(0, 5, 10, 5);
 				b.setLayoutParams(params);
 //				b.setScaleType(ImageView.ScaleType.FIT_XY);
-				IconUrlUtil.setImageForButtonSmall(b,ub.getUser_icon_url());
+				IconUrlUtil.setImageForButtonSmall(mContext.getResources(),b,ub.getUser_icon_url());
 				commonBuddiesList.addView(b);
 			}
 		}

@@ -304,7 +304,7 @@ public class UrlUtil {
     }
     public static String getUserIconUrlPrefix(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_ICON;
-        Log.v(tag, "user icon url: " + url);
+//        Log.v(tag, "user icon url: " + url);
         return url;
     }
 }
