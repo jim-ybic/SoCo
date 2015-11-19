@@ -1,20 +1,29 @@
 package com.soco.SoCoClient.events.allevents;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.userprofile.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -23,6 +32,7 @@ public class SimpleEventCardAdapter
 {
     static final String tag = "SimpleEventCardAdapter";
 
+    static final int MAX_NUMBER_BUDDIES_SHOW_ON_CARD = 3;
     private List<Event> events;
     private Context mContext;
 
@@ -76,11 +86,76 @@ public class SimpleEventCardAdapter
 //        viewHolder.mTextView.setText(e.name);
 //        viewHolder.mImageView.setImageDrawable(mContext.getDrawable(e.getImageResourceId(mContext)));
 
-        //todo: set event categories
-        //todo: set event organizers (creator, groups)
+        if(event.getCategories()!=null && event.getCategories().size()>0) {
+            LinearLayout categoryList = (LinearLayout) simpleEventCardViewHolder.itemView.findViewById(R.id.categories);
+            categoryList.removeAllViews();
+            showCategories(categoryList, event.getCategories());
+        }
+
+        //set icon for creator
+        ImageButton ib = (ImageButton) simpleEventCardViewHolder.itemView.findViewById(R.id.creator);
+        IconUrlUtil.setImageForButtonSmall(mContext.getResources(),ib, UrlUtil.getUserIconUrl(event.getCreator_id()));
+
+
+        //set icon for Joiner. 3 maximum
+        LinearLayout list = (LinearLayout) simpleEventCardViewHolder.itemView.findViewById(R.id.eventbuddies);
+        list.removeAllViews();
+        int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
+        TypedArray ta = mContext.obtainStyledAttributes(attrs);
+        int backgroundResource = ta.getResourceId(0, 0);
+        ta.recycle();
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//		params.weight = 1.0f;
+        params.gravity = Gravity.LEFT;
+        int countBuddy = 1;
+        ArrayList<User> total = (ArrayList<User>)event.getJoinedFriends().clone();
+        if(total.size()<MAX_NUMBER_BUDDIES_SHOW_ON_CARD){
+            for(User u:event.getJoinedGroupMemebers()){
+                total.add(u);
+                if(total.size()==MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+                    break;
+            }
+            if(total.size()<3){
+                for(User u:event.getJoinedBuddies()){
+                    total.add(u);
+                    if(total.size()==MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+                        break;
+                }
+            }
+        }
+        for(User u : total){
+            addImageButtonToView(params,backgroundResource,u,list);
+            Log.v(tag, "added joined friend into view: " + u.toString());
+            if(++countBuddy>MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+                break;
+        }
+    }
+    private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
+        ImageButton user = new ImageButton(mContext);
+        user.setLayoutParams(params);
+        user.setBackgroundResource(backgroundResource);
+        user.setPadding(10, 0, 10, 0);
+        IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
+        list.addView(user);
+    }
+    void showCategories(LinearLayout categoryList, ArrayList<String> categories){
+        Log.v(tag, "show event categories: " + categories);
+        for(int i=0; i<categories.size()&&i<2; i++){
+            String cat = categories.get(i);
+            TextView view = new TextView(mContext);
+            view.setText(cat);
+            view.setBackgroundResource(R.drawable.eventcategory_box);
+            view.setPadding(10, 5, 10, 5);
+            view.setTextColor(Color.BLACK);
+
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//            params.setMargins(0, 5, 10, 5);
+//            view.setLayoutParams(params);
+
+            categoryList.addView(view);
+        }
 
     }
-
     void setTitleareaRandomColor(View view) {
         Log.v(tag, "set title area random color: begin");
         View titleareaView = view.findViewById(R.id.titlearea);

@@ -389,9 +389,7 @@ public class DownloadSuggestedEventsService extends IntentService {
             else{
                 String joinedStr = buddiesObj.getString(JsonKeys.BUDDIES_JOINED);
                 JSONObject joinedObj = new JSONObject(joinedStr);
-                if(!joinedObj.has(JsonKeys.FRIENDS))
-                    Log.w(tag, "no joined friends found in json");
-                else{
+                if(joinedObj.has(JsonKeys.FRIENDS)){
                     String joinedFriends = joinedObj.getString(JsonKeys.FRIENDS);
                     JSONArray friends = new JSONArray(joinedFriends);
                     Log.v(tag, "all joined friends: " + friends);
@@ -411,9 +409,7 @@ public class DownloadSuggestedEventsService extends IntentService {
                         event.addJoinedFriends(user);
                     }
                 }
-                if(!joinedObj.has(JsonKeys.GROUP_MEMBERS))
-                    Log.w(tag, "no joined group members found in json");
-                else{
+                if(joinedObj.has(JsonKeys.GROUP_MEMBERS)){
                     String joinedGroupMembersStr = joinedObj.getString(JsonKeys.GROUP_MEMBERS);
                     JSONArray groupMembers = new JSONArray(joinedGroupMembersStr);
                     Log.v(tag, "all joined group members: " + groupMembers);
@@ -433,6 +429,26 @@ public class DownloadSuggestedEventsService extends IntentService {
                         event.addJoinedGroupMembers(user);
                     }
                 }
+                if(joinedObj.has(JsonKeys.BUDDIES)){
+                    String joinedBuddiesStr = joinedObj.getString(JsonKeys.BUDDIES);
+                    JSONArray joinedBuddies = new JSONArray(joinedBuddiesStr);
+                    Log.v(tag, "all joined buddies: " + joinedBuddies);
+                    for(int i=0; i<joinedBuddies.length(); i++){
+                        JSONObject buddy = joinedBuddies.getJSONObject(i);
+                        String buddyId = buddy.getString(JsonKeys.USER_ID);
+                        String buddyName = buddy.getString(JsonKeys.USER_NAME);
+                        String buddyIconUrl = buddy.getString(JsonKeys.USER_ICON_URL);
+                        Log.v(tag, "buddy info: " + buddyId + ", " + buddyName + ", " + buddyIconUrl);
+
+                        User user = new User();
+                        user.setUser_id(buddyId);
+                        user.setUser_name(buddyName);
+                        user.setUser_icon_url(buddyIconUrl);
+
+                        Log.v(tag, "add event joined group member: " + user.toString());
+                        event.addJoinedBuddies(user);
+                    }
+                }
             }
 
             if(!buddiesObj.has(JsonKeys.BUDDIES_LIKED))
@@ -440,9 +456,7 @@ public class DownloadSuggestedEventsService extends IntentService {
             else{
                 String likedStr = buddiesObj.getString(JsonKeys.BUDDIES_LIKED);
                 JSONObject likedObj = new JSONObject(likedStr);
-                if(!likedObj.has(JsonKeys.FRIENDS))
-                    Log.w(tag, "no liked friends found in json");
-                else{
+                if(likedObj.has(JsonKeys.FRIENDS)){
                     String likedFriends = likedObj.getString(JsonKeys.FRIENDS);
                     JSONArray friends = new JSONArray(likedFriends);
                     Log.v(tag, "all liked friends: " + friends);
@@ -462,9 +476,7 @@ public class DownloadSuggestedEventsService extends IntentService {
                         event.addLikedFriends(user);
                     }
                 }
-                if(!likedObj.has(JsonKeys.GROUP_MEMBERS))
-                    Log.w(tag, "no liked group members found in json");
-                else{
+                if(likedObj.has(JsonKeys.GROUP_MEMBERS)){
                     String likedGroupMembersStr = likedObj.getString(JsonKeys.GROUP_MEMBERS);
                     JSONArray groupMembers = new JSONArray(likedGroupMembersStr);
                     Log.v(tag, "all liked group members: " + groupMembers);
@@ -482,6 +494,26 @@ public class DownloadSuggestedEventsService extends IntentService {
 
                         Log.v(tag, "add event liked group member: " + user.toString());
                         event.addLikedGroupMembers(user);
+                    }
+                }
+                if(likedObj.has(JsonKeys.BUDDIES)){
+                    String likedBuddiesStr = likedObj.getString(JsonKeys.BUDDIES);
+                    JSONArray likedBuddies = new JSONArray(likedBuddiesStr);
+                    Log.v(tag, "all joined buddies: " + likedBuddies);
+                    for(int i=0; i<likedBuddies.length(); i++){
+                        JSONObject buddy = likedBuddies.getJSONObject(i);
+                        String buddyId = buddy.getString(JsonKeys.USER_ID);
+                        String buddyName = buddy.getString(JsonKeys.USER_NAME);
+                        String buddyIconUrl = buddy.getString(JsonKeys.USER_ICON_URL);
+                        Log.v(tag, "buddy info: " + buddyId + ", " + buddyName + ", " + buddyIconUrl);
+
+                        User user = new User();
+                        user.setUser_id(buddyId);
+                        user.setUser_name(buddyName);
+                        user.setUser_icon_url(buddyIconUrl);
+
+                        Log.v(tag, "add event joined group member: " + user.toString());
+                        event.addLikedBuddies(user);
                     }
                 }
             }

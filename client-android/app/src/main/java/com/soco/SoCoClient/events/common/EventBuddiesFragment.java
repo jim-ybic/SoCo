@@ -3,6 +3,7 @@ package com.soco.SoCoClient.events.common;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,11 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.events.model.ui.EventCardContainer;
 import com.soco.SoCoClient.events.ui.Item;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
@@ -124,47 +131,80 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 //            items.add(item);
 //        }
 
+        int[] attrs = new int[]{R.attr.selectableItemBackground};
+        TypedArray typedArray = context.obtainStyledAttributes(attrs);
+        int backgroundResource = typedArray.getResourceId(0, 0);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         Log.v(tag, "add joined friends");
         for(User user : event.getJoinedFriends()){
-            HashMap<String, Object> item = new HashMap<>();
-            //todo: load user's image from url
-            item.put(ItemImage, R.drawable.user1);  //use user1's image for now
-            item.put(ItemText, user.getUser_name());
+//            HashMap<String, Object> item = new HashMap<>();
+//            //todo: load user's image from url
+//            item.put(ItemImage, R.drawable.user1);  //use user1's image for now
+//            item.put(ItemText, user.getUser_name());
+            HashMap<String, Object> item = getItemForShow(params,backgroundResource,user);
             joinedBuddies.add(item);
             Log.v(tag, "added buddy: " + user.getUser_name());
         }
 
         Log.v(tag, "add joined group members");
         for(User user : event.getJoinedGroupMemebers()){
-            HashMap<String, Object> item = new HashMap<>();
-            //todo: load user's image from url
-            item.put(ItemImage, R.drawable.user1);  //use user1's image for now
-            item.put(ItemText, user.getUser_name());
+//            HashMap<String, Object> item = new HashMap<>();
+//            //todo: load user's image from url
+//            item.put(ItemImage, R.drawable.user1);  //use user1's image for now
+//            item.put(ItemText, user.getUser_name());
+
+            HashMap<String, Object> item = getItemForShow(params,backgroundResource,user);
+            joinedBuddies.add(item);
+            Log.v(tag, "added buddy: " + user.getUser_name());
+        }
+        for(User user : event.getJoinedBuddies()){
+            HashMap<String, Object> item = getItemForShow(params,backgroundResource,user);
             joinedBuddies.add(item);
             Log.v(tag, "added buddy: " + user.getUser_name());
         }
 
+
         Log.v(tag, "add liked friends");
         for(User user : event.getLikedFriends()){
-            HashMap<String, Object> item = new HashMap<>();
-            //todo: load user's image from url
-            item.put(ItemImage, R.drawable.user1);  //use user1's image for now
-            item.put(ItemText, user.getUser_name());
+//            HashMap<String, Object> item = new HashMap<>();
+//            //todo: load user's image from url
+//            item.put(ItemImage, R.drawable.user1);  //use user1's image for now
+//            item.put(ItemText, user.getUser_name());
+            HashMap<String, Object> item = getItemForShow(params,backgroundResource,user);
             likedBuddies.add(item);
             Log.v(tag, "added buddy: " + user.getUser_name());
         }
 
         Log.v(tag, "add liked group members");
         for(User user : event.getLikedGroupMembers()){
-            HashMap<String, Object> item = new HashMap<>();
-            //todo: load user's image from url
-            item.put(ItemImage, R.drawable.user1);  //use user1's image for now
-            item.put(ItemText, user.getUser_name());
+//            HashMap<String, Object> item = new HashMap<>();
+//            //todo: load user's image from url
+//            item.put(ItemImage, R.drawable.user1);  //use user1's image for now
+//            item.put(ItemText, user.getUser_name());
+            HashMap<String, Object> item = getItemForShow(params,backgroundResource,user);
             likedBuddies.add(item);
             Log.v(tag, "added buddy: " + user.getUser_name());
         }
-    }
 
+        for(User user : event.getLikedBuddies()){
+            HashMap<String, Object> item = getItemForShow(params,backgroundResource,user);
+            likedBuddies.add(item);
+            Log.v(tag, "added buddy: " + user.getUser_name());
+        }
+
+    }
+    private HashMap<String,Object> getItemForShow(LinearLayout.LayoutParams params, int backgroundResource,User user){
+        HashMap<String, Object> item = new HashMap<>();
+        ImageView image = new ImageView(context);
+        image.setLayoutParams(params);
+        image.setBackgroundResource(backgroundResource);
+        image.setPadding(10, 0, 10, 0);
+        IconUrlUtil.setImageForButtonLarge(context.getResources(), image, UrlUtil.getUserIconUrl(user.getUser_id()));
+        item.put(ItemImage, image);  //use user1's image for now
+        item.put(ItemText, user.getUser_name());
+        return item;
+    }
 
 //    public void addDummyBuddyParticipants(){
 //        Log.v(tag, "dynamically add a few ui elements for testing");

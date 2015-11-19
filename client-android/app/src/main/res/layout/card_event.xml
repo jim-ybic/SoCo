@@ -471,11 +471,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:onClick="eventbuddies"
-        android:paddingLeft="10dp"
+        android:gravity="left"
         android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp">
+        android:paddingLeft="20dp"
+        android:paddingBottom="10dp"
+        android:onClick="eventbuddies">
 
         <!--<ImageButton-->
             <!--android:layout_width="wrap_content"-->

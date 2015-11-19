@@ -15,6 +15,7 @@ import android.util.LruCache;
 import android.widget.ImageButton;
 
 import android.content.res.Resources;
+import android.widget.ImageView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,12 +55,22 @@ public class IconUrlUtil {
     public static void setImageForButtonNormal(Resources res, ImageButton mButton, String urlString){
         updateImageButton( res,mButton, urlString,sizeNormal);
     }
-    public static void setImageForButtonLarge(Resources res, ImageButton mButton, String urlString){
+    public static void setImageForButtonLarge(Resources res, ImageView mButton, String urlString){
         updateImageButton( res,mButton, urlString, sizeLarge);
     }
+
+//    public static void setImageForViewSmall(Resources res, ImageView view, String urlString){
+//        updateImageButton( res,view,urlString,sizeSmall);
+//    }
+//    public static void setImageForViewNormal(Resources res, ImageView view, String urlString){
+//        updateImageButton( res,view, urlString,sizeNormal);
+//    }
+//    public static void setImageForViewLarge(Resources res, ImageView view, String urlString){
+//        updateImageButton( res,view, urlString, sizeLarge);
+//    }
     //Please use above method to get 3 fixed size image
     //below method for limited usage.
-    private static void updateImageButton(Resources res, ImageButton mButton, String urlString,int size){
+    private static void updateImageButton(Resources res, ImageView mButton, String urlString,int size){
         if (cancelPotentialWork(urlString, mButton)) {
             final IconDownloadTask task = new IconDownloadTask(mButton,size);
             final IconAsyncDrawable asyncDrawable =
@@ -68,7 +79,7 @@ public class IconUrlUtil {
             task.execute(urlString);
         }
     }
-    public static boolean cancelPotentialWork(String url, ImageButton mButton) {
+    public static boolean cancelPotentialWork(String url, ImageView mButton) {
         final IconDownloadTask iconDownloadTask = getBitmapWorkerTask(mButton);
 
         if (iconDownloadTask != null) {
@@ -85,7 +96,7 @@ public class IconUrlUtil {
         // No task associated with the ImageView, or an existing task was cancelled
         return true;
     }
-    public static IconDownloadTask getBitmapWorkerTask(ImageButton button) {
+    public static IconDownloadTask getBitmapWorkerTask(ImageView button) {
         if (button != null) {
             final Drawable drawable = button.getDrawable();
             if (drawable instanceof IconAsyncDrawable) {

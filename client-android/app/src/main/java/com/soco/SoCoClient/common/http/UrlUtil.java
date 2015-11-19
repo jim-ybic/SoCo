@@ -7,6 +7,7 @@ import android.util.Log;
 import com.soco.SoCoClient._ref.GeneralConfigV1;
 import com.soco.SoCoClient._ref.HttpConfigV1;
 import com.soco.SoCoClient.common.model.Profile;
+import com.soco.SoCoClient.common.util.SocoApp;
 
 public class UrlUtil {
     static String tag = "UrlUtil";
@@ -238,7 +239,7 @@ public class UrlUtil {
     static final String JOIN_EVENT_PATH = "/v1/join_event";
     static final String EVENT_GROUPS_BUDDIES_PATH = "/v1/event_groups_buddies";
     static final String SUGGESTED_BUDDIES_PATH = "/v1/suggested_buddies";
-    static final String USER_ICON="/v1/user_icon?user_id=";
+    static final String USER_ICON="/v1/user_icon?";
     static final String CREATE_GROUP_PATH = "/v1/group";
 
 
@@ -312,6 +313,17 @@ public class UrlUtil {
         return url;
     }
 
+    public static String getUserIconUrl(String user_id) {
+//        return "https://graph.facebook.com/10153298013434285/picture?type=normal";
+        StringBuffer sb = new StringBuffer();
+        sb.append(getUserIconUrlPrefix());
+        sb.append(SocoApp.getCurrentUserTokenForUrl());
+        if(SocoApp.user_id!=null&&!SocoApp.user_id.equalsIgnoreCase(user_id)){
+            sb.append("&buddy_user_id=");
+            sb.append(user_id);
+        }
+        return sb.toString();
+    }
     public static String getCreateGroupUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + CREATE_GROUP_PATH;
         Log.v(tag, "create group url: " + url);

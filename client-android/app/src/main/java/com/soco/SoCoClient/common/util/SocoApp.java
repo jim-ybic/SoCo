@@ -348,8 +348,8 @@ public class SocoApp extends Application {
     public boolean loginViaFacebookResponse;
     public boolean loginViaFacebookResult;
 
-    public String user_id;
-    public String token;
+    public static String user_id;
+    public static String token;
 //    public AccessToken facebookAccessToken;
 
     //create event
@@ -403,4 +403,13 @@ public class SocoApp extends Application {
     //create group
     public boolean createGroupResult;
     public String newGroupId;
+
+    public static String getCurrentUserTokenForUrl(){
+        StringBuffer sb = new StringBuffer();
+        sb.append("user_id=");
+        sb.append(user_id);
+        sb.append("&token=");
+        sb.append(token);
+        return sb.toString();
+    }
 }

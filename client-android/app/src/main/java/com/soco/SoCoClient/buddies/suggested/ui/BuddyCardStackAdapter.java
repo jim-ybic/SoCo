@@ -92,6 +92,7 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 			TypedArray typedArray = mContext.obtainStyledAttributes(attrs);
 			int backgroundResource = typedArray.getResourceId(0, 0);
 
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //			view.setBackgroundResource(backgroundResource);
 			typedArray.recycle();
 			for(int i=0; i<u.getCommon_buddies().size()&&i<6; i++) {
@@ -100,7 +101,6 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 				b.setPadding(10, 0, 10, 0);
 				b.setClickable(false);
 				b.setBackgroundResource(backgroundResource);
-				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //				params.setMargins(0, 5, 10, 5);
 				b.setLayoutParams(params);
 //				b.setScaleType(ImageView.ScaleType.FIT_XY);

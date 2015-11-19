@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.userprofile.model;
 
 import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.SocoApp;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,11 @@ public class UserBrief {
 //        return "https://graph.facebook.com/10153298013434285/picture?type=normal";
         StringBuffer sb = new StringBuffer();
         sb.append(UrlUtil.getUserIconUrlPrefix());
-        sb.append(this.user_id);
+        sb.append(SocoApp.getCurrentUserTokenForUrl());
+        if(SocoApp.user_id!=null&&!SocoApp.user_id.equalsIgnoreCase(this.user_id)){
+            sb.append("&buddy_user_id=");
+            sb.append(this.user_id);
+        }
         return sb.toString();
     }
 

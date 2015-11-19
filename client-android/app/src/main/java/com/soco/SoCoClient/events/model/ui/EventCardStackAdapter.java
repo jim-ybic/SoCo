@@ -94,83 +94,76 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 			showCategories(model.getCategories());
 
 //		Log.v(tag, "show event organizers");
-		showOrganizers(model);
-		showBuddies(model);
+		showOrganizers(e);
+		showBuddies(e);
 
 		return convertView;
 	}
 
-	void showOrganizers(EventCardModel model){
-		Event e = model.getEvent();
+	void showOrganizers(Event e){
+//		Event e = model.getEvent();
 		Log.v(tag, "check event creator: " + e.toString());
 
 		ImageButton viewOrg1 = (ImageButton) mConvertView.findViewById(R.id.event_org1);
-		if(model.getEvent().getCreator_id() == null || model.getEvent().getCreator_id().isEmpty()) {
+		if(e.getCreator_id() == null || e.getCreator_id().isEmpty()) {
 			Log.v(tag, "no event creator info, hide the button org1");
 			viewOrg1.setVisibility(View.INVISIBLE);
 		}
 		else{
-			Log.v(tag, "show event creator: " + model.getEvent().getCreator_id() + ", " + model.getEvent().getCreator_name() + ", " + model.getEvent().getCreator_icon_url());
-			//todo: download creator icon and show it
+			Log.v(tag, "show event creator: " + e.getCreator_id() + ", " + e.getCreator_name() + ", " + e.getCreator_icon_url());
 
-			Drawable image1 = mContext.getResources().getDrawable(R.drawable.idshk);	//testing icon
-			viewOrg1.setImageDrawable(image1);
+			IconUrlUtil.setImageForButtonSmall(mContext.getResources(),viewOrg1,UrlUtil.getUserIconUrl(e.getCreator_id()));
+//			Drawable image1 = mContext.getResources().getDrawable(R.drawable.idshk);	//testing icon
+//			viewOrg1.setImageDrawable(image1);
 		}
 
 		//todo: handle enterprise info when data available
 
-		Log.v(tag, "check event supporting groups: " + model.getEvent().getSupporting_groups());
+		Log.v(tag, "check event supporting groups: " + e.getSupporting_groups());
 		ImageButton viewOrg2 = (ImageButton) mConvertView.findViewById(R.id.event_org2);
 		ImageButton viewOrg3 = (ImageButton) mConvertView.findViewById(R.id.event_org3);
-		if(model.getEvent().getSupporting_groups() == null || model.getEvent().getSupporting_groups().isEmpty()){
+		if(e.getSupporting_groups() == null || e.getSupporting_groups().isEmpty()){
 			Log.v(tag, "no event creator info, hide the button org2 and org3");
 			viewOrg2.setVisibility(View.INVISIBLE);
 			viewOrg3.setVisibility(View.INVISIBLE);
 		}
 		else{
-			Log.v(tag, "show event supporting groups: " + model.getEvent().getSupporting_groups().toString());
+			Log.v(tag, "show event supporting groups: " + e.getSupporting_groups().toString());
 			//todo: download supporting group icon and show
+			e.getSupporting_groups();
+			int number_of_supporting_groups = e.getSupporting_groups().size();
+			if(number_of_supporting_groups == 1) {//show only one icon for group
 
-			Drawable image1 = mContext.getResources().getDrawable(R.drawable.group1);	//testing icon
-
-			int number_of_supporting_groups = model.getEvent().getSupporting_groups().size();
-			if(number_of_supporting_groups == 1) {	//show only one icon for group
-				viewOrg2.setImageDrawable(image1);
+				IconUrlUtil.setImageForButtonSmall(mContext.getResources(), viewOrg2, e.getCreator_icon_url());
+//				viewOrg2.setImageDrawable(image1);
 				viewOrg3.setVisibility(View.INVISIBLE);
 			}
 			else{	//show at most two icons for group
-				viewOrg2.setImageDrawable(image1);
-				viewOrg3.setImageDrawable(image1);
+//				viewOrg2.setImageDrawable(image1);
+//				viewOrg3.setImageDrawable(image1);
 			}
 		}
 	}
 
-	void showBuddies(EventCardModel model){
-		Event e = model.getEvent();
+	void showBuddies(Event e){
 		Log.v(tag, "check event buddies: " + e.toString());
 
 		LinearLayout list = (LinearLayout) mConvertView.findViewById(R.id.eventbuddies);
 
 	    int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
-        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
+		int backgroundResource = ta.getResourceId(0, 0);
+//        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
         ta.recycle();
 
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		params.weight = 1.0f;
-        params.gravity = Gravity.CENTER_HORIZONTAL;
+//		params.weight = 1.0f;
+        params.gravity = Gravity.LEFT;
 
-		int countBuddy = 0;
+		int countBuddy = 1;
 
 		for(User u : e.getJoinedFriends()){
-			ImageView user = new ImageView(mContext);
-			//todo: download user icon from url
-			Drawable image1 = mContext.getResources().getDrawable(R.drawable.user1);
-			user.setImageDrawable(image1);
-			user.setLayoutParams(params);
-			user.setBackground(drawableFromTheme);
-			user.setPadding(0, 0, 15, 0);
-			list.addView(user);
+			addImageButtonToView(params,backgroundResource,u,list);
 			Log.v(tag, "added joined friend into view: " + u.toString());
 			if(++countBuddy>MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
 				break;
@@ -178,13 +171,7 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 
 		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
 			for (User u : e.getJoinedGroupMemebers()) {
-				ImageView user = new ImageView(mContext);
-				//todo: download user icon from url
-				Drawable image1 = mContext.getResources().getDrawable(R.drawable.user2);
-				user.setImageDrawable(image1);
-				user.setLayoutParams(params);
-				user.setBackground(drawableFromTheme);
-				list.addView(user);
+				addImageButtonToView(params, backgroundResource, u, list);
 				Log.v(tag, "added joined group members into view: " + u.toString());
 				if(++countBuddy>MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
 					break;
@@ -192,14 +179,17 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 		}
 
 		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
+			for (User u : e.getJoinedBuddies()) {
+				addImageButtonToView(params, backgroundResource, u, list);
+				Log.v(tag, "added joined buddies into view: " + u.toString());
+				if(++countBuddy>MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+					break;
+			}
+		}
+
+		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
 			for (User u : e.getLikedFriends()) {
-				ImageView user = new ImageView(mContext);
-				//todo: download user icon from url
-				Drawable image1 = mContext.getResources().getDrawable(R.drawable.user3);
-				user.setImageDrawable(image1);
-				user.setLayoutParams(params);
-				user.setBackground(drawableFromTheme);
-				list.addView(user);
+				addImageButtonToView(params, backgroundResource, u, list);
 				Log.v(tag, "added liked friend into view: " + u.toString());
 				if (++countBuddy > MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
 					break;
@@ -208,14 +198,17 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 
 		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
 			for (User u : e.getLikedGroupMembers()) {
-				ImageView user = new ImageView(mContext);
-				//todo: download user icon from url
-				Drawable image1 = mContext.getResources().getDrawable(R.drawable.user3);
-				user.setImageDrawable(image1);
-				user.setLayoutParams(params);
-				user.setBackground(drawableFromTheme);
-				list.addView(user);
+				addImageButtonToView(params, backgroundResource, u, list);
 				Log.v(tag, "added liked group members into view: " + u.toString());
+				if (++countBuddy > MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+					break;
+			}
+		}
+
+		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
+			for (User u : e.getLikedBuddies()) {
+				addImageButtonToView(params,backgroundResource,u,list);
+				Log.v(tag, "added liked buddy into view: " + u.toString());
 				if (++countBuddy > MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
 					break;
 			}
@@ -274,5 +267,13 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 			sb.append(model.getEnd_time());
 		}
 		return sb.toString();
+	}
+	private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
+		ImageButton user = new ImageButton(mContext);
+		user.setLayoutParams(params);
+		user.setBackgroundResource(backgroundResource);
+		user.setPadding(10, 0, 10, 0);
+		IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
+		list.addView(user);
 	}
 }
