@@ -19,6 +19,7 @@ import com.soco.SoCoClient.dashboard.Dashboard;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.groups.ui.SimpleGroupCardAdapter;
 import com.soco.SoCoClient.onboarding.login.service.LoginNormalService;
+import com.soco.SoCoClient.userprofile.UserProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +51,12 @@ public class AllGroupsActivity extends ActionBarActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
 
+        generateDummyEntries();
+
         simpleGroupCardAdapter = new SimpleGroupCardAdapter(this, events);
         mRecyclerView.setAdapter(simpleGroupCardAdapter);
 
-        generateDummyEntries();
+
     }
 
     private void generateDummyEntries() {
@@ -61,6 +64,8 @@ public class AllGroupsActivity extends ActionBarActivity {
         //todo: use groups, instead of events
 
         Log.v(tag, "add dummy entries");
+        if(events == null)
+            events = new ArrayList<>();
         for(int i=0; i<20; i++)
             events.add(new Event());
      }
@@ -102,6 +107,15 @@ public class AllGroupsActivity extends ActionBarActivity {
         startActivity(i);
     }
 
+    public void mygroups(View view){
+        Log.v(tag, "tap show my groups");
+        Intent i = new Intent(this, UserProfileActivity.class);
+
+        //todo: pass parameters - user id, go to group tab
+
+        startActivity(i);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -120,4 +134,6 @@ public class AllGroupsActivity extends ActionBarActivity {
 
         return;
     }
+
+
 }

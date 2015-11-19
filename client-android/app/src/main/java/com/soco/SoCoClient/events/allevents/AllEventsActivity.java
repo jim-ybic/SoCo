@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient._ref.Actor;
@@ -28,6 +29,7 @@ import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.events.common.EventGroupsBuddiesActivity;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.userprofile.UserProfileActivity;
 
 import java.io.IOException;
 import java.net.URL;
@@ -57,7 +59,13 @@ public class AllEventsActivity extends ActionBarActivity {
        // generateDummyEvents();
         socoApp = (SocoApp) getApplicationContext();
         events = socoApp.suggestedEvents;
-        Log.v(tag, events.size() + " events loaded");
+        if(events == null) {
+            Log.e(tag, "suggested events is not available");
+            Toast.makeText(getApplicationContext(), "Suggested events is not available.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        else
+            Log.v(tag, events.size() + " events loaded");
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -153,7 +161,7 @@ public class AllEventsActivity extends ActionBarActivity {
     }
 
     public void eventgroups(View view){
-        Log.d(tag, "show all event groups");
+        Log.v(tag, "show all event groups");
         socoApp.eventGroupsBuddiesTabIndex = 0;
 //        Intent i = new Intent(getApplicationContext(), EventOrganizersActivity.class);
         Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
@@ -164,12 +172,21 @@ public class AllEventsActivity extends ActionBarActivity {
     }
 
     public void eventbuddies(View view){
-        Log.d(tag, "show all event buddies");
+        Log.v(tag, "show all event buddies");
         socoApp.eventGroupsBuddiesTabIndex = 1;
         Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
-        startActivity(i);
 
         //todo: passing event id to the new activity to get event details
 
+        startActivity(i);
+    }
+
+    public void myevents(View view){
+        Log.v(tag, "tap show my events");
+        Intent i = new Intent(this, UserProfileActivity.class);
+
+        //todo: pass parameters - user id, go to events tab
+
+        startActivity(i);
     }
 }

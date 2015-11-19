@@ -459,6 +459,7 @@ public class LoginActivity //extends ActionBarActivity
 
         if(socoApp.OFFLINE_MODE){
             Log.w(tag, "offline mode: bypass login normal");
+            socoApp.loginNormalResponse = true;
             socoApp.loginNormalResult = true;
             return;
         }
