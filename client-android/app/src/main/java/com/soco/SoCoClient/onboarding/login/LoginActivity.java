@@ -342,7 +342,7 @@ public class LoginActivity //extends ActionBarActivity
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message and dismiss dialog");
 
-            if(socoApp.loginViaFacebookResult){
+            if(socoApp.loginViaFacebookResponse && socoApp.loginViaFacebookResult){
                 Log.d(tag, "login via facebook success, finish this screen and login to dashboard");
                 Toast.makeText(getApplicationContext(), "Login via Facebook suceess.", Toast.LENGTH_SHORT).show();
 
@@ -490,7 +490,7 @@ public class LoginActivity //extends ActionBarActivity
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message and dismiss dialog");
 
-            if(socoApp.loginNormalResult){
+            if(socoApp.loginNormalResponse && socoApp.loginNormalResult){
                 Log.d(tag, "login normal success, finish this screen and login to dashboard");
                 Toast.makeText(getApplicationContext(), "Login suceess.", Toast.LENGTH_SHORT).show();
 

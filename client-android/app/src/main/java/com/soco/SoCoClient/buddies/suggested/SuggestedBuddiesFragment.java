@@ -122,7 +122,7 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message and dismiss dialog");
 
-            if(socoApp.downloadSuggestedBuddiesResult){
+            if(socoApp.downloadSuggestedBuddiesResponse && socoApp.downloadSuggestedBuddiesResult){
 //                if(socoApp.OFFLINE_MODE){
 //                    Log.w(tag, "offline mode, bypassed downloaded events");
 //                }

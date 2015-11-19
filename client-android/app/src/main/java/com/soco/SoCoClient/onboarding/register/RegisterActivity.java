@@ -157,7 +157,7 @@ public class RegisterActivity extends ActionBarActivity {
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message and dismiss dialog");
 
-            if(socoApp.registerResult){
+            if(socoApp.registerResponse && socoApp.registerResult){
                 Log.d(tag, "register success, finish this screen and login to dashboard");
                 Toast.makeText(getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
                 finish();

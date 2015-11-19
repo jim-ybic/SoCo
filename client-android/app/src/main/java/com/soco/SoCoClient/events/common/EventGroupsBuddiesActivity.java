@@ -105,7 +105,7 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message and dismiss dialog");
 
-            if(socoApp.eventGroupsBuddiesResult){
+            if(socoApp.eventGroupsBuddiesResponse && socoApp.eventGroupsBuddiesResult){
                 Log.d(tag, "eventGB: success");
                 Toast.makeText(getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
                 setActionbar();

@@ -142,7 +142,7 @@ public class JoinEventActivity extends ActionBarActivity {
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message and dismiss dialog");
 
-            if(socoApp.joinEventResult){
+            if(socoApp.joinEventResponse && socoApp.joinEventResult){
                 Log.d(tag, "join event success");
                 Toast.makeText(getApplicationContext(), "Join event suceess.", Toast.LENGTH_SHORT).show();
                 finish();

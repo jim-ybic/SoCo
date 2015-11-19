@@ -367,7 +367,7 @@ public class Dashboard extends ActionBarActivity implements
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message and dismiss dialog");
 
-            if(socoApp.downloadSuggestedEventsResult){
+            if(socoApp.downloadSuggestedEventsResponse && socoApp.downloadSuggestedEventsResult){
                 if(socoApp.OFFLINE_MODE){
                     Log.w(tag, "offline mode, bypassed downloaded events");
                 }
@@ -550,7 +550,7 @@ public class Dashboard extends ActionBarActivity implements
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message ");
 
-            if(socoApp.likeEventResult){
+            if(socoApp.likeEventResponse && socoApp.likeEventResult){
                 Log.d(tag, "Like event success");
                 ((Event) msg.obj).setIsLikedEvent(true);
 //                Toast.makeText(getApplicationContext(), "Like event suceess.", Toast.LENGTH_SHORT).show();
@@ -598,7 +598,7 @@ public class Dashboard extends ActionBarActivity implements
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message");
 
-            if(socoApp.revertLikeEventResult){
+            if(socoApp.revertLikeEventResponse && socoApp.revertLikeEventResult){
                 Log.d(tag, "revert like event success");
                 ((Event) msg.obj).setIsLikedEvent(false);
 //                Toast.makeText(getApplicationContext(), "revert Like event suceess.", Toast.LENGTH_SHORT).show();
@@ -763,7 +763,7 @@ public class Dashboard extends ActionBarActivity implements
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message and dismiss dialog");
 
-            if(socoApp.addBuddyResult){
+            if(socoApp.addBuddyResponse && socoApp.addBuddyResult){
                 Log.d(tag, "add buddy success");
                 Toast.makeText(getApplicationContext(), "Add buddy suceess.", Toast.LENGTH_SHORT).show();
                 finish();
