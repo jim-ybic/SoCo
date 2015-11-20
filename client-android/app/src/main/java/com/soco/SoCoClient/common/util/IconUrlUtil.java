@@ -82,6 +82,7 @@ public class IconUrlUtil {
             task.execute(urlString);
         }
     }
+
     public static boolean cancelPotentialWork(String url, ImageView mButton) {
         final IconDownloadTask iconDownloadTask = getBitmapWorkerTask(mButton);
 

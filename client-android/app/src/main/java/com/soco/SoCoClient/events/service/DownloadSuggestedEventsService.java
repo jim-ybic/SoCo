@@ -389,46 +389,46 @@ public class DownloadSuggestedEventsService extends IntentService {
             else{
                 String joinedStr = buddiesObj.getString(JsonKeys.BUDDIES_JOINED);
                 JSONObject joinedObj = new JSONObject(joinedStr);
-                if(joinedObj.has(JsonKeys.FRIENDS)){
-                    String joinedFriends = joinedObj.getString(JsonKeys.FRIENDS);
-                    JSONArray friends = new JSONArray(joinedFriends);
-                    Log.v(tag, "all joined friends: " + friends);
-                    for(int i=0; i<friends.length(); i++){
-                        JSONObject friend = friends.getJSONObject(i);
-                        String friendId = friend.getString(JsonKeys.FRIEND_ID);
-                        String friendName = friend.getString(JsonKeys.FRIEND_NAME);
-                        String friendIconUrl = friend.getString(JsonKeys.FRIEND_ICON_URL);
-                        Log.v(tag, "friend info: " + friendId + ", " + friendName + ", " + friendIconUrl);
-
-                        User user = new User();
-                        user.setUser_id(friendId);
-                        user.setUser_name(friendName);
-                        user.setUser_icon_url(friendIconUrl);
-
-                        Log.v(tag, "add event joined friend: " + user.toString());
-                        event.addJoinedFriends(user);
-                    }
-                }
-                if(joinedObj.has(JsonKeys.GROUP_MEMBERS)){
-                    String joinedGroupMembersStr = joinedObj.getString(JsonKeys.GROUP_MEMBERS);
-                    JSONArray groupMembers = new JSONArray(joinedGroupMembersStr);
-                    Log.v(tag, "all joined group members: " + groupMembers);
-                    for(int i=0; i<groupMembers.length(); i++){
-                        JSONObject member = groupMembers.getJSONObject(i);
-                        String memberId = member.getString(JsonKeys.MEMBER_ID);
-                        String memberName = member.getString(JsonKeys.MEMBER_NAME);
-                        String memberIconUrl = member.getString(JsonKeys.MEMBER_ICON_URL);
-                        Log.v(tag, "group member info: " + memberId + ", " + memberName + ", " + memberIconUrl);
-
-                        User user = new User();
-                        user.setUser_id(memberId);
-                        user.setUser_name(memberName);
-                        user.setUser_icon_url(memberIconUrl);
-
-                        Log.v(tag, "add event joined group member: " + user.toString());
-                        event.addJoinedGroupMembers(user);
-                    }
-                }
+//                if(joinedObj.has(JsonKeys.FRIENDS)){
+//                    String joinedFriends = joinedObj.getString(JsonKeys.FRIENDS);
+//                    JSONArray friends = new JSONArray(joinedFriends);
+//                    Log.v(tag, "all joined friends: " + friends);
+//                    for(int i=0; i<friends.length(); i++){
+//                        JSONObject friend = friends.getJSONObject(i);
+//                        String friendId = friend.getString(JsonKeys.FRIEND_ID);
+//                        String friendName = friend.getString(JsonKeys.FRIEND_NAME);
+//                        String friendIconUrl = friend.getString(JsonKeys.FRIEND_ICON_URL);
+//                        Log.v(tag, "friend info: " + friendId + ", " + friendName + ", " + friendIconUrl);
+//
+//                        User user = new User();
+//                        user.setUser_id(friendId);
+//                        user.setUser_name(friendName);
+//                        user.setUser_icon_url(friendIconUrl);
+//
+//                        Log.v(tag, "add event joined friend: " + user.toString());
+//                        event.addJoinedFriends(user);
+//                    }
+//                }
+//                if(joinedObj.has(JsonKeys.GROUP_MEMBERS)){
+//                    String joinedGroupMembersStr = joinedObj.getString(JsonKeys.GROUP_MEMBERS);
+//                    JSONArray groupMembers = new JSONArray(joinedGroupMembersStr);
+//                    Log.v(tag, "all joined group members: " + groupMembers);
+//                    for(int i=0; i<groupMembers.length(); i++){
+//                        JSONObject member = groupMembers.getJSONObject(i);
+//                        String memberId = member.getString(JsonKeys.MEMBER_ID);
+//                        String memberName = member.getString(JsonKeys.MEMBER_NAME);
+//                        String memberIconUrl = member.getString(JsonKeys.MEMBER_ICON_URL);
+//                        Log.v(tag, "group member info: " + memberId + ", " + memberName + ", " + memberIconUrl);
+//
+//                        User user = new User();
+//                        user.setUser_id(memberId);
+//                        user.setUser_name(memberName);
+//                        user.setUser_icon_url(memberIconUrl);
+//
+//                        Log.v(tag, "add event joined group member: " + user.toString());
+//                        event.addJoinedGroupMembers(user);
+//                    }
+//                }
                 if(joinedObj.has(JsonKeys.BUDDIES)){
                     String joinedBuddiesStr = joinedObj.getString(JsonKeys.BUDDIES);
                     JSONArray joinedBuddies = new JSONArray(joinedBuddiesStr);
@@ -456,46 +456,46 @@ public class DownloadSuggestedEventsService extends IntentService {
             else{
                 String likedStr = buddiesObj.getString(JsonKeys.BUDDIES_LIKED);
                 JSONObject likedObj = new JSONObject(likedStr);
-                if(likedObj.has(JsonKeys.FRIENDS)){
-                    String likedFriends = likedObj.getString(JsonKeys.FRIENDS);
-                    JSONArray friends = new JSONArray(likedFriends);
-                    Log.v(tag, "all liked friends: " + friends);
-                    for(int i=0; i<friends.length(); i++){
-                        JSONObject friend = friends.getJSONObject(i);
-                        String friendId = friend.getString(JsonKeys.FRIEND_ID);
-                        String friendName = friend.getString(JsonKeys.FRIEND_NAME);
-                        String friendIconUrl = friend.getString(JsonKeys.FRIEND_ICON_URL);
-                        Log.v(tag, "friend info: " + friendId + ", " + friendName + ", " + friendIconUrl);
-
-                        User user = new User();
-                        user.setUser_id(friendId);
-                        user.setUser_name(friendName);
-                        user.setUser_icon_url(friendIconUrl);
-
-                        Log.v(tag, "add event liked friend: " + user.toString());
-                        event.addLikedFriends(user);
-                    }
-                }
-                if(likedObj.has(JsonKeys.GROUP_MEMBERS)){
-                    String likedGroupMembersStr = likedObj.getString(JsonKeys.GROUP_MEMBERS);
-                    JSONArray groupMembers = new JSONArray(likedGroupMembersStr);
-                    Log.v(tag, "all liked group members: " + groupMembers);
-                    for(int i=0; i<groupMembers.length(); i++){
-                        JSONObject member = groupMembers.getJSONObject(i);
-                        String memberId = member.getString(JsonKeys.MEMBER_ID);
-                        String memberName = member.getString(JsonKeys.MEMBER_NAME);
-                        String memberIconUrl = member.getString(JsonKeys.MEMBER_ICON_URL);
-                        Log.v(tag, "group member info: " + memberId + ", " + memberName + ", " + memberIconUrl);
-
-                        User user = new User();
-                        user.setUser_id(memberId);
-                        user.setUser_name(memberName);
-                        user.setUser_icon_url(memberIconUrl);
-
-                        Log.v(tag, "add event liked group member: " + user.toString());
-                        event.addLikedGroupMembers(user);
-                    }
-                }
+//                if(likedObj.has(JsonKeys.FRIENDS)){
+//                    String likedFriends = likedObj.getString(JsonKeys.FRIENDS);
+//                    JSONArray friends = new JSONArray(likedFriends);
+//                    Log.v(tag, "all liked friends: " + friends);
+//                    for(int i=0; i<friends.length(); i++){
+//                        JSONObject friend = friends.getJSONObject(i);
+//                        String friendId = friend.getString(JsonKeys.FRIEND_ID);
+//                        String friendName = friend.getString(JsonKeys.FRIEND_NAME);
+//                        String friendIconUrl = friend.getString(JsonKeys.FRIEND_ICON_URL);
+//                        Log.v(tag, "friend info: " + friendId + ", " + friendName + ", " + friendIconUrl);
+//
+//                        User user = new User();
+//                        user.setUser_id(friendId);
+//                        user.setUser_name(friendName);
+//                        user.setUser_icon_url(friendIconUrl);
+//
+//                        Log.v(tag, "add event liked friend: " + user.toString());
+//                        event.addLikedFriends(user);
+//                    }
+//                }
+//                if(likedObj.has(JsonKeys.GROUP_MEMBERS)){
+//                    String likedGroupMembersStr = likedObj.getString(JsonKeys.GROUP_MEMBERS);
+//                    JSONArray groupMembers = new JSONArray(likedGroupMembersStr);
+//                    Log.v(tag, "all liked group members: " + groupMembers);
+//                    for(int i=0; i<groupMembers.length(); i++){
+//                        JSONObject member = groupMembers.getJSONObject(i);
+//                        String memberId = member.getString(JsonKeys.MEMBER_ID);
+//                        String memberName = member.getString(JsonKeys.MEMBER_NAME);
+//                        String memberIconUrl = member.getString(JsonKeys.MEMBER_ICON_URL);
+//                        Log.v(tag, "group member info: " + memberId + ", " + memberName + ", " + memberIconUrl);
+//
+//                        User user = new User();
+//                        user.setUser_id(memberId);
+//                        user.setUser_name(memberName);
+//                        user.setUser_icon_url(memberIconUrl);
+//
+//                        Log.v(tag, "add event liked group member: " + user.toString());
+//                        event.addLikedGroupMembers(user);
+//                    }
+//                }
                 if(likedObj.has(JsonKeys.BUDDIES)){
                     String likedBuddiesStr = likedObj.getString(JsonKeys.BUDDIES);
                     JSONArray likedBuddies = new JSONArray(likedBuddiesStr);

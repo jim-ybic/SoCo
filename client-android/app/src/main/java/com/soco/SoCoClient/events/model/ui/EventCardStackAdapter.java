@@ -25,10 +25,13 @@ import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.model.ui.BaseEventCardStackAdapter;
 import com.soco.SoCoClient.events.model.ui.EventCardModel;
+import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 
 
@@ -102,7 +105,7 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 
 	void showOrganizers(Event e){
 //		Event e = model.getEvent();
-		Log.v(tag, "check event creator: " + e.toString());
+		Log.v(tag, "check event creator: " + e.getTitle() + ", creator: " + e.getCreator_id() + ", " + e.getCreator_name());
 
 		ImageButton viewOrg1 = (ImageButton) mConvertView.findViewById(R.id.event_org1);
 		if(e.getCreator_id() == null || e.getCreator_id().isEmpty()) {
@@ -119,34 +122,35 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 
 		//todo: handle enterprise info when data available
 
-		Log.v(tag, "check event supporting groups: " + e.getSupporting_groups());
+		Log.v(tag, "check event supporting groups (show at most two on event card): " + e.getSupporting_groups());
 		ImageButton viewOrg2 = (ImageButton) mConvertView.findViewById(R.id.event_org2);
 		ImageButton viewOrg3 = (ImageButton) mConvertView.findViewById(R.id.event_org3);
 		if(e.getSupporting_groups() == null || e.getSupporting_groups().isEmpty()){
-			Log.v(tag, "no event creator info, hide the button org2 and org3");
+			Log.v(tag, "no event supporting group info, hide the button org2 and org3");
 			viewOrg2.setVisibility(View.INVISIBLE);
 			viewOrg3.setVisibility(View.INVISIBLE);
 		}
 		else{
 			Log.v(tag, "show event supporting groups: " + e.getSupporting_groups().toString());
 			//todo: download supporting group icon and show
-			e.getSupporting_groups();
-			int number_of_supporting_groups = e.getSupporting_groups().size();
-			if(number_of_supporting_groups == 1) {//show only one icon for group
-
-				IconUrlUtil.setImageForButtonSmall(mContext.getResources(), viewOrg2, e.getCreator_icon_url());
-//				viewOrg2.setImageDrawable(image1);
+			ArrayList<Group> groups = e.getSupporting_groups();
+			int number_of_supporting_groups = groups.size();
+			if(number_of_supporting_groups == 1) {	//only one group, show it
+				Group g = groups.get(0);
+				IconUrlUtil.setImageForButtonSmall(mContext.getResources(), viewOrg2, UrlUtil.getUserIconUrl(g.getGroup_id()));
 				viewOrg3.setVisibility(View.INVISIBLE);
 			}
-			else{	//show at most two icons for group
-//				viewOrg2.setImageDrawable(image1);
-//				viewOrg3.setImageDrawable(image1);
+			else if (number_of_supporting_groups > 1){	//two or more groups, show the first two
+				Group g1 = groups.get(0);
+				IconUrlUtil.setImageForButtonSmall(mContext.getResources(), viewOrg2, UrlUtil.getUserIconUrl(g1.getGroup_id()));
+				Group g2 = groups.get(1);
+				IconUrlUtil.setImageForButtonSmall(mContext.getResources(), viewOrg3, UrlUtil.getUserIconUrl(g2.getGroup_id()));
 			}
 		}
 	}
 
 	void showBuddies(Event e){
-		Log.v(tag, "check event buddies: " + e.toString());
+		Log.v(tag, "check event buddies: " + e.getTitle());
 
 		LinearLayout list = (LinearLayout) mConvertView.findViewById(R.id.eventbuddies);
 
@@ -160,57 +164,68 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 //		params.weight = 1.0f;
         params.gravity = Gravity.LEFT;
 
-		int countBuddy = 1;
+		int countBuddy = 0;
+		HashSet<String> buddyIds = new HashSet<>();
 
-		for(User u : e.getJoinedFriends()){
-			addImageButtonToView(params,backgroundResource,u,list);
-			Log.v(tag, "added joined friend into view: " + u.toString());
-			if(++countBuddy>MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-				break;
-		}
-
-		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-			for (User u : e.getJoinedGroupMemebers()) {
-				addImageButtonToView(params, backgroundResource, u, list);
-				Log.v(tag, "added joined group members into view: " + u.toString());
-				if(++countBuddy>MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-					break;
-			}
-		}
+//		for(User u : e.getJoinedFriends()){
+//			addImageButtonToView(params,backgroundResource,u,list);
+//			Log.v(tag, "added joined friend into view: " + u.toString());
+//			if(++countBuddy>=MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+//				break;
+//		}
+//
+//		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
+//			for (User u : e.getJoinedGroupMemebers()) {
+//				addImageButtonToView(params, backgroundResource, u, list);
+//				Log.v(tag, "added joined group members into view: " + u.toString());
+//				if(++countBuddy>=MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+//					break;
+//			}
+//		}
 
 		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
 			for (User u : e.getJoinedBuddies()) {
-				addImageButtonToView(params, backgroundResource, u, list);
-				Log.v(tag, "added joined buddies into view: " + u.toString());
-				if(++countBuddy>MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-					break;
+				if(!buddyIds.contains(u.getUser_id())) {
+					buddyIds.add(u.getUser_id());
+					addImageButtonToView(params, backgroundResource, u, list);
+					Log.v(tag, "added joined buddies into view: " + u.toString());
+					if (++countBuddy >= MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+						break;
+				}
+				else
+					Log.v(tag, "user already added on card: " + u.toString());
 			}
 		}
 
-		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-			for (User u : e.getLikedFriends()) {
-				addImageButtonToView(params, backgroundResource, u, list);
-				Log.v(tag, "added liked friend into view: " + u.toString());
-				if (++countBuddy > MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-					break;
-			}
-		}
-
-		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-			for (User u : e.getLikedGroupMembers()) {
-				addImageButtonToView(params, backgroundResource, u, list);
-				Log.v(tag, "added liked group members into view: " + u.toString());
-				if (++countBuddy > MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-					break;
-			}
-		}
+//		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
+//			for (User u : e.getLikedFriends()) {
+//				addImageButtonToView(params, backgroundResource, u, list);
+//				Log.v(tag, "added liked friend into view: " + u.toString());
+//				if (++countBuddy>=MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+//					break;
+//			}
+//		}
+//
+//		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
+//			for (User u : e.getLikedGroupMembers()) {
+//				addImageButtonToView(params, backgroundResource, u, list);
+//				Log.v(tag, "added liked group members into view: " + u.toString());
+//				if (++countBuddy>=MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+//					break;
+//			}
+//		}
 
 		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
 			for (User u : e.getLikedBuddies()) {
-				addImageButtonToView(params,backgroundResource,u,list);
-				Log.v(tag, "added liked buddy into view: " + u.toString());
-				if (++countBuddy > MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-					break;
+				if(!buddyIds.contains(u.getUser_id())) {
+					buddyIds.add(u.getUser_id());
+					addImageButtonToView(params, backgroundResource, u, list);
+					Log.v(tag, "added liked buddy into view: " + u.toString());
+					if (++countBuddy >= MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+						break;
+				}
+				else
+					Log.v(tag, "user already added on card: " + u.toString());
 			}
 		}
 	}
@@ -270,9 +285,11 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 	}
 	private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
 		ImageButton user = new ImageButton(mContext);
+//		ImageView user = new ImageView(mContext);
 		user.setLayoutParams(params);
 		user.setBackgroundResource(backgroundResource);
-		user.setPadding(10, 0, 10, 0);
+		user.setPadding(10, 2, 10, 2);
+		user.setClickable(false);
 		IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
 		list.addView(user);
 	}
