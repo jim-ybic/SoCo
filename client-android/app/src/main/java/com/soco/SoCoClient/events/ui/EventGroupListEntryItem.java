@@ -14,7 +14,8 @@ public class EventGroupListEntryItem implements Item{
 //	public final String email;
 //    public final String status;
 
-    String group_icon_url;
+    String group_id;
+//    String group_icon_url;
     String group_name;
     String number_of_participants;
     ArrayList<String> representative_participants_icon_url;
@@ -37,13 +38,21 @@ public class EventGroupListEntryItem implements Item{
 
     public EventGroupListEntryItem(){}
 
-    public String getGroup_icon_url() {
-        return group_icon_url;
+    public String getGroup_id() {
+        return group_id;
     }
 
-    public void setGroup_icon_url(String group_icon_url) {
-        this.group_icon_url = group_icon_url;
+    public void setGroup_id(String group_id) {
+        this.group_id = group_id;
     }
+
+    //    public String getGroup_icon_url() {
+//        return group_icon_url;
+//    }
+//
+//    public void setGroup_icon_url(String group_icon_url) {
+//        this.group_icon_url = group_icon_url;
+//    }
 
     public String getGroup_name() {
         return group_name;

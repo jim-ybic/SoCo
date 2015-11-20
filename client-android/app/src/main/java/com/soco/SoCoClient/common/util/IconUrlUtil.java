@@ -74,12 +74,18 @@ public class IconUrlUtil {
     //Please use above method to get 3 fixed size image
     //below method for limited usage.
     private static void updateImageButton(Resources res, ImageView mButton, String urlString,int size){
-        if (cancelPotentialWork(urlString, mButton)) {
-            final IconDownloadTask task = new IconDownloadTask(mButton,size);
-            final IconAsyncDrawable asyncDrawable =
-                    new IconAsyncDrawable(res, Bitmap.createBitmap(size,size, Bitmap.Config.ARGB_8888), task);
-            mButton.setImageDrawable(asyncDrawable);
-            task.execute(urlString);
+        try {
+            if (cancelPotentialWork(urlString, mButton)) {
+                final IconDownloadTask task = new IconDownloadTask(mButton, size);
+                final IconAsyncDrawable asyncDrawable =
+                        new IconAsyncDrawable(res, Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888), task);
+                mButton.setImageDrawable(asyncDrawable);
+                task.execute(urlString);
+            }
+        }
+        catch (Exception e){
+            Log.e(tag, "cannot update image button: " + e);
+            e.printStackTrace();
         }
     }
 
