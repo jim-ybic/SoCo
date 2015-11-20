@@ -314,7 +314,6 @@ public class UrlUtil {
     }
 
     public static String getUserIconUrl(String user_id) {
-//        return "https://graph.facebook.com/10153298013434285/picture?type=normal";
         StringBuffer sb = new StringBuffer();
         sb.append(getUserIconUrlPrefix());
         sb.append(SocoApp.getCurrentUserTokenForUrl());
