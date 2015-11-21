@@ -74,8 +74,8 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
 //        mRecyclerView.setAdapter(simpleGroupCardAdapter);
 
 //        showMyMatches();
-        addOrganizers();
-        addSupportingGroups();
+        showOrganizers();
+        showSupportingGroups();
 
         EventGroupListAdapter adapter = new EventGroupListAdapter(getActivity(), items);
         ListView list = (ListView) rootView.findViewById(R.id.list);
@@ -96,7 +96,7 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
 //            phoneContacts.add(new Person(context, "x","y","z"));
 //    }
 
-    void addOrganizers() {
+    void showOrganizers() {
         Log.v(tag, "add new section >>> event organizer");
         items.add(new EventGroupListSectionItem(EVENT_ORGANIZER));
 
@@ -110,8 +110,9 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
         Log.v(tag, "add event organizer (enterprise)");
         if(event.getEnterprise_id() != null && !event.getEnterprise_id().isEmpty()){
             EventGroupListUserItem item = new EventGroupListUserItem();
+            item.setUser_id(event.getEnterprise_id());
             item.setUser_name(event.getEnterprise_name());
-            item.setUser_icon_url(event.getEnterprise_icon_url());
+//            item.setUser_icon_url(event.getEnterprise_icon_url());
 
             //todo: set number of Like
             //todo: set representative follower's icon
@@ -125,8 +126,9 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
         Log.v(tag, "add event organizer (creator)");
         if(event.getCreator_id()!= null && !event.getCreator_id().isEmpty()){
             EventGroupListUserItem item = new EventGroupListUserItem();
+            item.setUser_id(event.getCreator_id());
             item.setUser_name(event.getCreator_name());
-            item.setUser_icon_url(event.getCreator_icon_url());
+//            item.setUser_icon_url(event.getCreator_icon_url());
 
             //todo: set number of participants
             //todo: set representative member's icon
@@ -138,7 +140,7 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
             Log.w(tag, "no creator found");
     }
 
-    void addSupportingGroups() {
+    void showSupportingGroups() {
         Log.v(tag, "add new section >>> supporting groups");
         items.add(new EventGroupListSectionItem(SUPPORTING_GROUPS));
 
@@ -153,8 +155,9 @@ public class EventGroupsFragment extends Fragment implements View.OnClickListene
         if(!event.getSupporting_groups().isEmpty()){
             for(Group g : event.getSupporting_groups()){
                 EventGroupListEntryItem groupItem = new EventGroupListEntryItem();
+                groupItem.setGroup_id(g.getGroup_id());
                 groupItem.setGroup_name(g.getGroup_name());
-                groupItem.setGroup_icon_url(g.getGroup_icon_url());
+//                groupItem.setGroup_icon_url(g.getGroup_icon_url());
 
                 //todo: set number of Like
                 //todo: set representative follower's icon

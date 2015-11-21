@@ -6,9 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.IconUrlUtil;
 
 import java.util.ArrayList;
 
@@ -39,7 +42,7 @@ public class EventGroupListAdapter extends ArrayAdapter<Item> {
 
 			if (i.getType().equals(Item.LIST_ITEM_TYPE_SECTION)){   //section
 				EventGroupListSectionItem si = (EventGroupListSectionItem)i;
-                Log.v(tag, "item name: " + si.getLabel());
+                Log.v(tag, "section item name: " + si.getLabel());
 				v = vi.inflate(R.layout.eventgrouplist_section, null);
 
 				v.setOnClickListener(null);
@@ -50,25 +53,34 @@ public class EventGroupListAdapter extends ArrayAdapter<Item> {
 				TextView label = (TextView) v.findViewById(R.id.label);
 				label.setText(si.getLabel());
 			}
-			else if (i.getType().equals(Item.LIST_ITEM_TYPE_ENTRY)){ //entry
+			else if (i.getType().equals(Item.LIST_ITEM_TYPE_ENTRY)){ //entry (group)
 				EventGroupListEntryItem ei = (EventGroupListEntryItem)i;
-                Log.v(tag, "item name: " + ei.getGroup_name());
+                Log.v(tag, "entry (group) item name: " + ei.getGroup_name());
 				v = vi.inflate(R.layout.eventgrouplist_entry, null);
 
-				Log.v(tag, "set view data");
+				Log.v(tag, "set view data, name: " + ei.getGroup_name());
 				TextView name = (TextView) v.findViewById(R.id.name);
 				name.setText(ei.getGroup_name());
-				//todo: show other group properties
 
+				Log.v(tag, "set view data, image: " + UrlUtil.getUserIconUrl(ei.getGroup_id()));
+				ImageButton image = (ImageButton) v.findViewById(R.id.image);
+				IconUrlUtil.setImageForButtonNormal(context.getResources(), image, UrlUtil.getUserIconUrl(ei.getGroup_id()));
+
+				//todo: show other group properties
 			}
 			else if (i.getType().equals(Item.LIST_ITEM_TYPE_USER)){ //user
 				EventGroupListUserItem item = (EventGroupListUserItem) i;
-				Log.v(tag, "item name: " + ((EventGroupListUserItem) i).getUser_name());
+				Log.v(tag, "user item name: " + ((EventGroupListUserItem) i).getUser_name());
 				v = vi.inflate(R.layout.eventgrouplist_user, null);
 
-				Log.v(tag, "set view data");
+				Log.v(tag, "set view data, name: " + item.getUser_name());
 				TextView name = (TextView) v.findViewById(R.id.name);
 				name.setText(item.getUser_name());
+
+				Log.v(tag, "set view data, image: " + UrlUtil.getUserIconUrl(item.getUser_id()));
+				ImageButton image = (ImageButton) v.findViewById(R.id.image);
+				IconUrlUtil.setImageForButtonNormal(context.getResources(), image, UrlUtil.getUserIconUrl(item.getUser_id()));
+
 				//todo: show other user properties
 			}
 		}

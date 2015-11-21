@@ -40,6 +40,8 @@ public class Event {
     ArrayList<User> joinedGroupMemebers = new ArrayList<>();
     ArrayList<User> likedFriends = new ArrayList<>();
     ArrayList<User> likedGroupMembers = new ArrayList<>();
+    ArrayList<User> joinedBuddies = new ArrayList<>();
+    ArrayList<User> likedBuddies = new ArrayList<>();
 
 
 
@@ -301,6 +303,21 @@ public class Event {
     public void addLikedGroupMembers(User user){
         this.likedGroupMembers.add(user);
     }
+
+    public ArrayList<User> getJoinedBuddies() {
+        return joinedBuddies;
+    }
+    public void addJoinedBuddies(User user){
+        this.joinedBuddies.add(user);
+    }
+
+    public ArrayList<User> getLikedBuddies() {
+        return likedBuddies;
+    }
+    public void addLikedBuddies(User user){
+        this.likedBuddies.add(user);
+    }
+
 
     public boolean hasJoinedFriend(String uid){
         for(User u : joinedFriends){

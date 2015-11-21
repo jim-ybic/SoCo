@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -14,10 +15,10 @@ import java.util.ArrayList;
 public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private static final String tag = "IconDownloadTask";
 
-    private final WeakReference<ImageButton> imageButtonReference;
+    private final WeakReference<ImageView> imageButtonReference;
     public String url;
     private int size;
-    public IconDownloadTask(ImageButton button,int size){
+    public IconDownloadTask(ImageView button,int size){
         imageButtonReference = new WeakReference<>(button);
         this.size=size;
     }
@@ -49,7 +50,7 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
             bitmap = null;
         }
         if (bitmap != null) {
-            final ImageButton imageButton = imageButtonReference.get();
+            final ImageView imageButton = imageButtonReference.get();
             final IconDownloadTask bitmapWorkerTask =
                     IconUrlUtil.getBitmapWorkerTask(imageButton);
             if (this == bitmapWorkerTask){
