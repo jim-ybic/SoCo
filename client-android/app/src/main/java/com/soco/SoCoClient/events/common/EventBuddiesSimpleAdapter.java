@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -37,9 +38,9 @@ public class EventBuddiesSimpleAdapter extends SimpleAdapter {
         TextView text = (TextView)vi.findViewById(R.id.name);
         String name = (String) data.get(EventBuddiesFragment.ItemText);
         text.setText(name);
-        ImageView image=(ImageView)vi.findViewById(R.id.image);
+        ImageButton image=(ImageButton)vi.findViewById(R.id.image);
         String url = (String) data.get(EventBuddiesFragment.ItemImage);
-        IconUrlUtil.setImageForButtonLarge(mContext.getResources(), image, url);
+        IconUrlUtil.setImageForButtonNormal(mContext.getResources(), image, url);
         return vi;
     }
 }

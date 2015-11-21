@@ -335,7 +335,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:text="common events"
+                        android:text="events"
                         android:gravity="center_vertical"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -389,7 +389,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:text="common groups"
+                        android:text="groups"
                         android:layout_gravity="center_vertical"
                         android:textSize="12sp"
                         android:textStyle="bold"

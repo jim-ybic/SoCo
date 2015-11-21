@@ -180,6 +180,7 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
                 socoApp.buddyCardStackAdapter.add(buddyCardModel);
             }
         }else{
+            Log.w(tag, "cannot download suggested buddies, adding dummy one");
             BuddyCardModel dummy = new BuddyCardModel();
             User u = new User();
             u.setUser_id("10101010101010");
