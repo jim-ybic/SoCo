@@ -59,6 +59,7 @@ import com.soco.SoCoClient.groups.AllGroupsActivity;
 import com.soco.SoCoClient.userprofile.SettingsActivity;
 import com.soco.SoCoClient.userprofile.UserEventsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
+import com.soco.SoCoClient.userprofile.model.User;
 
 import java.net.URL;
 
@@ -783,9 +784,10 @@ public class Dashboard extends ActionBarActivity implements
     public void buddydetails(View view){
         Log.v(tag, "show buddy details");
         Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+        User u = socoApp.getCurrentSuggestedBuddy();
+        i.putExtra(User.USER_ID, u.getUser_id());
         startActivity(i);
     }
-
 
 
 }

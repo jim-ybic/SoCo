@@ -6,6 +6,7 @@ import com.soco.SoCoClient.common.util.SocoApp;
 import java.util.ArrayList;
 
 public class UserBrief {
+    public static final String USER_ID = "USER_ID";
 
     private String user_id, user_name, user_icon_url;
 

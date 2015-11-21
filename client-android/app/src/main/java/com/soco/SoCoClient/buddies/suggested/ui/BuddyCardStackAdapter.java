@@ -68,10 +68,11 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 
 		LinearLayout interestsList = (LinearLayout) mConvertView.findViewById(R.id.interests);
 		interestsList.removeAllViews();
+
 		for(int i=0; i<interests.size(); i++){
-			String cat = interests.get(i);
+			String inter = interests.get(i);
 			TextView view = new TextView(mContext);
-			view.setText(cat);
+			view.setText(inter);
 			view.setBackgroundResource(R.drawable.eventcategory_box);
 			view.setPadding(10, 5, 10, 5);
 			view.setTextColor(Color.BLACK);

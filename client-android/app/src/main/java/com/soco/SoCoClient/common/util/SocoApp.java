@@ -291,6 +291,7 @@ public class SocoApp extends Application {
         if(suggestedEvents!=null && suggestedEvents.size()>0) {
             int size = suggestedEvents.size();
             int pos = size - currentEventIndex - 1;
+            Log.v(tag, "current event index: " + currentEventIndex + ", pos: " + pos + ", event: " + suggestedEvents.get(pos).toString());
             return suggestedEvents.get(pos);
         }
         return null;
@@ -304,11 +305,14 @@ public class SocoApp extends Application {
             suggestedBuddiesMap.put(id, u);
         }
     }
+
     public User getCurrentSuggestedBuddy(){
         if(suggestedBuddies!=null && suggestedBuddies.size()>0) {
             int size = suggestedBuddies.size();
             int pos = size - currentBuddyIndex - 1;
-            return suggestedBuddies.get(pos);
+            Log.v(tag, "current buddy index: " + currentBuddyIndex + ", pos: " + pos + ", buddy: " + suggestedBuddies.get(currentBuddyIndex).toString());
+//            return suggestedBuddies.get(pos);
+            return suggestedBuddies.get(currentBuddyIndex);
         }
         return null;
     }
@@ -320,7 +324,7 @@ public class SocoApp extends Application {
     public static boolean USE_SIMILATOR_REGISTER = true;
     public static boolean USE_SIMILATOR_LOGIN_NORMAL = true;
     public static boolean USE_SIMULATOR_SUGGESTED_EVENTS = false;
-    public static boolean BUDDY_INTERFACE_READY = false;
+    public static boolean BUDDY_INTERFACE_READY = true;
     public static boolean OFFLINE_MODE = false;
 
     //testing conditions
@@ -376,8 +380,6 @@ public class SocoApp extends Application {
     public BuddyCardContainer mBuddyCardContainer;
     public View suggestedBuddiesView;
     public HashMap<String, User> suggestedBuddiesMap;
-    //event details
-    public int currentBuddyIndex;
 
     //event details
     public int currentEventIndex;   //increate by 1 when an event card is dismissed
@@ -386,6 +388,9 @@ public class SocoApp extends Application {
     public long currentBuddyId;
     public boolean addBuddyResponse;
     public boolean addBuddyResult;
+
+    //buddy details
+    public int currentBuddyIndex;
 
     //like event or revert like event
     public boolean likeEventResponse;

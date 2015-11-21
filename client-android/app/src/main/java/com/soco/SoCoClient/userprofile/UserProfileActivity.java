@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.userprofile;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,8 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.userprofile.model.User;
 import com.soco.SoCoClient.userprofile.ui.UserProfileTabsAdapter;
 import com.soco.SoCoClient.common.util.SocoApp;
 
@@ -27,6 +30,7 @@ public class UserProfileActivity extends ActionBarActivity implements
     static final String EVENTS = "Events";
 
     SocoApp socoApp;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,35 +39,32 @@ public class UserProfileActivity extends ActionBarActivity implements
 
         socoApp = (SocoApp) getApplicationContext();
 
+        Intent i = getIntent();
+        String userId = i.getStringExtra(User.USER_ID);
+        if(!userId.isEmpty() && socoApp.suggestedBuddies != null && socoApp.suggestedBuddiesMap.containsKey(userId))     {
+            user = socoApp.suggestedBuddiesMap.get(userId);
+            Log.v(tag, "get user: " + user.toString());
+        }
+        else{
+            user = socoApp.getCurrentSuggestedBuddy();
+            Log.v(tag, "get user: " + user.toString());
+        }
+
+        setActionbar();
+
 //        Log.v(tag, "set activity title as event title");
 //        if(socoApp.OFFLINE_MODE)
 //            setTitle("Sample Event Title");
 //        else
 //            setTitle(socoApp.suggestedEvents.get(socoApp.currentEventIndex).getLabel());
 
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        setActionbar();
 
-//        Log.v(tag, "set action bar tab background color");
-//        actionBar.setStackedBackgroundDrawable(colorDrawable);
-
-        Log.v(tag, "Set listener");
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                Log.v(tag, "position is " + position);
-                actionBar.setSelectedNavigationItem(position);
-            }
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
     }
 
     void setActionbar(){
+        Log.v(tag, "set actionbar");
+        viewPager = (ViewPager) findViewById(R.id.pager);
+
         actionBar = getSupportActionBar();
         if(actionBar == null){
             Log.e(tag, "Cannot get action bar object");
@@ -89,6 +90,15 @@ public class UserProfileActivity extends ActionBarActivity implements
 //        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
 //        actionBar.setBackgroundDrawable(colorDrawable);
 
+        TextView userName = (TextView) customView.findViewById(R.id.name);
+        userName.setText(user.getUser_name());
+        TextView userLocation = (TextView) customView.findViewById(R.id.location);
+        if(user.getLocation().isEmpty())
+            Log.w(tag, "user location is empty, use default Hong Kong");
+        else
+            userLocation.setText((user.getLocation()));
+        Log.v(tag, "set user name and location: " + user.getUser_name() + ", " + user.getLocation());
+
         Log.v(tag, "Adding tabs");
         android.support.v7.app.ActionBar.Tab tabProfile = actionBar.newTab().setText(PROFILE).setTabListener(this);
         actionBar.addTab(tabProfile);
@@ -102,6 +112,21 @@ public class UserProfileActivity extends ActionBarActivity implements
 //            actionBar.selectTab(tabGroups);
 //        else if(socoApp.eventGroupsBuddiesTabIndex == 1)
 //            actionBar.selectTab(tabBuddies);
+
+        Log.v(tag, "Set listener");
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                Log.v(tag, "position is " + position);
+                actionBar.setSelectedNavigationItem(position);
+            }
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
     }
 
     @Override

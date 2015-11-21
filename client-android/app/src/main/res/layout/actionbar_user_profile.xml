@@ -121,14 +121,14 @@
             android:text="Stephen Chow"
             android:gravity="center" />
         <TextView
-            android:id="@+id/whereami"
+            android:id="@+id/location"
             style="@android:style/TextAppearance.Large.Inverse"
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:fontFamily="Roboto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hong Kong Island, HK"
+            android:text="Hong Kong"
             android:gravity="center"/>
         <!--<ImageView-->
         <!--android:id="@+id/banner"-->

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class User extends UserBrief{
 
-   private String location;
+    private String location;
     private ArrayList<String> interests;
     private int number_common_event;
     private String common_event_name;

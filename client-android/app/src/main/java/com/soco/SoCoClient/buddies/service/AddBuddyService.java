@@ -89,8 +89,10 @@ public class AddBuddyService extends IntentService {
 
             if(socoApp.BUDDY_INTERFACE_READY)
                 data.put(JsonKeys.FRIEND_ID, currentBuddyId);
-            else
+            else {
+                Log.w(tag, "buddy interface not ready, use test user id: " + JsonKeys.TEST_USER_ID2);
                 data.put(JsonKeys.FRIEND_ID, JsonKeys.TEST_USER_ID2);
+            }
 
             Log.d(tag, "add buddy json: " + data);
         } catch (Exception e) {

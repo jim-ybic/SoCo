@@ -45,7 +45,7 @@ public class EventDetailsActivity extends ActionBarActivity {
             event = socoApp.getCurrentSuggestedEvent();
         }
         Current_Event_Id = event.getId();
-        setViewFromEvent(event);
+        showDetails(event);
     }
 
     @Override
@@ -110,7 +110,9 @@ public class EventDetailsActivity extends ActionBarActivity {
         startActivity(i);
     }
 
-    private void setViewFromEvent(Event event){
+    private void showDetails(Event event){
+        Log.v(tag, "show event details: " + event.toString());
+
         ((TextView)this.findViewById(R.id.textNoOfViews)).setText(Integer.toString(event.getNumber_of_views()));
         ((TextView)this.findViewById(R.id.textNoOfLikes)).setText(Integer.toString(event.getNumber_of_likes()));
         ((TextView)this.findViewById(R.id.textNoOfComments)).setText(Integer.toString(event.getNumber_of_comments()));

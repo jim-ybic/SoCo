@@ -26,7 +26,7 @@ import java.util.List;
 
 public class DownloadSuggestedBuddiesService extends IntentService {
 
-    static final String tag = "LoadSuggestedBuddies";
+    static final String tag = "DownloadSuggestedBuddi";
 
     static SocoApp socoApp;
 
@@ -158,11 +158,26 @@ public class DownloadSuggestedBuddiesService extends IntentService {
         u.setUser_id(obj.getString(JsonKeys.USER_ID));
         u.setUser_name(obj.getString(JsonKeys.USER_NAME));
         u.setLocation(obj.getString(JsonKeys.LOCATION));
+        Log.v(tag, "user id, name, location: " + u.getUser_id() + ", " + u.getUser_name() + ", " + u.getLocation());
+
         u.setNumber_common_event(obj.getInt(JsonKeys.NUMBER_OF_COMMON_EVENT));
-//        u.setCommon_event_name(obj.getString(JsonKeys.FIRST_COMMON_EVENT_NAME));
+        if(obj.has(JsonKeys.FIRST_COMMON_EVENT_NAME)) {
+            u.setCommon_event_name(obj.getString(JsonKeys.FIRST_COMMON_EVENT_NAME));
+            Log.v(tag, "first user event: " + u.getCommon_event_name());
+        }
+        else
+            Log.w(tag, "no user event");
         u.setNumber_common_group(obj.getInt(JsonKeys.NUMBER_OF_COMMON_GROUP));
-//        u.setCommon_group_name(obj.getString(JsonKeys.FIRST_COMMON_GROUP_NAME));
+
+        if(obj.has(JsonKeys.FIRST_COMMON_GROUP_NAME)) {
+            u.setCommon_group_name(obj.getString(JsonKeys.FIRST_COMMON_GROUP_NAME));
+            Log.v(tag, "first user group: " + u.getCommon_group_name());
+        }
+        else
+            Log.w(tag, "no user group");
+
         u.setNumber_common_buddy(obj.getInt(JsonKeys.NUMBER_OF_COMMON_BUDDIES));
+        Log.v(tag, "number of common buddy: " + u.getNumber_common_buddy());
     }
 
     private void parseInterests(User u, JSONObject obj) throws JSONException {
