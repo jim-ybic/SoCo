@@ -1,14 +1,22 @@
 package com.soco.SoCoClient.userprofile.model;
 
+import android.util.Log;
+
+import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class UserBrief {
+    static final String tag = "UserBrief";
     public static final String USER_ID = "USER_ID";
 
     private String user_id, user_name, user_icon_url;
+
 
     public String getUser_id() {
         return user_id;

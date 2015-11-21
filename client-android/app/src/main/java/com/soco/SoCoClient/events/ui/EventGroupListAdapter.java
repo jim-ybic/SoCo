@@ -66,6 +66,9 @@ public class EventGroupListAdapter extends ArrayAdapter<Item> {
 				ImageButton image = (ImageButton) v.findViewById(R.id.image);
 				IconUrlUtil.setImageForButtonNormal(context.getResources(), image, UrlUtil.getUserIconUrl(ei.getGroup_id()));
 
+				Log.v(tag, "set tag: " + ei.getGroup_id());
+				image.setTag(ei.getGroup_id());
+
 				//todo: show other group properties
 			}
 			else if (i.getType().equals(Item.LIST_ITEM_TYPE_USER)){ //user
@@ -81,6 +84,8 @@ public class EventGroupListAdapter extends ArrayAdapter<Item> {
 				ImageButton image = (ImageButton) v.findViewById(R.id.image);
 				IconUrlUtil.setImageForButtonNormal(context.getResources(), image, UrlUtil.getUserIconUrl(item.getUser_id()));
 
+				Log.v(tag, "set tag: " + item.getUser_id());
+				image.setTag(item.getUser_id());
 				//todo: show other user properties
 			}
 		}

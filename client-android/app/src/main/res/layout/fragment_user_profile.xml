@@ -1,8 +1,11 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/allevents"
+    android:id="@+id/userprofile"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:layout_weight="1">
 
     <LinearLayout
         android:id="@+id/master"
@@ -247,146 +250,158 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Friends (358)"
+                android:text="Friends"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:layout_marginTop="15dp" />
 
-            <LinearLayout
+            <com.soco.SoCoClient.common.ui.ExpandableHeightGridView
+                android:id="@+id/grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:numColumns="auto_fit"
+                android:verticalSpacing="10dp"
+                android:horizontalSpacing="10dp"
+                android:columnWidth="90dp"
+                android:stretchMode="columnWidth"
+                android:gravity="center"
+                android:focusable="false" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/eventbuddies_person5"
-                        android:layout_gravity="center_horizontal"
-                        android:clickable="false"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Mary Yan"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal" />
-                </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_marginTop="10dp">-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/eventbuddies_person6"
-                        android:layout_gravity="center_horizontal"
-                        android:clickable="false"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Mary Yan"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal" />
-                </LinearLayout>
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_weight="1">-->
+                    <!--<ImageButton-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="?android:attr/selectableItemBackground"-->
+                        <!--android:src="@drawable/eventbuddies_person5"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:clickable="false"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Mary Yan"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:gravity="center_horizontal" />-->
+                <!--</LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/eventbuddies_person7"
-                        android:layout_gravity="center_horizontal"
-                        android:clickable="false"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Mary Yan"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal" />
-                </LinearLayout>
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_weight="1">-->
+                    <!--<ImageButton-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="?android:attr/selectableItemBackground"-->
+                        <!--android:src="@drawable/eventbuddies_person6"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:clickable="false"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Mary Yan"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:gravity="center_horizontal" />-->
+                <!--</LinearLayout>-->
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_weight="1">-->
+                    <!--<ImageButton-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="?android:attr/selectableItemBackground"-->
+                        <!--android:src="@drawable/eventbuddies_person7"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:clickable="false"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Mary Yan"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:gravity="center_horizontal" />-->
+                <!--</LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/eventbuddies_person5"
-                        android:layout_gravity="center_horizontal"
-                        android:clickable="false"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Mary Yan"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal" />
-                </LinearLayout>
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_marginTop="10dp">-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/eventbuddies_person6"
-                        android:layout_gravity="center_horizontal"
-                        android:clickable="false"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Mary Yan"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal" />
-                </LinearLayout>
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_weight="1">-->
+                    <!--<ImageButton-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="?android:attr/selectableItemBackground"-->
+                        <!--android:src="@drawable/eventbuddies_person5"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:clickable="false"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Mary Yan"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:gravity="center_horizontal" />-->
+                <!--</LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/eventbuddies_person7"
-                        android:layout_gravity="center_horizontal"
-                        android:clickable="false"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Mary Yan"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal" />
-                </LinearLayout>
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_weight="1">-->
+                    <!--<ImageButton-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="?android:attr/selectableItemBackground"-->
+                        <!--android:src="@drawable/eventbuddies_person6"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:clickable="false"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Mary Yan"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:gravity="center_horizontal" />-->
+                <!--</LinearLayout>-->
 
-            </LinearLayout>
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_weight="1">-->
+                    <!--<ImageButton-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="?android:attr/selectableItemBackground"-->
+                        <!--android:src="@drawable/eventbuddies_person7"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:clickable="false"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Mary Yan"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:gravity="center_horizontal" />-->
+                <!--</LinearLayout>-->
+
+            <!--</LinearLayout>-->
 
         </LinearLayout>
 

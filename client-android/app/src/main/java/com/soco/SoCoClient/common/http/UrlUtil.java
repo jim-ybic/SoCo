@@ -241,6 +241,7 @@ public class UrlUtil {
     static final String SUGGESTED_BUDDIES_PATH = "/v1/suggested_buddies";
     static final String USER_ICON="/v1/user_icon?";
     static final String CREATE_GROUP_PATH = "/v1/group";
+    static final String USER_PROFILE_PATH = "/v1/user";
 
 
     public static String getLoginUrl(){
@@ -323,9 +324,17 @@ public class UrlUtil {
         }
         return sb.toString();
     }
+
     public static String getCreateGroupUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + CREATE_GROUP_PATH;
         Log.v(tag, "create group url: " + url);
         return url;
     }
+
+    public static String getUserProfileUrl(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_PROFILE_PATH;
+        Log.v(tag, "user profile url: " + url);
+        return url;
+    }
+
 }

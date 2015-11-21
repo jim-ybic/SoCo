@@ -2,9 +2,11 @@ package com.soco.SoCoClient.common.http;
 
 public class JsonKeys {
     public static final String ADDRESS = "address";
+    public static final String BIOGRAPHY = "biography";
     public static final String BUDDIES = "buddies";
     public static final String BUDDIES_JOINED = "buddies_joined";
     public static final String BUDDIES_LIKED = "buddies_liked";
+    public static final String BUDDY_USER_ID = "buddy_user_id";
     public static final String CATEGORIES = "categories";
     public static final String CATEGORY = "category";
     public static final String CREATOR_ICON_URL = "creator_icon_url";
@@ -24,12 +26,14 @@ public class JsonKeys {
     public static final String EVENTS = "events";
     public static final String FRIEND_ICON_URL = "friend_icon_url";
     public static final String FRIEND_ID = "friend_id";
+    public static final String FRIENDS_LIST = "friends_list";
     public static final String FRIEND_NAME = "friend_name";
     public static final String FRIENDS = "friends";
     public static final String GROUP_ICON_URL = "group_icon_url";
     public static final String GROUP_ID = "group_id";
     public static final String GROUP_MEMBERS = "group_members";
     public static final String GROUP_NAME = "group_name";
+    public static final String HOMETOWN = "hometown";
     public static final String ID = "id";
     public static final String INTRODUCTION = "introduction";
     public static final String LOCATION = "location";
@@ -58,7 +62,7 @@ public class JsonKeys {
     public static final String NUMBER_OF_LIKES = "number_of_likes";
     public static final String NUMBER_OF_COMMENTS = "number_of_comments";
     public static final String IS_LIKED_BY_USER = "is_liked_by_user";
-
+    public static final String USER = "user";
     public static final String USER_NAME = "user_name";
     public static final String USER_ICON_URL = "user_icon_url";
     public static final String INTEREST = "interest";

@@ -1,21 +1,49 @@
 package com.soco.SoCoClient.userprofile.model;
 
+import android.util.Log;
+
+import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.util.StringUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class User extends UserBrief{
+    static final String tag = "User";
 
     private String location;
-    private ArrayList<String> interests;
+    private ArrayList<String> interests = new ArrayList<>();
     private int number_common_event;
     private String common_event_name;
     private int number_common_group;
     private String common_group_name;
     private int number_common_buddy;
-    private ArrayList<UserBrief> common_buddies;
+    private ArrayList<UserBrief> common_buddies = new ArrayList<>();
 
-   public String getLocation() {
+    String hometown;
+    ArrayList<User> friends_list = new ArrayList<>();
+    HashSet<String> friendIds = new HashSet<>();
+    String biography;
+
+    public User(){}
+
+    public User(JSONObject obj){
+        try {
+            this.setUser_id(obj.getString(JsonKeys.USER_ID));
+            this.setUser_name(obj.getString(JsonKeys.USER_NAME));
+            this.setUser_icon_url(obj.getString(JsonKeys.USER_ICON_URL));
+//            Log.v(tag, "user created from json: " + getUser_id() + ", " + getUser_name() + ", " + getUser_icon_url());
+        } catch (JSONException e) {
+            Log.e(tag, "cannot create user brief from json: " + obj);
+            e.printStackTrace();
+        }
+    }
+
+
+    public String getLocation() {
         return location;
     }
 
@@ -32,9 +60,9 @@ public class User extends UserBrief{
     }
 
     public void addInterest(String interest){
-        if(this.interests==null){
-            this.interests = new ArrayList<>();
-        }
+//        if(this.interests==null){
+//            this.interests = new ArrayList<>();
+//        }
         this.interests.add(interest);
     }
     public int getNumber_common_event() {
@@ -85,34 +113,66 @@ public class User extends UserBrief{
         this.common_buddies = common_buddies;
     }
     public void addCommon_buddy(UserBrief userBrief){
-        if(this.common_buddies==null){
-            this.common_buddies = new ArrayList<>();
-        }
+//        if(this.common_buddies==null){
+//            this.common_buddies = new ArrayList<>();
+//        }
         this.common_buddies.add(userBrief);
+    }
+
+    public String getHometown() {
+        return hometown;
+    }
+
+    public void setHometown(String hometown) {
+        this.hometown = hometown;
+    }
+
+    public ArrayList<User> getFriends_list() {
+        return friends_list;
+    }
+
+    public void setFriends_list(ArrayList<User> friends_list) {
+        for(User u : friends_list)
+            friendIds.add(u.getUser_id());
+        this.friends_list = friends_list;
+    }
+
+    public void addFriends_list(User u){
+        if(friendIds.contains(u.getUser_id()))
+            Log.w(tag, "user already in friend list: " + u.getUser_name());
+        else {
+            friendIds.add(u.getUser_id());
+            this.friends_list.add(u);
+        }
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
     }
 
     @Override
     public String toString() {
-        String interestString = (interests==null||interests.size()==0)?"":interests.toString();
-        StringBuffer sb = new StringBuffer();
-        if(common_buddies!=null&&common_buddies.size()>0){
-            for(UserBrief ub:common_buddies){
-                sb.append(ub.toString());
-            }
-        }
-
         return "User{" +
-                "user_id='" + this.getUser_id()+ '\'' +
-                ", user_name='" + this.getUser_name() + '\'' +
-                ", user_icon_url='" + this.getUser_icon_url() + '\'' +
-                ", location='" + location + '\'' +
-                ", interest='" + interestString + '\'' +
-                ", number_common_events='" + number_common_event + '\'' +
-                ", first_common_event_name='" + common_event_name + '\'' +
-                ", number_of_common_groups='" + number_common_group + '\'' +
-                ", first_common_group_name='" + common_group_name + '\'' +
-                ", number_of_common_buddies='" + number_common_buddy + '\'' +
-                ", common_buddies ='" + sb.toString() + '\'' +
+                "user_id='" + getUser_id() + '\'' +
+                "user_name='" + getUser_name() + '\'' +
+                "user_icon_url='" + getUser_icon_url() + '\'' +
+                "location='" + location + '\'' +
+                ", interests=" + interests +
+                ", number_common_event=" + number_common_event +
+                ", common_event_name='" + common_event_name + '\'' +
+                ", number_common_group=" + number_common_group +
+                ", common_group_name='" + common_group_name + '\'' +
+                ", number_common_buddy=" + number_common_buddy +
+                ", common_buddies=" + common_buddies +
+                ", hometown='" + hometown + '\'' +
+                ", bio='" + biography + '\'' +
+                ", friends_list=" + friends_list +
                 '}';
     }
+
+
 }

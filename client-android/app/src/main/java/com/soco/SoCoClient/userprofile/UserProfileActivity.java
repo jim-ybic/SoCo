@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.userprofile;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -9,15 +10,21 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.TaskCallBack;
+import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.userprofile.model.User;
+import com.soco.SoCoClient.userprofile.task.UserProfileTask;
 import com.soco.SoCoClient.userprofile.ui.UserProfileTabsAdapter;
 import com.soco.SoCoClient.common.util.SocoApp;
 
-public class UserProfileActivity extends ActionBarActivity implements
-        android.support.v7.app.ActionBar.TabListener{
+public class UserProfileActivity extends ActionBarActivity
+        implements android.support.v7.app.ActionBar.TabListener, TaskCallBack
+{
 
     String tag = "UserProfileActivity";
 
@@ -29,6 +36,7 @@ public class UserProfileActivity extends ActionBarActivity implements
     static final String GROUPS = "Groups";
     static final String EVENTS = "Events";
 
+    Context context;
     SocoApp socoApp;
     User user;
 
@@ -37,28 +45,33 @@ public class UserProfileActivity extends ActionBarActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        socoApp = (SocoApp) getApplicationContext();
+        context = getApplicationContext();
+        socoApp = (SocoApp) context;
 
         Intent i = getIntent();
         String userId = i.getStringExtra(User.USER_ID);
-        if(!userId.isEmpty() && socoApp.suggestedBuddies != null && socoApp.suggestedBuddiesMap.containsKey(userId))     {
+        Log.v(tag, "userid: " + userId);
+        if(userId != null && !userId.isEmpty() && socoApp.suggestedBuddies != null && socoApp.suggestedBuddiesMap.containsKey(userId))     {
             user = socoApp.suggestedBuddiesMap.get(userId);
-            Log.v(tag, "get user: " + user.toString());
+            Log.v(tag, "get user from suggested buddies map: " + user.toString());
+            setActionbar();
         }
         else{
-            user = socoApp.getCurrentSuggestedBuddy();
-            Log.v(tag, "get user: " + user.toString());
+            if(userId == null)
+                Log.w(tag, "userid is null");
+            else if(userId.isEmpty())
+                Log.w(tag, "userid is empty");
+            else if(socoApp.suggestedBuddies == null)
+                Log.w(tag, "suggested buddies is null");
+            else if(!socoApp.suggestedBuddiesMap.containsKey(userId))
+                Log.w(tag, "suggested buddies map does not contain user: " + userId);
+
+            Log.v(tag, "cannot get user from current suggested buddies, request from server: " + userId);
+            user = new User();
+            user.setUser_id(userId);
+            new UserProfileTask(context, user, this).execute();
+//            user = socoApp.getCurrentSuggestedBuddy();
         }
-
-        setActionbar();
-
-//        Log.v(tag, "set activity title as event title");
-//        if(socoApp.OFFLINE_MODE)
-//            setTitle("Sample Event Title");
-//        else
-//            setTitle(socoApp.suggestedEvents.get(socoApp.currentEventIndex).getLabel());
-
-
     }
 
     void setActionbar(){
@@ -98,6 +111,10 @@ public class UserProfileActivity extends ActionBarActivity implements
         else
             userLocation.setText((user.getLocation()));
         Log.v(tag, "set user name and location: " + user.getUser_name() + ", " + user.getLocation());
+
+        Log.v(tag, "set user icon: " + user.getUser_id() + ", " + user.getUser_name());
+        ImageView icon = (ImageView) customView.findViewById(R.id.icon);
+        IconUrlUtil.setImageForButtonLarge(context.getResources(), icon, UrlUtil.getUserIconUrl(user.getUser_id()));
 
         Log.v(tag, "Adding tabs");
         android.support.v7.app.ActionBar.Tab tabProfile = actionBar.newTab().setText(PROFILE).setTabListener(this);
@@ -172,5 +189,11 @@ public class UserProfileActivity extends ActionBarActivity implements
         Log.v(tag, "tap on close");
         finish();
     }
+
+    public void doneTask(){
+        Log.v(tag, "done task, set actionbar");
+        setActionbar();
+    }
+
 
 }

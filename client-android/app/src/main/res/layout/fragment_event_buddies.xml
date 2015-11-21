@@ -74,7 +74,7 @@
         </LinearLayout>
 
         <GridView
-            android:id="@+id/gridLikers"
+            android:id="@+id/grid"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:numColumns="auto_fit"

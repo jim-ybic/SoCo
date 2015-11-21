@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="160dp"
         android:orientation="vertical"
         android:background="#4a4a4a"
         android:id="@+id/titlearea">
@@ -103,7 +103,8 @@
         android:clickable="true"
             android:id="@+id/userinfo">
 
-        <ImageButton
+        <ImageView
+            android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"

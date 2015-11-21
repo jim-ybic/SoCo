@@ -7,13 +7,12 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <ImageButton
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/user1"
         android:layout_gravity="center_horizontal"
-        android:onClick="userprofile"
         android:id="@+id/image" />
 
     <TextView
@@ -23,6 +22,14 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center_vertical"
         android:id="@+id/name" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="user id"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical"
+        android:id="@+id/id" />
 
     <!--<ImageView-->
         <!--android:id="@+id/list_item_entry_drawable"-->
