@@ -6,9 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import com.soco.SoCoClient.common.database.Config;
-import com.soco.SoCoClient.userprofile.ui.UserEventsFragment;
-import com.soco.SoCoClient.userprofile.ui.UserGroupsFragment;
-import com.soco.SoCoClient.userprofile.ui.UserProfileFragment;
+import com.soco.SoCoClient.userprofile.ui.EventCardListFragment;
 
 public class GroupDetailsTabsAdapter extends FragmentPagerAdapter {
 
@@ -23,17 +21,16 @@ public class GroupDetailsTabsAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int index) {
         Log.v(tag, "get item from index: " + index);
         switch (index) {
-//            case Config.EVENT_GROUPS_BUDDIES_TAB_INDEX_GROUPS:
-//                return new EventGroupsFragment();
-//            case Config.EVENT_GROUPS_BUDDIES_TAB_INDEX_BUDDIES:
-//                return new EventBuddiesFragment();
+            case Config.GROUP_DETAILS_TAB_INDEX_UPCOMINGEVENTS: {
+                //todo: set flag for showing upcoming events
 
-            //todo: create fragment classes for upcoming events and past events
+                return new EventCardListFragment();
+            }
+            case Config.GROUP_DETAILS_TAB_INDEX_PASTEVENTS: {
+                //todo: set flag for showing past events
 
-            case Config.GROUP_DETAILS_TAB_INDEX_UPCOMINGEVENTS:
-                return new UserEventsFragment();
-            case Config.GROUP_DETAILS_TAB_INDEX_PASTEVENTS:
-                return new UserEventsFragment();
+                return new EventCardListFragment();
+            }
         }
 
         return null;

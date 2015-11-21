@@ -131,7 +131,6 @@
             android:name=".events.service.JoinEventService"
             android:enabled="true" />
 
-
         <activity
             android:name=".events._ref.ActivityLocationActivity"
             android:label="@string/title_activity_project_location" >
@@ -159,10 +158,12 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".onboarding.login.LoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity
+            android:name=".onboarding.login.LoginActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -290,7 +291,7 @@
         </activity>
         <activity
             android:name="._ref.GroupDetailsActivityV1"
-            android:label="@string/title_activity_activity_group_details">
+            android:label="@string/title_activity_activity_group_details" >
         </activity>
         <activity
             android:name=".buddies.suggested.CommonGroupsActivity"
@@ -421,7 +422,11 @@
         <activity
             android:name=".groups.GroupDetailsActivity"
             android:label="@string/title_activity_group_details"
-            android:theme="@style/GroupDetailsTallActionBarTheme">
+            android:theme="@style/GroupDetailsTallActionBarTheme" >
+        </activity>
+        <activity
+            android:name=".groups.JoinGroupActivity"
+            android:label="@string/title_activity_join_group" >
         </activity>
     </application>
 

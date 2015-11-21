@@ -27,9 +27,9 @@ public class UserProfileTabsAdapter extends FragmentPagerAdapter {
             case Config.USER_PROFILE_TAB_INDEX_PROFILE:
                 return new UserProfileFragment();
             case Config.USER_PROFILE_TAB_INDEX_GROUPS:
-                return new UserGroupsFragment();
+                return new GroupCardListFragment();
             case Config.USER_PROFILE_TAB_INDEX_EVENTS:
-                return new UserEventsFragment();
+                return new EventCardListFragment();
         }
 
         return null;

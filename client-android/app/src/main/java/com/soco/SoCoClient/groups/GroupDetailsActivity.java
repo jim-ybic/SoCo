@@ -146,6 +146,16 @@ public class GroupDetailsActivity extends ActionBarActivity implements
         Intent i = new Intent(this, GroupMembersActivity.class);
 
         //todo: pass group id
+
+        startActivity(i);
+    }
+
+    public void joingroup(View view){
+        Log.v(tag, "tap join group");
+        Intent i = new Intent(this, JoinGroupActivity.class);
+
+        //todo: pass group id
+
         startActivity(i);
     }
 }

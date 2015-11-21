@@ -24,10 +24,6 @@
                 android:orientation="horizontal"
                 android:layout_gravity="left"
                 android:gravity="left"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
                 android:clickable="true"
                 android:onClick="close">
                 <ImageButton
@@ -35,22 +31,22 @@
                     android:layout_height="match_parent"
                     android:background="?android:attr/selectableItemBackground"
                     android:src="@drawable/actionbar_close"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:padding="10dp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="10"
                 android:orientation="horizontal">
             </LinearLayout>
-            <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:gravity="right"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:paddingLeft="5dp"-->
-            <!--android:paddingRight="5dp" >-->
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right"
+                android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+                android:layout_gravity="right">
             <!--<ImageButton-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="match_parent"-->
@@ -58,6 +54,14 @@
             <!--android:src="@drawable/actionbar_comment"-->
             <!--android:layout_gravity="center_vertical"-->
             <!--android:clickable="false" />-->
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_new_white"
+                    android:layout_gravity="center_vertical"
+                    android:onClick="joingroup"
+                    android:padding="2dp" />
             <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
@@ -99,7 +103,7 @@
             <!--android:src="@drawable/actionbar_overflow"-->
             <!--android:layout_gravity="center_vertical"-->
             <!--android:clickable="false" />-->
-            <!--</LinearLayout>-->
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -246,8 +250,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="1"
-            android:onClick="eventbuddies">
+            android:layout_weight="1">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -6,9 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import com.soco.SoCoClient.common.database.Config;
-import com.soco.SoCoClient.userprofile.ui.UserEventsFragment;
-import com.soco.SoCoClient.userprofile.ui.UserGroupsFragment;
-import com.soco.SoCoClient.userprofile.ui.UserProfileFragment;
 
 public class AllBuddiesTabsAdapter extends FragmentPagerAdapter {
 
