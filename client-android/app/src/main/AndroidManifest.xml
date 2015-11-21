@@ -59,6 +59,7 @@
         <activity
             android:name=".dashboard.Dashboard"
             android:label="@string/title_dashboard"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" >
         </activity>
         <activity
