@@ -38,7 +38,7 @@ public class IconUrlUtil {
 //        screenSize=screenSize;
         sizeSmall = Math.round(screenSize * 0.11111f);
         sizeNormal = Math.round(screenSize * 0.185185f);
-        sizeLarge = Math.round(screenSize * 0.27778f);
+        sizeLarge = Math.round(screenSize * 0.21f);
         iconImageCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {

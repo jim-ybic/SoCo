@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.http.UrlUtil;
@@ -66,7 +67,7 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 
         loadBuddies();
 
-        SimpleAdapter saJoinedBuddies = new SimpleAdapter(getActivity(),
+        EventBuddiesSimpleAdapter saJoinedBuddies = new EventBuddiesSimpleAdapter(getActivity(),
                 joinedBuddies,
                 R.layout.eventbuddiesgrid_entry,
                 new String[] {ItemImage,ItemText},
@@ -89,8 +90,10 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
                     }
                 }
         );
-
-        SimpleAdapter saLikedBuddies = new SimpleAdapter(getActivity(),
+        if(joinedBuddies!=null){
+            ((TextView) rootView.findViewById(R.id.number_of_joiners)).setText(Integer.toString(joinedBuddies.size()));
+        }
+        EventBuddiesSimpleAdapter saLikedBuddies = new EventBuddiesSimpleAdapter(getActivity(),
                 likedBuddies,
                 R.layout.eventbuddiesgrid_entry,
                 new String[] {ItemImage,ItemText},
@@ -114,6 +117,9 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
                 }
         );
 
+        if(likedBuddies!=null){
+            ((TextView) rootView.findViewById(R.id.number_of_likers)).setText(Integer.toString(likedBuddies.size()));
+        }
 //        addDummyBuddyLikers();
 //        addDummyBuddyParticipants();
 
@@ -195,16 +201,7 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
         Log.v(tag, "show buddy item: " + user.getUser_name() + ", " + UrlUtil.getUserIconUrl(user.getUser_id()));
 
         HashMap<String, Object> item = new HashMap<>();
-        ImageButton image = new ImageButton(context);
-        image.setLayoutParams(params);
-        image.setBackgroundResource(backgroundResource);
-        image.setPadding(10, 0, 10, 0);
-
-        IconUrlUtil.setImageForButtonLarge(context.getResources(), image, UrlUtil.getUserIconUrl(user.getUser_id()));
-        Drawable d = image.getDrawable();
-        Log.v(tag, "image drawable: " + d);
-
-        item.put(ItemImage, d);
+        item.put(ItemImage, UrlUtil.getUserIconUrl(user.getUser_id()));
         item.put(ItemText, user.getUser_name());
         return item;
     }
