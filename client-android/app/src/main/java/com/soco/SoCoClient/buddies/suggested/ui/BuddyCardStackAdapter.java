@@ -2,8 +2,6 @@ package com.soco.SoCoClient.buddies.suggested.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +17,13 @@ import com.soco.SoCoClient.userprofile.model.User;
 import com.soco.SoCoClient.userprofile.model.UserBrief;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 
 	static String tag = "BuddyCardStackAdapter";
+	static final int MAX_NUMBER_BUDDIES_SHOW_ON_CARD = 6;
 
 	View mConvertView;
 	Context mContext;
@@ -44,7 +44,7 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 		User user = model.getUser();
 		//user should hold all the information we need for populate to the view
 		updateUserInfoToView(user);
-		showIconUrl(user);
+		showBuddyIcons(user);
 		return convertView;
 	}
 	private void updateUserInfoToView(User user){
@@ -81,9 +81,16 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 			interestsList.addView(view);
 		}
 	}
-	private void showIconUrl(User u){
+
+	private void showBuddyIcons(User u){
+		Log.v(tag, "show suggested buddy's icon");
 		ImageButton ib = (ImageButton) mConvertView.findViewById(R.id.iconUser);
-		IconUrlUtil.setImageForButtonNormal(mContext.getResources(),ib, u.getUser_icon_url());
+		IconUrlUtil.setImageForButtonNormal(mContext.getResources(), ib, u.getUser_icon_url());
+
+		Log.v(tag, "show common buddy's icons");
+		int countBuddy = 0;
+		HashSet<String> buddyIds = new HashSet<>();
+
 		if(u.getCommon_buddies()!=null&&u.getCommon_buddies().size()>0){
 			Log.v(tag, "loading photo for common users : " + u.getCommon_buddies());
 			LinearLayout commonBuddiesList = (LinearLayout) mConvertView.findViewById(R.id.layoutCommonBuddies);
@@ -97,15 +104,25 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 			typedArray.recycle();
 			for(int i=0; i<u.getCommon_buddies().size()&&i<6; i++) {
 				UserBrief ub = u.getCommon_buddies().get(i);
+				if(buddyIds.contains(ub.getUser_id())) {
+					Log.w(tag, "user already added to card: " + ub.toString());
+					continue;
+				}
+				else
+					buddyIds.add(ub.getUser_id());
+
 				ImageButton b = new ImageButton(mContext);
-				b.setPadding(10, 0, 10, 0);
-				b.setClickable(false);
-				b.setBackgroundResource(backgroundResource);
-//				params.setMargins(0, 5, 10, 5);
 				b.setLayoutParams(params);
+				b.setBackgroundResource(backgroundResource);
+				b.setPadding(10, 2, 10, 2);
+				b.setClickable(false);
+//				params.setMargins(0, 5, 10, 5);
 //				b.setScaleType(ImageView.ScaleType.FIT_XY);
 				IconUrlUtil.setImageForButtonSmall(mContext.getResources(),b,ub.getUser_icon_url());
 				commonBuddiesList.addView(b);
+
+				if(++countBuddy >= MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+					break;
 			}
 		}
 	}
