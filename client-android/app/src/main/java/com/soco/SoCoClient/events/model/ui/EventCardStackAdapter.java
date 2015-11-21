@@ -283,6 +283,7 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 		}
 		return sb.toString();
 	}
+
 	private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
 		ImageButton user = new ImageButton(mContext);
 //		ImageView user = new ImageView(mContext);

@@ -2,6 +2,7 @@ package com.soco.SoCoClient.buddies.suggested.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +62,8 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 		}
 
 	}
-	private void showInterests(ArrayList<String> interests){
+
+	void showInterests(ArrayList<String> interests){
 		Log.v(tag, "show user interests: " + interests);
 
 		LinearLayout interestsList = (LinearLayout) mConvertView.findViewById(R.id.interests);
@@ -72,7 +74,7 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 			view.setText(cat);
 			view.setBackgroundResource(R.drawable.eventcategory_box);
 			view.setPadding(10, 5, 10, 5);
-//			view.setTextColor(Color.GRAY);
+			view.setTextColor(Color.BLACK);
 
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 			params.setMargins(0, 5, 10, 5);
@@ -82,7 +84,7 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 		}
 	}
 
-	private void showBuddyIcons(User u){
+	void showBuddyIcons(User u){
 		Log.v(tag, "show suggested buddy's icon");
 		ImageButton ib = (ImageButton) mConvertView.findViewById(R.id.iconUser);
 		IconUrlUtil.setImageForButtonNormal(mContext.getResources(), ib, u.getUser_icon_url());
