@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.ui.ExpandableHeightGridView;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
@@ -68,7 +69,9 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
                 R.layout.eventbuddiesgrid_entry,
                 new String[] {ItemImage,ItemName,ItemId},
                 new int[] {R.id.image,R.id.name,R.id.id});
-        GridView gridviewJB = (GridView) rootView.findViewById(R.id.gridJoiners);
+//        GridView gridviewJB = (GridView) rootView.findViewById(R.id.gridJoiners);
+        ExpandableHeightGridView gridviewJB = (ExpandableHeightGridView) rootView.findViewById(R.id.gridJoiners);
+        gridviewJB.setExpanded(true);
         gridviewJB.setAdapter(saJoinedBuddies);
         gridviewJB.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
@@ -96,7 +99,9 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
                 R.layout.eventbuddiesgrid_entry,
                 new String[] {ItemImage,ItemName,ItemId},
                 new int[] {R.id.image,R.id.name,R.id.id});
-        GridView gridviewLB = (GridView) rootView.findViewById(R.id.grid);
+//        GridView gridviewLB = (GridView) rootView.findViewById(R.id.grid);
+        ExpandableHeightGridView gridviewLB = (ExpandableHeightGridView) rootView.findViewById(R.id.grid);
+        gridviewLB.setExpanded(true);
         gridviewLB.setAdapter(saLikedBuddies);
         gridviewLB.setOnItemClickListener(
                 new AdapterView.OnItemClickListener(){
