@@ -186,10 +186,10 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
             u.setUser_id("10101010101010");
             u.setUser_name("david");
             u.setLocation("Hong Kong");
-            u.setCommon_group_name("JoggingHK");
-            u.setNumber_common_group(1);
-            u.setCommon_event_name("hiking");
-            u.setNumber_common_event(2);
+            u.setGroup_name("JoggingHK");
+            u.setNumber_group(1);
+            u.setEvent_name("hiking");
+            u.setNumber_event(2);
             u.setNumber_common_buddy(10);
             u.addInterest("Hiking");
             u.addInterest("Jogging");

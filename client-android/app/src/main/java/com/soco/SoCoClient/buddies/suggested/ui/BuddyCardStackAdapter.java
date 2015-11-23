@@ -53,14 +53,32 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 		if(!StringUtil.isEmptyString(user.getLocation())) {
 			((TextView) mConvertView.findViewById(R.id.textLocation)).setText(user.getLocation());
 		}
-//		((TextView) mConvertView.findViewById(R.id.textComEvent)).setText(user.getCommon_event_name());
-		((TextView) mConvertView.findViewById(R.id.textNoOfComEvent)).setText("+"+Integer.toString(user.getNumber_common_event()));
-//		((TextView) mConvertView.findViewById(R.id.textComGroup)).setText(user.getCommon_group_name());
-		((TextView) mConvertView.findViewById(R.id.textNoOfComGroup)).setText("+" + Integer.toString(user.getNumber_common_group()));
+
+		Log.v(tag, "show user event: " + user.getEvent_name() + ", " + user.getNumber_event());
+		if(user.getNumber_event() > 0) {
+			((TextView) mConvertView.findViewById(R.id.textComEvent)).setText(user.getEvent_name());
+			((TextView) mConvertView.findViewById(R.id.textNumOfEvents)).setText("+" + Integer.toString(user.getNumber_event()));
+		}
+		else {
+			Log.v(tag, "no user event, hide textviews");
+			mConvertView.findViewById(R.id.textComEvent).setVisibility(View.INVISIBLE);
+			mConvertView.findViewById(R.id.textNumOfEvents).setVisibility(View.INVISIBLE);
+		}
+
+		Log.v(tag, "show user group: " + user.getGroup_name() + ", " + user.getNumber_group());
+		if(user.getNumber_group() > 0) {
+			((TextView) mConvertView.findViewById(R.id.textComGroup)).setText(user.getGroup_name());
+			((TextView) mConvertView.findViewById(R.id.textNumOfGroups)).setText("+" + Integer.toString(user.getNumber_group()));
+		}
+		else {
+			Log.v(tag, "no user group, hide textviews");
+			mConvertView.findViewById(R.id.textComGroup).setVisibility(View.INVISIBLE);
+			mConvertView.findViewById(R.id.textNumOfGroups).setVisibility(View.INVISIBLE);
+		}
+
 		if(user.getInterests()!=null&&user.getInterests().size()>0){
 			showInterests(user.getInterests());
 		}
-
 	}
 
 	void showInterests(ArrayList<String> interests){

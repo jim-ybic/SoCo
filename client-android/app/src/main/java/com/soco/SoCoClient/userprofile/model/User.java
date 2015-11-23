@@ -16,12 +16,19 @@ public class User extends UserBrief{
 
     private String location;
     private ArrayList<String> interests = new ArrayList<>();
-    private int number_common_event;
-    private String common_event_name;
-    private int number_common_group;
-    private String common_group_name;
+
+//    private int number_common_event;
+//    private String common_event_name;
+//    private int number_common_group;
+//    private String common_group_name;
+
     private int number_common_buddy;
     private ArrayList<UserBrief> common_buddies = new ArrayList<>();
+
+    int number_event;
+    String event_name;
+    int number_group;
+    String group_name;
 
     String hometown;
     ArrayList<User> friends_list = new ArrayList<>();
@@ -65,37 +72,37 @@ public class User extends UserBrief{
 //        }
         this.interests.add(interest);
     }
-    public int getNumber_common_event() {
-        return number_common_event;
-    }
-
-    public void setNumber_common_event(int number_common_event) {
-        this.number_common_event = number_common_event;
-    }
-
-    public String getCommon_event_name() {
-        return common_event_name;
-    }
-
-    public void setCommon_event_name(String common_event_name) {
-        this.common_event_name = common_event_name;
-    }
-
-    public int getNumber_common_group() {
-        return number_common_group;
-    }
-
-    public void setNumber_common_group(int number_common_group) {
-        this.number_common_group = number_common_group;
-    }
-
-    public String getCommon_group_name() {
-        return common_group_name;
-    }
-
-    public void setCommon_group_name(String common_group_name) {
-        this.common_group_name = common_group_name;
-    }
+//    public int getNumber_common_event() {
+//        return number_common_event;
+//    }
+//
+//    public void setNumber_common_event(int number_common_event) {
+//        this.number_common_event = number_common_event;
+//    }
+//
+//    public String getCommon_event_name() {
+//        return common_event_name;
+//    }
+//
+//    public void setCommon_event_name(String common_event_name) {
+//        this.common_event_name = common_event_name;
+//    }
+//
+//    public int getNumber_common_group() {
+//        return number_common_group;
+//    }
+//
+//    public void setNumber_common_group(int number_common_group) {
+//        this.number_common_group = number_common_group;
+//    }
+//
+//    public String getCommon_group_name() {
+//        return common_group_name;
+//    }
+//
+//    public void setCommon_group_name(String common_group_name) {
+//        this.common_group_name = common_group_name;
+//    }
 
     public int getNumber_common_buddy() {
         return number_common_buddy;
@@ -154,6 +161,38 @@ public class User extends UserBrief{
         this.biography = biography;
     }
 
+    public int getNumber_event() {
+        return number_event;
+    }
+
+    public void setNumber_event(int number_event) {
+        this.number_event = number_event;
+    }
+
+    public String getEvent_name() {
+        return event_name;
+    }
+
+    public void setEvent_name(String event_name) {
+        this.event_name = event_name;
+    }
+
+    public int getNumber_group() {
+        return number_group;
+    }
+
+    public void setNumber_group(int number_group) {
+        this.number_group = number_group;
+    }
+
+    public String getGroup_name() {
+        return group_name;
+    }
+
+    public void setGroup_name(String group_name) {
+        this.group_name = group_name;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -162,10 +201,10 @@ public class User extends UserBrief{
                 "user_icon_url='" + getUser_icon_url() + '\'' +
                 "location='" + location + '\'' +
                 ", interests=" + interests +
-                ", number_common_event=" + number_common_event +
-                ", common_event_name='" + common_event_name + '\'' +
-                ", number_common_group=" + number_common_group +
-                ", common_group_name='" + common_group_name + '\'' +
+//                ", number_common_event=" + number_common_event +
+//                ", common_event_name='" + common_event_name + '\'' +
+//                ", number_common_group=" + number_common_group +
+//                ", common_group_name='" + common_group_name + '\'' +
                 ", number_common_buddy=" + number_common_buddy +
                 ", common_buddies=" + common_buddies +
                 ", hometown='" + hometown + '\'' +

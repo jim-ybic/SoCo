@@ -9,6 +9,7 @@ public class JsonKeys {
     public static final String BUDDY_USER_ID = "buddy_user_id";
     public static final String CATEGORIES = "categories";
     public static final String CATEGORY = "category";
+    public static final String COMMON_BUDDIES = "common_buddies";
     public static final String CREATOR_ICON_URL = "creator_icon_url";
     public static final String CREATOR_ID = "creator_id";
     public static final String CREATOR_NAME = "creator_name";
@@ -24,6 +25,10 @@ public class JsonKeys {
     public static final String EVENT = "event";
     public static final String EVENT_ID = "event_id";
     public static final String EVENTS = "events";
+    public static final String FIRST_COMMON_EVENT_NAME = "first_common_event_name";
+    public static final String FIRST_COMMON_GROUP_NAME = "first_common_group_name";
+    public static final String FIRST_JOINED_EVENT_NAME = "first_joined_event_name";
+    public static final String FIRST_JOINED_GROUP_NAME = "first_joined_group_name";
     public static final String FRIEND_ICON_URL = "friend_icon_url";
     public static final String FRIEND_ID = "friend_id";
     public static final String FRIENDS_LIST = "friends_list";
@@ -35,6 +40,8 @@ public class JsonKeys {
     public static final String GROUP_NAME = "group_name";
     public static final String HOMETOWN = "hometown";
     public static final String ID = "id";
+    public static final String INTEREST = "interest";
+    public static final String INTERESTS = "interests";
     public static final String INTRODUCTION = "introduction";
     public static final String LOCATION = "location";
     public static final String MEMBER_ICON_URL = "member_icon_url";
@@ -43,6 +50,11 @@ public class JsonKeys {
     public static final String MESSAGE = "message";
     public static final String MORE_INFO = "more_info";
     public static final String NAME = "name";
+    public static final String NUMBER_OF_COMMON_EVENTS = "number_of_common_events";
+    public static final String NUMBER_OF_COMMON_BUDDIES = "number_of_common_buddies";
+    public static final String NUMBER_OF_COMMON_GROUPS = "number_of_common_groups";
+    public static final String NUMBER_OF_EVENTS = "number_of_events";
+    public static final String NUMBER_OF_GROUPS = "number_of_groups";
     public static final String ORGANIZER = "organizer";
     public static final String PASSWORD = "password";
     public static final String PHONE = "phone";
@@ -65,14 +77,6 @@ public class JsonKeys {
     public static final String USER = "user";
     public static final String USER_NAME = "user_name";
     public static final String USER_ICON_URL = "user_icon_url";
-    public static final String INTEREST = "interest";
-    public static final String INTERESTS = "interests";
-    public static final String NUMBER_OF_COMMON_EVENT = "number_of_common_events";
-    public static final String FIRST_COMMON_EVENT_NAME = "first_common_event_name";
-    public static final String NUMBER_OF_COMMON_GROUP = "number_of_common_groups";
-    public static final String FIRST_COMMON_GROUP_NAME = "first_common_group_name";
-    public static final String NUMBER_OF_COMMON_BUDDIES = "number_of_common_buddies";
-    public static final String COMMON_BUDDIES = "common_buddies";
 
 
     public static final String TEST_USER_ID = "1100101446605092809";

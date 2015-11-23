@@ -127,6 +127,7 @@ public class DownloadSuggestedBuddiesService extends IntentService {
                     Log.v(tag, "current buddy json: " + obj.toString());
                     parseUserBasics(u, obj);
                     parseInterests(u, obj);
+                    parseCommonEventsGroups(u, obj);
                     parseCommonUsers(u, obj);
                     socoApp.suggestedBuddies.add(u);
                 }
@@ -159,25 +160,52 @@ public class DownloadSuggestedBuddiesService extends IntentService {
         u.setUser_name(obj.getString(JsonKeys.USER_NAME));
         u.setLocation(obj.getString(JsonKeys.LOCATION));
         Log.v(tag, "user id, name, location: " + u.getUser_id() + ", " + u.getUser_name() + ", " + u.getLocation());
+    }
 
-        u.setNumber_common_event(obj.getInt(JsonKeys.NUMBER_OF_COMMON_EVENT));
-        if(obj.has(JsonKeys.FIRST_COMMON_EVENT_NAME)) {
-            u.setCommon_event_name(obj.getString(JsonKeys.FIRST_COMMON_EVENT_NAME));
-            Log.v(tag, "first user event: " + u.getCommon_event_name());
+    private void parseCommonEventsGroups(User u, JSONObject obj) throws JSONException{
+        Log.v(tag, "parse common event and groups ");
+
+        if(obj.has(JsonKeys.NUMBER_OF_COMMON_EVENTS)){
+            Log.v(tag, "found key for " + JsonKeys.NUMBER_OF_COMMON_EVENTS);
+            u.setNumber_event(obj.getInt(JsonKeys.NUMBER_OF_COMMON_EVENTS));
+            if(obj.has(JsonKeys.FIRST_COMMON_EVENT_NAME)) {
+                u.setEvent_name(obj.getString(JsonKeys.FIRST_COMMON_EVENT_NAME));
+                Log.v(tag, "first common event: " + u.getEvent_name());
+            }
+            else
+                Log.w(tag, "no user common event");
         }
-        else
-            Log.w(tag, "no user event");
-        u.setNumber_common_group(obj.getInt(JsonKeys.NUMBER_OF_COMMON_GROUP));
-
-        if(obj.has(JsonKeys.FIRST_COMMON_GROUP_NAME)) {
-            u.setCommon_group_name(obj.getString(JsonKeys.FIRST_COMMON_GROUP_NAME));
-            Log.v(tag, "first user group: " + u.getCommon_group_name());
+        else{
+            Log.v(tag, "no key for " + JsonKeys.NUMBER_OF_COMMON_EVENTS);
+            u.setNumber_event(obj.getInt(JsonKeys.NUMBER_OF_EVENTS));
+            if(obj.has(JsonKeys.FIRST_JOINED_EVENT_NAME)) {
+                u.setEvent_name(obj.getString(JsonKeys.FIRST_JOINED_EVENT_NAME));
+                Log.v(tag, "first joiend event: " + u.getEvent_name());
+            }
+            else
+                Log.w(tag, "no user joined event");
         }
-        else
-            Log.w(tag, "no user group");
 
-        u.setNumber_common_buddy(obj.getInt(JsonKeys.NUMBER_OF_COMMON_BUDDIES));
-        Log.v(tag, "number of common buddy: " + u.getNumber_common_buddy());
+        if(obj.has(JsonKeys.NUMBER_OF_COMMON_GROUPS)){
+            Log.v(tag, "found key for " + JsonKeys.NUMBER_OF_COMMON_GROUPS);
+            u.setNumber_group(obj.getInt(JsonKeys.NUMBER_OF_COMMON_GROUPS));
+            if(obj.has(JsonKeys.FIRST_COMMON_GROUP_NAME)) {
+                u.setGroup_name(obj.getString(JsonKeys.FIRST_COMMON_GROUP_NAME));
+                Log.v(tag, "first common group: " + u.getGroup_name());
+            }
+            else
+                Log.w(tag, "no user common group");
+        }
+        else{
+            Log.v(tag, "no key for " + JsonKeys.NUMBER_OF_COMMON_GROUPS);
+            u.setNumber_group(obj.getInt(JsonKeys.NUMBER_OF_GROUPS));
+            if(obj.has(JsonKeys.FIRST_JOINED_GROUP_NAME)) {
+                u.setGroup_name(obj.getString(JsonKeys.FIRST_JOINED_GROUP_NAME));
+                Log.v(tag, "first joined group: " + u.getGroup_name());
+            }
+            else
+                Log.w(tag, "no user joined group");
+        }
     }
 
     private void parseInterests(User u, JSONObject obj) throws JSONException {
@@ -197,6 +225,9 @@ public class DownloadSuggestedBuddiesService extends IntentService {
     }
 
     private void parseCommonUsers(User u, JSONObject obj) throws JSONException {
+        u.setNumber_common_buddy(obj.getInt(JsonKeys.NUMBER_OF_COMMON_BUDDIES));
+        Log.v(tag, "number of common buddy: " + u.getNumber_common_buddy());
+
         Log.v(tag, "parse common users");
         if(obj.has(JsonKeys.COMMON_BUDDIES)) {
             String allCommonUsersString = obj.getString(JsonKeys.COMMON_BUDDIES);

@@ -361,7 +361,7 @@
                         android:padding="5dp" />
 
                     <TextView
-                        android:id="@+id/textNoOfComEvent"
+                        android:id="@+id/textNumOfEvents"
                         android:layout_width="22dp"
                         android:layout_height="wrap_content"
                         android:text="+2"
@@ -411,7 +411,7 @@
                         android:padding="5dp" />
 
                     <TextView
-                        android:id="@+id/textNoOfComGroup"
+                        android:id="@+id/textNumOfGroups"
                         android:layout_width="22dp"
                         android:layout_height="wrap_content"
                         android:text="+2"
