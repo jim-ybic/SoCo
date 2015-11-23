@@ -38,7 +38,8 @@ public class UserProfileFragment extends Fragment
     static String tag = "UserProfileFragment";
 
     static final String ItemImage = "ItemImage";
-    static final String ItemText = "ItemText";
+    static final String ItemName = "ItemName";
+    static final String ItemId = "ItemId";
 
     View rootView;
     Context context;
@@ -158,8 +159,8 @@ public class UserProfileFragment extends Fragment
         BuddiesGridSimpleAdapter adapter = new BuddiesGridSimpleAdapter(getActivity(),
                 friends,
                 R.layout.eventbuddiesgrid_entry,
-                new String[] {ItemImage,ItemText},
-                new int[] {R.id.image,R.id.name});
+                new String[] {ItemImage,ItemName,ItemId},
+                new int[] {R.id.image,R.id.name,R.id.id});
 //        GridView gridviewLB = (GridView) rootView.findViewById(R.id.grid);
         ExpandableHeightGridView view = (ExpandableHeightGridView) rootView.findViewById(R.id.grid);
         view.setExpanded(true);
@@ -174,10 +175,11 @@ public class UserProfileFragment extends Fragment
                                             long arg3//The row id of the item that was clicked
                     ) {
                         HashMap<String, Object> item = (HashMap<String, Object>) arg0.getItemAtPosition(arg2);
-                        Log.v(EventBuddiesFragment.tag, "text: " + item.get(ItemText));
+                        Log.v(EventBuddiesFragment.tag, "text: " + item.get(ItemName) + ", " + item.get(ItemId));
 
                         Intent i = new Intent(context, UserProfileActivity.class);
-                        //todo: pass parameter for user id
+                        i.putExtra(User.USER_ID, String.valueOf(item.get(ItemId)));
+                        Log.v(tag, "put userid: " + item.get(ItemId));
                         startActivity(i);
                     }
                 }
@@ -190,7 +192,8 @@ public class UserProfileFragment extends Fragment
 
         HashMap<String, Object> item = new HashMap<>();
         item.put(ItemImage, UrlUtil.getUserIconUrl(user.getUser_id()));
-        item.put(ItemText, user.getUser_name());
+        item.put(ItemName, user.getUser_name());
+        item.put(ItemId, user.getUser_id());
         return item;
     }
 

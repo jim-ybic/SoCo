@@ -71,6 +71,7 @@ public class UserProfileActivity extends ActionBarActivity
             user.setUser_id(userId);
             new UserProfileTask(context, user, this).execute();
 //            user = socoApp.getCurrentSuggestedBuddy();
+
         }
     }
 
