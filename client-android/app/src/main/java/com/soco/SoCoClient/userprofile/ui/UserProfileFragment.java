@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.model.Task;
 import com.soco.SoCoClient.common.ui.ExpandableHeightGridView;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.common.EventBuddiesFragment;
@@ -56,7 +57,7 @@ public class UserProfileFragment extends Fragment
         context = getActivity().getApplicationContext();
         socoApp = (SocoApp) context;
 
-        user = socoApp.getCurrentSuggestedBuddy();
+        user = socoApp.currentUserOnProfile;
         Log.v(tag, "get user: " + user.toString());
 
         Log.v(tag, "background task: user profile");
@@ -103,7 +104,14 @@ public class UserProfileFragment extends Fragment
 
     private void showBasics(){
         Log.v(tag, "show basics: " + user.toString());
-        //todo: if any
+
+        String hometown = user.getHometown();
+        ((TextView)rootView.findViewById(R.id.hometown)).setText(hometown);
+        Log.v(tag, "set hometown " + hometown);
+
+        String bio = user.getBiography();
+        ((TextView)rootView.findViewById(R.id.bio)).setText(bio);
+        Log.v(tag, "set bio " + bio);
     }
 
     private void showInterests(){

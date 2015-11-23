@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient._ref.Actor;
 import com.soco.SoCoClient._ref.MyAdapter;
+import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.dashboard.DashboardTabsAdapter;
 import com.soco.SoCoClient.events.CreateEventActivity;
@@ -30,6 +31,7 @@ import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.events.common.EventGroupsBuddiesActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
+import com.soco.SoCoClient.userprofile.model.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -183,10 +185,12 @@ public class AllEventsActivity extends ActionBarActivity {
 
     public void myevents(View view){
         Log.v(tag, "tap show my events");
+        String myUserid = socoApp.user_id;
+        Log.v(tag, "my userid: " + myUserid);
+
         Intent i = new Intent(this, UserProfileActivity.class);
-
-        //todo: pass parameters - user id, go to events tab
-
+        i.putExtra(User.USER_ID, myUserid);
+        i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_EVENTS);
         startActivity(i);
     }
 }

@@ -411,6 +411,9 @@ public class SocoApp extends Application {
     public boolean createGroupResult;
     public String newGroupId;
 
+    //user profile
+    public User currentUserOnProfile;
+
     public static String getCurrentUserTokenForUrl(){
         StringBuffer sb = new StringBuffer();
         sb.append("user_id=");
