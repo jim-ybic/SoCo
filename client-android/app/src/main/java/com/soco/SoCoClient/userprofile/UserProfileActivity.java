@@ -59,6 +59,7 @@ public class UserProfileActivity extends ActionBarActivity
         if(userId != null && !userId.isEmpty() && socoApp.suggestedBuddies != null && socoApp.suggestedBuddiesMap.containsKey(userId))     {
             user = socoApp.suggestedBuddiesMap.get(userId);
             Log.v(tag, "get user from suggested buddies map: " + user.toString());
+            socoApp.currentUserOnProfile = user;
             setActionbar();
         }
         else{
@@ -76,7 +77,7 @@ public class UserProfileActivity extends ActionBarActivity
             user.setUser_id(userId);
             new UserProfileTask(context, user, this).execute();
 
-            Log.v(tag, "set current user flag " + user.getUser_name());
+            Log.v(tag, "set current user flag: " + user.getUser_id() + ", " + user.getUser_name());
             socoApp.currentUserOnProfile = user;
         }
     }
