@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
+import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.userprofile.model.User;
@@ -39,6 +40,7 @@ public class UserProfileActivity extends ActionBarActivity
     Context context;
     SocoApp socoApp;
     User user;
+    int tabIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,9 @@ public class UserProfileActivity extends ActionBarActivity
         socoApp = (SocoApp) context;
 
         Intent i = getIntent();
+        tabIndex = i.getIntExtra(Config.USER_PROFILE_TAB_INDEX, 0);
+        Log.v(tag, "get tabindex: " + tabIndex);
+
         String userId = i.getStringExtra(User.USER_ID);
         Log.v(tag, "userid: " + userId);
         if(userId != null && !userId.isEmpty() && socoApp.suggestedBuddies != null && socoApp.suggestedBuddiesMap.containsKey(userId))     {
@@ -125,11 +130,13 @@ public class UserProfileActivity extends ActionBarActivity
         android.support.v7.app.ActionBar.Tab tabEvents = actionBar.newTab().setText(EVENTS).setTabListener(this);
         actionBar.addTab(tabEvents);
 
-//        Log.v(tag, "set starting tab");
-//        if(socoApp.eventGroupsBuddiesTabIndex == 0)
-//            actionBar.selectTab(tabGroups);
-//        else if(socoApp.eventGroupsBuddiesTabIndex == 1)
-//            actionBar.selectTab(tabBuddies);
+        Log.v(tag, "set starting tab " + tabIndex);
+        if(tabIndex == Config.USER_PROFILE_TAB_INDEX_PROFILE)
+            actionBar.selectTab(tabProfile);
+        else if(tabIndex == Config.USER_PROFILE_TAB_INDEX_EVENTS)
+            actionBar.selectTab(tabEvents);
+        else if(tabIndex == Config.USER_PROFILE_TAB_INDEX_GROUPS)
+            actionBar.selectTab(tabGroups);
 
         Log.v(tag, "Set listener");
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

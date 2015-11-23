@@ -48,7 +48,7 @@
             <!--android:layout_height="wrap_content"-->
             <!--android:orientation="horizontal"-->
             <!--android:gravity="right"-->
-            <!--android:onClick="buddydetails"-->
+            <!--android:onClick="userdetails"-->
             <!--android:layout_weight="1"-->
             <!--android:layout_gravity="right">-->
             <!--<ImageButton-->
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:clickable="true"
-                android:onClick="buddydetails"
+                android:onClick="userdetails"
                 android:id="@+id/userinfo">
 
                 <ImageButton
@@ -191,7 +191,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@android:color/white"
-            android:onClick="commongroups"
             android:id="@+id/eventsgroups"
             android:layout_marginTop="2dp">
             <!--<LinearLayout-->
@@ -326,7 +325,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="1"
-                android:onClick="commonevents">
+                android:id="@+id/userevents"
+                android:onClick="userevents">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -377,7 +377,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:onClick="usergroups"
+                android:id="@+id/usergroups">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="20sp"
@@ -472,8 +474,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1"
-            android:onClick="commonbuddies"
-            android:id="@+id/commonbuddies">
+            android:onClick="userdetails"
+            android:id="@+id/commonbuddies"
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:layout_width="wrap_content"

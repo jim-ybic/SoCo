@@ -35,6 +35,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.buddies.allbuddies.AllBuddiesActivity;
 import com.soco.SoCoClient.buddies.suggested.CommonEventsActivity;
 import com.soco.SoCoClient.buddies.service.AddBuddyService;
+import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
@@ -278,29 +279,42 @@ public class Dashboard extends ActionBarActivity implements
         startActivity(i);
     }
 
-    public void commongroups (View view){
-        Log.d(tag, "show all common groups");
-        Intent i = new Intent(getApplicationContext(), CommonGroupsActivity.class);
+//    public void commongroups (View view){
+//        Log.d(tag, "show all common groups");
+//        Intent i = new Intent(getApplicationContext(), CommonGroupsActivity.class);
+//        startActivity(i);
+//    }
+
+//    public void commonbuddies (View view){
+//        Log.d(tag, "show all common buddies");
+//        Intent i = new Intent(getApplicationContext(), CommonBuddiesActivity.class);
+//        startActivity(i);
+//    }
+
+    public void userevents(View view){
+        Log.d(tag, "show user's events (common or joined)");
+        Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+        User u = socoApp.getCurrentSuggestedBuddy();
+        i.putExtra(User.USER_ID, u.getUser_id());
+        i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_EVENTS);
         startActivity(i);
     }
 
-    public void commonbuddies (View view){
-        Log.d(tag, "show all common buddies");
-        Intent i = new Intent(getApplicationContext(), CommonBuddiesActivity.class);
+    public void usergroups(View view){
+        Log.d(tag, "show user's groups (common or joined)");
+        Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+        User u = socoApp.getCurrentSuggestedBuddy();
+        i.putExtra(User.USER_ID, u.getUser_id());
+        i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_GROUPS);
         startActivity(i);
     }
 
-    public void commonevents (View view){
-        Log.d(tag, "show all common events");
-        Intent i = new Intent(getApplicationContext(), CommonEventsActivity.class);
-        startActivity(i);
-    }
-
-    public void personevents (View view){
-        Log.v(tag, "tap show the person's upcoming events");
-        Intent i = new Intent(getApplicationContext(), UserEventsActivity.class);
-        startActivity(i);
-    }
+//
+//    public void personevents (View view){
+//        Log.v(tag, "tap show the person's upcoming events");
+//        Intent i = new Intent(getApplicationContext(), UserEventsActivity.class);
+//        startActivity(i);
+//    }
 
     public void eventdetails (View view){
         Log.d(tag, "event detail");
@@ -781,7 +795,7 @@ public class Dashboard extends ActionBarActivity implements
         }
     };
 
-    public void buddydetails(View view){
+    public void userdetails(View view){
         Log.v(tag, "show buddy details");
         Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
         User u = socoApp.getCurrentSuggestedBuddy();
