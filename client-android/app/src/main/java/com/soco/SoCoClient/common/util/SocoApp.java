@@ -374,19 +374,19 @@ public class SocoApp extends Application {
     public HashMap<Long, Event> suggestedEventsMap;
 
 
-    //suggested event
+    //suggested buddies
     public boolean downloadSuggestedBuddiesResponse;
     public boolean downloadSuggestedBuddiesResult;
     public ArrayList<User> suggestedBuddies;
     public BuddyCardStackAdapter buddyCardStackAdapter;
     public BuddyCardContainer mBuddyCardContainer;
-    public View suggestedBuddiesView;
     public HashMap<String, User> suggestedBuddiesMap;
+    public View suggestedBuddiesView;
 
     //event details
     public int currentEventIndex;   //increate by 1 when an event card is dismissed
 
-    //suggested buddy
+    //add buddy
     public long currentBuddyId;
     public boolean addBuddyResponse;
     public boolean addBuddyResult;

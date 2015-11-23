@@ -214,6 +214,8 @@
             android:gravity="center_horizontal"
             android:textStyle="bold"
             android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="refreshbuddies"
             android:padding="5dp" />
         <TextView
             android:layout_width="0dp"

@@ -4,6 +4,7 @@ package com.soco.SoCoClient.dashboard;
 //import info.androidhive.tabsswipe.R;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -33,32 +34,30 @@ import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.buddies.allbuddies.AllBuddiesActivity;
-import com.soco.SoCoClient.buddies.suggested.CommonEventsActivity;
 import com.soco.SoCoClient.buddies.service.AddBuddyService;
+import com.soco.SoCoClient.buddies.suggested.SuggestedBuddiesFragment;
+import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardContainer;
+import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardModel;
+import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardStackAdapter;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
-import com.soco.SoCoClient.events.common.EventBuddiesFragment;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.events.common.EventGroupsBuddiesActivity;
-import com.soco.SoCoClient.events.common.EventGroupsFragment;
 import com.soco.SoCoClient.events.common.JoinEventActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.model.ui.EventCardContainer;
 import com.soco.SoCoClient.events.model.ui.EventCardModel;
 import com.soco.SoCoClient.events.model.ui.EventCardStackAdapter;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
-import com.soco.SoCoClient.buddies.suggested.CommonBuddiesActivity;
-import com.soco.SoCoClient.buddies.suggested.CommonGroupsActivity;
-import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
 import com.soco.SoCoClient.events.service.LikeEventService;
 import com.soco.SoCoClient.events.service.RevertLikeEventService;
+import com.soco.SoCoClient.events.suggested.SuggestedEventsFragment;
 import com.soco.SoCoClient.groups.AllGroupsActivity;
 import com.soco.SoCoClient.userprofile.SettingsActivity;
-import com.soco.SoCoClient.userprofile.UserEventsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
 
@@ -80,6 +79,8 @@ public class Dashboard extends ActionBarActivity implements
     SocoApp socoApp;
     ProgressDialog pd;
     View suggestedEventsView;
+    View suggestedBuddiesView;
+    Activity activity;
 
 //    // Tab titles
 //    private String[] tabs = {
@@ -106,6 +107,7 @@ public class Dashboard extends ActionBarActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
 
+        activity = this;
         socoApp = (SocoApp) getApplicationContext();
         viewPager = (ViewPager) findViewById(R.id.pager);
 
@@ -333,167 +335,195 @@ public class Dashboard extends ActionBarActivity implements
     public void refreshevents(View view){
         Log.v(tag, "refresh events from server");
         suggestedEventsView = socoApp.suggestedEventsView;
-//        Log.d(tag, "Found root view: " + suggestedEventsView);
 
         Log.v(tag, "show progress dialog, fetch suggested events from server");
-        pd = ProgressDialog.show(this, "Refreshing events from server", "Please wait...");
+        pd = ProgressDialog.show(this, "Refreshing events", "Please wait...");
         new Thread(new Runnable(){
             public void run(){
-                downloadEventsInBackgroud();
+                SuggestedEventsFragment.downloadEventsInBackgroud(getApplicationContext(), socoApp);
                 downloadEventsHandler.sendEmptyMessage(0);
             }
         }).start();
-    }
-
-    void downloadEventsInBackgroud() {
-        if(socoApp.OFFLINE_MODE){
-            Log.w(tag, "offline mode: bypass download events");
-            socoApp.downloadSuggestedEventsResult = true;
-            return;
-        }
-
-        Log.v(tag, "start download events service at backend");
-        Intent i = new Intent(this, DownloadSuggestedEventsService.class);
-        startService(i);
-
-        Log.v(tag, "set response flag as false");
-        socoApp.downloadSuggestedEventsResponse = false;
-
-        Log.v(tag, "wait and check response flag");
-        int count = 0;
-        while(!socoApp.downloadSuggestedEventsResponse && count < WAIT_ITERATION) {   //wait for 10s
-            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
-            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
-            while (System.currentTimeMillis() < endTime) {
-                synchronized (this) {
-                    try {
-                        wait(endTime - System.currentTimeMillis());
-                    } catch (Exception e) {
-                        Log.e(tag, "Error in waiting");
-                    }
-                }
-            }
-            count++;
-        }
     }
 
     Handler downloadEventsHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message and dismiss dialog");
-
             if(socoApp.downloadSuggestedEventsResponse && socoApp.downloadSuggestedEventsResult){
-                if(socoApp.OFFLINE_MODE){
-                    Log.w(tag, "offline mode, bypassed downloaded events");
-                }
-                else {
-                    Log.d(tag, "download suggested event - success");
-                    Toast.makeText(getApplicationContext(), socoApp.suggestedEvents.size() + " events downloaded.", Toast.LENGTH_SHORT).show();
-                    initCards(suggestedEventsView);
-                }
+                Log.d(tag, "download suggested event - success");
+                Toast.makeText(getApplicationContext(), socoApp.suggestedEvents.size() + " events downloaded.", Toast.LENGTH_SHORT).show();
+                SuggestedEventsFragment.initEventCards(suggestedEventsView, getApplicationContext(), socoApp, activity);
             }
             else{
                 Log.e(tag, "download suggested event fail, notify user");
                 Toast.makeText(getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
             }
-
             pd.dismiss();
         }
     };
 
-    void initCards(View rootView){
-        Log.v(tag, "start event card init");
+    public void refreshbuddies(View view){
+        Log.v(tag, "refresh buddies from server");
+        suggestedBuddiesView = socoApp.suggestedBuddiesView;
 
-        socoApp.mEventCardContainer = (EventCardContainer) rootView.findViewById(R.id.eventcards);
-        socoApp.mEventCardContainer.setOrientation(Orientations.Orientation.Ordered);
-
-
-//        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
-        Resources r = getResources();
-//        SimpleCardStackAdapter eventCardStackAdapter = new SimpleCardStackAdapter(getActivity());
-        socoApp.eventCardStackAdapter = new EventCardStackAdapter(this);
-//        eventCardStackAdapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
-//        eventCardStackAdapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
-//        eventCardStackAdapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
-//        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
-
-
-        if(socoApp.OFFLINE_MODE) {
-            Log.w(tag, "insert testing events in offline mode for testing");
-            for (int i = 0; i < 10; i++) {
-                EventCardModel m = new EventCardModel();
-                m.setEvent(new Event());
-                m.setOnClickListener(new EventCardModel.OnClickListener() {
-                    @Override
-                    public void OnClickListener() {
-                        Log.v(tag, "I am pressing the card");
-                    }
-                });
-                m.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
-                    @Override
-                    public void onLike() {
-                        Log.v(tag, "I like the card");
-                        socoApp.currentEventIndex++;
-                    }
-
-                    @Override
-                    public void onDislike() {
-                        Log.v(tag, "I dislike the card");
-                        socoApp.currentEventIndex++;
-                    }
-                });
-                socoApp.eventCardStackAdapter.add(m);
+        Log.v(tag, "show progress dialog, fetch suggested buddies from server");
+        pd = ProgressDialog.show(this, "Refreshing buddies", "Please wait...");
+        new Thread(new Runnable(){
+            public void run(){
+                SuggestedBuddiesFragment.downloadBuddiesInBackgroud(getApplicationContext(), socoApp);
+                downloadBuddiesHandler.sendEmptyMessage(0);
             }
-        }
-        else {
-            Log.v(tag, "normal online mode: insert downloaded event card");
-            for (int i = 0; i < socoApp.suggestedEvents.size(); i++) {
-                Event e = socoApp.suggestedEvents.get(i);
+        }).start();
 
-                EventCardModel eventCardModel = new EventCardModel();
-//                    "Event #" + i,
-//                    "Description goes here",
-//                    r.getDrawable(R.drawable.picture3_crop));
-                eventCardModel.setTitle(e.getTitle());
-                eventCardModel.setAddress(e.getAddress());
-                eventCardModel.setStart_date(e.getStart_date());
-                eventCardModel.setStart_time(e.getStart_time());
-                eventCardModel.setEnd_date(e.getEnd_date());
-                eventCardModel.setEnd_time(e.getEnd_time());
-                eventCardModel.setNumber_of_comments(e.getNumber_of_comments());
-                eventCardModel.setNumber_of_likes(e.getNumber_of_likes());
-
-                eventCardModel.setEvent(e);
-
-                eventCardModel.setOnClickListener(new EventCardModel.OnClickListener() {
-                    @Override
-                    public void OnClickListener() {
-                        Log.v(tag, "I am pressing the card");
-                    }
-                });
-                eventCardModel.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
-                    @Override
-                    public void onLike() {
-                        Log.v(tag, "I like the card");
-                        socoApp.currentEventIndex++;
-                    }
-
-                    @Override
-                    public void onDislike() {
-                        Log.v(tag, "I dislike the card");
-                        socoApp.currentEventIndex++;
-                    }
-                });
-                socoApp.eventCardStackAdapter.add(eventCardModel);
-            }
-        }
-
-        socoApp.mEventCardContainer.setAdapter(socoApp.eventCardStackAdapter);
-        //card - end
-
-        Log.v(tag, "set current event index");
-        socoApp.currentEventIndex = 0;
     }
+
+    Handler downloadBuddiesHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.v(tag, "handle receive message and dismiss dialog");
+            if(socoApp.downloadSuggestedBuddiesResponse && socoApp.downloadSuggestedBuddiesResult){
+                Log.v(tag, "download suggested buddy - success");
+                Toast.makeText(getApplicationContext(), socoApp.suggestedBuddies.size() + " buddies found.", Toast.LENGTH_SHORT).show();
+                SuggestedBuddiesFragment.initBuddyCards(suggestedBuddiesView, getApplicationContext(), socoApp, activity);
+            }
+            else{
+                Log.e(tag, "download suggested buddy fail, notify user");
+                Toast.makeText(getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
+            }
+            pd.dismiss();
+        }
+    };
+
+//    void downloadEventsInBackgroud() {
+//        if(socoApp.OFFLINE_MODE){
+//            Log.w(tag, "offline mode: bypass download events");
+//            socoApp.downloadSuggestedEventsResult = true;
+//            return;
+//        }
+//
+//        Log.v(tag, "start download events service at backend");
+//        Intent i = new Intent(this, DownloadSuggestedEventsService.class);
+//        startService(i);
+//
+//        Log.v(tag, "set response flag as false");
+//        socoApp.downloadSuggestedEventsResponse = false;
+//
+//        Log.v(tag, "wait and check response flag");
+//        int count = 0;
+//        while(!socoApp.downloadSuggestedEventsResponse && count < WAIT_ITERATION) {   //wait for 10s
+//            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+//            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
+//            while (System.currentTimeMillis() < endTime) {
+//                synchronized (this) {
+//                    try {
+//                        wait(endTime - System.currentTimeMillis());
+//                    } catch (Exception e) {
+//                        Log.e(tag, "Error in waiting");
+//                    }
+//                }
+//            }
+//            count++;
+//        }
+//    }
+
+
+
+//    void initEventCards(View rootView){
+//        Log.v(tag, "start event card init");
+//
+//        socoApp.mEventCardContainer = (EventCardContainer) rootView.findViewById(R.id.eventcards);
+//        socoApp.mEventCardContainer.setOrientation(Orientations.Orientation.Ordered);
+//
+//
+////        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
+//        Resources r = getResources();
+////        SimpleCardStackAdapter eventCardStackAdapter = new SimpleCardStackAdapter(getActivity());
+//        socoApp.eventCardStackAdapter = new EventCardStackAdapter(this);
+////        eventCardStackAdapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
+////        eventCardStackAdapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
+////        eventCardStackAdapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
+////        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
+//
+//
+//        if(socoApp.OFFLINE_MODE) {
+//            Log.w(tag, "insert testing events in offline mode for testing");
+//            for (int i = 0; i < 10; i++) {
+//                EventCardModel m = new EventCardModel();
+//                m.setEvent(new Event());
+//                m.setOnClickListener(new EventCardModel.OnClickListener() {
+//                    @Override
+//                    public void OnClickListener() {
+//                        Log.v(tag, "I am pressing the card");
+//                    }
+//                });
+//                m.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
+//                    @Override
+//                    public void onLike() {
+//                        Log.v(tag, "I like the card");
+//                        socoApp.currentEventIndex++;
+//                    }
+//
+//                    @Override
+//                    public void onDislike() {
+//                        Log.v(tag, "I dislike the card");
+//                        socoApp.currentEventIndex++;
+//                    }
+//                });
+//                socoApp.eventCardStackAdapter.add(m);
+//            }
+//        }
+//        else {
+//            Log.v(tag, "normal online mode: insert downloaded event card");
+//            for (int i = 0; i < socoApp.suggestedEvents.size(); i++) {
+//                Event e = socoApp.suggestedEvents.get(i);
+//
+//                EventCardModel eventCardModel = new EventCardModel();
+////                    "Event #" + i,
+////                    "Description goes here",
+////                    r.getDrawable(R.drawable.picture3_crop));
+//                eventCardModel.setTitle(e.getTitle());
+//                eventCardModel.setAddress(e.getAddress());
+//                eventCardModel.setStart_date(e.getStart_date());
+//                eventCardModel.setStart_time(e.getStart_time());
+//                eventCardModel.setEnd_date(e.getEnd_date());
+//                eventCardModel.setEnd_time(e.getEnd_time());
+//                eventCardModel.setNumber_of_comments(e.getNumber_of_comments());
+//                eventCardModel.setNumber_of_likes(e.getNumber_of_likes());
+//
+//                eventCardModel.setEvent(e);
+//
+//                eventCardModel.setOnClickListener(new EventCardModel.OnClickListener() {
+//                    @Override
+//                    public void OnClickListener() {
+//                        Log.v(tag, "I am pressing the card");
+//                    }
+//                });
+//                eventCardModel.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
+//                    @Override
+//                    public void onLike() {
+//                        Log.v(tag, "I like the card");
+//                        socoApp.currentEventIndex++;
+//                    }
+//
+//                    @Override
+//                    public void onDislike() {
+//                        Log.v(tag, "I dislike the card");
+//                        socoApp.currentEventIndex++;
+//                    }
+//                });
+//                socoApp.eventCardStackAdapter.add(eventCardModel);
+//            }
+//        }
+//
+//        socoApp.mEventCardContainer.setAdapter(socoApp.eventCardStackAdapter);
+//        //card - end
+//
+//        Log.v(tag, "set current event index");
+//        socoApp.currentEventIndex = 0;
+//    }
+
+
 
     public void likeevent(View view){
         Log.v(tag, "tap like event");

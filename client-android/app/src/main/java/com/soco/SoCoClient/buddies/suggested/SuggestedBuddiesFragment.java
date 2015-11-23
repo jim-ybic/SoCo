@@ -2,6 +2,7 @@ package com.soco.SoCoClient.buddies.suggested;
 
 //import info.androidhive.tabsswipe.R;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +20,6 @@ import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.buddies.service.DownloadSuggestedBuddiesService;
-import com.soco.SoCoClient.common.database.DataLoader;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardModel;
 import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardContainer;
@@ -39,7 +39,7 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
     static final int WAIT_ITERATION = 5;
     static final int THOUSAND = 1000;
 
-//    int pid;
+    //    int pid;
 //    String pid_onserver;
     SocoApp socoApp;
     ProgressDialog pd;
@@ -51,10 +51,10 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
     //new code
     View rootView;
     Context context;
-    DataLoader dataLoader;
+    //    DataLoader dataLoader;
     ArrayList<SingleConversation> singleConversations;
 
-    BuddyCardContainer mBuddyCardContainer;
+//    BuddyCardContainer mBuddyCardContainer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
         context = getActivity().getApplicationContext();
 
         socoApp = (SocoApp) context;
-        dataLoader = new DataLoader(context);
+//        dataLoader = new DataLoader(context);
 
     }
 
@@ -82,19 +82,19 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
         pd = ProgressDialog.show(getActivity(), "Downloading users", "Please wait...");
         new Thread(new Runnable(){
             public void run(){
-                downloadBuddiesInBackgroud();
+                downloadBuddiesInBackgroud(getActivity(), socoApp);
                 downloadBuddiesHandler.sendEmptyMessage(0);
             }
         }).start();
-        initCards(rootView);
+
+//        initBuddyCards(rootView);
         return rootView;
     }
 
-    void downloadBuddiesInBackgroud() {
-
+    public static void downloadBuddiesInBackgroud(Context context, SocoApp socoApp) {
         Log.v(tag, "start download users service at backend");
-        Intent i = new Intent(getActivity(), DownloadSuggestedBuddiesService.class);
-        getActivity().startService(i);
+        Intent i = new Intent(context, DownloadSuggestedBuddiesService.class);
+        context.startService(i);
 
         Log.v(tag, "set response flag as false");
         socoApp.downloadSuggestedBuddiesResponse = false;
@@ -105,9 +105,9 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
             Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
             long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
             while (System.currentTimeMillis() < endTime) {
-                synchronized (this) {
+                synchronized (context) {
                     try {
-                        wait(endTime - System.currentTimeMillis());
+                        context.wait(endTime - System.currentTimeMillis());
                     } catch (Exception e) {
                         Log.e(tag, "Error in waiting");
                     }
@@ -121,34 +121,27 @@ public class SuggestedBuddiesFragment extends Fragment implements View.OnClickLi
         @Override
         public void handleMessage(Message msg) {
             Log.v(tag, "handle receive message and dismiss dialog");
-
             if(socoApp.downloadSuggestedBuddiesResponse && socoApp.downloadSuggestedBuddiesResult){
-//                if(socoApp.OFFLINE_MODE){
-//                    Log.w(tag, "offline mode, bypassed downloaded events");
-//                }
-//                else {
-                    Log.v(tag, "download suggested buddy - success");
-                    Toast.makeText(getActivity().getApplicationContext(), socoApp.suggestedBuddies.size() + " buddies found.", Toast.LENGTH_SHORT).show();
-                    initCards(rootView);
-//                }
+                Log.v(tag, "download suggested buddy - success");
+                Toast.makeText(getActivity().getApplicationContext(), socoApp.suggestedBuddies.size() + " buddies found.", Toast.LENGTH_SHORT).show();
+                initBuddyCards(rootView, context, socoApp, getActivity());
             }
             else{
                 Log.e(tag, "download suggested buddy fail, notify user");
                 Toast.makeText(getActivity().getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
             }
-
             pd.dismiss();
         }
     };
 
-    void initCards(View rootView){
+    public static void initBuddyCards(View rootView, Context context, final SocoApp socoApp, Activity activity){
         Log.v(tag, "start buddy card init");
 
-        mBuddyCardContainer = (BuddyCardContainer) rootView.findViewById(R.id.personcards);
+        BuddyCardContainer mBuddyCardContainer = (BuddyCardContainer) rootView.findViewById(R.id.personcards);
         mBuddyCardContainer.setOrientation(Orientations.Orientation.Ordered);
 
-        Resources r = getResources();
-        socoApp.buddyCardStackAdapter = new BuddyCardStackAdapter(getActivity());
+        Resources r = context.getResources();
+        socoApp.buddyCardStackAdapter = new BuddyCardStackAdapter(activity);
 
         Log.v(tag, "normal online mode: insert downloaded event card");
         if(socoApp.suggestedBuddies!=null) {

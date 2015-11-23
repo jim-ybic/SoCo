@@ -48,6 +48,7 @@ public final class BuddyCardStackAdapter extends BaseBuddyCardStackAdapter {
 		showBuddyIcons(user);
 		return convertView;
 	}
+
 	private void updateUserInfoToView(User user){
 		((TextView) mConvertView.findViewById(R.id.textUserName)).setText(user.getUser_name());
 		if(!StringUtil.isEmptyString(user.getLocation())) {

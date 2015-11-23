@@ -5,6 +5,7 @@ package com.soco.SoCoClient.events.suggested;
 //expected: return to the up level
 //actual: return to login acreen
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
@@ -23,20 +24,14 @@ import android.widget.Toast;
 //import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 import com.soco.SoCoClient.R;
 
-import com.soco.SoCoClient._ref.Test2Activity;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.common.util.SocoApp;
-import com.soco.SoCoClient.events.CreateEventActivity;
-import com.soco.SoCoClient.events.allevents.AllEventsActivityV1;
 import com.soco.SoCoClient.events.common.JoinEventActivity;
 import com.soco.SoCoClient.events.model.ui.EventCardModel;
 import com.soco.SoCoClient.events.model.ui.EventCardContainer;
 import com.soco.SoCoClient.events.model.ui.EventCardStackAdapter;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
-import com.soco.SoCoClient.secondary.chat.ActivityChats;
-import com.soco.SoCoClient.secondary.notifications.ActivityNotifications;
-import com.soco.SoCoClient.userprofile.MyProfileActivity;
 
 public class SuggestedEventsFragment extends Fragment implements View.OnClickListener {
 
@@ -119,13 +114,13 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         pd = ProgressDialog.show(getActivity(), "Downloading events", "Please wait...");
         new Thread(new Runnable(){
             public void run(){
-                downloadEventsInBackgroud();
+                downloadEventsInBackgroud(getActivity(), socoApp);
                 downloadEventsHandler.sendEmptyMessage(0);
             }
         }).start();
 
 //        Log.v(tag, "create cards");
-//        initCards(rootView);
+//        initEventCards(rootView);
 
 //        rootView.findViewById(R.id.eventbuddies).setOnClickListener(this);
 //        rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
@@ -253,16 +248,10 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         return rootView;
     }
 
-    void downloadEventsInBackgroud() {
-        if(socoApp.OFFLINE_MODE){
-            Log.w(tag, "offline mode: bypass download events");
-            socoApp.downloadSuggestedEventsResult = true;
-            return;
-        }
-
+    public static void downloadEventsInBackgroud(Context context, SocoApp socoApp) {
         Log.v(tag, "start download events service at backend");
-        Intent i = new Intent(getActivity(), DownloadSuggestedEventsService.class);
-        getActivity().startService(i);
+        Intent i = new Intent(context, DownloadSuggestedEventsService.class);
+        context.startService(i);
 
         Log.v(tag, "set response flag as false");
         socoApp.downloadSuggestedEventsResponse = false;
@@ -273,9 +262,9 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
             Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
             long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
             while (System.currentTimeMillis() < endTime) {
-                synchronized (this) {
+                synchronized (context) {
                     try {
-                        wait(endTime - System.currentTimeMillis());
+                        context.wait(endTime - System.currentTimeMillis());
                     } catch (Exception e) {
                         Log.e(tag, "Error in waiting");
                     }
@@ -297,7 +286,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                 else {
                     Log.v(tag, "download suggested event - success");
                     Toast.makeText(getActivity().getApplicationContext(), socoApp.suggestedEvents.size() + " events downloaded.", Toast.LENGTH_SHORT).show();
-                    initCards(rootView);
+                    initEventCards(rootView, context, socoApp, getActivity());
                 }
             }
             else{
@@ -309,16 +298,16 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         }
     };
 
-    void initCards(View rootView){
+    public static void initEventCards(View rootView, Context context, final SocoApp socoApp, Activity activity){
         Log.v(tag, "start event card init");
 
         socoApp.mEventCardContainer = (EventCardContainer) rootView.findViewById(R.id.eventcards);
         socoApp.mEventCardContainer.setOrientation(Orientations.Orientation.Ordered);
 
 //        mCardContainer.setOrientation(Orientations.Orientation.Ordered);
-        Resources r = getResources();
+        Resources r = context.getResources();
 //        SimpleCardStackAdapter eventCardStackAdapter = new SimpleCardStackAdapter(getActivity());
-        socoApp.eventCardStackAdapter = new EventCardStackAdapter(getActivity());
+        socoApp.eventCardStackAdapter = new EventCardStackAdapter(activity);
 //        eventCardStackAdapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
 //        eventCardStackAdapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
 //        eventCardStackAdapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
