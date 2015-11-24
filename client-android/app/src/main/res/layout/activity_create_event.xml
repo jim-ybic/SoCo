@@ -95,6 +95,7 @@
                         android:layout_weight="1"
                         android:hint="Start Date"
                         android:onClick="startdatePick"
+                        android:focusable="false"
                         android:text="2015-11-04" />
                     <android.widget.EditText
                         android:id="@+id/starttime"
@@ -103,6 +104,7 @@
                         android:layout_weight="1"
                         android:hint="Start Time"
                         android:onClick="starttimePick"
+                        android:focusable="false"
                         android:text="18:00" />
                 </LinearLayout>
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -116,6 +118,7 @@
                         android:layout_weight="1"
                         android:hint="End Date"
                         android:onClick="enddatePick"
+                        android:focusable="false"
                         android:text="2016-11-04" />
                     <android.widget.EditText
                         android:id="@+id/endtime"
@@ -124,6 +127,7 @@
                         android:layout_weight="1"
                         android:hint="End Time"
                         android:onClick="endtimePick"
+                        android:focusable="false"
                         android:text="18:00" />
                 </LinearLayout>
             </LinearLayout>
