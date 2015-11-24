@@ -13,6 +13,8 @@ import android.view.View;
 //import com.dropbox.client2.android.AndroidAuthSession;
 import com.facebook.AccessToken;
 import com.facebook.GraphResponse;
+import com.soco.SoCoClient.buddies.allbuddies.ui.MyBuddiesListEntryItem;
+import com.soco.SoCoClient.buddies.allbuddies.ui.MyMatchListEntryItem;
 import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardContainer;
 import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardStackAdapter;
 import com.soco.SoCoClient.common.database._ref.DBManagerSoco;
@@ -406,6 +408,16 @@ public class SocoApp extends Application {
     //event groups and buddies
     public boolean eventGroupsBuddiesResponse;
     public boolean eventGroupsBuddiesResult;
+
+    //My buddies
+    public boolean downloadMyBuddiesResponse;
+    public boolean downloadMyBuddiesResult;
+    public ArrayList<MyBuddiesListEntryItem> myBuddies;
+
+    //My Match
+    public boolean downloadMyMatchResponse;
+    public boolean downloadMyMatchResult;
+    public ArrayList<MyMatchListEntryItem> myMatch;
 
     //create group
     public boolean createGroupResult;

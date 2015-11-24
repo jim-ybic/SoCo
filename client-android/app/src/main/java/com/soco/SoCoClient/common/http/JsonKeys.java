@@ -78,6 +78,8 @@ public class JsonKeys {
     public static final String USER_NAME = "user_name";
     public static final String USER_ICON_URL = "user_icon_url";
 
+    public static final String HIGHLIGHT = "highlight";
+
 
     public static final String TEST_USER_ID = "1100101446605092809";
     public static final String TEST_TOKEN = "867A168A6BE708119E590A8F6CB37408823F180313289435B2A4CC4B1D4BC9F6";

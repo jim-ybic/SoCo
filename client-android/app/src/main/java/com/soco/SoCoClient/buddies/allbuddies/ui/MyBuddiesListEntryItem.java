@@ -1,30 +1,29 @@
 package com.soco.SoCoClient.buddies.allbuddies.ui;
 
+import com.soco.SoCoClient.userprofile.model.UserBrief;
 
-public class MyBuddiesListEntryItem //implements Item
+public class MyBuddiesListEntryItem extends UserBrief//implements Item
 {
 
     static final String tag = "MyBuddiesListEntryItem";
 
-    //todo: add data fields
-
-//	public final String name;
-//    public final String phone;
-//	public final String email;
-//    public final String status;
-
-//	public ContactListEntryItem(String name, String phone, String email) {
-//		this.name = name;
-//        this.phone = phone;
-//		this.email = email;
-//        status = "";
-//    }
-
+    private String location = "";
     public MyBuddiesListEntryItem() {
-//        this.name = name;
-//        this.phone = phone;
-//        this.email = email;
-//        this.status = status;
+        super();
+    }
+    public MyBuddiesListEntryItem(String Puser_id, String Puser_name, String Puser_icon_url) {
+        super(Puser_id,Puser_name,Puser_icon_url);
+    }
+    public MyBuddiesListEntryItem(String Puser_id, String Puser_name, String Puser_icon_url, String Plocation) {
+        super(Puser_id,Puser_name,Puser_icon_url);
+        this.location=Plocation;
+    }
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String Plocation) {
+        this.location = Plocation;
     }
 
 //    @Override

@@ -1,40 +1,30 @@
 package com.soco.SoCoClient.buddies.allbuddies.ui;
 
+import com.soco.SoCoClient.userprofile.model.UserBrief;
 
-public class MyMatchListEntryItem //implements Item
+public class MyMatchListEntryItem extends UserBrief//implements Item
 {
 
     static final String tag = "MyMatchListEntryItem";
 
-    //todo: add data fields
 
-//	public final String name;
-//    public final String phone;
-//	public final String email;
-//    public final String status;
-
-//	public ContactListEntryItem(String name, String phone, String email) {
-//		this.name = name;
-//        this.phone = phone;
-//		this.email = email;
-//        status = "";
-//    }
-
+    private String suggest_reason = "";
     public MyMatchListEntryItem() {
-//        this.name = name;
-//        this.phone = phone;
-//        this.email = email;
-//        this.status = status;
+        super();
+    }
+    public MyMatchListEntryItem(String Puser_id, String Puser_name, String Puser_icon_url) {
+        super(Puser_id,Puser_name,Puser_icon_url);
+    }
+    public MyMatchListEntryItem(String Puser_id, String Puser_name, String Puser_icon_url, String Psuggest_reason) {
+        super(Puser_id,Puser_name,Puser_icon_url);
+        this.suggest_reason=Psuggest_reason;
     }
 
-//    @Override
-//	public boolean isSection() {
-//		return false;
-//	}
-//
-//    @Override
-//    public String getType() {
-//        return GeneralConfigV1.LIST_ITEM_TYPE_ENTRY;
-//    }
+    public String getSuggest_reason() {
+        return suggest_reason;
+    }
 
+    public void setSuggest_reason(String suggest_reason) {
+        this.suggest_reason = suggest_reason;
+    }
 }

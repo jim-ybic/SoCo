@@ -1,6 +1,7 @@
 package com.soco.SoCoClient.buddies.allbuddies;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,10 +11,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.buddies.allbuddies.ui.AllBuddiesTabsAdapter;
+import com.soco.SoCoClient.buddies.service.AddBuddyTask;
+import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.userprofile.UserProfileActivity;
+import com.soco.SoCoClient.userprofile.model.User;
 
 public class AllBuddiesActivity extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener{
@@ -69,7 +77,8 @@ public class AllBuddiesActivity extends ActionBarActivity implements
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowCustomEnabled(true);
         View customView = getLayoutInflater().inflate(R.layout.actionbar_allbuddies, null);
-
+        ImageButton ib = (ImageButton)customView.findViewById(R.id.mebutton);
+        IconUrlUtil.setImageForButtonSmall(getResources(),ib, UrlUtil.getUserIconUrl(SocoApp.user_id));
         android.support.v7.app.ActionBar.LayoutParams layout = new android.support.v7.app.ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         actionBar.setCustomView(customView, layout);
         Toolbar parent = (Toolbar) customView.getParent();
@@ -109,7 +118,19 @@ public class AllBuddiesActivity extends ActionBarActivity implements
     public void onTabReselected(android.support.v7.app.ActionBar.Tab tab,
                                 android.support.v4.app.FragmentTransaction fragmentTransaction) {
     }
-
-
-
+    public void userdetails(View view){
+        Log.v(tag, "show buddy details");
+        Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+        String user_id = (String)view.getTag();
+        i.putExtra(User.USER_ID, user_id);
+        startActivity(i);
+    }
+    public void addFriend(View view){
+        TextView tv = (TextView)  view.findViewById(R.id.addFriend);
+        if(tv.isEnabled()) {
+            String user_id = (String) view.getTag();
+            AddBuddyTask task = new AddBuddyTask(tv);
+            task.execute(user_id);
+        }
+    }
 }

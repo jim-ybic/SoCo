@@ -239,6 +239,8 @@ public class UrlUtil {
     static final String JOIN_EVENT_PATH = "/v1/join_event";
     static final String EVENT_GROUPS_BUDDIES_PATH = "/v1/event_groups_buddies";
     static final String SUGGESTED_BUDDIES_PATH = "/v1/suggested_buddies";
+    static final String MY_BUDDIES_PATH = "/v1/my_buddies";
+    static final String MY_MATCH_PATH = "/v1/matched_buddies";
     static final String USER_ICON="/v1/user_icon?";
     static final String CREATE_GROUP_PATH = "/v1/group";
     static final String USER_PROFILE_PATH = "/v1/user";
@@ -334,6 +336,16 @@ public class UrlUtil {
     public static String getUserProfileUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_PROFILE_PATH;
         Log.v(tag, "user profile url: " + url);
+        return url;
+    }
+    public static String getMyBuddiesUrl(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + MY_BUDDIES_PATH;
+        Log.v(tag, "get my buddies url: " + url);
+        return url;
+    }
+    public static String getMyMatchUrl(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + MY_MATCH_PATH;
+        Log.v(tag, "get my match url: " + url);
         return url;
     }
 

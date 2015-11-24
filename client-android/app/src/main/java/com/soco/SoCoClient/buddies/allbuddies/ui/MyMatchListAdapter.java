@@ -5,8 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.IconUrlUtil;
 
 import java.util.ArrayList;
 
@@ -31,25 +35,14 @@ public class MyMatchListAdapter extends ArrayAdapter<MyMatchListEntryItem> {
 
 		final MyMatchListEntryItem i = items.get(position);
 		if (i != null) {
-
-				MyMatchListEntryItem ei = (MyMatchListEntryItem)i;
-				v = vi.inflate(R.layout.mymatch_listentry, null);
-
-				//todo: put data values to ui
-//				final TextView name = (TextView)v.findViewById(R.id.name);
-//                final TextView phone = (TextView)v.findViewById(R.id.phone);
-//				final TextView email = (TextView)v.findViewById(R.id.email);
-//                final TextView status = (TextView)v.findViewById(R.id.status);
-//
-//				if (name != null)
-//					name.setText(ei.name);
-//                if (phone != null)
-//                    phone.setText(ei.phone);
-//				if (email != null)
-//					email.setText(ei.email);
-//                if (status != null)
-//                    status.setText(ei.status);
-
+			MyMatchListEntryItem ei = (MyMatchListEntryItem)i;
+			v = vi.inflate(R.layout.mymatch_listentry, null);
+			ImageView ib = (ImageView)v.findViewById(R.id.user_icon);
+			IconUrlUtil.setImageForButtonSmall(v.getResources(), ib, UrlUtil.getUserIconUrl(i.getUser_id()));
+			((TextView) v.findViewById(R.id.name)).setText(i.getUser_name());
+			((TextView) v.findViewById(R.id.comment)).setText(i.getSuggest_reason());
+			v.setTag(i.getUser_id());
+			v.findViewById(R.id.addFriend).setTag(i.getUser_id());
 		}
 		return v;
 	}

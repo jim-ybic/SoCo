@@ -4,7 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:id="@+id/master">
+    android:id="@+id/master"
+    android:onClick="userdetails">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
             android:layout_gravity="center_vertical">
 
     <ImageView
-        android:id="@+id/list_item_entry_drawable"
+        android:id="@+id/user_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/user2" />
@@ -45,7 +46,7 @@
             android:textColor="@android:color/black"
             android:textStyle="bold" />
 
-        <TextView android:id="@+id/comment"
+        <TextView android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2.6km away, Wan Chai, HKK"

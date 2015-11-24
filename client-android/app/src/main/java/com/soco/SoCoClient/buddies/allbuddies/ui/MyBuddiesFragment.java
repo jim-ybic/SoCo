@@ -3,6 +3,8 @@ package com.soco.SoCoClient.buddies.allbuddies.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,8 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.buddies.service.DownloadMyBuddiesService;
+import com.soco.SoCoClient.common.util.SocoApp;
 
 import java.util.ArrayList;
 
@@ -19,16 +24,20 @@ import java.util.ArrayList;
 public class MyBuddiesFragment extends Fragment implements View.OnClickListener {
 
     static String tag = "MyBuddiesFragment";
+    static final int WAIT_INTERVAL_IN_SECOND = 1;
+    static final int WAIT_ITERATION = 5;
+    static final int THOUSAND = 1000;
 
     View rootView;
     Context context;
-
+    SocoApp socoApp;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
         context = getActivity().getApplicationContext();
+        socoApp = (SocoApp) context;
     }
 
 
@@ -66,20 +75,60 @@ public class MyBuddiesFragment extends Fragment implements View.OnClickListener 
 
     void showMyBuddies() {
         Log.v(tag, "show my buddies");
-
-        ArrayList<MyBuddiesListEntryItem> items = new ArrayList<>();
-
-        Log.v(tag, "add dummy suggested buddies");
-        for(int i=0; i<20; i++)
-            items.add(new MyBuddiesListEntryItem());
-
-        //todo: fill in the items with the list of suggested buddies
-
-
-        MyBuddiesListAdapter  adapter = new MyBuddiesListAdapter(getActivity(), items);
-
-        ListView list = (ListView) rootView.findViewById(R.id.friends);
-        list.setAdapter(adapter);
+        new Thread(new Runnable(){
+            public void run(){
+                downloadMyBuddiesInBackgroud(getActivity(),socoApp);
+                downloadMyBuddiesHandler.sendEmptyMessage(0);
+            }
+        }).start();
     }
+    public static void downloadMyBuddiesInBackgroud(Context context, SocoApp socoApp) {
+        Log.v(tag, "start download users service at backend");
+        Intent i = new Intent(context, DownloadMyBuddiesService.class);
+        context.startService(i);
+
+        Log.v(tag, "set response flag as false");
+        socoApp.downloadMyBuddiesResponse = false;
+
+        Log.v(tag, "wait and check response flag");
+        int count = 0;
+        while(!socoApp.downloadMyBuddiesResponse && count < WAIT_ITERATION) {   //wait for 10s
+            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
+            while (System.currentTimeMillis() < endTime) {
+                synchronized (context) {
+                    try {
+                        context.wait(endTime - System.currentTimeMillis());
+                    } catch (Exception e) {
+                        Log.e(tag, "Error in waiting");
+                    }
+                }
+            }
+            count++;
+        }
+    }
+
+    Handler downloadMyBuddiesHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.v(tag, "handle receive message and dismiss dialog");
+            if(socoApp.downloadMyBuddiesResponse && socoApp.downloadMyBuddiesResult){
+                Log.v(tag, "download suggested buddy - success");
+//                Toast.makeText(getActivity().getApplicationContext(), socoApp.suggestedBuddies.size() + " buddies found.", Toast.LENGTH_SHORT).show();
+//                initBuddyCards(rootView, context, socoApp, getActivity());
+
+
+                MyBuddiesListAdapter  adapter = new MyBuddiesListAdapter(getActivity(), socoApp.myBuddies);
+
+                ListView list = (ListView) rootView.findViewById(R.id.friends);
+                list.setAdapter(adapter);
+            }
+            else{
+                Log.e(tag, "download suggested buddy fail, notify user");
+                Toast.makeText(getActivity().getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
+            }
+//            pd.dismiss();
+        }
+    };
 
 }

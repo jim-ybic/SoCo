@@ -57,6 +57,10 @@ public class IconUrlUtil {
         Log.v(tag, "set button image normal: " + urlString);
         updateImageButton( res,mButton, urlString,sizeNormal);
     }
+    public static void setImageForButtonSmall(Resources res, ImageView mButton, String urlString){
+        Log.v(tag, "set button image small: " + urlString);
+        updateImageButton(res, mButton, urlString, sizeSmall);
+    }
     public static void setImageForButtonNormal(Resources res, ImageView mButton, String urlString){
         Log.v(tag, "set image view normal: " + urlString);
         updateImageButton( res,mButton, urlString,sizeNormal);
