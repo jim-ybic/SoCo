@@ -113,14 +113,20 @@ public class EventDetailsActivity extends ActionBarActivity {
     private void showDetails(Event event){
         Log.v(tag, "show event details: " + event.toString());
 
-        ((TextView)this.findViewById(R.id.textNoOfViews)).setText(Integer.toString(event.getNumber_of_views()));
-        ((TextView)this.findViewById(R.id.textNoOfLikes)).setText(Integer.toString(event.getNumber_of_likes()));
-        ((TextView)this.findViewById(R.id.textNoOfComments)).setText(Integer.toString(event.getNumber_of_comments()));
+//        ((TextView)this.findViewById(R.id.textNoOfViews)).setText(Integer.toString(event.getNumber_of_views()));
+//        ((TextView)this.findViewById(R.id.textNoOfLikes)).setText(Integer.toString(event.getNumber_of_likes()));
+//        ((TextView)this.findViewById(R.id.textNoOfComments)).setText(Integer.toString(event.getNumber_of_comments()));
 
+        Log.v(tag, "set address: " + event.getAddress());
         ((TextView)this.findViewById(R.id.address)).setText(event.getAddress());
+
+        Log.v(tag, "set intro: " + event.getIntroduction());
         ((TextView)this.findViewById(R.id.textIntroduction)).setText(event.getIntroduction());
+
+        Log.v(tag, "set title: " + event.getTitle());
         ((TextView)this.findViewById(R.id.textTitle)).setText(event.getTitle());
-        //date time
+
+        Log.v(tag, "set datetime");
         if(!StringUtil.isEmptyString(event.getStart_date())) {
             ((TextView) this.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(event.getStart_date(), "dd-MMM"));
             ((TextView) this.findViewById(R.id.textStartDayOfWeek)).setText(TimeUtil.getDayOfStartDate(event.getStart_date()));
@@ -129,6 +135,11 @@ public class EventDetailsActivity extends ActionBarActivity {
             ((TextView) this.findViewById(R.id.textStartEndTime)).setText(TimeUtil.getTextStartEndTime(event));
         }
 
+        //todo: set categories
+
+        //todo: set buddies
+
+        //todo: set organizers
 
     }
 }
