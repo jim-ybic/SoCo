@@ -1,7 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/allevents"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
 
 
 
@@ -14,54 +15,55 @@
         android:background="@android:color/white"
         android:padding="10dp">
 
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:orientation="vertical"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:id="@+id/bannerare">-->
+            <!--<ImageView-->
+                <!--android:id="@+id/banner"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:src="@drawable/picture3_crop"/>-->
+        <!--</LinearLayout>-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:background="@android:color/white"
-            android:id="@+id/bannerare">
-            <ImageView
-                android:id="@+id/banner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/picture3_crop"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:background="@android:color/white"
             android:id="@+id/titlearea"
-            android:paddingTop="20dp">
+            android:background="#ffffb73f"
+            android:layout_gravity="center_vertical">
             <TextView
                 android:id="@+id/textTitle"
                 style="@android:style/TextAppearance.Large.Inverse"
-                android:textColor="@android:color/primary_text_light"
+                android:textColor="@android:color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Cru 5th Annual Grand Tasting"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal" />
+                android:layout_gravity="center_vertical"
+                android:gravity="center" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:id="@+id/maparea">
             <ImageView
                 android:id="@+id/event_map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@drawable/picture3_crop"/>
-
+                android:src="@drawable/sample_map"
+                android:layout_gravity="center_horizontal" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,8 +72,10 @@
             android:layout_weight="1"
             android:layout_gravity="left"
             android:gravity="left"
-            android:paddingTop="20dp"
-            android:id="@+id/venuearea">
+            android:id="@+id/venuearea"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -85,16 +89,11 @@
                     android:layout_gravity="center_vertical"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingRight="100dp"
                     android:textColor="@android:color/black" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingRight="40dp"
                     android:gravity="end">
                     <ImageButton
                         android:layout_width="wrap_content"
@@ -114,18 +113,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                android:orientation="horizontal">
                 <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Room 308, Chow Yei Ching Building, HKU"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="5dp"
-                android:gravity="center"
-                android:id="@+id/address" />
+                    android:id="@+id/address" />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -134,7 +127,10 @@
             android:orientation="vertical"
             android:layout_gravity="left"
             android:gravity="left"
-            android:id="@+id/datetimearea">
+            android:id="@+id/datetimearea"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -147,18 +143,12 @@
                     android:layout_gravity="center_vertical"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingRight="200dp"
                     android:textColor="@android:color/black" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
                 android:gravity="center_vertical">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -169,12 +159,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2015-11-27"
-                        android:paddingLeft="20dp"
                         android:id="@+id/textStartDate" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dp"
                         android:text="(Fri)"
                         android:layout_gravity="center_vertical"
                         android:id="@+id/textStartDayOfWeek" />
@@ -183,13 +171,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingRight="20dp"
                         android:gravity="end">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="15:00~19:00(HKT)"
-                            android:paddingRight="10dp"
                             android:layout_gravity="center_vertical"
                             android:id="@+id/textStartEndTime" />
                     </LinearLayout>
@@ -203,7 +189,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="left"
-            android:id="@+id/personalInfoArea">
+            android:id="@+id/personalInfoArea"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -216,17 +205,12 @@
                     android:layout_gravity="left"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingBottom="10dp"
                     android:textColor="@android:color/black" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
                 android:gravity="left">
                     <EditText android:id="@+id/edit_areacode"
                         android:layout_width="wrap_content"
@@ -246,8 +230,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
                 android:gravity="left">
                 <EditText android:id="@+id/edit_email"
                     android:layout_weight="1"
@@ -260,13 +242,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:id="@+id/joinbuttonare">
+            android:id="@+id/joinbuttonare"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
             <Button
                 android:id="@+id/buttonJoin"
                 android:text="Join"
@@ -275,7 +256,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/joinbuttonshape"
-                android:shadowColor="#ffffc005"
+                android:shadowColor="#ffffb73f"
                 android:shadowDx="0"
                 android:shadowDy="0"
                 android:shadowRadius="5"

@@ -12,17 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/group"
-        android:paddingTop="20dp">
+        android:id="@+id/group">
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="left">
+            android:gravity="left"
+            android:layout_gravity="center_vertical">
             <ImageButton
                 android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/eventgroups_group2"
                 android:gravity="center_horizontal"
@@ -35,7 +35,8 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="left"
-            android:paddingLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical">
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
