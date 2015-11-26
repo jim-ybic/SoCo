@@ -41,6 +41,7 @@ import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardModel;
 import com.soco.SoCoClient.buddies.suggested.ui.BuddyCardStackAdapter;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
+import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
@@ -156,6 +157,13 @@ public class Dashboard extends ActionBarActivity implements
         Toolbar parent = (Toolbar) actionbarView.getParent();
         Log.v(tag, "remove margin in actionbar area");
         parent.setContentInsetsAbsolute(0, 0);
+
+        Log.v(tag, "set my icon photo with userid: " + socoApp.user_id);
+        ImageButton ib = (ImageButton) actionbarView.findViewById(R.id.mebutton);
+        User u = new User();
+        u.setUser_id(socoApp.user_id);
+        Log.v(tag, "ib: " + ib + ", user: " + u.toString());
+        IconUrlUtil.setImageForButtonNormal(getResources(), ib, u.getUser_icon_url());
 
         Log.v(tag, "set actionbar background color");
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
