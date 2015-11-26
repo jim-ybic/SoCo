@@ -38,11 +38,14 @@ public class AddBuddyService extends IntentService {
 
         Log.v(tag, "validate data");
         if(!socoApp.SKIP_LOGIN && (socoApp.user_id.isEmpty() || socoApp.token.isEmpty())){
-            Log.e(tag, "user id or token or event is not available");
+            Log.e(tag, "user id or token is not available");
             return;
         }
-        if(socoApp.BUDDY_INTERFACE_READY && socoApp.currentBuddyId == 0){
-            Log.e(tag, "buddy id is not available");
+
+        String currentBuddyId = socoApp.getCurrentSuggestedBuddy().getUser_id();
+        Log.v(tag, "current suggested buddy id: " + currentBuddyId);
+        if(socoApp.BUDDY_INTERFACE_READY && currentBuddyId.isEmpty()){
+            Log.e(tag, "buddy id is not available, current buddy id: " + socoApp.currentBuddyId);
             return;
         }
 
@@ -51,7 +54,7 @@ public class AddBuddyService extends IntentService {
                 url,
                 socoApp.user_id,
                 socoApp.token,
-                socoApp.currentBuddyId
+                currentBuddyId
         );
 
         Log.v(tag, "set response flag as true");
@@ -72,7 +75,7 @@ public class AddBuddyService extends IntentService {
             String url,
             String user_id,
             String token,
-            long currentBuddyId
+            String currentBuddyId
     ) {
         Log.v(tag, "create json request");
 

@@ -63,6 +63,7 @@
         android:layout_gravity="center_vertical">
         <TextView
             android:id="@+id/addFriend"
+            android:clickable="true"
             android:onClick="addFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

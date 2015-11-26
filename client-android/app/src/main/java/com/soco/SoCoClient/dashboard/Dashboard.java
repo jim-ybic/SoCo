@@ -810,8 +810,7 @@ public class Dashboard extends ActionBarActivity implements
 
             if(socoApp.addBuddyResponse && socoApp.addBuddyResult){
                 Log.d(tag, "add buddy success");
-                Toast.makeText(getApplicationContext(), "Add buddy suceess.", Toast.LENGTH_SHORT).show();
-                finish();
+                Toast.makeText(getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
             }
             else{
                 Log.e(tag, "add buddy fail, notify user");
