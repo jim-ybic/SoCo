@@ -554,16 +554,16 @@
             android:orientation="horizontal"
             android:id="@+id/buttons">
 
-            <Button
-                android:id="@+id/joinevent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/addFriend"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:text="Add"
                 android:textSize="19dp"
                 android:textColor="@android:color/black"
-                android:background="@drawable/eventcategory_box"
-                android:paddingLeft="20dp"
+                android:background="@drawable/tab_unselected"
+                android:gravity="center"
                 android:textStyle="bold"
                 android:onClick="addbuddy"
                 android:layout_marginTop="5dp" />

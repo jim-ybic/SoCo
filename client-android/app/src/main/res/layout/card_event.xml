@@ -475,6 +475,7 @@
         android:paddingTop="10dp"
         android:paddingLeft="20dp"
         android:paddingBottom="10dp"
+        android:background="@android:color/white"
         android:onClick="eventbuddies">
 
         <!--<ImageButton-->
@@ -513,6 +514,8 @@
         android:orientation="horizontal"
         android:layout_weight="1"
         android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:background="@android:color/white"
         android:paddingTop="10dp">
         <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
@@ -568,20 +571,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/buttons"
-            android:paddingTop="10dp"
-            android:paddingBottom="1dp">
+            android:paddingBottom="1dp"
+            android:background="@color/card_bg">
             <Button
                 android:id="@+id/likeevent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="19dp"
-                android:background="@drawable/eventcategory_box"
+                android:background="@drawable/tab_unselected"
                 android:text="163"
                 android:drawableLeft="@drawable/eventcard_like_selector"
-                android:paddingLeft="20dp"
+                android:paddingLeft="40dp"
+                android:gravity="center"
                 android:textStyle="bold"
                 android:enabled="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="1dp"
                 android:onClick="likeevent"/>
 
             <Button
@@ -592,9 +598,11 @@
                 android:text="Join"
                 android:textSize="19dp"
                 android:textColor="@android:color/holo_blue_dark"
-                android:background="@drawable/eventcategory_box"
-                android:paddingLeft="20dp"
+                android:background="@drawable/tab_unselected"
+                android:gravity="center"
                 android:textStyle="bold"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="1dp"
                 android:onClick="joinevent"/>
         </LinearLayout>
 

@@ -355,7 +355,7 @@ public class LoginActivity //extends ActionBarActivity
                 Toast.makeText(getApplicationContext(), "Login via Facebook fail, please check password and try again.", Toast.LENGTH_SHORT).show();
             }
 
-            pd.dismiss();
+//            pd.dismiss();
         }
     };
 
@@ -377,7 +377,8 @@ public class LoginActivity //extends ActionBarActivity
         editor.commit();
 
         Log.v(tag, "show progress dialog, start register");
-        pd = ProgressDialog.show(this, "Login in progress", "Please wait...");
+//        pd = ProgressDialog.show(this, "Login in progress", "Please wait...");
+        hideViews();
         new Thread(new Runnable(){
             public void run(){
                 loginNormalInBackground();
@@ -504,7 +505,7 @@ public class LoginActivity //extends ActionBarActivity
                 Toast.makeText(getApplicationContext(), "Login fail, please check password and try again.", Toast.LENGTH_SHORT).show();
             }
 
-            pd.dismiss();
+//            pd.dismiss();
         }
     };
 
@@ -625,6 +626,7 @@ public class LoginActivity //extends ActionBarActivity
     @Override
     public void onResume() {
         super.onResume();
+        showViews();
 
 //        Log.d(tag, "on resume");
 
@@ -726,5 +728,12 @@ public class LoginActivity //extends ActionBarActivity
         Intent i = new Intent (this, SettingsActivity.class);
         startActivity(i);
     }
-
+    public void hideViews(){
+        findViewById(R.id.sociallogin).setVisibility(View.INVISIBLE);
+        findViewById(R.id.actions).setVisibility(View.INVISIBLE);
+    }
+    public void showViews(){
+        findViewById(R.id.sociallogin).setVisibility(View.VISIBLE);
+        findViewById(R.id.actions).setVisibility(View.VISIBLE);
+    }
 }
