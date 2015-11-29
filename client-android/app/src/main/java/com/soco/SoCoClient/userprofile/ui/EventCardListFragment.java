@@ -14,14 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.TaskCallBack;
+import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.allevents.SimpleEventCardAdapter;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.userprofile.task.UserEventTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class EventCardListFragment extends Fragment implements View.OnClickListener {
+public class EventCardListFragment extends Fragment implements View.OnClickListener,TaskCallBack {
 
     static String tag = "EventCardListFragment";
 
@@ -38,18 +41,10 @@ public class EventCardListFragment extends Fragment implements View.OnClickListe
         setHasOptionsMenu(true);
 
         context = getActivity().getApplicationContext();
-        generateDummyEvents();
+        SocoApp socoApp= (SocoApp) context;
+        UserEventTask uet = new UserEventTask(SocoApp.user_id,SocoApp.token,this);
+        uet.execute(socoApp.currentUserOnProfile.getUser_id());
     }
-
-    private void generateDummyEvents() {
-        Log.v(tag, "add dummy events");
-        for(int i=0; i<10; i++) {
-            Event e = new Event();
-            e.setTitle("#" + i + " event");
-            events.add(e);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,6 +81,16 @@ public class EventCardListFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
         }
+    }
+    public void doneTask(Object o){
+        if(o==null){
+            return;
+        }
+        events = (ArrayList<Event>) o;
+        Log.v(tag, "done task: ");
+
+        simpleEventCardAdapter = new SimpleEventCardAdapter(getActivity(), events);
+        mRecyclerView.setAdapter(simpleEventCardAdapter);
     }
 
 

@@ -1,21 +1,15 @@
 package com.soco.SoCoClient.groups.task;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.soco.SoCoClient._ref.HttpConfigV1;
 import com.soco.SoCoClient.common.HttpStatus;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
-import com.soco.SoCoClient.common.model.Task;
-import com.soco.SoCoClient.common.profile.Config;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.groups.model.Group;
 
@@ -133,7 +127,7 @@ public class CreateGroupTask extends AsyncTask<Void, Void, Boolean>{
     }
 
     protected void onPostExecute(Boolean result) {
-        callBack.doneTask();
+        callBack.doneTask(null);
     }
 
 }

@@ -14,14 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.common.TaskCallBack;
+import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.groups.ui.SimpleGroupCardAdapter;
+import com.soco.SoCoClient.userprofile.task.UserGroupTask;
+
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class GroupCardListFragment extends Fragment implements View.OnClickListener {
+public class GroupCardListFragment extends Fragment implements View.OnClickListener, TaskCallBack {
 
     static String tag = "GroupCardListFragment";
 
@@ -30,7 +33,7 @@ public class GroupCardListFragment extends Fragment implements View.OnClickListe
 
     RecyclerView mRecyclerView;
     SimpleGroupCardAdapter simpleGroupCardAdapter;
-    List<Event> events = new ArrayList<>();
+    ArrayList<Group> groups = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,20 +41,11 @@ public class GroupCardListFragment extends Fragment implements View.OnClickListe
         setHasOptionsMenu(true);
 
         context = getActivity().getApplicationContext();
-        generateDummyEvents();
+        SocoApp socoApp = (SocoApp) context;
+        UserGroupTask ugt = new UserGroupTask(SocoApp.user_id, SocoApp.token, this);
+        ugt.execute(socoApp.currentUserOnProfile.getUser_id());
     }
 
-    private void generateDummyEvents() {
-
-        //todo: use groups, instead of events
-
-        Log.v(tag, "add 5 dummy events");
-        events.add(new Event());
-        events.add(new Event());
-        events.add(new Event());
-        events.add(new Event());
-        events.add(new Event());
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,9 +58,8 @@ public class GroupCardListFragment extends Fragment implements View.OnClickListe
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
 
-        simpleGroupCardAdapter = new SimpleGroupCardAdapter(getActivity(), events);
+        simpleGroupCardAdapter = new SimpleGroupCardAdapter(getActivity(), groups);
         mRecyclerView.setAdapter(simpleGroupCardAdapter);
-
         return rootView;
     }
 
@@ -91,5 +84,13 @@ public class GroupCardListFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    public void doneTask(Object o) {
+        if (o == null) {
+            return;
+        }
+        groups = (ArrayList<Group>) o;
 
+        simpleGroupCardAdapter = new SimpleGroupCardAdapter(getActivity(), groups);
+        mRecyclerView.setAdapter(simpleGroupCardAdapter);
+    }
 }

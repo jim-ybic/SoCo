@@ -11,7 +11,6 @@ import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
-import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.userprofile.model.User;
 
 import org.apache.http.NameValuePair;
@@ -156,7 +155,7 @@ public class UserProfileTask extends AsyncTask<Void, Void, Boolean>{
     }
 
     protected void onPostExecute(Boolean result) {
-        callBack.doneTask();
+        callBack.doneTask(null);
     }
 
 }

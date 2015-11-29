@@ -12,16 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.UrlUtil;
-import com.soco.SoCoClient.common.model.Task;
 import com.soco.SoCoClient.common.ui.ExpandableHeightGridView;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.events.common.EventBuddiesFragment;
 import com.soco.SoCoClient.events.common.BuddiesGridSimpleAdapter;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
@@ -73,10 +72,33 @@ public class UserProfileFragment extends Fragment
 
         showBasics();
         showInterests();
-//        showFriends();
+        BuddiesGridSimpleAdapter adapter = new BuddiesGridSimpleAdapter(getActivity(),
+                friends,
+                R.layout.eventbuddiesgrid_entry,
+                new String[] {ItemImage,ItemName,ItemId},
+                new int[] {R.id.image,R.id.name,R.id.id});
+        ExpandableHeightGridView view = (ExpandableHeightGridView) rootView.findViewById(R.id.grid);
+        view.setExpanded(true);
+        view.setAdapter(adapter);
+        view.setFocusable(false);
 
-//        LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.master);
-//        layout.requestFocus();
+        view.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> arg0,//The AdapterView where the click happened
+                                            View arg1,//The view within the AdapterView that was clicked
+                                            int arg2,//The position of the view in the adapter
+                                            long arg3//The row id of the item that was clicked
+                    ) {
+                        HashMap<String, Object> item = (HashMap<String, Object>) arg0.getItemAtPosition(arg2);
+                        Log.v(EventBuddiesFragment.tag, "text: " + item.get(ItemName) + ", " + item.get(ItemId));
+
+                        Intent i = new Intent(context, UserProfileActivity.class);
+                        i.putExtra(User.USER_ID, String.valueOf(item.get(ItemId)));
+                        Log.v(tag, "put userid: " + item.get(ItemId));
+                        startActivity(i);
+                    }
+                }
+        );
 
         return rootView;
     }
@@ -106,43 +128,49 @@ public class UserProfileFragment extends Fragment
         Log.v(tag, "show basics: " + user.toString());
 
         String hometown = user.getHometown();
-        ((TextView)rootView.findViewById(R.id.hometown)).setText(hometown);
-        Log.v(tag, "set hometown " + hometown);
-
+        if(StringUtil.isEmptyString(hometown)){
+            ((LinearLayout)rootView.findViewById(R.id.hometownarea)).removeAllViews();
+        }else {
+            ((TextView) rootView.findViewById(R.id.hometown)).setText(hometown);
+            Log.v(tag, "set hometown " + hometown);
+        }
         String bio = user.getBiography();
-        ((TextView)rootView.findViewById(R.id.bio)).setText(bio);
-        Log.v(tag, "set bio " + bio);
+        if(StringUtil.isEmptyString(hometown)){
+            ((LinearLayout)rootView.findViewById(R.id.bioarea)).removeAllViews();
+        }else {
+            ((TextView)rootView.findViewById(R.id.bio)).setText(bio);
+            Log.v(tag, "set bio " + bio);
+        }
     }
 
     private void showInterests(){
         Log.v(tag, "show interests: " + user.getInterests().toString());
+        if(user.getInterests()==null||user.getInterests().size()==0){
+            LinearLayout interestAreaList = (LinearLayout) rootView.findViewById(R.id.interestsarea);
+            interestAreaList.removeAllViews();
+        }else {
+            LinearLayout interestsList = (LinearLayout) rootView.findViewById(R.id.interests);
+            interestsList.removeAllViews();
 
-        LinearLayout interestsList = (LinearLayout) rootView.findViewById(R.id.interests);
-        interestsList.removeAllViews();
+            for (int i = 0; i < user.getInterests().size(); i++) {
+                String inter = user.getInterests().get(i);
+                TextView view = new TextView(context);
+                view.setText(inter);
+                view.setBackgroundResource(R.drawable.eventcategory_box);
+                view.setPadding(10, 5, 10, 5);
+                view.setTextColor(Color.BLACK);
 
-        for(int i=0; i<user.getInterests().size(); i++){
-            String inter = user.getInterests().get(i);
-            TextView view = new TextView(context);
-            view.setText(inter);
-            view.setBackgroundResource(R.drawable.eventcategory_box);
-            view.setPadding(10, 5, 10, 5);
-            view.setTextColor(Color.BLACK);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0, 5, 10, 5);
+                view.setLayoutParams(params);
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, 5, 10, 5);
-            view.setLayoutParams(params);
-
-            interestsList.addView(view);
+                interestsList.addView(view);
+            }
         }
-
     }
 
-//    private void showFriends(){
-//        Log.v(tag, "show friends: ");
-//        //todo: within doneTask
-//    }
 
-    public void doneTask(){
+    public void doneTask(Object o){
         Log.v(tag, "done task: " + user.toString());
 
         TextView hometown = (TextView) rootView.findViewById(R.id.hometown);

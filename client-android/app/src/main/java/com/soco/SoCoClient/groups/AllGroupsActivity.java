@@ -7,22 +7,15 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
-import com.facebook.CallbackManager;
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.common.RequestCode;
 import com.soco.SoCoClient.common.util.SocoApp;
-import com.soco.SoCoClient.dashboard.Dashboard;
-import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.groups.ui.SimpleGroupCardAdapter;
-import com.soco.SoCoClient.onboarding.login.service.LoginNormalService;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AllGroupsActivity extends ActionBarActivity {
 
@@ -31,7 +24,7 @@ public class AllGroupsActivity extends ActionBarActivity {
 
     RecyclerView mRecyclerView;
     SimpleGroupCardAdapter simpleGroupCardAdapter;
-    List<Event> events = new ArrayList<>();
+    ArrayList<Group> groups = new ArrayList<>();
 
     android.support.v7.app.ActionBar actionBar;
     View actionbarView;
@@ -44,31 +37,30 @@ public class AllGroupsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_all_groups);
 
         socoApp = (SocoApp) getApplicationContext();
-        events = socoApp.suggestedEvents;
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
 
-        generateDummyEntries();
+//        generateDummyEntries();
 
-        simpleGroupCardAdapter = new SimpleGroupCardAdapter(this, events);
+        simpleGroupCardAdapter = new SimpleGroupCardAdapter(this, groups);
         mRecyclerView.setAdapter(simpleGroupCardAdapter);
 
 
     }
 
-    private void generateDummyEntries() {
-
-        //todo: use groups, instead of events
-
-        Log.v(tag, "add dummy entries");
-        if(events == null)
-            events = new ArrayList<>();
-        for(int i=0; i<20; i++)
-            events.add(new Event());
-     }
+//    private void generateDummyEntries() {
+//
+//        //todo: use groups, instead of events
+//
+//        Log.v(tag, "add dummy entries");
+//        if(events == null)
+//            events = new ArrayList<>();
+//        for(int i=0; i<20; i++)
+//            events.add(new Event());
+//     }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {

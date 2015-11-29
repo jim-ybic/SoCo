@@ -244,6 +244,8 @@ public class UrlUtil {
     static final String USER_ICON="/v1/user_icon?";
     static final String CREATE_GROUP_PATH = "/v1/group";
     static final String USER_PROFILE_PATH = "/v1/user";
+    static final String USER_EVENT_PATH = "/v1/events";
+    static final String USER_GROUP_PATH = "/v1/user_groups";
 
 
     public static String getLoginUrl(){
@@ -346,6 +348,16 @@ public class UrlUtil {
     public static String getMyMatchUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + MY_MATCH_PATH;
         Log.v(tag, "get my match url: " + url);
+        return url;
+    }
+    public static String getUserEventUrl(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_EVENT_PATH;
+        Log.v(tag, "get user event url: " + url);
+        return url;
+    }
+    public static String getUserGroupUrl(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_GROUP_PATH;
+        Log.v(tag, "get user event url: " + url);
         return url;
     }
 

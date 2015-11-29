@@ -66,7 +66,7 @@ public class CreateGroupActivity extends ActionBarActivity
         new CreateGroupTask(context, g, this).execute();
     }
 
-    public void doneTask(){
+    public void doneTask(Object o){
         Log.v(tag, "notify user and finish");
         Toast.makeText(context, "Create group success.", Toast.LENGTH_SHORT).show();
         finish();

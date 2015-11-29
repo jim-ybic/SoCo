@@ -216,7 +216,7 @@ public class DownloadSuggestedEventsService extends IntentService {
         return true;
     }
 
-    private void parseEventBasics(Event e, JSONObject obj) throws JSONException {
+    public static void parseEventBasics(Event e, JSONObject obj) throws JSONException {
         e.setId(obj.getLong(JsonKeys.EVENT_ID));
         e.setTitle(obj.getString(JsonKeys.NAME));
         e.setIntroduction(obj.getString(JsonKeys.DESCRIPTION));
@@ -230,7 +230,7 @@ public class DownloadSuggestedEventsService extends IntentService {
         }
     }
 
-    private void parseCategories(Event e, JSONObject obj) throws JSONException {
+    public static void parseCategories(Event e, JSONObject obj) throws JSONException {
         Log.v(tag, "parse categories");
         if(obj.has(JsonKeys.CATEGORIES)) {
             String allCategoriesString = obj.getString(JsonKeys.CATEGORIES);
@@ -258,7 +258,7 @@ public class DownloadSuggestedEventsService extends IntentService {
             Log.v(tag, "no address info found in json");
     }
 
-    private void parseTimedate(Event e, JSONObject obj) throws JSONException {
+    public static void parseTimedate(Event e, JSONObject obj) throws JSONException {
         Log.v(tag, "parse timedate");
         if(obj.has(JsonKeys.TIMEDATE)) {
             String timedateStr = obj.getString(JsonKeys.TIMEDATE);
@@ -273,7 +273,7 @@ public class DownloadSuggestedEventsService extends IntentService {
             Log.v(tag, "no timedate info found in json");
     }
 
-    void parseOrganizer(JSONObject eventObj, Event event) throws JSONException {
+   public static void parseOrganizer(JSONObject eventObj, Event event) throws JSONException {
 //        Log.v(tag, "parse organizer: " + eventObj);
         if(!eventObj.has(JsonKeys.ORGANIZER)) {
             Log.w(tag, "no organizer info is found in json");
@@ -376,7 +376,7 @@ public class DownloadSuggestedEventsService extends IntentService {
                 member_name: group member name
                 member_icon_url: url of group member’s icon
      */
-    void parseBuddies(JSONObject eventObj, Event event) throws JSONException {
+    public static void parseBuddies(JSONObject eventObj, Event event) throws JSONException {
         if(!eventObj.has(JsonKeys.REPRESENTATIVE_BUDDIES))
             Log.w(tag, "no representative buddies info is found in json");
         else {

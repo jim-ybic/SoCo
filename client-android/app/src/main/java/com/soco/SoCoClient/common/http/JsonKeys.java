@@ -77,6 +77,7 @@ public class JsonKeys {
     public static final String USER = "user";
     public static final String USER_NAME = "user_name";
     public static final String USER_ICON_URL = "user_icon_url";
+    public static final String GROUPS = "groups";
 
     public static final String HIGHLIGHT = "highlight";
 

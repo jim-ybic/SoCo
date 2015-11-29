@@ -155,8 +155,11 @@
             android:layout_marginTop="10dp">
 
             <TextView
+                android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="Description of the group goes here"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="5dp"
@@ -197,7 +200,7 @@
                 android:orientation="horizontal"
                 android:layout_weight="1"
                 android:paddingRight="10dp"
-                android:id="@+id/eventbuddies">
+                android:id="@+id/groupMembers">
                 <!--<TextView-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
@@ -261,6 +264,7 @@
 
 
     <ImageButton
+        android:id="@+id/group_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"

@@ -9,7 +9,7 @@ public class Group {
     String group_id, group_name, group_icon_url;
     ArrayList<User> members;
     String description;
-
+    ArrayList<String> categories;
     public String getGroup_id() {
         return group_id;
     }
@@ -52,6 +52,17 @@ public class Group {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    public ArrayList<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(ArrayList<String> categories) {
+        this.categories = categories;
+    }
+
+    public void addCategory(String cat){
+        this.categories.add(cat);
     }
 
     @Override

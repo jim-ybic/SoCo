@@ -18,10 +18,12 @@ import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
+import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.userprofile.model.User;
 import com.soco.SoCoClient.userprofile.task.UserProfileTask;
 import com.soco.SoCoClient.userprofile.ui.UserProfileTabsAdapter;
 import com.soco.SoCoClient.common.util.SocoApp;
+
 
 public class UserProfileActivity extends ActionBarActivity
         implements android.support.v7.app.ActionBar.TabListener, TaskCallBack
@@ -200,9 +202,16 @@ public class UserProfileActivity extends ActionBarActivity
         finish();
     }
 
-    public void doneTask(){
+    public void doneTask(Object o){
         Log.v(tag, "done task, set actionbar");
         setActionbar();
+    }
+    public void eventdetails(View view){
+        Log.v(tag, "check event details");
+        Intent i = new Intent(this, EventDetailsActivity.class);
+        Long id = (Long) view.getTag();
+        i.putExtra(EventDetailsActivity.EVENT_ID, id);
+        startActivity(i);
     }
 
 
