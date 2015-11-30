@@ -60,7 +60,8 @@
             android:name=".dashboard.Dashboard"
             android:label="@string/title_dashboard"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/DashboardActionBarTheme" >
         </activity>
         <activity
             android:name=".events._ref.CompletedActivitiessActivity"

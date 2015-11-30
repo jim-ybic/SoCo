@@ -18,6 +18,14 @@
         <item name="actionBarTabTextStyle">@style/Soco.ActionBarTabText.Style</item>
     </style>
 
+    <style name="DashboardActionBarTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarSize">80dp</item>
+        <item name="actionBarSize">80dp</item>
+        <item name="actionBarTabStyle">@style/Soco.ActionBarTab.Style</item>
+        <item name="actionBarTabTextStyle">@style/Soco.ActionBarTabText.Style</item>
+    </style>
+
     <style name="EventGroupBuddiesTallActionBarTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="android:actionBarSize">100dp</item>

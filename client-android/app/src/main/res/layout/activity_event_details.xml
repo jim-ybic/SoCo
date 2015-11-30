@@ -2089,8 +2089,7 @@
                 android:textSize="12dp"
                 android:textColor="@android:color/holo_blue_dark"
                 android:background="@drawable/eventcategory_box"
-                android:textStyle="bold"
-                android:onClick="joinevent"/>
+                android:textStyle="bold"/>
         </LinearLayout>
 
         <!--<LinearLayout-->

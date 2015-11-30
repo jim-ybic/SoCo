@@ -261,8 +261,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:id="@+id/actionbuttons"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
                 <Button
                     android:id="@+id/save"
                     android:layout_width="match_parent"
@@ -270,7 +270,7 @@
                     android:text="Apply"
                     android:onClick="apply"
                     android:textColor="@android:color/white"
-                    android:background="@drawable/round_reactangle_black" />
+                    android:background="@drawable/round_reactangle_orange" />
                 <Button
                     android:id="@+id/preview"
                     android:layout_width="match_parent"
