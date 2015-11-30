@@ -30,10 +30,10 @@ public class User extends UserBrief{
     int number_group;
     String group_name;
 
-    String hometown;
+    String hometown = "";
     ArrayList<User> friends_list = new ArrayList<>();
     HashSet<String> friendIds = new HashSet<>();
-    String biography;
+    String biography = "";
 
     public User(){}
 

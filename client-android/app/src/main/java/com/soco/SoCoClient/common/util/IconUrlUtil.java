@@ -138,9 +138,9 @@ public class IconUrlUtil {
         }else {
             if (size != 0) {
                 bp = getResizedBitmap(bp, size, size);
-                Log.d(tag, "Finished re-size bitmap");
+                Log.v(tag, "Finished re-size bitmap");
                 bp = getRoundedCornerBitmap(bp, size * size);
-                Log.d(tag, "Finished round corner bitmap");
+                Log.v(tag, "Finished round corner bitmap");
             }
         }
         return bp;

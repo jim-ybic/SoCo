@@ -74,7 +74,7 @@ public class UserGroupTask extends AsyncTask<String, Void, ArrayList<Group> >{
         params.add(new BasicNameValuePair(JsonKeys.USER_ID, user_id));
         params.add(new BasicNameValuePair(JsonKeys.TOKEN, token));
 
-        params.add(new BasicNameValuePair(JsonKeys.BUDDY_USER_ID, buddy_id));
+        params.add(new BasicNameValuePair(JsonKeys.BUDDY_ID, buddy_id));
         String paramString = URLEncodedUtils.format(params, "utf-8");
 
         url += paramString;

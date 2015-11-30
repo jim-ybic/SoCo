@@ -130,6 +130,7 @@ public class UserProfileFragment extends Fragment
         String hometown = user.getHometown();
         if(StringUtil.isEmptyString(hometown)){
             ((LinearLayout)rootView.findViewById(R.id.hometownarea)).removeAllViews();
+//            rootView.findViewById(R.id.hometownarea).setVisibility(View.INVISIBLE);
         }else {
             ((TextView) rootView.findViewById(R.id.hometown)).setText(hometown);
             Log.v(tag, "set hometown " + hometown);
@@ -137,6 +138,7 @@ public class UserProfileFragment extends Fragment
         String bio = user.getBiography();
         if(StringUtil.isEmptyString(hometown)){
             ((LinearLayout)rootView.findViewById(R.id.bioarea)).removeAllViews();
+//            rootView.findViewById(R.id.bioarea).setVisibility(View.INVISIBLE);
         }else {
             ((TextView)rootView.findViewById(R.id.bio)).setText(bio);
             Log.v(tag, "set bio " + bio);
@@ -148,6 +150,7 @@ public class UserProfileFragment extends Fragment
         if(user.getInterests()==null||user.getInterests().size()==0){
             LinearLayout interestAreaList = (LinearLayout) rootView.findViewById(R.id.interestsarea);
             interestAreaList.removeAllViews();
+//            interestAreaList.setVisibility(View.INVISIBLE);
         }else {
             LinearLayout interestsList = (LinearLayout) rootView.findViewById(R.id.interests);
             interestsList.removeAllViews();
@@ -174,17 +177,23 @@ public class UserProfileFragment extends Fragment
         Log.v(tag, "done task: " + user.toString());
 
         TextView hometown = (TextView) rootView.findViewById(R.id.hometown);
-        hometown.setText(user.getHometown());
+        if(hometown == null)
+            Log.e(tag, "hometown object is null");
+        else
+            hometown.setText(user.getHometown());
 
         TextView bio = (TextView) rootView.findViewById(R.id.bio);
-        bio.setText(user.getBiography());
+        if(bio == null)
+            Log.e(tag, "bio object is null");
+        else
+            bio.setText(user.getBiography());
 
         int[] attrs = new int[]{R.attr.selectableItemBackground};
         TypedArray typedArray = context.obtainStyledAttributes(attrs);
         int backgroundResource = typedArray.getResourceId(0, 0);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        Log.v(tag, "show friends: " + user.getFriends_list().toString());
+        Log.v(tag, "show friends of " + user.getUser_name() + ": " + user.getFriends_list().toString());
         for(User u : user.getFriends_list()){
             HashMap<String, Object> item = getItemForShow(params,backgroundResource,u);
             friends.add(item);

@@ -6,6 +6,7 @@ public class JsonKeys {
     public static final String BUDDIES = "buddies";
     public static final String BUDDIES_JOINED = "buddies_joined";
     public static final String BUDDIES_LIKED = "buddies_liked";
+    public static final String BUDDY_ID = "buddy_id";
     public static final String BUDDY_USER_ID = "buddy_user_id";
     public static final String CATEGORIES = "categories";
     public static final String CATEGORY = "category";
