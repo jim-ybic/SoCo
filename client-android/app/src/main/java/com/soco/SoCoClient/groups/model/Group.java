@@ -9,6 +9,16 @@ public class Group {
     String group_id, group_name, group_icon_url;
     ArrayList<User> members;
     String description;
+    String numberOfMembers;
+
+    public String getNumberOfMembers() {
+        return numberOfMembers;
+    }
+
+    public void setNumberOfMembers(String numberOfMembers) {
+        this.numberOfMembers = numberOfMembers;
+    }
+
     ArrayList<String> categories;
     public String getGroup_id() {
         return group_id;

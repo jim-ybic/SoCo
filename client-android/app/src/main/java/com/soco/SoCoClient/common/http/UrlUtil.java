@@ -227,7 +227,7 @@ public class UrlUtil {
     static final String URL_HEADER = "http://";
     static final String COLON = ":";
     static final String SERVER_IP = "54.254.147.226";
-    static final String SERVER_PORT = "8090";
+    static final String SERVER_PORT = "80";
     static final String LOGIN_PATH = "/v1/login";
     static final String SOCIAL_LOGIN_PATH = "/v1/social_login";
     static final String REGISTER_PATH = "/v1/register";
@@ -246,6 +246,7 @@ public class UrlUtil {
     static final String USER_PROFILE_PATH = "/v1/user";
     static final String USER_EVENT_PATH = "/v1/events";
     static final String USER_GROUP_PATH = "/v1/user_groups";
+    static final String GROUP_LIST_PATH = "/v1/groups";
 
 
     public static String getLoginUrl(){
@@ -328,6 +329,14 @@ public class UrlUtil {
         }
         return sb.toString();
     }
+    public static String getGroupIconUrl(String group_id) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(getUserIconUrlPrefix());
+        sb.append(SocoApp.getCurrentUserTokenForUrl());
+        sb.append("&group_id=");
+        sb.append(group_id);
+        return sb.toString();
+    }
 
     public static String getCreateGroupUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + CREATE_GROUP_PATH;
@@ -350,15 +359,24 @@ public class UrlUtil {
         Log.v(tag, "get my match url: " + url);
         return url;
     }
-    public static String getUserEventUrl(){
+    public static String getEventsUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_EVENT_PATH;
-        Log.v(tag, "get user event url: " + url);
+        Log.v(tag, "get events url: " + url);
         return url;
     }
     public static String getUserGroupUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_GROUP_PATH;
-        Log.v(tag, "get user event url: " + url);
+        Log.v(tag, "get user group url: " + url);
         return url;
     }
-
+    public static String getEventUrl(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + CREATE_EVENT_PATH;
+        Log.v(tag, "event url: " + url);
+        return url;
+    }
+    public static String getGroupsUrl(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + GROUP_LIST_PATH;
+        Log.v(tag, "groups url: " + url);
+        return url;
+    }
 }

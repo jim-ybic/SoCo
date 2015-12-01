@@ -42,7 +42,9 @@ public class EventCardListFragment extends Fragment implements View.OnClickListe
 
         context = getActivity().getApplicationContext();
         SocoApp socoApp= (SocoApp) context;
-        UserEventTask uet = new UserEventTask(SocoApp.user_id,SocoApp.token,this);
+        String[] paramNames = new String[1];
+        paramNames[0]=UserEventTask.BUDDY_USER_ID;
+        UserEventTask uet = new UserEventTask(SocoApp.user_id,SocoApp.token,paramNames,this);
         uet.execute(socoApp.currentUserOnProfile.getUser_id());
     }
     @Override

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
@@ -18,15 +19,17 @@ import com.soco.SoCoClient.events._ref.EventOrganizersActivity;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
+import com.soco.SoCoClient.events.service.EventDetailsTask;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 
-public class EventDetailsActivity extends ActionBarActivity {
+
+public class EventDetailsActivity extends ActionBarActivity implements TaskCallBack {
 
     static final String tag = "EventDetailsActivity";
     private long Current_Event_Id = 0;
     private SocoApp socoApp;
-    public static final String EVENT_ID = "event_id";
-
+    public static final String EVENT_ID = "EVENT_ID";
+    private Event event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,17 +37,18 @@ public class EventDetailsActivity extends ActionBarActivity {
         Intent i = getIntent();
 
         socoApp = (SocoApp) getApplicationContext();
-        Event event;
-        long eventId = i.getLongExtra(EVENT_ID, 0);
-
+//        Event event;
+        Current_Event_Id = i.getLongExtra(EVENT_ID, 0);
+        EventDetailsTask edt = new EventDetailsTask(SocoApp.user_id,SocoApp.token,this);
+        edt.execute(Long.toString(Current_Event_Id));
         //if id has been passed from the intent, then get the event id to better locate the event.
         //else, taking from suggestedEvents (from the list, can only checking the pos, might need to further change)
-        if(eventId!=0 && socoApp.suggestedEventsMap!=null && socoApp.suggestedEventsMap.containsKey(eventId)){
-            event = socoApp.suggestedEventsMap.get(eventId);
-        }else {
-            event = socoApp.getCurrentSuggestedEvent();
-        }
-        Current_Event_Id = event.getId();
+//        if(eventId!=0 && socoApp.suggestedEventsMap!=null && socoApp.suggestedEventsMap.containsKey(eventId)){
+//            event = socoApp.suggestedEventsMap.get(eventId);
+//        }else {
+//            event = socoApp.getCurrentSuggestedEvent();
+//        }
+//        Current_Event_Id = event.getId();
         showDetails(event);
     }
 
@@ -111,6 +115,9 @@ public class EventDetailsActivity extends ActionBarActivity {
     }
 
     private void showDetails(Event event){
+        if(event==null){
+            return;
+        }
         Log.v(tag, "show event details: " + event.toString());
 
 //        ((TextView)this.findViewById(R.id.textNoOfViews)).setText(Integer.toString(event.getNumber_of_views()));
@@ -141,5 +148,12 @@ public class EventDetailsActivity extends ActionBarActivity {
 
         //todo: set organizers
 
+    }
+    public void doneTask(Object o){
+        if(o==null){
+            return;
+        }
+        event = (Event) o;
+        showDetails(event);
     }
 }

@@ -57,6 +57,7 @@ public class SimpleGroupCardAdapter
         //set basic group information
         ((TextView)simpleGroupCardViewHolder.itemView.findViewById(R.id.title)).setText(g.getGroup_name());
         ((TextView)simpleGroupCardViewHolder.itemView.findViewById(R.id.description)).setText(g.getDescription());
+        ((TextView)simpleGroupCardViewHolder.itemView.findViewById(R.id.number_of_members)).setText(g.getNumberOfMembers()+" group members");
         //set detail for categories
 //        if(g.getCategories()!=null && g.getCategories().size()>0) {
 //            LinearLayout categoryList = (LinearLayout) simpleGroupCardViewHolder.itemView.findViewById(R.id.categories);
@@ -65,7 +66,8 @@ public class SimpleGroupCardAdapter
 //        }
         //set icon for group
         ImageButton groupIcon = (ImageButton)simpleGroupCardViewHolder.itemView.findViewById(R.id.group_icon);
-        IconUrlUtil.setImageForButtonSmall(mContext.getResources(), groupIcon, UrlUtil.getUserIconUrl(g.getGroup_id()));
+//        Log.e(tag, "======================================================"+UrlUtil.getGroupIconUrl(g.getGroup_id()));
+        IconUrlUtil.setImageForButtonSmall(mContext.getResources(), groupIcon, UrlUtil.getGroupIconUrl(g.getGroup_id()));
 
         //set icon for group members
         LinearLayout list = (LinearLayout) simpleGroupCardViewHolder.itemView.findViewById(R.id.groupMembers);
