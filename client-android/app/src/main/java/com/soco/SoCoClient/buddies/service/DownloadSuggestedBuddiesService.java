@@ -2,7 +2,9 @@ package com.soco.SoCoClient.buddies.service;
 
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.soco.SoCoClient.common.HttpStatus;
@@ -27,7 +29,11 @@ import java.util.List;
 public class DownloadSuggestedBuddiesService extends IntentService {
 
     static final String tag = "DownloadSuggestedBuddi";
+    static final String PERFS_NAME = "EVENT_BUDDY_PERFS";
+    static final String USER_ID = "user_id";
+    static final String TOKEN = "token";
 
+    Context context;
     static SocoApp socoApp;
 
     public DownloadSuggestedBuddiesService() {
@@ -38,6 +44,7 @@ public class DownloadSuggestedBuddiesService extends IntentService {
     public void onCreate() {
         super.onCreate();   //important
 
+        context = getApplicationContext();
         socoApp = (SocoApp) getApplicationContext();
     }
 
@@ -54,6 +61,26 @@ public class DownloadSuggestedBuddiesService extends IntentService {
 //            Log.e(tag, "user id or token or event is not available");
 //            return;
 //        }
+        if(!socoApp.SKIP_LOGIN &&
+                (socoApp.user_id == null || socoApp.user_id.isEmpty()
+                        || socoApp.token == null || socoApp.token.isEmpty())){
+            Log.e(tag, "user id or token or event is not available in memory");
+
+            SharedPreferences settings = context.getSharedPreferences(PERFS_NAME, 0);
+            String userId = settings.getString(USER_ID, "");
+            String token = settings.getString(TOKEN, "");
+            Log.v(tag, "get stored userid/token: " + userId+ ", " + token);
+            if(token != null && !token.isEmpty()){
+                socoApp.user_id = userId;
+                socoApp.token = token;
+            }
+            else {
+                Log.e(tag, "cannot get userid/token from shared preference");
+                socoApp.downloadSuggestedEventsResponse = true;
+                socoApp.downloadSuggestedEventsResult = false;
+                return;
+            }
+        }
 
         String url = UrlUtil.getSuggestedBuddiessUrl();
         Object response = request(

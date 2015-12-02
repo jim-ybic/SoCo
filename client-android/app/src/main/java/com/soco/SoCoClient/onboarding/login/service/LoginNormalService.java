@@ -2,9 +2,13 @@ package com.soco.SoCoClient.onboarding.login.service;
 
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.TextView;
 
+import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.HttpStatus;
 import com.soco.SoCoClient.common.ReturnCode;
 import com.soco.SoCoClient.common.http.HttpUtil;
@@ -19,7 +23,12 @@ public class LoginNormalService extends IntentService {
 
     static final String tag = "LoginNormalService";
 
-    static SocoApp socoApp;
+    static final String PERFS_NAME = "EVENT_BUDDY_PERFS";
+    static final String USER_ID = "user_id";
+    static final String TOKEN = "token";
+
+    SocoApp socoApp;
+    Context context;
 
     public LoginNormalService() {
         super("LoginNormalService");
@@ -29,7 +38,8 @@ public class LoginNormalService extends IntentService {
     public void onCreate() {
         super.onCreate();   //important
 
-        socoApp = (SocoApp) getApplicationContext();
+        context = getApplicationContext();
+        socoApp = (SocoApp) context;
     }
 
     @Override
@@ -78,7 +88,7 @@ public class LoginNormalService extends IntentService {
         return;
     }
 
-    public static Object request(
+    Object request(
             String url,
             String name,
             String email,
@@ -104,7 +114,7 @@ public class LoginNormalService extends IntentService {
         return HttpUtil.executeHttpPost(url, data);
     }
 
-    public static int parse(Object response) {
+    int parse(Object response) {
         Log.d(tag, "parse register response: " + response.toString());
 
         try {
@@ -122,9 +132,16 @@ public class LoginNormalService extends IntentService {
                                 "user id: " + user_id + ", token: " + token
                 );
 
-                Log.v(tag, "save userid and token");
+                Log.v(tag, "save userid and token: " + user_id + ", " + token);
                 socoApp.user_id = user_id;
                 socoApp.token = token;
+
+                Log.v(tag, "save userid/token to shared preference");
+                SharedPreferences settings = context.getSharedPreferences(PERFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString(USER_ID, user_id);
+                editor.putString(TOKEN, token);
+                editor.commit();
             }
             else {
                 Log.v(tag, "login fail");

@@ -2,7 +2,9 @@ package com.soco.SoCoClient.onboarding.login.service;
 
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.facebook.GraphResponse;
@@ -20,6 +22,9 @@ public class LoginViaFacebookService extends IntentService {
     static final String tag = "LoginViaFacebookService";
 
     static final String FACEBOOK = "facebook";
+    static final String PERFS_NAME = "EVENT_BUDDY_PERFS";
+    static final String USER_ID = "user_id";
+    static final String TOKEN = "token";
 
     static final int WAIT_INTERVAL_IN_SECOND = 1;
     static final int WAIT_ITERATION = 10;
@@ -29,6 +34,7 @@ public class LoginViaFacebookService extends IntentService {
     String userName;
     String userEmail;
 
+    Context context;
     SocoApp socoApp;
     boolean requestStatus;
     GraphResponse requestResponse;
@@ -41,6 +47,7 @@ public class LoginViaFacebookService extends IntentService {
     public void onCreate() {
         super.onCreate();   //important
 
+        context = getApplicationContext();
         socoApp = (SocoApp)getApplicationContext();
     }
 
@@ -181,6 +188,14 @@ public class LoginViaFacebookService extends IntentService {
                 Log.v(tag, "save userid and token");
                 socoApp.user_id = user_id;
                 socoApp.token = token;
+
+                Log.v(tag, "save userid/token to shared preference");
+                SharedPreferences settings = context.getSharedPreferences(PERFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString(USER_ID, user_id);
+                editor.putString(TOKEN, token);
+                editor.commit();
+
             }
             else{
                 Log.d(tag, "login via Facebook: FAIL, update status flag");
