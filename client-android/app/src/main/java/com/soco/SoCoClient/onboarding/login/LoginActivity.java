@@ -53,12 +53,14 @@ import java.util.List;
 public class LoginActivity //extends ActionBarActivity
     extends Activity
 {
-
     public static String tag = "LoginActivity";
 
     static final String PERFS_NAME = "EVENT_BUDDY_PERFS";
     static final String LOGIN_EMAIL = "login_email";
     static final String LOGIN_PASSWORD = "login_password";
+
+    static final String SCREEN_SIZE = "screen_size";
+    static final String CACHE_SIZE = "cache_size";
 
 //    public static String FLAG_EXIT = "exit";
 //    public String SOCO_SERVER_IP = "192.168.0.104";
@@ -126,20 +128,24 @@ public class LoginActivity //extends ActionBarActivity
         socoApp = (SocoApp) context;
 
 
-        //initial screen resolution to app
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-//        IconUrlUtil = size.x;
-        display.getRealSize(size);
+//        //initial screen resolution to app
+//        Display display = getWindowManager().getDefaultDisplay();
+//        Point size = new Point();
+//        display.getSize(size);
+////        IconUrlUtil = size.x;
+//        display.getRealSize(size);
+//        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+//        // Use 1/8th of the available memory for this memory cache.
+//        final int cacheSize = maxMemory / 8;
+//        Log.v(tag, "init icon downloader: " + size + ", " + cacheSize);
+//        IconUrlUtil.initialForIconDownloader(Math.min(size.x, size.y), cacheSize);
 
-        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-
-        // Use 1/8th of the available memory for this memory cache.
-        final int cacheSize = maxMemory / 8;
-
-        IconUrlUtil.initialForIconDownloader(Math.min(size.x, size.y),cacheSize);
-
+//        Log.v(tag, "save screensize and cachesize to shared preference: " + Math.min(size.x, size.y) + ", " + cacheSize);
+//        SharedPreferences settings = context.getSharedPreferences(PERFS_NAME, 0);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString(SCREEN_SIZE, String.valueOf(Math.min(size.x, size.y)));
+//        editor.putString(CACHE_SIZE, String.valueOf(cacheSize));
+//        editor.commit();
 
         Log.v(tag, "create controller");
         controller = new LoginController();

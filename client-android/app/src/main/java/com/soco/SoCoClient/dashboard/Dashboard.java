@@ -11,6 +11,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -20,6 +21,7 @@ import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 //import android.widget.Toolbar;
 import android.support.v7.widget.Toolbar;
@@ -118,20 +120,17 @@ public class Dashboard extends ActionBarActivity implements
         findViews();
         setMyProfilePhoto();
 
-        Log.v(tag, "Set listener");
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                Log.v(tag, "position is " + position);
-                actionBar.setSelectedNavigationItem(position);
-            }
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
+        Log.v(tag, "initial screen resolution to app");
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+//        IconUrlUtil = size.x;
+        display.getRealSize(size);
+        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        // Use 1/8th of the available memory for this memory cache.
+        final int cacheSize = maxMemory / 8;
+        Log.v(tag, "init icon downloader: " + size + ", " + cacheSize);
+        IconUrlUtil.initialForIconDownloader(Math.min(size.x, size.y), cacheSize);
     }
 
     private void setActionbar() {
@@ -186,6 +185,23 @@ public class Dashboard extends ActionBarActivity implements
             actionBar.selectTab(tabBuddies);
         else
             actionBar.selectTab(tabEvents);
+
+        Log.v(tag, "Set listener");
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                Log.v(tag, "position is " + position);
+                actionBar.setSelectedNavigationItem(position);
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
     }
 
     private void setMyProfilePhoto() {

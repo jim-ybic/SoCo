@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.common.util;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -50,23 +51,27 @@ public class IconUrlUtil {
     }
 
     public static void setImageForButtonSmall(Resources res, ImageButton mButton, String urlString){
-        Log.v(tag, "set button image small: " + urlString);
+        Log.v(tag, "set button image small: " + urlString + ", " + sizeSmall);
         updateImageButton(res, mButton, urlString, sizeSmall);
     }
+
     public static void setImageForButtonNormal(Resources res, ImageButton mButton, String urlString){
-        Log.v(tag, "set button image normal: " + urlString);
+        Log.v(tag, "set button image normal: " + urlString + ", " + sizeNormal);
         updateImageButton( res,mButton, urlString,sizeNormal);
     }
+
     public static void setImageForButtonSmall(Resources res, ImageView mButton, String urlString){
-        Log.v(tag, "set button image small: " + urlString);
+        Log.v(tag, "set button image small: " + urlString + ", " + sizeSmall);
         updateImageButton(res, mButton, urlString, sizeSmall);
     }
+
     public static void setImageForButtonNormal(Resources res, ImageView mButton, String urlString){
-        Log.v(tag, "set image view normal: " + urlString);
+        Log.v(tag, "set image view normal: " + urlString + ", " + sizeNormal);
         updateImageButton( res,mButton, urlString,sizeNormal);
     }
+
     public static void setImageForButtonLarge(Resources res, ImageView mButton, String urlString){
-        Log.v(tag, "set button image large: " + urlString);
+        Log.v(tag, "set button image large: " + urlString + ", " + sizeLarge);
         updateImageButton( res,mButton, urlString, sizeLarge);
     }
 
@@ -82,6 +87,7 @@ public class IconUrlUtil {
     //Please use above method to get 3 fixed size image
     //below method for limited usage.
     private static void updateImageButton(Resources res, ImageView mButton, String urlString,int size){
+        Log.v(tag, "update image button: " + res + ", " + mButton + ", " + urlString + ", " + size);
         try {
             if (cancelPotentialWork(urlString, mButton)) {
                 final IconDownloadTask task = new IconDownloadTask(mButton, size);
