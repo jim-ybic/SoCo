@@ -10,14 +10,16 @@ import android.util.Log;
 import android.view.View;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.groups.model.Group;
+import com.soco.SoCoClient.groups.task.GroupsListTask;
 import com.soco.SoCoClient.groups.ui.SimpleGroupCardAdapter;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 
 import java.util.ArrayList;
 
-public class AllGroupsActivity extends ActionBarActivity {
+public class AllGroupsActivity extends ActionBarActivity implements TaskCallBack {
 
     static final String tag = "AllGroupsActivity";
     static final int CREATE_GROUP = 1001;
@@ -43,12 +45,10 @@ public class AllGroupsActivity extends ActionBarActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
 
-//        generateDummyEntries();
-
         simpleGroupCardAdapter = new SimpleGroupCardAdapter(this, groups);
         mRecyclerView.setAdapter(simpleGroupCardAdapter);
-
-
+        GroupsListTask glt = new GroupsListTask(SocoApp.user_id,SocoApp.token,null,this);
+        glt.execute();
     }
 
 //    private void generateDummyEntries() {
@@ -126,6 +126,14 @@ public class AllGroupsActivity extends ActionBarActivity {
 
         return;
     }
+    public void doneTask(Object o) {
+        if (o == null) {
+            return;
+        }
+        groups = (ArrayList<Group>) o;
 
+        simpleGroupCardAdapter = new SimpleGroupCardAdapter(this, groups);
+        mRecyclerView.setAdapter(simpleGroupCardAdapter);
+    }
 
 }

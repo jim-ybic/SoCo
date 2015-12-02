@@ -1,5 +1,4 @@
-package com.soco.SoCoClient.userprofile.task;
-
+package com.soco.SoCoClient.groups.task;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -9,7 +8,6 @@ import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
-import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.groups.util.GroupsReponseUtil;
 
@@ -22,31 +20,37 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserGroupTask extends AsyncTask<String, Void, ArrayList<Group> >{
 
-    String tag = "UserGroupTask";
+/**
+ * Created by David_WANG on 12/01/2015.
+ */
+
+public class GroupsListTask extends AsyncTask<String, Void, ArrayList<Group>> {
+    public static String BUDDY_ID=JsonKeys.BUDDY_ID;
+    String tag = "GroupsListTask";
     String user_id;
     String token;
-
+    String[] paramNames;
     TaskCallBack callBack;
 
-    public UserGroupTask(String user_id, String token, TaskCallBack cb){
-        Log.v(tag, "user group task: " );
-        this.user_id = user_id;
-        this.token = token;
+    public GroupsListTask(String user_id, String token, String[] paramNames, TaskCallBack cb){
+        Log.v(tag, "All groups task: " + user_id);
+        this.user_id=user_id;
+        this.token=token;
+        this.paramNames=paramNames;
         callBack = cb;
-
     }
 
 
-    protected ArrayList<Group>  doInBackground(String... params) {
+    protected ArrayList<Group> doInBackground(String... params) {
         Log.v(tag, "validate data");
-        String url = UrlUtil.getUserGroupUrl();
+
+        String url = UrlUtil.getGroupsUrl();
         Object response = request(
                 url,
-                SocoApp.user_id,
-                SocoApp.token,
-                params[0]
+                user_id,
+                token,
+                params
         );
 
         if (response != null) {
@@ -56,7 +60,6 @@ public class UserGroupTask extends AsyncTask<String, Void, ArrayList<Group> >{
         else {
             Log.e(tag, "response is null, cannot parse");
         }
-
         return null;
     }
 
@@ -64,16 +67,18 @@ public class UserGroupTask extends AsyncTask<String, Void, ArrayList<Group> >{
             String url,
             String user_id,
             String token,
-            String buddy_id){
-
+            String[] inputs){
         if(!url.endsWith("?"))
             url += "?";
 
         List<NameValuePair> params = new LinkedList<>();
         params.add(new BasicNameValuePair(JsonKeys.USER_ID, user_id));
         params.add(new BasicNameValuePair(JsonKeys.TOKEN, token));
-
-        params.add(new BasicNameValuePair(JsonKeys.BUDDY_ID, buddy_id));
+        if(paramNames!=null&&inputs!=null&&paramNames.length>0&&inputs.length>0) {
+            for(int i = 0; i<paramNames.length&&i<inputs.length;i++){
+                params.add(new BasicNameValuePair(paramNames[i], inputs[i]));
+            }
+        }
         String paramString = URLEncodedUtils.format(params, "utf-8");
 
         url += paramString;
@@ -82,7 +87,7 @@ public class UserGroupTask extends AsyncTask<String, Void, ArrayList<Group> >{
         return HttpUtil.executeHttpGet(url);
     }
 
-    ArrayList<Group>  parse(Object response) {
+    ArrayList<Group> parse(Object response) {
         Log.d(tag, "parse response: " + response.toString());
 
         try {
@@ -105,14 +110,11 @@ public class UserGroupTask extends AsyncTask<String, Void, ArrayList<Group> >{
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();
-
         }
-
         return null;
     }
 
-    protected void onPostExecute(ArrayList<Group>  result) {
+    protected void onPostExecute(ArrayList<Group> result) {
         callBack.doneTask(result);
     }
-
 }

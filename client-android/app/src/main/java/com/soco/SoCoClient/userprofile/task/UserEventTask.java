@@ -25,9 +25,13 @@ import java.util.List;
 
 public class UserEventTask extends AsyncTask<String, Void, ArrayList<Event>>{
 
+    public static String BUDDY_USER_ID =JsonKeys.BUDDY_USER_ID;
+//    public static String START_EVENT_ID="";
+//    public static String KEYWORD="";
     String tag = "UserEventTask";
     String user_id;
     String token;
+    String[] paramNames;
     TaskCallBack callBack;
 
     public UserEventTask(String user_id, String token, TaskCallBack cb){
@@ -36,17 +40,23 @@ public class UserEventTask extends AsyncTask<String, Void, ArrayList<Event>>{
         this.token=token;
         callBack = cb;
     }
-
+    public UserEventTask(String user_id, String token,String[] paramNames, TaskCallBack cb){
+        Log.v(tag, "user event task: " + user_id);
+        this.user_id=user_id;
+        this.token=token;
+        this.paramNames=paramNames;
+        callBack = cb;
+    }
 
     protected ArrayList<Event> doInBackground(String... params) {
         Log.v(tag, "validate data");
 
-        String url = UrlUtil.getUserEventUrl();
+        String url = UrlUtil.getEventsUrl();
         Object response = request(
                 url,
                 user_id,
                 token,
-                params[0]
+                params
         );
 
         if (response != null) {
@@ -64,14 +74,18 @@ public class UserEventTask extends AsyncTask<String, Void, ArrayList<Event>>{
             String url,
             String user_id,
             String token,
-            String buddy_id){
+            String... inputs){
         if(!url.endsWith("?"))
             url += "?";
 
         List<NameValuePair> params = new LinkedList<>();
         params.add(new BasicNameValuePair(JsonKeys.USER_ID, user_id));
         params.add(new BasicNameValuePair(JsonKeys.TOKEN, token));
-        params.add(new BasicNameValuePair(JsonKeys.BUDDY_USER_ID, buddy_id));
+        if(paramNames!=null&&inputs!=null&&paramNames.length>0&&inputs.length>0) {
+            for(int i = 0; i<paramNames.length&&i<inputs.length;i++){
+                params.add(new BasicNameValuePair(paramNames[i], inputs[i]));
+            }
+        }
         String paramString = URLEncodedUtils.format(params, "utf-8");
 
         url += paramString;

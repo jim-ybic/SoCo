@@ -1,14 +1,9 @@
 package com.soco.SoCoClient.events.allevents;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,28 +12,23 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient._ref.Actor;
-import com.soco.SoCoClient._ref.MyAdapter;
+import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.util.SocoApp;
-import com.soco.SoCoClient.dashboard.DashboardTabsAdapter;
 import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.events.common.EventGroupsBuddiesActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
+import com.soco.SoCoClient.userprofile.task.UserEventTask;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllEventsActivity extends ActionBarActivity {
+public class AllEventsActivity extends ActionBarActivity implements TaskCallBack {
 
     static final String tag = "AllEventsActivity";
 
@@ -49,8 +39,6 @@ public class AllEventsActivity extends ActionBarActivity {
     android.support.v7.app.ActionBar actionBar;
     View actionbarView;
 
-//    Bitmap bitmap;
-//    ImageButton user;
     SocoApp socoApp;
 
     @Override
@@ -58,16 +46,15 @@ public class AllEventsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_events);
 
-       // generateDummyEvents();
         socoApp = (SocoApp) getApplicationContext();
-        events = socoApp.suggestedEvents;
-        if(events == null) {
-            Log.e(tag, "suggested events is not available");
-            Toast.makeText(getApplicationContext(), "Suggested events is not available.", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-        else
-            Log.v(tag, events.size() + " events loaded");
+//        events = socoApp.suggestedEvents;
+//        if(events == null) {
+//            Log.e(tag, "suggested events is not available");
+//            Toast.makeText(getApplicationContext(), "Suggested events is not available.", Toast.LENGTH_SHORT).show();
+//            finish();
+//        }
+//        else
+//            Log.v(tag, events.size() + " events loaded");
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -77,6 +64,9 @@ public class AllEventsActivity extends ActionBarActivity {
         simpleEventCardAdapter = new SimpleEventCardAdapter(this, events);
         mRecyclerView.setAdapter(simpleEventCardAdapter);
 
+
+        UserEventTask uet = new UserEventTask(SocoApp.user_id,SocoApp.token,this);
+        uet.execute();
 //        setActionbar();
 
 //        user = (ImageButton) findViewById(R.id.user);
@@ -138,16 +128,15 @@ public class AllEventsActivity extends ActionBarActivity {
 //            user.setImageBitmap(bitmap);
 //        };
 //    };
-
-//    private void generateDummyEvents() {
-//        Log.v(tag, "add 5 dummy events");
-//        events.add(new Event());
-//        events.add(new Event());
-//        events.add(new Event());
-//        events.add(new Event());
-//        events.add(new Event());
-//    }
-
+    public void doneTask(Object o){
+        if(o==null){
+            return;
+        }
+        events = (ArrayList<Event>) o;
+        Log.v(tag, "done task: ");
+        simpleEventCardAdapter = new SimpleEventCardAdapter(this, events);
+        mRecyclerView.setAdapter(simpleEventCardAdapter);
+    }
     public void createevent(View view){
         Log.v(tag, "create event");
         Intent i = new Intent(this, CreateEventActivity.class);
