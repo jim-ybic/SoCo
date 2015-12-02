@@ -13,13 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.groups.model.Group;
+import com.soco.SoCoClient.groups.task.GroupDetailsTask;
 import com.soco.SoCoClient.groups.ui.GroupDetailsTabsAdapter;
 
 public class GroupDetailsActivity extends ActionBarActivity implements
-        android.support.v7.app.ActionBar.TabListener{
+        android.support.v7.app.ActionBar.TabListener, TaskCallBack{
 
     String tag = "GroupDetailActivity";
+
+    public static final String GROUP_ID = "group_id";
 
     private ViewPager viewPager;
     private GroupDetailsTabsAdapter mAdapter;
@@ -37,6 +43,14 @@ public class GroupDetailsActivity extends ActionBarActivity implements
 
         socoApp = (SocoApp) getApplicationContext();
         viewPager = (ViewPager) findViewById(R.id.pager);
+
+        String groupId = getIntent().getStringExtra(GROUP_ID);
+        Log.v(tag, "get from extra groupid: " + groupId);
+
+        GroupDetailsTask task = new GroupDetailsTask(SocoApp.user_id, SocoApp.token, this);
+        task.execute(groupId);
+
+
 
         setActionbar();
 
@@ -157,5 +171,13 @@ public class GroupDetailsActivity extends ActionBarActivity implements
         //todo: pass group id
 
         startActivity(i);
+    }
+
+    public void doneTask(Object o){
+        if(o==null){
+            return;
+        }
+        Group g = (Group) o;
+//        showDetails(event);
     }
 }

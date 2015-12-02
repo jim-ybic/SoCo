@@ -149,6 +149,7 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         //todo: set organizers
 
     }
+
     public void doneTask(Object o){
         if(o==null){
             return;

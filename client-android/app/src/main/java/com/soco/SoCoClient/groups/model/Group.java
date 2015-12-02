@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.groups.model;
 
+import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
@@ -10,6 +11,42 @@ public class Group {
     ArrayList<User> members;
     String description;
     String numberOfMembers;
+
+    String location;
+    ArrayList<Event> upcomingEvents = new ArrayList();
+    ArrayList<Event> pastEvents = new ArrayList();
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public ArrayList<Event> getUpcomingEvents() {
+        return upcomingEvents;
+    }
+
+    public void setUpcomingEvents(ArrayList<Event> upcomingEvents) {
+        this.upcomingEvents = upcomingEvents;
+    }
+
+    public void addUpcomingEvent(Event e){
+        this.upcomingEvents.add(e);
+    }
+
+    public ArrayList<Event> getPastEvents() {
+        return pastEvents;
+    }
+
+    public void setPastEvents(ArrayList<Event> pastEvents) {
+        this.pastEvents = pastEvents;
+    }
+
+    public void addPastEvent(Event e){
+        this.pastEvents.add(e);
+    }
 
     public String getNumberOfMembers() {
         return numberOfMembers;

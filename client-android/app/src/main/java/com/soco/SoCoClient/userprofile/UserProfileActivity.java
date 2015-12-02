@@ -19,6 +19,7 @@ import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
+import com.soco.SoCoClient.groups.GroupDetailsActivity;
 import com.soco.SoCoClient.userprofile.model.User;
 import com.soco.SoCoClient.userprofile.task.UserProfileTask;
 import com.soco.SoCoClient.userprofile.ui.UserProfileTabsAdapter;
@@ -206,13 +207,23 @@ public class UserProfileActivity extends ActionBarActivity
         Log.v(tag, "done task, set actionbar");
         setActionbar();
     }
+
     public void eventdetails(View view){
         Log.v(tag, "check event details");
         Intent i = new Intent(this, EventDetailsActivity.class);
         Long id = (Long) view.getTag();
         i.putExtra(EventDetailsActivity.EVENT_ID, id);
+        Log.v(tag, "put extra eventid: " + id);
         startActivity(i);
     }
 
+    public void groupdetails(View view){
+        Log.v(tag, "tap group details");
+        Intent i = new Intent(this, GroupDetailsActivity.class);
+        String groupId = (String) view.getTag();
+        i.putExtra(GroupDetailsActivity.GROUP_ID, groupId);
+        Log.v(tag, "put extra groupid: " + groupId);
+        startActivity(i);
+    }
 
 }

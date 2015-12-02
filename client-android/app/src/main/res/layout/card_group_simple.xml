@@ -76,9 +76,8 @@
                 android:onClick="groupdetails"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:layout_marginTop="10dp" />
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp" />
 
         </LinearLayout>
 

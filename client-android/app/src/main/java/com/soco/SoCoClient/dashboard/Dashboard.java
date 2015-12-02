@@ -116,10 +116,6 @@ public class Dashboard extends ActionBarActivity implements
         socoApp = (SocoApp) getApplicationContext();
         viewPager = (ViewPager) findViewById(R.id.pager);
 
-        setActionbar();
-        findViews();
-        setMyProfilePhoto();
-
         Log.v(tag, "initial screen resolution to app");
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -131,6 +127,11 @@ public class Dashboard extends ActionBarActivity implements
         final int cacheSize = maxMemory / 8;
         Log.v(tag, "init icon downloader: " + size + ", " + cacheSize);
         IconUrlUtil.initialForIconDownloader(Math.min(size.x, size.y), cacheSize);
+
+
+        setActionbar();
+        findViews();
+        setMyProfilePhoto();
     }
 
     private void setActionbar() {

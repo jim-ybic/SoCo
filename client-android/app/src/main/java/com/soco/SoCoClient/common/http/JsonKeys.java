@@ -35,6 +35,7 @@ public class JsonKeys {
     public static final String FRIENDS_LIST = "friends_list";
     public static final String FRIEND_NAME = "friend_name";
     public static final String FRIENDS = "friends";
+    public static final String GROUP = "group";
     public static final String GROUP_ICON_URL = "group_icon_url";
     public static final String GROUP_ID = "group_id";
     public static final String GROUP_MEMBERS = "group_members";

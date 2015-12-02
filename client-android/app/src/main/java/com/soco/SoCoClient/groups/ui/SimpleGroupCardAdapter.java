@@ -51,8 +51,11 @@ public class SimpleGroupCardAdapter
     {
         //get data attributes and update UI elements
         Group g = groups.get(i);
+        String groupId = g.getGroup_id();
 
         //todo to set the group id to view tag. so later when group details is ready, can direct to group details
+        simpleGroupCardViewHolder.itemView.findViewById(R.id.title).setTag(groupId);
+
 //        simpleGroupCardViewHolder.mTextView.setText(g.getGroup_name());
         //set basic group information
         ((TextView)simpleGroupCardViewHolder.itemView.findViewById(R.id.title)).setText(g.getGroup_name());
@@ -84,6 +87,7 @@ public class SimpleGroupCardAdapter
             addImageButtonToView(params,backgroundResource,u,list);
         }
     }
+
     void showCategories(LinearLayout categoryList, ArrayList<String> categories){
         Log.v(tag, "show event categories: " + categories);
         for(int i=0; i<categories.size()&&i<2; i++){
@@ -97,6 +101,7 @@ public class SimpleGroupCardAdapter
         }
 
     }
+
     private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
         ImageButton user = new ImageButton(mContext);
         user.setLayoutParams(params);
@@ -105,6 +110,7 @@ public class SimpleGroupCardAdapter
         IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
         list.addView(user);
     }
+
     @Override
     public int getItemCount()
     {

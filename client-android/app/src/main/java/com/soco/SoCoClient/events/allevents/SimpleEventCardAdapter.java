@@ -57,6 +57,7 @@ public class SimpleEventCardAdapter
         Log.d(tag, "bind event: " + event.toString());
         Long eventId = event.getId();
 
+        Log.v(tag, "set title: " + event.getTitle() + ", set tag as eventid: " + eventId);
         ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.title)).setText(event.getTitle());
          simpleEventCardViewHolder.itemView.findViewById(R.id.title).setTag(eventId);
         ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.address)).setText(event.getAddress());
@@ -95,7 +96,6 @@ public class SimpleEventCardAdapter
         //set icon for creator
         ImageButton ib = (ImageButton) simpleEventCardViewHolder.itemView.findViewById(R.id.creator);
         IconUrlUtil.setImageForButtonSmall(mContext.getResources(),ib, UrlUtil.getUserIconUrl(event.getCreator_id()));
-
 
         //set icon for Joiner. 3 maximum
         LinearLayout list = (LinearLayout) simpleEventCardViewHolder.itemView.findViewById(R.id.eventbuddies);
@@ -138,6 +138,7 @@ public class SimpleEventCardAdapter
         IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
         list.addView(user);
     }
+
     void showCategories(LinearLayout categoryList, ArrayList<String> categories){
         Log.v(tag, "show event categories: " + categories);
         for(int i=0; i<categories.size()&&i<2; i++){

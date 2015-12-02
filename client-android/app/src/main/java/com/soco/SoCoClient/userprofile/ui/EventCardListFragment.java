@@ -84,6 +84,7 @@ public class EventCardListFragment extends Fragment implements View.OnClickListe
         switch (v.getId()) {
         }
     }
+
     public void doneTask(Object o){
         if(o==null){
             return;

@@ -59,9 +59,6 @@ public class LoginActivity //extends ActionBarActivity
     static final String LOGIN_EMAIL = "login_email";
     static final String LOGIN_PASSWORD = "login_password";
 
-    static final String SCREEN_SIZE = "screen_size";
-    static final String CACHE_SIZE = "cache_size";
-
 //    public static String FLAG_EXIT = "exit";
 //    public String SOCO_SERVER_IP = "192.168.0.104";
 //    public String SOCO_SERVER_PORT = "8080";
