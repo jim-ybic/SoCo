@@ -8,14 +8,12 @@ import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
-import com.soco.SoCoClient.events.model.Event;
-import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
+import com.soco.SoCoClient.common.util.GroupsReponseUtil;
 import com.soco.SoCoClient.groups.model.Group;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.LinkedList;
@@ -85,19 +83,11 @@ public class GroupDetailsTask extends AsyncTask<String, Void, Group> {
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
-                Group g = new Group();
                 String gs = json.getString(JsonKeys.GROUP);
                 JSONObject gobj = new JSONObject(gs);
                 Log.v(tag, "group json: " + gobj);
-
-
-
-                //todo: parse group details
-
-                return g;
-//                    result.add(e);
-//                }
-//                return result;
+                Group g = GroupsReponseUtil.parseGroupResponse(gobj);
+                return GroupsReponseUtil.parseEventsAttachToGroup(gobj,g);
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);
@@ -117,15 +107,7 @@ public class GroupDetailsTask extends AsyncTask<String, Void, Group> {
         return null;
     }
 
-    static void parseGroupBasics(Group g, JSONObject obj) throws JSONException {
-        g.setGroup_id(obj.getString(JsonKeys.GROUP_ID));
-        g.setGroup_name(obj.getString(JsonKeys.NAME));
-        g.setLocation(obj.getString(JsonKeys.LOCATION));
-        g.setDescription(obj.getString(JsonKeys.INTRODUCTION));
-
-    }
-
-    protected void onPostExecute(Event result) {
+    protected void onPostExecute(Group result) {
         callBack.doneTask(result);
     }
 }

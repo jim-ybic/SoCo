@@ -9,14 +9,13 @@ import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.EventsResponseUtil;
 import com.soco.SoCoClient.events.model.Event;
-import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -102,22 +101,9 @@ public class UserEventTask extends AsyncTask<String, Void, ArrayList<Event>>{
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
-                ArrayList<Event> result = new ArrayList<>();
                 String eventStr = json.getString(JsonKeys.EVENTS);
                 JSONArray allEvents = new JSONArray(eventStr);
-                for(int i=0;i<allEvents.length();i++){
-                    Event e = new Event();
-                    JSONObject obj = allEvents.getJSONObject(i);
-                    Log.v(tag, "current event json: " + obj.toString());
-
-                    DownloadSuggestedEventsService.parseEventBasics(e, obj);
-                    DownloadSuggestedEventsService.parseTimedate(e, obj);
-                    DownloadSuggestedEventsService.parseCategories(e, obj);
-                    DownloadSuggestedEventsService.parseOrganizer(obj, e);
-                    DownloadSuggestedEventsService.parseBuddies(obj, e);
-                    result.add(e);
-                }
-                return result;
+                return EventsResponseUtil.parseEventsFromJSONArray(allEvents);
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);

@@ -81,6 +81,8 @@ public class JsonKeys {
     public static final String USER_ICON_URL = "user_icon_url";
     public static final String GROUPS = "groups";
     public static final String NUMBER_OF_MEMBERS = "number_of_members";
+    public static final String UPCOMING_EVENTS="upcoming_events";
+    public static final String PAST_EVENTS="past_events";
 
     public static final String HIGHLIGHT = "highlight";
 

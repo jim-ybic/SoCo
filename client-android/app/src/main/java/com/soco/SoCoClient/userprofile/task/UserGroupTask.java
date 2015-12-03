@@ -11,7 +11,7 @@ import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.groups.model.Group;
-import com.soco.SoCoClient.groups.util.GroupsReponseUtil;
+import com.soco.SoCoClient.common.util.GroupsReponseUtil;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;

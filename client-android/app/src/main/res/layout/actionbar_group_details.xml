@@ -121,7 +121,7 @@
             <!--android:src="@drawable/buddycard_me"-->
             <!--android:layout_gravity="center_horizontal" />-->
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/group_name"
                 style="@android:style/TextAppearance.Large.Inverse"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
@@ -132,7 +132,7 @@
                 android:text="The Pianist Group"
                 android:gravity="center" />
             <TextView
-                android:id="@+id/whereami"
+                android:id="@+id/location"
                 style="@android:style/TextAppearance.Large.Inverse"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
@@ -166,7 +166,10 @@
             android:id="@+id/intro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="The Pianist Group is composed of a group of pianists who are active in Hong Kong." />
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="The Pianist Group is composed of a group of pianists who are active in Hong Kong."
+            android:onClick="GroupIntroduction"/>
     </LinearLayout>
 
     <LinearLayout
@@ -189,6 +192,7 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/user1"
+                android:id="@+id/user1"
                 android:layout_gravity="center_vertical"
                 android:clickable="false"/>
             <ImageButton
@@ -196,6 +200,7 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/user2"
+                android:id="@+id/user2"
                 android:layout_gravity="center_vertical"
                 android:clickable="false"
                 android:adjustViewBounds="false"
@@ -205,6 +210,7 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/user3"
+                android:id="@+id/user3"
                 android:layout_gravity="center_vertical"
                 android:clickable="false"
                 android:paddingLeft="10dp" />
@@ -213,6 +219,7 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/user1"
+                android:id="@+id/user4"
                 android:layout_gravity="center_vertical"
                 android:clickable="false"
                 android:paddingLeft="10dp" />
@@ -221,6 +228,7 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/user2"
+                android:id="@+id/user5"
                 android:layout_gravity="center_vertical"
                 android:clickable="false"
                 android:adjustViewBounds="false"
@@ -230,6 +238,7 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/user3"
+                android:id="@+id/user6"
                 android:layout_gravity="center_vertical"
                 android:clickable="false"
                 android:paddingLeft="10dp" />

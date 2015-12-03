@@ -93,9 +93,8 @@ public class AllGroupsActivity extends ActionBarActivity implements TaskCallBack
     public void groupdetails(View view){
         Log.v(tag, "tap on a single group, show details");
         Intent i = new Intent(this, GroupDetailsActivity.class);
-
-        //todo: pass group id as parameter (currently only testing ui)
-
+        String id = (String) view.getTag();
+        i.putExtra(GroupDetailsActivity.GROUP_ID,id);
         startActivity(i);
     }
 

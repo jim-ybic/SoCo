@@ -53,7 +53,6 @@ public class SimpleGroupCardAdapter
         Group g = groups.get(i);
         String groupId = g.getGroup_id();
 
-        //todo to set the group id to view tag. so later when group details is ready, can direct to group details
         simpleGroupCardViewHolder.itemView.findViewById(R.id.title).setTag(groupId);
 
 //        simpleGroupCardViewHolder.mTextView.setText(g.getGroup_name());

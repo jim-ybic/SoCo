@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.groups.ui;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,9 +12,10 @@ import com.soco.SoCoClient.userprofile.ui.EventCardListFragment;
 public class GroupDetailsTabsAdapter extends FragmentPagerAdapter {
 
     String tag = "GroupDetailsTabsAdapter";
-
-    public GroupDetailsTabsAdapter(FragmentManager fm) {
+    String groupId;
+    public GroupDetailsTabsAdapter(FragmentManager fm, String g) {
         super(fm);
+        this.groupId=g;
         Log.v(tag, "GroupDetailsTabsAdapter init");
     }
 
@@ -22,14 +24,20 @@ public class GroupDetailsTabsAdapter extends FragmentPagerAdapter {
         Log.v(tag, "get item from index: " + index);
         switch (index) {
             case Config.GROUP_DETAILS_TAB_INDEX_UPCOMINGEVENTS: {
-                //todo: set flag for showing upcoming events
-
-                return new EventCardListFragment();
+                Fragment f1 = new EventCardListFragment();
+                Bundle b1 = new Bundle();
+                b1.putInt(EventCardListFragment.TRIGGER_FROM,EventCardListFragment.GROUP_UPCOMINGEVENT);
+                b1.putString(EventCardListFragment.GROUP_ID, groupId);
+                f1.setArguments(b1);
+                 return f1;
             }
             case Config.GROUP_DETAILS_TAB_INDEX_PASTEVENTS: {
-                //todo: set flag for showing past events
-
-                return new EventCardListFragment();
+                Fragment f2 = new EventCardListFragment();
+                Bundle b2 = new Bundle();
+                b2.putInt(EventCardListFragment.TRIGGER_FROM,EventCardListFragment.GROUP_PASTEVENT);
+                b2.putString(EventCardListFragment.GROUP_ID,groupId);
+                f2.setArguments(b2);
+                return f2;
             }
         }
 

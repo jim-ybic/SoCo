@@ -8,6 +8,7 @@ import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.EventsResponseUtil;
 import com.soco.SoCoClient.events.model.Event;
 
 import org.apache.http.NameValuePair;
@@ -86,24 +87,10 @@ public class EventDetailsTask extends AsyncTask<String, Void, Event> {
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
-//                ArrayList<Event> result = new ArrayList<>();
-//                String eventStr = json.getString(JsonKeys.EVENTS);
-//                JSONArray allEvents = new JSONArray(eventStr);
-//                for(int i=0;i<allEvents.length();i++){
-                    Event e = new Event();
-                    String eventString = json.getString(JsonKeys.EVENT);
-                    JSONObject obj = new JSONObject(eventString);
-                    Log.v(tag, "current event json: " + obj.toString());
-
-                    DownloadSuggestedEventsService.parseEventBasics(e, obj);
-                    DownloadSuggestedEventsService.parseTimedate(e, obj);
-                    DownloadSuggestedEventsService.parseCategories(e, obj);
-                    DownloadSuggestedEventsService.parseOrganizer(obj, e);
-                    DownloadSuggestedEventsService.parseBuddies(obj, e);
-                return e;
-//                    result.add(e);
-//                }
-//                return result;
+                String eventString = json.getString(JsonKeys.EVENT);
+                JSONObject obj = new JSONObject(eventString);
+                Log.v(tag, "current event json: " + obj.toString());
+                return EventsResponseUtil.parseEventFromJSONObj(obj);
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);
