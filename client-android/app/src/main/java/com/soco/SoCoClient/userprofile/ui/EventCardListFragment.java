@@ -51,15 +51,29 @@ public class EventCardListFragment extends Fragment implements View.OnClickListe
         context = getActivity().getApplicationContext();
         SocoApp socoApp= (SocoApp) context;
         Bundle b = this.getArguments();
-        type = b.getInt(TRIGGER_FROM);
-        groupId=b.getString(GROUP_ID);
+
+        if(b == null){  //if start from UserProfileTabsAdapter, the argument is not set
+            Log.w(tag, "no argument for type, use default: USERPROFILEACTIVITY");
+            type = USERPROFILEACTIVITY;
+            Log.w(tag, "no argument for groupid: " + groupId);
+        }
+        else {
+            type = b.getInt(TRIGGER_FROM);
+            Log.v(tag, "get from argument, type: " + type);
+
+            groupId = b.getString(GROUP_ID);
+            Log.v(tag, "get from argument, groupid: " + groupId);
+        }
+
         if(USERPROFILEACTIVITY==type) {
+            Log.v(tag, "show data as user profile: " + socoApp.currentUserOnProfile.getUser_name());
             String[] paramNames = new String[1];
             paramNames[0] = UserEventTask.BUDDY_USER_ID;
 
             UserEventTask uet = new UserEventTask(SocoApp.user_id, SocoApp.token, paramNames, this);
             uet.execute(socoApp.currentUserOnProfile.getUser_id());
         }else if((GROUP_UPCOMINGEVENT==type||GROUP_PASTEVENT==type)&& !StringUtil.isEmptyString(groupId)) {
+            Log.v(tag, "show data as group details: " + groupId);
             GroupDetailsTask task = new GroupDetailsTask(SocoApp.user_id, SocoApp.token, this);
             task.execute(groupId);
         }
