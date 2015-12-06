@@ -8,8 +8,8 @@ import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
-import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.common.util.GroupsReponseUtil;
+import com.soco.SoCoClient.groups.model.Group;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -26,7 +26,8 @@ import java.util.List;
  */
 
 public class GroupsListTask extends AsyncTask<String, Void, ArrayList<Group>> {
-    public static String BUDDY_ID=JsonKeys.BUDDY_ID;
+    public static final String BUDDY_ID=JsonKeys.BUDDY_ID;
+    public static final String START_GROUP_ID=JsonKeys.START_GROUP_ID;
     String tag = "GroupsListTask";
     String user_id;
     String token;

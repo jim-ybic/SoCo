@@ -85,6 +85,7 @@ public class JsonKeys {
     public static final String PAST_EVENTS="past_events";
     public static final String START_EVENT_ID="start_event_id";
     public static final String START_USER_ID="start_user_id";
+    public static final String START_GROUP_ID="start_group_id";
     public static final String START_INDEX="start_index";
 
     public static final String HIGHLIGHT = "highlight";

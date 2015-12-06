@@ -1,8 +1,8 @@
 package com.soco.SoCoClient.groups;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
+import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.groups.task.GroupsListTask;
@@ -24,6 +25,7 @@ public class AllGroupsActivity extends ActionBarActivity implements TaskCallBack
     static final String tag = "AllGroupsActivity";
     static final int CREATE_GROUP = 1001;
 
+    private SwipeRefreshLayoutBottom swipeContainer;
     RecyclerView mRecyclerView;
     SimpleGroupCardAdapter simpleGroupCardAdapter;
     ArrayList<Group> groups = new ArrayList<>();
@@ -39,7 +41,17 @@ public class AllGroupsActivity extends ActionBarActivity implements TaskCallBack
         setContentView(R.layout.activity_all_groups);
 
         socoApp = (SocoApp) getApplicationContext();
-
+        swipeContainer = (SwipeRefreshLayoutBottom) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayoutBottom.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                startTask();
+            }
+        });
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -47,58 +59,24 @@ public class AllGroupsActivity extends ActionBarActivity implements TaskCallBack
 
         simpleGroupCardAdapter = new SimpleGroupCardAdapter(this, groups);
         mRecyclerView.setAdapter(simpleGroupCardAdapter);
-        GroupsListTask glt = new GroupsListTask(SocoApp.user_id,SocoApp.token,null,this);
-        glt.execute();
+        startTask();
     }
 
-//    private void generateDummyEntries() {
-//
-//        //todo: use groups, instead of events
-//
-//        Log.v(tag, "add dummy entries");
-//        if(events == null)
-//            events = new ArrayList<>();
-//        for(int i=0; i<20; i++)
-//            events.add(new Event());
-//     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_all_groups, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-    public void creategroup(View view){
+    public void creategroup(View view) {
         Log.v(tag, "tap create new group");
         Intent i = new Intent(this, CreateGroupActivity.class);
         startActivityForResult(i, CREATE_GROUP);
     }
 
-    public void groupdetails(View view){
+    public void groupdetails(View view) {
         Log.v(tag, "tap on a single group, show details");
         Intent i = new Intent(this, GroupDetailsActivity.class);
         String id = (String) view.getTag();
-        i.putExtra(GroupDetailsActivity.GROUP_ID,id);
+        i.putExtra(GroupDetailsActivity.GROUP_ID, id);
         startActivity(i);
     }
 
-    public void mygroups(View view){
+    public void mygroups(View view) {
         Log.v(tag, "tap show my groups");
         Intent i = new Intent(this, UserProfileActivity.class);
 
@@ -115,7 +93,7 @@ public class AllGroupsActivity extends ActionBarActivity implements TaskCallBack
                 + ", result code: " + resultCode
                 + ", intent data: " + data);
 
-        if(requestCode == CREATE_GROUP && socoApp.createGroupResult){
+        if (requestCode == CREATE_GROUP && socoApp.createGroupResult) {
             Log.v(tag, "create group success, continue to the new group details screen");
 
             Intent i = new Intent(this, GroupDetailsActivity.class);
@@ -125,14 +103,34 @@ public class AllGroupsActivity extends ActionBarActivity implements TaskCallBack
 
         return;
     }
-    public void doneTask(Object o) {
-        if (o == null) {
-            return;
-        }
-        groups = (ArrayList<Group>) o;
 
-        simpleGroupCardAdapter = new SimpleGroupCardAdapter(this, groups);
-        mRecyclerView.setAdapter(simpleGroupCardAdapter);
+    private void startTask() {
+        if (groups != null && groups.size() > 0) {
+            Group lastGroup = groups.get(groups.size() - 1);
+            String[] params = new String[1];
+            params[0] = GroupsListTask.START_GROUP_ID;
+            GroupsListTask glt = new GroupsListTask(SocoApp.user_id, SocoApp.token, params, this);
+            glt.execute(lastGroup.getGroup_id());
+        } else {
+            GroupsListTask glt = new GroupsListTask(SocoApp.user_id, SocoApp.token, null, this);
+            glt.execute();
+        }
+    }
+
+    public void doneTask(Object o) {
+        if (o != null && o instanceof ArrayList) {
+
+            ArrayList<Group> result = (ArrayList<Group>) o;
+//            for (Group g : result) {
+//                groups.add(g);
+//            }
+            for (int i = 0; i < 2 && i < result.size(); i++) {
+                groups.add(result.get(i));
+            }
+            simpleGroupCardAdapter.notifyDataSetChanged();
+        }
+        // Now we call setRefreshing(false) to signal refresh has finished
+        swipeContainer.setRefreshing(false);
     }
 
 }
