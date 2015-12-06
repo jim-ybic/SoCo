@@ -41,21 +41,17 @@
 <!--</com.getbase.floatingactionbutton.FloatingActionsMenu>-->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
-
 
 
     <LinearLayout
         android:id="@+id/master"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@android:color/white"
-        android:padding="5dp">
+        android:background="@android:color/white">
 
         <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
@@ -243,10 +239,41 @@
         <!--android:clickable="false"/>-->
         <!--</LinearLayout>-->
         <!--</LinearLayout>-->
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="#ffffb73f">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="left"
+            android:paddingLeft="12dp"
+            android:paddingTop="12dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="12dp"
+            android:clickable="true"
+            android:onClick="close">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/actionbar_close"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:orientation="horizontal">
+        </LinearLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             android:layout_weight="1"
             android:orientation="vertical"
             android:background="#ffffb73f"
@@ -432,70 +459,20 @@
             android:id="@+id/buddies"
             android:layout_marginTop="10dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="John Wu, May Li &amp; 3 more friends"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@android:color/black" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="John Wu, May Li &amp; 3 more friends"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:textColor="@android:color/black" />-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="2dp">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/user1"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="false"
-                    android:layout_marginRight="5dp" />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/user2"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="false"
-                    android:adjustViewBounds="false"
-                    android:layout_marginRight="5dp" />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/user3"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="false"
-                    android:layout_marginRight="5dp" />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/user1"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="false"
-                    android:layout_marginRight="5dp" />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/user2"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="false"
-                    android:adjustViewBounds="false"
-                    android:layout_marginRight="5dp" />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/user3"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="false"
-                    android:layout_marginRight="5dp" />
+                android:layout_marginTop="2dp"
+                android:id="@+id/eventbuddies">
             </LinearLayout>
         </LinearLayout>
 
@@ -509,41 +486,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Seminar"
-                android:gravity="left"
-                android:textSize="10dp"
-                android:textColor="@android:color/black"
-                android:layout_gravity="top"
-                android:background="@drawable/eventcategory_box"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Research"
-                android:gravity="left"
-                android:textSize="10dp"
-                android:textColor="@android:color/black"
-                android:layout_gravity="top"
-                android:background="@drawable/eventcategory_box"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Graphics"
-                android:gravity="left"
-                android:textSize="10dp"
-                android:textColor="@android:color/black"
-                android:layout_gravity="top"
-                android:background="@drawable/eventcategory_box"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp" />
+
         </LinearLayout>
 
         <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
@@ -736,12 +679,17 @@
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     android:src="@drawable/eventgroups_group1"
+                    android:id="@+id/creator_icon"
+                    android:onClick="eventorganizers"
                     android:layout_gravity="center_horizontal" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:text="光華新聞文化中心"
+                    android:id="@+id/creator_name"
+                    android:text=""
+                    android:paddingLeft="5dp"
+                    android:onClick="eventorganizers"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical" />
 
@@ -2089,7 +2037,8 @@
                 android:textSize="12dp"
                 android:textColor="@android:color/holo_blue_dark"
                 android:background="@drawable/eventcategory_box"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:onClick="joinevent"/>
         </LinearLayout>
 
         <!--<LinearLayout-->
