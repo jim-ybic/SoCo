@@ -3,34 +3,37 @@ package com.soco.SoCoClient.buddies.allbuddies.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.buddies.service.DownloadMyBuddiesService;
+import com.soco.SoCoClient.buddies.service.DownloadMyBuddiesTask;
+import com.soco.SoCoClient.common.TaskCallBack;
+import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
 
 import java.util.ArrayList;
 
 
-public class MyBuddiesFragment extends Fragment implements View.OnClickListener {
+public class MyBuddiesFragment extends Fragment implements View.OnClickListener, TaskCallBack {
 
     static String tag = "MyBuddiesFragment";
-    static final int WAIT_INTERVAL_IN_SECOND = 1;
-    static final int WAIT_ITERATION = 5;
-    static final int THOUSAND = 1000;
 
     View rootView;
     Context context;
     SocoApp socoApp;
+    MyBuddiesListAdapter adapter;
+    RecyclerView mRecyclerView;
+    ArrayList<MyBuddiesListEntryItem> buddyList = new ArrayList<>();
+    private SwipeRefreshLayoutBottom swipeContainer;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +49,25 @@ public class MyBuddiesFragment extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_my_buddies, container, false);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.friends);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setHasFixedSize(true);
 
-        showMyBuddies();
+        adapter = new MyBuddiesListAdapter(context, buddyList);
+        mRecyclerView.setAdapter(adapter);
+        startTask();
+        swipeContainer = (SwipeRefreshLayoutBottom) rootView.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayoutBottom.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                startTask();
+            }
+        });
 
         return rootView;
     }
@@ -73,62 +93,35 @@ public class MyBuddiesFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    void showMyBuddies() {
-        Log.v(tag, "show my buddies");
-        new Thread(new Runnable(){
-            public void run(){
-                downloadMyBuddiesInBackgroud(getActivity(),socoApp);
-                downloadMyBuddiesHandler.sendEmptyMessage(0);
-            }
-        }).start();
-    }
-    public static void downloadMyBuddiesInBackgroud(Context context, SocoApp socoApp) {
-        Log.v(tag, "start download users service at backend");
-        Intent i = new Intent(context, DownloadMyBuddiesService.class);
-        context.startService(i);
-
-        Log.v(tag, "set response flag as false");
-        socoApp.downloadMyBuddiesResponse = false;
-
-        Log.v(tag, "wait and check response flag");
-        int count = 0;
-        while(!socoApp.downloadMyBuddiesResponse && count < WAIT_ITERATION) {   //wait for 10s
-            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
-            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
-            while (System.currentTimeMillis() < endTime) {
-                synchronized (context) {
-                    try {
-                        context.wait(endTime - System.currentTimeMillis());
-                    } catch (Exception e) {
-                        Log.e(tag, "Error in waiting");
-                    }
-                }
-            }
-            count++;
+    private void startTask() {
+        DownloadMyBuddiesTask dmmt = new DownloadMyBuddiesTask(SocoApp.user_id, SocoApp.token, this);
+        if (buddyList != null && buddyList.size() > 0) {
+            dmmt.execute(buddyList.get(buddyList.size() - 1).getUser_id());
+        } else {
+            dmmt.execute();
         }
     }
 
-    Handler downloadMyBuddiesHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Log.v(tag, "handle receive message and dismiss dialog");
-            if(socoApp.downloadMyBuddiesResponse && socoApp.downloadMyBuddiesResult){
-                Log.v(tag, "download suggested buddy - success");
-//                Toast.makeText(getActivity().getApplicationContext(), socoApp.suggestedBuddies.size() + " buddies found.", Toast.LENGTH_SHORT).show();
-//                initBuddyCards(rootView, context, socoApp, getActivity());
-
-
-                MyBuddiesListAdapter  adapter = new MyBuddiesListAdapter(getActivity(), socoApp.myBuddies);
-
-                ListView list = (ListView) rootView.findViewById(R.id.friends);
-                list.setAdapter(adapter);
+    public void doneTask(Object o) {
+        if (o != null && o instanceof ArrayList) {
+            ArrayList<MyBuddiesListEntryItem> result = (ArrayList<MyBuddiesListEntryItem>) o;
+//            for(MyMatchListEntryItem e:result){
+//                matchList.add(e);
+//            }
+            for (int i = 0; i < 2 && i < result.size(); i++) {
+                buddyList.add(result.get(i));
             }
-            else{
-                Log.e(tag, "download suggested buddy fail, notify user");
-                Toast.makeText(getActivity().getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
-            }
-//            pd.dismiss();
+            Log.v(tag, "done task: ");
+//            if(firstTime){
+//                adapter = new MyBuddiesListAdapter(getActivity(), buddyList);
+//                list = (ListView) rootView.findViewById(R.id.friends);
+//                list.setAdapter(adapter);
+//                firstTime=false;
+//            }else {
+            adapter.notifyDataSetChanged();
+//            }
         }
-    };
-
+        // Now we call setRefreshing(false) to signal refresh has finished
+        swipeContainer.setRefreshing(false);
+    }
 }

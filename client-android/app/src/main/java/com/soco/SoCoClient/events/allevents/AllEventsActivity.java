@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.database.Config;
+import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
@@ -32,10 +33,12 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
 
     static final String tag = "AllEventsActivity";
 
+    private SwipeRefreshLayoutBottom swipeContainer;
+
     RecyclerView mRecyclerView;
     SimpleEventCardAdapter simpleEventCardAdapter;
     List<Event> events = new ArrayList<>();
-
+    //    private final int MAX_EVENTS_TOSHOW=50;
     android.support.v7.app.ActionBar actionBar;
     View actionbarView;
 
@@ -47,14 +50,18 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
         setContentView(R.layout.activity_all_events);
 
         socoApp = (SocoApp) getApplicationContext();
-//        events = socoApp.suggestedEvents;
-//        if(events == null) {
-//            Log.e(tag, "suggested events is not available");
-//            Toast.makeText(getApplicationContext(), "Suggested events is not available.", Toast.LENGTH_SHORT).show();
-//            finish();
-//        }
-//        else
-//            Log.v(tag, events.size() + " events loaded");
+
+        swipeContainer = (SwipeRefreshLayoutBottom) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayoutBottom.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                startTask();
+            }
+        });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,14 +70,7 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
 
         simpleEventCardAdapter = new SimpleEventCardAdapter(this, events);
         mRecyclerView.setAdapter(simpleEventCardAdapter);
-
-
-        UserEventTask uet = new UserEventTask(SocoApp.user_id,SocoApp.token,this);
-        uet.execute();
-//        setActionbar();
-
-//        user = (ImageButton) findViewById(R.id.user);
-//        testFacebookUserProfilePicture(user);
+        startTask();
     }
 
     private void setActionbar() {
@@ -80,13 +80,10 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
         Log.v(tag, "set custom actionbar");
 
         actionBar = getSupportActionBar();
-        if(actionBar == null){
+        if (actionBar == null) {
             Log.e(tag, "Cannot get action bar object");
             return;
         }
-
-//        mAdapter = new DashboardTabsAdapter(getSupportFragmentManager());
-//        viewPager.setAdapter(mAdapter);
 
         Log.v(tag, "set actionbar custom view");
         actionBar.setHomeButtonEnabled(false);
@@ -105,7 +102,7 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
         actionBar.setBackgroundDrawable(colorDrawable);
     }
 
-//    private void testFacebookUserProfilePicture(final ImageButton user) {
+    //    private void testFacebookUserProfilePicture(final ImageButton user) {
 //        new Thread(){
 //            public void run() {
 ////                super.run();
@@ -128,30 +125,57 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
 //            user.setImageBitmap(bitmap);
 //        };
 //    };
-    public void doneTask(Object o){
-        if(o==null){
-            return;
+    private void startTask() {
+        if (events != null && events.size() > 0) {
+            Event lastEvent = events.get(events.size() - 1);
+            String[] params = new String[1];
+            params[0] = UserEventTask.START_EVENT_ID;
+            UserEventTask uet = new UserEventTask(SocoApp.user_id, SocoApp.token, params, this);
+            uet.execute(Long.toString(lastEvent.getId()));
+        } else {
+            UserEventTask uet = new UserEventTask(SocoApp.user_id, SocoApp.token, this);
+            uet.execute();
         }
-        events = (ArrayList<Event>) o;
-        Log.v(tag, "done task: ");
-        simpleEventCardAdapter = new SimpleEventCardAdapter(this, events);
-        mRecyclerView.setAdapter(simpleEventCardAdapter);
     }
-    public void createevent(View view){
+
+    public void doneTask(Object o) {
+        if (o != null && o instanceof ArrayList) {
+            ArrayList<Event> result = (ArrayList<Event>) o;
+            for (Event e : result) {
+                events.add(e);
+            }
+//            int currentSize = events.size();
+//            if(currentSize>MAX_EVENTS_TOSHOW){
+//                int toRemove = currentSize-MAX_EVENTS_TOSHOW;
+//                if(toRemove>0){
+//                    for(int i=0;i<toRemove;i++){
+//                        events.remove(0);
+//                    }
+//                }
+//            }
+            Log.v(tag, "done task: ");
+            simpleEventCardAdapter.notifyDataSetChanged();
+        }
+        // Now we call setRefreshing(false) to signal refresh has finished
+        swipeContainer.setRefreshing(false);
+
+    }
+
+    public void createevent(View view) {
         Log.v(tag, "create event");
         Intent i = new Intent(this, CreateEventActivity.class);
         startActivity(i);
     }
 
-    public void eventdetails(View view){
+    public void eventdetails(View view) {
         Log.v(tag, "check event details");
         Intent i = new Intent(this, EventDetailsActivity.class);
         Long id = (Long) view.getTag();
-        i.putExtra(EventDetailsActivity.EVENT_ID,id);
+        i.putExtra(EventDetailsActivity.EVENT_ID, id);
         startActivity(i);
     }
 
-    public void eventgroups(View view){
+    public void eventgroups(View view) {
         Log.v(tag, "show all event groups");
         socoApp.eventGroupsBuddiesTabIndex = 0;
 //        Intent i = new Intent(getApplicationContext(), EventOrganizersActivity.class);
@@ -162,7 +186,7 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
 
     }
 
-    public void eventbuddies(View view){
+    public void eventbuddies(View view) {
         Log.v(tag, "show all event buddies");
         socoApp.eventGroupsBuddiesTabIndex = 1;
         Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
@@ -172,7 +196,7 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
         startActivity(i);
     }
 
-    public void myevents(View view){
+    public void myevents(View view) {
         Log.v(tag, "tap show my events");
         String myUserid = socoApp.user_id;
         Log.v(tag, "my userid: " + myUserid);

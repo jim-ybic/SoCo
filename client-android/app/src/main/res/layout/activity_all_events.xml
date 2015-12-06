@@ -56,12 +56,17 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent" />-->
         <!--</android.support.v7.widget.CardView>-->
+        <com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
+        </com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom>
     </LinearLayout>
 
     <ImageButton
