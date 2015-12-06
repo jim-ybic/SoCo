@@ -202,10 +202,15 @@ public class EventsResponseUtil {
                 member_icon_url: url of group member’s icon
      */
     public static void parseBuddies(JSONObject eventObj, Event event) throws JSONException {
-        if(!eventObj.has(JsonKeys.REPRESENTATIVE_BUDDIES))
+        if(!eventObj.has(JsonKeys.REPRESENTATIVE_BUDDIES)&&!eventObj.has(JsonKeys.BUDDIES))
             Log.w(tag, "no representative buddies info is found in json");
         else {
-            String buddiesStr = eventObj.getString(JsonKeys.REPRESENTATIVE_BUDDIES);
+            String buddiesStr="";
+            if(eventObj.has(JsonKeys.REPRESENTATIVE_BUDDIES)) {
+                buddiesStr = eventObj.getString(JsonKeys.REPRESENTATIVE_BUDDIES);
+            }else if(eventObj.has(JsonKeys.BUDDIES)){
+                buddiesStr=eventObj.getString(JsonKeys.BUDDIES);
+            }
             JSONObject buddiesObj = new JSONObject(buddiesStr);
             Log.v(tag, "representative buddies obj: " + buddiesObj);
 

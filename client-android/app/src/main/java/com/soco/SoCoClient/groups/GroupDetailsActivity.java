@@ -4,9 +4,9 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -211,9 +211,7 @@ public class GroupDetailsActivity extends ActionBarActivity implements
     public void groupmembers(View view){
         Log.v(tag, "tap group members");
         Intent i = new Intent(this, GroupMembersActivity.class);
-
-        //todo: pass group id
-
+        i.putExtra(GROUP_ID,groupId);
         startActivity(i);
     }
 
