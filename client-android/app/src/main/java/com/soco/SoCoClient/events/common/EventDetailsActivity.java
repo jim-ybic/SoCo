@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.events.common;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.events.service.EventDetailsTask;
+import com.soco.SoCoClient.events.ui.EventViewHelper;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 import com.soco.SoCoClient.userprofile.model.User;
 
@@ -37,17 +40,23 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
 
     static final String tag = "EventDetailsActivity";
     private long Current_Event_Id = 0;
+
+    private Context context;
     private SocoApp socoApp;
     public static final String EVENT_ID = "EVENT_ID";
     private Event event;
     static final int MAX_NUMBER_BUDDIES_SHOW_ON_CARD = 6;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
         Intent i = getIntent();
         getSupportActionBar().hide();
+
+        context = getApplicationContext();
         socoApp = (SocoApp) getApplicationContext();
+
 //        Event event;
         Current_Event_Id = i.getLongExtra(EVENT_ID, 0);
         EventDetailsTask edt = new EventDetailsTask(SocoApp.user_id,SocoApp.token,this);
@@ -145,10 +154,20 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
             ((TextView) this.findViewById(R.id.textStartEndTime)).setText(TimeUtil.getTextStartEndTime(event));
         }
 
-        if(event.getCategories() != null && !event.getCategories().isEmpty())
-            showCategories(event.getCategories());
+        if(event.getCategories() != null && !event.getCategories().isEmpty()) {
+            LinearLayout layout = (LinearLayout) findViewById(R.id.categories);
+            EventViewHelper.showCategories(event, layout, context);
+        }
+        else
+            Log.v(tag, "no category for event: " + event.getTitle());
 
-        showBuddies(event);
+//        showBuddies(event);
+        if(event.getJoinedBuddies().size()>0 || event.getLikedBuddies().size()>0) {
+            LinearLayout layout = (LinearLayout) findViewById(R.id.eventbuddies);
+            EventViewHelper.showBuddies(event, layout, context);
+        }
+        else
+            Log.v(tag, "no buddies for event: " + event.getTitle());
 
         if(!StringUtil.isEmptyString(event.getCreator_id())) {
             ImageButton ib = (ImageButton) this.findViewById(R.id.creator_icon);
@@ -160,117 +179,7 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
             this.findViewById(R.id.creator_name).setTag(event.getCreator_id());
         }
     }
-    void showCategories(ArrayList<String> categories){
-        Log.v(tag, "show event categories: " + categories);
 
-        LinearLayout categoryList = (LinearLayout) findViewById(R.id.categories);
-
-        for(int i=0; i<categories.size(); i++){
-            String cat = categories.get(i);
-            TextView view = new TextView(this);
-            view.setText(cat);
-            view.setBackgroundResource(R.drawable.eventcategory_box);
-            view.setPadding(10, 5, 10, 5);
-            view.setTextColor(Color.BLACK);
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, 5, 10, 5);
-            view.setLayoutParams(params);
-
-            categoryList.addView(view);
-        }
-
-    }
-    void showBuddies(Event e){
-        Log.v(tag, "check event buddies: " + e.getTitle());
-
-        LinearLayout list = (LinearLayout) findViewById(R.id.eventbuddies);
-
-        int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
-        TypedArray ta = obtainStyledAttributes(attrs);
-        int backgroundResource = ta.getResourceId(0, 0);
-//        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
-        ta.recycle();
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//		params.weight = 1.0f;
-        params.gravity = Gravity.LEFT;
-
-        int countBuddy = 0;
-        HashSet<String> buddyIds = new HashSet<>();
-
-//		for(User u : e.getJoinedFriends()){
-//			addImageButtonToView(params,backgroundResource,u,list);
-//			Log.v(tag, "added joined friend into view: " + u.toString());
-//			if(++countBuddy>=MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-//				break;
-//		}
-//
-//		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-//			for (User u : e.getJoinedGroupMemebers()) {
-//				addImageButtonToView(params, backgroundResource, u, list);
-//				Log.v(tag, "added joined group members into view: " + u.toString());
-//				if(++countBuddy>=MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-//					break;
-//			}
-//		}
-
-        if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-            for (User u : e.getJoinedBuddies()) {
-                if(!buddyIds.contains(u.getUser_id())) {
-                    buddyIds.add(u.getUser_id());
-                    addImageButtonToView(params, backgroundResource, u, list);
-                    Log.v(tag, "added joined buddies into view: " + u.toString());
-                    if (++countBuddy >= MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-                        break;
-                }
-                else
-                    Log.v(tag, "user already added on card: " + u.toString());
-            }
-        }
-
-//		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-//			for (User u : e.getLikedFriends()) {
-//				addImageButtonToView(params, backgroundResource, u, list);
-//				Log.v(tag, "added liked friend into view: " + u.toString());
-//				if (++countBuddy>=MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-//					break;
-//			}
-//		}
-//
-//		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-//			for (User u : e.getLikedGroupMembers()) {
-//				addImageButtonToView(params, backgroundResource, u, list);
-//				Log.v(tag, "added liked group members into view: " + u.toString());
-//				if (++countBuddy>=MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-//					break;
-//			}
-//		}
-
-        if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-            for (User u : e.getLikedBuddies()) {
-                if(!buddyIds.contains(u.getUser_id())) {
-                    buddyIds.add(u.getUser_id());
-                    addImageButtonToView(params, backgroundResource, u, list);
-                    Log.v(tag, "added liked buddy into view: " + u.toString());
-                    if (++countBuddy >= MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-                        break;
-                }
-                else
-                    Log.v(tag, "user already added on card: " + u.toString());
-            }
-        }
-    }
-    private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
-        ImageButton user = new ImageButton(this);
-//		ImageView user = new ImageView(mContext);
-        user.setLayoutParams(params);
-        user.setBackgroundResource(backgroundResource);
-        user.setPadding(10, 2, 10, 2);
-        user.setClickable(false);
-        IconUrlUtil.setImageForButtonSmall(getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
-        list.addView(user);
-    }
     public void doneTask(Object o){
         if(o==null){
             return;

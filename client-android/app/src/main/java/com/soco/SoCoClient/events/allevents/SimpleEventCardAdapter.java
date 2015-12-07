@@ -3,7 +3,6 @@ package com.soco.SoCoClient.events.allevents;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,6 +20,7 @@ import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.events.ui.EventViewHelper;
 import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
@@ -88,9 +88,9 @@ public class SimpleEventCardAdapter
 //        viewHolder.mImageView.setImageDrawable(mContext.getDrawable(e.getImageResourceId(mContext)));
 
         if(event.getCategories()!=null && event.getCategories().size()>0) {
-            LinearLayout categoryList = (LinearLayout) simpleEventCardViewHolder.itemView.findViewById(R.id.categories);
-            categoryList.removeAllViews();
-            showCategories(categoryList, event.getCategories());
+            LinearLayout layout = (LinearLayout) simpleEventCardViewHolder.itemView.findViewById(R.id.categories);
+//            categoryList.removeAllViews();
+            EventViewHelper.showCategories(event, layout, mContext);
         }
 
         //set icon for creator
@@ -139,24 +139,6 @@ public class SimpleEventCardAdapter
         list.addView(user);
     }
 
-    void showCategories(LinearLayout categoryList, ArrayList<String> categories){
-        Log.v(tag, "show event categories: " + categories);
-        for(int i=0; i<categories.size()&&i<2; i++){
-            String cat = categories.get(i);
-            TextView view = new TextView(mContext);
-            view.setText(cat);
-            view.setBackgroundResource(R.drawable.eventcategory_box);
-            view.setPadding(10, 5, 10, 5);
-            view.setTextColor(Color.BLACK);
-
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//            params.setMargins(0, 5, 10, 5);
-//            view.setLayoutParams(params);
-
-            categoryList.addView(view);
-        }
-
-    }
     void setTitleareaRandomColor(View view) {
         Log.v(tag, "set title area random color: begin");
         View titleareaView = view.findViewById(R.id.titlearea);

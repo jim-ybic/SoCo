@@ -25,6 +25,7 @@ import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.model.ui.BaseEventCardStackAdapter;
 import com.soco.SoCoClient.events.model.ui.EventCardModel;
+import com.soco.SoCoClient.events.ui.EventViewHelper;
 import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.userprofile.model.User;
 
@@ -93,12 +94,21 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 //		setTitleareaRandomColor(convertView);
 
 //		Log.v(tag, "show event categories");
-		if(model.getCategories() != null && !model.getCategories().isEmpty())
-			showCategories(model.getCategories());
+		if(model.getCategories() != null && !model.getCategories().isEmpty()) {
+//			showCategories(model.getCategories());
+			LinearLayout layout = (LinearLayout) mConvertView.findViewById(R.id.categories);
+			EventViewHelper.showCategories(e, layout, mContext);
+		}
 
 //		Log.v(tag, "show event organizers");
 		showOrganizers(e);
-		showBuddies(e);
+
+		if(e.getLikedBuddies().size()>0 || e.getJoinedBuddies().size()>0) {
+			LinearLayout layout = (LinearLayout) mConvertView.findViewById(R.id.eventbuddies);
+			EventViewHelper.showBuddies(e, layout, mContext);
+		}
+		else
+			Log.v(tag, "no buddies for event: " + e.getTitle());
 
 		return convertView;
 	}
@@ -147,109 +157,6 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 				IconUrlUtil.setImageForButtonSmall(mContext.getResources(), viewOrg3, UrlUtil.getUserIconUrl(g2.getGroup_id()));
 			}
 		}
-	}
-
-	void showBuddies(Event e){
-		Log.v(tag, "check event buddies: " + e.getTitle());
-
-		LinearLayout list = (LinearLayout) mConvertView.findViewById(R.id.eventbuddies);
-
-	    int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
-        TypedArray ta = mContext.obtainStyledAttributes(attrs);
-		int backgroundResource = ta.getResourceId(0, 0);
-//        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
-        ta.recycle();
-
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//		params.weight = 1.0f;
-        params.gravity = Gravity.LEFT;
-
-		int countBuddy = 0;
-		HashSet<String> buddyIds = new HashSet<>();
-
-//		for(User u : e.getJoinedFriends()){
-//			addImageButtonToView(params,backgroundResource,u,list);
-//			Log.v(tag, "added joined friend into view: " + u.toString());
-//			if(++countBuddy>=MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-//				break;
-//		}
-//
-//		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-//			for (User u : e.getJoinedGroupMemebers()) {
-//				addImageButtonToView(params, backgroundResource, u, list);
-//				Log.v(tag, "added joined group members into view: " + u.toString());
-//				if(++countBuddy>=MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-//					break;
-//			}
-//		}
-
-		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-			for (User u : e.getJoinedBuddies()) {
-				if(!buddyIds.contains(u.getUser_id())) {
-					buddyIds.add(u.getUser_id());
-					addImageButtonToView(params, backgroundResource, u, list);
-					Log.v(tag, "added joined buddies into view: " + u.toString());
-					if (++countBuddy >= MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-						break;
-				}
-				else
-					Log.v(tag, "user already added on card: " + u.toString());
-			}
-		}
-
-//		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-//			for (User u : e.getLikedFriends()) {
-//				addImageButtonToView(params, backgroundResource, u, list);
-//				Log.v(tag, "added liked friend into view: " + u.toString());
-//				if (++countBuddy>=MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-//					break;
-//			}
-//		}
-//
-//		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-//			for (User u : e.getLikedGroupMembers()) {
-//				addImageButtonToView(params, backgroundResource, u, list);
-//				Log.v(tag, "added liked group members into view: " + u.toString());
-//				if (++countBuddy>=MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-//					break;
-//			}
-//		}
-
-		if(countBuddy<MAX_NUMBER_BUDDIES_SHOW_ON_CARD) {
-			for (User u : e.getLikedBuddies()) {
-				if(!buddyIds.contains(u.getUser_id())) {
-					buddyIds.add(u.getUser_id());
-					addImageButtonToView(params, backgroundResource, u, list);
-					Log.v(tag, "added liked buddy into view: " + u.toString());
-					if (++countBuddy >= MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-						break;
-				}
-				else
-					Log.v(tag, "user already added on card: " + u.toString());
-			}
-		}
-	}
-
-	void showCategories(ArrayList<String> categories){
-		Log.v(tag, "show event categories: " + categories);
-
-		LinearLayout categoryList = (LinearLayout) mConvertView.findViewById(R.id.categories);
-
-		for(int i=0; i<categories.size(); i++){
-			String cat = categories.get(i);
-			TextView view = new TextView(mContext);
-			view.setText(cat);
-			view.setBackgroundResource(R.drawable.eventcategory_box);
-			view.setPadding(10, 5, 10, 5);
-			view.setTextColor(Color.BLACK);
-
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			params.setMargins(0, 5, 10, 5);
-			view.setLayoutParams(params);
-
-			categoryList.addView(view);
-		}
-
 	}
 
 	void setTitleareaRandomColor(View view) {
