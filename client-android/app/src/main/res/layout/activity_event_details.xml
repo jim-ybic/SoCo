@@ -286,7 +286,7 @@
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Cru 5th Annual Grand Tasting"
+                android:text="title"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center" />
         </LinearLayout>
@@ -328,7 +328,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Room 308, CYC Building"
+                    android:text="address"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
                     android:id="@+id/address"
@@ -355,7 +355,7 @@
                         android:id="@+id/textStartDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="30 Oct"
+                        android:text="date"
                         android:layout_gravity="center_vertical"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -366,13 +366,13 @@
                     android:id="@+id/textStartDayOfWeek"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Friday"
+                    android:text="weekday"
                     android:layout_gravity="center_horizontal"/>
                 <TextView
                     android:id="@+id/textStartEndTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="17:15 - 18:30 (HKT)"
+                    android:text="time"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
 
@@ -547,13 +547,9 @@
                 android:id="@+id/textIntroduction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="80+ wines from around the world!! with Chinese canapes by Michelin starred Dynasty Restaurant!!!
-
-凡購買CRU 5週年門票, 均可獲得$100現金劵乙張! 大家可以立即購買心頭好!
-
-除了品嚐數十款佳釀外, 更有抽獎環節, 贏取豐富禮物!
-11月3日晚上見!"
-                android:layout_gravity="center_vertical" />
+                android:text=" introduction"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5pt" />
         </LinearLayout>
 
 
@@ -672,7 +668,8 @@
                 android:id="@+id/organizers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="5pt">
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -2011,7 +2008,8 @@
             android:id="@+id/socialbuttons"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp">
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

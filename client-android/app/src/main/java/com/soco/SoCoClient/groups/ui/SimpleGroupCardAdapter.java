@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
+import com.soco.SoCoClient.events.ui.ViewElementHelper;
 import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.userprofile.model.User;
 
@@ -83,32 +84,24 @@ public class SimpleGroupCardAdapter
         ArrayList<User> total = (ArrayList<User>)g.getMembers().clone();
         for(int j=0;j<total.size()&&j<3;j++){
             User u = total.get(j);
-            addImageButtonToView(params,backgroundResource,u,list);
+//            addImageButtonToView(params,backgroundResource,u,list);
+            ViewElementHelper.addImageButtonToView(params, backgroundResource, u, list, mContext);
+        }
+
+        if(g.getCategories().size()>0) {
+            LinearLayout layout = (LinearLayout)  simpleGroupCardViewHolder.itemView.findViewById(R.id.categories);
+            ViewElementHelper.showCategories(g, layout, mContext);
         }
     }
 
-    void showCategories(LinearLayout categoryList, ArrayList<String> categories){
-        Log.v(tag, "show event categories: " + categories);
-        for(int i=0; i<categories.size()&&i<2; i++){
-            String cat = categories.get(i);
-            TextView view = new TextView(mContext);
-            view.setText(cat);
-            view.setBackgroundResource(R.drawable.eventcategory_box);
-            view.setPadding(10, 5, 10, 5);
-            view.setTextColor(Color.BLACK);
-            categoryList.addView(view);
-        }
-
-    }
-
-    private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
-        ImageButton user = new ImageButton(mContext);
-        user.setLayoutParams(params);
-        user.setBackgroundResource(backgroundResource);
-        user.setPadding(10, 0, 10, 0);
-        IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
-        list.addView(user);
-    }
+//    private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
+//        ImageButton user = new ImageButton(mContext);
+//        user.setLayoutParams(params);
+//        user.setBackgroundResource(backgroundResource);
+//        user.setPadding(10, 0, 10, 0);
+//        IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
+//        list.addView(user);
+//    }
 
     @Override
     public int getItemCount()

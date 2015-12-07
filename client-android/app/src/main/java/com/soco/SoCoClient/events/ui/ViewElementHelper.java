@@ -15,12 +15,13 @@ import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.events.allevents.SimpleEventCardAdapter;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class EventViewHelper {
+public class ViewElementHelper {
 
     final static String tag = "EventViewHelper";
     static final int MAX_NUMBER_BUDDIES_SHOW_ON_CARD = 6;
@@ -29,6 +30,29 @@ public class EventViewHelper {
     public static void showCategories(Event e, LinearLayout layout, Context context){
         ArrayList<String> categories = e.getCategories();
         Log.v(tag, "show event categories: " + categories);
+
+        Log.v(tag, "remove all child views");
+        layout.removeAllViews();
+
+        for(int i=0; i<categories.size()&&i<2; i++){
+            String cat = categories.get(i);
+            TextView view = new TextView(context);
+            view.setText(cat);
+            view.setBackgroundResource(R.drawable.eventcategory_box);
+            view.setPadding(10, 5, 10, 5);
+            view.setTextColor(Color.BLACK);
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 5, 10, 5);
+            view.setLayoutParams(params);
+
+            layout.addView(view);
+        }
+    }
+
+    public static void showCategories(Group g, LinearLayout layout, Context context){
+        ArrayList<String> categories = g.getCategories();
+        Log.v(tag, "show group categories: " + categories);
 
         Log.v(tag, "remove all child views");
         layout.removeAllViews();

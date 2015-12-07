@@ -228,6 +228,7 @@ public class UrlUtil {
     static final String COLON = ":";
     static final String SERVER_IP = "54.254.147.226";
     static final String SERVER_PORT = "80";
+
     static final String LOGIN_PATH = "/v1/login";
     static final String SOCIAL_LOGIN_PATH = "/v1/social_login";
     static final String REGISTER_PATH = "/v1/register";

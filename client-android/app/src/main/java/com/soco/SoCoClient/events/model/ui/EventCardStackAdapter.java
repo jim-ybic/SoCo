@@ -1,18 +1,13 @@
 package com.soco.SoCoClient.events.model.ui;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,16 +18,11 @@ import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
-import com.soco.SoCoClient.events.model.ui.BaseEventCardStackAdapter;
-import com.soco.SoCoClient.events.model.ui.EventCardModel;
-import com.soco.SoCoClient.events.ui.EventViewHelper;
+import com.soco.SoCoClient.events.ui.ViewElementHelper;
 import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Random;
 
 
@@ -97,7 +87,7 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 		if(model.getCategories() != null && !model.getCategories().isEmpty()) {
 //			showCategories(model.getCategories());
 			LinearLayout layout = (LinearLayout) mConvertView.findViewById(R.id.categories);
-			EventViewHelper.showCategories(e, layout, mContext);
+			ViewElementHelper.showCategories(e, layout, mContext);
 		}
 
 //		Log.v(tag, "show event organizers");
@@ -105,7 +95,7 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 
 		if(e.getLikedBuddies().size()>0 || e.getJoinedBuddies().size()>0) {
 			LinearLayout layout = (LinearLayout) mConvertView.findViewById(R.id.eventbuddies);
-			EventViewHelper.showBuddies(e, layout, mContext);
+			ViewElementHelper.showBuddies(e, layout, mContext);
 		}
 		else
 			Log.v(tag, "no buddies for event: " + e.getTitle());

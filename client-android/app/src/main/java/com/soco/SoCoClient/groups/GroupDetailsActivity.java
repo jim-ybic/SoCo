@@ -23,6 +23,7 @@ import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.common.EventDetailsActivity;
+import com.soco.SoCoClient.events.ui.ViewElementHelper;
 import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.groups.task.GroupDetailsTask;
 import com.soco.SoCoClient.groups.ui.GroupDetailsTabsAdapter;
@@ -192,6 +193,11 @@ public class GroupDetailsActivity extends ActionBarActivity implements
                 User u = members.get(i);
                 addImageButtonToView(params,backgroundResource,u,membersLayout);
             }
+        }
+
+        if(g.getCategories().size()>0){
+            LinearLayout layout = (LinearLayout) findViewById(R.id.categories);
+            ViewElementHelper.showCategories(g, layout, mContext);
         }
     }
 

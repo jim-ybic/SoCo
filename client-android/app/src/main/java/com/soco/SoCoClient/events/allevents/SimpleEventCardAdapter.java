@@ -20,7 +20,7 @@ import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
-import com.soco.SoCoClient.events.ui.EventViewHelper;
+import com.soco.SoCoClient.events.ui.ViewElementHelper;
 import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public class SimpleEventCardAdapter
         if(event.getCategories()!=null && event.getCategories().size()>0) {
             LinearLayout layout = (LinearLayout) simpleEventCardViewHolder.itemView.findViewById(R.id.categories);
 //            categoryList.removeAllViews();
-            EventViewHelper.showCategories(event, layout, mContext);
+            ViewElementHelper.showCategories(event, layout, mContext);
         }
 
         //set icon for creator

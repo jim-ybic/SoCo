@@ -16,6 +16,8 @@ public class Group {
     ArrayList<Event> upcomingEvents = new ArrayList();
     ArrayList<Event> pastEvents = new ArrayList();
 
+    ArrayList<String> categories = new ArrayList<>();
+
     public String getLocation() {
         return location;
     }
@@ -56,7 +58,7 @@ public class Group {
         this.numberOfMembers = numberOfMembers;
     }
 
-    ArrayList<String> categories;
+
     public String getGroup_id() {
         return group_id;
     }

@@ -159,7 +159,7 @@
                 android:layout_height="match_parent"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Description of the group goes here"
+                android:text="group description "
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="5dp"
                 android:gravity="center_vertical" />
@@ -176,7 +176,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:text="1,033 Concert lovers"
+                android:text="number of group members"
                 android:gravity="center_vertical"
                 android:id="@+id/number_of_members"
                 android:paddingLeft="5dp" />
@@ -239,23 +239,22 @@
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
                 android:layout_marginRight="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="art"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:textSize="10dp"
-                    android:textColor="@android:color/black"
-                    android:background="@drawable/eventcategory_box"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical" />
-
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="art"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:paddingTop="5dp"-->
+                    <!--android:paddingBottom="5dp"-->
+                    <!--android:textSize="10dp"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:background="@drawable/eventcategory_box"-->
+                    <!--android:layout_marginRight="5dp"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:layout_marginBottom="5dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:gravity="center_vertical" />-->
             </LinearLayout>
         </LinearLayout>
 

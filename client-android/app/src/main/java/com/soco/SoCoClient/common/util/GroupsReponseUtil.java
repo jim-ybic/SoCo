@@ -1,5 +1,7 @@
 package com.soco.SoCoClient.common.util;
 
+import android.util.Log;
+
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.groups.model.Group;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
  * Created by David_WANG on 12/01/2015.
  */
 public class GroupsReponseUtil {
+    static final String tag = "GroupsResponseUtil";
+
     public static ArrayList<Group> parseGroupsResponse(JSONObject json) throws Exception{
         String groupsStr = json.getString(JsonKeys.GROUPS);
         JSONArray allGroups = new JSONArray(groupsStr);
@@ -27,6 +31,8 @@ public class GroupsReponseUtil {
     }
 
     public static Group parseGroupResponse(JSONObject obj) throws Exception{
+        Log.v(tag, "parse group response: " + obj);
+
         Group g = new Group();
         if(obj.has(JsonKeys.GROUP_ID)) g.setGroup_id(obj.getString(JsonKeys.GROUP_ID));
         if(obj.has(JsonKeys.GROUP_NAME)) g.setGroup_name(obj.getString(JsonKeys.GROUP_NAME));
@@ -36,8 +42,10 @@ public class GroupsReponseUtil {
         if(obj.has(JsonKeys.NUMBER_OF_MEMBERS)) g.setNumberOfMembers(obj.getString(JsonKeys.NUMBER_OF_MEMBERS));
 
         String membersStr = null;
-        if(obj.has(JsonKeys.GROUP_MEMBERS)) membersStr=obj.getString(JsonKeys.GROUP_MEMBERS);
+        if(obj.has(JsonKeys.GROUP_MEMBERS))
+            membersStr=obj.getString(JsonKeys.GROUP_MEMBERS);
         if(membersStr!=null){
+            Log.v(tag, "parse members: " + membersStr);
             JSONArray memberObjs = new JSONArray(membersStr);
             ArrayList<User> memberList = new ArrayList<>();
             for(int j=0;j<memberObjs.length();j++){
@@ -50,6 +58,22 @@ public class GroupsReponseUtil {
             }
             g.setMembers(memberList);
         }
+
+        if(obj.has(JsonKeys.CATEGORIES)){
+//            String catStr = obj.getString(JsonKeys.CATEGORIES);
+//            Log.v(tag, "parse group categories: " + catStr);
+//            JSONArray array = new JSONArray(catStr);
+            JSONArray array = obj.getJSONArray(JsonKeys.CATEGORIES);
+            Log.v(tag, "parse group categories: " + array);
+            for(int i=0; i<array.length(); i++){
+                JSONObject o = array.getJSONObject(i);
+                String cat = o.getString(JsonKeys.CATEGORY);
+                Log.v(tag, "get group category: " + cat);
+                g.addCategory(cat);
+            }
+        }
+        else
+            Log.v(tag, "no category for group: " + g.getGroup_name());
 
 //        if(obj.has(JsonKeys.))
         return g;
