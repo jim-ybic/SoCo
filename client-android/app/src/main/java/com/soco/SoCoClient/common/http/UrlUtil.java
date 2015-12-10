@@ -248,6 +248,7 @@ public class UrlUtil {
     static final String USER_GROUP_PATH = "/v1/user_groups";
     static final String GROUP_LIST_PATH = "/v1/groups";
     static final String GROUP_PATH = "/v1/group";
+    static final String GROUP_MEMBER_PATH = "/v1/group_members";
 
 
     public static String getLoginUrl(){
@@ -383,6 +384,11 @@ public class UrlUtil {
 
     public static String getGroupUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + GROUP_PATH;
+        Log.v(tag, "single group url: " + url);
+        return url;
+    }
+    public static String getGroupMembersUrl(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + GROUP_MEMBER_PATH;
         Log.v(tag, "single group url: " + url);
         return url;
     }

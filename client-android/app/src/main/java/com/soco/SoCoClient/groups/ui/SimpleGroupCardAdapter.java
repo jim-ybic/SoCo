@@ -80,10 +80,12 @@ public class SimpleGroupCardAdapter
         ta.recycle();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.LEFT;
-        ArrayList<User> total = (ArrayList<User>)g.getMembers().clone();
-        for(int j=0;j<total.size()&&j<3;j++){
-            User u = total.get(j);
-            addImageButtonToView(params,backgroundResource,u,list);
+        if(g.getMembers()!=null) {
+            ArrayList<User> total = (ArrayList<User>) g.getMembers().clone();
+            for (int j = 0; j < total.size() && j < 3; j++) {
+                User u = total.get(j);
+                addImageButtonToView(params, backgroundResource, u, list);
+            }
         }
     }
 
