@@ -3,39 +3,23 @@ package com.soco.SoCoClient.events.service;
 
 import android.app.IntentService;
 import android.content.Context;
-import android.content.Entity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.TextView;
 
-import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.HttpStatus;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.EventsResponseUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
-import com.soco.SoCoClient.events.model.Event;
-import com.soco.SoCoClient.groups.model.Group;
-import com.soco.SoCoClient.userprofile.model.User;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -128,6 +112,7 @@ public class DownloadSuggestedEventsService extends IntentService {
         else{
             params.add(new BasicNameValuePair(JsonKeys.USER_ID, user_id));
             params.add(new BasicNameValuePair(JsonKeys.TOKEN, token));
+            params.add(new BasicNameValuePair(JsonKeys.KEYWORD, "more"));
         }
         String paramString = URLEncodedUtils.format(params, "utf-8");
 

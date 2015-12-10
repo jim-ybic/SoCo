@@ -8,30 +8,30 @@ package com.soco.SoCoClient.events.suggested;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.content.Intent;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-//import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 import com.soco.SoCoClient.R;
-
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.common.JoinEventActivity;
-import com.soco.SoCoClient.events.model.ui.EventCardModel;
-import com.soco.SoCoClient.events.model.ui.EventCardContainer;
-import com.soco.SoCoClient.events.model.ui.EventCardStackAdapter;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.events.model.ui.EventCardContainer;
+import com.soco.SoCoClient.events.model.ui.EventCardModel;
+import com.soco.SoCoClient.events.model.ui.EventCardStackAdapter;
 import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
+
+//import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 
 public class SuggestedEventsFragment extends Fragment implements View.OnClickListener {
 
@@ -298,7 +298,7 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         }
     };
 
-    public static void initEventCards(View rootView, Context context, final SocoApp socoApp, Activity activity){
+    public static void initEventCards(final View rootView, Context context, final SocoApp socoApp, Activity activity){
         Log.v(tag, "start event card init");
 
         socoApp.mEventCardContainer = (EventCardContainer) rootView.findViewById(R.id.eventcards);
@@ -329,12 +329,18 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                     public void onLike() {
                         Log.v(tag, "I like the card");
                         socoApp.currentEventIndex++;
+                        if(socoApp.suggestedEvents.size()==socoApp.currentEventIndex){
+                            rootView.findViewById(R.id.refresh).performClick();
+                        }
                     }
 
                     @Override
                     public void onDislike() {
                         Log.v(tag, "I dislike the card");
                         socoApp.currentEventIndex++;
+                        if(socoApp.suggestedEvents.size()==socoApp.currentEventIndex){
+                            rootView.findViewById(R.id.refresh).performClick();
+                        }
                     }
                 });
                 socoApp.eventCardStackAdapter.add(m);
@@ -374,12 +380,18 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
                     public void onLike() {
                         Log.v(tag, "I like the card");
                         socoApp.currentEventIndex++;
+                        if(socoApp.suggestedEvents.size()==socoApp.currentEventIndex){
+                            rootView.findViewById(R.id.refresh).performClick();
+                        }
                     }
 
                     @Override
                     public void onDislike() {
                         Log.v(tag, "I dislike the card");
                         socoApp.currentEventIndex++;
+                        if(socoApp.suggestedEvents.size()==socoApp.currentEventIndex){
+                            rootView.findViewById(R.id.refresh).performClick();
+                        }
                     }
                 });
                 socoApp.eventCardStackAdapter.add(eventCardModel);

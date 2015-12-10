@@ -94,7 +94,7 @@ public class Dashboard extends ActionBarActivity implements
     Bitmap mePhoto;
     ImageButton meButton;
     View actionbarView;
-
+    boolean isFirstDownloadEvent = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -371,7 +371,11 @@ public class Dashboard extends ActionBarActivity implements
             if (socoApp.downloadSuggestedEventsResponse && socoApp.downloadSuggestedEventsResult) {
                 Log.d(tag, "download suggested event - success");
                 Toast.makeText(getApplicationContext(), socoApp.suggestedEvents.size() + " events downloaded.", Toast.LENGTH_SHORT).show();
-                SuggestedEventsFragment.initEventCards(suggestedEventsView, getApplicationContext(), socoApp, activity);
+                if(isFirstDownloadEvent) {
+                    SuggestedEventsFragment.initEventCards(suggestedEventsView, getApplicationContext(), socoApp, activity);
+                }else{
+                    mAdapter.notifyDataSetChanged();
+                }
             } else {
                 Log.e(tag, "download suggested event fail, notify user");
                 Toast.makeText(getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
