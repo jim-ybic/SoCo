@@ -349,10 +349,10 @@
         <activity
             android:name=".groups.GroupMembersActivity"
             android:label="@string/title_activity_group_members"
-            android:parentActivityName="._ref.GroupDetailsActivityV1" >
+            android:parentActivityName=".groups.GroupDetailsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="._ref.GroupDetailsActivityV1" />
+                android:value=".groups.GroupDetailsActivity" />
         </activity>
         <activity
             android:name=".userprofile.MyProfileActivity"

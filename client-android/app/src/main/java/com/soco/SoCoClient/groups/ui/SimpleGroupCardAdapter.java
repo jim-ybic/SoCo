@@ -81,7 +81,8 @@ public class SimpleGroupCardAdapter
         ta.recycle();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.LEFT;
-        ArrayList<User> total = (ArrayList<User>)g.getMembers().clone();
+
+        ArrayList<User> total = g.getMembers();
         for(int j=0;j<total.size()&&j<3;j++){
             User u = total.get(j);
 //            addImageButtonToView(params,backgroundResource,u,list);
@@ -93,15 +94,6 @@ public class SimpleGroupCardAdapter
             ViewElementHelper.showCategories(g, layout, mContext);
         }
     }
-
-//    private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
-//        ImageButton user = new ImageButton(mContext);
-//        user.setLayoutParams(params);
-//        user.setBackgroundResource(backgroundResource);
-//        user.setPadding(10, 0, 10, 0);
-//        IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
-//        list.addView(user);
-//    }
 
     @Override
     public int getItemCount()

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -191,7 +192,8 @@ public class GroupDetailsActivity extends ActionBarActivity implements
             params.gravity = Gravity.LEFT;
             for(int i=0;i<members.size()&&i<6;i++){
                 User u = members.get(i);
-                addImageButtonToView(params,backgroundResource,u,membersLayout);
+//                addImageButtonToView(params,backgroundResource,u,membersLayout);
+                ViewElementHelper.addImageButtonToView(params, backgroundResource, u, membersLayout, mContext);
             }
         }
 
@@ -201,14 +203,15 @@ public class GroupDetailsActivity extends ActionBarActivity implements
         }
     }
 
-    private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
-        ImageButton user = new ImageButton(mContext);
-        user.setLayoutParams(params);
-        user.setBackgroundResource(backgroundResource);
-        user.setPadding(10, 0, 10, 0);
-        IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
-        list.addView(user);
-    }
+//    private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
+//        ImageView user = new ImageButton(mContext);
+//        user.setLayoutParams(params);
+//        user.setBackgroundResource(backgroundResource);
+//        user.setPadding(10, 0, 10, 0);
+//        user.setClickable(false);
+//        IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
+//        list.addView(user);
+//    }
     public void close(View view){
         Log.v(tag, "tap on close");
         finish();

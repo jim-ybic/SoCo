@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
@@ -27,7 +28,6 @@ import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.events.service.EventDetailsTask;
 import com.soco.SoCoClient.events.ui.ViewElementHelper;
 import com.soco.SoCoClient.events.service.LikeEventTask;
-import com.soco.SoCoClient.events.ui.EventViewHelper;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 
 

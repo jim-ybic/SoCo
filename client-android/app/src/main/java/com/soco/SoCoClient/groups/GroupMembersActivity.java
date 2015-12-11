@@ -95,7 +95,7 @@ public class GroupMembersActivity extends ActionBarActivity implements TaskCallB
         if (o instanceof Group) {
             Group g = (Group) o;
             ArrayList<User> users = g.getMembers();
-            //todo currently only show 2 at one time. to revert back later
+            //todo currently only show 2 at one time (to test pull-to-refresh). to revert back later
 //            for (User u : users) {
 //                HashMap<String, Object> item = getItemForShow(u);
 //                members.add(item);
@@ -106,7 +106,6 @@ public class GroupMembersActivity extends ActionBarActivity implements TaskCallB
                     User u = users.get(i);
                     members.add(u);
                     Log.v(tag, "added buddy: " + u.getUser_id() + ", " + u.getUser_name());
-
                 }
             }
             if (!StringUtil.isEmptyString(g.getGroup_name())) {

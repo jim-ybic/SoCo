@@ -160,14 +160,14 @@ public class ViewElementHelper {
     }
 
     public static void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list, Context context){
-        ImageButton user = new ImageButton(context);
+        ImageButton imageButton = new ImageButton(context);
 //		ImageView user = new ImageView(mContext);
-        user.setLayoutParams(params);
-        user.setBackgroundResource(backgroundResource);
-        user.setPadding(10, 2, 10, 2);
-        user.setClickable(false);
-        IconUrlUtil.setImageForButtonSmall(context.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
-        list.addView(user);
+        imageButton.setLayoutParams(params);
+        imageButton.setBackgroundResource(backgroundResource);
+        imageButton.setPadding(10, 2, 10, 2);
+        imageButton.setClickable(false);
+        IconUrlUtil.setImageForButtonSmall(context.getResources(), imageButton, UrlUtil.getUserIconUrl(u.getUser_id()));
+        list.addView(imageButton);
     }
 
 }

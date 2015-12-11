@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Group {
 
     String group_id, group_name, group_icon_url;
-    ArrayList<User> members;
+    ArrayList<User> members = new ArrayList<>();
     String description;
     String numberOfMembers;
 
