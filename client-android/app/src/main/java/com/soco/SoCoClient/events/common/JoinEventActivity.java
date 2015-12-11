@@ -12,13 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.events.service.EventDetailsTask;
 import com.soco.SoCoClient.events.service.JoinEventService;
 
-public class JoinEventActivity extends ActionBarActivity {
+public class JoinEventActivity extends ActionBarActivity implements TaskCallBack {
     public static final String PHONE="PHONE";
     public static final String EMAIL="EMAIL";
     private static final String tag="JoinEventActivity";
@@ -33,15 +35,11 @@ public class JoinEventActivity extends ActionBarActivity {
         socoApp = (SocoApp) getApplicationContext();
 
         getSupportActionBar().hide();
-        long event_id = intent.getLongExtra(Event.EVENT_ID,0);
+        String event_id = intent.getStringExtra(Event.EVENT_ID);
 
-        if(event_id==0){
-            event = socoApp.getCurrentSuggestedEvent();
-        }else{
-            event = socoApp.suggestedEventsMap.get(event_id);
-        }
+        EventDetailsTask edt = new EventDetailsTask(SocoApp.user_id,SocoApp.token,this);
+        edt.execute(event_id);
 
-        setViewFromEvent(event, socoApp.loginEmail);
     }
 //
 //    @Override
@@ -71,7 +69,9 @@ public class JoinEventActivity extends ActionBarActivity {
     }
 
     private void setViewFromEvent(Event event,String email) {
-
+        if(event==null){
+            return;
+        }
         ((TextView) this.findViewById(R.id.address)).setText(event.getAddress());
         ((TextView) this.findViewById(R.id.textTitle)).setText(event.getTitle());
 //        ((TextView) this.findViewById(R.id.edit_areacode)).setText("+852");
@@ -102,6 +102,7 @@ public class JoinEventActivity extends ActionBarActivity {
 
 
     private void joinEventRequestInBackground() {
+
         Log.v(tag, "start join event service at back end");
         Intent i = new Intent(this, JoinEventService.class);
         i.putExtra(Event.EVENT_ID, Long.toString(event.getId()));
@@ -166,6 +167,12 @@ public class JoinEventActivity extends ActionBarActivity {
         }
     };
 
-
+    public void doneTask(Object o){
+        if(o==null){
+            return;
+        }
+        event = (Event) o;
+        setViewFromEvent(event, socoApp.loginEmail);
+    }
 
 }

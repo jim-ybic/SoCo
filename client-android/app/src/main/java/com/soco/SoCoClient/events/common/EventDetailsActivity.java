@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -15,6 +15,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
+import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
@@ -25,6 +26,8 @@ import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.events.service.EventDetailsTask;
 import com.soco.SoCoClient.events.ui.ViewElementHelper;
+import com.soco.SoCoClient.events.service.LikeEventTask;
+import com.soco.SoCoClient.events.ui.EventViewHelper;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 
 
@@ -170,6 +173,8 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
             ((TextView) this.findViewById(R.id.creator_name)).setText(event.getCreator_name());
             this.findViewById(R.id.creator_name).setTag(event.getCreator_id());
         }
+        ((TextView) this.findViewById(R.id.likeevent)).setText(Integer.toString(event.getNumber_of_likes()));
+        LikeUtil.initialLikeButton(((Button) this.findViewById(R.id.likeevent)), event.isLikedEvent());
     }
 
     public void doneTask(Object o){
@@ -179,4 +184,22 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         event = (Event) o;
         showDetails(event);
     }
+    public void share(View view){
+        if(event!=null) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, event.toString());
+            sendIntent.setType("text/plain");
+            sendIntent.setPackage("com.whatsapp");
+            startActivity(sendIntent);
+        }
+    }
+    public void likeevent(View view){
+        Log.v(tag, "tap like event button");
+        Button button = (Button) view.findViewById(R.id.likeevent);
+        boolean isLiked = button.isActivated();
+        LikeEventTask let = new LikeEventTask(SocoApp.user_id, SocoApp.token, event, button,isLiked);
+        let.execute();
+    }
+
 }
