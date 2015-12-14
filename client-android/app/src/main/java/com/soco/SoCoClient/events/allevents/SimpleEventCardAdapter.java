@@ -94,6 +94,7 @@ public class SimpleEventCardAdapter
         }
 
         //set icon for creator
+        Log.v(tag, "show creator icon: " + event.getCreator_id() + ", " + event.getCreator_name());
         ImageButton ib = (ImageButton) simpleEventCardViewHolder.itemView.findViewById(R.id.creator);
         IconUrlUtil.setImageForButtonSmall(mContext.getResources(),ib, UrlUtil.getUserIconUrl(event.getCreator_id()));
 
@@ -130,11 +131,13 @@ public class SimpleEventCardAdapter
                 break;
         }
     }
+
     private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
         ImageButton user = new ImageButton(mContext);
         user.setLayoutParams(params);
         user.setBackgroundResource(backgroundResource);
         user.setPadding(10, 0, 10, 0);
+        Log.v(tag, "add image button to view: " + u.getUser_id() + ", " + u.getUser_name());
         IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
         list.addView(user);
     }

@@ -677,7 +677,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:src="@drawable/eventgroups_group1"
                     android:id="@+id/creator_icon"
-                    android:onClick="eventorganizers"
+                    android:clickable="false"
                     android:layout_gravity="center_horizontal" />
 
                 <TextView
