@@ -115,7 +115,7 @@ public class LoginNormalService extends IntentService {
     }
 
     int parse(Object response) {
-        Log.d(tag, "parse register response: " + response.toString());
+        Log.d(tag, "parse login normal response: " + response.toString());
 
         try {
             JSONObject json = new JSONObject(response.toString());
@@ -132,7 +132,7 @@ public class LoginNormalService extends IntentService {
                                 "user id: " + user_id + ", token: " + token
                 );
 
-                Log.v(tag, "save userid and token: " + user_id + ", " + token);
+                Log.v(tag, "set app userid, save userid and token: " + user_id + ", " + token);
                 socoApp.user_id = user_id;
                 socoApp.token = token;
 

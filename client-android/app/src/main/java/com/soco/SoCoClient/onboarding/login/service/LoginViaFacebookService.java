@@ -185,7 +185,7 @@ public class LoginViaFacebookService extends IntentService {
                                 "user id: " + user_id + ", token: " + token
                 );
 
-                Log.v(tag, "save userid and token");
+                Log.v(tag, "set app userid, save userid and token");
                 socoApp.user_id = user_id;
                 socoApp.token = token;
 

@@ -379,7 +379,7 @@ public class LoginActivity //extends ActionBarActivity
         editor.putString(LOGIN_PASSWORD, loginPassword);
         editor.commit();
 
-        Log.v(tag, "show progress dialog, start register");
+        Log.v(tag, "show progress dialog, start login normal in background");
 //        pd = ProgressDialog.show(this, "Login in progress", "Please wait...");
         hideViews();
         new Thread(new Runnable(){

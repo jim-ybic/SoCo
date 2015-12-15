@@ -106,6 +106,8 @@ public class RegisterActivity extends ActionBarActivity {
         socoApp.registerEmail = cEmail.getText().toString();
         socoApp.registerPhone = cAreacode.getText().toString() + cPhone.getText().toString();
         socoApp.registerPassword = cPassword.getText().toString();
+        Log.v(tag, "user input: name " + socoApp.registerName + ", email " + socoApp.registerEmail
+                + ", phone " + socoApp.registerPhone + ", password" + socoApp.registerPassword);
 
         //todo
         //parse area code to get location
@@ -137,7 +139,7 @@ public class RegisterActivity extends ActionBarActivity {
         Log.v(tag, "wait and check register status");
         int count = 0;
         while(!socoApp.registerResponse && count < WAIT_ITERATION) {   //wait for 10s
-            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
+            Log.v(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
             long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
             while (System.currentTimeMillis() < endTime) {
                 synchronized (this) {
@@ -158,7 +160,7 @@ public class RegisterActivity extends ActionBarActivity {
             Log.v(tag, "handle receive message and dismiss dialog");
 
             if(socoApp.registerResponse && socoApp.registerResult){
-                Log.d(tag, "register success, finish this screen and login to dashboard");
+                Log.v(tag, "register success, finish this screen and login to dashboard");
                 Toast.makeText(getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
                 finish();
             }

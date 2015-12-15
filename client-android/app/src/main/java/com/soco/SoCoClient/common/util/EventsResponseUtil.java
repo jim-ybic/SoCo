@@ -101,7 +101,7 @@ public class EventsResponseUtil {
     public static void parseOrganizer(JSONObject eventObj, Event event) throws JSONException {
 //        Log.v(tag, "parse organizer: " + eventObj);
         if(!eventObj.has(JsonKeys.ORGANIZER)) {
-            Log.w(tag, "no organizer info is found in json");
+            Log.v(tag, "no organizer info is found in json");
         }
         else {
             String organizerStr = eventObj.getString(JsonKeys.ORGANIZER);
@@ -109,7 +109,7 @@ public class EventsResponseUtil {
             Log.v(tag, "org obj: " + orgObj);
 
             if(!orgObj.has(JsonKeys.CREATOR_ID))
-                Log.w(tag, "no creator info found in json");
+                Log.v(tag, "no creator info found in json");
             else {
                 String creatorId = orgObj.getString(JsonKeys.CREATOR_ID);
                 String creatorName = orgObj.getString(JsonKeys.CREATOR_NAME);
@@ -122,7 +122,7 @@ public class EventsResponseUtil {
             }
 
             if (!orgObj.has(JsonKeys.ENTERPRISE_ID))
-                Log.w(tag, "no enterprise info found in json");
+                Log.v(tag, "no enterprise info found in json");
             else{
                 event.setEnterprise_id(orgObj.getString(JsonKeys.ENTERPRISE_ID));
                 event.setEnterprise_name(orgObj.getString(JsonKeys.ENTERPRISE_NAME));
@@ -131,7 +131,7 @@ public class EventsResponseUtil {
             }
 
             if(!orgObj.has(JsonKeys.SUPPORTING_GROUPS)) {
-                Log.w(tag, "no supporting groups info is found in json");
+                Log.v(tag, "no supporting groups info is found in json");
             }
             else {
                 String groupsStr = orgObj.getString(JsonKeys.SUPPORTING_GROUPS);
@@ -151,7 +151,7 @@ public class EventsResponseUtil {
                     g.setGroup_icon_url(groupIconUrl);
 
                     if(!group.has(JsonKeys.GROUP_MEMBERS)) {
-                        Log.w(tag, "no group members info is found in json");
+                        Log.v(tag, "no group members info is found in json");
                     }
                     else {
                         String membersStr = group.getString(JsonKeys.GROUP_MEMBERS);
@@ -203,7 +203,7 @@ public class EventsResponseUtil {
      */
     public static void parseBuddies(JSONObject eventObj, Event event) throws JSONException {
         if(!eventObj.has(JsonKeys.REPRESENTATIVE_BUDDIES)&&!eventObj.has(JsonKeys.BUDDIES))
-            Log.w(tag, "no representative buddies info is found in json");
+            Log.v(tag, "no representative buddies info is found in json");
         else {
             String buddiesStr="";
             if(eventObj.has(JsonKeys.REPRESENTATIVE_BUDDIES)) {
@@ -215,7 +215,7 @@ public class EventsResponseUtil {
             Log.v(tag, "representative buddies obj: " + buddiesObj);
 
             if(!buddiesObj.has(JsonKeys.BUDDIES_JOINED))
-                Log.w(tag, "no joined buddies found in json");
+                Log.v(tag, "no joined buddies found in json");
             else{
                 String joinedStr = buddiesObj.getString(JsonKeys.BUDDIES_JOINED);
                 JSONObject joinedObj = new JSONObject(joinedStr);
@@ -282,7 +282,7 @@ public class EventsResponseUtil {
             }
 
             if(!buddiesObj.has(JsonKeys.BUDDIES_LIKED))
-                Log.w(tag, "no liked buddies found in json");
+                Log.v(tag, "no liked buddies found in json");
             else{
                 String likedStr = buddiesObj.getString(JsonKeys.BUDDIES_LIKED);
                 JSONObject likedObj = new JSONObject(likedStr);

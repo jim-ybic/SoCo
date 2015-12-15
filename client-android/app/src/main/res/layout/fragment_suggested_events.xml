@@ -201,17 +201,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:id="@+id/refresh"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="Refresh"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:onClick="refreshevents"
-            android:padding="5dp" />
+        <!--<TextView-->
+            <!--android:id="@+id/refresh"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="Refresh"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:textStyle="bold"-->
+            <!--android:layout_weight="1"-->
+            <!--android:clickable="true"-->
+            <!--android:onClick="refreshevents"-->
+            <!--android:padding="5dp" />-->
         <TextView
             android:id="@+id/viewallevents"
             android:layout_width="0dp"
@@ -222,7 +222,10 @@
             android:layout_weight="1"
             android:clickable="true"
             android:onClick="allevents"
-            android:padding="5dp" />
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="10dp" />
         </LinearLayout>
 
     <!--<TableLayout-->

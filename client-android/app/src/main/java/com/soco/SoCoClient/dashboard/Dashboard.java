@@ -219,7 +219,7 @@ public class Dashboard extends ActionBarActivity implements
             ImageButton ib = (ImageButton) actionbarView.findViewById(R.id.mebutton);
             User u = new User();
             u.setUser_id(socoApp.user_id);
-            Log.v(tag, "ib: " + ib + ", user: " + u.toString());
+//            Log.v(tag, "ib: " + ib + ", user: " + u.toString());
             IconUrlUtil.setImageForButtonNormal(getResources(), ib, UrlUtil.getUserIconUrl(socoApp.user_id));
         }
     }
