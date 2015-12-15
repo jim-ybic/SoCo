@@ -68,6 +68,7 @@ public class SimpleGroupCardAdapter
 //            showCategories(categoryList, g.getCategories());
 //        }
         //set icon for group
+        Log.v(tag, "set group icon: " + g.getGroup_id() + ", " + g.getGroup_name() + ", " + g.getGroup_icon_url());
         ImageButton groupIcon = (ImageButton)simpleGroupCardViewHolder.itemView.findViewById(R.id.group_icon);
 //        Log.e(tag, "======================================================"+UrlUtil.getGroupIconUrl(g.getGroup_id()));
         IconUrlUtil.setImageForButtonSmall(mContext.getResources(), groupIcon, UrlUtil.getGroupIconUrl(g.getGroup_id()));

@@ -243,6 +243,7 @@ public class UrlUtil {
     static final String MY_BUDDIES_PATH = "/v1/my_buddies";
     static final String MY_MATCH_PATH = "/v1/matched_buddies";
     static final String USER_ICON="/v1/user_icon?";
+    static final String GROUP_ICON="/v1/group_icon?";
     static final String CREATE_GROUP_PATH = "/v1/group";
     static final String USER_PROFILE_PATH = "/v1/user";
     static final String USER_EVENT_PATH = "/v1/events";
@@ -322,6 +323,12 @@ public class UrlUtil {
         return url;
     }
 
+    public static String getGroupIconUrlPrefix(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + GROUP_ICON;
+//        Log.v(tag, "user icon url: " + url);
+        return url;
+    }
+
     public static String getUserIconUrl(String user_id) {
         StringBuffer sb = new StringBuffer();
         sb.append(getUserIconUrlPrefix());
@@ -334,7 +341,7 @@ public class UrlUtil {
     }
     public static String getGroupIconUrl(String group_id) {
         StringBuffer sb = new StringBuffer();
-        sb.append(getUserIconUrlPrefix());
+        sb.append(getGroupIconUrlPrefix());
         sb.append(SocoApp.getCurrentUserTokenForUrl());
         sb.append("&group_id=");
         sb.append(group_id);
