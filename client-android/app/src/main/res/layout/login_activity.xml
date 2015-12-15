@@ -277,7 +277,6 @@
                         android:layout_height="60dp"
                         android:layout_weight="1"
                         android:inputType="textEmailAddress"
-                        android:text="a1@gmail.com"
                         android:textColor="@android:color/white" />
                 </TableRow>
                 <TableRow>
@@ -288,7 +287,6 @@
                         android:inputType="textPassword"
                         android:hint="password"
                         android:layout_weight="1"
-                        android:text="123456"
                         android:textColor="@android:color/white" />
                 </TableRow>
             </TableLayout>
@@ -329,8 +327,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="40dp"
-                android:paddingTop="10dp"
+                android:layout_marginTop="20dp"
                 android:id="@+id/register">
                 <TextView
                     android:layout_height="wrap_content"
@@ -341,7 +338,9 @@
                     android:onClick="forgotpassword"
                     android:gravity="left"
                     android:textColor="@android:color/white"
-                    android:clickable="true"/>
+                    android:clickable="true"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp" />
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -352,7 +351,9 @@
                     android:onClick="register"
                     android:paddingRight="10dp"
                     android:textColor="@android:color/white"
-                    android:clickable="true"/>
+                    android:clickable="true"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" />
             </LinearLayout>
 
         <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->

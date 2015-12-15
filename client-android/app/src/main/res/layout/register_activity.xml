@@ -38,21 +38,19 @@
                 <TableRow>
                     <EditText
                         android:id="@+id/fname"
-                        android:hint="name"
+                        android:hint="first name"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_weight="1"
                         android:inputType="text"
-                        android:text="Jim"
                         android:textColor="@android:color/white" />
                     <EditText
                         android:id="@+id/lname"
-                        android:hint="name"
+                        android:hint="last name"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_weight="1"
                         android:inputType="text"
-                        android:text="Gong"
                         android:textColor="@android:color/white" />
                 </TableRow>
                 <TableRow>
@@ -63,7 +61,6 @@
                         android:layout_height="60dp"
                         android:layout_weight="1"
                         android:inputType="textEmailAddress"
-                        android:text="jim.ybic2@gmail.com"
                         android:textColor="@android:color/white" />
                 </TableRow>
                 <TableRow>
@@ -73,16 +70,14 @@
                         android:layout_height="60dp"
                         android:inputType="phone"
                         android:hint="+852"
-                        android:text="852"
                         android:textColor="@android:color/white" />
                     <EditText
                         android:id="@+id/phone"
                         android:layout_width="fill_parent"
                         android:layout_height="60dp"
                         android:inputType="phone"
-                        android:hint="phone number"
+                        android:hint="phone (optional)"
                         android:layout_weight="1"
-                        android:text="12345678"
                         android:textColor="@android:color/white" />
                 </TableRow>
                 <TableRow>
@@ -93,7 +88,6 @@
                         android:inputType="textPassword"
                         android:hint="password"
                         android:layout_weight="1"
-                        android:text="Pass@123"
                         android:textColor="@android:color/white" />
                 </TableRow>
             </TableLayout>
