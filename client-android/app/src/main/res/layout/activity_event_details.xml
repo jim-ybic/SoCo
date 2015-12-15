@@ -286,7 +286,7 @@
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="title"
+                android:text="unknown title"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center" />
         </LinearLayout>
@@ -297,38 +297,37 @@
             android:orientation="horizontal"
             android:background="@android:color/white"
             android:id="@+id/datetimelocation"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="5dp">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_weight="1">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_horizontal">
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:src="@drawable/ic_action_location_found"
-                        android:layout_gravity="center_vertical" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:text="2.6km"
-                        android:gravity="center_vertical"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:gravity="center_horizontal">-->
+                    <!--<ImageButton-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="?android:attr/selectableItemBackground"-->
+                        <!--android:src="@drawable/ic_action_location_found"-->
+                        <!--android:layout_gravity="center_vertical" />-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="fill_parent"-->
+                        <!--android:text="2.6km"-->
+                        <!--android:gravity="center_vertical"-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:textStyle="bold" />-->
+                <!--</LinearLayout>-->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="address"
+                    android:text="unknown address"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
                     android:id="@+id/address"
@@ -355,7 +354,7 @@
                         android:id="@+id/textStartDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="date"
+                        android:text="unknown date"
                         android:layout_gravity="center_vertical"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -366,13 +365,11 @@
                     android:id="@+id/textStartDayOfWeek"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="weekday"
                     android:layout_gravity="center_horizontal"/>
                 <TextView
                     android:id="@+id/textStartEndTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="time"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
 
@@ -547,7 +544,6 @@
                 android:id="@+id/textIntroduction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" introduction"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="5pt" />
         </LinearLayout>
