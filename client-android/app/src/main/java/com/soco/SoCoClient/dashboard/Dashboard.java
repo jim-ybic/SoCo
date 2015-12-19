@@ -713,9 +713,10 @@ public class Dashboard extends ActionBarActivity implements
             public void onClick(View view) {
                 window.dismiss();
                 Log.v(tag, "show my profile");
-
-                //todo
-
+                Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+                i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_PROFILE);
+                i.putExtra(User.USER_ID,SocoApp.user_id);
+                startActivity(i);
             }
         });
 
