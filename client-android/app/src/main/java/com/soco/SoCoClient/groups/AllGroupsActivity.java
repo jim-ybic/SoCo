@@ -11,12 +11,14 @@ import android.view.View;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
+import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.groups.task.GroupsListTask;
 import com.soco.SoCoClient.groups.ui.SimpleGroupCardAdapter;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
+import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
 
@@ -79,9 +81,8 @@ public class AllGroupsActivity extends ActionBarActivity implements TaskCallBack
     public void mygroups(View view) {
         Log.v(tag, "tap show my groups");
         Intent i = new Intent(this, UserProfileActivity.class);
-
-        //todo: pass parameters - user id, go to group tab
-
+        i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_GROUPS);
+        i.putExtra(User.USER_ID,SocoApp.user_id);
         startActivity(i);
     }
 
