@@ -7,13 +7,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,31 +22,29 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.RequestCode;
-
-import com.facebook.FacebookSdk;
-import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.dashboard.Dashboard;
 import com.soco.SoCoClient.onboarding.forgotpassword.ForgotPasswordActivity;
 import com.soco.SoCoClient.onboarding.login.service.LoginNormalService;
-import com.soco.SoCoClient.onboarding.register.RegisterActivity;
-import com.soco.SoCoClient.dashboard.Dashboard;
 import com.soco.SoCoClient.onboarding.login.service.LoginViaFacebookService;
+import com.soco.SoCoClient.onboarding.register.RegisterActivity;
 import com.soco.SoCoClient.userprofile.SettingsActivity;
 
 import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-//import java.security.Signature;
-import android.content.pm.Signature;
 import java.util.Arrays;
 import java.util.List;
+
+//import java.security.Signature;
 
 
 public class LoginActivity //extends ActionBarActivity
@@ -356,6 +353,7 @@ public class LoginActivity //extends ActionBarActivity
             else{
                 Log.e(tag, "login via facebook fail, notify user");
                 Toast.makeText(getApplicationContext(), "Login via Facebook fail, please check password and try again.", Toast.LENGTH_SHORT).show();
+                onResume();
             }
 
 //            pd.dismiss();
@@ -463,8 +461,8 @@ public class LoginActivity //extends ActionBarActivity
 
         if(socoApp.OFFLINE_MODE){
             Log.w(tag, "offline mode: bypass login normal");
-            socoApp.loginNormalResponse = true;
-            socoApp.loginNormalResult = true;
+//            socoApp.loginNormalResponse = true;
+//            socoApp.loginNormalResult = true;
             return;
         }
 
@@ -506,6 +504,7 @@ public class LoginActivity //extends ActionBarActivity
             else{
                 Log.e(tag, "login normal fail, notify user");
                 Toast.makeText(getApplicationContext(), "Login fail, please check password and try again.", Toast.LENGTH_SHORT).show();
+                onResume();
             }
 
 //            pd.dismiss();

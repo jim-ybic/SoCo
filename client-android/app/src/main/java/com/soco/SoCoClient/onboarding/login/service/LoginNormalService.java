@@ -6,15 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.TextView;
 
-import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.HttpStatus;
 import com.soco.SoCoClient.common.ReturnCode;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
-import com.soco.SoCoClient.common.util.JsonSimulator;
 import com.soco.SoCoClient.common.util.SocoApp;
 
 import org.json.JSONObject;
@@ -74,15 +71,15 @@ public class LoginNormalService extends IntentService {
         else {
             Log.e(tag, "response is null, cannot parse");
 
-            if(socoApp.USE_SIMILATOR_LOGIN_NORMAL){
-                Log.w(tag, "testing mode: use simulator for json response");
-
-                Log.v(tag, "set response flag as true");
-                socoApp.loginNormalResponse = true;
-
-                Log.v(tag, "parse simulated response");
-                parse(JsonSimulator.LoginNormalSuccessResponse());
-            }
+//            if(socoApp.USE_SIMILATOR_LOGIN_NORMAL){
+//                Log.w(tag, "testing mode: use simulator for json response");
+//
+//                Log.v(tag, "set response flag as true");
+//                socoApp.loginNormalResponse = true;
+//
+//                Log.v(tag, "parse simulated response");
+//                parse(JsonSimulator.LoginNormalSuccessResponse());
+//            }
         }
 
         return;
