@@ -10,6 +10,7 @@ import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.database.DbHelper;
 import com.soco.SoCoClient.common.util.TimeUtil;
 
+@Deprecated
 public class Attachment {
 
     String tag = "Attachment";

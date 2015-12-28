@@ -27,6 +27,8 @@ public class AllGroupsActivity extends ActionBarActivity implements TaskCallBack
     static final String tag = "AllGroupsActivity";
     static final int CREATE_GROUP = 1001;
 
+    static final int LOAD_BATCH_SIZE = 20;
+
     private SwipeRefreshLayoutBottom swipeContainer;
     RecyclerView mRecyclerView;
     SimpleGroupCardAdapter simpleGroupCardAdapter;
@@ -125,7 +127,7 @@ public class AllGroupsActivity extends ActionBarActivity implements TaskCallBack
 //            for (Group g : result) {
 //                groups.add(g);
 //            }
-            for (int i = 0; i < 2 && i < result.size(); i++) {
+            for (int i = 0; i < LOAD_BATCH_SIZE && i < result.size(); i++) {
                 groups.add(result.get(i));
             }
             simpleGroupCardAdapter.notifyDataSetChanged();

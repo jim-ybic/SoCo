@@ -423,6 +423,9 @@ public class SocoApp extends Application {
     public boolean createGroupResult;
     public String newGroupId;
 
+    //join group
+    public boolean joinGroupResult;
+
     //user profile
     public User currentUserOnProfile;
 

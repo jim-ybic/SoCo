@@ -9,6 +9,7 @@ import android.util.Log;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.database.DbHelper;
 
+@Deprecated
 public class Attribute {
 
     String tag = "Attribute";

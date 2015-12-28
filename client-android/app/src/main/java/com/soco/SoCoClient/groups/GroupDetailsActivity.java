@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
@@ -29,6 +30,7 @@ import com.soco.SoCoClient.events.common.EventDetailsActivity;
 import com.soco.SoCoClient.events.ui.ViewElementHelper;
 import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.groups.task.GroupDetailsTask;
+import com.soco.SoCoClient.groups.task.JoinGroupTask;
 import com.soco.SoCoClient.groups.ui.GroupDetailsTabsAdapter;
 import com.soco.SoCoClient.userprofile.model.User;
 
@@ -68,23 +70,6 @@ public class GroupDetailsActivity extends ActionBarActivity implements
 
         GroupDetailsTask task = new GroupDetailsTask(SocoApp.user_id, SocoApp.token, this);
         task.execute(groupId);
-
-        Log.v(tag, "Set listener");
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                Log.v(tag, "position is " + position);
-                actionBar.setSelectedNavigationItem(position);
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
     }
 
     void setActionbar(){
@@ -109,10 +94,6 @@ public class GroupDetailsActivity extends ActionBarActivity implements
         Log.v(tag, "remove margin in actionbar area");
         parent.setContentInsetsAbsolute(0, 0);
 
-//        Log.v(tag, "set actionbar background color");
-//        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
-//        actionBar.setBackgroundDrawable(colorDrawable);
-
         Log.v(tag, "Adding tabs");
         android.support.v7.app.ActionBar.Tab tabProfile = actionBar.newTab().setText(UPCOMING).setTabListener(this);
         actionBar.addTab(tabProfile);
@@ -124,14 +105,24 @@ public class GroupDetailsActivity extends ActionBarActivity implements
 //            actionBar.selectTab(tabGroups);
 //        else if(socoApp.eventGroupsBuddiesTabIndex == 1)
 //            actionBar.selectTab(tabBuddies);
-    }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_group_detail, menu);
-//        return true;
-//    }
+        Log.v(tag, "Set listener");
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                Log.v(tag, "position is " + position);
+                actionBar.setSelectedNavigationItem(position);
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -205,7 +196,7 @@ public class GroupDetailsActivity extends ActionBarActivity implements
         }
     }
 
-//    private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
+    //    private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
 //        ImageView user = new ImageButton(mContext);
 //        user.setLayoutParams(params);
 //        user.setBackgroundResource(backgroundResource);
@@ -222,7 +213,7 @@ public class GroupDetailsActivity extends ActionBarActivity implements
     public void groupmembers(View view){
         Log.v(tag, "tap group members");
         Intent i = new Intent(this, GroupMembersActivity.class);
-        i.putExtra(GROUP_ID,groupId);
+        i.putExtra(GROUP_ID, groupId);
         startActivity(i);
     }
 
@@ -236,11 +227,23 @@ public class GroupDetailsActivity extends ActionBarActivity implements
     }
 
     public void doneTask(Object o){
-        if(o==null){
+        if(o == null){
+            Log.d(tag, "donetask, return null");
             return;
         }
-       group = (Group) o;
-        showGroupDetails(group);
+        else if (o instanceof Group) {   // group details
+            group = (Group) o;
+            Log.d(tag, "show group details: " + group.toString());
+            showGroupDetails(group);
+        }
+        else if (o instanceof Boolean){     //join group
+            Boolean ret = (Boolean) o;
+            Log.d(tag, "join group result: " + ret);
+            if(ret)
+                Toast.makeText(this, "Join group success.", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "Cannot join group.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void joingroup(View view) {
@@ -252,7 +255,7 @@ public class GroupDetailsActivity extends ActionBarActivity implements
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         Log.d(tag, "tap Yes");
-                        //todo: send join group request to server
+                        joinGroupInBackground();
                     }
                 });
         builder.setNegativeButton("Cancel",
@@ -263,4 +266,9 @@ public class GroupDetailsActivity extends ActionBarActivity implements
                 });
         builder.show();
     }
+
+    private void joinGroupInBackground(){
+        new JoinGroupTask(getApplicationContext(), group, this).execute();
+    }
+
 }

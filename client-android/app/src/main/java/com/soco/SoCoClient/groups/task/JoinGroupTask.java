@@ -1,7 +1,8 @@
 package com.soco.SoCoClient.groups.task;
 
-
+import android.app.IntentService;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -11,13 +12,16 @@ import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.common.util.StringUtil;
+import com.soco.SoCoClient.events.common.JoinEventActivity;
+import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.groups.model.Group;
 
 import org.json.JSONObject;
 
-public class CreateGroupTask extends AsyncTask<Void, Void, Boolean>{
+public class JoinGroupTask extends AsyncTask<Void, Void, Boolean> {
 
-    String tag = "CreateGroupTask";
+    String tag = "JoinGroupTask";
 
     Context context;
     SocoApp socoApp;
@@ -25,14 +29,14 @@ public class CreateGroupTask extends AsyncTask<Void, Void, Boolean>{
 
     TaskCallBack callBack;
 
-    public CreateGroupTask(Context c, Group g, TaskCallBack cb){
-        Log.v(tag, "create group task: ");
+    public JoinGroupTask(Context c, Group g, TaskCallBack cb){
+        Log.v(tag, "join group task: ");
         context = c;
         socoApp = (SocoApp) context;
         group = g;
         callBack = cb;
 
-        socoApp.createGroupResult = false;
+        socoApp.joinGroupResult = false;
     }
 
 
@@ -43,7 +47,7 @@ public class CreateGroupTask extends AsyncTask<Void, Void, Boolean>{
             return false;
         }
 
-        String url = UrlUtil.getCreateGroupUrl();
+        String url = UrlUtil.getJoinGroupUrl();
         Object response = request(
                 url,
                 socoApp.user_id,
@@ -62,7 +66,7 @@ public class CreateGroupTask extends AsyncTask<Void, Void, Boolean>{
         return true;
     }
 
-    Object request(
+    private Object request(
             String url,
             String user_id,
             String token,
@@ -73,10 +77,7 @@ public class CreateGroupTask extends AsyncTask<Void, Void, Boolean>{
         try {
             data.put(JsonKeys.USER_ID, user_id);
             data.put(JsonKeys.TOKEN, token);
-
-            data.put(JsonKeys.NAME, g.getGroup_name());
-            data.put(JsonKeys.INTRODUCTION, g.getDescription());
-
+            data.put(JsonKeys.GROUP_ID, g.getGroup_id());
             Log.d(tag, "created json: " + data);
         } catch (Exception e) {
             Log.e(tag, "cannot create json post data");
@@ -86,7 +87,7 @@ public class CreateGroupTask extends AsyncTask<Void, Void, Boolean>{
         return HttpUtil.executeHttpPost(url, data);
     }
 
-    boolean parse(Object response) {
+    private boolean parse(Object response) {
         Log.d(tag, "parse response: " + response.toString());
 
         try {
@@ -94,12 +95,8 @@ public class CreateGroupTask extends AsyncTask<Void, Void, Boolean>{
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
-                String id = json.getString(JsonKeys.GROUP_ID);
-                Log.d(tag, "create group success, id: " + id);
-
-                Log.d(tag, "create group success, update flag");
-                socoApp.createGroupResult = true;
-                socoApp.newGroupId = id;
+                Log.d(tag, "joingroup success, update flag");
+                socoApp.joinGroupResult = true;
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);
@@ -110,10 +107,12 @@ public class CreateGroupTask extends AsyncTask<Void, Void, Boolean>{
                                 + ", message: " + message
                                 + ", more info: " + more_info
                 );
+                socoApp.joinGroupResult = false;
             }
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();
+            socoApp.joinGroupResult = false;
             return false;
         }
 
@@ -121,7 +120,7 @@ public class CreateGroupTask extends AsyncTask<Void, Void, Boolean>{
     }
 
     protected void onPostExecute(Boolean result) {
-        callBack.doneTask(null);
+        callBack.doneTask(socoApp.joinGroupResult);
     }
 
 }
