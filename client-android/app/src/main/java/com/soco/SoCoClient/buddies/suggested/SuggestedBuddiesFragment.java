@@ -80,7 +80,7 @@ public class SuggestedBuddiesFragment extends Fragment
         pd = ProgressDialog.show(getActivity(), "Downloading users", "Please wait...");
         new Thread(new Runnable(){
             public void run(){
-                downloadBuddiesInBackgroud(getActivity(), socoApp);
+                downloadBuddiesInBackgroud(getActivity());
             }
         }).start();
 
@@ -88,9 +88,8 @@ public class SuggestedBuddiesFragment extends Fragment
         return rootView;
     }
 
-    public void downloadBuddiesInBackgroud(Context context, SocoApp socoApp) {
-        DownloadSuggestedBuddiesTask task = new DownloadSuggestedBuddiesTask(context.getApplicationContext(), this);
-        task.execute();
+    public void downloadBuddiesInBackgroud(Context context) {
+        new DownloadSuggestedBuddiesTask(context.getApplicationContext(), this).execute();
     }
 
     public void doneTask(Object o){
@@ -102,12 +101,12 @@ public class SuggestedBuddiesFragment extends Fragment
         }
         else{
             Log.e(tag, "download suggested buddy fail, notify user");
-            Toast.makeText(getActivity().getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Download buddies error, please try again later.", Toast.LENGTH_SHORT).show();
         }
         pd.dismiss();
     }
 
-    public static void initBuddyCards(View rootView, Context context, final SocoApp socoApp, Activity activity){
+    public void initBuddyCards(View rootView, Context context, final SocoApp socoApp, Activity activity){
         Log.v(tag, "start buddy card init");
 
         BuddyCardContainer mBuddyCardContainer = (BuddyCardContainer) rootView.findViewById(R.id.personcards);
@@ -116,7 +115,7 @@ public class SuggestedBuddiesFragment extends Fragment
         Resources r = context.getResources();
         socoApp.buddyCardStackAdapter = new BuddyCardStackAdapter(activity);
 
-        Log.v(tag, "normal online mode: insert downloaded event card");
+        Log.v(tag, "normal online mode: insert downloaded buddies card");
         if(socoApp.suggestedBuddies!=null) {
             for (int i = 0; i < socoApp.suggestedBuddies.size(); i++) {
                 int pos = socoApp.suggestedBuddies.size() - 1 - i;
@@ -135,33 +134,36 @@ public class SuggestedBuddiesFragment extends Fragment
                     public void onLike() {
                         Log.v(tag, "I like the card");
                         socoApp.currentBuddyIndex++;
+                        if(socoApp.suggestedBuddies.size()==socoApp.currentBuddyIndex){
+                            Log.v(tag, "show progress dialog, fetch suggested buddies from server");
+                            pd = ProgressDialog.show(getActivity(), "Downloading buddies", "Please wait...");
+                            new Thread(new Runnable(){
+                                public void run(){
+                                    downloadBuddiesInBackgroud(getActivity());
+                                }
+                            }).start();
+                        }
                     }
-
                     @Override
                     public void onDislike() {
                         Log.v(tag, "I dislike the card");
                         socoApp.currentBuddyIndex++;
+                        if(socoApp.suggestedBuddies.size()==socoApp.currentBuddyIndex){
+                            Log.v(tag, "show progress dialog, fetch suggested buddies from server");
+                            pd = ProgressDialog.show(getActivity(), "Downloading buddies", "Please wait...");
+                            new Thread(new Runnable(){
+                                public void run(){
+                                    downloadBuddiesInBackgroud(getActivity());
+                                }
+                            }).start();
+                        }
                     }
                 });
                 socoApp.buddyCardStackAdapter.add(buddyCardModel);
             }
         }else{
-            Log.w(tag, "cannot download suggested buddies, adding dummy one");
-            BuddyCardModel dummy = new BuddyCardModel();
-            User u = new User();
-            u.setUser_id("10101010101010");
-            u.setUser_name("david");
-            u.setLocation("Hong Kong");
-            u.setGroup_name("JoggingHK");
-            u.setNumber_group(1);
-            u.setEvent_name("hiking");
-            u.setNumber_event(2);
-            u.setNumber_common_buddy(10);
-            u.addInterest("Hiking");
-            u.addInterest("Jogging");
-            dummy.setUser(u);
-
-            socoApp.buddyCardStackAdapter.add(dummy);
+            Log.w(tag, "cannot download suggested buddies, notify user");
+            Toast.makeText(getActivity().getApplicationContext(), "Download buddies error, please try again later.", Toast.LENGTH_SHORT).show();
         }
         mBuddyCardContainer.setAdapter(socoApp.buddyCardStackAdapter);
         //card - end
@@ -169,108 +171,11 @@ public class SuggestedBuddiesFragment extends Fragment
         socoApp.currentBuddyIndex = 0;
     }
 
-
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.add:
-//                add();
-//                break;
-//            case R.id.personevents:
-//                Log.d(tag, "show all event friends");
-//                Intent ipe = new Intent(getActivity().getApplicationContext(), ActivityPersonEvents.class);
-//                startActivity(ipe);
-//                break;
-//            case R.id.persongroups:
-//                Log.d(tag, "show all event groups");
-//                Intent ipg = new Intent(getActivity().getApplicationContext(), ActivityPersonGroups.class);
-//                startActivity(ipg);
-//                break;
-//            case R.id.detail:
-//                Log.d(tag, "pass this event");
-//                break;
-//            case R.id.detail:
-//                Log.d(tag, "show person details");
-//                Intent ipd = new Intent(getActivity().getApplicationContext(), UserProfileActivity.class);
-//                startActivity(ipd);
-//                break;
-//            case R.id.add:
-//                Log.d(tag, "add this friend");
-//                Intent iaf = new Intent(getActivity().getApplicationContext(), AddFriendActivity.class);
-//                startActivity(iaf);
-//                break;
         }
     }
-
-
-//    public void add(String email, String nickname){
-////        String email = ((EditText) rootView.findViewById(R.id.email)).getText().toString();
-//        Log.i(tag, "save into db new member " + email);
-//        dbManagerSoco.saveContact(email, nickname);
-//
-//        //todo: send invitation to server and save contact id onserver
-//        Log.d(tag, "send add friend request to server: " + email);
-//        String url = UrlUtil.getAddFriendUrl(getActivity());
-//        AddFriendTaskAsync task = new AddFriendTaskAsync(url, email, getActivity().getApplicationContext());
-//        task.execute();
-//
-//        Toast.makeText(getActivity().getApplicationContext(), "Sent invitation success",
-//                Toast.LENGTH_SHORT).show();
-//
-////        listContacts();
-//    }
-
-//    public void listContacts() {
-//        Log.d(tag, "List contacts");
-//
-//        contactItems = new ArrayList<>();
-//        HashMap<String, String> map = dbManagerSoco.getContacts();
-//
-//        for(Map.Entry<String, String> e : map.entrySet()){
-//            Log.d(tag, "found contact: " + e.getValue() + ", " + e.getKey());
-//            contactItems.add(new EntryItem(e.getValue(), e.getKey()));
-//        }
-//
-//        Log.d(tag, "set contacts eventCardStackAdapter");
-//        contactsAdapter = new SectionEntryListAdapter(getActivity(), contactItems);
-//        ListView lv = (ListView) rootView.findViewById(R.id.listview_contacts);
-//        lv.setAdapter(contactsAdapter);
-//    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-//        Log.v(tag, "onResume start, reload conversations");
-//        singleConversations = dataLoader.loadSingleConversations();
-//        showConversations(singleConversations);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-//        if (id == R.id.add) {
-//            Log.i(tag, "Click on add.");
-//            addContact();
-//        }
-//        if (id == R.id.create) {
-//            Log.d(tag, "tap menu item: create");
-////            addContact();
-//        }
-
-        //primary function
-//        if (id == R.id.friends) {
-//            Log.d(tag, "tap menu item: contacts");
-//            Intent i = new Intent(getActivity(), AllBuddiesActivityV1.class);
-//            startActivity(i);
-//        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
 
 }

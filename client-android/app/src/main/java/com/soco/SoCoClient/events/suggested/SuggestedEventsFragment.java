@@ -48,6 +48,7 @@ public class SuggestedEventsFragment extends Fragment
 
     Context context;
 
+
     //    EventCardContainer mEventCardContainer;
     SocoApp socoApp;
 
@@ -63,10 +64,9 @@ public class SuggestedEventsFragment extends Fragment
 //        setContentView(R.layout.activity_show_active_projects);
         setHasOptionsMenu(true);
 
+
         context = getActivity().getApplicationContext();
-
         socoApp = (SocoApp) context;
-
 
 //        socoApp = (SocoApp) getActivity().getApplication();
 
@@ -103,16 +103,15 @@ public class SuggestedEventsFragment extends Fragment
         pd = ProgressDialog.show(getActivity(), "Downloading events", "Please wait...");
         new Thread(new Runnable(){
             public void run(){
-                downloadEventsInBackgroud(getActivity(), socoApp);
+                downloadEventsInBackgroud(getActivity());
             }
         }).start();
 
         return rootView;
     }
 
-    public void downloadEventsInBackgroud(Context context, SocoApp socoApp) {
-        DownloadSuggestedEventsTask task = new DownloadSuggestedEventsTask(context.getApplicationContext(), this);
-        task.execute();
+    public void downloadEventsInBackgroud(Context context) {
+        new DownloadSuggestedEventsTask(context.getApplicationContext(), this).execute();
     }
 
     public void doneTask(Object o) {
@@ -129,7 +128,7 @@ public class SuggestedEventsFragment extends Fragment
         pd.dismiss();
     }
 
-    public static void initEventCards(final View rootView, Context context, final SocoApp socoApp, Activity activity){
+    public void initEventCards(final View rootView, Context context, final SocoApp socoApp, Activity activity){
         Log.v(tag, "start event card init");
 
         socoApp.mEventCardContainer = (EventCardContainer) rootView.findViewById(R.id.eventcards);
@@ -139,95 +138,70 @@ public class SuggestedEventsFragment extends Fragment
         Resources r = context.getResources();
 //        SimpleCardStackAdapter eventCardStackAdapter = new SimpleCardStackAdapter(getActivity());
         socoApp.eventCardStackAdapter = new EventCardStackAdapter(activity);
-//        eventCardStackAdapter.add(new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1)));
-//        eventCardStackAdapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.drawable.picture2)));
-//        eventCardStackAdapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.drawable.picture3)));
-//        CardModel card = new CardModel("Title1", "Description goes here", r.getDrawable(R.drawable.picture1);
 
 
-        if(socoApp.OFFLINE_MODE) {
-            Log.w(tag, "insert testing events in offline mode for testing");
-            for (int i = 0; i < 10; i++) {
-                EventCardModel m = new EventCardModel();
-                m.setOnClickListener(new EventCardModel.OnClickListener() {
-                    @Override
-                    public void OnClickListener() {
-                        Log.v(tag, "I am pressing the card");
-                    }
-                });
-                m.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
-                    @Override
-                    public void onLike() {
-                        Log.v(tag, "I like the card");
-                        socoApp.currentEventIndex++;
-                        if(socoApp.suggestedEvents.size()==socoApp.currentEventIndex){
-                            rootView.findViewById(R.id.refresh).performClick();
-                        }
-                    }
 
-                    @Override
-                    public void onDislike() {
-                        Log.v(tag, "I dislike the card");
-                        socoApp.currentEventIndex++;
-                        if(socoApp.suggestedEvents.size()==socoApp.currentEventIndex){
-                            rootView.findViewById(R.id.refresh).performClick();
-                        }
-                    }
-                });
-                socoApp.eventCardStackAdapter.add(m);
-            }
-        }
-        else {
-            Log.v(tag, "normal online mode: insert downloaded event card");
-            for (int i = 0; i < socoApp.suggestedEvents.size(); i++) {
-                Event e = socoApp.suggestedEvents.get(i);
+        Log.v(tag, "normal online mode: insert downloaded event card");
+        for (int i = 0; i < socoApp.suggestedEvents.size(); i++) {
+            Event e = socoApp.suggestedEvents.get(i);
 
-                EventCardModel eventCardModel = new EventCardModel();
+            EventCardModel eventCardModel = new EventCardModel();
 //                    "Event #" + i,
 //                    "Description goes here",
 //                    r.getDrawable(R.drawable.picture3_crop));
-                eventCardModel.setEvent(e);
+            eventCardModel.setEvent(e);
 
-                //todo: use the above event object to set/get event attribute,
-                //todo: and remove all the below statements
-                eventCardModel.setTitle(e.getTitle());
-                eventCardModel.setAddress(e.getAddress());
-                eventCardModel.setStart_date(e.getStart_date());
-                eventCardModel.setStart_time(e.getStart_time());
-                eventCardModel.setEnd_date(e.getEnd_date());
-                eventCardModel.setEnd_time(e.getEnd_time());
-                eventCardModel.setNumber_of_comments(e.getNumber_of_comments());
-                eventCardModel.setNumber_of_likes(e.getNumber_of_likes());
-                eventCardModel.setCategories(e.getCategories());
+            //todo: use the above event object to set/get event attribute,
+            //todo: and remove all the below statements
+            eventCardModel.setTitle(e.getTitle());
+            eventCardModel.setAddress(e.getAddress());
+            eventCardModel.setStart_date(e.getStart_date());
+            eventCardModel.setStart_time(e.getStart_time());
+            eventCardModel.setEnd_date(e.getEnd_date());
+            eventCardModel.setEnd_time(e.getEnd_time());
+            eventCardModel.setNumber_of_comments(e.getNumber_of_comments());
+            eventCardModel.setNumber_of_likes(e.getNumber_of_likes());
+            eventCardModel.setCategories(e.getCategories());
 
-                eventCardModel.setOnClickListener(new EventCardModel.OnClickListener() {
-                    @Override
-                    public void OnClickListener() {
-                        Log.v(tag, "I am pressing the card");
+            eventCardModel.setOnClickListener(new EventCardModel.OnClickListener() {
+                @Override
+                public void OnClickListener() {
+                    Log.v(tag, "I am pressing the card");
+                }
+            });
+            eventCardModel.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
+                @Override
+                public void onLike() {
+                    Log.v(tag, "I like the card");
+                    socoApp.currentEventIndex++;
+                    if(socoApp.suggestedEvents.size()==socoApp.currentEventIndex){
+                        Log.v(tag, "show progress dialog, fetch suggested events from server");
+                        pd = ProgressDialog.show(getActivity(), "Downloading events", "Please wait...");
+                        new Thread(new Runnable(){
+                            public void run(){
+                                downloadEventsInBackgroud(getActivity());
+                            }
+                        }).start();
                     }
-                });
-                eventCardModel.setOnCardDismissedListener(new EventCardModel.OnCardDismissedListener() {
-                    @Override
-                    public void onLike() {
-                        Log.v(tag, "I like the card");
-                        socoApp.currentEventIndex++;
-                        if(socoApp.suggestedEvents.size()==socoApp.currentEventIndex){
-                            rootView.findViewById(R.id.refresh).performClick();
-                        }
+                }
+                @Override
+                public void onDislike() {
+                    Log.v(tag, "I dislike the card");
+                    socoApp.currentEventIndex++;
+                    if(socoApp.suggestedEvents.size()==socoApp.currentEventIndex){
+                        Log.v(tag, "show progress dialog, fetch suggested events from server");
+                        pd = ProgressDialog.show(getActivity(), "Downloading events", "Please wait...");
+                        new Thread(new Runnable(){
+                            public void run(){
+                                downloadEventsInBackgroud(getActivity());
+                            }
+                        }).start();
                     }
-
-                    @Override
-                    public void onDislike() {
-                        Log.v(tag, "I dislike the card");
-                        socoApp.currentEventIndex++;
-                        if(socoApp.suggestedEvents.size()==socoApp.currentEventIndex){
-                            rootView.findViewById(R.id.refresh).performClick();
-                        }
-                    }
-                });
-                socoApp.eventCardStackAdapter.add(eventCardModel);
-            }
+                }
+            });
+            socoApp.eventCardStackAdapter.add(eventCardModel);
         }
+
 
         socoApp.mEventCardContainer.setAdapter(socoApp.eventCardStackAdapter);
         //card - end

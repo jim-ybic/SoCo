@@ -173,8 +173,8 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
             ((TextView) this.findViewById(R.id.creator_name)).setText(event.getCreator_name());
             this.findViewById(R.id.creator_name).setTag(event.getCreator_id());
         }
-        ((TextView) this.findViewById(R.id.likeevent)).setText(Integer.toString(event.getNumber_of_likes()));
-        LikeUtil.initialLikeButton(((Button) this.findViewById(R.id.likeevent)), event.isLikedEvent());
+//        ((TextView) this.findViewById(R.id.likeevent)).setText(Integer.toString(event.getNumber_of_likes()));
+//        LikeUtil.initialLikeButton(((Button) this.findViewById(R.id.likeevent)), event.isLikedEvent());
     }
 
     public void doneTask(Object o){
