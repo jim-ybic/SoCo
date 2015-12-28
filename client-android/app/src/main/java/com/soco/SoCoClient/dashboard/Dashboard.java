@@ -656,5 +656,12 @@ public class Dashboard extends ActionBarActivity implements
         startActivity(i);
     }
 
+    public void buddydetails(View view) {
+        Log.v(tag, "show buddy details");
+        Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+        String user_id = (String)view.getTag();
+        i.putExtra(User.USER_ID, user_id);
+        startActivity(i);
+    }
 
 }

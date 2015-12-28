@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
+import com.soco.SoCoClient.buddies.allbuddies.ui.MyBuddiesFragment;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.buddies.suggested.SuggestedBuddiesFragment;
 import com.soco.SoCoClient.events.suggested.SuggestedEventsFragment;
@@ -25,12 +26,8 @@ public class DashboardTabsAdapter extends FragmentPagerAdapter {
             case Config.DASHBOARD_TAB_INDEX_EVENTS:
                 return new SuggestedEventsFragment();
             case Config.DASHBOARD_TAB_INDEX_FRIENDS:
-//                return new FragmentContactsObs();
-                return new SuggestedBuddiesFragment();
-//            case DataConfig.DASHBOARD_TAB_INDEX_STREAM:
-//                return new FragmentStream();
-//            case DataConfig.DASHBOARD_TAB_INDEX_MESSAGES:
-//                return new FragmentMessages();
+//                return new SuggestedBuddiesFragment();    //Event Buddies
+                return new MyBuddiesFragment();             //APA
         }
 
         return null;
