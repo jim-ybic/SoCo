@@ -26,7 +26,7 @@ public class MyMatchFragment extends Fragment implements View.OnClickListener,Ta
 
     static String tag = "MyMatchFragment";
 
-    static final int LOAD_BATCH_SIZE = 10;
+    static final int LOAD_BATCH_SIZE = 20;
 
     View rootView;
     Context context;

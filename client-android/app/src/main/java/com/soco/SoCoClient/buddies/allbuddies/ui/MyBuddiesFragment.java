@@ -26,7 +26,7 @@ public class MyBuddiesFragment extends Fragment implements View.OnClickListener,
 
     static String tag = "MyBuddiesFragment";
 
-    static final int LOAD_BATCH_SIZE = 10;
+    static final int LOAD_BATCH_SIZE = 20;
 
     View rootView;
     Context context;

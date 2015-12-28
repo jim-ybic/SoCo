@@ -118,6 +118,7 @@ public class AllBuddiesActivity extends ActionBarActivity implements
     public void onTabReselected(android.support.v7.app.ActionBar.Tab tab,
                                 android.support.v4.app.FragmentTransaction fragmentTransaction) {
     }
+
     public void userdetails(View view){
         Log.v(tag, "show buddy details");
         Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
@@ -125,6 +126,7 @@ public class AllBuddiesActivity extends ActionBarActivity implements
         i.putExtra(User.USER_ID, user_id);
         startActivity(i);
     }
+
     public void addFriend(View view){
         TextView tv = (TextView)  view.findViewById(R.id.addFriend);
         if(tv.isEnabled()) {
