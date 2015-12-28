@@ -68,9 +68,11 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 		if(!StringUtil.isEmptyString(e.getStart_date())) {
 			((TextView) convertView.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(e.getStart_date(), "dd-MMM"));
 			((TextView) convertView.findViewById(R.id.textStartDayOfWeek)).setText(TimeUtil.getDayOfStartDate(e.getStart_date()));
+			Log.v(tag, "start day of week: " + TimeUtil.getDayOfStartDate(e.getStart_date()));
 		}
 		if(!StringUtil.isEmptyString(e.getStart_time())||StringUtil.isEmptyString(e.getEnd_time())) {
 			((TextView) convertView.findViewById(R.id.textStartEndTime)).setText(TimeUtil.getTextStartEndTime(e));
+			Log.v(tag, "start end time: " + TimeUtil.getTextStartEndTime(e));
 		}
 
 		Log.v(tag, "comment out below line as event comment function not available yet");
