@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.buddies.allbuddies.ui.MyBuddiesListEntryItem;
+import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.ui.card.model.Orientations;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.common.JoinEventActivity;
@@ -30,35 +32,23 @@ import com.soco.SoCoClient.events.model.ui.EventCardContainer;
 import com.soco.SoCoClient.events.model.ui.EventCardModel;
 import com.soco.SoCoClient.events.model.ui.EventCardStackAdapter;
 import com.soco.SoCoClient.events.service.DownloadSuggestedEventsService;
+import com.soco.SoCoClient.events.service.DownloadSuggestedEventsTask;
+
+import java.util.ArrayList;
 
 //import com.soco.SoCoClient.control.config.ref.DataConfigV1;
 
-public class SuggestedEventsFragment extends Fragment implements View.OnClickListener {
+public class SuggestedEventsFragment extends Fragment
+        implements View.OnClickListener, TaskCallBack {
 
     static String tag = "SuggestedEventsFragment";
-
-    static final int WAIT_INTERVAL_IN_SECOND = 1;
-    static final int WAIT_ITERATION = 10;
-    static final int THOUSAND = 1000;
-
-
-    //local variable
-//    ListView lv_active_programs;
-//    EditText et_quick_add;
-
-    // Local variable
-//    private DBManagerSoco dbmgrSoco;
-//    private ArrayList<Activity> activities;
-//    private String loginEmail, loginPassword;
-//    ArrayList<Item> allListItems;
-//    ArrayList<Folder> folders; //name, desc
 
     View rootView;
 //    SocoApp socoApp;
 
     Context context;
 
-//    EventCardContainer mEventCardContainer;
+    //    EventCardContainer mEventCardContainer;
     SocoApp socoApp;
 
     ProgressDialog pd;
@@ -103,9 +93,8 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-//        Log.d(tag, "on create view");
+        Log.v(tag, "on create view");
         rootView = inflater.inflate(R.layout.fragment_suggested_events, container, false);
-//        Log.d(tag, "Found root view: " + rootView);
 
         Log.v(tag, "update global variable");
         socoApp.suggestedEventsView = rootView;
@@ -115,188 +104,30 @@ public class SuggestedEventsFragment extends Fragment implements View.OnClickLis
         new Thread(new Runnable(){
             public void run(){
                 downloadEventsInBackgroud(getActivity(), socoApp);
-                downloadEventsHandler.sendEmptyMessage(0);
             }
         }).start();
-
-//        Log.v(tag, "create cards");
-//        initEventCards(rootView);
-
-//        rootView.findViewById(R.id.eventbuddies).setOnClickListener(this);
-//        rootView.findViewById(R.id.eventgroups).setOnClickListener(this);
-//        rootView.findViewById(R.id.detail).setOnClickListener(this);
-//        rootView.findViewById(R.id.more).setOnClickListener(this);
-//        rootView.findViewById(R.id.join).setOnClickListener(this);
-
-
-//        findViewItems(rootView);
-
-        //set button listeners
-//        rootView.findViewById(R.id.add).setOnClickListener(this);
-//        rootView.findViewById(R.id.create).setOnClickListener(this);
-//        rootView.findViewById(R.id.archive).setOnClickListener(this);
-//        rootView.findViewById(R.id.exit).setOnClickListener(this);
-
-//        refreshList();
-//        show(events);
-
-//        lv_active_programs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @SuppressWarnings("unchecked")
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-////                if(allListItems.get(position).getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_ENTRY)) {
-//
-//                //new code start
-//                Event e = events.get(position);
-//                Log.d(tag, "tap on event: " + e.toString());
-//
-//                Intent i = new Intent(view.getContext(), ActivityEventDetail.class);
-//                i.putExtra(DataConfig.EXTRA_EVENT_SEQ, e.getSeq());
-//                startActivityForResult(i, DataConfig.INTENT_SHOW_EVENT_DETAIL);
-//                //new code end
-//
-////                    EntryItem ei = (EntryItem) allListItems.get(position);
-////                    Log.d(tag, "You clicked on activity: " + ei.name);
-////
-////                    String name = ei.name;
-////                    int pid = ActivityUtil.findPidByPname(activities, name);
-////                    socoApp.pid = pid;
-////                    String pid_onserver = dbmgrSoco.findActivityIdOnserver(pid);
-////                    if(pid_onserver == null)
-////                        Log.e(tag, "cannot find activity remote id ");
-////                    else
-////                        socoApp.pid_onserver = Integer.parseInt(pid_onserver);
-////                    Log.i(tag, "pid/pid_onserver: " + pid + ", " + pid_onserver);
-//
-//                    //new fragment-based activity
-////                    Intent i = new Intent(view.getContext(), SingleActivityActivity.class);
-////                    startActivityForResult(i, com.soco.SoCoClient.control.config.DataConfigV1.INTENT_SHOW_EVENT_DETAIL);
-//
-//
-//
-////                }
-////                else if(allListItems.get(position).getType().equals(GeneralConfigV1.LIST_ITEM_TYPE_FOLDER)) {
-////                    FolderItem fi = (FolderItem) allListItems.get(position);
-////                    Log.d(tag, "You clicked on folder: " + fi.name);
-////
-////                    socoApp.currentPath += fi.name + "/";
-////                    Log.d(tag, "reload activities and folders from new current path " + socoApp.currentPath);
-////                    activities = dbmgrSoco.loadActiveActivitiesByPath(socoApp.currentPath);
-////                    folders = dbmgrSoco.loadFoldersByPath(socoApp.currentPath);
-////                    refreshList();
-////
-////                    if(socoApp.currentPath.equals(GeneralConfigV1.PATH_ROOT))
-////                        getActivity().setTitle("Dashboard");
-////                    else
-////                        getActivity().setTitle(fi.name);
-////                }
-//            }
-//        });
-
-//        rootView.setFocusableInTouchMode(true);
-//        rootView.requestFocus();
-//        rootView.setOnKeyListener(new View.OnKeyListener() {
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                Log.d(tag, "keyCode: " + keyCode + ", eventAction: " + event.getAction());
-//                if (event.getAction() != KeyEvent.ACTION_DOWN)      //only process key down event
-//                    return true;
-//
-//                if( keyCode == KeyEvent.KEYCODE_BACK ) {    //back-key pressed
-//                    Log.i(tag, "onKey Back listener");
-////                    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//                    if(socoApp.currentPath.equals(GeneralConfigV1.PATH_ROOT))
-//                        Toast.makeText(getActivity().getApplicationContext(),
-//                                "Top level already, click again to exit", Toast.LENGTH_SHORT).show();
-//                    else {
-//                        String path = socoApp.currentPath;
-//                        path = path.substring(0, path.length()-1);
-//                        int pos = path.lastIndexOf("/");
-//                        path = path.substring(0, pos+1);
-//                        Log.d(tag, "new current path " + path + ", reload data and refresh UI");
-//                        socoApp.currentPath = path;
-//                        activities = dbmgrSoco.loadActiveActivitiesByPath(path);
-//                        folders = dbmgrSoco.loadFoldersByPath(path);
-////                        refreshList();
-//                        show(events);
-//                    }
-//
-//                    String title = "Dashboard";
-//                    if(!socoApp.currentPath.equals(GeneralConfigV1.PATH_ROOT)){
-//                        //e.g. currentPath = /Folder1/Folder2/
-//                        String path = socoApp.currentPath.substring(0, socoApp.currentPath.length()-1);
-//                        Log.d(tag, "path: " + path);
-//                        int pos = path.lastIndexOf("/");
-//                        Log.d(tag, "pos: " + pos);
-//                        title = path.substring(pos+1, path.length());
-//                        Log.d(tag, "name: " + title);
-////                        getActivity().setTitle(folder);
-//                    }
-//                    Log.d(tag, "set activity name: " + title);
-//                    getActivity().setTitle(title);
-////                    Log.d(tag, "current path: " + socoApp.currentPath);
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-//            }
-//        });
-
-//        Log.v(tag, "set activity name: " + socoApp.currentPath);
-//        getActivity().setTitle(socoApp.currentPath);
 
         return rootView;
     }
 
-    public static void downloadEventsInBackgroud(Context context, SocoApp socoApp) {
-        Log.v(tag, "start download events service at backend");
-        Intent i = new Intent(context, DownloadSuggestedEventsService.class);
-        context.startService(i);
-
-        Log.v(tag, "set response flag as false");
-        socoApp.downloadSuggestedEventsResponse = false;
-
-        Log.v(tag, "wait and check response flag");
-        int count = 0;
-        while(!socoApp.downloadSuggestedEventsResponse && count < WAIT_ITERATION) {   //wait for 10s
-            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
-            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
-            while (System.currentTimeMillis() < endTime) {
-                synchronized (context) {
-                    try {
-                        context.wait(endTime - System.currentTimeMillis());
-                    } catch (Exception e) {
-                        Log.e(tag, "Error in waiting");
-                    }
-                }
-            }
-            count++;
-        }
+    public void downloadEventsInBackgroud(Context context, SocoApp socoApp) {
+        DownloadSuggestedEventsTask task = new DownloadSuggestedEventsTask(context.getApplicationContext(), this);
+        task.execute();
     }
 
-    Handler downloadEventsHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Log.v(tag, "handle receive message and dismiss dialog");
-
-            if(socoApp.downloadSuggestedEventsResult){
-                if(socoApp.OFFLINE_MODE){
-                    Log.w(tag, "offline mode, bypassed downloaded events");
-                }
-                else {
-                    Log.v(tag, "download suggested event - success");
-                    Toast.makeText(getActivity().getApplicationContext(), socoApp.suggestedEvents.size() + " events downloaded.", Toast.LENGTH_SHORT).show();
-                    initEventCards(rootView, context, socoApp, getActivity());
-                }
-            }
-            else{
-                Log.e(tag, "download suggested event fail, notify user");
-                Toast.makeText(getActivity().getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
-            }
-
-            pd.dismiss();
+    public void doneTask(Object o) {
+        Log.v(tag, "handle receive message and dismiss dialog");
+        if(socoApp.downloadSuggestedEventsResult){
+            Log.v(tag, "download suggested event - success");
+            Toast.makeText(getActivity().getApplicationContext(), socoApp.suggestedEvents.size() + " events downloaded.", Toast.LENGTH_SHORT).show();
+            initEventCards(rootView, context, socoApp, getActivity());
         }
-    };
+        else{
+            Log.e(tag, "download suggested event fail, notify user");
+            Toast.makeText(getActivity().getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
+        }
+        pd.dismiss();
+    }
 
     public static void initEventCards(final View rootView, Context context, final SocoApp socoApp, Activity activity){
         Log.v(tag, "start event card init");

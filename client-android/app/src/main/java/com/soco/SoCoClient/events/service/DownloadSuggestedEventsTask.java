@@ -1,13 +1,13 @@
 package com.soco.SoCoClient.events.service;
 
-
-import android.app.IntentService;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 
+import com.soco.SoCoClient.buddies.allbuddies.ui.MyBuddiesListEntryItem;
 import com.soco.SoCoClient.common.HttpStatus;
+import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
@@ -18,39 +18,35 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-@Deprecated
-public class DownloadSuggestedEventsService extends IntentService {
 
-    static final String tag = "DownloadSuggestedEvents";
+public class DownloadSuggestedEventsTask extends AsyncTask<String, Void, Boolean> {
+
+    String tag = "DownloadSuggestedEventsTask";
+
     static final String PERFS_NAME = "EVENT_BUDDY_PERFS";
     static final String USER_ID = "user_id";
     static final String TOKEN = "token";
 
     Context context;
-    static SocoApp socoApp;
+    SocoApp socoApp;
+    TaskCallBack callBack;
 
-    public DownloadSuggestedEventsService() {
-        super("CreateEventService");
+    public DownloadSuggestedEventsTask(Context context, TaskCallBack cb){
+        this.context = context;
+        this.socoApp = (SocoApp) context;
+        this.callBack = cb;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();   //important
-
-        context = getApplicationContext();
-        socoApp = (SocoApp) getApplicationContext();
-    }
-
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        Log.d(tag, "download suggested event service, handle intent:" + intent
-                        + ", userid: " + socoApp.user_id + ", token: " + socoApp.token
+    protected Boolean doInBackground(String... params) {
+        Log.d(tag, "download suggested event task, "
+                        + "userid: " + socoApp.user_id + ", token: " + socoApp.token
         );
 
         Log.v(tag, "validate data");
@@ -71,7 +67,7 @@ public class DownloadSuggestedEventsService extends IntentService {
                 Log.e(tag, "cannot get userid/token from shared preference");
                 socoApp.downloadSuggestedEventsResponse = true;
                 socoApp.downloadSuggestedEventsResult = false;
-                return;
+                return false;
             }
         }
 
@@ -93,10 +89,11 @@ public class DownloadSuggestedEventsService extends IntentService {
             Log.e(tag, "response is null, cannot parse");
         }
 
-        return;
+        Log.v(tag, "return true");
+        return true;
     }
 
-    public static Object request(
+    Object request(
             String url,
             String user_id,
             String token
@@ -161,7 +158,7 @@ public class DownloadSuggestedEventsService extends IntentService {
 //        return myObject;
 //    }
 
-    public boolean parse(Object response) {
+    boolean parse(Object response) {
 //        Log.d(tag, "parse response: " + response.getEntity().toString());
 
         Log.v(tag, "clear suggested events");
@@ -193,7 +190,7 @@ public class DownloadSuggestedEventsService extends IntentService {
                 String message = json.getString(JsonKeys.MESSAGE);
                 String more_info = json.getString(JsonKeys.MORE_INFO);
                 Log.d(tag, "create event fail, " +
-                        "error code: " + error_code + ", message: " + message + ", more info: " + more_info
+                                "error code: " + error_code + ", message: " + message + ", more info: " + more_info
                 );
                 socoApp.downloadSuggestedEventsResult = false;
             }
@@ -207,4 +204,9 @@ public class DownloadSuggestedEventsService extends IntentService {
         return true;
     }
 
+
+    protected void onPostExecute(Boolean result){
+        Log.v(tag, "post execute");
+        callBack.doneTask(null);
+    }
 }
