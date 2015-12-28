@@ -203,6 +203,8 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
+        Log.v(tag, "on measure: " + widthMeasureSpec + ", " + heightMeasureSpec);
+
         int requestedWidth = getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
         int requestedHeight = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
         int childWidth, childHeight;
@@ -238,6 +240,8 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
 
+        Log.v(tag, "on layout: " + changed + ", " + l + ", " + t + ", " + r + ", " + b);
+
         for (int i = 0; i < getChildCount(); i++) {
             boundsRect.set(0, 0, getWidth(), getHeight());
 
@@ -259,12 +263,13 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
         if (mGestureDetector.onTouchEvent(event)) {
             return true;
         }
-//        Log.v(tag, "MotionEvent action: " + MotionEvent.actionToString(event.getActionMasked()) + " ");
+        Log.v(tag, "on touch event: " + event);
         final int pointerIndex;
         final float x, y;
         final float dx, dy;
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+                Log.v(tag, "motion event ACTION_DOWN");
                 mTopCard.getHitRect(childRect);
 
                 pointerIndex = event.getActionIndex();
@@ -287,7 +292,7 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
 
                 break;
             case MotionEvent.ACTION_MOVE:
-
+                Log.v(tag, "motion event ACTION_MOVE");
                 pointerIndex = event.findPointerIndex(mActivePointerId);
                 x = event.getX(pointerIndex);
                 y = event.getY(pointerIndex);
@@ -314,6 +319,7 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                Log.v(tag, "motion event ACTION_UP/CANCEL");
                 if (!mDragging) {
                     return true;
                 }
@@ -322,14 +328,17 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
                 ValueAnimator animator = ObjectAnimator.ofPropertyValuesHolder(mTopCard,
                         PropertyValuesHolder.ofFloat("translationX", 0),
                         PropertyValuesHolder.ofFloat("translationY", 0),
-                        PropertyValuesHolder.ofFloat("rotation", (float) Math.toDegrees(mRandom.nextGaussian() * DISORDERED_MAX_ROTATION_RADIANS)),
+//                        PropertyValuesHolder.ofFloat("rotation", (float) Math.toDegrees(mRandom.nextGaussian() * DISORDERED_MAX_ROTATION_RADIANS)),   // Orientation.Disordered
+                        PropertyValuesHolder.ofFloat("rotation", 0),    // Orientation.Ordered
                         PropertyValuesHolder.ofFloat("pivotX", mTopCard.getWidth() / 2.f),
                         PropertyValuesHolder.ofFloat("pivotY", mTopCard.getHeight() / 2.f)
                 ).setDuration(250);
+                Log.v(tag, "animator: " + animator);
                 animator.setInterpolator(new AccelerateInterpolator());
                 animator.start();
                 break;
             case MotionEvent.ACTION_POINTER_UP:
+                Log.v(tag, "motion event ACTION_POINTER_UP");
                 pointerIndex = event.getActionIndex();
                 final int pointerId = event.getPointerId(pointerIndex);
 
@@ -348,7 +357,7 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        Log.v(tag, "event: " + event);
+        Log.v(tag, "intercept touch event: " + event);
 
         if (mTopCard == null) {
             return false;
@@ -364,6 +373,7 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
                 mTopCard.getHitRect(childRect);
 
                 EventCardModel eventCardModel = (EventCardModel)getAdapter().getItem(getChildCount()-1);
+                Log.v(tag, "event card model: " + eventCardModel);
 
                 if (eventCardModel.getOnClickListener() != null) {
                     eventCardModel.getOnClickListener().OnClickListener();
@@ -371,6 +381,7 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
                 pointerIndex = event.getActionIndex();
                 x = event.getX(pointerIndex);
                 y = event.getY(pointerIndex);
+                Log.v(tag, "x: " + x + ", y: " + y);
 
                 if (!childRect.contains((int) x, (int) y)) {
                     return false;
@@ -379,6 +390,7 @@ public class EventCardContainer extends AdapterView<ListAdapter> {
                 mLastTouchX = x;
                 mLastTouchY = y;
                 mActivePointerId = event.getPointerId(pointerIndex);
+                Log.v(tag, "mActionPointerId: " + mActivePointerId);
                 break;
             case MotionEvent.ACTION_MOVE:
                 pointerIndex = event.findPointerIndex(mActivePointerId);
