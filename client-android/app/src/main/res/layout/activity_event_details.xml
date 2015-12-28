@@ -245,35 +245,18 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:background="#ffffb73f">
-        <LinearLayout
+
+        <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical|left"
-            android:gravity="left"
-            android:paddingLeft="12dp"
-            android:paddingTop="12dp"
-            android:paddingRight="12dp"
-            android:paddingBottom="12dp"
-            android:clickable="true"
-            android:onClick="close">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/actionbar_close"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:orientation="horizontal">
-        </LinearLayout>
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/actionbar_close"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp" />
+    </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="140dp"
             android:layout_weight="1"
             android:orientation="vertical"
             android:background="#ffffb73f"
@@ -282,7 +265,7 @@
                 android:id="@+id/textTitle"
                 style="@android:style/TextAppearance.Large.Inverse"
                 android:textColor="@android:color/white"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

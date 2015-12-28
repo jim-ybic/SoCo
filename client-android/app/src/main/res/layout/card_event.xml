@@ -110,7 +110,7 @@
             <TextView
                 android:id="@+id/title"
                 android:textColor="@android:color/white"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 android:fontFamily="Roboto"
                 android:layout_width="match_parent"
@@ -118,8 +118,7 @@
                 android:padding="10dp"
                 android:gravity="center"
                 android:clickable="true"
-                android:onClick="eventdetails"
-                android:hint="title" />
+                android:onClick="eventdetails" />
             <!--<ImageView-->
             <!--android:id="@+id/banner"-->
             <!--android:layout_width="wrap_content"-->
