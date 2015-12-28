@@ -1,16 +1,16 @@
 package com.soco.SoCoClient.buddies.service;
 
-
-import android.app.IntentService;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.soco.SoCoClient.common.HttpStatus;
+import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.EventsResponseUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.userprofile.model.User;
 import com.soco.SoCoClient.userprofile.model.UserBrief;
@@ -26,33 +26,28 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-@Deprecated
-public class DownloadSuggestedBuddiesService extends IntentService {
 
-    static final String tag = "DownloadSuggestedBuddi";
+public class DownloadSuggestedBuddiesTask extends AsyncTask<String, Void, Boolean> {
+
+    String tag = "DownloadSuggestedBuddi";
+
     static final String PERFS_NAME = "EVENT_BUDDY_PERFS";
     static final String USER_ID = "user_id";
     static final String TOKEN = "token";
 
     Context context;
-    static SocoApp socoApp;
+    SocoApp socoApp;
+    TaskCallBack callBack;
 
-    public DownloadSuggestedBuddiesService() {
-        super("DownloadSuggestedBuddiesService");
+    public DownloadSuggestedBuddiesTask(Context context, TaskCallBack cb) {
+        this.context = context;
+        this.socoApp = (SocoApp) context;
+        this.callBack = cb;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();   //important
-
-        context = getApplicationContext();
-        socoApp = (SocoApp) getApplicationContext();
-    }
-
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        Log.d(tag, "download suggested buddies service, handle intent:" + intent
-                        + ", userid: " + socoApp.user_id + ", token: " + socoApp.token
+    protected Boolean doInBackground(String... params) {
+        Log.d(tag, "download suggested buddies service,"
+                        + "userid: " + socoApp.user_id + ", token: " + socoApp.token
         );
 
         Log.v(tag, "validate data");
@@ -62,24 +57,23 @@ public class DownloadSuggestedBuddiesService extends IntentService {
 //            Log.e(tag, "user id or token or event is not available");
 //            return;
 //        }
-        if(!socoApp.SKIP_LOGIN &&
+        if (!socoApp.SKIP_LOGIN &&
                 (socoApp.user_id == null || socoApp.user_id.isEmpty()
-                        || socoApp.token == null || socoApp.token.isEmpty())){
+                        || socoApp.token == null || socoApp.token.isEmpty())) {
             Log.e(tag, "user id or token or event is not available in memory");
 
             SharedPreferences settings = context.getSharedPreferences(PERFS_NAME, 0);
             String userId = settings.getString(USER_ID, "");
             String token = settings.getString(TOKEN, "");
-            Log.v(tag, "get stored userid/token: " + userId+ ", " + token);
-            if(token != null && !token.isEmpty()){
+            Log.v(tag, "get stored userid/token: " + userId + ", " + token);
+            if (token != null && !token.isEmpty()) {
                 socoApp.user_id = userId;
                 socoApp.token = token;
-            }
-            else {
+            } else {
                 Log.e(tag, "cannot get userid/token from shared preference");
                 socoApp.downloadSuggestedEventsResponse = true;
                 socoApp.downloadSuggestedEventsResult = false;
-                return;
+                return false;
             }
         }
 
@@ -96,15 +90,14 @@ public class DownloadSuggestedBuddiesService extends IntentService {
         if (response != null) {
             Log.v(tag, "parse response");
             parse(response);
-        }
-        else {
+        } else {
             Log.e(tag, "response is null, cannot parse");
         }
 
-        return;
+        return true;
     }
 
-    public static Object request(
+    private Object request(
             String url,
             String user_id,
             String token
@@ -130,7 +123,7 @@ public class DownloadSuggestedBuddiesService extends IntentService {
         return HttpUtil.executeHttpGet(url);
     }
 
-    public boolean parse(Object response) {
+    private boolean parse(Object response) {
 //        Log.d(tag, "parse response: " + response.getEntity().toString());
 
         Log.v(tag, "clear suggested buddies");
@@ -139,7 +132,7 @@ public class DownloadSuggestedBuddiesService extends IntentService {
         try {
             JSONObject json;
             json = new JSONObject(response.toString());
-                Log.d(tag, "converted json: " + json);
+            Log.d(tag, "converted json: " + json);
 
 
             int status = json.getInt(JsonKeys.STATUS);
@@ -169,7 +162,7 @@ public class DownloadSuggestedBuddiesService extends IntentService {
                 String message = json.getString(JsonKeys.MESSAGE);
                 String more_info = json.getString(JsonKeys.MORE_INFO);
                 Log.d(tag, "create buddy fail, " +
-                        "error code: " + error_code + ", message: " + message + ", more info: " + more_info
+                                "error code: " + error_code + ", message: " + message + ", more info: " + more_info
                 );
                 socoApp.downloadSuggestedBuddiesResult = false;
             }
@@ -274,4 +267,8 @@ public class DownloadSuggestedBuddiesService extends IntentService {
             Log.v(tag, "no interest info found in json");
     }
 
+    protected void onPostExecute(Boolean result){
+        Log.v(tag, "post execute");
+        callBack.doneTask(null);
+    }
 }
