@@ -26,6 +26,8 @@ public class MyMatchFragment extends Fragment implements View.OnClickListener,Ta
 
     static String tag = "MyMatchFragment";
 
+    static final int LOAD_BATCH_SIZE = 10;
+
     View rootView;
     Context context;
     SocoApp socoApp;
@@ -34,6 +36,7 @@ public class MyMatchFragment extends Fragment implements View.OnClickListener,Ta
     ArrayList<MyMatchListEntryItem> matchList = new ArrayList<>();
     private SwipeRefreshLayoutBottom swipeContainer;
     private int start_index=0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +44,6 @@ public class MyMatchFragment extends Fragment implements View.OnClickListener,Ta
         context = getActivity().getApplicationContext();
         socoApp = (SocoApp)context;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,6 +89,7 @@ public class MyMatchFragment extends Fragment implements View.OnClickListener,Ta
         switch (v.getId()) {
         }
     }
+
     private void startTask(){
         DownloadMyMatchTask dmmt = new DownloadMyMatchTask(SocoApp.user_id,SocoApp.token,this);
         if(start_index!=0){
@@ -96,13 +99,13 @@ public class MyMatchFragment extends Fragment implements View.OnClickListener,Ta
         }
     }
     public void doneTask(Object o){
-        if(o!=null&& o instanceof ArrayList) {
+        if(o!=null && o instanceof ArrayList) {
             ArrayList<MyMatchListEntryItem> result = (ArrayList<MyMatchListEntryItem>) o;
 //todo temporary for testing, only show 2 at one time. later can use the commented method
 //            for(MyMatchListEntryItem e:result){
 //                matchList.add(e);
 //            }
-            for(int i=0;i<2&&i<result.size();i++){
+            for(int i=0; i<LOAD_BATCH_SIZE && i<result.size(); i++){
                 matchList.add(result.get(i));
             }
             if(matchList!=null) {

@@ -71,8 +71,8 @@ public class DownloadSuggestedBuddiesTask extends AsyncTask<String, Void, Boolea
                 socoApp.token = token;
             } else {
                 Log.e(tag, "cannot get userid/token from shared preference");
-                socoApp.downloadSuggestedEventsResponse = true;
-                socoApp.downloadSuggestedEventsResult = false;
+                socoApp.downloadSuggestedBuddiesResponse = true;
+                socoApp.downloadSuggestedBuddiesResult = false;
                 return false;
             }
         }
@@ -106,15 +106,10 @@ public class DownloadSuggestedBuddiesTask extends AsyncTask<String, Void, Boolea
             url += "?";
 
         List<NameValuePair> params = new LinkedList<>();
-        if(socoApp.SKIP_LOGIN) {
-            Log.v(tag, "test user id: " + JsonKeys.TEST_USER_ID + ", test token: " + JsonKeys.TEST_TOKEN);
-            params.add(new BasicNameValuePair(JsonKeys.USER_ID, JsonKeys.TEST_USER_ID));
-            params.add(new BasicNameValuePair(JsonKeys.TOKEN, JsonKeys.TEST_TOKEN));
-        }
-        else{
-            params.add(new BasicNameValuePair(JsonKeys.USER_ID, user_id));
-            params.add(new BasicNameValuePair(JsonKeys.TOKEN, token));
-        }
+
+        params.add(new BasicNameValuePair(JsonKeys.USER_ID, user_id));
+        params.add(new BasicNameValuePair(JsonKeys.TOKEN, token));
+
         String paramString = URLEncodedUtils.format(params, "utf-8");
 
         url += paramString;

@@ -26,6 +26,8 @@ public class MyBuddiesFragment extends Fragment implements View.OnClickListener,
 
     static String tag = "MyBuddiesFragment";
 
+    static final int LOAD_BATCH_SIZE = 10;
+
     View rootView;
     Context context;
     SocoApp socoApp;
@@ -103,15 +105,16 @@ public class MyBuddiesFragment extends Fragment implements View.OnClickListener,
     }
 
     public void doneTask(Object o) {
+        Log.v(tag, "done task: " + o.toString());
         if (o != null && o instanceof ArrayList) {
             ArrayList<MyBuddiesListEntryItem> result = (ArrayList<MyBuddiesListEntryItem>) o;
 //            for(MyMatchListEntryItem e:result){
 //                matchList.add(e);
 //            }
-            for (int i = 0; i < 2 && i < result.size(); i++) {
+            for (int i = 0; i < LOAD_BATCH_SIZE && i < result.size(); i++) {
                 buddyList.add(result.get(i));
             }
-            Log.v(tag, "done task: ");
+
 //            if(firstTime){
 //                adapter = new MyBuddiesListAdapter(getActivity(), buddyList);
 //                list = (ListView) rootView.findViewById(R.id.friends);

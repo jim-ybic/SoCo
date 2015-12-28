@@ -38,6 +38,7 @@ public class DownloadMyMatchTask extends AsyncTask<String, Void, ArrayList<MyMat
         this.token=token;
         callBack = cb;
     }
+
     protected ArrayList<MyMatchListEntryItem> doInBackground(String... params) {
         Log.v(tag, "validate data");
 
