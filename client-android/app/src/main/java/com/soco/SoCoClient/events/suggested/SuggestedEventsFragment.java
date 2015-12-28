@@ -111,6 +111,8 @@ public class SuggestedEventsFragment extends Fragment
     }
 
     public void downloadEventsInBackgroud(Context context) {
+        Log.v(tag, "downloadEventsInBackgroud start");
+        socoApp.downloadSuggestedEventsResult = false;
         new DownloadSuggestedEventsTask(context.getApplicationContext(), this).execute();
     }
 

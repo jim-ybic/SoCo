@@ -37,22 +37,11 @@ public class SuggestedBuddiesFragment extends Fragment
 
     static String tag = "SuggestedBuddies";
 
-    //    int pid;
-//    String pid_onserver;
     SocoApp socoApp;
     ProgressDialog pd;
-//    Profile profile;
-//    DBManagerSoco dbManagerSoco;
-//    ArrayList<Item> contactItems;
-//    SectionEntryListAdapter contactsAdapter;
-
-    //new code
     View rootView;
     Context context;
-    //    DataLoader dataLoader;
     ArrayList<SingleConversation> singleConversations;
-
-//    BuddyCardContainer mBuddyCardContainer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,10 +49,7 @@ public class SuggestedBuddiesFragment extends Fragment
         setHasOptionsMenu(true);
 
         context = getActivity().getApplicationContext();
-
         socoApp = (SocoApp) context;
-//        dataLoader = new DataLoader(context);
-
     }
 
     @Override
@@ -84,11 +70,11 @@ public class SuggestedBuddiesFragment extends Fragment
             }
         }).start();
 
-//        initBuddyCards(rootView);
         return rootView;
     }
 
     public void downloadBuddiesInBackgroud(Context context) {
+        socoApp.downloadSuggestedBuddiesResult = false;
         new DownloadSuggestedBuddiesTask(context.getApplicationContext(), this).execute();
     }
 
@@ -166,7 +152,7 @@ public class SuggestedBuddiesFragment extends Fragment
             Toast.makeText(getActivity().getApplicationContext(), "Download buddies error, please try again later.", Toast.LENGTH_SHORT).show();
         }
         mBuddyCardContainer.setAdapter(socoApp.buddyCardStackAdapter);
-        //card - end
+
         Log.v(tag, "set current user index");
         socoApp.currentBuddyIndex = 0;
     }

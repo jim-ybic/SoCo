@@ -46,7 +46,7 @@ public class MyBuddiesListAdapter extends RecyclerView.Adapter<MyBuddiesListAdap
         ImageView ib = (ImageView) userViewHolder.itemView.findViewById(R.id.user_icon);
         IconUrlUtil.setImageForButtonSmall(context.getResources(), ib, UrlUtil.getUserIconUrl(ei.getUser_id()));
         ((TextView) userViewHolder.itemView.findViewById(R.id.name)).setText(ei.getUser_name());
-        ((TextView) userViewHolder.itemView.findViewById(R.id.location)).setText(ei.getLocation());
+//        ((TextView) userViewHolder.itemView.findViewById(R.id.location)).setText(ei.getLocation());
         userViewHolder.itemView.setTag(ei.getUser_id());
     }
 

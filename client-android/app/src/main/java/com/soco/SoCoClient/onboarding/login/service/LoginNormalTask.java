@@ -1,48 +1,52 @@
 package com.soco.SoCoClient.onboarding.login.service;
 
-
-import android.app.IntentService;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.soco.SoCoClient.common.HttpStatus;
 import com.soco.SoCoClient.common.ReturnCode;
+import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.groups.model.Group;
+import com.soco.SoCoClient.userprofile.model.User;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-@Deprecated
-public class LoginNormalService extends IntentService {
+import java.util.LinkedList;
+import java.util.List;
 
-    static final String tag = "LoginNormalService";
+
+public class LoginNormalTask extends AsyncTask<String, Void, Boolean> {
+
+    String tag = "LoginNormalTask";
 
     static final String PERFS_NAME = "EVENT_BUDDY_PERFS";
     static final String USER_ID = "user_id";
     static final String TOKEN = "token";
 
-    SocoApp socoApp;
     Context context;
+    SocoApp socoApp;
+    TaskCallBack callBack;
 
-    public LoginNormalService() {
-        super("LoginNormalService");
+    public LoginNormalTask(Context context, TaskCallBack cb){
+        this.context = context;
+        this.socoApp = (SocoApp) context;
+        this.callBack = cb;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();   //important
-
-        context = getApplicationContext();
-        socoApp = (SocoApp) context;
-    }
-
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        Log.d(tag, "login normal, handle intent:" + intent
+    protected Boolean doInBackground(String... params) {
+        Log.d(tag, "login normal task:"
                         + ", login email " + socoApp.loginEmail
                         + ", logig password " + socoApp.loginPassword
         );
@@ -71,22 +75,14 @@ public class LoginNormalService extends IntentService {
         }
         else {
             Log.e(tag, "response is null, cannot parse");
-
-//            if(socoApp.USE_SIMILATOR_LOGIN_NORMAL){
-//                Log.w(tag, "testing mode: use simulator for json response");
-//
-//                Log.v(tag, "set response flag as true");
-//                socoApp.loginNormalResponse = true;
-//
-//                Log.v(tag, "parse simulated response");
-//                parse(JsonSimulator.LoginNormalSuccessResponse());
-//            }
+            return false;
         }
 
-        return;
+        return true;
     }
 
-    Object request(
+
+    private Object request(
             String url,
             String name,
             String email,
@@ -112,7 +108,7 @@ public class LoginNormalService extends IntentService {
         return HttpUtil.executeHttpPost(url, data);
     }
 
-    int parse(Object response) {
+    private int parse(Object response) {
         Log.d(tag, "parse login normal response: " + response.toString());
 
         try {
@@ -162,5 +158,8 @@ public class LoginNormalService extends IntentService {
         return ReturnCode.SUCCESS;
     }
 
-
+    protected void onPostExecute(Boolean result){
+        Log.v(tag, "post execute");
+        callBack.doneTask(null);
+    }
 }

@@ -122,70 +122,6 @@
 
         </LinearLayout>
 
-        <!--<LinearLayout-->
-        <!--android:id="@+id/eventgroups"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="vertical"-->
-        <!--android:layout_weight="1"-->
-        <!--android:gravity="left"-->
-        <!--android:onClick="eventgroups"-->
-        <!--android:paddingLeft="10dp"-->
-        <!--android:paddingTop="40dp">-->
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_weight="1">-->
-        <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:gravity="left"-->
-        <!--android:text="Organized by:"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:textSize="10dp"-->
-        <!--android:textColor="@android:color/black"-->
-        <!--android:paddingLeft="5dp" />-->
-        <!--</LinearLayout>-->
-        <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_weight="1"-->
-        <!--android:gravity="left"-->
-        <!--android:paddingLeft="5dp">-->
-        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-        <!--&lt;!&ndash;android:id="@+id/groups"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:text="Groups: "&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_gravity="top" />&ndash;&gt;-->
-        <!--<ImageButton-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="?android:attr/selectableItemBackground"-->
-        <!--android:src="@drawable/ic_action_group"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:clickable="false"/>-->
-        <!--<ImageButton-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="?android:attr/selectableItemBackground"-->
-        <!--android:src="@drawable/ic_action_group"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:clickable="false"/>-->
-        <!--<ImageButton-->
-        <!--android:id="@+id/group3"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="?android:attr/selectableItemBackground"-->
-        <!--android:src="@drawable/ic_action_group"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:clickable="false"-->
-        <!--android:textColor="@android:color/black" />-->
-        <!--</LinearLayout>-->
-        <!--</LinearLayout>-->
-
         <LinearLayout
             android:id="@+id/date_time"
             android:layout_width="match_parent"
@@ -280,11 +216,6 @@
                 android:id="@+id/eventbuddies"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp">
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Friends: "-->
-                <!--android:layout_gravity="top" />-->
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -1,7 +1,9 @@
 package com.soco.SoCoClient.groups;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -224,14 +226,6 @@ public class GroupDetailsActivity extends ActionBarActivity implements
         startActivity(i);
     }
 
-    public void joingroup(View view){
-        Log.v(tag, "tap join group");
-        Intent i = new Intent(this, JoinGroupActivity.class);
-
-        //todo: pass group id
-
-        startActivity(i);
-    }
     public void eventdetails(View view){
         Log.v(tag, "check event details");
         Intent i = new Intent(this, EventDetailsActivity.class);
@@ -240,11 +234,33 @@ public class GroupDetailsActivity extends ActionBarActivity implements
         Log.v(tag, "put extra eventid: " + id);
         startActivity(i);
     }
+
     public void doneTask(Object o){
         if(o==null){
             return;
         }
        group = (Group) o;
         showGroupDetails(group);
+    }
+
+    public void joingroup(View view) {
+        Log.v(tag, "tap join group");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure to join " + group.getGroup_name());
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Log.d(tag, "tap Yes");
+                        //todo: send join group request to server
+                    }
+                });
+        builder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Log.d(tag, "tap Cancel");
+                    }
+                });
+        builder.show();
     }
 }

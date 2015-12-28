@@ -1,14 +1,16 @@
 package com.soco.SoCoClient.events.service;
 
-
-import android.app.IntentService;
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.soco.SoCoClient.common.HttpStatus;
+import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.EventsResponseUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.groups.model.Group;
@@ -21,46 +23,41 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-@Deprecated
-public class EventGroupsBuddiesService extends IntentService {
-    static final String tag = "EventGBService";
 
-    public static final String EVENT_ID="event_id";
+public class EventGroupsBuddiesTask extends AsyncTask<String, Void, Boolean> {
 
+    String tag = "EventGroupsBuddiesTask";
+
+
+    Context context;
     SocoApp socoApp;
     Event event;
+    TaskCallBack callBack;
 
-    public EventGroupsBuddiesService() {
-        super("EventGroupsBuddiesService");
+    public EventGroupsBuddiesTask(Context context, Event event, TaskCallBack cb){
+        this.context = context;
+        this.socoApp = (SocoApp) context;
+        this.event = event;
+        this.callBack = cb;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();   //important
-
-        socoApp = (SocoApp) getApplicationContext();
-        event = socoApp.getCurrentSuggestedEvent();
-    }
-
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        Log.v(tag, "event group and buddies service, handle intent:" + intent);
+    protected Boolean doInBackground(String... params) {
+        Log.v(tag, "event group and buddies task" );
 
         Log.v(tag, "validate data");
         if(socoApp.user_id.isEmpty() || socoApp.token.isEmpty()){
             Log.e(tag, "user id or token or event is not available");
-            return;
+            return false;
         }
 
-        Long event_id = intent.getLongExtra(EVENT_ID, 0);
+        Long event_id = event.getId();
         if(event_id==0) {
-//            Event event = socoApp.getCurrentSuggestedEvent();
-//            event_id = event.getId();
-//            Log.v(tag, "update event_id from event: " + event_id);
             Log.e(tag, "cannot get event id from intent");
+            return false;
         }
         else
             Log.v(tag, "event_id: " + event_id);
@@ -84,8 +81,9 @@ public class EventGroupsBuddiesService extends IntentService {
             Log.e(tag, "response is null, cannot parse");
         }
 
-        return;
+        return true;
     }
+
 
     public Object request(
             String url,
@@ -143,7 +141,7 @@ public class EventGroupsBuddiesService extends IntentService {
                 String message = json.getString(JsonKeys.MESSAGE);
                 String more_info = json.getString(JsonKeys.MORE_INFO);
                 Log.d(tag, "get event groups and buddies fail, " +
-                        "error code: " + error_code + ", message: " + message + ", more info: " + more_info
+                                "error code: " + error_code + ", message: " + message + ", more info: " + more_info
                 );
                 socoApp.eventGroupsBuddiesResult = false;
             }
@@ -232,34 +230,13 @@ public class EventGroupsBuddiesService extends IntentService {
                         }
                     }
 
-                            Log.v(tag, "add group: " + g);
-                            event.addSupporting_group(g);
+                    Log.v(tag, "add group: " + g);
+                    event.addSupporting_group(g);
                 }
             }
         }
     }
 
-    /* sample response for buddies:
-    buddies: list of event buddies
-        buddies_joined:
-            friends [array]: list of friends
-                friend_id: friend id
-                friend_name: friend name
-                friend_icon_url: url of friend’s icon
-            group_members [array]: list of group members
-                member_id: group member id
-                member_name: group member name
-                member_icon_url: url of group member’s icon
-        buddies_liked:
-            friends [array]: list of friends
-                friend_id: friend id
-                friend_name: friend name
-                friend_icon_url: url of friend’s icon
-            group_members [array]: list of group members
-                member_id: group member id
-                member_name: group member name
-                member_icon_url: url of group member’s icon
-     */
     void parseBuddies(JSONObject eventObj, Event event) throws JSONException {
         if(!eventObj.has(JsonKeys.BUDDIES))
             Log.w(tag, "no buddies info is found in json");
@@ -384,4 +361,8 @@ public class EventGroupsBuddiesService extends IntentService {
         }
     }
 
+    protected void onPostExecute(Boolean result){
+        Log.v(tag, "post execute");
+        callBack.doneTask(null);
+    }
 }

@@ -17,22 +17,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.service.EventGroupsBuddiesService;
+import com.soco.SoCoClient.events.service.EventGroupsBuddiesTask;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 import com.soco.SoCoClient.onboarding.register.service.RegisterService;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
 
-public class EventGroupsBuddiesActivity extends ActionBarActivity implements
-        android.support.v7.app.ActionBar.TabListener{
+public class EventGroupsBuddiesActivity extends ActionBarActivity
+        implements android.support.v7.app.ActionBar.TabListener, TaskCallBack {
 
     String tag = "EventGroupsBuddiesActivity";
-
-    static final int WAIT_INTERVAL_IN_SECOND = 1;
-    static final int WAIT_ITERATION = 10;
-    static final int THOUSAND = 1000;
 
     public static final String EVENT_ID = "event_id";
 
@@ -64,61 +62,28 @@ public class EventGroupsBuddiesActivity extends ActionBarActivity implements
         new Thread(new Runnable(){
             public void run(){
                 eventGBInBackground();
-                eventGBhandler.sendEmptyMessage(0);
             }
         }).start();
-
-
-
     }
 
     private void eventGBInBackground() {
-        Log.v(tag, "start service at back end");
-        Intent i = new Intent(this, EventGroupsBuddiesService.class);
-//        Event event = socoApp.getCurrentSuggestedEvent();
-//        Log.v(tag, "current event id: " + event.getId());
-        i.putExtra(EventGroupsBuddiesService.EVENT_ID, eventId);
-        startService(i);
-
-        Log.v(tag, "set response flag as false");
         socoApp.eventGroupsBuddiesResponse = false;
-
-        Log.v(tag, "wait and check register status");
-        int count = 0;
-        while(!socoApp.eventGroupsBuddiesResponse && count < WAIT_ITERATION) {   //wait for 10s
-            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
-            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
-            while (System.currentTimeMillis() < endTime) {
-                synchronized (this) {
-                    try {
-                        wait(endTime - System.currentTimeMillis());
-                    } catch (Exception e) {
-                        Log.e(tag, "Error in waiting");
-                    }
-                }
-            }
-            count++;
-        }
+        new EventGroupsBuddiesTask(getApplicationContext(), socoApp.getCurrentSuggestedEvent(), this).execute();
     }
 
-    Handler eventGBhandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Log.v(tag, "handle receive message and dismiss dialog");
-
-            if(socoApp.eventGroupsBuddiesResponse && socoApp.eventGroupsBuddiesResult){
-                Log.d(tag, "eventGB: success");
-                Toast.makeText(getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
-                setActionbar();
-            }
-            else{
-                Log.e(tag, "event GB fail, notify user");
-                Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
-            }
-
-            pd.dismiss();
+    public void doneTask(Object o){
+        Log.v(tag, "handle receive message and dismiss dialog");
+        if(socoApp.eventGroupsBuddiesResponse && socoApp.eventGroupsBuddiesResult){
+            Log.d(tag, "eventGB: success");
+            Toast.makeText(getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
+            setActionbar();
         }
-    };
+        else{
+            Log.e(tag, "event GB fail, notify user");
+            Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
+        }
+        pd.dismiss();
+    }
 
     private void setActionbar() {
         Log.v(tag, "customize actionbar");
