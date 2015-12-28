@@ -207,16 +207,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="Refresh"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:onClick="refreshbuddies"
-            android:padding="5dp" />
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="Refresh"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:textStyle="bold"-->
+            <!--android:layout_weight="1"-->
+            <!--android:clickable="true"-->
+            <!--android:onClick="refreshbuddies"-->
+            <!--android:padding="5dp" />-->
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"

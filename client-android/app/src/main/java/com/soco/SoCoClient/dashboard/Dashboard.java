@@ -350,70 +350,70 @@ public class Dashboard extends ActionBarActivity implements
         startActivity(i);
     }
 
-    public void refreshevents(View view) {
-        Log.v(tag, "refresh events from server");
-        suggestedEventsView = socoApp.suggestedEventsView;
+//    public void refreshevents(View view) {
+//        Log.v(tag, "refresh events from server");
+//        suggestedEventsView = socoApp.suggestedEventsView;
+//
+//        Log.v(tag, "show progress dialog, fetch suggested events from server");
+//        pd = ProgressDialog.show(this, "Refreshing events", "Please wait...");
+//        new Thread(new Runnable() {
+//            public void run() {
+//                SuggestedEventsFragment.downloadEventsInBackgroud(getApplicationContext(), socoApp);
+//                downloadEventsHandler.sendEmptyMessage(0);
+//            }
+//        }).start();
+//    }
+//
+//    Handler downloadEventsHandler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            Log.v(tag, "handle receive message and dismiss dialog");
+//            if (socoApp.downloadSuggestedEventsResponse && socoApp.downloadSuggestedEventsResult) {
+//                Log.d(tag, "download suggested event - success");
+//                Toast.makeText(getApplicationContext(), socoApp.suggestedEvents.size() + " events downloaded.", Toast.LENGTH_SHORT).show();
+//                if(isFirstDownloadEvent) {
+//                    SuggestedEventsFragment.initEventCards(suggestedEventsView, getApplicationContext(), socoApp, activity);
+//                }else{
+//                    mAdapter.notifyDataSetChanged();
+//                }
+//            } else {
+//                Log.e(tag, "download suggested event fail, notify user");
+//                Toast.makeText(getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
+//            }
+//            pd.dismiss();
+//        }
+//    };
 
-        Log.v(tag, "show progress dialog, fetch suggested events from server");
-        pd = ProgressDialog.show(this, "Refreshing events", "Please wait...");
-        new Thread(new Runnable() {
-            public void run() {
-                SuggestedEventsFragment.downloadEventsInBackgroud(getApplicationContext(), socoApp);
-                downloadEventsHandler.sendEmptyMessage(0);
-            }
-        }).start();
-    }
-
-    Handler downloadEventsHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Log.v(tag, "handle receive message and dismiss dialog");
-            if (socoApp.downloadSuggestedEventsResponse && socoApp.downloadSuggestedEventsResult) {
-                Log.d(tag, "download suggested event - success");
-                Toast.makeText(getApplicationContext(), socoApp.suggestedEvents.size() + " events downloaded.", Toast.LENGTH_SHORT).show();
-                if(isFirstDownloadEvent) {
-                    SuggestedEventsFragment.initEventCards(suggestedEventsView, getApplicationContext(), socoApp, activity);
-                }else{
-                    mAdapter.notifyDataSetChanged();
-                }
-            } else {
-                Log.e(tag, "download suggested event fail, notify user");
-                Toast.makeText(getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
-            }
-            pd.dismiss();
-        }
-    };
-
-    public void refreshbuddies(View view) {
-        Log.v(tag, "refresh buddies from server");
-        suggestedBuddiesView = socoApp.suggestedBuddiesView;
-
-        Log.v(tag, "show progress dialog, fetch suggested buddies from server");
-        pd = ProgressDialog.show(this, "Refreshing buddies", "Please wait...");
-        new Thread(new Runnable() {
-            public void run() {
-                SuggestedBuddiesFragment.downloadBuddiesInBackgroud(getApplicationContext(), socoApp);
-                downloadBuddiesHandler.sendEmptyMessage(0);
-            }
-        }).start();
-
-    }
-
-    Handler downloadBuddiesHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Log.v(tag, "handle receive message and dismiss dialog");
-            if (socoApp.downloadSuggestedBuddiesResponse && socoApp.downloadSuggestedBuddiesResult) {
-                Log.v(tag, "download suggested buddy - success");
-                Toast.makeText(getApplicationContext(), socoApp.suggestedBuddies.size() + " buddies found.", Toast.LENGTH_SHORT).show();
-                SuggestedBuddiesFragment.initBuddyCards(suggestedBuddiesView, getApplicationContext(), socoApp, activity);
-            } else {
-                Log.e(tag, "download suggested buddy fail, notify user");
-                Toast.makeText(getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
-            }
-            pd.dismiss();
-        }
-    };
+//    public void refreshbuddies(View view) {
+//        Log.v(tag, "refresh buddies from server");
+//        suggestedBuddiesView = socoApp.suggestedBuddiesView;
+//
+//        Log.v(tag, "show progress dialog, fetch suggested buddies from server");
+//        pd = ProgressDialog.show(this, "Refreshing buddies", "Please wait...");
+//        new Thread(new Runnable() {
+//            public void run() {
+//                SuggestedBuddiesFragment.downloadBuddiesInBackgroud(getApplicationContext(), socoApp);
+//                downloadBuddiesHandler.sendEmptyMessage(0);
+//            }
+//        }).start();
+//
+//    }
+//
+//    Handler downloadBuddiesHandler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            Log.v(tag, "handle receive message and dismiss dialog");
+//            if (socoApp.downloadSuggestedBuddiesResponse && socoApp.downloadSuggestedBuddiesResult) {
+//                Log.v(tag, "download suggested buddy - success");
+//                Toast.makeText(getApplicationContext(), socoApp.suggestedBuddies.size() + " buddies found.", Toast.LENGTH_SHORT).show();
+//                SuggestedBuddiesFragment.initBuddyCards(suggestedBuddiesView, getApplicationContext(), socoApp, activity);
+//            } else {
+//                Log.e(tag, "download suggested buddy fail, notify user");
+//                Toast.makeText(getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
+//            }
+//            pd.dismiss();
+//        }
+//    };
 
 //    void downloadEventsInBackgroud() {
 //        if(socoApp.OFFLINE_MODE){
