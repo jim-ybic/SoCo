@@ -111,7 +111,7 @@ public class MyMatchFragment extends Fragment implements View.OnClickListener,Ta
             if(matchList!=null) {
                 start_index = matchList.size();
             }
-            Log.v(tag, "done task: ");
+            Log.v(tag, "done task : ");
             adapter.notifyDataSetChanged();
         }
         // Now we call setRefreshing(false) to signal refresh has finished
