@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="dashboard_title">活動社交平台</string>
+    <string name="event">活動</string>
+    <string name="buddy">好友</string>
+    <string name="signin">登入</string>
+    <string name="register_bold"><u>新用戶註冊</u></string>
+    <string name="forgotpassword_bold"><u>忘記密碼?</u></string>
+    <string name="email">電郵地址</string>
+    <string name="password">密碼</string>
+
+</resources>
+

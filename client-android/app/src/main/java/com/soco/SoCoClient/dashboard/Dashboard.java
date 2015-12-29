@@ -53,6 +53,8 @@ import com.soco.SoCoClient.userprofile.SettingsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
 
+import org.w3c.dom.Text;
+
 import java.net.URL;
 
 //import android.widget.Toolbar;
@@ -192,6 +194,10 @@ public class Dashboard extends ActionBarActivity implements
             public void onPageScrollStateChanged(int arg0) {
             }
         });
+
+        Log.d(tag, "set dashboard title " + R.string.dashboard_title);
+        TextView title = (TextView) actionbarView.findViewById(R.id.dashboard_title);
+        title.setText(R.string.dashboard_title);
     }
 
     private void setMyProfilePhoto() {

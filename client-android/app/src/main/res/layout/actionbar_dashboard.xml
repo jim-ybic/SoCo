@@ -19,14 +19,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My APA"
+        android:text="My Match"
         android:layout_gravity="center_vertical"
         android:clickable="false"
         android:paddingLeft="10dp"
         android:textStyle="bold"
         android:textSize="20sp"
         android:textColor="@android:color/black"
-        android:id="@+id/mymatch" />
+        android:id="@+id/dashboard_title" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"

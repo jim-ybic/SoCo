@@ -110,15 +110,12 @@
                 android:textStyle="bold"
                 android:fontFamily="Roboto"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:text="Event Title"
                 android:gravity="center|left"
                 android:clickable="true"
                 android:onClick="eventdetails"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp" />
+                android:layout_margin="5dp" />
 
         </LinearLayout>
 
