@@ -27,7 +27,7 @@
                 android:id="@+id/event"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="event"
+                android:text="@string/eventbuddy_left"
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="10dp"
                 android:paddingRight="2dp"
@@ -38,7 +38,7 @@
                 android:id="@+id/buddy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="buddy"
+                android:text="@string/eventbuddy_right"
                 android:paddingTop="10dp"
                 android:paddingLeft="2dp"
                 android:textSize="16sp"
@@ -53,109 +53,6 @@
         android:id="@+id/sociallogin"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp">
-        <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_weight="1"-->
-        <!--android:gravity="center_horizontal">-->
-        <!--<TextView-->
-        <!--android:text="co-"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:textSize="45dp"-->
-        <!--android:textStyle="bold"-->
-        <!--android:layout_gravity="left"-->
-        <!--android:textColor="#ffff1e7a" />-->
-        <!--<TextView-->
-        <!--android:text="purpose"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:textSize="45dp"-->
-        <!--android:textStyle="bold"-->
-        <!--android:layout_gravity="right"-->
-        <!--android:textColor="#ff4167ff" />-->
-        <!--</LinearLayout>-->
-        <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="vertical"-->
-        <!--android:layout_weight="1">-->
-        <!--<TextView-->
-        <!--android:text="Do great things together!"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:textSize="20dp"-->
-        <!--android:gravity="center_horizontal"-->
-        <!--android:textColor="#ff67c1ff" />-->
-        <!--</LinearLayout>-->
-        <!--<TextView-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:text="Social Login"-->
-        <!--android:textSize="16dp"-->
-        <!--android:clickable="false"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:gravity="center" />-->
-
-
-        <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
-        <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:text="Facebook"-->
-        <!--android:onClick="facebook" />-->
-        <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:text="Google+"-->
-        <!--android:onClick="google" />-->
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
-        <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:text="WeChat"-->
-        <!--android:onClick="wechat" />-->
-        <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:text="LinkedIn"-->
-        <!--android:onClick="linkedin" />-->
-        <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:text="Twitter"-->
-        <!--android:onClick="twitter" />-->
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="vertical"-->
-        <!--android:layout_weight="1">-->
-        <!--</LinearLayout>-->
-
-        <!--<com.facebook.login.widget.LoginButton-->
-        <!--android:id="@+id/login_button"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:layout_marginBottom="10dp"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:gravity="center_horizontal" />-->
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
@@ -274,7 +171,7 @@
                 <TableRow>
                     <EditText
                         android:id="@+id/et_login_email"
-                        android:hint="email"
+                        android:hint="@string/email"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_weight="1"
@@ -287,7 +184,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="60dp"
                         android:inputType="textPassword"
-                        android:hint="password"
+                        android:hint="@string/password"
                         android:layout_weight="1"
                         android:textColor="@android:color/white" />
                 </TableRow>
@@ -315,7 +212,7 @@
                     android:id="@+id/signintxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="sign in"
+                    android:text="@string/signin"
                     android:onClick="loginNormal"
                     android:layout_weight="1"
                     android:background="@drawable/round_reactangle_transparent"
@@ -337,6 +234,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
+                android:text="@string/forgotpassword_bold"
                 android:textSize="16dp"
                 android:onClick="forgotpassword"
                 android:gravity="left"
@@ -351,6 +249,7 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textSize="16dp"
+                android:text="@string/register_bold"
                 android:onClick="register"
                 android:paddingRight="10dp"
                 android:textColor="@android:color/white"

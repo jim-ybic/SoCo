@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
@@ -66,7 +67,7 @@ public class SuggestedEventsFragment extends Fragment
         return rootView;
     }
 
-    public void downloadEventsInBackgroud(Context context) {
+    private void downloadEventsInBackgroud(Context context) {
         Log.v(tag, "downloadEventsInBackgroud start");
         socoApp.downloadSuggestedEventsResult = false;
         new DownloadSuggestedEventsTask(context.getApplicationContext(), this).execute();

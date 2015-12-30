@@ -138,7 +138,6 @@ public class UserProfileFragment extends Fragment
         String bio = user.getBiography();
         if(StringUtil.isEmptyString(hometown)){
             ((LinearLayout)rootView.findViewById(R.id.bioarea)).removeAllViews();
-//            rootView.findViewById(R.id.bioarea).setVisibility(View.INVISIBLE);
         }else {
             ((TextView)rootView.findViewById(R.id.bio)).setText(bio);
             Log.v(tag, "set bio " + bio);
@@ -150,7 +149,6 @@ public class UserProfileFragment extends Fragment
         if(user.getInterests()==null||user.getInterests().size()==0){
             LinearLayout interestAreaList = (LinearLayout) rootView.findViewById(R.id.interestsarea);
             interestAreaList.removeAllViews();
-//            interestAreaList.setVisibility(View.INVISIBLE);
         }else {
             LinearLayout interestsList = (LinearLayout) rootView.findViewById(R.id.interests);
             interestsList.removeAllViews();

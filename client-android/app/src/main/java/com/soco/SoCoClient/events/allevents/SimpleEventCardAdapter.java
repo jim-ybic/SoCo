@@ -87,18 +87,18 @@ public class SimpleEventCardAdapter
 //        viewHolder.mTextView.setText(e.name);
 //        viewHolder.mImageView.setImageDrawable(mContext.getDrawable(e.getImageResourceId(mContext)));
 
+        Log.v(tag, "show event categories: " + event.getCategories());
         if(event.getCategories()!=null && event.getCategories().size()>0) {
             LinearLayout layout = (LinearLayout) simpleEventCardViewHolder.itemView.findViewById(R.id.categories);
 //            categoryList.removeAllViews();
             ViewElementHelper.showCategories(event, layout, mContext);
         }
 
-        //set icon for creator
         Log.v(tag, "show creator icon: " + event.getCreator_id() + ", " + event.getCreator_name());
         ImageButton ib = (ImageButton) simpleEventCardViewHolder.itemView.findViewById(R.id.creator);
         IconUrlUtil.setImageForButtonSmall(mContext.getResources(),ib, UrlUtil.getUserIconUrl(event.getCreator_id()));
 
-        //set icon for Joiner. 3 maximum
+        Log.v(tag, "show event buddies, 3 maximum");
         LinearLayout list = (LinearLayout) simpleEventCardViewHolder.itemView.findViewById(R.id.eventbuddies);
         list.removeAllViews();
         int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
@@ -109,7 +109,7 @@ public class SimpleEventCardAdapter
 //		params.weight = 1.0f;
         params.gravity = Gravity.LEFT;
         int countBuddy = 1;
-        ArrayList<User> total = (ArrayList<User>)event.getJoinedFriends().clone();
+        ArrayList<User> total = event.getJoinedFriends();
         if(total.size()<MAX_NUMBER_BUDDIES_SHOW_ON_CARD){
             for(User u:event.getJoinedGroupMemebers()){
                 total.add(u);

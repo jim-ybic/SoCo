@@ -209,7 +209,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".events.allevents.AllEventsActivityV1"
-            android:label="@string/title_activity_activity_all_events"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

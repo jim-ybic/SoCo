@@ -52,51 +52,24 @@ import com.soco.SoCoClient.groups.AllGroupsActivity;
 import com.soco.SoCoClient.userprofile.SettingsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
-
-import org.w3c.dom.Text;
-
 import java.net.URL;
-
-//import android.widget.Toolbar;
 
 public class Dashboard extends ActionBarActivity implements
         android.support.v7.app.ActionBar.TabListener {
 
     String tag = "Dashboard";
 
-    static final int WAIT_INTERVAL_IN_SECOND = 1;
-    static final int WAIT_ITERATION = 10;
-    static final int THOUSAND = 1000;
-
     private ViewPager viewPager;
     private DashboardTabsAdapter mAdapter;
     private android.support.v7.app.ActionBar actionBar;
 
     SocoApp socoApp;
-    ProgressDialog pd;
-    View suggestedEventsView;
-    View suggestedBuddiesView;
     Activity activity;
-
-//    // Tab titles
-//    private String[] tabs = {
-//            "Events",
-//            "Buddies",
-////            "Stream",
-////            "Messages"
-//    };
-
-    static final String EVENTS = "Events";
-    static final String BUDDIES = "Buddies";
-
-    private Toolbar toolbar;
-    boolean isLiked;
-
 
     Bitmap mePhoto;
     ImageButton meButton;
     View actionbarView;
-    boolean isFirstDownloadEvent = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -126,11 +99,7 @@ public class Dashboard extends ActionBarActivity implements
     }
 
     private void setActionbar() {
-        //set background color
-//        viewPager.setBackgroundColor(Color.WHITE);
-
         Log.v(tag, "set custom actionbar");
-
         actionBar = getSupportActionBar();
         if(actionBar == null){
             Log.e(tag, "Cannot get action bar object");
@@ -163,14 +132,10 @@ public class Dashboard extends ActionBarActivity implements
         actionBar.setBackgroundDrawable(colorDrawable);
 
         Log.v(tag, "Adding tabs");
-        android.support.v7.app.ActionBar.Tab tabEvents = actionBar.newTab().setText(EVENTS).setTabListener(this);
+        android.support.v7.app.ActionBar.Tab tabEvents = actionBar.newTab().setText(R.string.dashboard_tab_events).setTabListener(this);
         actionBar.addTab(tabEvents);
-        android.support.v7.app.ActionBar.Tab tabBuddies= actionBar.newTab().setText(BUDDIES).setTabListener(this);
+        android.support.v7.app.ActionBar.Tab tabBuddies= actionBar.newTab().setText(R.string.dashboard_tab_buddies).setTabListener(this);
         actionBar.addTab(tabBuddies);
-//        for (String tab_name : tabs) {
-//            actionBar.addTab(actionBar.newTab().setText(tab_name)
-//                    .setTabListener(this));
-//        }
 
         Log.v(tag, "set starting tab");
         if(socoApp.TEST_BUDDY_TAB_FIRST)
@@ -185,11 +150,9 @@ public class Dashboard extends ActionBarActivity implements
                 Log.v(tag, "position is " + position);
                 actionBar.setSelectedNavigationItem(position);
             }
-
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
             }
-
             @Override
             public void onPageScrollStateChanged(int arg0) {
             }
@@ -240,19 +203,9 @@ public class Dashboard extends ActionBarActivity implements
     };
 
     void findViews() {
-        Log.v(tag, "find views");
-
-//        Window window = getWindow();
-//        View v = window.getDecorView();
-//        int resId = getResources().getIdentifier("action_bar_container", "id", "android");
-//        Log.d(tag, "resid: " + resId);
-//        View actionbarView = v.findViewById(resId);
-//        Log.d(tag, "actionbar view: " + actionbarView);
-//        meButton = (ImageButton) actionbarView.findViewById(R.id.mebutton);
         Log.v(tag, "custom view: " + this.actionbarView);
         meButton = (ImageButton) this.actionbarView.findViewById(R.id.mebutton);
         Log.v(tag, "me button: " + meButton);
-
     }
 
     @Override
@@ -305,18 +258,6 @@ public class Dashboard extends ActionBarActivity implements
         startActivity(i);
     }
 
-//    public void commongroups (View view){
-//        Log.d(tag, "show all common groups");
-//        Intent i = new Intent(getApplicationContext(), CommonGroupsActivity.class);
-//        startActivity(i);
-//    }
-
-//    public void commonbuddies (View view){
-//        Log.d(tag, "show all common buddies");
-//        Intent i = new Intent(getApplicationContext(), CommonBuddiesActivity.class);
-//        startActivity(i);
-//    }
-
     public void userevents(View view) {
         Log.d(tag, "show user's events (common or joined)");
         Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
@@ -334,13 +275,6 @@ public class Dashboard extends ActionBarActivity implements
         i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_GROUPS);
         startActivity(i);
     }
-
-//
-//    public void personevents (View view){
-//        Log.v(tag, "tap show the person's upcoming events");
-//        Intent i = new Intent(getApplicationContext(), UserEventsActivity.class);
-//        startActivity(i);
-//    }
 
     public void eventdetails(View view) {
         Log.d(tag, "event detail");
@@ -367,133 +301,6 @@ public class Dashboard extends ActionBarActivity implements
         LikeEventTask let = new LikeEventTask(SocoApp.user_id, SocoApp.token, event, button, isLiked);
         let.execute();
     }
-//        if(isLiked){
-//            //trigger the cancel action for previous like
-//            LikeUtil.updateLikeButtonStatus(button,event,!isLiked);
-//            //send like signal to server
-////            pd = ProgressDialog.show(this, "Revert Like event request...", "Please wait...");
-//            new Thread(new Runnable(){
-//                public void run(){
-//                    revertLikeEventRequestInBackground(event_id);
-//                    Message msg = new Message();
-//                    msg.obj = event;
-//                    revertLikeEventHandler.sendMessage(msg);
-//                }
-//            }).start();
-//        }else {
-//
-//            //update the button: image + count
-//            LikeUtil.updateLikeButtonStatus(button, event, !isLiked);
-//
-//            //send like signal to server
-////            pd = ProgressDialog.show(this, "Like event request...", "Please wait...");
-//            new Thread(new Runnable(){
-//                public void run(){
-//                    likeEventRequestInBackground(event_id);
-//                    Message msg = new Message();
-//                    msg.obj = event;
-//                    likeEventHandler.sendMessage(msg);
-//                }
-//            }).start();
-//        }
-//    }
-//    private void likeEventRequestInBackground(long event_id) {
-//        Log.v(tag, "start like event service at back end");
-//        Intent i = new Intent(this, LikeEventService.class);
-//        i.putExtra(Event.EVENT_ID,event_id);
-//        startService(i);
-//
-//        Log.v(tag, "set like response flag as false");
-//        socoApp.likeEventResponse = false;
-//        Log.v(tag, "wait and check status");
-//        int count = 0;
-//        while(!socoApp.likeEventResponse && count < WAIT_ITERATION) {   //wait for 10s
-//            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
-//            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
-//            while (System.currentTimeMillis() < endTime) {
-//                synchronized (this) {
-//                    try {
-//                        wait(endTime - System.currentTimeMillis());
-//                    } catch (Exception e) {
-//                        Log.e(tag, "Error in waiting");
-//                    }
-//                }
-//            }
-//            count++;
-//        }
-//    }
-//
-//    Handler likeEventHandler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            Log.v(tag, "handle receive message ");
-//
-//            if(socoApp.likeEventResponse && socoApp.likeEventResult){
-//                Log.d(tag, "Like event success");
-//                ((Event) msg.obj).setIsLikedEvent(true);
-////                Toast.makeText(getApplicationContext(), "Like event suceess.", Toast.LENGTH_SHORT).show();
-////                finish();
-//            }
-//            else{
-//                Log.e(tag, "like event fail, notify user");
-//                if(socoApp.error_message != null && !socoApp.error_message.isEmpty())
-//                    Toast.makeText(getApplicationContext(), socoApp.error_message, Toast.LENGTH_SHORT).show();
-//                else
-//                    Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
-//            }
-//
-////            pd.dismiss();
-//        }
-//    };
-//    private void revertLikeEventRequestInBackground(long event_id) {
-//        Log.v(tag, "start revert like event service at back end");
-//        Intent i = new Intent(this, RevertLikeEventService.class);
-//        i.putExtra(Event.EVENT_ID, event_id);
-//        startService(i);
-//
-//        Log.v(tag, "set revert like response flag as false");
-//        socoApp.revertLikeEventResponse = false;
-//        Log.v(tag, "wait and check status");
-//        int count = 0;
-//        while(!socoApp.revertLikeEventResponse && count < WAIT_ITERATION) {   //wait for 10s
-//            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
-//            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
-//            while (System.currentTimeMillis() < endTime) {
-//                synchronized (this) {
-//                    try {
-//                        wait(endTime - System.currentTimeMillis());
-//                    } catch (Exception e) {
-//                        Log.e(tag, "Error in waiting");
-//                    }
-//                }
-//            }
-//            count++;
-//        }
-//    }
-//
-//    Handler revertLikeEventHandler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            Log.v(tag, "handle receive message");
-//
-//            if(socoApp.revertLikeEventResponse && socoApp.revertLikeEventResult){
-//                Log.d(tag, "revert like event success");
-//                ((Event) msg.obj).setIsLikedEvent(false);
-////                Toast.makeText(getApplicationContext(), "revert Like event suceess.", Toast.LENGTH_SHORT).show();
-////                finish();
-//            }
-//            else{
-//                Log.e(tag, "revert like event fail, notify user");
-//                if(socoApp.error_message != null && !socoApp.error_message.isEmpty())
-//                    Toast.makeText(getApplicationContext(), socoApp.error_message, Toast.LENGTH_SHORT).show();
-//                else
-//                    Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
-//            }
-//
-////            pd.dismiss();
-//        }
-//    };
-
 
     public void joinevent(View view) {
         Log.v(tag, "tap join event");
@@ -512,13 +319,10 @@ public class Dashboard extends ActionBarActivity implements
         window.setOutsideTouchable(true);
         window.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
         window.showAsDropDown(findViewById(R.id.mebutton));
-
-//        View layout = getLayoutInflater().inflate(R.layout.popup_window, null);
         setPopupListeners(window, popupView);
     }
 
     void setPopupListeners(final PopupWindow window, View view) {
-
         TextView myprofile = (TextView) view.findViewById(R.id.popup_profile);
         Log.d(tag, "myprofile: " + myprofile);
         myprofile.setOnClickListener(new View.OnClickListener() {
@@ -583,13 +387,6 @@ public class Dashboard extends ActionBarActivity implements
 
     }
 
-    public void closeeventcard(View view) {
-        Log.v(tag, "tap close event card");
-
-        //todo
-        //dismiss current card
-    }
-
     public void allbuddymatches(View view) {
         Log.v(tag, "show all buddy matches");
         Intent i = new Intent(getApplicationContext(), AllBuddiesActivity.class);
@@ -605,54 +402,6 @@ public class Dashboard extends ActionBarActivity implements
             task.execute(socoApp.getCurrentSuggestedBuddy().getUser_id());
         }
     }
-
-//
-//    private void addBuddyInBackground() {
-//        Log.v(tag, "start add buddy service at back end");
-//        Intent i = new Intent(this, AddBuddyService.class);
-//        startService(i);
-//
-//        Log.v(tag, "set register response flag as false");
-//        socoApp.addBuddyResponse = false;
-//
-//        Log.v(tag, "wait and check status");
-//        int count = 0;
-//        while(!socoApp.addBuddyResponse && count < WAIT_ITERATION) {   //wait for 10s
-//            Log.d(tag, "wait for response: " + count * WAIT_INTERVAL_IN_SECOND + "s");
-//            long endTime = System.currentTimeMillis() + WAIT_INTERVAL_IN_SECOND*THOUSAND;
-//            while (System.currentTimeMillis() < endTime) {
-//                synchronized (this) {
-//                    try {
-//                        wait(endTime - System.currentTimeMillis());
-//                    } catch (Exception e) {
-//                        Log.e(tag, "Error in waiting");
-//                    }
-//                }
-//            }
-//            count++;
-//        }
-//    }
-//
-//    Handler addBuddyHandler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            Log.v(tag, "handle receive message and dismiss dialog");
-//
-//            if(socoApp.addBuddyResponse && socoApp.addBuddyResult){
-//                Log.d(tag, "add buddy success");
-//                Toast.makeText(getApplicationContext(), "Suceess.", Toast.LENGTH_SHORT).show();
-//            }
-//            else{
-//                Log.e(tag, "add buddy fail, notify user");
-//                if(socoApp.error_message != null && !socoApp.error_message.isEmpty())
-//                    Toast.makeText(getApplicationContext(), socoApp.error_message, Toast.LENGTH_SHORT).show();
-//                else
-//                    Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            pd.dismiss();
-//        }
-//    };
 
     public void userdetails(View view) {
         Log.v(tag, "show buddy details");

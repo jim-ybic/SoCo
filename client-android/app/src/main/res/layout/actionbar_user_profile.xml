@@ -36,114 +36,43 @@
                     android:src="@drawable/actionbar_close"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>
-            <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:gravity="right"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:paddingLeft="5dp"-->
-                <!--android:paddingRight="5dp" >-->
-                <!--<ImageButton-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="?android:attr/selectableItemBackground"-->
-                    <!--android:src="@drawable/actionbar_comment"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:clickable="false" />-->
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="20"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:clickable="false"-->
-                    <!--android:textColor="@android:color/white"-->
-                    <!--android:paddingLeft="5dp" />-->
-            <!--</LinearLayout>-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:gravity="right"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:paddingLeft="20dp">-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="FREE"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:paddingRight="10dp"-->
-                    <!--android:clickable="false"-->
-                    <!--android:textColor="@android:color/white" />-->
-            <!--</LinearLayout>-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:gravity="right"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:paddingLeft="20dp"-->
-                <!--android:paddingRight="10dp">-->
-                <!--<ImageButton-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="?android:attr/selectableItemBackground"-->
-                    <!--android:src="@drawable/actionbar_overflow"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:clickable="false" />-->
-            <!--</LinearLayout>-->
         </LinearLayout>
 
         <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:clickable="true"
             android:id="@+id/userinfo">
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/buddycard_me"
-            android:layout_gravity="center_horizontal" />
-        <TextView
-            android:id="@+id/name"
-            style="@android:style/TextAppearance.Large.Inverse"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:fontFamily="Roboto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Stephen Chow"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/location"
-            style="@android:style/TextAppearance.Large.Inverse"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:fontFamily="Roboto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hong Kong"
-            android:gravity="center"/>
-        <!--<ImageView-->
-        <!--android:id="@+id/banner"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignWithParentIfMissing="true"-->
-        <!--android:scaleType="centerCrop"-->
-        <!--android:src="@drawable/picture3_crop"/>-->
-        <!--<View-->
-        <!--android:id="@+id/test_view"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="10dp"-->
-        <!--android:layout_alignBottom="@+id/test_image_camera" />-->
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/buddycard_me"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/name"
+                style="@android:style/TextAppearance.Large.Inverse"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="Roboto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+            <TextView
+                android:id="@+id/location"
+                style="@android:style/TextAppearance.Large.Inverse"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:fontFamily="Roboto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

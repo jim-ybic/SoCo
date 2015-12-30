@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">event4us</string>
+    <!--<string name="app_name">event4us</string>-->
     <string name="action_settings">Settings</string>
     <string name="title_activity_show_inactive_projects">Completed Activities</string>
     <string name="title_activity_login">Login</string>
@@ -23,7 +23,7 @@
     <string name="title_activity_test_entry_screen">TestEntryScreen</string>
     <string name="title_activity_contact_list">All Friends</string>
     <string name="facebook_app_id">1499890446976093</string>
-    <string name="title_activity_activity_all_events">All Events</string>
+
     <string name="title_activity_activity_notifications">Notifications</string>
     <string name="title_activity_activity_chats">Chats</string>
     <string name="title_activity_activity_register">Register</string>
@@ -52,7 +52,7 @@
     <string name="title_activity_event_groups_buddies">Groups &amp; Buddies</string>
     <string name="title_activity_test2">Test2Activity</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="title_activity_all_events">All Events</string>
+
     <string name="title_activity_all_buddies">All Buddies</string>
     <string name="title_activity_common_events">Common Events</string>
     <string name="title_activity_search_event">Search</string>
@@ -60,14 +60,31 @@
     <string name="title_activity_group_details">Group Details</string>
     <string name="title_activity_join_group">Join Group</string>
 
-    <string name="dashboard_title">My APA</string>
-    <string name="event">event</string>
-    <string name="buddy">buddy</string>
+    <string name="title_activity_all_events">All Events</string>
+
+    <string name="eventbuddy_left">event</string>
+    <string name="eventbuddy_right">buddy</string>
     <string name="signin">sign in</string>
     <string name="register_bold"><u>Register</u></string>
     <string name="forgotpassword_bold"><u>Forgot Password?</u></string>
     <string name="email">email</string>
     <string name="password">password</string>
 
-</resources>
+    <string name="dashboard_title">My APA</string>
+    <string name="dashboard_tab_events">Events</string>
+    <string name="dashboard_tab_buddies">Buddies</string>
+    <string name="viewallevents">view all events</string>
+    <string name="join">join</string>
+    <string name="introduction">Introduction</string>
+    <string name="organizer">Event Organizer</string>
+    <string name="viewmyevents">view my events</string>
 
+    <string name="userprofile_tab_profile">Profile</string>
+    <string name="userprofile_tab_groups">Groups</string>
+    <string name="userprofile_tab_events">Events</string>
+    <string name="userprofile_hometown">Home Town</string>
+    <string name="userprofile_biography">Biography</string>
+    <string name="userprofile_interests">Interests</string>
+    <string name="userprofile_friends">Friends</string>
+
+</resources>

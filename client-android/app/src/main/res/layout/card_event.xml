@@ -132,72 +132,7 @@
             <!--android:layout_height="10dp"-->
             <!--android:layout_alignBottom="@+id/test_image_camera" />-->
         </LinearLayout>
-
     </LinearLayout>
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/eventgroups"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="vertical"-->
-        <!--android:layout_weight="1"-->
-        <!--android:gravity="left"-->
-        <!--android:onClick="eventgroups"-->
-        <!--android:paddingLeft="10dp"-->
-        <!--android:paddingTop="40dp">-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_weight="1">-->
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="left"-->
-                <!--android:text="Organized by:"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:textSize="10dp"-->
-                <!--android:textColor="@android:color/black"-->
-                <!--android:paddingLeft="5dp" />-->
-        <!--</LinearLayout>-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="left"-->
-            <!--android:paddingLeft="5dp">-->
-            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/groups"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:text="Groups: "&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_gravity="top" />&ndash;&gt;-->
-            <!--<ImageButton-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="?android:attr/selectableItemBackground"-->
-                <!--android:src="@drawable/ic_action_group"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:clickable="false"/>-->
-            <!--<ImageButton-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="?android:attr/selectableItemBackground"-->
-                <!--android:src="@drawable/ic_action_group"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:clickable="false"/>-->
-            <!--<ImageButton-->
-                <!--android:id="@+id/group3"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="?android:attr/selectableItemBackground"-->
-                <!--android:src="@drawable/ic_action_group"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:clickable="false"-->
-                <!--android:textColor="@android:color/black" />-->
-        <!--</LinearLayout>-->
-    <!--</LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -209,160 +144,11 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="5dp"
         android:gravity="center_horizontal">
-        <!--<LinearLayout-->
-        <!--android:id="@+id/indicators"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:paddingBottom="5dp">-->
-        <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_gravity="left"-->
-        <!--android:gravity="left">-->
-        <!--<ImageButton-->
-        <!--android:id="@+id/views"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="?android:attr/selectableItemBackground"-->
-        <!--android:src="@drawable/ic_action_search_black"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:paddingLeft="10dp"-->
-        <!--android:paddingBottom="5dp"-->
-        <!--android:padding="5dp" />-->
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="500"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:paddingRight="10dp" />-->
-        <!--</LinearLayout>-->
-        <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:gravity="right">-->
-        <!--<ImageButton-->
-        <!--android:id="@+id/likes"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="?android:attr/selectableItemBackground"-->
-        <!--android:src="@drawable/ic_action_favorite"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:paddingLeft="0dp"-->
-        <!--android:paddingBottom="5dp"-->
-        <!--android:padding="5dp" />-->
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="100"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:paddingRight="10dp" />-->
-        <!--</LinearLayout>-->
-        <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="10"-->
-        <!--android:orientation="horizontal">-->
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center_vertical"/>-->
-        <!--</LinearLayout>-->
-        <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:gravity="right"-->
-        <!--android:onClick="eventphotos">-->
-        <!--<ImageButton-->
-        <!--android:id="@+id/photos"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="?android:attr/selectableItemBackground"-->
-        <!--android:src="@drawable/camera"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:paddingLeft="0dp"-->
-        <!--android:paddingBottom="5dp"-->
-        <!--android:padding="5dp"-->
-        <!--android:clickable="false"/>-->
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="100"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:paddingRight="10dp"-->
-        <!--android:clickable="false"/>-->
-        <!--</LinearLayout>-->
-        <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:gravity="right"-->
-        <!--android:onClick="eventcomments">-->
-        <!--<ImageButton-->
-        <!--android:id="@+id/comments"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="?android:attr/selectableItemBackground"-->
-        <!--android:src="@drawable/ic_action_chat_black"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:paddingLeft="0dp"-->
-        <!--android:paddingBottom="5dp"-->
-        <!--android:padding="5dp"-->
-        <!--android:clickable="false"/>-->
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="20"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:paddingRight="10dp"-->
-        <!--android:clickable="false"/>-->
-        <!--</LinearLayout>-->
-        <!--</LinearLayout>-->
-        <!--<TextView-->
-        <!--android:id="@+id/description"-->
-        <!--style="@android:style/TextAppearance.Inverse"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignBottom="@+id/test_image_friends"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_toLeftOf="@+id/btn_sep_1"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:fontFamily="sans-serif-condensed"-->
-        <!--android:ellipsize="end"-->
-        <!--android:padding="10dp"-->
-        <!--android:lines="1"-->
-        <!--android:textColor="@android:color/secondary_text_light"-->
-        <!--tools:text="This is the description, it is a long description, as you can see"/>-->
         <LinearLayout
             android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:gravity="center_horizontal">-->
-                <!--<ImageButton-->
-                    <!--android:id="@+id/map"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:background="?android:attr/selectableItemBackground"-->
-                    <!--android:src="@drawable/ic_action_location_found"-->
-                    <!--android:layout_gravity="center_vertical" />-->
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="fill_parent"-->
-                    <!--android:text="2.6km"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:textSize="18sp"-->
-                    <!--android:textStyle="bold" />-->
-            <!--</LinearLayout>-->
-
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
@@ -376,78 +162,24 @@
             android:orientation="horizontal"
             android:layout_weight="1"
             android:layout_marginTop="5dp">
-
-            <!--<ImageButton-->
-                <!--android:id="@+id/calendar"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="?android:attr/selectableItemBackground"-->
-                <!--android:src="@drawable/ic_action_event"-->
-                <!--android:layout_gravity="center_vertical" />-->
-
             <TextView
                 android:id="@+id/textStartDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="right" />
-
             <TextView
                 android:id="@+id/textStartDayOfWeek"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp" />
-
             <TextView
                 android:id="@+id/textStartEndTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp" />
-
         </LinearLayout>
-
-
-        <!--<LinearLayout-->
-        <!--android:id="@+id/friends"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
-        <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_weight="1"-->
-        <!--android:layout_gravity="left"-->
-        <!--android:gravity="left"-->
-        <!--android:padding="5dp">-->
-        <!--<ImageButton-->
-        <!--android:id="@+id/friends_icon"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="?android:attr/selectableItemBackground"-->
-        <!--android:src="@drawable/ic_action_person"-->
-        <!--android:layout_gravity="center_vertical" />-->
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="  "-->
-        <!--android:layout_gravity="center_vertical" />-->
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Bright Future Co Ltd. (business), Mary Yan"-->
-        <!--android:layout_gravity="center_vertical" />-->
-        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:text=" on behalf of "&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_gravity="center_vertical" />&ndash;&gt;-->
-        <!--</LinearLayout>-->
-        <!--</LinearLayout>-->
-
     </LinearLayout>
-
-
 
     <LinearLayout
         android:id="@+id/eventbuddies"
@@ -460,34 +192,6 @@
         android:paddingBottom="10dp"
         android:background="@android:color/white"
         android:onClick="eventbuddies">
-
-        <!--<ImageButton-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:src="@drawable/user1"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:clickable="false"-->
-            <!--android:paddingLeft="10dp" />-->
-
-        <!--<ImageButton-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:src="@drawable/user2"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:clickable="false"-->
-            <!--android:adjustViewBounds="false"-->
-            <!--android:paddingLeft="10dp" />-->
-
-        <!--<ImageButton-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:src="@drawable/user3"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:clickable="false"-->
-            <!--android:paddingLeft="10dp" />-->
     </LinearLayout>
 
     <LinearLayout
@@ -500,53 +204,6 @@
         android:paddingBottom="10dp"
         android:background="@android:color/white"
         android:paddingTop="10dp">
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Seminar"-->
-            <!--android:gravity="left"-->
-            <!--android:paddingLeft="10dp"-->
-            <!--android:paddingRight="10dp"-->
-            <!--android:paddingTop="5dp"-->
-            <!--android:paddingBottom="5dp"-->
-            <!--android:textSize="10dp"-->
-            <!--android:textColor="@android:color/black"-->
-            <!--android:layout_gravity="top"-->
-            <!--android:background="@drawable/eventcategory_box"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_marginBottom="5dp" />-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Research"-->
-            <!--android:gravity="left"-->
-            <!--android:paddingLeft="10dp"-->
-            <!--android:paddingRight="10dp"-->
-            <!--android:paddingTop="5dp"-->
-            <!--android:paddingBottom="5dp"-->
-            <!--android:textSize="10dp"-->
-            <!--android:textColor="@android:color/black"-->
-            <!--android:layout_gravity="top"-->
-            <!--android:background="@drawable/eventcategory_box"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_marginBottom="5dp" />-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Graphics"-->
-            <!--android:gravity="left"-->
-            <!--android:paddingLeft="10dp"-->
-            <!--android:paddingRight="10dp"-->
-            <!--android:paddingTop="5dp"-->
-            <!--android:paddingBottom="5dp"-->
-            <!--android:textSize="10dp"-->
-            <!--android:textColor="@android:color/black"-->
-            <!--android:layout_gravity="top"-->
-            <!--android:background="@drawable/eventcategory_box"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_marginBottom="5dp" />-->
     </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -563,7 +220,6 @@
                 android:layout_weight="1"
                 android:textSize="19dp"
                 android:background="@drawable/tab_unselected"
-                android:text="# of like"
                 android:drawableLeft="@drawable/eventcard_like_selector"
                 android:paddingLeft="40dp"
                 android:gravity="center"
@@ -572,13 +228,12 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginRight="1dp"
                 android:onClick="likeevent"/>
-
             <Button
                 android:id="@+id/joinevent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Join"
+                android:text="@string/join"
                 android:textSize="19dp"
                 android:textColor="@android:color/holo_blue_dark"
                 android:background="@drawable/tab_unselected"

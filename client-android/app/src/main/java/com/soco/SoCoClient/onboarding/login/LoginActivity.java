@@ -83,7 +83,6 @@ public class LoginActivity //extends ActionBarActivity
         setContentView(R.layout.login_activity);
 
         findViews();
-        setText();
         context = getApplicationContext();
         socoApp = (SocoApp) context;
 
@@ -158,16 +157,6 @@ public class LoginActivity //extends ActionBarActivity
         Log.v(tag, "facebook access token: " + accessToken);
         callbackManager = CallbackManager.Factory.create();
         return;
-    }
-
-    private void setText(){
-        ((TextView) findViewById(R.id.event)).setText(R.string.event);
-        ((TextView) findViewById(R.id.buddy)).setText(R.string.buddy);
-        ((Button) findViewById(R.id.signintxt)).setText(R.string.signin);
-        ((TextView) findViewById(R.id.registertxt)).setText(R.string.register_bold);
-        ((TextView) findViewById(R.id.forgotpasswordtxt)).setText(R.string.forgotpassword_bold);
-        ((EditText) findViewById(R.id.et_login_email)).setHint(R.string.email);
-        ((EditText) findViewById(R.id.et_login_password)).setHint(R.string.password);
     }
 
     private void findViews() {

@@ -29,16 +29,11 @@ import com.soco.SoCoClient.common.util.SocoApp;
 public class UserProfileActivity extends ActionBarActivity
         implements android.support.v7.app.ActionBar.TabListener, TaskCallBack
 {
-
     String tag = "UserProfileActivity";
 
     private ViewPager viewPager;
     private UserProfileTabsAdapter mAdapter;
     private android.support.v7.app.ActionBar actionBar;
-
-    static final String PROFILE = "Profile";
-    static final String GROUPS = "Groups";
-    static final String EVENTS = "Events";
 
     Context context;
     SocoApp socoApp;
@@ -110,10 +105,6 @@ public class UserProfileActivity extends ActionBarActivity
         Log.v(tag, "remove margin in actionbar area");
         parent.setContentInsetsAbsolute(0, 0);
 
-//        Log.v(tag, "set actionbar background color");
-//        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
-//        actionBar.setBackgroundDrawable(colorDrawable);
-
         TextView userName = (TextView) customView.findViewById(R.id.name);
         userName.setText(user.getUser_name());
         TextView userLocation = (TextView) customView.findViewById(R.id.location);
@@ -128,11 +119,11 @@ public class UserProfileActivity extends ActionBarActivity
         IconUrlUtil.setImageForButtonLarge(context.getResources(), icon, UrlUtil.getUserIconUrl(user.getUser_id()));
 
         Log.v(tag, "Adding tabs");
-        android.support.v7.app.ActionBar.Tab tabProfile = actionBar.newTab().setText(PROFILE).setTabListener(this);
+        android.support.v7.app.ActionBar.Tab tabProfile = actionBar.newTab().setText(R.string.userprofile_tab_profile).setTabListener(this);
         actionBar.addTab(tabProfile);
-        android.support.v7.app.ActionBar.Tab tabGroups = actionBar.newTab().setText(GROUPS).setTabListener(this);
+        android.support.v7.app.ActionBar.Tab tabGroups = actionBar.newTab().setText(R.string.userprofile_tab_groups).setTabListener(this);
         actionBar.addTab(tabGroups);
-        android.support.v7.app.ActionBar.Tab tabEvents = actionBar.newTab().setText(EVENTS).setTabListener(this);
+        android.support.v7.app.ActionBar.Tab tabEvents = actionBar.newTab().setText(R.string.userprofile_tab_events).setTabListener(this);
         actionBar.addTab(tabEvents);
 
         Log.v(tag, "set starting tab " + tabIndex);
@@ -175,28 +166,6 @@ public class UserProfileActivity extends ActionBarActivity
     public void onTabReselected(android.support.v7.app.ActionBar.Tab tab,
                                 android.support.v4.app.FragmentTransaction fragmentTransaction) {
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-////        Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_activity_user_profile, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     public void close(View view){
         Log.v(tag, "tap on close");

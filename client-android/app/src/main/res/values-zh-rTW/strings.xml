@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="dashboard_title">活動社交平台</string>
-    <string name="event">活動</string>
-    <string name="buddy">好友</string>
+    <string name="title_activity_all_events">全部活動</string>
+
+    <string name="eventbuddy_left">友</string>
+    <string name="eventbuddy_right">活動</string>
     <string name="signin">登入</string>
     <string name="register_bold"><u>新用戶註冊</u></string>
     <string name="forgotpassword_bold"><u>忘記密碼?</u></string>
     <string name="email">電郵地址</string>
     <string name="password">密碼</string>
 
-</resources>
+    <string name="dashboard_title">活動社交平台</string>
+    <string name="dashboard_tab_events">活動</string>
+    <string name="dashboard_tab_buddies">好友</string>
+    <string name="viewallevents">查看全部活動</string>
+    <string name="join">報名</string>
+    <string name="introduction">簡介</string>
+    <string name="organizer">主辦方</string>
+    <string name="viewmyevents">查看我的活動</string>
 
+    <string name="userprofile_tab_profile">簡介</string>
+    <string name="userprofile_tab_groups">群組</string>
+    <string name="userprofile_tab_events">活動</string>
+
+    <string name="userprofile_hometown">來自</string>
+    <string name="userprofile_biography">關於我</string>
+    <string name="userprofile_interests">興趣愛好</string>
+    <string name="userprofile_friends">好友</string>
+
+</resources>
