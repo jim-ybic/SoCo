@@ -63,7 +63,9 @@ public class SuggestedBuddiesFragment extends Fragment
         socoApp.suggestedBuddiesView = rootView;
 
         Log.v(tag, "show progress dialog, fetch suggested users from server");
-        pd = ProgressDialog.show(getActivity(), "Downloading users", "Please wait...");
+        pd = ProgressDialog.show(getActivity(),
+                context.getString(R.string.msg_downloading_users),
+                context.getString(R.string.msg_pls_wait));
         new Thread(new Runnable(){
             public void run(){
                 downloadBuddiesInBackgroud(getActivity());

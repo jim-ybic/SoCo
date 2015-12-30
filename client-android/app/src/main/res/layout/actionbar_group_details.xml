@@ -12,7 +12,6 @@
         android:orientation="vertical"
         android:background="#4a4a4a"
         android:id="@+id/titlearea">
-
         <LinearLayout
             android:id="@+id/quickinfo"
             android:layout_width="match_parent"
@@ -33,22 +32,14 @@
                     android:onClick="close"
                     android:padding="15dp" />
             </LinearLayout>
-
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal"
-            android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:gravity="right"
                 android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+                android:paddingRight="5dp"
                 android:layout_gravity="right">
-            <!--<ImageButton-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:src="@drawable/actionbar_comment"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:clickable="false" />-->
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -57,64 +48,15 @@
                     android:layout_gravity="center_vertical"
                     android:onClick="joingroup"
                     android:padding="2dp" />
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="20"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:clickable="false"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:paddingLeft="5dp" />-->
-            <!--</LinearLayout>-->
-            <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:gravity="right"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:paddingLeft="20dp">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="FREE"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:paddingRight="10dp"-->
-            <!--android:clickable="false"-->
-            <!--android:textColor="@android:color/white" />-->
-            <!--</LinearLayout>-->
-            <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:gravity="right"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:paddingLeft="20dp"-->
-            <!--android:paddingRight="10dp">-->
-            <!--<ImageButton-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:src="@drawable/actionbar_overflow"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:clickable="false" />-->
             </LinearLayout>
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
             android:clickable="true"
-            android:id="@+id/userinfo">
-
-            <!--<ImageButton-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:src="@drawable/buddycard_me"-->
-            <!--android:layout_gravity="center_horizontal" />-->
+            android:id="@+id/groupinfo">
             <TextView
                 android:id="@+id/group_name"
                 style="@android:style/TextAppearance.Large.Inverse"
@@ -124,7 +66,6 @@
                 android:fontFamily="Roboto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="The Pianist Group"
                 android:gravity="center" />
             <TextView
                 android:id="@+id/location"
@@ -134,39 +75,25 @@
                 android:fontFamily="Roboto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hong Kong Island, HK"
                 android:gravity="center"/>
-            <!--<ImageView-->
-            <!--android:id="@+id/banner"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignWithParentIfMissing="true"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:src="@drawable/picture3_crop"/>-->
-            <!--<View-->
-            <!--android:id="@+id/test_view"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="10dp"-->
-            <!--android:layout_alignBottom="@+id/test_image_camera" />-->
         </LinearLayout>
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/introductionarea"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:id="@+id/introductionarea">
         <TextView
             android:id="@+id/intro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="The Pianist Group is composed of a group of pianists who are active in Hong Kong."
-            android:onClick="GroupIntroduction"/>
+            android:clickable="true"
+            android:onClick="groupIntro"
+            android:padding="5dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -185,61 +112,6 @@
             android:paddingBottom="5dp"
             android:paddingRight="5dp"
             android:paddingLeft="5dp">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/user1"
-                android:id="@+id/user1"
-                android:layout_gravity="center_vertical"
-                android:clickable="false"/>
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/user2"
-                android:id="@+id/user2"
-                android:layout_gravity="center_vertical"
-                android:clickable="false"
-                android:adjustViewBounds="false"
-                android:paddingLeft="10dp" />
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/user3"
-                android:id="@+id/user3"
-                android:layout_gravity="center_vertical"
-                android:clickable="false"
-                android:paddingLeft="10dp" />
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/user1"
-                android:id="@+id/user4"
-                android:layout_gravity="center_vertical"
-                android:clickable="false"
-                android:paddingLeft="10dp" />
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/user2"
-                android:id="@+id/user5"
-                android:layout_gravity="center_vertical"
-                android:clickable="false"
-                android:adjustViewBounds="false"
-                android:paddingLeft="10dp" />
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/user3"
-                android:id="@+id/user6"
-                android:layout_gravity="center_vertical"
-                android:clickable="false"
-                android:paddingLeft="10dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -250,10 +122,6 @@
         android:id="@+id/categoriesarea"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Category" />-->
         <LinearLayout
             android:id="@+id/categories"
             android:layout_width="match_parent"
@@ -261,53 +129,6 @@
             android:orientation="horizontal"
             android:layout_weight="1"
             android:layout_marginTop="2dp">
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Seminar"-->
-                <!--android:gravity="left"-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:paddingTop="5dp"-->
-                <!--android:paddingBottom="5dp"-->
-                <!--android:textSize="10dp"-->
-                <!--android:textColor="@android:color/black"-->
-                <!--android:layout_gravity="top"-->
-                <!--android:background="@drawable/eventcategory_box"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:layout_marginBottom="5dp" />-->
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Research"-->
-                <!--android:gravity="left"-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:paddingTop="5dp"-->
-                <!--android:paddingBottom="5dp"-->
-                <!--android:textSize="10dp"-->
-                <!--android:textColor="@android:color/black"-->
-                <!--android:layout_gravity="top"-->
-                <!--android:background="@drawable/eventcategory_box"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:layout_marginBottom="5dp" />-->
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Graphics"-->
-                <!--android:gravity="left"-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:paddingTop="5dp"-->
-                <!--android:paddingBottom="5dp"-->
-                <!--android:textSize="10dp"-->
-                <!--android:textColor="@android:color/black"-->
-                <!--android:layout_gravity="top"-->
-                <!--android:background="@drawable/eventcategory_box"-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:layout_marginBottom="5dp" />-->
         </LinearLayout>
     </LinearLayout>
 

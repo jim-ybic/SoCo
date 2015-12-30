@@ -169,7 +169,9 @@ public class LoginActivity //extends ActionBarActivity
         LoginController.requestFacebookUserInfo(context);
 
         Log.v(tag, "show progress dialog, start login via facebook");
-        pd = ProgressDialog.show(this, "Login via Facebook in progress", "Please wait...");
+        pd = ProgressDialog.show(this,
+                context.getString(R.string.msg_login_via_facebook),
+                context.getString(R.string.msg_pls_wait));
         new Thread(new Runnable(){
             public void run(){
                 loginViaFacebookInBackground();
@@ -251,7 +253,9 @@ public class LoginActivity //extends ActionBarActivity
         editor.commit();
 
         Log.v(tag, "show progress dialog, start login normal in background");
-        pd = ProgressDialog.show(this, "Login in progress", "Please wait...");
+        pd = ProgressDialog.show(this,
+                context.getString(R.string.msg_login),
+                context.getString(R.string.msg_pls_wait));
         hideViews();
         new Thread(new Runnable(){
             public void run(){

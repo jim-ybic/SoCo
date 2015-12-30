@@ -73,11 +73,29 @@
     <string name="dashboard_title">My APA</string>
     <string name="dashboard_tab_events">Events</string>
     <string name="dashboard_tab_buddies">Buddies</string>
+    <string name="groupdetails_tab_upcoming">Upcoming</string>
+    <string name="groupdetails_tab_past">Past Events</string>
+
     <string name="viewallevents">view all events</string>
     <string name="join">join</string>
     <string name="introduction">Introduction</string>
     <string name="organizer">Event Organizer</string>
     <string name="viewmyevents">view my events</string>
+
+    <string name="venue">Venue</string>
+    <string name="datentime">Date &amp; Time</string>
+    <string name="personal_contact_confirm">Personal Contact Confirmation</string>
+    <string name="mobile_phone_number">Mobile Phone Number</string>
+    <string name="mail_address">Mail Address</string>
+
+    <string name="msg_login">Login in progress</string>
+    <string name="msg_login_via_facebook">Login via Facebook in progress</string>
+    <string name="msg_downloading_events">Downloading events</string>
+    <string name="msg_downloading_users">Downloading users</string>
+    <string name="msg_pls_wait">Please wait...</string>
+    <string name="msg_info">Info</string>
+    <string name="msg_ok">OK</string>
+
 
     <string name="userprofile_tab_profile">Profile</string>
     <string name="userprofile_tab_groups">Groups</string>

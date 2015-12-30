@@ -1,11 +1,7 @@
 package com.soco.SoCoClient.dashboard;
 
-//import info.androidhive.tabsswipe.contactsAdapter.TabsPagerAdapter;
-//import info.androidhive.tabsswipe.R;
-
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,12 +25,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.buddies.allbuddies.AllBuddiesActivity;
 import com.soco.SoCoClient.buddies.service.AddBuddyTask;
-import com.soco.SoCoClient.buddies.suggested.SuggestedBuddiesFragment;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
@@ -47,7 +41,6 @@ import com.soco.SoCoClient.events.common.JoinEventActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.events.service.LikeEventTask;
-import com.soco.SoCoClient.events.suggested.SuggestedEventsFragment;
 import com.soco.SoCoClient.groups.AllGroupsActivity;
 import com.soco.SoCoClient.userprofile.SettingsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;

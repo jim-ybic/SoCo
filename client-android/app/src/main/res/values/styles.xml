@@ -32,8 +32,8 @@
     </style>
 
     <style name="GroupDetailsTallActionBarTheme" parent="Theme.AppCompat.Light">
-        <item name="android:actionBarSize">240dp</item>
-        <item name="actionBarSize">240dp</item>
+        <item name="android:actionBarSize">220dp</item>
+        <item name="actionBarSize">220dp</item>
         <item name="actionBarTabStyle">@style/Soco.ActionBarTab.Style</item>
         <item name="actionBarTabTextStyle">@style/Soco.ActionBarTabText.Style</item>
     </style>

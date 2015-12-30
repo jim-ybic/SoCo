@@ -47,8 +47,6 @@ public class GroupDetailsActivity extends ActionBarActivity implements
     private GroupDetailsTabsAdapter mAdapter;
     private android.support.v7.app.ActionBar actionBar;
 
-    static final String UPCOMING = "Upcoming";
-    static final String PASTEVENTS = "Past Events";
     private Context mContext;
     private Group group;
     private String groupId;
@@ -95,9 +93,9 @@ public class GroupDetailsActivity extends ActionBarActivity implements
         parent.setContentInsetsAbsolute(0, 0);
 
         Log.v(tag, "Adding tabs");
-        android.support.v7.app.ActionBar.Tab tabProfile = actionBar.newTab().setText(UPCOMING).setTabListener(this);
+        android.support.v7.app.ActionBar.Tab tabProfile = actionBar.newTab().setText(R.string.groupdetails_tab_upcoming).setTabListener(this);
         actionBar.addTab(tabProfile);
-        android.support.v7.app.ActionBar.Tab tabGroups = actionBar.newTab().setText(PASTEVENTS).setTabListener(this);
+        android.support.v7.app.ActionBar.Tab tabGroups = actionBar.newTab().setText(R.string.groupdetails_tab_past).setTabListener(this);
         actionBar.addTab(tabGroups);
         showGroupDetails(group);
 //        Log.v(tag, "set starting tab");
@@ -196,15 +194,6 @@ public class GroupDetailsActivity extends ActionBarActivity implements
         }
     }
 
-    //    private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
-//        ImageView user = new ImageButton(mContext);
-//        user.setLayoutParams(params);
-//        user.setBackgroundResource(backgroundResource);
-//        user.setPadding(10, 0, 10, 0);
-//        user.setClickable(false);
-//        IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
-//        list.addView(user);
-//    }
     public void close(View view){
         Log.v(tag, "tap on close");
         finish();
@@ -269,6 +258,24 @@ public class GroupDetailsActivity extends ActionBarActivity implements
 
     private void joinGroupInBackground(){
         new JoinGroupTask(getApplicationContext(), group, this).execute();
+    }
+
+    public void groupIntro(View view){
+        Log.v(tag, "show group full intro message");
+        String text = ((TextView) findViewById(R.id.intro)).getText().toString();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.msg_info);
+        builder.setMessage(text);
+        builder.setPositiveButton(
+                getApplicationContext().getString(R.string.msg_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Log.d(tag, "tap OK");
+                        joinGroupInBackground();
+                    }
+                });
+        builder.show();
     }
 
 }

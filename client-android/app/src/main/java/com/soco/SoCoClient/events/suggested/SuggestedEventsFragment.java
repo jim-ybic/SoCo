@@ -57,7 +57,9 @@ public class SuggestedEventsFragment extends Fragment
         socoApp.suggestedEventsView = rootView;
 
         Log.v(tag, "show progress dialog, fetch suggested events from server");
-        pd = ProgressDialog.show(getActivity(), "Downloading events", "Please wait...");
+        pd = ProgressDialog.show(getActivity(),
+                context.getString(R.string.msg_downloading_events),
+                context.getString(R.string.msg_pls_wait));
         new Thread(new Runnable(){
             public void run(){
                 downloadEventsInBackgroud(getActivity());

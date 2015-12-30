@@ -6,19 +6,4 @@
     android:orientation="vertical"
     android:background="@android:color/white">
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Offline mode"
-        android:id="@+id/offline_mode"
-        android:onClick="clickOfflinemode"
-        android:layout_gravity="center_horizontal" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Set Text"
-        android:id="@+id/button"
-        android:onClick="settext"
-        android:layout_gravity="center_horizontal" />
 </LinearLayout>
