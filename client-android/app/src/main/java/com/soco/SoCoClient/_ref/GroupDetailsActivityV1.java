@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.events.common.EventDetailsActivity;
+import com.soco.SoCoClient.events.details.EventDetailsActivity;
 import com.soco.SoCoClient.groups.GroupMembersActivity;
 
 @Deprecated

@@ -1,11 +1,11 @@
-package com.soco.SoCoClient.events.common;
+package com.soco.SoCoClient.events.details;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -16,11 +16,9 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
-import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
-import com.soco.SoCoClient.events._ref.EventBuddiesActivity;
 import com.soco.SoCoClient.events._ref.EventOrganizersActivity;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.model.Event;
@@ -34,13 +32,13 @@ import com.soco.SoCoClient.groups.GroupDetailsActivity;
 public class EventDetailsActivity extends ActionBarActivity implements TaskCallBack {
 
     static final String tag = "EventDetailsActivity";
-    private long Current_Event_Id = 0;
+    private long currentEventId = 0;
 
     private Context context;
-    private SocoApp socoApp;
     public static final String EVENT_ID = "EVENT_ID";
     private Event event;
     static final int MAX_NUMBER_BUDDIES_SHOW_ON_CARD = 6;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,18 +48,38 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         getSupportActionBar().hide();
 
         context = getApplicationContext();
-        socoApp = (SocoApp) getApplicationContext();
+        currentEventId = i.getLongExtra(EVENT_ID, 0);
 
-//        Event event;
-        Current_Event_Id = i.getLongExtra(EVENT_ID, 0);
+        Log.v(tag, "show progress dialog, start downloading event details");
+        pd = ProgressDialog.show(this,
+                context.getString(R.string.msg_downloading_event),
+                context.getString(R.string.msg_pls_wait));
+        new Thread(new Runnable(){
+            public void run(){
+                downloadEventDetails();
+            }
+        }).start();
+    }
+
+    private void downloadEventDetails(){
         EventDetailsTask edt = new EventDetailsTask(SocoApp.user_id,SocoApp.token,this);
-        edt.execute(Long.toString(Current_Event_Id));
+        edt.execute(Long.toString(currentEventId));
+    }
+
+    public void doneTask(Object o){
+        if(o==null){
+            Log.e(tag, "EventDetailsTask returns null");
+            return;
+        }
+        event = (Event) o;
         showDetails(event);
+        pd.dismiss();
     }
 
     public void close(View view){
         finish();
     }
+
     public void eventphotos (View view){
         Log.d(tag, "show all event photos");
         Intent i = new Intent(getApplicationContext(), EventPhotosActivity.class);
@@ -81,16 +99,10 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
 
     }
 
-    public void eventfriends (View view){
-        Log.d(tag, "show all event friends");
-        Intent i = new Intent(getApplicationContext(), EventBuddiesActivity.class);
-        startActivity(i);
-
-    }
     public void joinevent(View view){
         Log.v(tag, "tap join event");
         Intent i = new Intent(getApplicationContext(), JoinEventActivity.class);
-        i.putExtra(Event.EVENT_ID,Long.toString(Current_Event_Id));
+        i.putExtra(Event.EVENT_ID,Long.toString(currentEventId));
         startActivity(i);
     }
     public void groupdetails (View view){
@@ -158,13 +170,7 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
 //        LikeUtil.initialLikeButton(((Button) this.findViewById(R.id.likeevent)), event.isLikedEvent());
     }
 
-    public void doneTask(Object o){
-        if(o==null){
-            return;
-        }
-        event = (Event) o;
-        showDetails(event);
-    }
+
     public void share(View view){
         if(event!=null) {
             Intent sendIntent = new Intent();
@@ -175,12 +181,20 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
             startActivity(sendIntent);
         }
     }
+
     public void likeevent(View view){
         Log.v(tag, "tap like event button");
         Button button = (Button) view.findViewById(R.id.likeevent);
         boolean isLiked = button.isActivated();
         LikeEventTask let = new LikeEventTask(SocoApp.user_id, SocoApp.token, event, button,isLiked);
         let.execute();
+    }
+
+    public void post(View view){
+        Log.v(tag, "tap post");
+        Intent i = new Intent(this, AddPostActivity.class);
+        i.putExtra(AddPostActivity.EVENT_ID, event.getId());
+        startActivity(i);
     }
 
 }

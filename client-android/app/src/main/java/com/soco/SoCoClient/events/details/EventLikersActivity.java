@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.events.common;
+package com.soco.SoCoClient.events.details;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

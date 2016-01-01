@@ -16,7 +16,7 @@ import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.StringUtil;
-import com.soco.SoCoClient.events.common.UserIconGridAdapter;
+import com.soco.SoCoClient.groups.ui.UserIconGridAdapter;
 import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.groups.task.GroupMembersTask;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;

@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.events.common;
+package com.soco.SoCoClient.groups.ui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

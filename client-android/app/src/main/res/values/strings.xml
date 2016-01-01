@@ -87,6 +87,7 @@
     <string name="personal_contact_confirm">Personal Contact Confirmation</string>
     <string name="mobile_phone_number">Mobile Phone Number</string>
     <string name="mail_address">Mail Address</string>
+    <string name="post">Post</string>
 
     <string name="msg_login">Login in progress</string>
     <string name="msg_login_via_facebook">Login via Facebook in progress</string>
@@ -95,7 +96,9 @@
     <string name="msg_pls_wait">Please wait...</string>
     <string name="msg_info">Info</string>
     <string name="msg_ok">OK</string>
-
+    <string name="msg_login_success">Login success.</string>
+    <string name="msg_login_fail">Login fail, please check password and try again.</string>
+    <string name="msg_downloading_event">Downloading event.</string>
 
     <string name="userprofile_tab_profile">Profile</string>
     <string name="userprofile_tab_groups">Groups</string>
@@ -104,5 +107,6 @@
     <string name="userprofile_biography">Biography</string>
     <string name="userprofile_interests">Interests</string>
     <string name="userprofile_friends">Friends</string>
+    <string name="title_activity_add_post">Add Post</string>
 
 </resources>

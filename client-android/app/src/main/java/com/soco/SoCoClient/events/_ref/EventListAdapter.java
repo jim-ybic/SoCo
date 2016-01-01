@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.events.common.ui;
+package com.soco.SoCoClient.events._ref;
 
 import android.content.Context;
 import android.view.LayoutInflater;

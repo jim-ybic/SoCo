@@ -12,6 +12,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.groups.CreateGroupActivity;
 
+@Deprecated
 public class MyProfileActivity extends ActionBarActivity {
 
     static final String tag = "MyProfileActivity";

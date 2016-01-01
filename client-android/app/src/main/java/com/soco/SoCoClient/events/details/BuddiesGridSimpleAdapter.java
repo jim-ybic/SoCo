@@ -1,16 +1,16 @@
-package com.soco.SoCoClient.events.common;
+package com.soco.SoCoClient.events.details;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
+import com.soco.SoCoClient.events.details.EventBuddiesFragment;
 
 import java.util.HashMap;
 import java.util.List;

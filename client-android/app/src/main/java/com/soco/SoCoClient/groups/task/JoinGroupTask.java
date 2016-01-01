@@ -1,8 +1,6 @@
 package com.soco.SoCoClient.groups.task;
 
-import android.app.IntentService;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -12,9 +10,6 @@ import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
-import com.soco.SoCoClient.common.util.StringUtil;
-import com.soco.SoCoClient.events.common.JoinEventActivity;
-import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.groups.model.Group;
 
 import org.json.JSONObject;

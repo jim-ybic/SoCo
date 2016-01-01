@@ -19,8 +19,7 @@ import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.CreateEventActivity;
-import com.soco.SoCoClient.events.common.EventDetailsActivity;
-import com.soco.SoCoClient.events.common.EventGroupsBuddiesActivity;
+import com.soco.SoCoClient.events.details.EventDetailsActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
@@ -172,27 +171,6 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
         Intent i = new Intent(this, EventDetailsActivity.class);
         Long id = (Long) view.getTag();
         i.putExtra(EventDetailsActivity.EVENT_ID, id);
-        startActivity(i);
-    }
-
-    public void eventgroups(View view) {
-        Log.v(tag, "show all event groups");
-        socoApp.eventGroupsBuddiesTabIndex = 0;
-//        Intent i = new Intent(getApplicationContext(), EventOrganizersActivity.class);
-        Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
-        startActivity(i);
-
-        //todo: passing event id to the new activity to get event details
-
-    }
-
-    public void eventbuddies(View view) {
-        Log.v(tag, "show all event buddies");
-        socoApp.eventGroupsBuddiesTabIndex = 1;
-        Intent i = new Intent(getApplicationContext(), EventGroupsBuddiesActivity.class);
-
-        //todo: passing event id to the new activity to get event details
-
         startActivity(i);
     }
 

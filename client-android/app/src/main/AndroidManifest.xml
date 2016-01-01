@@ -241,7 +241,7 @@
                 android:value=".onboarding.login.LoginActivity" />
         </activity>
         <activity
-            android:name=".events.common.EventLikersActivity"
+            android:name=".events.details.EventLikersActivity"
             android:label="@string/title_activity_activity_event_likers"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -265,7 +265,7 @@
                 android:value=".dashboard.Dashboard" />
         </activity>
         <activity
-            android:name=".events.common.EventDetailsActivity"
+            android:name=".events.details.EventDetailsActivity"
             android:label="@string/title_activity_activity_event_details" >
 
             <!-- android:parentActivityName=".dashboard.Dashboard" > -->
@@ -274,7 +274,7 @@
             <!-- android:value=".dashboard.Dashboard" /> -->
         </activity>
         <activity
-            android:name=".events.common.JoinEventActivity"
+            android:name=".events.details.JoinEventActivity"
             android:label="@string/title_activity_activity_join_event"
             android:parentActivityName=".dashboard.Dashboard" >
             <meta-data
@@ -378,7 +378,7 @@
                 android:value="com.soco.SoCoClient.groups.AllGroupsActivity" />
         </activity>
         <activity
-            android:name=".events.common.EventGroupsBuddiesActivity"
+            android:name=".events.details.EventGroupsBuddiesActivity"
             android:label="@string/title_activity_event_groups_buddies"
             android:theme="@style/EventGroupBuddiesTallActionBarTheme" >
         </activity>
@@ -434,6 +434,14 @@
         <activity
             android:name=".groups.JoinGroupActivity"
             android:label="@string/title_activity_join_group" >
+        </activity>
+        <activity
+            android:name=".events.details.AddPostActivity"
+            android:label="@string/title_activity_add_post"
+            android:parentActivityName=".events.details.EventDetailsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.events.details.EventDetailsActivity" />
         </activity>
     </application>
 

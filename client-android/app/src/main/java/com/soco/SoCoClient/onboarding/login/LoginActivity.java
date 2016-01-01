@@ -279,7 +279,7 @@ public class LoginActivity //extends ActionBarActivity
         Log.v(tag, "handle receive message and dismiss dialog");
         if(socoApp.loginNormalResponse && socoApp.loginNormalResult){
             Log.d(tag, "login normal success, finish this screen and login to dashboard");
-            Toast.makeText(getApplicationContext(), "Login suceess.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.msg_login_success, Toast.LENGTH_SHORT).show();
 
             Log.v(tag, "start dashboard");
             Intent intent = new Intent(LoginActivity.this, Dashboard.class);
@@ -287,7 +287,7 @@ public class LoginActivity //extends ActionBarActivity
         }
         else{
             Log.e(tag, "login normal fail, notify user");
-            Toast.makeText(getApplicationContext(), "Login fail, please check password and try again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.msg_login_fail, Toast.LENGTH_SHORT).show();
             onResume();
         }
         pd.dismiss();

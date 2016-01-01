@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.events.common.ui;
+package com.soco.SoCoClient.events._ref;
 
 
 import com.soco.SoCoClient._ref.GeneralConfigV1;

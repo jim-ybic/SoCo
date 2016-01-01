@@ -125,18 +125,19 @@ public class SimpleEventCardAdapter
             }
         }
         for(User u : total){
-            addImageButtonToView(params,backgroundResource,u,list);
+            addBuddyButtonsToView(params, backgroundResource, u, list);
             Log.v(tag, "added joined friend into view: " + u.toString());
             if(++countBuddy>MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
                 break;
         }
     }
 
-    private void addImageButtonToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list){
+    private void addBuddyButtonsToView(LinearLayout.LayoutParams params, int backgroundResource, User u, LinearLayout list){
         ImageButton user = new ImageButton(mContext);
         user.setLayoutParams(params);
         user.setBackgroundResource(backgroundResource);
         user.setPadding(10, 0, 10, 0);
+        user.setClickable(false);
         Log.v(tag, "add image button to view: " + u.getUser_id() + ", " + u.getUser_name());
         IconUrlUtil.setImageForButtonSmall(mContext.getResources(), user, UrlUtil.getUserIconUrl(u.getUser_id()));
         list.addView(user);
@@ -176,7 +177,7 @@ public class SimpleEventCardAdapter
 //            mTextView = (TextView) v.findViewById(R.id.name);
 //            mImageView = (ImageView) v.findViewById(R.id.pic);
 
-            Log.d(tag, "mTextView: " + mTextView + ", mImageView: " + mImageView);
+            Log.v(tag, "mTextView: " + mTextView + ", mImageView: " + mImageView);
         }
     }
 }

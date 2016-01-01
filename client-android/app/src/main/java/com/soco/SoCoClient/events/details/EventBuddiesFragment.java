@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.events.common;
+package com.soco.SoCoClient.events.details;
 
 
 import android.content.Context;
@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,9 +30,9 @@ public class EventBuddiesFragment extends Fragment implements View.OnClickListen
 
     public static String tag = "EventBuddiesFragment";
 
-    static final String ItemImage = "ItemImage";
-    static final String ItemName = "ItemName";
-    static final String ItemId = "ItemId";
+    public static final String ItemImage = "ItemImage";
+    public static final String ItemName = "ItemName";
+    public static final String ItemId = "ItemId";
 
     View rootView;
     SocoApp socoApp;

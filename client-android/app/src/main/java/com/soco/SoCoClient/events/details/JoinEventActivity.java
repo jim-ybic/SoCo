@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.events.common;
+package com.soco.SoCoClient.events.details;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

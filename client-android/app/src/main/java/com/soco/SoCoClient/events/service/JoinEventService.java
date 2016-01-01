@@ -10,7 +10,7 @@ import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.StringUtil;
-import com.soco.SoCoClient.events.common.JoinEventActivity;
+import com.soco.SoCoClient.events.details.JoinEventActivity;
 import com.soco.SoCoClient.events.model.Event;
 
 import org.json.JSONObject;

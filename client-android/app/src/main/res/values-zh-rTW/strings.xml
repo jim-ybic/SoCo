@@ -28,6 +28,7 @@
     <string name="personal_contact_confirm">聯絡方式</string>
     <string name="mobile_phone_number">手提電話號碼</string>
     <string name="mail_address">郵寄地址</string>
+    <string name="post">發帖</string>
 
     <string name="msg_login">正在登入</string>
     <string name="msg_login_via_facebook">正在經由Facebook登入</string>
@@ -36,6 +37,9 @@
     <string name="msg_pls_wait">請稍候...</string>
     <string name="msg_info">信息</string>
     <string name="msg_ok">確定</string>
+    <string name="msg_login_success">登入成功</string>
+    <string name="msg_login_fail">登入失敗，請檢查用戶名和密碼.</string>
+    <string name="msg_downloading_event">下載活動詳情.</string>
 
     <string name="userprofile_tab_profile">簡介</string>
     <string name="userprofile_tab_groups">群組</string>

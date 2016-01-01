@@ -1,10 +1,8 @@
-package com.soco.SoCoClient.events.common;
+package com.soco.SoCoClient.events.details;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,11 +17,8 @@ import android.widget.Toast;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.util.SocoApp;
-import com.soco.SoCoClient.events.model.Event;
-import com.soco.SoCoClient.events.service.EventGroupsBuddiesService;
 import com.soco.SoCoClient.events.service.EventGroupsBuddiesTask;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
-import com.soco.SoCoClient.onboarding.register.service.RegisterService;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
 
