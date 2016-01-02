@@ -14,11 +14,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.events.service.AddPostTask;
+import com.soco.SoCoClient.userprofile.task.SetUserIconTask;
 
 public class AddPostActivity extends ActionBarActivity
         implements TaskCallBack{
@@ -30,10 +33,10 @@ public class AddPostActivity extends ActionBarActivity
 
     Context context;
     SocoApp socoApp;
-    long eventId;
-    ProgressDialog pd;
+    String eventId;
     Uri uriFile;
-    String suffix;
+    String comment;
+    Bitmap bitmap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +45,25 @@ public class AddPostActivity extends ActionBarActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();
-        eventId = i.getLongExtra(EVENT_ID, 0);
+        eventId = i.getStringExtra(EVENT_ID);
         Log.v(tag, "get event id: " + eventId);
 
         context = getApplicationContext();
         socoApp = (SocoApp) context;
-        //todo
     }
 
     public void post(View view){
         Log.v(tag, "tap post");
 
-        String text = ((EditText) findViewById(R.id.text)).getText().toString();
-        Log.v(tag, "get text: " + text);
+        comment = ((EditText) findViewById(R.id.text)).getText().toString();
+        Log.v(tag, "get comment: " + comment);
 
-        //todo
+        Log.v(tag, "start add post task, comment: " + comment + ", bitmap: " + bitmap);
+        new AddPostTask(
+                getApplicationContext(), getContentResolver(),
+                uriFile, comment, eventId,
+                this)
+                .execute();
     }
 
     public void addPhoto(View view){
@@ -92,28 +99,26 @@ public class AddPostActivity extends ActionBarActivity
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String filePath = cursor.getString(columnIndex);
 
-                Bitmap bitmap = IconUrlUtil.decodeSampledBitmapFromFile(filePath, socoApp.screenSizeX / 2, socoApp.screenSizeY / 2);
+                bitmap = IconUrlUtil.decodeSampledBitmapFromFile(filePath, socoApp.screenSizeX / 2, socoApp.screenSizeY / 2);
                 Log.d(tag, "bitmap: " + bitmap);
                 ((ImageView) findViewById(R.id.pic1)).setImageBitmap(bitmap);
                 ImageView view = (ImageView) findViewById(R.id.pic1);
                 view.setRotation(orientation);
-
-//                Log.d(tag, "filepath: " + filePath);
-//                suffix = filePath.substring(filePath.lastIndexOf("."));  //e.g. .jpg
             }
             cursor.close();
-
-//            File file = new File(uriFile.getPath());
-//            Log.d(tag, "file: " + file + ", length: " + file.length() + ", bitmap: null");
-            new SetUserIconTask(getApplicationContext(), getContentResolver(),
-                    uriFile, this).execute();
-
         }
     }
 
     public void doneTask(Object o){
-        Log.v(tag, "donetask");
-        //todo
+        Log.v(tag, "donetask from add post");
+        Boolean ret = (Boolean) o;
+        if(ret) {
+            Log.v(tag, "post success");
+            Toast.makeText(getApplicationContext(), R.string.msg_post_success, Toast.LENGTH_SHORT).show();
+        }else {
+            Log.e(tag, "post fail");
+            Toast.makeText(getApplicationContext(), "post fail, please try again later", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

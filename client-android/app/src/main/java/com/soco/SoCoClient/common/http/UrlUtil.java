@@ -253,6 +253,7 @@ public class UrlUtil {
     static final String GROUP_MEMBER_PATH = "/v1/group_members";
     static final String JOIN_GROUP_PATH = "/v1/join_group";
     static final String USER_ICON_PATH = "/v1/user_icon";
+    static final String EVENT_COMMENT_PATH = "/v1/event_comment";
 
 
     public static String getLoginUrl(){
@@ -416,5 +417,10 @@ public class UrlUtil {
         return url;
     }
 
+    public static String getEventCommentUrl(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + EVENT_COMMENT_PATH;
+        Log.v(tag, "event comment url: " + url);
+        return url;
+    }
 
 }

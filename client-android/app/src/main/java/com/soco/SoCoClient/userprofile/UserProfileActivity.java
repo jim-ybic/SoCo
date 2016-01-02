@@ -24,7 +24,7 @@ import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.events.details.EventDetailsActivity;
-import com.soco.SoCoClient.events.details.SetUserIconTask;
+import com.soco.SoCoClient.userprofile.task.SetUserIconTask;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 import com.soco.SoCoClient.userprofile.model.User;
 import com.soco.SoCoClient.userprofile.task.UserProfileTask;

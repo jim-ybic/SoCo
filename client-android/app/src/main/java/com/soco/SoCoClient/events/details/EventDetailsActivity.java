@@ -193,7 +193,7 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
     public void post(View view){
         Log.v(tag, "tap post");
         Intent i = new Intent(this, AddPostActivity.class);
-        i.putExtra(AddPostActivity.EVENT_ID, event.getId());
+        i.putExtra(AddPostActivity.EVENT_ID, String.valueOf(event.getId()));
         startActivity(i);
     }
 

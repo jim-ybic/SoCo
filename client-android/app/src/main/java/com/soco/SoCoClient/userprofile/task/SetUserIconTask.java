@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.events.details;
+package com.soco.SoCoClient.userprofile.task;
 
 import android.content.ContentResolver;
 import android.content.Context;
