@@ -146,7 +146,7 @@ public class User extends UserBrief{
 
     public void addFriends_list(User u){
         if(friendIds.contains(u.getUser_id()))
-            Log.w(tag, "user already in friend list: " + u.getUser_name());
+            Log.v(tag, "user already in friend list: " + u.getUser_name());
         else {
             friendIds.add(u.getUser_id());
             this.friends_list.add(u);

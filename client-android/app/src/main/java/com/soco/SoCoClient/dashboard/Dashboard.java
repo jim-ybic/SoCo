@@ -85,6 +85,10 @@ public class Dashboard extends ActionBarActivity implements
         Log.v(tag, "init icon downloader: " + size + ", " + cacheSize);
         IconUrlUtil.initialForIconDownloader(Math.min(size.x, size.y), cacheSize);
 
+        socoApp.screenSizeX = size.x;
+        socoApp.screenSizeY = size.y;
+        socoApp.screenSize = Math.min(size.x, size.y);
+        Log.v(tag, "screen size x/y/.: " + size.x + "/" + size.y + "/" + Math.min(size.x, size.y));
 
         setActionbar();
         findViews();

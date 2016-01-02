@@ -252,6 +252,7 @@ public class UrlUtil {
     static final String GROUP_PATH = "/v1/group";
     static final String GROUP_MEMBER_PATH = "/v1/group_members";
     static final String JOIN_GROUP_PATH = "/v1/join_group";
+    static final String USER_ICON_PATH = "/v1/user_icon";
 
 
     public static String getLoginUrl(){
@@ -408,4 +409,12 @@ public class UrlUtil {
         Log.v(tag, "join group url: " + url);
         return url;
     }
+
+    public static String getUserIconUrl(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_ICON_PATH;
+        Log.v(tag, "user icon url: " + url);
+        return url;
+    }
+
+
 }

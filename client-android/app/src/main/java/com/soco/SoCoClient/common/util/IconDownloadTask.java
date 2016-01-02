@@ -18,6 +18,7 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> imageButtonReference;
     public String url;
     private int size;
+
     public IconDownloadTask(ImageView button,int size){
         imageButtonReference = new WeakReference<>(button);
         this.size=size;

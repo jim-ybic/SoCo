@@ -1,8 +1,13 @@
 package com.soco.SoCoClient.userprofile;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,6 +24,7 @@ import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.events.details.EventDetailsActivity;
+import com.soco.SoCoClient.events.details.SetUserIconTask;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 import com.soco.SoCoClient.userprofile.model.User;
 import com.soco.SoCoClient.userprofile.task.UserProfileTask;
@@ -30,6 +36,7 @@ public class UserProfileActivity extends ActionBarActivity
         implements android.support.v7.app.ActionBar.TabListener, TaskCallBack
 {
     String tag = "UserProfileActivity";
+    static final int REQUESTCODE_CHANGEICON = 101;
 
     private ViewPager viewPager;
     private UserProfileTabsAdapter mAdapter;
@@ -195,4 +202,56 @@ public class UserProfileActivity extends ActionBarActivity
         startActivity(i);
     }
 
+    public void tapUserIcon(View view){
+        Log.v(tag, "tap user icon, my userid: " + socoApp.user_id + ", tap userid: " + user.getUser_id());
+        if(user.getUser_id().equals(socoApp.user_id)){
+            Log.v(tag, "changing my icon");
+            Intent i =  new Intent(Intent.ACTION_PICK, null);
+            i.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+            startActivityForResult(i, REQUESTCODE_CHANGEICON);
+        }
+        else{
+            Log.v(tag, "other user's profile - do nothing");
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data == null){
+            Log.w(tag, "activity return result is null");
+            return;
+        }
+        if (requestCode == REQUESTCODE_CHANGEICON && resultCode == Activity.RESULT_OK) {
+            Log.v(tag, "change icon result ok");
+            Uri uriFile = data.getData();
+            Log.i(tag, "file selected with uri: " + uriFile + ", " + uriFile.toString() + ", " + uriFile.getPath());
+
+            String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
+            Cursor cur = getContentResolver().query(uriFile, orientationColumn, null, null, null);
+            int orientation = -1;
+            if (cur != null && cur.moveToFirst()) {
+                orientation = cur.getInt(cur.getColumnIndex(orientationColumn[0]));
+            }
+            Log.d(tag, "orientation: " + orientation);
+
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(uriFile, filePathColumn, null, null, null);
+            if (cursor.moveToFirst()) {
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String filePath = cursor.getString(columnIndex);
+
+                Bitmap bitmap = IconUrlUtil.decodeSampledBitmapFromFile(filePath, socoApp.screenSizeX/2, socoApp.screenSizeY/2);
+                Log.d(tag, "bitmap: " + bitmap);
+                ImageView view = (ImageView) findViewById(R.id.icon);
+                view.setImageBitmap(bitmap);
+                view.setRotation(orientation);
+            }
+            cursor.close();
+
+            new SetUserIconTask(getApplicationContext(), getContentResolver(),
+                    uriFile, this).execute();
+
+        }
+    }
 }

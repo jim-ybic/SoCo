@@ -18,6 +18,8 @@ import android.widget.ImageButton;
 import android.content.res.Resources;
 import android.widget.ImageView;
 
+import com.soco.SoCoClient.events.details.AddPostActivity;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -28,6 +30,7 @@ import java.net.URL;
  */
 public class IconUrlUtil {
     private static final String tag="IconUrlUtil";
+
     private static LruCache<String, Bitmap> iconImageCache;
 //    private static int screenSize=0;
     private static int sizeSmall=0;
@@ -120,6 +123,7 @@ public class IconUrlUtil {
         // No task associated with the ImageView, or an existing task was cancelled
         return true;
     }
+
     public static IconDownloadTask getBitmapWorkerTask(ImageView button) {
         if (button != null) {
             final Drawable drawable = button.getDrawable();
@@ -138,6 +142,7 @@ public class IconUrlUtil {
     public static Bitmap getBitmapFromImageCache(String url) {
         return iconImageCache.get(url);
     }
+
     public static Bitmap processBitmap(Bitmap bp, int size){
         if(bp==null){
             Log.e(tag, "Not able to process bitmap as the input is empty");
@@ -151,6 +156,7 @@ public class IconUrlUtil {
         }
         return bp;
     }
+
     public static Bitmap getBitmapFromURL(String urlString) {
         try {
             URL url = new URL(urlString);
@@ -159,12 +165,34 @@ public class IconUrlUtil {
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
-            return BitmapFactory.decodeStream(input);
+
+            //todo: below line may cause outofmemory error while loading large image
+//            return BitmapFactory.decodeStream(input);
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565;  //workaround to resolve outofmemory issue
+            try {
+                Bitmap bitmap = BitmapFactory.decodeStream(input, null, options);
+//                Bitmap bitmap = IconUrlUtil.decodeSampledBitmapFromUrl(urlString, sizeLarge, sizeLarge);
+                Log.v(tag, "decode bitmap: " + bitmap);
+                return bitmap;
+            }
+            catch (OutOfMemoryError e){
+                Log.e(tag, "out of memory when decode bitmap from: " + urlString);
+                e.printStackTrace();
+                return null;
+            }
+            catch (Exception e) {
+                Log.e(tag, "cannot decode bitmap from: " + urlString);
+                e.printStackTrace();
+                return null;
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
+
     public static Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
         int width = bm.getWidth();
         int height = bm.getHeight();
@@ -178,6 +206,7 @@ public class IconUrlUtil {
         return Bitmap.createBitmap(bm, 0, 0, width, height,
                 matrix, false);
     }
+
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
                 .getHeight(), Bitmap.Config.ARGB_8888);
@@ -197,4 +226,54 @@ public class IconUrlUtil {
 
         return output;
     }
+
+    public static Bitmap decodeSampledBitmapFromFile(String filePath, int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        Log.d(tag, "insamplesize: " + options.inSampleSize);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+            return bitmap;
+        }
+        catch(OutOfMemoryError e){
+            Log.e(tag, "out of memory when decode file: " + filePath);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        Log.d(tag, "raw height/width: " + options.outHeight + "/" + options.outWidth);
+        Log.d(tag, "required height/width: " + reqHeight + "/" + reqWidth);
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
 }

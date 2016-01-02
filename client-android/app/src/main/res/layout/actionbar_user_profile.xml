@@ -52,7 +52,9 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/buddycard_me"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:clickable="true"
+                android:onClick="tapUserIcon"/>
             <TextView
                 android:id="@+id/name"
                 style="@android:style/TextAppearance.Large.Inverse"
