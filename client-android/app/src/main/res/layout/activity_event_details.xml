@@ -123,7 +123,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1"
@@ -142,11 +142,22 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black" />
             <TextView
-                android:id="@+id/textIntroduction"
+                android:id="@+id/intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="5pt" />
+                android:layout_marginTop="5pt"
+                android:maxLines="4" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/viewdetails"
+                android:clickable="true"
+                android:onClick="eventIntro"
+                android:textColor="@android:color/holo_blue_dark"
+                android:gravity="center_horizontal"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp" />
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

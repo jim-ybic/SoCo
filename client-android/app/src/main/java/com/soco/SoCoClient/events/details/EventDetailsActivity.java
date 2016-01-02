@@ -1,7 +1,9 @@
 package com.soco.SoCoClient.events.details;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -120,15 +122,11 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         }
         Log.v(tag, "show event details: " + event.toString());
 
-//        ((TextView)this.findViewById(R.id.textNoOfViews)).setText(Integer.toString(event.getNumber_of_views()));
-//        ((TextView)this.findViewById(R.id.textNoOfLikes)).setText(Integer.toString(event.getNumber_of_likes()));
-//        ((TextView)this.findViewById(R.id.textNoOfComments)).setText(Integer.toString(event.getNumber_of_comments()));
-
         Log.v(tag, "set address: " + event.getAddress());
         ((TextView)this.findViewById(R.id.address)).setText(event.getAddress());
 
         Log.v(tag, "set intro: " + event.getIntroduction());
-        ((TextView)this.findViewById(R.id.textIntroduction)).setText(event.getIntroduction());
+        ((TextView)this.findViewById(R.id.intro)).setText(event.getIntroduction());
 
         Log.v(tag, "set title: " + event.getTitle());
         ((TextView)this.findViewById(R.id.textTitle)).setText(event.getTitle());
@@ -149,7 +147,6 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         else
             Log.v(tag, "no category for event: " + event.getTitle());
 
-//        showBuddies(event);
         if(event.getJoinedBuddies().size()>0 || event.getLikedBuddies().size()>0) {
             LinearLayout layout = (LinearLayout) findViewById(R.id.eventbuddies);
             ViewElementHelper.showBuddies(event, layout, context);
@@ -166,8 +163,6 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
             ((TextView) this.findViewById(R.id.creator_name)).setText(event.getCreator_name());
             this.findViewById(R.id.creator_name).setTag(event.getCreator_id());
         }
-//        ((TextView) this.findViewById(R.id.likeevent)).setText(Integer.toString(event.getNumber_of_likes()));
-//        LikeUtil.initialLikeButton(((Button) this.findViewById(R.id.likeevent)), event.isLikedEvent());
     }
 
 
@@ -196,5 +191,23 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         i.putExtra(AddPostActivity.EVENT_ID, String.valueOf(event.getId()));
         startActivity(i);
     }
+
+    public void eventIntro(View view){
+        Log.v(tag, "show event full intro message");
+        String text = ((TextView) findViewById(R.id.intro)).getText().toString();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.msg_info);
+        builder.setMessage(text);
+        builder.setPositiveButton(
+                getApplicationContext().getString(R.string.msg_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Log.d(tag, "tap OK");
+                    }
+                });
+        builder.show();
+    }
+
 
 }

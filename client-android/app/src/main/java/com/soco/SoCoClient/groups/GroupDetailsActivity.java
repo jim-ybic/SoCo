@@ -268,7 +268,6 @@ public class GroupDetailsActivity extends ActionBarActivity implements
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         Log.d(tag, "tap OK");
-                        joinGroupInBackground();
                     }
                 });
         builder.show();
