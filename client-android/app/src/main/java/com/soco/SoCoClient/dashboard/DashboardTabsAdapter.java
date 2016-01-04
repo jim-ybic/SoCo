@@ -25,11 +25,18 @@ public class DashboardTabsAdapter extends FragmentPagerAdapter {
         Log.v(tag, "get item from index: " + index);
         switch (index) {
             case Config.DASHBOARD_TAB_INDEX_EVENTS:
-//                return new SuggestedEventsFragment();     //event buddies
-                return new AllEventsFragment();             //testing
-            case Config.DASHBOARD_TAB_INDEX_FRIENDS:
-//                return new SuggestedBuddiesFragment();    //Event Buddies
-                return new MyBuddiesFragment();             //APA
+//                return new SuggestedEventsFragment();
+                return new AllEventsFragment();
+//            case Config.DASHBOARD_TAB_INDEX_FRIENDS:
+//                return new SuggestedBuddiesFragment();
+//                return new MyBuddiesFragment();
+            case Config.DASHBOARD_TAB_INDEX_TOPICS:
+//                return new SuggestedEventsFragment();
+                return new AllEventsFragment();             //todo
+            case Config.DASHBOARD_TAB_INDEX_POSTS:
+//                return new SuggestedEventsFragment();
+                return new AllEventsFragment();             //todo
+
         }
 
         return null;

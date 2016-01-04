@@ -133,10 +133,18 @@ public class Dashboard extends ActionBarActivity implements
         actionBar.setBackgroundDrawable(colorDrawable);
 
         Log.v(tag, "Adding tabs");
-        android.support.v7.app.ActionBar.Tab tabEvents = actionBar.newTab().setText(R.string.dashboard_tab_events).setTabListener(this);
+        android.support.v7.app.ActionBar.Tab tabEvents =
+                actionBar.newTab().setText(R.string.dashboard_tab_events).setTabListener(this);
         actionBar.addTab(tabEvents);
-        android.support.v7.app.ActionBar.Tab tabBuddies= actionBar.newTab().setText(R.string.dashboard_tab_buddies).setTabListener(this);
-        actionBar.addTab(tabBuddies);
+//        android.support.v7.app.ActionBar.Tab tabBuddies=
+//                actionBar.newTab().setText(R.string.dashboard_tab_buddies).setTabListener(this);
+//        actionBar.addTab(tabBuddies);
+        android.support.v7.app.ActionBar.Tab tabTopics =
+                actionBar.newTab().setText(R.string.dashboard_tab_topics).setTabListener(this);
+        actionBar.addTab(tabTopics);
+        android.support.v7.app.ActionBar.Tab tabPosts =
+                actionBar.newTab().setText(R.string.dashboard_tab_posts).setTabListener(this);
+        actionBar.addTab(tabPosts);
 
 //        Log.v(tag, "set starting tab");
 //        if(socoApp.TEST_BUDDY_TAB_FIRST)
@@ -435,7 +443,7 @@ public class Dashboard extends ActionBarActivity implements
     public void popularEvents(View view) {
         Log.v(tag, "tap show popular events");
 
-        AllEventsFragment fragment = (AllEventsFragment)getFragmentManager().findFragmentById(R.id.allevents);
+//        AllEventsFragment fragment = (AllEventsFragmentEventsFragment)getFragmentManager().findFragmentById(R.id.allevents);
 
         //todo
     }

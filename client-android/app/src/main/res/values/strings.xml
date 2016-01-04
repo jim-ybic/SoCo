@@ -73,6 +73,8 @@
     <string name="dashboard_title">My APA</string>
     <string name="dashboard_tab_events">Events</string>
     <string name="dashboard_tab_buddies">Buddies</string>
+    <string name="dashboard_tab_topics">Topics</string>
+    <string name="dashboard_tab_posts">Posts</string>
     <string name="groupdetails_tab_upcoming">Upcoming</string>
     <string name="groupdetails_tab_past">Past Events</string>
 
@@ -124,5 +126,9 @@
     <string name="event_category_art">art</string>
     <string name="event_category_sport">sport</string>
     <string name="event_category_Chinese">Chinese</string>
+    <string name="event_category_business">business</string>
+    <string name="event_category_games">games</string>
+    <string name="event_category_social">social</string>
+    <string name="event_category_language">languages</string>
 
 </resources>

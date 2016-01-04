@@ -21,48 +21,50 @@
             android:onClick="myevents"
             android:id="@+id/myeventsarea">
             <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:text="@string/event_category_popular"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:padding="5dp"
-                android:gravity="center"
-                android:clickable="true"
-                android:onClick="popularEvents"/>
-            <TextView
+                android:id="@+id/allEvents"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:text="@string/event_category_all"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:padding="5dp"
+                android:padding="6dp"
                 android:gravity="center" />
             <TextView
+                android:id="@+id/businessEvents"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                android:text="@string/event_category_art"
+                android:text="@string/event_category_business"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:padding="5dp"
+                android:padding="6dp"
                 android:gravity="center" />
             <TextView
+                android:id="@+id/gamesEvents"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                android:text="@string/event_category_sport"
+                android:text="@string/event_category_games"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:padding="5dp"
+                android:padding="6dp"
                 android:gravity="center" />
             <TextView
+                android:id="@+id/socialEvents"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                android:text="@string/event_category_Chinese"
+                android:text="@string/event_category_social"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:padding="5dp"
+                android:padding="6dp"
                 android:gravity="center" />
-
+            <TextView
+                android:id="@+id/languageEvents"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="@string/event_category_language"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:padding="6dp"
+                android:gravity="center" />
         </LinearLayout>
 
         <com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom

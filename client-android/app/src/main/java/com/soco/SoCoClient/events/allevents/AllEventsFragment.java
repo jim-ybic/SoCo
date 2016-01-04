@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.events.allevents;
 
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
@@ -30,6 +32,11 @@ public class AllEventsFragment extends Fragment
         implements TaskCallBack {
 
     static final String tag = "AllEventsActivity";
+    static final String EVENT_CATEGORY_ALL = "all";
+    static final String EVENT_CATEGORY_BUSINESS = "business";
+    static final String EVENT_CATEGORY_GAME = "game";
+    static final String EVENT_CATEGORY_SOCIAL = "social";
+    static final String EVENT_CATEGORY_LANGUAGE = "language";
 
     private SwipeRefreshLayoutBottom swipeContainer;
 
@@ -42,6 +49,8 @@ public class AllEventsFragment extends Fragment
 
     SocoApp socoApp;
     View rootView;
+
+    TextView allEvents, businessEvents, gameEvents, socialEvents, languageEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +88,62 @@ public class AllEventsFragment extends Fragment
         mRecyclerView.setAdapter(simpleEventCardAdapter);
         downloadEventsInBackgroud();
 
+        setOnclickListener();
         return rootView;
+    }
+
+    private void setOnclickListener(){
+        allEvents = (TextView) rootView.findViewById(R.id.allEvents);
+        allEvents.setTypeface(null, Typeface.BOLD); //default
+        allEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v(tag, "set on click listener: all");
+                highlightCategory(EVENT_CATEGORY_ALL);
+                //todo: load required events
+            }
+        });
+
+        businessEvents = (TextView) rootView.findViewById(R.id.businessEvents);
+        businessEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v(tag, "set on click listener: business");
+                highlightCategory(EVENT_CATEGORY_BUSINESS);
+                //todo: load required events
+            }
+        });
+
+        gameEvents = (TextView) rootView.findViewById(R.id.gamesEvents);
+        gameEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v(tag, "set on click listener: game");
+                highlightCategory(EVENT_CATEGORY_GAME);
+                //todo: load required events
+            }
+        });
+
+        socialEvents = (TextView) rootView.findViewById(R.id.socialEvents);
+        socialEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v(tag, "set on click listener: social");
+                highlightCategory(EVENT_CATEGORY_SOCIAL);
+                //todo: load required events
+            }
+        });
+
+        languageEvents = (TextView) rootView.findViewById(R.id.languageEvents);
+        languageEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v(tag, "set on click listener: language");
+                highlightCategory(EVENT_CATEGORY_LANGUAGE);
+                //todo: load required events
+            }
+        });
+
     }
 
     private void downloadEventsInBackgroud() {
@@ -132,14 +196,53 @@ public class AllEventsFragment extends Fragment
         startActivity(i);
     }
 
-    public void myevents(View view) {
-        Log.v(tag, "tap show my events");
-        String myUserid = socoApp.user_id;
-        Log.v(tag, "my userid: " + myUserid);
+//    public void myevents(View view) {
+//        Log.v(tag, "tap show my events");
+//        String myUserid = socoApp.user_id;
+//        Log.v(tag, "my userid: " + myUserid);
+//
+//        Intent i = new Intent(getActivity(), UserProfileActivity.class);
+//        i.putExtra(User.USER_ID, myUserid);
+//        i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_EVENTS);
+//        startActivity(i);
+//    }
 
-        Intent i = new Intent(getActivity(), UserProfileActivity.class);
-        i.putExtra(User.USER_ID, myUserid);
-        i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_EVENTS);
-        startActivity(i);
+    private void highlightCategory(String cat){
+        if(cat.equals(EVENT_CATEGORY_ALL)){
+            allEvents.setTypeface(null, Typeface.BOLD);
+            businessEvents.setTypeface(null, Typeface.NORMAL);
+            gameEvents.setTypeface(null, Typeface.NORMAL);
+            socialEvents.setTypeface(null, Typeface.NORMAL);
+            languageEvents.setTypeface(null, Typeface.NORMAL);
+        }
+        else if(cat.equals(EVENT_CATEGORY_BUSINESS)){
+            allEvents.setTypeface(null, Typeface.NORMAL);
+            businessEvents.setTypeface(null, Typeface.BOLD);
+            gameEvents.setTypeface(null, Typeface.NORMAL);
+            socialEvents.setTypeface(null, Typeface.NORMAL);
+            languageEvents.setTypeface(null, Typeface.NORMAL);
+        }
+        else if(cat.equals(EVENT_CATEGORY_GAME)){
+            allEvents.setTypeface(null, Typeface.NORMAL);
+            businessEvents.setTypeface(null, Typeface.NORMAL);
+            gameEvents.setTypeface(null, Typeface.BOLD);
+            socialEvents.setTypeface(null, Typeface.NORMAL);
+            languageEvents.setTypeface(null, Typeface.NORMAL);
+        }
+        else if(cat.equals(EVENT_CATEGORY_SOCIAL)){
+            allEvents.setTypeface(null, Typeface.NORMAL);
+            businessEvents.setTypeface(null, Typeface.NORMAL);
+            gameEvents.setTypeface(null, Typeface.NORMAL);
+            socialEvents.setTypeface(null, Typeface.BOLD);
+            languageEvents.setTypeface(null, Typeface.NORMAL);
+        }
+        else if(cat.equals(EVENT_CATEGORY_LANGUAGE)){
+            allEvents.setTypeface(null, Typeface.NORMAL);
+            businessEvents.setTypeface(null, Typeface.NORMAL);
+            gameEvents.setTypeface(null, Typeface.NORMAL);
+            socialEvents.setTypeface(null, Typeface.NORMAL);
+            languageEvents.setTypeface(null, Typeface.BOLD);
+        }
     }
+
 }

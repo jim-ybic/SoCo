@@ -14,6 +14,8 @@
     <string name="dashboard_title">活動社交平台</string>
     <string name="dashboard_tab_events">活動空间</string>
     <string name="dashboard_tab_buddies">我的好友</string>
+    <string name="dashboard_tab_topics">話題廣場</string>
+    <string name="dashboard_tab_posts">最新動態</string>
     <string name="groupdetails_tab_upcoming">最新活動</string>
     <string name="groupdetails_tab_past">過往活動</string>
 
@@ -65,5 +67,9 @@
     <string name="event_category_art">文藝</string>
     <string name="event_category_sport">體育</string>
     <string name="event_category_Chinese">中文</string>
+    <string name="event_category_business">商務</string>
+    <string name="event_category_games">遊戲</string>
+    <string name="event_category_social">交際</string>
+    <string name="event_category_language">語言</string>
 
 </resources>
