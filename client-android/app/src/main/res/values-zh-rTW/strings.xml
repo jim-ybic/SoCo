@@ -52,4 +52,7 @@
     <string name="userprofile_interests">興趣愛好</string>
     <string name="userprofile_friends">好友</string>
 
+    <string name="title_activity_add_post">發帖</string>
+    <string name="title_activity_my_buddies">我的好友</string>
+
 </resources>

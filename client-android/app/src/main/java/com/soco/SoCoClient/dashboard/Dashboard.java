@@ -27,6 +27,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.buddies.MyBuddiesActivity;
 import com.soco.SoCoClient.buddies.allbuddies.AllBuddiesActivity;
 import com.soco.SoCoClient.buddies.service.AddBuddyTask;
 import com.soco.SoCoClient.common.database.Config;
@@ -79,9 +80,11 @@ public class Dashboard extends ActionBarActivity implements
         display.getSize(size);
 //        IconUrlUtil = size.x;
         display.getRealSize(size);
+
+        Log.v(tag, "init image cache size");
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-        // Use 1/8th of the available memory for this memory cache.
-        final int cacheSize = maxMemory / 8;
+        // Use 1/4th of the available memory for this memory cache.
+        final int cacheSize = maxMemory / 4;
         Log.v(tag, "init icon downloader: " + size + ", " + cacheSize);
         IconUrlUtil.initialForIconDownloader(Math.min(size.x, size.y), cacheSize);
 
@@ -334,26 +337,14 @@ public class Dashboard extends ActionBarActivity implements
             }
         });
 
-        TextView allevents = (TextView) view.findViewById(R.id.popup_allevents);
-        Log.d(tag, "allevents: " + allevents);
-        allevents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                window.dismiss();
-                Log.v(tag, "show all events");
-                Intent i = new Intent(getApplicationContext(), AllEventsActivity.class);
-                startActivity(i);
-            }
-        });
-
-        TextView allbuddies = (TextView) view.findViewById(R.id.popup_allbuddies);
-        Log.d(tag, "allbuddies: " + allbuddies);
-        allbuddies.setOnClickListener(new View.OnClickListener() {
+        TextView mybuddies = (TextView) view.findViewById(R.id.popup_mybuddies);
+        Log.d(tag, "mybuddies: " + mybuddies);
+        mybuddies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 window.dismiss();
                 Log.v(tag, "show all buddies");
-                Intent i = new Intent(getApplicationContext(), AllBuddiesActivity.class);
+                Intent i = new Intent(getApplicationContext(), MyBuddiesActivity.class);
                 startActivity(i);
             }
         });
@@ -370,17 +361,17 @@ public class Dashboard extends ActionBarActivity implements
             }
         });
 
-        TextView settings = (TextView) view.findViewById(R.id.popup_settings);
-        Log.d(tag, "settings: " + settings);
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                window.dismiss();
-                Log.v(tag, "show settings");
-                Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(i);
-            }
-        });
+//        TextView settings = (TextView) view.findViewById(R.id.popup_settings);
+//        Log.d(tag, "settings: " + settings);
+//        settings.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                window.dismiss();
+//                Log.v(tag, "show settings");
+//                Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
     }
 

@@ -110,6 +110,8 @@
     <string name="userprofile_biography">Biography</string>
     <string name="userprofile_interests">Interests</string>
     <string name="userprofile_friends">Friends</string>
+
     <string name="title_activity_add_post">Add Post</string>
+    <string name="title_activity_my_buddies">My Buddies</string>
 
 </resources>

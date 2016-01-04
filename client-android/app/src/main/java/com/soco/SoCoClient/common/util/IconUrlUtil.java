@@ -1,5 +1,7 @@
 package com.soco.SoCoClient.common.util;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,6 +34,10 @@ public class IconUrlUtil {
     private static final String tag="IconUrlUtil";
 
     private static LruCache<String, Bitmap> iconImageCache;
+//    int memClass = ( (ActivityManager)activity.getSystemService( Context.ACTIVITY_SERVICE ) ).getMemoryClass();
+//    int cacheSize = 1024 * 1024 * memClass / 8;
+//    LruCache cache = new LruCache<String, Bitmap>( cacheSize );
+
 //    private static int screenSize=0;
     private static int sizeSmall=0;
     private static int sizeNormal=0;
@@ -136,6 +142,7 @@ public class IconUrlUtil {
     }
     public static void addBitmapToImageCache(String url, Bitmap bitmap) {
         if (getBitmapFromImageCache(url) == null) {
+            Log.v(tag, "add bitmap to cache for url: " + url);
             iconImageCache.put(url, bitmap);
         }
     }
@@ -277,3 +284,4 @@ public class IconUrlUtil {
     }
 
 }
+

@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.util.SocoApp;
 
+@Deprecated
 public class SettingsActivity extends ActionBarActivity {
 
     static final String tag = "SettingsActivity";

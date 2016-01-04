@@ -443,6 +443,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.soco.SoCoClient.events.details.EventDetailsActivity" />
         </activity>
+        <activity
+            android:name=".buddies.MyBuddiesActivity"
+            android:label="@string/title_activity_my_buddies"
+            android:parentActivityName=".dashboard.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.dashboard.Dashboard" />
+        </activity>
     </application>
 
 </manifest>
