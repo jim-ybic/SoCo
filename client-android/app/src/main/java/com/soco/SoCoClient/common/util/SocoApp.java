@@ -331,9 +331,6 @@ public class SocoApp extends Application {
     public static boolean BUDDY_INTERFACE_READY = true;
     public static boolean OFFLINE_MODE = false;
 
-    //testing conditions
-    public static boolean TEST_BUDDY_TAB_FIRST = false;
-
     //error message
     public static String error_message;
     public static String error_code;

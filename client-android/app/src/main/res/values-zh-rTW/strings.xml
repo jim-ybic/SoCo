@@ -12,8 +12,8 @@
     <string name="password">密碼</string>
 
     <string name="dashboard_title">活動社交平台</string>
-    <string name="dashboard_tab_events">活動</string>
-    <string name="dashboard_tab_buddies">好友</string>
+    <string name="dashboard_tab_events">活動空间</string>
+    <string name="dashboard_tab_buddies">我的好友</string>
     <string name="groupdetails_tab_upcoming">最新活動</string>
     <string name="groupdetails_tab_past">過往活動</string>
 
@@ -43,6 +43,8 @@
     <string name="msg_downloading_event">下載活動詳情.</string>
     <string name="msg_post_success">發表成功</string>
     <string name="msg_post_fail">發表失敗，請稍後重試.</string>
+    <string name="msg_joinevent_success">報名成功.</string>
+    <string name="msg_network_error">網絡錯誤，請稍後重試.</string>
 
     <string name="userprofile_tab_profile">簡介</string>
     <string name="userprofile_tab_groups">群組</string>
@@ -54,5 +56,14 @@
 
     <string name="title_activity_add_post">發帖</string>
     <string name="title_activity_my_buddies">我的好友</string>
+
+    <string name="menu_myprofile">我的空間</string>
+    <string name="menu_myevents">我的活動</string>
+
+    <string name="event_category_all">全部</string>
+    <string name="event_category_popular">熱門</string>
+    <string name="event_category_art">文藝</string>
+    <string name="event_category_sport">體育</string>
+    <string name="event_category_Chinese">中文</string>
 
 </resources>

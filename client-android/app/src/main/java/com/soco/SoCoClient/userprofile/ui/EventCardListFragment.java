@@ -21,7 +21,7 @@ import com.soco.SoCoClient.events.allevents.SimpleEventCardAdapter;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.groups.task.GroupDetailsTask;
-import com.soco.SoCoClient.userprofile.task.UserEventTask;
+import com.soco.SoCoClient.userprofile.task.DownloadEventsTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +62,9 @@ public class EventCardListFragment extends Fragment implements View.OnClickListe
         if(USERPROFILEACTIVITY==type) {
             Log.v(tag, "show data as user profile: " + socoApp.currentUserOnProfile.getUser_name());
             String[] paramNames = new String[1];
-            paramNames[0] = UserEventTask.BUDDY_USER_ID;
+            paramNames[0] = DownloadEventsTask.BUDDY_USER_ID;
 
-            UserEventTask uet = new UserEventTask(SocoApp.user_id, SocoApp.token, paramNames, this);
+            DownloadEventsTask uet = new DownloadEventsTask(SocoApp.user_id, SocoApp.token, paramNames, this);
             uet.execute(socoApp.currentUserOnProfile.getUser_id());
         }else if((GROUP_UPCOMINGEVENT==type||GROUP_PASTEVENT==type)&& !StringUtil.isEmptyString(groupId)) {
             Log.v(tag, "show data as group details: " + groupId);

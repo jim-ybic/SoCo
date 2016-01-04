@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserEventTask extends AsyncTask<String, Void, ArrayList<Event>>{
+public class DownloadEventsTask extends AsyncTask<String, Void, ArrayList<Event>>{
 
     public static String BUDDY_USER_ID =JsonKeys.BUDDY_USER_ID;
     public static String START_EVENT_ID=JsonKeys.START_EVENT_ID;
@@ -33,13 +33,13 @@ public class UserEventTask extends AsyncTask<String, Void, ArrayList<Event>>{
     String[] paramNames;
     TaskCallBack callBack;
 
-    public UserEventTask(String user_id, String token, TaskCallBack cb){
+    public DownloadEventsTask(String user_id, String token, TaskCallBack cb){
         Log.v(tag, "user event task: " + user_id);
         this.user_id=user_id;
         this.token=token;
         callBack = cb;
     }
-    public UserEventTask(String user_id, String token,String[] paramNames, TaskCallBack cb){
+    public DownloadEventsTask(String user_id, String token, String[] paramNames, TaskCallBack cb){
         Log.v(tag, "user event task: " + user_id);
         this.user_id=user_id;
         this.token=token;

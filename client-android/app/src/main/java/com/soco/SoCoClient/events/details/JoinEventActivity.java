@@ -19,6 +19,7 @@ import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.service.EventDetailsTask;
 import com.soco.SoCoClient.events.service.JoinEventService;
+import com.soco.SoCoClient.events.service.JoinEventTask;
 
 public class JoinEventActivity extends ActionBarActivity implements TaskCallBack {
     public static final String PHONE="PHONE";
@@ -95,84 +96,39 @@ public class JoinEventActivity extends ActionBarActivity implements TaskCallBack
         new Thread(new Runnable(){
             public void run(){
                 joinEventRequestInBackground();
-                joinEventHandler.sendEmptyMessage(0);
+//                joinEventHandler.sendEmptyMessage(0);
             }
         }).start();
     }
 
 
     private void joinEventRequestInBackground() {
-
-        Log.v(tag, "start join event service at back end");
-        Intent i = new Intent(this, JoinEventService.class);
-        i.putExtra(Event.EVENT_ID, Long.toString(event.getId()));
         String areacode = StringUtil.isEmptyString(((TextView) findViewById(R.id.edit_areacode)).getText().toString())?"+852":((TextView)findViewById(R.id.edit_areacode)).getText().toString();
         String phone = StringUtil.isEmptyString(((TextView) findViewById(R.id.edit_mobile)).getText().toString())?"":((TextView)findViewById(R.id.edit_mobile)).getText().toString();
-       String email =  ((TextView)findViewById(R.id.edit_email)).getText().toString();
-        if(!StringUtil.isEmptyString(phone)) {
-            StringBuffer phoneSb = new StringBuffer();
-            phoneSb.append(areacode);
-            phoneSb.append(phone);
-            i.putExtra(PHONE, phoneSb.toString());
-        }
-        if(!StringUtil.isEmptyString(email)) {
-            i.putExtra(EMAIL, email);
-        }
-        startService(i);
-
-        Log.v(tag, "set join event response flag as false");
-        socoApp.addBuddyResponse = false;
-
-        Log.v(tag, "set join response flag as false");
-        socoApp.joinEventResponse = false;
-        Log.v(tag, "wait and check status");
-        int count = 0;
-        while(!socoApp.joinEventResponse && count < 10) {   //wait for 10s
-            Log.d(tag, "wait for response: " + count * 1 + "s");
-            long endTime = System.currentTimeMillis() + 1*1000;
-            while (System.currentTimeMillis() < endTime) {
-                synchronized (this) {
-                    try {
-                        wait(endTime - System.currentTimeMillis());
-                    } catch (Exception e) {
-                        Log.e(tag, "Error in waiting");
-                    }
-                }
-            }
-            count++;
-        }
+        String email =  ((TextView)findViewById(R.id.edit_email)).getText().toString();
+        Log.v(tag, "send join event request: " + areacode+phone + ", " + email);
+        new JoinEventTask(getApplicationContext(), String.valueOf(event.getId()), areacode+phone, email, this).execute();
     }
 
-    Handler joinEventHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Log.v(tag, "handle receive message and dismiss dialog");
-
-            if(socoApp.joinEventResponse && socoApp.joinEventResult){
-                Log.d(tag, "join event success");
-                Toast.makeText(getApplicationContext(), "Join event suceess.", Toast.LENGTH_SHORT).show();
+    public void doneTask(Object o){
+        if(o == null){
+            return;
+        }
+        else if(o instanceof Event) {   //event details task
+            event = (Event) o;
+            setViewFromEvent(event, socoApp.loginEmail);
+        }
+        else if(o instanceof Boolean) {     //join event task
+            pd.dismiss();
+            Boolean ret = (Boolean) o;
+            if(ret) {
+                Toast.makeText(getApplicationContext(), R.string.msg_joinevent_success, Toast.LENGTH_SHORT).show();
                 finish();
             }
             else{
-                Log.e(tag, "join event fail, notify user");
-                if(socoApp.error_message != null && !socoApp.error_message.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), socoApp.error_message, Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                else
-                    Toast.makeText(getApplicationContext(), "Network error, please try again later.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.msg_network_error, Toast.LENGTH_SHORT).show();
             }
-
-            pd.dismiss();
         }
-    };
-
-    public void doneTask(Object o){
-        if(o==null){
-            return;
-        }
-        event = (Event) o;
-        setViewFromEvent(event, socoApp.loginEmail);
     }
 
 }

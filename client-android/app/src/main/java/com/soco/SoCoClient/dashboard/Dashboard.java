@@ -35,6 +35,7 @@ import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
+import com.soco.SoCoClient.events.allevents.AllEventsFragment;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.details.EventDetailsActivity;
 import com.soco.SoCoClient.events.details.EventGroupsBuddiesActivity;
@@ -137,11 +138,11 @@ public class Dashboard extends ActionBarActivity implements
         android.support.v7.app.ActionBar.Tab tabBuddies= actionBar.newTab().setText(R.string.dashboard_tab_buddies).setTabListener(this);
         actionBar.addTab(tabBuddies);
 
-        Log.v(tag, "set starting tab");
-        if(socoApp.TEST_BUDDY_TAB_FIRST)
-            actionBar.selectTab(tabBuddies);
-        else
-            actionBar.selectTab(tabEvents);
+//        Log.v(tag, "set starting tab");
+//        if(socoApp.TEST_BUDDY_TAB_FIRST)
+//            actionBar.selectTab(tabBuddies);
+//        else
+//            actionBar.selectTab(tabEvents);
 
         Log.v(tag, "Set listener");
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -277,10 +278,10 @@ public class Dashboard extends ActionBarActivity implements
     }
 
     public void eventdetails(View view) {
-        Log.d(tag, "event detail");
-        Intent i = new Intent(getApplicationContext(), EventDetailsActivity.class);
-        Event event = socoApp.getCurrentSuggestedEvent();
-        i.putExtra(Event.EVENT_ID, event.getId());
+        Log.v(tag, "check event details");
+        Intent i = new Intent(this, EventDetailsActivity.class);
+        Long id = (Long) view.getTag();
+        i.putExtra(EventDetailsActivity.EVENT_ID, id);
         startActivity(i);
     }
 
@@ -332,6 +333,19 @@ public class Dashboard extends ActionBarActivity implements
                 Log.v(tag, "show my profile");
                 Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
                 i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_PROFILE);
+                i.putExtra(User.USER_ID, SocoApp.user_id);
+                startActivity(i);
+            }
+        });
+
+        Log.d(tag, "tap my events");
+        TextView myevents = (TextView) view.findViewById(R.id.popup_myevents);
+        myevents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+                i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_EVENTS);
                 i.putExtra(User.USER_ID,SocoApp.user_id);
                 startActivity(i);
             }
@@ -406,5 +420,25 @@ public class Dashboard extends ActionBarActivity implements
         i.putExtra(User.USER_ID, user_id);
         startActivity(i);
     }
+
+    public void myevents(View view) {
+        Log.v(tag, "tap show my events");
+        String myUserid = socoApp.user_id;
+        Log.v(tag, "my userid: " + myUserid);
+
+        Intent i = new Intent(this, UserProfileActivity.class);
+        i.putExtra(User.USER_ID, myUserid);
+        i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_EVENTS);
+        startActivity(i);
+    }
+
+    public void popularEvents(View view) {
+        Log.v(tag, "tap show popular events");
+
+        AllEventsFragment fragment = (AllEventsFragment)getFragmentManager().findFragmentById(R.id.allevents);
+
+        //todo
+    }
+
 
 }

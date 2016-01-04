@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.soco.SoCoClient.common.TaskCallBack;
@@ -57,7 +56,7 @@ public class AddPostTask extends AsyncTask<String, Void, Boolean> {
 
         this.context = context;
         this.socoApp = (SocoApp) context;
-        this.requestURL = UrlUtil.getEventCommentUrl();
+        this.requestURL = UrlUtil.getEventPostUrl();
 
         this.cr = cr;
         this.uriFile = uriFile;

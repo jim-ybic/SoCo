@@ -23,11 +23,12 @@ import com.soco.SoCoClient.events.details.EventDetailsActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
-import com.soco.SoCoClient.userprofile.task.UserEventTask;
+import com.soco.SoCoClient.userprofile.task.DownloadEventsTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class AllEventsActivity extends ActionBarActivity implements TaskCallBack {
 
     static final String tag = "AllEventsActivity";
@@ -58,7 +59,7 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                startTask();
+                downloadEventsInBackground();
             }
         });
 
@@ -69,7 +70,7 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
 
         simpleEventCardAdapter = new SimpleEventCardAdapter(this, events);
         mRecyclerView.setAdapter(simpleEventCardAdapter);
-        startTask();
+        downloadEventsInBackground();
     }
 
     private void setActionbar() {
@@ -101,39 +102,16 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
         actionBar.setBackgroundDrawable(colorDrawable);
     }
 
-    //    private void testFacebookUserProfilePicture(final ImageButton user) {
-//        new Thread(){
-//            public void run() {
-////                super.run();
-//                Log.d(tag, "test facebook user profile picture");
-//                try {
-//                    URL imageUrl = new URL("https://graph.facebook.com/" + "10153298013434285" + "/picture?type=large");
-//                    bitmap = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-//                    Log.d(tag, "bitmap: " + bitmap);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                handler.sendEmptyMessage(0);
-//            }
-//        }.start();
-//    }
-//
-//    private Handler handler = new Handler() {
-//        public void handleMessage(Message msg) {
-//            Log.d(tag, "handle message");
-//            user.setImageBitmap(bitmap);
-//        };
-//    };
-    private void startTask() {
+    private void downloadEventsInBackground() {
         if (events != null && events.size() > 0) {
             Event lastEvent = events.get(events.size() - 1);
             String[] params = new String[1];
-            params[0] = UserEventTask.START_EVENT_ID;
-            UserEventTask uet = new UserEventTask(SocoApp.user_id, SocoApp.token, params, this);
+            params[0] = DownloadEventsTask.START_EVENT_ID;
+            DownloadEventsTask uet = new DownloadEventsTask(SocoApp.user_id, SocoApp.token, params, this);
             uet.execute(Long.toString(lastEvent.getId()));
         } else {
-            UserEventTask uet = new UserEventTask(SocoApp.user_id, SocoApp.token, this);
-            uet.execute();
+            DownloadEventsTask task = new DownloadEventsTask(SocoApp.user_id, SocoApp.token, this);
+            task.execute();
         }
     }
 
@@ -184,4 +162,6 @@ public class AllEventsActivity extends ActionBarActivity implements TaskCallBack
         i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_EVENTS);
         startActivity(i);
     }
+
+
 }

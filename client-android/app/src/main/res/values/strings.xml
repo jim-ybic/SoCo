@@ -102,6 +102,8 @@
     <string name="msg_downloading_event">Downloading event.</string>
     <string name="msg_post_success">Post success.</string>
     <string name="msg_post_fail">Post fail, please try again later.</string>
+    <string name="msg_joinevent_success">Join success.</string>
+    <string name="msg_network_error">Network error, please try again later.</string>
 
     <string name="userprofile_tab_profile">Profile</string>
     <string name="userprofile_tab_groups">Groups</string>
@@ -113,5 +115,14 @@
 
     <string name="title_activity_add_post">Add Post</string>
     <string name="title_activity_my_buddies">My Buddies</string>
+
+    <string name="menu_myprofile">My Profile</string>
+    <string name="menu_myevents">My Events</string>
+
+    <string name="event_category_all">all</string>
+    <string name="event_category_popular">popular</string>
+    <string name="event_category_art">art</string>
+    <string name="event_category_sport">sport</string>
+    <string name="event_category_Chinese">Chinese</string>
 
 </resources>
