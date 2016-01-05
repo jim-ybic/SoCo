@@ -10,6 +10,7 @@ import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.buddies.suggested.SuggestedBuddiesFragment;
 import com.soco.SoCoClient.events.allevents.AllEventsFragment;
 import com.soco.SoCoClient.events.suggested.SuggestedEventsFragment;
+import com.soco.SoCoClient.posts.AllPostsFragment;
 import com.soco.SoCoClient.topics.AllTopicsFragment;
 
 public class DashboardTabsAdapter extends FragmentPagerAdapter {
@@ -33,10 +34,10 @@ public class DashboardTabsAdapter extends FragmentPagerAdapter {
 //                return new MyBuddiesFragment();
             case Config.DASHBOARD_TAB_INDEX_TOPICS:
 //                return new SuggestedEventsFragment();
-                return new AllTopicsFragment();             //todo
+                return new AllTopicsFragment();
             case Config.DASHBOARD_TAB_INDEX_POSTS:
 //                return new SuggestedEventsFragment();
-                return new AllTopicsFragment();             //todo
+                return new AllPostsFragment();
 
         }
 

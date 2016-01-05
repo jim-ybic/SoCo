@@ -1,8 +1,7 @@
-package com.soco.SoCoClient.topics;
+package com.soco.SoCoClient.posts;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,23 +11,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
-import com.soco.SoCoClient.events.allevents.SimpleEventCardAdapter;
-import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.topics.Topic;
+import com.soco.SoCoClient.topics.TopicCardAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class AllTopicsFragment extends Fragment
+public class AllPostsFragment extends Fragment
         implements View.OnClickListener, TaskCallBack {
 
-    static String tag = "AllTopicsFragment";
+    static String tag = "AllPostsFragment";
 
     View rootView;
     Context context;
@@ -37,8 +34,8 @@ public class AllTopicsFragment extends Fragment
 
     SwipeRefreshLayoutBottom swipeContainer;
     RecyclerView mRecyclerView;
-    TopicCardAdapter adapter;
-    ArrayList<Topic> topics = new ArrayList<>();
+    PostCardAdapter adapter;
+    ArrayList<Post> posts = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,11 +60,11 @@ public class AllTopicsFragment extends Fragment
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
 
-//                Log.v(tag, "add dummy data");
-//                topics.add(new Topic("sample topic #1"));
-//                topics.add(new Topic("sample topic #2"));
-//                topics.add(new Topic("sample topic #3"));
-//                adapter.notifyDataSetChanged();
+                Log.v(tag, "add dummy posts");
+                posts.add(new Post("user1", "user1's comment"));
+                posts.add(new Post("user2", "user2's comment"));
+                posts.add(new Post("user3", "user3's comment"));
+                adapter.notifyDataSetChanged();
 
                 swipeContainer.setRefreshing(false);
             }
@@ -78,13 +75,13 @@ public class AllTopicsFragment extends Fragment
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
 
-        topics = new ArrayList<>();
-        Log.v(tag, "add dummy data");
-        topics.add(new Topic("sample topic #1"));
-        topics.add(new Topic("sample topic #2"));
-        topics.add(new Topic("sample topic #3"));
+        Log.v(tag, "add dummy posts");
+        posts = new ArrayList<>();
+        posts.add(new Post("user1", "user1's comment"));
+        posts.add(new Post("user2", "user2's comment"));
+        posts.add(new Post("user3", "user3's comment"));
 
-        adapter = new TopicCardAdapter(getActivity(), topics);
+        adapter = new PostCardAdapter(getActivity(), posts);
         mRecyclerView.setAdapter(adapter);
 
         return rootView;

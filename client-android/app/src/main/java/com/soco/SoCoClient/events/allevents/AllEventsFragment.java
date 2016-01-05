@@ -33,7 +33,7 @@ import java.util.List;
 public class AllEventsFragment extends Fragment
         implements TaskCallBack {
 
-    static final String tag = "AllEventsActivity";
+    static final String tag = "AllEventsFragment";
     static final String EVENT_CATEGORY_ALL = "all";
     static final String EVENT_CATEGORY_BUSINESS = "business";
     static final String EVENT_CATEGORY_GAME = "game";
@@ -101,6 +101,20 @@ public class AllEventsFragment extends Fragment
         return rootView;
     }
 
+    private void downloadEventsInBackgroud() {
+        if (events != null && events.size() > 0) {
+            Log.v(tag, "load more events");
+            Event lastEvent = events.get(events.size() - 1);
+            String[] params = new String[1];
+            params[0] = DownloadEventsTask.START_EVENT_ID;
+            DownloadEventsTask uet = new DownloadEventsTask(SocoApp.user_id, SocoApp.token, params, this);
+            uet.execute(Long.toString(lastEvent.getId()));
+        } else {
+            Log.v(tag, "load initial events");
+            DownloadEventsTask task = new DownloadEventsTask(SocoApp.user_id, SocoApp.token, this);
+            task.execute();
+        }
+    }
 
     public void doneTask(Object o) {
         if (o != null && o instanceof ArrayList) {
@@ -178,22 +192,6 @@ public class AllEventsFragment extends Fragment
         });
 
     }
-
-    private void downloadEventsInBackgroud() {
-        if (events != null && events.size() > 0) {
-            Log.v(tag, "load more events");
-            Event lastEvent = events.get(events.size() - 1);
-            String[] params = new String[1];
-            params[0] = DownloadEventsTask.START_EVENT_ID;
-            DownloadEventsTask uet = new DownloadEventsTask(SocoApp.user_id, SocoApp.token, params, this);
-            uet.execute(Long.toString(lastEvent.getId()));
-        } else {
-            Log.v(tag, "load initial events");
-            DownloadEventsTask task = new DownloadEventsTask(SocoApp.user_id, SocoApp.token, this);
-            task.execute();
-        }
-    }
-
 
     public void createevent(View view) {
         Log.v(tag, "create event");
