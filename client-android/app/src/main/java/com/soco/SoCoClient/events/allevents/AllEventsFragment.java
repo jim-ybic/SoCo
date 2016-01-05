@@ -1,5 +1,7 @@
 package com.soco.SoCoClient.events.allevents;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -38,8 +40,7 @@ public class AllEventsFragment extends Fragment
     static final String EVENT_CATEGORY_SOCIAL = "social";
     static final String EVENT_CATEGORY_LANGUAGE = "language";
 
-    private SwipeRefreshLayoutBottom swipeContainer;
-
+    SwipeRefreshLayoutBottom swipeContainer;
     RecyclerView mRecyclerView;
     SimpleEventCardAdapter simpleEventCardAdapter;
     List<Event> events = new ArrayList<>();
@@ -47,18 +48,17 @@ public class AllEventsFragment extends Fragment
     android.support.v7.app.ActionBar actionBar;
     View actionbarView;
 
+    Context context;
     SocoApp socoApp;
     View rootView;
-
+    ProgressDialog pd;
     TextView allEvents, businessEvents, gameEvents, socialEvents, languageEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_all_events);
-
-        socoApp = (SocoApp) getActivity().getApplicationContext();
-
+        context = getActivity().getApplicationContext();
+        socoApp = (SocoApp) context;
     }
 
     @Override
@@ -86,10 +86,43 @@ public class AllEventsFragment extends Fragment
 
         simpleEventCardAdapter = new SimpleEventCardAdapter(getActivity(), events);
         mRecyclerView.setAdapter(simpleEventCardAdapter);
-        downloadEventsInBackgroud();
+
+        Log.v(tag, "show progress dialog, fetch events from server");
+        pd = ProgressDialog.show(getActivity(),
+                context.getString(R.string.msg_downloading_events),
+                context.getString(R.string.msg_pls_wait));
+        new Thread(new Runnable(){
+            public void run(){
+                downloadEventsInBackgroud();
+            }
+        }).start();
 
         setOnclickListener();
         return rootView;
+    }
+
+
+    public void doneTask(Object o) {
+        if (o != null && o instanceof ArrayList) {
+            ArrayList<Event> result = (ArrayList<Event>) o;
+            for (Event e : result) {
+                events.add(e);
+            }
+//            int currentSize = events.size();
+//            if(currentSize>MAX_EVENTS_TOSHOW){
+//                int toRemove = currentSize-MAX_EVENTS_TOSHOW;
+//                if(toRemove>0){
+//                    for(int i=0;i<toRemove;i++){
+//                        events.remove(0);
+//                    }
+//                }
+//            }
+            Log.v(tag, "done task: ");
+            simpleEventCardAdapter.notifyDataSetChanged();
+        }
+        // Now we call setRefreshing(false) to signal refresh has finished
+        swipeContainer.setRefreshing(false);
+        pd.dismiss();
     }
 
     private void setOnclickListener(){
@@ -148,39 +181,19 @@ public class AllEventsFragment extends Fragment
 
     private void downloadEventsInBackgroud() {
         if (events != null && events.size() > 0) {
+            Log.v(tag, "load more events");
             Event lastEvent = events.get(events.size() - 1);
             String[] params = new String[1];
             params[0] = DownloadEventsTask.START_EVENT_ID;
             DownloadEventsTask uet = new DownloadEventsTask(SocoApp.user_id, SocoApp.token, params, this);
             uet.execute(Long.toString(lastEvent.getId()));
         } else {
+            Log.v(tag, "load initial events");
             DownloadEventsTask task = new DownloadEventsTask(SocoApp.user_id, SocoApp.token, this);
             task.execute();
         }
     }
 
-    public void doneTask(Object o) {
-        if (o != null && o instanceof ArrayList) {
-            ArrayList<Event> result = (ArrayList<Event>) o;
-            for (Event e : result) {
-                events.add(e);
-            }
-//            int currentSize = events.size();
-//            if(currentSize>MAX_EVENTS_TOSHOW){
-//                int toRemove = currentSize-MAX_EVENTS_TOSHOW;
-//                if(toRemove>0){
-//                    for(int i=0;i<toRemove;i++){
-//                        events.remove(0);
-//                    }
-//                }
-//            }
-            Log.v(tag, "done task: ");
-            simpleEventCardAdapter.notifyDataSetChanged();
-        }
-        // Now we call setRefreshing(false) to signal refresh has finished
-        swipeContainer.setRefreshing(false);
-
-    }
 
     public void createevent(View view) {
         Log.v(tag, "create event");

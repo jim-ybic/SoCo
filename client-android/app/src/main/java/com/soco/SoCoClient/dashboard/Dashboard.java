@@ -121,13 +121,6 @@ public class Dashboard extends ActionBarActivity implements
         Log.v(tag, "remove margin in actionbar area");
         parent.setContentInsetsAbsolute(0, 0);
 
-        Log.v(tag, "set my icon photo with userid: " + socoApp.user_id);
-        ImageButton ib = (ImageButton) actionbarView.findViewById(R.id.mebutton);
-        User u = new User();
-        u.setUser_id(socoApp.user_id);
-        Log.v(tag, "ib: " + ib + ", user: " + u.toString());
-        IconUrlUtil.setImageForButtonNormal(getResources(), ib, u.getUser_icon_url());
-
         Log.v(tag, "set actionbar background color");
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFF"));
         actionBar.setBackgroundDrawable(colorDrawable);
@@ -170,6 +163,13 @@ public class Dashboard extends ActionBarActivity implements
         Log.d(tag, "set dashboard title " + R.string.dashboard_title);
         TextView title = (TextView) actionbarView.findViewById(R.id.dashboard_title);
         title.setText(R.string.dashboard_title);
+
+        Log.v(tag, "set my icon photo with userid: " + socoApp.user_id);
+        ImageButton ib = (ImageButton) actionbarView.findViewById(R.id.mebutton);
+        User u = new User();
+        u.setUser_id(socoApp.user_id);
+        Log.v(tag, "ib: " + ib + ", user: " + u.toString());
+        IconUrlUtil.setImageForButtonNormal(getResources(), ib, u.getUser_icon_url());
     }
 
     private void setMyProfilePhoto() {

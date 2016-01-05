@@ -50,6 +50,8 @@ public class SimpleEventCardAdapter
         return new SimpleEventCardViewHolder(v);
     }
 
+    // Note: do not use below function logic as reference,
+    // please use TopicCardAdapter.onBindViewHolder
     @Override
     public void onBindViewHolder( SimpleEventCardViewHolder simpleEventCardViewHolder, int i )
     {

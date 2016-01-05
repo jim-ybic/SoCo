@@ -27,7 +27,8 @@ public class DownloadEventsTask extends AsyncTask<String, Void, ArrayList<Event>
     public static String BUDDY_USER_ID =JsonKeys.BUDDY_USER_ID;
     public static String START_EVENT_ID=JsonKeys.START_EVENT_ID;
 //    public static String KEYWORD="";
-    String tag = "UserEventTask";
+
+    String tag = "DownloadEventsTask";
     String user_id;
     String token;
     String[] paramNames;
