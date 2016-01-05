@@ -18,6 +18,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
+import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
@@ -26,8 +27,8 @@ import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.events.service.EventDetailsTask;
-import com.soco.SoCoClient.events.ui.ViewElementHelper;
 import com.soco.SoCoClient.events.service.LikeEventTask;
+import com.soco.SoCoClient.events.ui.ViewElementHelper;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 
 
@@ -139,6 +140,10 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         if(!StringUtil.isEmptyString(event.getStart_time())||StringUtil.isEmptyString(event.getEnd_time())) {
             ((TextView) this.findViewById(R.id.textStartEndTime)).setText(TimeUtil.getTextStartEndTime(event));
         }
+
+        //event details screen not show "like" status #30
+        ((TextView) this.findViewById(R.id.likeevent)).setText(Integer.toString(event.getNumber_of_likes()));
+        LikeUtil.initialLikeButton(((Button) this.findViewById(R.id.likeevent)), event.isLikedEvent());
 
         if(event.getCategories() != null && !event.getCategories().isEmpty()) {
             LinearLayout layout = (LinearLayout) findViewById(R.id.categories);
