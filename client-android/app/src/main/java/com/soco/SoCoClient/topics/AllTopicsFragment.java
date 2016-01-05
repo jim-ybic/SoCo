@@ -2,6 +2,7 @@ package com.soco.SoCoClient.topics;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
@@ -78,6 +80,7 @@ public class AllTopicsFragment extends Fragment
 
         return rootView;
     }
+
 
     public void doneTask(Object o) {
         //todo

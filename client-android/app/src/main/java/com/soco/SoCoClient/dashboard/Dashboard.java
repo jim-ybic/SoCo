@@ -44,6 +44,7 @@ import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.events.service.LikeEventTask;
 import com.soco.SoCoClient.groups.AllGroupsActivity;
+import com.soco.SoCoClient.topics.TopicDetailsActivity;
 import com.soco.SoCoClient.userprofile.SettingsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
@@ -440,13 +441,17 @@ public class Dashboard extends ActionBarActivity implements
         startActivity(i);
     }
 
-    public void popularEvents(View view) {
-        Log.v(tag, "tap show popular events");
-
+//    public void popularEvents(View view) {
+//        Log.v(tag, "tap show popular events");
 //        AllEventsFragment fragment = (AllEventsFragmentEventsFragment)getFragmentManager().findFragmentById(R.id.allevents);
+//    }
 
+    public void topicdetails(View v){
+        Log.v(tag, "tap topic title on topic card");
+        Intent i = new Intent(this, TopicDetailsActivity.class);
+        //todo: link topic id through
+        startActivity(i);
         //todo
     }
-
 
 }

@@ -451,6 +451,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.soco.SoCoClient.dashboard.Dashboard" />
         </activity>
+        <activity
+            android:name=".topics.TopicDetailsActivity"
+            android:label="@string/title_activity_topic_details"
+            android:parentActivityName=".dashboard.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.dashboard.Dashboard" />
+        </activity>
     </application>
 
 </manifest>

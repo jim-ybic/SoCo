@@ -72,4 +72,8 @@
     <string name="event_category_social">交際</string>
     <string name="event_category_language">語言</string>
 
+    <string name="related_events">相關活動</string>
+    <string name="recent_posts">最新動態</string>
+
+
 </resources>
