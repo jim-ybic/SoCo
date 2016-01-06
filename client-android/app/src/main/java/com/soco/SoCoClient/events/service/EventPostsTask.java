@@ -10,42 +10,40 @@ import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.EventsResponseUtil;
 import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.posts.Post;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by David_WANG on 12/01/2015.
- */
 
-public class EventDetailsTask extends AsyncTask<String, Void, Event> {
+public class EventPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
 
-    String tag = "EventDetailsTask";
+    String tag = "EventPostsTask";
     String user_id;
     String token;
     TaskCallBack callBack;
 
-    public EventDetailsTask(String user_id, String token, TaskCallBack cb){
-        Log.v(tag, "event details task: " + user_id);
+    public EventPostsTask(String user_id, String token, TaskCallBack cb){
+        Log.v(tag, "event posts task: " + user_id);
         this.user_id=user_id;
         this.token=token;
         callBack = cb;
     }
 
-    protected Event doInBackground(String... params) {
-        Log.v(tag, "validate data");
-
-        String url = UrlUtil.getEventUrl();
+    protected ArrayList<Post> doInBackground(String... params) {
+        String url = UrlUtil.getEventPostsUrl();
         Object response = request(
                 url,
                 user_id,
                 token,
-                params[0]
+                params[0]   //eventid
         );
 
         if (response != null) {
@@ -58,7 +56,7 @@ public class EventDetailsTask extends AsyncTask<String, Void, Event> {
         return null;
     }
 
-    Object request(
+    private Object request(
             String url,
             String user_id,
             String token,
@@ -78,18 +76,16 @@ public class EventDetailsTask extends AsyncTask<String, Void, Event> {
         return HttpUtil.executeHttpGet(url);
     }
 
-    Event parse(Object response) {
+    private ArrayList<Post> parse(Object response) {
         Log.d(tag, "parse response: " + response.toString());
-
         try {
             JSONObject json = new JSONObject(response.toString());
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
-                String eventString = json.getString(JsonKeys.EVENT);
-                JSONObject obj = new JSONObject(eventString);
-                Log.v(tag, "current event json: " + obj.toString());
-                return EventsResponseUtil.parseEventFromJSONObj(obj);
+                String s = json.getString(JsonKeys.POSTS);
+                JSONArray array = new JSONArray(s);
+                return parsePosts(array);
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);
@@ -104,9 +100,27 @@ public class EventDetailsTask extends AsyncTask<String, Void, Event> {
         } catch (Exception e) {
             Log.e(tag, "cannot convert parse to json object: " + e.toString());
             e.printStackTrace();
+            return null;
         }
 
         return null;
+    }
+
+    private ArrayList<Post> parsePosts(JSONArray array){
+        ArrayList<Post> posts = new ArrayList<>();
+        for(int i=0; i<array.length(); i++){
+            try {
+                JSONObject o = array.getJSONObject(i);
+                //todo parse posts from json
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                Log.e(tag, "error parse event post: " + e.toString());
+                return null;
+            }
+        }
+
+        return posts;
     }
 
     protected void onPostExecute(Event result) {

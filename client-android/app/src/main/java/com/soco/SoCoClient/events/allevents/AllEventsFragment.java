@@ -38,7 +38,6 @@ public class AllEventsFragment extends Fragment
     static final String EVENT_CATEGORY_BUSINESS = "business";
     static final String EVENT_CATEGORY_GAME = "game";
     static final String EVENT_CATEGORY_SOCIAL = "social";
-    static final String EVENT_CATEGORY_LANGUAGE = "language";
 
     SwipeRefreshLayoutBottom swipeContainer;
     RecyclerView mRecyclerView;
@@ -52,7 +51,7 @@ public class AllEventsFragment extends Fragment
     SocoApp socoApp;
     View rootView;
     ProgressDialog pd;
-    TextView allEvents, businessEvents, gameEvents, socialEvents, languageEvents;
+    TextView allEvents, businessEvents, gameEvents, socialEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -181,16 +180,6 @@ public class AllEventsFragment extends Fragment
             }
         });
 
-        languageEvents = (TextView) rootView.findViewById(R.id.languageEvents);
-        languageEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v(tag, "set on click listener: language");
-                highlightCategory(EVENT_CATEGORY_LANGUAGE);
-                //todo: load required events
-            }
-        });
-
     }
 
     public void createevent(View view) {
@@ -224,35 +213,24 @@ public class AllEventsFragment extends Fragment
             businessEvents.setTypeface(null, Typeface.NORMAL);
             gameEvents.setTypeface(null, Typeface.NORMAL);
             socialEvents.setTypeface(null, Typeface.NORMAL);
-            languageEvents.setTypeface(null, Typeface.NORMAL);
         }
         else if(cat.equals(EVENT_CATEGORY_BUSINESS)){
             allEvents.setTypeface(null, Typeface.NORMAL);
             businessEvents.setTypeface(null, Typeface.BOLD);
             gameEvents.setTypeface(null, Typeface.NORMAL);
             socialEvents.setTypeface(null, Typeface.NORMAL);
-            languageEvents.setTypeface(null, Typeface.NORMAL);
         }
         else if(cat.equals(EVENT_CATEGORY_GAME)){
             allEvents.setTypeface(null, Typeface.NORMAL);
             businessEvents.setTypeface(null, Typeface.NORMAL);
             gameEvents.setTypeface(null, Typeface.BOLD);
             socialEvents.setTypeface(null, Typeface.NORMAL);
-            languageEvents.setTypeface(null, Typeface.NORMAL);
         }
         else if(cat.equals(EVENT_CATEGORY_SOCIAL)){
             allEvents.setTypeface(null, Typeface.NORMAL);
             businessEvents.setTypeface(null, Typeface.NORMAL);
             gameEvents.setTypeface(null, Typeface.NORMAL);
             socialEvents.setTypeface(null, Typeface.BOLD);
-            languageEvents.setTypeface(null, Typeface.NORMAL);
-        }
-        else if(cat.equals(EVENT_CATEGORY_LANGUAGE)){
-            allEvents.setTypeface(null, Typeface.NORMAL);
-            businessEvents.setTypeface(null, Typeface.NORMAL);
-            gameEvents.setTypeface(null, Typeface.NORMAL);
-            socialEvents.setTypeface(null, Typeface.NORMAL);
-            languageEvents.setTypeface(null, Typeface.BOLD);
         }
     }
 

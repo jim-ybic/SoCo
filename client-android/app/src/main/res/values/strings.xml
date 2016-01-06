@@ -82,6 +82,7 @@
     <string name="join">join</string>
     <string name="introduction">Introduction</string>
     <string name="viewdetails">view details</string>
+    <string name="viewposts">view posts</string>
     <string name="organizer">Event Organizer</string>
     <string name="viewmyevents">view my events</string>
 
@@ -117,6 +118,8 @@
 
     <string name="title_activity_add_post">Add Post</string>
     <string name="title_activity_my_buddies">My Buddies</string>
+    <string name="title_activity_topic_details">Topic Details</string>
+    <string name="title_activity_event_posts">Event Posts</string>
 
     <string name="menu_myprofile">My Profile</string>
     <string name="menu_myevents">My Events</string>
@@ -130,7 +133,6 @@
     <string name="event_category_games">games</string>
     <string name="event_category_social">social</string>
     <string name="event_category_language">languages</string>
-    <string name="title_activity_topic_details">Topic Details</string>
 
     <string name="related_events">Related Events</string>
     <string name="recent_posts">Recent Posts</string>

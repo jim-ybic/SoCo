@@ -180,7 +180,7 @@ public class GroupDetailsActivity extends ActionBarActivity implements
             for(int i=0;i<members.size()&&i<6;i++){
                 User u = members.get(i);
 //                addImageButtonToView(params,backgroundResource,u,membersLayout);
-                ViewElementHelper.addImageButtonToView(params, backgroundResource, u, membersLayout, mContext);
+                ViewElementHelper.addImageViewToView(params, backgroundResource, u, membersLayout, mContext);
             }
         }
 
@@ -195,12 +195,12 @@ public class GroupDetailsActivity extends ActionBarActivity implements
         finish();
     }
 
-    public void groupmembers(View view){
-        Log.v(tag, "tap group members");
-        Intent i = new Intent(this, GroupMembersActivity.class);
-        i.putExtra(GROUP_ID, groupId);
-        startActivity(i);
-    }
+//    public void groupmembers(View view){
+//        Log.v(tag, "tap group members");
+//        Intent i = new Intent(this, GroupMembersActivity.class);
+//        i.putExtra(GROUP_ID, groupId);
+//        startActivity(i);
+//    }
 
     public void eventdetails(View view){
         Log.v(tag, "check event details");

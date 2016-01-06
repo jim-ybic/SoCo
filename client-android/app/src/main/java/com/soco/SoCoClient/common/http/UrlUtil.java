@@ -254,7 +254,7 @@ public class UrlUtil {
     static final String JOIN_GROUP_PATH = "/v1/join_group";
     static final String USER_ICON_PATH = "/v1/user_icon";
     static final String EVENT_POST_PATH = "/v1/event_post";
-
+    static final String EVENT_POSTS_PATH = "/v1/event_posts";
 
     public static String getLoginUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + LOGIN_PATH;
@@ -420,6 +420,12 @@ public class UrlUtil {
     public static String getEventPostUrl(){
         String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + EVENT_POST_PATH;
         Log.v(tag, "event post url: " + url);
+        return url;
+    }
+
+    public static String getEventPostsUrl(){
+        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + EVENT_POSTS_PATH;
+        Log.v(tag, "event posts url: " + url);
         return url;
     }
 

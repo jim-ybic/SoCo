@@ -115,9 +115,10 @@ public class AddPostActivity extends ActionBarActivity
         if(ret) {
             Log.v(tag, "post success");
             Toast.makeText(getApplicationContext(), R.string.msg_post_success, Toast.LENGTH_SHORT).show();
+            finish();
         }else {
             Log.e(tag, "post fail");
-            Toast.makeText(getApplicationContext(), "post fail, please try again later", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.msg_network_error, Toast.LENGTH_SHORT).show();
         }
     }
 

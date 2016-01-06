@@ -1,35 +1,33 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:id="@+id/master"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@android:color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical"
             android:background="#ffffb73f">
 
             <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/actionbar_close"
-                android:layout_gravity="center_vertical"
                 android:padding="10dp"
                 android:onClick="close"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:layout_weight="1"
             android:orientation="vertical"
             android:background="#ffffb73f"
             android:id="@+id/titlearea">
@@ -56,8 +54,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -69,7 +66,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="1"
                 android:layout_marginTop="5dp">
                 <TextView
                     android:id="@+id/textStartDate"
@@ -94,11 +90,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1"
             android:gravity="left"
             android:layout_gravity="center_horizontal"
             android:id="@+id/buddies"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="5dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -115,8 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
 
@@ -126,11 +120,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1"
             android:layout_gravity="left"
             android:gravity="left"
             android:id="@+id/introductionarea"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
             <TextView
@@ -148,26 +141,44 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="5pt"
                 android:maxLines="4" />
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/viewdetails"
-                android:clickable="true"
-                android:onClick="eventIntro"
-                android:textColor="@android:color/holo_blue_dark"
-                android:gravity="center_horizontal"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp" />
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/viewdetails"
+                    android:clickable="true"
+                    android:onClick="eventdetails"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:gravity="center_horizontal"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:padding="10dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/viewposts"
+                    android:clickable="true"
+                    android:onClick="eventposts"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:gravity="center_horizontal"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginLeft="25dp"
+                    android:padding="10dp" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:id="@+id/eventorganizer"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
 
@@ -227,7 +238,6 @@
                     android:id="@+id/likeevent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:textSize="19sp"
                     android:background="@drawable/eventcategory_box"
                     android:text="0"
@@ -236,34 +246,31 @@
                     android:gravity="center"
                     android:textStyle="bold"
                     android:enabled="true"
-                    android:onClick="likeevent"/>
+                    android:onClick="likeevent"
+                    android:layout_weight="1" />
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="@string/join"
                     android:textSize="19sp"
                     android:textColor="@android:color/holo_blue_dark"
                     android:background="@drawable/eventcategory_box"
                     android:textStyle="bold"
-                    android:onClick="joinevent"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    android:onClick="joinevent"
+                    android:layout_weight="1" />
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="@string/post"
                     android:textSize="19sp"
                     android:textColor="@android:color/holo_blue_dark"
                     android:background="@drawable/eventcategory_box"
                     android:textStyle="bold"
-                    android:onClick="post"/>
+                    android:onClick="post"
+                    android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

@@ -58,6 +58,7 @@ public class JsonKeys {
     public static final String NUMBER_OF_EVENTS = "number_of_events";
     public static final String NUMBER_OF_GROUPS = "number_of_groups";
     public static final String ORGANIZER = "organizer";
+    public static final String POSTS = "posts";
     public static final String PASSWORD = "password";
     public static final String PHONE = "phone";
     public static final String PROPERTY = "property";

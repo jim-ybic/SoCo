@@ -104,7 +104,7 @@ public class AddPostTask extends AsyncTask<String, Void, Boolean> {
             addUserid(user_id, token, dos);
             addEventId(dos);
             addText(dos);
-            addImageType(dos);
+//            addImageType(dos);
             addFile(dos);
 
             writeEnddata(dos);
@@ -190,20 +190,20 @@ public class AddPostTask extends AsyncTask<String, Void, Boolean> {
         dos.write(sb.toString().getBytes());
     }
 
-    private void addImageType(DataOutputStream dos) throws IOException {
-        Log.v(tag, "add imagetye: " + imageType);
-        StringBuffer sb = new StringBuffer();
-
-        String name = "image_type";
-        String value = imageType;
-        sb.append(PREFIX + BOUNDARY + LINE_END);
-        sb.append("Content-Disposition: form-data; name=\"" + name + "\"\r\n");
-        sb.append(LINE_END);
-        sb.append(URLEncoder.encode(value, "UTF-8") + LINE_END);
-
-        Log.v(tag, "dos write imagetype: " + sb.toString());
-        dos.write(sb.toString().getBytes());
-    }
+//    private void addImageType(DataOutputStream dos) throws IOException {
+//        Log.v(tag, "add imagetye: " + imageType);
+//        StringBuffer sb = new StringBuffer();
+//
+//        String name = "image_type";
+//        String value = imageType;
+//        sb.append(PREFIX + BOUNDARY + LINE_END);
+//        sb.append("Content-Disposition: form-data; name=\"" + name + "\"\r\n");
+//        sb.append(LINE_END);
+//        sb.append(URLEncoder.encode(value, "UTF-8") + LINE_END);
+//
+//        Log.v(tag, "dos write imagetype: " + sb.toString());
+//        dos.write(sb.toString().getBytes());
+//    }
 
     private void addFile(DataOutputStream dos) throws IOException {
         if(file == null) {
@@ -246,7 +246,7 @@ public class AddPostTask extends AsyncTask<String, Void, Boolean> {
     }
 
     protected void onPostExecute(Boolean result){
-        Log.v(tag, "post execute");
+        Log.v(tag, "post execute: " + result);
         if(result)
             callback.doneTask(true);
         else

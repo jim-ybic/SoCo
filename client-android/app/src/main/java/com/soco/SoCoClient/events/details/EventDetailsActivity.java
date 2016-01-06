@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.LikeUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
@@ -30,6 +34,10 @@ import com.soco.SoCoClient.events.service.EventDetailsTask;
 import com.soco.SoCoClient.events.service.LikeEventTask;
 import com.soco.SoCoClient.events.ui.ViewElementHelper;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
+import com.soco.SoCoClient.posts.Post;
+import com.soco.SoCoClient.posts.PostCardAdapter;
+
+import java.util.ArrayList;
 
 
 public class EventDetailsActivity extends ActionBarActivity implements TaskCallBack {
@@ -63,6 +71,7 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
             }
         }).start();
     }
+
 
     private void downloadEventDetails(){
         EventDetailsTask edt = new EventDetailsTask(SocoApp.user_id,SocoApp.token,this);
@@ -197,7 +206,7 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         startActivity(i);
     }
 
-    public void eventIntro(View view){
+    public void eventdetails(View view){
         Log.v(tag, "show event full intro message");
         String text = ((TextView) findViewById(R.id.intro)).getText().toString();
 
@@ -214,5 +223,11 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         builder.show();
     }
 
+    public void eventposts(View view){
+        Log.v(tag, "show event posts");
+        Intent i = new Intent(this, EventPostsActivity.class);
+        i.putExtra(EventPostsActivity.EVENTID, String.valueOf(event.getId()));
+        startActivity(i);
+    }
 
 }

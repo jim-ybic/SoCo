@@ -49,7 +49,7 @@ public class AllPostsFragment extends Fragment
                              Bundle savedInstanceState) {
 
         Log.v(tag, "on create view");
-        rootView = inflater.inflate(R.layout.fragment_all_topics, container, false);
+        rootView = inflater.inflate(R.layout.fragment_all_posts, container, false);
 
         swipeContainer = (SwipeRefreshLayoutBottom) rootView.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading

@@ -459,6 +459,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.soco.SoCoClient.dashboard.Dashboard" />
         </activity>
+        <activity
+            android:name=".events.details.EventPostsActivity"
+            android:label="@string/title_activity_event_posts"
+            android:parentActivityName=".events.details.EventDetailsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.events.details.EventDetailsActivity" />
+        </activity>
     </application>
 
 </manifest>

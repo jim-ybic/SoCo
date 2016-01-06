@@ -56,15 +56,6 @@
                 android:layout_weight="1"
                 android:padding="6dp"
                 android:gravity="center" />
-            <TextView
-                android:id="@+id/languageEvents"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:text="@string/event_category_language"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:padding="6dp"
-                android:gravity="center" />
         </LinearLayout>
 
         <com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom

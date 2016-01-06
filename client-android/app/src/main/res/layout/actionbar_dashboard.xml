@@ -13,7 +13,7 @@
         android:src="@drawable/logo_actionbar"
         android:layout_gravity="center_vertical"
         android:clickable="false"
-        android:padding="10dp"
+        android:padding="5dp"
         android:id="@+id/logo" />
 
     <TextView
@@ -34,7 +34,6 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:gravity="right"
-        android:paddingRight="10dp"
         android:id="@+id/meicon">
 
     <ImageButton
@@ -45,7 +44,8 @@
         android:id="@+id/mebutton"
         android:layout_gravity="center_vertical"
         android:clickable="true"
-        android:onClick="me"/>
+        android:onClick="me"
+        android:layout_marginRight="5dp" />
     </LinearLayout>
 
 </LinearLayout>

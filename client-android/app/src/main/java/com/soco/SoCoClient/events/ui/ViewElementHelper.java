@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -168,6 +169,16 @@ public class ViewElementHelper {
         imageButton.setClickable(false);
         IconUrlUtil.setImageForButtonSmall(context.getResources(), imageButton, UrlUtil.getUserIconUrl(u.getUser_id()));
         list.addView(imageButton);
+    }
+
+    public static void addImageViewToView(LinearLayout.LayoutParams params,int backgroundResource, User u, LinearLayout list, Context context){
+        ImageView imageView = new ImageButton(context);
+        imageView.setLayoutParams(params);
+        imageView.setBackgroundResource(backgroundResource);
+        imageView.setPadding(10, 2, 10, 2);
+        imageView.setClickable(false);
+        IconUrlUtil.setImageForButtonSmall(context.getResources(), imageView, UrlUtil.getUserIconUrl(u.getUser_id()));
+        list.addView(imageView);
     }
 
 }
