@@ -1,21 +1,46 @@
 package com.soco.SoCoClient.posts;
 
+import com.soco.SoCoClient.userprofile.model.User;
+
+import java.util.ArrayList;
+
 public class Post {
 
-    String username;
+    String id;
+    String time;
+    User user = new User();
     String comment;
+    ArrayList<Photo> photos = new ArrayList<>();
 
-    public Post(String name, String comment){
-        this.username = name;
+    public Post(){}
+
+    public Post(String username, String comment){
+        this.user.setUser_name(username);
         this.comment = comment;
     }
 
-    public String getUsername() {
-        return username;
+    public String getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getComment() {
@@ -26,11 +51,22 @@ public class Post {
         this.comment = comment;
     }
 
+    public ArrayList<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(ArrayList<Photo> photos) {
+        this.photos = photos;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
-                "username='" + username + '\'' +
+                "id='" + id + '\'' +
+                ", time='" + time + '\'' +
+                ", user=" + user +
                 ", comment='" + comment + '\'' +
+                ", photos=" + photos +
                 '}';
     }
 }

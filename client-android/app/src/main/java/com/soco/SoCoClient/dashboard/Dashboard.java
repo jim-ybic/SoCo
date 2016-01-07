@@ -34,6 +34,7 @@ import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
 import com.soco.SoCoClient.events.allevents.AllEventsFragment;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
@@ -452,6 +453,12 @@ public class Dashboard extends ActionBarActivity implements
         //todo: link topic id through
         startActivity(i);
         //todo
+    }
+
+    public void createevent(View view) {
+        Log.v(tag, "tap create event");
+        Intent i = new Intent(this, CreateEventActivity.class);
+        startActivity(i);
     }
 
 }

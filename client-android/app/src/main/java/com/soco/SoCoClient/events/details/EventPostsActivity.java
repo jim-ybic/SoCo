@@ -66,13 +66,7 @@ public class EventPostsActivity extends ActionBarActivity implements TaskCallBac
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-
-                Log.v(tag, "add dummy posts");
-                posts.add(new Post("user1", "user1's comment"));
-                posts.add(new Post("user2", "user2's comment"));
-                posts.add(new Post("user3", "user3's comment"));
-                adapter.notifyDataSetChanged();
-
+                //todo: download more posts
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -82,13 +76,14 @@ public class EventPostsActivity extends ActionBarActivity implements TaskCallBac
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
 
-        Log.v(tag, "add dummy posts");
-        posts = new ArrayList<>();
-        posts.add(new Post("user1", "user1's comment"));
-        posts.add(new Post("user2", "user2's comment"));
-        posts.add(new Post("user3", "user3's comment"));
+//        Log.v(tag, "add dummy posts");
+//        posts = new ArrayList<>();
+//        posts.add(new Post("user1", "user1's comment"));
+//        posts.add(new Post("user2", "user2's comment"));
+//        posts.add(new Post("user3", "user3's comment"));
 
         adapter = new PostCardAdapter(this, posts);
+        adapter.setIsSourceFromSingleEvent(true);
         mRecyclerView.setAdapter(adapter);
 
         Log.v(tag, "show progress dialog, start downloading event details");
@@ -107,8 +102,20 @@ public class EventPostsActivity extends ActionBarActivity implements TaskCallBac
     }
 
     public void doneTask(Object o) {
+        Log.v(tag, "donetask");
+        if(o == null)
+            Log.e(tag, "event posts task returns null");
+        else{
+            ArrayList<Post> newPosts = (ArrayList<Post>) o;
+            Log.v(tag, newPosts.size() + " posts found");
+            for(Post p : newPosts){
+                posts.add(p);
+                Log.v(tag, "add new post: " + p.toString());
+            }
+        }
+        adapter.notifyDataSetChanged();
         swipeContainer.setRefreshing(false);
-        //todo
+        pd.dismiss();
     }
 
 

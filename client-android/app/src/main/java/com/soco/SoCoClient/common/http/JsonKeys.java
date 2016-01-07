@@ -9,6 +9,7 @@ public class JsonKeys {
     public static final String BUDDY_ID = "buddy_id";
     public static final String BUDDY_USER_ID = "buddy_user_id";
     public static final String CATEGORIES = "categories";
+    public static final String COMMENT = "comment";
     public static final String CATEGORY = "category";
     public static final String COMMON_BUDDIES = "common_buddies";
     public static final String CREATOR_ICON_URL = "creator_icon_url";
@@ -59,6 +60,9 @@ public class JsonKeys {
     public static final String NUMBER_OF_GROUPS = "number_of_groups";
     public static final String ORGANIZER = "organizer";
     public static final String POSTS = "posts";
+    public static final String PHOTOS = "photos";
+    public static final String PHOTO_NAME = "photo_name";
+    public static final String PHOTO_URL = "photo_url";
     public static final String PASSWORD = "password";
     public static final String PHONE = "phone";
     public static final String PROPERTY = "property";

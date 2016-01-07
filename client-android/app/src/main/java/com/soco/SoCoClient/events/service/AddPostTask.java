@@ -103,7 +103,7 @@ public class AddPostTask extends AsyncTask<String, Void, Boolean> {
 
             addUserid(user_id, token, dos);
             addEventId(dos);
-            addText(dos);
+            addComment(dos);
 //            addImageType(dos);
             addFile(dos);
 
@@ -175,8 +175,8 @@ public class AddPostTask extends AsyncTask<String, Void, Boolean> {
         dos.write(sb.toString().getBytes());
     }
 
-    private void addText(DataOutputStream dos) throws IOException {
-        Log.v(tag, "add text: " + comment);
+    private void addComment(DataOutputStream dos) throws IOException {
+        Log.v(tag, "add comment: " + comment);
         StringBuffer sb = new StringBuffer();
 
         String name = "text";
@@ -184,7 +184,8 @@ public class AddPostTask extends AsyncTask<String, Void, Boolean> {
         sb.append(PREFIX + BOUNDARY + LINE_END);
         sb.append("Content-Disposition: form-data; name=\"" + name + "\"\r\n");
         sb.append(LINE_END);
-        sb.append(URLEncoder.encode(value, "UTF-8") + LINE_END);
+        sb.append(value);
+        sb.append(LINE_END);
 
         Log.v(tag, "dos write text: " + sb.toString());
         dos.write(sb.toString().getBytes());

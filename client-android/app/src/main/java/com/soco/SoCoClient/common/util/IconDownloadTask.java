@@ -1,13 +1,14 @@
 package com.soco.SoCoClient.common.util;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
 /**
  * Created by David_WANG on 11/15/2015.
@@ -18,10 +19,20 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> imageButtonReference;
     public String url;
     private int size;
+    private boolean useRoundedCorner;
+    private Resources res;
 
     public IconDownloadTask(ImageView button,int size){
         imageButtonReference = new WeakReference<>(button);
         this.size=size;
+        useRoundedCorner = true;
+    }
+
+    public IconDownloadTask(ImageView button,int size, boolean useRoundedCorner, Resources res){
+        imageButtonReference = new WeakReference<>(button);
+        this.size=size;
+        this.useRoundedCorner = useRoundedCorner;
+        this.res = res;
     }
 
     protected Bitmap doInBackground(String... urls) {
@@ -35,13 +46,23 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
                 Log.v(tag, "No result found in cache for url, downloading image from server");
 //                Log.v(tag, "Downloading image from server: "+url);
                 bp = IconUrlUtil.getBitmapFromURL(url);
+
                 if(bp!=null) {
+
                     IconUrlUtil.addBitmapToImageCache(url, bp);
                 }
             }
             else
                 Log.v(tag, "Found image in cache");
-            bp = IconUrlUtil.processBitmap(bp,this.size);
+
+            if(useRoundedCorner) {
+                Log.v(tag, "process bit map in rounded corner");    //e.g. user icon
+                bp = IconUrlUtil.processBitmapRoundedCorner(bp, this.size);
+            }
+            else {
+                Log.v(tag, "process bit map in normal shape");    //e.g. user post photos
+                bp = IconUrlUtil.processBitmap(bp, this.size);
+            }
         }
         return bp;
     }
@@ -49,6 +70,7 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
     /** The system calls this to perform work in the UI thread and delivers
      * the result from doInBackground() */
     protected void onPostExecute(Bitmap bitmap) {
+        Log.v(tag, "post execute, set image on screen");
         if (isCancelled()) {
             bitmap = null;
         }

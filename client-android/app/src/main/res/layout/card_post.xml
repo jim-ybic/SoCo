@@ -2,7 +2,6 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
     android:orientation="horizontal"
     card_view:cardCornerRadius="5dp" >
 
@@ -12,6 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_margin="5dp"
             android:background="@android:color/white">
 
             <LinearLayout
@@ -21,12 +21,11 @@
                 android:orientation="horizontal"
                 android:id="@+id/header"
                 android:layout_marginTop="2dp">
-                <ImageView
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     android:src="@drawable/user1"
-                    android:clickable="false"
                     android:id="@+id/usericon"
                     android:padding="2dp" />
                 <TextView
@@ -50,7 +49,8 @@
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     android:src="@drawable/picture3_crop"
-                    android:clickable="false" />
+                    android:clickable="false"
+                    android:id="@+id/photo" />
             </LinearLayout>
 
             <LinearLayout
@@ -59,11 +59,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="2dp"
-                android:id="@+id/comments">
+                android:id="@+id/comments"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="what a wonderful day!"
                     android:textColor="@color/black"
                     android:id="@+id/comment" />
             </LinearLayout>

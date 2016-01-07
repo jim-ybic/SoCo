@@ -13,14 +13,18 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageButton;
 
 import android.content.res.Resources;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.soco.SoCoClient.common.Foo;
 import com.soco.SoCoClient.events.details.AddPostActivity;
+import com.soco.SoCoClient.posts.Photo;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,14 +42,14 @@ public class IconUrlUtil {
 //    int cacheSize = 1024 * 1024 * memClass / 8;
 //    LruCache cache = new LruCache<String, Bitmap>( cacheSize );
 
-//    private static int screenSize=0;
+    private static int phoneScreenSize=0;
     private static int sizeSmall=0;
     private static int sizeNormal=0;
     private static int sizeLarge=0;
 //    private static int counter=0;
 
     public static void initialForIconDownloader(int screenSize,int cacheSize){
-//        screenSize=screenSize;
+        phoneScreenSize=screenSize;
         sizeSmall = Math.round(screenSize * 0.11111f);
         sizeNormal = Math.round(screenSize * 0.185185f);
         sizeLarge = Math.round(screenSize * 0.21f);
@@ -81,10 +85,15 @@ public class IconUrlUtil {
 
     public static void setImageForButtonLarge(Resources res, ImageView mButton, String urlString){
         Log.v(tag, "set button image large: " + urlString + ", " + sizeLarge);
-        updateImageButton( res,mButton, urlString, sizeLarge);
+        updateImageButton(res, mButton, urlString, sizeLarge);
     }
 
-//    public static void setImageForViewSmall(Resources res, ImageView view, String urlString){
+    public static void setImageForButtonRegularShape(Resources res, ImageView mButton, String urlString){
+        Log.v(tag, "set button image regular: " + urlString + ", " + phoneScreenSize);
+        updateImageButtonRegularShape(res, mButton, urlString, phoneScreenSize);
+    }
+
+    //    public static void setImageForViewSmall(Resources res, ImageView view, String urlString){
 //        updateImageButton( res,view,urlString,sizeSmall);
 //    }
 //    public static void setImageForViewNormal(Resources res, ImageView view, String urlString){
@@ -102,6 +111,47 @@ public class IconUrlUtil {
                 final IconDownloadTask task = new IconDownloadTask(mButton, size);
                 final IconAsyncDrawable asyncDrawable =
                         new IconAsyncDrawable(res, Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888), task);
+                mButton.setImageDrawable(asyncDrawable);
+                task.execute(urlString);
+            }
+        }
+        catch (Exception e){
+            Log.e(tag, "cannot update image button: " + e);
+            e.printStackTrace();
+        }
+    }
+
+    private static void updateImageButtonRegularShape(Resources res, ImageView mButton, String urlString,int size){
+        Log.v(tag, "update image button: " + res + ", " + mButton + ", " + urlString + ", " + size);
+
+        int displayWidth = size;
+        int displayHeight = size;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url
+                    .openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            BitmapFactory.decodeStream(input, null, options);
+//            Uri uri = Uri.parse(urlString);
+//            BitmapFactory.decodeFile(uri.getPath(), options);
+            Log.v(tag, "bitmap width/height: " + options.outWidth + "/" + options.outHeight);
+            displayHeight = options.outHeight * size / options.outWidth;
+        }
+        catch(Exception e){
+            Log.e(tag, "cannot get image from url");
+            e.printStackTrace();
+        }
+        Log.v(tag, "display width/height: " + displayWidth + "/" + displayHeight);
+
+        try {
+            if (cancelPotentialWork(urlString, mButton)) {
+                final IconDownloadTask task = new IconDownloadTask(mButton, size, false, res);
+                final IconAsyncDrawable asyncDrawable =
+                        new IconAsyncDrawable(res, Bitmap.createBitmap(displayWidth, displayWidth, Bitmap.Config.ARGB_8888), task);
                 mButton.setImageDrawable(asyncDrawable);
                 task.execute(urlString);
             }
@@ -150,7 +200,7 @@ public class IconUrlUtil {
         return iconImageCache.get(url);
     }
 
-    public static Bitmap processBitmap(Bitmap bp, int size){
+    public static Bitmap processBitmapRoundedCorner(Bitmap bp, int size){
         if(bp==null){
             Log.e(tag, "Not able to process bitmap as the input is empty");
         }else {
@@ -159,6 +209,18 @@ public class IconUrlUtil {
                 Log.v(tag, "Finished re-size bitmap");
                 bp = getRoundedCornerBitmap(bp, size * size);
                 Log.v(tag, "Finished round corner bitmap");
+            }
+        }
+        return bp;
+    }
+
+    public static Bitmap processBitmap(Bitmap bp, int size){
+        if(bp==null){
+            Log.e(tag, "Not able to process bitmap as the input is empty");
+        }else {
+            if (size != 0) {
+                bp = getResizedBitmap(bp, size, size);
+                Log.v(tag, "Finished re-size bitmap");
             }
         }
         return bp;
