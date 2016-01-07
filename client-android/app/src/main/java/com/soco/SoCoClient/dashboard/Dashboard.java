@@ -36,7 +36,6 @@ import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
-import com.soco.SoCoClient.events.allevents.AllEventsFragment;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.details.EventDetailsActivity;
 import com.soco.SoCoClient.events.details.EventGroupsBuddiesActivity;
@@ -46,7 +45,6 @@ import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.events.service.LikeEventTask;
 import com.soco.SoCoClient.groups.AllGroupsActivity;
 import com.soco.SoCoClient.topics.TopicDetailsActivity;
-import com.soco.SoCoClient.userprofile.SettingsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
 import java.net.URL;
@@ -91,10 +89,10 @@ public class Dashboard extends ActionBarActivity implements
         Log.v(tag, "init icon downloader: " + size + ", " + cacheSize);
         IconUrlUtil.initialForIconDownloader(Math.min(size.x, size.y), cacheSize);
 
-        socoApp.screenSizeX = size.x;
-        socoApp.screenSizeY = size.y;
+        socoApp.screenSizeWidth = size.x;
+        socoApp.screenSizeHeight = size.y;
         socoApp.screenSize = Math.min(size.x, size.y);
-        Log.v(tag, "screen size x/y/.: " + size.x + "/" + size.y + "/" + Math.min(size.x, size.y));
+        Log.v(tag, "screen size width/height/min.: " + size.x + "/" + size.y + "/" + Math.min(size.x, size.y));
 
         setActionbar();
         findViews();

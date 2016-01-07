@@ -64,7 +64,7 @@ public class Post {
         return "Post{" +
                 "id='" + id + '\'' +
                 ", time='" + time + '\'' +
-                ", user=" + user +
+                ", user=" + user.getUser_name() +
                 ", comment='" + comment + '\'' +
                 ", photos=" + photos +
                 '}';

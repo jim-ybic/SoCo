@@ -4,6 +4,7 @@ import com.soco.SoCoClient.events.model.Event;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -59,5 +60,17 @@ public class TimeUtil {
             sb.append(event.getEnd_time());
         }
         return sb.toString();
+    }
+
+    public static String getDate(long milliSeconds, String dateFormat) {
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+        formatter.setTimeZone(calendar.getTimeZone());
+        return formatter.format(calendar.getTime());
     }
 }

@@ -226,6 +226,18 @@ public class IconUrlUtil {
         return bp;
     }
 
+    public static Bitmap processBitmap(Bitmap bp, int width, int height){
+        if(bp==null){
+            Log.e(tag, "Not able to process bitmap as the input is empty");
+        }else {
+            if (width != 0 && height != 0) {
+                bp = getResizedBitmap(bp, width, height);
+                Log.v(tag, "Finished re-size bitmap");
+            }
+        }
+        return bp;
+    }
+
     public static Bitmap getBitmapFromURL(String urlString) {
         try {
             URL url = new URL(urlString);
@@ -262,7 +274,7 @@ public class IconUrlUtil {
         }
     }
 
-    public static Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+    public static Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         int width = bm.getWidth();
         int height = bm.getHeight();
         float scaleWidth = ((float) newWidth) / width;

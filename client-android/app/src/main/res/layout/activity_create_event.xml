@@ -8,32 +8,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="10dp"
-        android:id="@+id/banner"
-        android:background="#ffd8d8d8">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="upload photo"
-            android:onClick="uploadPhoto"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="10dp"
-        android:id="@+id/eventname">
+        android:id="@+id/eventname"
+        android:layout_margin="5dp">
         <EditText
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title"
-            android:text="test event title" />
+            android:hint="Title" />
     </LinearLayout>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -41,34 +25,19 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:id="@+id/eventdetails"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+        android:layout_margin="5dp">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:id="@+id/color"
-                android:paddingTop="20dp">
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Main theme color"
-                    android:textSize="20sp"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
+            android:orientation="vertical">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:id="@+id/locationarea"
-                android:paddingTop="20dp">
+                android:id="@+id/locationarea">
                 <EditText
                     android:id="@+id/location"
                     android:layout_width="match_parent"
@@ -81,8 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/datetime"
-                android:paddingTop="20dp">
+                android:id="@+id/datetime">
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
@@ -95,8 +63,7 @@
                         android:layout_weight="1"
                         android:hint="Start Date"
                         android:onClick="startdatePick"
-                        android:focusable="false"
-                        android:text="2015-11-04" />
+                        android:focusable="false" />
                     <android.widget.EditText
                         android:id="@+id/starttime"
                         android:layout_width="wrap_content"
@@ -104,8 +71,7 @@
                         android:layout_weight="1"
                         android:hint="Start Time"
                         android:onClick="starttimePick"
-                        android:focusable="false"
-                        android:text="18:00" />
+                        android:focusable="false" />
                 </LinearLayout>
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
@@ -118,8 +84,7 @@
                         android:layout_weight="1"
                         android:hint="End Date"
                         android:onClick="enddatePick"
-                        android:focusable="false"
-                        android:text="2016-11-04" />
+                        android:focusable="false" />
                     <android.widget.EditText
                         android:id="@+id/endtime"
                         android:layout_width="wrap_content"
@@ -127,8 +92,7 @@
                         android:layout_weight="1"
                         android:hint="End Time"
                         android:onClick="endtimePick"
-                        android:focusable="false"
-                        android:text="18:00" />
+                        android:focusable="false" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -136,8 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:id="@+id/introductionarea"
-                android:paddingTop="20dp">
+                android:id="@+id/introductionarea">
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -159,58 +122,11 @@
                     android:layout_marginTop="5dp" />
             </LinearLayout>
 
-
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/ticketing"
-                android:paddingTop="20dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <EditText
-                        android:id="@+id/ccy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="HKD"
-                        android:layout_weight="1"/>
-                    <EditText
-                        android:id="@+id/amount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="5"
-                        android:hint="0"/>
-                </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Add another ticket price"/>
-            </LinearLayout>
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/groups"
-                android:paddingTop="20dp">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Organizing Group"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Add another group"/>
-            </LinearLayout>
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/additional"
-                android:paddingTop="20dp">
+                android:id="@+id/additional">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -221,10 +137,6 @@
                     android:layout_height="100dp"
                     android:hint="Say something more"
                     android:inputType="textMultiLine"
-                    android:paddingTop="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:gravity="top"/>
             </LinearLayout>
@@ -233,36 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/category"
-                android:paddingTop="20dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Category (Multiple Selection)"
-                    android:textColor="@android:color/black"/>
-            </LinearLayout>
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/advance"
-                android:paddingTop="20dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Advanced options"
-                    android:textColor="@android:color/black"/>
-            </LinearLayout>
-
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/actionbuttons"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:id="@+id/actionbuttons">
                 <Button
                     android:id="@+id/save"
                     android:layout_width="match_parent"

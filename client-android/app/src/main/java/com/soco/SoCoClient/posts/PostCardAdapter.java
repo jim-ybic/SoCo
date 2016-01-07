@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
+import com.soco.SoCoClient.common.util.PhotoPlacer;
 
 import java.util.ArrayList;
 
@@ -56,10 +57,17 @@ public class PostCardAdapter
         Log.v(tag, "set user name");
         holder.username.setText(p.getUser().getUser_name());
 
+        Log.v(tag, "set post time");
+        holder.time.setText(p.getTime());
+
         Log.v(tag, "set photo");
         if(p.getPhotos().size()>0) {
             Photo pho = p.getPhotos().get(0);   //only support single photo now
-            IconUrlUtil.setImageForButtonRegularShape(mContext.getResources(), holder.photo, pho.getUrl());
+            new PhotoPlacer().showPhotoInPost2(mContext.getResources(), holder.photo, pho.getUrl());
+        }
+        else {
+            Log.v(tag, "no photo in the post, remove the view");
+            ((ViewManager) holder.photo.getParent()).removeView(holder.photo);
         }
 
         Log.v(tag, "set comment");
@@ -80,6 +88,7 @@ public class PostCardAdapter
         public ImageButton usericon;
         public TextView username;
         public ImageView photo;
+        public TextView time;
         public TextView comment;
         public LinearLayout eventsLayout;
 
@@ -87,6 +96,7 @@ public class PostCardAdapter
             super(v);
             usericon = (ImageButton) v.findViewById(R.id.usericon);
             username = (TextView) v.findViewById(R.id.username);
+            time = (TextView) v.findViewById(R.id.time);
             photo = (ImageView) v.findViewById(R.id.photo);
             comment = (TextView) v.findViewById(R.id.comment);
             eventsLayout = (LinearLayout) v.findViewById(R.id.events);

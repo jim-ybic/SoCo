@@ -35,6 +35,15 @@
                     android:id="@+id/username"
                     android:padding="5dp"
                     android:layout_marginLeft="5dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/time"
+                    android:padding="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:hint="qqqq"
+                    android:gravity="right" />
             </LinearLayout>
 
             <LinearLayout

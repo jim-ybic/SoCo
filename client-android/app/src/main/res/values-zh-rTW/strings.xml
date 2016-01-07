@@ -61,6 +61,7 @@
     <string name="title_activity_my_buddies">我的好友</string>
     <string name="title_activity_topic_details">話題詳情</string>
     <string name="title_activity_event_posts">活動動態</string>
+    <string name="title_activity_create_event">新建活動</string>
 
     <string name="menu_myprofile">我的空間</string>
     <string name="menu_myevents">我的活動</string>

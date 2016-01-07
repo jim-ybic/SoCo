@@ -1,7 +1,6 @@
 package com.soco.SoCoClient.events.details;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,7 +20,6 @@ import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.service.AddPostTask;
-import com.soco.SoCoClient.userprofile.task.SetUserIconTask;
 
 public class AddPostActivity extends ActionBarActivity
         implements TaskCallBack{
@@ -99,7 +97,7 @@ public class AddPostActivity extends ActionBarActivity
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String filePath = cursor.getString(columnIndex);
 
-                bitmap = IconUrlUtil.decodeSampledBitmapFromFile(filePath, socoApp.screenSizeX / 2, socoApp.screenSizeY / 2);
+                bitmap = IconUrlUtil.decodeSampledBitmapFromFile(filePath, socoApp.screenSizeWidth / 2, socoApp.screenSizeHeight / 2);
                 Log.d(tag, "bitmap: " + bitmap);
                 ((ImageView) findViewById(R.id.pic1)).setImageBitmap(bitmap);
                 ImageView view = (ImageView) findViewById(R.id.pic1);

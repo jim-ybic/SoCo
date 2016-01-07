@@ -241,7 +241,7 @@ public class UserProfileActivity extends ActionBarActivity
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String filePath = cursor.getString(columnIndex);
 
-                Bitmap bitmap = IconUrlUtil.decodeSampledBitmapFromFile(filePath, socoApp.screenSizeX/2, socoApp.screenSizeY/2);
+                Bitmap bitmap = IconUrlUtil.decodeSampledBitmapFromFile(filePath, socoApp.screenSizeWidth /2, socoApp.screenSizeHeight /2);
                 Log.d(tag, "bitmap: " + bitmap);
                 ImageView view = (ImageView) findViewById(R.id.icon);
                 view.setImageBitmap(bitmap);

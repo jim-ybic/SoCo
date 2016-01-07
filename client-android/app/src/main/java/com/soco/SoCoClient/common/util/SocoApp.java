@@ -426,7 +426,7 @@ public class SocoApp extends Application {
     //user profile
     public User currentUserOnProfile;
 
-    public int screenSize, screenSizeX, screenSizeY;
+    public static int screenSize, screenSizeWidth, screenSizeHeight;
 
     public static String getCurrentUserTokenForUrl(){
         StringBuffer sb = new StringBuffer();

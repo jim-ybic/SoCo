@@ -47,7 +47,7 @@
     <string name="title_activity_group_members">Group Members</string>
     <string name="eventtitle">Event Title</string>
     <string name="title_activity_my_profile">My Profile</string>
-    <string name="title_activity_create_event">Create Event</string>
+
     <string name="title_activity_create_group">Create Group</string>
     <string name="title_activity_event_groups_buddies">Groups &amp; Buddies</string>
     <string name="title_activity_test2">Test2Activity</string>
@@ -120,6 +120,7 @@
     <string name="title_activity_my_buddies">My Buddies</string>
     <string name="title_activity_topic_details">Topic Details</string>
     <string name="title_activity_event_posts">Event Posts</string>
+    <string name="title_activity_create_event">Create Event</string>
 
     <string name="menu_myprofile">My Profile</string>
     <string name="menu_myevents">My Events</string>

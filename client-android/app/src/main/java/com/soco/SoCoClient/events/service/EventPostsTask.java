@@ -9,6 +9,7 @@ import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.EventsResponseUtil;
+import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.posts.Photo;
 import com.soco.SoCoClient.posts.Post;
@@ -137,7 +138,9 @@ public class EventPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
             Post p = new Post();
             try {
                 p.setId(o.getString(JsonKeys.ID));
-                p.setTime(o.getString(JsonKeys.TIME));
+
+                Long time = Long.valueOf(o.getString(JsonKeys.TIME));
+                p.setTime(TimeUtil.getDate(time, "HH:mm:ss  dd/MM/yyyy"));
                 p.setComment(o.getString(JsonKeys.COMMENT));
 
                 User u = parseUser(o.getJSONObject(JsonKeys.USER));

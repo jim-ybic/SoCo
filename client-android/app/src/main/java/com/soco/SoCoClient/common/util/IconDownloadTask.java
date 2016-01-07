@@ -21,6 +21,8 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private int size;
     private boolean useRoundedCorner;
     private Resources res;
+    int width, height;
+    boolean sizeReady = false;
 
     public IconDownloadTask(ImageView button,int size){
         imageButtonReference = new WeakReference<>(button);
@@ -33,6 +35,15 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
         this.size=size;
         this.useRoundedCorner = useRoundedCorner;
         this.res = res;
+    }
+
+    public IconDownloadTask(ImageView button,int width, int height, boolean useRoundedCorner, Resources res){
+        imageButtonReference = new WeakReference<>(button);
+        this.width = width;
+        this.height = height;
+        this.useRoundedCorner = useRoundedCorner;
+        this.res = res;
+        this.sizeReady = true;
     }
 
     protected Bitmap doInBackground(String... urls) {
@@ -48,14 +59,17 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
                 bp = IconUrlUtil.getBitmapFromURL(url);
 
                 if(bp!=null) {
-
                     IconUrlUtil.addBitmapToImageCache(url, bp);
                 }
             }
             else
                 Log.v(tag, "Found image in cache");
 
-            if(useRoundedCorner) {
+            if(sizeReady){
+                Log.v(tag, "size ready");
+                bp = IconUrlUtil.processBitmap(bp, this.width, this.height);
+            }
+            else if(useRoundedCorner) {
                 Log.v(tag, "process bit map in rounded corner");    //e.g. user icon
                 bp = IconUrlUtil.processBitmapRoundedCorner(bp, this.size);
             }
@@ -70,7 +84,7 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
     /** The system calls this to perform work in the UI thread and delivers
      * the result from doInBackground() */
     protected void onPostExecute(Bitmap bitmap) {
-        Log.v(tag, "post execute, set image on screen");
+        Log.v(tag, "post execute, set image on screen: " + url);
         if (isCancelled()) {
             bitmap = null;
         }
