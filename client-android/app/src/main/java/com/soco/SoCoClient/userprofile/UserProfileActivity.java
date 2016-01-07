@@ -7,10 +7,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -23,13 +23,13 @@ import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
+import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.details.EventDetailsActivity;
-import com.soco.SoCoClient.userprofile.task.SetUserIconTask;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 import com.soco.SoCoClient.userprofile.model.User;
+import com.soco.SoCoClient.userprofile.task.SetUserIconTask;
 import com.soco.SoCoClient.userprofile.task.UserProfileTask;
 import com.soco.SoCoClient.userprofile.ui.UserProfileTabsAdapter;
-import com.soco.SoCoClient.common.util.SocoApp;
 
 
 public class UserProfileActivity extends ActionBarActivity
@@ -41,12 +41,12 @@ public class UserProfileActivity extends ActionBarActivity
     private ViewPager viewPager;
     private UserProfileTabsAdapter mAdapter;
     private android.support.v7.app.ActionBar actionBar;
-
+    View customView;
     Context context;
     SocoApp socoApp;
     User user;
     int tabIndex;
-
+    boolean isFirst;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +59,7 @@ public class UserProfileActivity extends ActionBarActivity
         tabIndex = i.getIntExtra(Config.USER_PROFILE_TAB_INDEX, 0);
         Log.v(tag, "get tabindex: " + tabIndex);
 
+        isFirst=false;
         String userId = i.getStringExtra(User.USER_ID);
         Log.v(tag, "userid: " + userId);
         if(userId != null && !userId.isEmpty() && socoApp.suggestedBuddies != null && socoApp.suggestedBuddiesMap.containsKey(userId))     {
@@ -86,8 +87,13 @@ public class UserProfileActivity extends ActionBarActivity
             socoApp.currentUserOnProfile = user;
         }
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        new UserProfileTask(context, user, this).execute();
+    }
     void setActionbar(){
+        isFirst=true;
         Log.v(tag, "set actionbar");
         viewPager = (ViewPager) findViewById(R.id.pager);
 
@@ -104,27 +110,15 @@ public class UserProfileActivity extends ActionBarActivity
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowCustomEnabled(true);
-        View customView = getLayoutInflater().inflate(R.layout.actionbar_user_profile, null);
 
+        customView = getLayoutInflater().inflate(R.layout.actionbar_user_profile, null);
         android.support.v7.app.ActionBar.LayoutParams layout = new android.support.v7.app.ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         actionBar.setCustomView(customView, layout);
         Toolbar parent = (Toolbar) customView.getParent();
         Log.v(tag, "remove margin in actionbar area");
         parent.setContentInsetsAbsolute(0, 0);
 
-        TextView userName = (TextView) customView.findViewById(R.id.name);
-        userName.setText(user.getUser_name());
-        TextView userLocation = (TextView) customView.findViewById(R.id.location);
-        if(user.getLocation().isEmpty())
-            Log.w(tag, "user location is empty, use default Hong Kong");
-        else
-            userLocation.setText((user.getLocation()));
-        Log.v(tag, "set user name and location: " + user.getUser_name() + ", " + user.getLocation());
-
-        Log.v(tag, "set user icon: " + user.getUser_id() + ", " + user.getUser_name());
-        ImageView icon = (ImageView) customView.findViewById(R.id.icon);
-        IconUrlUtil.setImageForButtonLarge(context.getResources(), icon, UrlUtil.getUserIconUrl(user.getUser_id()));
-
+        refresh();
         Log.v(tag, "Adding tabs");
         android.support.v7.app.ActionBar.Tab tabProfile = actionBar.newTab().setText(R.string.userprofile_tab_profile).setTabListener(this);
         actionBar.addTab(tabProfile);
@@ -178,10 +172,27 @@ public class UserProfileActivity extends ActionBarActivity
         Log.v(tag, "tap on close");
         finish();
     }
+    public void refresh(){
+        TextView userName = (TextView) customView.findViewById(R.id.name);
+        userName.setText(user.getUser_name());
+        TextView userLocation = (TextView) customView.findViewById(R.id.location);
+        if(user.getLocation().isEmpty())
+            Log.w(tag, "user location is empty, use default Hong Kong");
+        else
+            userLocation.setText((user.getLocation()));
+        Log.v(tag, "set user name and location: " + user.getUser_name() + ", " + user.getLocation());
 
+        Log.v(tag, "set user icon: " + user.getUser_id() + ", " + user.getUser_name());
+        ImageView icon = (ImageView) customView.findViewById(R.id.icon);
+        IconUrlUtil.setImageForButtonLarge(context.getResources(), icon, UrlUtil.getUserIconUrl(user.getUser_id()));
+    }
     public void doneTask(Object o){
         Log.v(tag, "done task, set actionbar");
-        setActionbar();
+        if(!isFirst){
+            setActionbar();
+        }else {
+            refresh();
+        }
     }
 
     public void eventdetails(View view){
@@ -206,6 +217,7 @@ public class UserProfileActivity extends ActionBarActivity
         Log.v(tag, "tap user icon, my userid: " + socoApp.user_id + ", tap userid: " + user.getUser_id());
         if(user.getUser_id().equals(socoApp.user_id)){
             Log.v(tag, "changing my icon");
+            IconUrlUtil.removeBitmapFromCache(UrlUtil.getUserIconUrl(user.getUser_id()));
             Intent i =  new Intent(Intent.ACTION_PICK, null);
             i.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
             startActivityForResult(i, REQUESTCODE_CHANGEICON);

@@ -47,6 +47,7 @@ import com.soco.SoCoClient.groups.AllGroupsActivity;
 import com.soco.SoCoClient.topics.TopicDetailsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
+
 import java.net.URL;
 
 public class Dashboard extends ActionBarActivity implements
@@ -171,7 +172,11 @@ public class Dashboard extends ActionBarActivity implements
         Log.v(tag, "ib: " + ib + ", user: " + u.toString());
         IconUrlUtil.setImageForButtonNormal(getResources(), ib, u.getUser_icon_url());
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        setMyProfilePhoto();
+    }
     private void setMyProfilePhoto() {
         if (socoApp.loginViaFacebookResult) {
             Log.v(tag, "login via facebook result is true, get user facebook profile photo");

@@ -1,8 +1,6 @@
 package com.soco.SoCoClient.common.util;
 
-import android.app.ActivityManager;
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,18 +11,10 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageButton;
-
-import android.content.res.Resources;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.soco.SoCoClient.common.Foo;
-import com.soco.SoCoClient.events.details.AddPostActivity;
-import com.soco.SoCoClient.posts.Photo;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,7 +60,7 @@ public class IconUrlUtil {
 
     public static void setImageForButtonNormal(Resources res, ImageButton mButton, String urlString){
         Log.v(tag, "set button image normal: " + urlString + ", " + sizeNormal);
-        updateImageButton( res,mButton, urlString,sizeNormal);
+        updateImageButton(res, mButton, urlString, sizeNormal);
     }
 
     public static void setImageForButtonSmall(Resources res, ImageView mButton, String urlString){
@@ -80,7 +70,7 @@ public class IconUrlUtil {
 
     public static void setImageForButtonNormal(Resources res, ImageView mButton, String urlString){
         Log.v(tag, "set image view normal: " + urlString + ", " + sizeNormal);
-        updateImageButton( res,mButton, urlString,sizeNormal);
+        updateImageButton(res, mButton, urlString, sizeNormal);
     }
 
     public static void setImageForButtonLarge(Resources res, ImageView mButton, String urlString){
@@ -203,6 +193,9 @@ public class IconUrlUtil {
         return iconImageCache.get(url);
     }
 
+    public static void removeBitmapFromCache(String url){
+        iconImageCache.remove(url);
+    }
     public static Bitmap processBitmapRoundedCorner(Bitmap bp, int size){
         if(bp==null){
             Log.e(tag, "Not able to process bitmap as the input is empty");
