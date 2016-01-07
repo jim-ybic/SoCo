@@ -42,7 +42,6 @@
                     android:padding="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:hint="qqqq"
                     android:gravity="right" />
             </LinearLayout>
 
@@ -57,7 +56,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/picture3_crop"
                     android:clickable="false"
                     android:id="@+id/photo" />
             </LinearLayout>

@@ -16,6 +16,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.events.service.EventPostsTask;
 import com.soco.SoCoClient.topics.Topic;
 import com.soco.SoCoClient.topics.TopicCardAdapter;
 
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 
 public class AllPostsFragment extends Fragment
-        implements View.OnClickListener, TaskCallBack {
+        implements TaskCallBack {
 
     static String tag = "AllPostsFragment";
 
@@ -75,27 +76,50 @@ public class AllPostsFragment extends Fragment
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
 
-        Log.v(tag, "add dummy posts");
-        posts = new ArrayList<>();
-        posts.add(new Post("user1", "user1's comment"));
-        posts.add(new Post("user2", "user2's comment"));
-        posts.add(new Post("user3", "user3's comment"));
+//        Log.v(tag, "add dummy posts");
+//        posts = new ArrayList<>();
+//        posts.add(new Post("user1", "user1's comment"));
+//        posts.add(new Post("user2", "user2's comment"));
+//        posts.add(new Post("user3", "user3's comment"));
 
         adapter = new PostCardAdapter(getActivity(), posts);
         mRecyclerView.setAdapter(adapter);
 
+        Log.v(tag, "show progress dialog, start downloading event details");
+        pd = ProgressDialog.show(getActivity(),
+                context.getString(R.string.msg_downloading_event),
+                context.getString(R.string.msg_pls_wait));
+        new Thread(new Runnable(){
+            public void run(){
+                downloadEventPosts();
+            }
+        }).start();
+
         return rootView;
     }
 
+    private void downloadEventPosts(){
+        String testeventid = "2000101449419180409";
+        new EventPostsTask(SocoApp.user_id, SocoApp.token, this).execute(testeventid);  //todo
+    }
 
     public void doneTask(Object o) {
-        //todo
+        Log.v(tag, "donetask");
+        if(o == null)
+            Log.e(tag, "event posts task returns null");
+        else{
+            ArrayList<Post> newPosts = (ArrayList<Post>) o;
+            Log.v(tag, newPosts.size() + " posts found");
+            for(Post p : newPosts){
+                posts.add(p);
+                Log.v(tag, "add new post: " + p.toString());
+            }
+        }
+        adapter.notifyDataSetChanged();
+        swipeContainer.setRefreshing(false);
+        pd.dismiss();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-        }
-    }
+
 
 }

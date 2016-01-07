@@ -67,15 +67,18 @@ public class PostCardAdapter
         }
         else {
             Log.v(tag, "no photo in the post, remove the view");
-            ((ViewManager) holder.photo.getParent()).removeView(holder.photo);
+            holder.photo.setVisibility(View.GONE);
+//            ((ViewManager) holder.photo.getParent()).removeView(holder.photo);    //too rude
         }
 
         Log.v(tag, "set comment");
         holder.comment.setText(String.valueOf(p.getComment()));
 
         Log.v(tag, "remove event layout if source from single event (as it is redundant in this case");
-        if(isSourceFromSingleEvent)
-            ((ViewManager) holder.eventsLayout.getParent()).removeView(holder.eventsLayout);
+        if(isSourceFromSingleEvent) {
+            holder.eventsLayout.setVisibility(View.GONE);
+//            ((ViewManager) holder.eventsLayout.getParent()).removeView(holder.eventsLayout);  //so rude
+        }
     }
 
     @Override

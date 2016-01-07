@@ -194,9 +194,12 @@ public class IconUrlUtil {
         if (getBitmapFromImageCache(url) == null) {
             Log.v(tag, "add bitmap to cache for url: " + url);
             iconImageCache.put(url, bitmap);
+            Log.v(tag, "add image into cache, current cache size: " + iconImageCache.size() + "/" + iconImageCache.maxSize());
         }
     }
+
     public static Bitmap getBitmapFromImageCache(String url) {
+        Log.v(tag, "get image from cache, current cache size: " + iconImageCache.size() + "/" + iconImageCache.maxSize());
         return iconImageCache.get(url);
     }
 

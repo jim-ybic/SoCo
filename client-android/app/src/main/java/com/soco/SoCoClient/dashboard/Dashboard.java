@@ -82,10 +82,10 @@ public class Dashboard extends ActionBarActivity implements
 //        IconUrlUtil = size.x;
         display.getRealSize(size);
 
-        Log.v(tag, "init image cache size");
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-        // Use 1/4th of the available memory for this memory cache.
-        final int cacheSize = maxMemory / 4;
+        final int cacheSize = maxMemory / 2;    //todo: this parameter can be sensitive
+        Log.v(tag, "init image cache size/max: " + cacheSize + "/" + maxMemory);
+
         Log.v(tag, "init icon downloader: " + size + ", " + cacheSize);
         IconUrlUtil.initialForIconDownloader(Math.min(size.x, size.y), cacheSize);
 

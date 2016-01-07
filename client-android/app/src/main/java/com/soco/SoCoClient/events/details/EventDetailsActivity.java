@@ -1,5 +1,6 @@
 package com.soco.SoCoClient.events.details;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
@@ -43,6 +45,8 @@ import java.util.ArrayList;
 public class EventDetailsActivity extends ActionBarActivity implements TaskCallBack {
 
     static final String tag = "EventDetailsActivity";
+
+    static int REQUESTCODE_EVENTPOSTS = 101;
     private long currentEventId = 0;
 
     private Context context;
@@ -55,11 +59,15 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
+
+        Log.v(tag, "oncreate");
+
         Intent i = getIntent();
         getSupportActionBar().hide();
 
         context = getApplicationContext();
         currentEventId = i.getLongExtra(EVENT_ID, 0);
+        Log.v(tag, "current event id: " + currentEventId);
 
         Log.v(tag, "show progress dialog, start downloading event details");
         pd = ProgressDialog.show(this,
@@ -74,6 +82,7 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
 
 
     private void downloadEventDetails(){
+        Log.v(tag, "download event details");
         EventDetailsTask edt = new EventDetailsTask(SocoApp.user_id,SocoApp.token,this);
         edt.execute(Long.toString(currentEventId));
     }
@@ -81,6 +90,8 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
     public void doneTask(Object o){
         if(o==null){
             Log.e(tag, "EventDetailsTask returns null");
+            pd.dismiss();
+            Toast.makeText(getApplicationContext(), R.string.msg_network_error, Toast.LENGTH_SHORT).show();
             return;
         }
         event = (Event) o;
@@ -229,5 +240,7 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         i.putExtra(EventPostsActivity.EVENTID, String.valueOf(event.getId()));
         startActivity(i);
     }
+
+
 
 }
