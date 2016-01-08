@@ -151,12 +151,12 @@ public class Config {
     public static final String PARTY_JOIN_ACTIVITY_ROLE_FOLLOWER = "f";
 
     public static final int DASHBOARD_TAB_COUNT = 3;
-//    public static final int DASHBOARD_TAB_INDEX_STREAM = 2;
-    public static final int DASHBOARD_TAB_INDEX_EVENTS = 0;
+    public static final int DASHBOARD_TAB_INDEX_POSTS = 0;
+    public static final int DASHBOARD_TAB_INDEX_EVENTS = 1;
+    public static final int DASHBOARD_TAB_INDEX_TOPICS = 2;
 //    public static final int DASHBOARD_TAB_INDEX_FRIENDS = 1;
 //    public static final int DASHBOARD_TAB_INDEX_MESSAGES = 2;
-    public static final int DASHBOARD_TAB_INDEX_TOPICS = 1;
-    public static final int DASHBOARD_TAB_INDEX_POSTS = 2;
+//    public static final int DASHBOARD_TAB_INDEX_STREAM = 2;
 
     public static final int EVENT_GROUPS_BUDDIES_TAB_COUNT = 2;
     public static final int EVENT_GROUPS_BUDDIES_TAB_INDEX_GROUPS = 0;

@@ -18,8 +18,8 @@
     </style>
 
     <style name="DashboardActionBarTheme" parent="Theme.AppCompat.Light">
-        <item name="android:actionBarSize">80dp</item>
-        <item name="actionBarSize">80dp</item>
+        <item name="android:actionBarSize">50dp</item>
+        <item name="actionBarSize">50dp</item>
         <item name="actionBarTabStyle">@style/Soco.ActionBarTab.Style</item>
         <item name="actionBarTabTextStyle">@style/Soco.ActionBarTabText.Style</item>
     </style>
@@ -56,11 +56,13 @@
         <item name="android:background">@drawable/fab_label_background</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
     <style name="Soco.ActionBarTab.Style" parent="@style/AppTheme">
         <item name="android:background">@drawable/tab_indicator</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
     </style>
+
     <style name="Soco.ActionBarTabText.Style" parent="@style/AppTheme">
         <item name="android:textColor">@color/tab_text_color</item>
         <item name="android:textStyle">bold</item>

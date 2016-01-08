@@ -127,18 +127,18 @@ public class Dashboard extends ActionBarActivity implements
         actionBar.setBackgroundDrawable(colorDrawable);
 
         Log.v(tag, "Adding tabs");
-        android.support.v7.app.ActionBar.Tab tabEvents =
-                actionBar.newTab().setText(R.string.dashboard_tab_events).setTabListener(this);
-        actionBar.addTab(tabEvents);
-//        android.support.v7.app.ActionBar.Tab tabBuddies=
-//                actionBar.newTab().setText(R.string.dashboard_tab_buddies).setTabListener(this);
-//        actionBar.addTab(tabBuddies);
-        android.support.v7.app.ActionBar.Tab tabTopics =
-                actionBar.newTab().setText(R.string.dashboard_tab_topics).setTabListener(this);
-        actionBar.addTab(tabTopics);
-        android.support.v7.app.ActionBar.Tab tabPosts =
-                actionBar.newTab().setText(R.string.dashboard_tab_posts).setTabListener(this);
-        actionBar.addTab(tabPosts);
+        android.support.v7.app.ActionBar.Tab tabEvents = actionBar.newTab().setText(R.string.dashboard_tab_events).setTabListener(this);
+        android.support.v7.app.ActionBar.Tab tabTopics = actionBar.newTab().setText(R.string.dashboard_tab_topics).setTabListener(this);
+        android.support.v7.app.ActionBar.Tab tabPosts = actionBar.newTab().setText(R.string.dashboard_tab_posts).setTabListener(this);
+
+        for(int i=0; i<Config.DASHBOARD_TAB_COUNT; i++) {
+            if (i == Config.DASHBOARD_TAB_INDEX_EVENTS)
+                actionBar.addTab(tabEvents);
+            else if (i == Config.DASHBOARD_TAB_INDEX_POSTS)
+                actionBar.addTab(tabPosts);
+            else if (i == Config.DASHBOARD_TAB_INDEX_TOPICS)
+                actionBar.addTab(tabTopics);
+        }
 
 //        Log.v(tag, "set starting tab");
 //        if(socoApp.TEST_BUDDY_TAB_FIRST)
@@ -170,7 +170,7 @@ public class Dashboard extends ActionBarActivity implements
         User u = new User();
         u.setUser_id(socoApp.user_id);
         Log.v(tag, "ib: " + ib + ", user: " + u.toString());
-        IconUrlUtil.setImageForButtonNormal(getResources(), ib, u.getUser_icon_url());
+        IconUrlUtil.setImageForButtonSmall(getResources(), ib, u.getUser_icon_url());
     }
     @Override
     public void onResume() {
@@ -203,7 +203,7 @@ public class Dashboard extends ActionBarActivity implements
             User u = new User();
             u.setUser_id(socoApp.user_id);
 //            Log.v(tag, "ib: " + ib + ", user: " + u.toString());
-            IconUrlUtil.setImageForButtonNormal(getResources(), ib, UrlUtil.getUserIconUrl(socoApp.user_id));
+            IconUrlUtil.setImageForButtonSmall(getResources(), ib, UrlUtil.getUserIconUrl(socoApp.user_id));
         }
     }
 

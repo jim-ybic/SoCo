@@ -127,7 +127,9 @@
     <string name="menu_myevents">My Events</string>
 
     <string name="event_category_all">all</string>
-    <string name="event_category_popular">popular</string>
+    <string name="event_category_new">new</string>
+    <string name="event_category_hot">hot</string>
+    <string name="event_category_special">special</string>
     <string name="event_category_art">art</string>
     <string name="event_category_sport">sport</string>
     <string name="event_category_Chinese">Chinese</string>

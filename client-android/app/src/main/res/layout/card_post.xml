@@ -28,21 +28,46 @@
                     android:src="@drawable/user1"
                     android:id="@+id/usericon"
                     android:padding="2dp" />
-                <TextView
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="User name"
-                    android:id="@+id/username"
-                    android:padding="5dp"
-                    android:layout_marginLeft="5dp" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/time"
-                    android:padding="5dp"
+                    android:orientation="vertical"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginTop="2dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="User name"
+                        android:id="@+id/username"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/time"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="right"
+                        android:text="HH:mm dd-mm-yyyy" />
+                </LinearLayout>
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_weight="1"
-                    android:gravity="right" />
+                    android:gravity="right"
+                    android:layout_marginRight="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sample group name"
+                        android:id="@+id/groupname"
+                        android:paddingTop="2dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="5dp" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -73,7 +98,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/black"
-                    android:id="@+id/comment" />
+                    android:id="@+id/comment"
+                    android:text="sample comments" />
             </LinearLayout>
 
             <LinearLayout
@@ -81,21 +107,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:id="@+id/events"
-                android:layout_marginTop="5dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/buddycard_me"
-                    android:clickable="false"
-                    android:padding="2dp" />
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="sample event name #1"
-                    android:padding="5dp" />
+                    android:layout_height="match_parent"
+                    android:textSize="6pt"
+                    android:text="100 likes" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="6pt"
+                    android:text="100 comments"
+                    android:layout_marginLeft="10dp" />
             </LinearLayout>
+
         </LinearLayout>
 
 

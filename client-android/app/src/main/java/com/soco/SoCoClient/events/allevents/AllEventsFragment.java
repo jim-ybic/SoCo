@@ -17,14 +17,11 @@ import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
-import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.events.details.EventDetailsActivity;
 import com.soco.SoCoClient.events.model.Event;
-import com.soco.SoCoClient.userprofile.UserProfileActivity;
-import com.soco.SoCoClient.userprofile.model.User;
 import com.soco.SoCoClient.userprofile.task.DownloadEventsTask;
 
 import java.util.ArrayList;
@@ -34,10 +31,6 @@ public class AllEventsFragment extends Fragment
         implements TaskCallBack {
 
     static final String tag = "AllEventsFragment";
-    static final String EVENT_CATEGORY_ALL = "all";
-    static final String EVENT_CATEGORY_BUSINESS = "business";
-    static final String EVENT_CATEGORY_GAME = "game";
-    static final String EVENT_CATEGORY_SOCIAL = "social";
 
     SwipeRefreshLayoutBottom swipeContainer;
     RecyclerView mRecyclerView;
@@ -51,7 +44,7 @@ public class AllEventsFragment extends Fragment
     SocoApp socoApp;
     View rootView;
     ProgressDialog pd;
-    TextView allEvents, businessEvents, gameEvents, socialEvents;
+    TextView newEvents, hotEvents, specialEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +57,7 @@ public class AllEventsFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.v(tag, "create fragment view.....");
-        rootView = inflater.inflate(R.layout.activity_all_events, container, false);
+        rootView = inflater.inflate(R.layout.fragment_all_events, container, false);
 
         swipeContainer = (SwipeRefreshLayoutBottom) rootView.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -139,47 +132,36 @@ public class AllEventsFragment extends Fragment
     }
 
     private void setOnclickListener(){
-        allEvents = (TextView) rootView.findViewById(R.id.allEvents);
-        allEvents.setTypeface(null, Typeface.BOLD); //default
-        allEvents.setOnClickListener(new View.OnClickListener() {
+        newEvents = (TextView) rootView.findViewById(R.id.newEvents);
+        newEvents.setTypeface(null, Typeface.BOLD); //default
+        newEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v(tag, "set on click listener: all");
-                highlightCategory(EVENT_CATEGORY_ALL);
+                Log.v(tag, "tap new");
+                highlightCategory(getString(R.string.event_category_new));
                 //todo: load required events
             }
         });
 
-        businessEvents = (TextView) rootView.findViewById(R.id.businessEvents);
-        businessEvents.setOnClickListener(new View.OnClickListener() {
+        hotEvents = (TextView) rootView.findViewById(R.id.hotEvents);
+        hotEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v(tag, "set on click listener: business");
-                highlightCategory(EVENT_CATEGORY_BUSINESS);
+                Log.v(tag, "tap hot");
+                highlightCategory(getString(R.string.event_category_hot));
                 //todo: load required events
             }
         });
 
-        gameEvents = (TextView) rootView.findViewById(R.id.gamesEvents);
-        gameEvents.setOnClickListener(new View.OnClickListener() {
+        specialEvents = (TextView) rootView.findViewById(R.id.specialEvents);
+        specialEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v(tag, "set on click listener: game");
-                highlightCategory(EVENT_CATEGORY_GAME);
+                Log.v(tag, "tap special");
+                highlightCategory(getString(R.string.event_category_special));
                 //todo: load required events
             }
         });
-
-        socialEvents = (TextView) rootView.findViewById(R.id.socialEvents);
-        socialEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v(tag, "set on click listener: social");
-                highlightCategory(EVENT_CATEGORY_SOCIAL);
-                //todo: load required events
-            }
-        });
-
     }
 
     public void createevent(View view) {
@@ -196,41 +178,21 @@ public class AllEventsFragment extends Fragment
         startActivity(i);
     }
 
-//    public void myevents(View view) {
-//        Log.v(tag, "tap show my events");
-//        String myUserid = socoApp.user_id;
-//        Log.v(tag, "my userid: " + myUserid);
-//
-//        Intent i = new Intent(getActivity(), UserProfileActivity.class);
-//        i.putExtra(User.USER_ID, myUserid);
-//        i.putExtra(Config.USER_PROFILE_TAB_INDEX, Config.USER_PROFILE_TAB_INDEX_EVENTS);
-//        startActivity(i);
-//    }
-
     private void highlightCategory(String cat){
-        if(cat.equals(EVENT_CATEGORY_ALL)){
-            allEvents.setTypeface(null, Typeface.BOLD);
-            businessEvents.setTypeface(null, Typeface.NORMAL);
-            gameEvents.setTypeface(null, Typeface.NORMAL);
-            socialEvents.setTypeface(null, Typeface.NORMAL);
+        if(cat.equals(getString(R.string.event_category_new))){
+            newEvents.setTypeface(null, Typeface.BOLD);
+            hotEvents.setTypeface(null, Typeface.NORMAL);
+            specialEvents.setTypeface(null, Typeface.NORMAL);
         }
-        else if(cat.equals(EVENT_CATEGORY_BUSINESS)){
-            allEvents.setTypeface(null, Typeface.NORMAL);
-            businessEvents.setTypeface(null, Typeface.BOLD);
-            gameEvents.setTypeface(null, Typeface.NORMAL);
-            socialEvents.setTypeface(null, Typeface.NORMAL);
+        else if(cat.equals(getString(R.string.event_category_hot))){
+            newEvents.setTypeface(null, Typeface.NORMAL);
+            hotEvents.setTypeface(null, Typeface.BOLD);
+            specialEvents.setTypeface(null, Typeface.NORMAL);
         }
-        else if(cat.equals(EVENT_CATEGORY_GAME)){
-            allEvents.setTypeface(null, Typeface.NORMAL);
-            businessEvents.setTypeface(null, Typeface.NORMAL);
-            gameEvents.setTypeface(null, Typeface.BOLD);
-            socialEvents.setTypeface(null, Typeface.NORMAL);
-        }
-        else if(cat.equals(EVENT_CATEGORY_SOCIAL)){
-            allEvents.setTypeface(null, Typeface.NORMAL);
-            businessEvents.setTypeface(null, Typeface.NORMAL);
-            gameEvents.setTypeface(null, Typeface.NORMAL);
-            socialEvents.setTypeface(null, Typeface.BOLD);
+        else if(cat.equals(getString(R.string.event_category_special))){
+            newEvents.setTypeface(null, Typeface.NORMAL);
+            hotEvents.setTypeface(null, Typeface.NORMAL);
+            specialEvents.setTypeface(null, Typeface.BOLD);
         }
     }
 

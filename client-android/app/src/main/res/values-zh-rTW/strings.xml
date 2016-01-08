@@ -11,7 +11,7 @@
     <string name="email">電郵地址</string>
     <string name="password">密碼</string>
 
-    <string name="dashboard_title">活動社交平台</string>
+    <string name="dashboard_title">校園活動社交平台</string>
     <string name="dashboard_tab_events">活動空间</string>
     <string name="dashboard_tab_buddies">我的好友</string>
     <string name="dashboard_tab_topics">話題廣場</string>
@@ -68,7 +68,9 @@
     <string name="menu_myevents">我的活動</string>
 
     <string name="event_category_all">全部</string>
-    <string name="event_category_popular">熱門</string>
+    <string name="event_category_new">最新</string>
+    <string name="event_category_hot">熱門</string>
+    <string name="event_category_special">專題</string>
     <string name="event_category_art">文藝</string>
     <string name="event_category_sport">體育</string>
     <string name="event_category_Chinese">中文</string>

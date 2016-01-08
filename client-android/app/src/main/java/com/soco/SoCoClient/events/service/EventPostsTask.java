@@ -140,7 +140,7 @@ public class EventPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
                 p.setId(o.getString(JsonKeys.ID));
 
                 Long time = Long.valueOf(o.getString(JsonKeys.TIME));
-                p.setTime(TimeUtil.getDate(time, "HH:mm:ss  dd/MM/yyyy"));
+                p.setTime(TimeUtil.getDate(time, "HH:mm  dd/MM"));
                 p.setComment(o.getString(JsonKeys.COMMENT));
 
                 User u = parseUser(o.getJSONObject(JsonKeys.USER));
