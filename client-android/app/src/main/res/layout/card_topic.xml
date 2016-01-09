@@ -23,7 +23,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="40dp"
                 android:orientation="vertical"
                 android:background="#616161"
                 android:id="@+id/titlearea">
@@ -55,6 +55,18 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:text="host group name"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/statistic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,36 +77,25 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp">
                 <TextView
+                    style="@style/Font.TopicCard.Indicator.Value"
                     android:id="@+id/number_posts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:textColor="@android:color/holo_blue_dark"
                     android:text="100" />
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:text="posts"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/Font.TopicCard.Indicator.Name"
+                    android:text="posts" />
                 <TextView
+                    style="@style/Font.TopicCard.Indicator.Value"
                     android:id="@+id/number_events"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
-                    android:textColor="@android:color/holo_blue_dark"
                     android:text="5" />
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:text="topics"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/Font.TopicCard.Indicator.Name"
+                    android:text="events" />
+                <TextView
+                    style="@style/Font.TopicCard.Indicator.Value"
+                    android:text="500" />
+                <TextView
+                    style="@style/Font.TopicCard.Indicator.Name"
+                    android:text="views" />
             </LinearLayout>
 
         </LinearLayout>

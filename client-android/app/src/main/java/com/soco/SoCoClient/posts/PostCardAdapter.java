@@ -73,12 +73,6 @@ public class PostCardAdapter
 
         Log.v(tag, "set comment");
         holder.comment.setText(String.valueOf(p.getComment()));
-
-        Log.v(tag, "remove event layout if source from single event (as it is redundant in this case");
-        if(isSourceFromSingleEvent) {
-            holder.eventsLayout.setVisibility(View.GONE);
-//            ((ViewManager) holder.eventsLayout.getParent()).removeView(holder.eventsLayout);  //so rude
-        }
     }
 
     @Override
@@ -93,7 +87,6 @@ public class PostCardAdapter
         public ImageView photo;
         public TextView time;
         public TextView comment;
-        public LinearLayout eventsLayout;
 
         public PostCardViewHolder(View v) {
             super(v);
@@ -102,7 +95,6 @@ public class PostCardAdapter
             time = (TextView) v.findViewById(R.id.time);
             photo = (ImageView) v.findViewById(R.id.photo);
             comment = (TextView) v.findViewById(R.id.comment);
-            eventsLayout = (LinearLayout) v.findViewById(R.id.events);
         }
     }
 }

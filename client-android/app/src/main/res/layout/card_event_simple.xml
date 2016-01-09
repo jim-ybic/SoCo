@@ -41,9 +41,7 @@
                     <TextView
                         style="@style/Font.SimpleEventCard.Indicator"
                         android:text="100 comments" />
-                    <TextView
-                        style="@style/Font.SimpleEventCard.Indicator"
-                        android:text="100 going"/>
+
                     <TextView
                         style="@style/Font.SimpleEventCard.Indicator"
                         android:text="100 views"
@@ -72,7 +70,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
-                    android:text="sample group name"
+                    android:text="host group name"
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp" />
             </LinearLayout>

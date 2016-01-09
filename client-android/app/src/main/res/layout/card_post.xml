@@ -61,8 +61,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="sample group name"
-                        android:id="@+id/groupname"
+                        android:text="sample topic name"
                         android:paddingTop="2dp"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"

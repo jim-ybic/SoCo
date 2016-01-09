@@ -18,11 +18,8 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
-import com.soco.SoCoClient.events.allevents.SimpleEventCardAdapter;
-import com.soco.SoCoClient.events.model.Event;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class AllTopicsFragment extends Fragment
@@ -39,6 +36,8 @@ public class AllTopicsFragment extends Fragment
     RecyclerView mRecyclerView;
     TopicCardAdapter adapter;
     ArrayList<Topic> topics = new ArrayList<>();
+    TextView newTopics, hotTopics, specialTopics;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,12 +86,66 @@ public class AllTopicsFragment extends Fragment
         adapter = new TopicCardAdapter(getActivity(), topics);
         mRecyclerView.setAdapter(adapter);
 
+        setOnclickListener();
         return rootView;
     }
 
 
     public void doneTask(Object o) {
         //todo
+    }
+
+
+    private void setOnclickListener(){
+        newTopics = (TextView) rootView.findViewById(R.id.newEvents);
+        newTopics.setTypeface(null, Typeface.BOLD); //default
+        newTopics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v(tag, "tap new");
+                highlightCategory(getString(R.string.event_category_new));
+                //todo: load required items
+            }
+        });
+
+        hotTopics = (TextView) rootView.findViewById(R.id.hotEvents);
+        hotTopics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v(tag, "tap hot");
+                highlightCategory(getString(R.string.event_category_hot));
+                //todo: load required items
+            }
+        });
+
+        specialTopics = (TextView) rootView.findViewById(R.id.specialEvents);
+        specialTopics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v(tag, "tap special");
+                highlightCategory(getString(R.string.event_category_special));
+                //todo: load required items
+            }
+        });
+    }
+
+
+    private void highlightCategory(String cat){
+        if(cat.equals(getString(R.string.event_category_new))){
+            newTopics.setTypeface(null, Typeface.BOLD);
+            hotTopics.setTypeface(null, Typeface.NORMAL);
+            specialTopics.setTypeface(null, Typeface.NORMAL);
+        }
+        else if(cat.equals(getString(R.string.event_category_hot))){
+            newTopics.setTypeface(null, Typeface.NORMAL);
+            hotTopics.setTypeface(null, Typeface.BOLD);
+            specialTopics.setTypeface(null, Typeface.NORMAL);
+        }
+        else if(cat.equals(getString(R.string.event_category_special))){
+            newTopics.setTypeface(null, Typeface.NORMAL);
+            hotTopics.setTypeface(null, Typeface.NORMAL);
+            specialTopics.setTypeface(null, Typeface.BOLD);
+        }
     }
 
     @Override
