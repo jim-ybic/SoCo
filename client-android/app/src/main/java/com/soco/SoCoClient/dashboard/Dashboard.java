@@ -2,6 +2,7 @@ package com.soco.SoCoClient.dashboard;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,6 +31,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.buddies.MyBuddiesActivity;
 import com.soco.SoCoClient.buddies.allbuddies.AllBuddiesActivity;
 import com.soco.SoCoClient.buddies.service.AddBuddyTask;
+import com.soco.SoCoClient.common.PhotoManager;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
@@ -60,6 +62,7 @@ public class Dashboard extends ActionBarActivity implements
     private android.support.v7.app.ActionBar actionBar;
 
     SocoApp socoApp;
+    Context context;
     Activity activity;
 
     Bitmap mePhoto;
@@ -73,6 +76,7 @@ public class Dashboard extends ActionBarActivity implements
         setContentView(R.layout.dashboard_activity);
 
         activity = this;
+        context = getApplicationContext();
         socoApp = (SocoApp) getApplicationContext();
         viewPager = (ViewPager) findViewById(R.id.pager);
 
@@ -94,6 +98,9 @@ public class Dashboard extends ActionBarActivity implements
         socoApp.screenSizeHeight = size.y;
         socoApp.screenSize = Math.min(size.x, size.y);
         Log.v(tag, "screen size width/height/min.: " + size.x + "/" + size.y + "/" + Math.min(size.x, size.y));
+
+        Log.v(tag, "init photo manager");
+        PhotoManager.init(context, cacheSize);
 
         setActionbar();
         findViews();

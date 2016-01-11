@@ -280,8 +280,17 @@ public class IconUrlUtil {
         // RESIZE THE BIT MAP
         matrix.postScale(scaleWidth, scaleHeight);
         // "RECREATE" THE NEW BITMAP
-        return Bitmap.createBitmap(bm, 0, 0, width, height,
-                matrix, false);
+        Bitmap bitmap = null;
+        try{
+            Bitmap.createBitmap(bm, 0, 0, width, height,
+                    matrix, false);
+        }
+        catch(OutOfMemoryError e){
+            Log.e(tag, "our of memory error when resize image");
+            return null;
+        }
+
+        return bitmap;
     }
 
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {

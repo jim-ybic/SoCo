@@ -31,22 +31,23 @@ public class PhotoManager implements TaskCallBack {
     private static Context context;
     private static LruCache<String, Bitmap> bitmapCache;   //<url,bitmap>
     private static LinkedHashMap<String, String> localImageFileIndex = new LinkedHashMap<>();  //<url,timestamp>
+    private static SharedPreferences index;
     private String url;
 
-    public PhotoManager(int cacheSize){
+    public PhotoManager(){}
+
+    public static void init(Context c, int cacheSize){
+        Log.v(tag, "init photo manager, cache size: " + cacheSize + " kB");
+        context = c;
+
         bitmapCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {
-                return bitmap.getByteCount() / 1024;    //todo: use bitmap count or total size???
+                return bitmap.getByteCount() / 1024;    // cache unit: 1k (1024 byte)
             }
         };
-    }
 
-    public static void init(Context c){
-        Log.v(tag, "init local image file index");
-        context = c;
-
-        SharedPreferences index = context.getSharedPreferences(PERFS_NAME_LOCAL_FILE_INDEX, 0);
+        index = context.getSharedPreferences(PERFS_NAME_LOCAL_FILE_INDEX, 0);
         Map<String, ?> map = index.getAll();
         for(Map.Entry<String, ?> e : map.entrySet()){
             Log.v(tag, "add entry: " + e.getKey() + ", " + e.getValue().toString());
@@ -77,13 +78,13 @@ public class PhotoManager implements TaskCallBack {
             }
             else{
                 Log.v(tag, "bitmap not found in local file storage - download to use and save, refresh timestamp");
-                bitmap = downloadBitmapFromUrl(url);
+                downloadBitmapFromUrl(url);
             }
-            return null;    //???
+            return null;
         }
     }
 
-    private Bitmap loadLocalBitmapFile(String url){
+    private static Bitmap loadLocalBitmapFile(String url){
         Log.v(tag, "load local bitmap file: " + url);
 
         String localFilePath = getLocalFilePathFromUrl(url);
@@ -124,28 +125,34 @@ public class PhotoManager implements TaskCallBack {
 
             Log.v(tag, "update image cache:: " + url + ", " + bitmap);
             bitmapCache.put(url, bitmap);
-            Log.v(tag, "image cache size: " + bitmapCache.size());
+            Log.v(tag, "image cache size: " + bitmapCache.size() + " kB");
 
             saveBitmapFileToLocal2(bitmap, url);
-
-            Log.v(tag, "save image to local index, url: " + url + ", timestamp: " + TimeUtil.now());
-            localImageFileIndex.put(url, TimeUtil.now());   //put after every access
-            Log.v(tag, "save image to local index, size is: " + localImageFileIndex.size());
         }
     }
 
     //e.g. http://54.254.147.226:80/v1/image?image_path=images/events/2000101449419180409/image/10056611452128154618.jpg
     public void saveBitmapFileToLocal2(Bitmap bitmap, String url){
         if(url.indexOf(IMAGE_PATH) == -1){
-            Log.w(tag, "invalid image url, skip saving to local");
+            Log.w(tag, "invalid image url, skip saving to local: " + url);
             return;
         }
+        else {
+            String localFilePath = getLocalFilePathFromUrl(url);
+            saveBitmapFileToLocal(bitmap, localFilePath);
 
-        String localFilePath = getLocalFilePathFromUrl(url);
-        saveBitmapFileToLocal(bitmap, localFilePath);
+            Log.v(tag, "save image to local index, url: " + url + ", timestamp: " + TimeUtil.now());
+            localImageFileIndex.put(url, TimeUtil.now());   //put after every access
+            Log.v(tag, "save image to local index, size is: " + localImageFileIndex.size());
+
+            Log.v(tag, "save index to local storage");
+            SharedPreferences.Editor editor = index.edit();
+            editor.putString(url, TimeUtil.now());
+            editor.commit();
+        }
     }
 
-    private String getLocalFilePathFromUrl(String url){
+    private static String getLocalFilePathFromUrl(String url){
         Log.v(tag, "image url: " + url);
         String localFilePath = url.substring(url.indexOf(EQUAL) + 1, url.length());
         Log.v(tag, "local file path: " + localFilePath);
