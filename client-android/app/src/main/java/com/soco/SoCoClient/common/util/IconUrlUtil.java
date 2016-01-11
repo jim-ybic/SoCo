@@ -280,16 +280,16 @@ public class IconUrlUtil {
         // RESIZE THE BIT MAP
         matrix.postScale(scaleWidth, scaleHeight);
         // "RECREATE" THE NEW BITMAP
+
         Bitmap bitmap = null;
         try{
-            Bitmap.createBitmap(bm, 0, 0, width, height,
+            bitmap = Bitmap.createBitmap(bm, 0, 0, width, height,
                     matrix, false);
         }
         catch(OutOfMemoryError e){
             Log.e(tag, "our of memory error when resize image");
             return null;
         }
-
         return bitmap;
     }
 
