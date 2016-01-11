@@ -1,7 +1,6 @@
 package com.soco.SoCoClient.common.util;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import com.soco.SoCoClient.common.TaskCallBack;
 
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -68,11 +66,11 @@ public class PhotoSizeTask extends AsyncTask<String, Void, Boolean> {
 
         try {
             if (IconUrlUtil.cancelPotentialWork(url, view)) {
-                final IconDownloadTask task = new IconDownloadTask(view, displayWidth, displayHeight, false, res);
-                final IconAsyncDrawable asyncDrawable =
-                        new IconAsyncDrawable(res, Bitmap.createBitmap(displayWidth, displayHeight, Bitmap.Config.ARGB_8888), task);
-                view.setImageDrawable(asyncDrawable);
-                task.execute(url);
+//                final IconDownloadTask task = new IconDownloadTask(view, displayWidth, true, false, res);
+//                final IconAsyncDrawable asyncDrawable =
+//                        new IconAsyncDrawable(res, Bitmap.createBitmap(displayWidth, displayHeight, Bitmap.Config.ARGB_8888), task);
+//                view.setImageDrawable(asyncDrawable);
+//                task.execute(url);
             }
         }
         catch (Exception e){

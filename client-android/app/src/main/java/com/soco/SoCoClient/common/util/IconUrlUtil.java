@@ -82,6 +82,10 @@ public class IconUrlUtil {
         Log.v(tag, "set button image regular: " + urlString + ", " + phoneScreenSize);
         updateImageButtonRegularShape(res, mButton, urlString, phoneScreenSize);
     }
+    public static void setImageForViewWithSize(Resources res, ImageView mView, String urlString){
+        Log.v(tag, "display width/height: " + phoneScreenSize );
+        updateImageButtonWithAutoAdjustedSize(res, mView, urlString, phoneScreenSize);
+    }
 
     //    public static void setImageForViewSmall(Resources res, ImageView view, String urlString){
 //        updateImageButton( res,view,urlString,sizeSmall);
@@ -110,7 +114,22 @@ public class IconUrlUtil {
             e.printStackTrace();
         }
     }
-
+    private static void updateImageButtonWithAutoAdjustedSize(Resources res, ImageView mButton, String urlString,int size){
+        Log.v(tag, "update image button: " + res + ", " + mButton + ", " + urlString + ", " + size);
+        try {
+            if (cancelPotentialWork(urlString, mButton)) {
+                final IconDownloadTask task = new IconDownloadTask(mButton, size,false,res);
+                final IconAsyncDrawable asyncDrawable =
+                        new IconAsyncDrawable(res, Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888), task);
+                mButton.setImageDrawable(asyncDrawable);
+                task.execute(urlString);
+            }
+        }
+        catch (Exception e){
+            Log.e(tag, "cannot update image button: " + e);
+            e.printStackTrace();
+        }
+    }
     private static void updateImageButtonRegularShape(Resources res, ImageView mButton, String urlString,int size){
         Log.v(tag, "update image button: " + res + ", " + mButton + ", " + urlString + ", " + size);
 
@@ -222,12 +241,12 @@ public class IconUrlUtil {
         return bp;
     }
 
-    public static Bitmap processBitmap(Bitmap bp, int width, int height){
+    public static Bitmap processBitmapAutoAdjusted(Bitmap bp, int size){
         if(bp==null){
             Log.e(tag, "Not able to process bitmap as the input is empty");
         }else {
-            if (width != 0 && height != 0) {
-                bp = getResizedBitmap(bp, width, height);
+            if (size != 0) {
+                bp = getResizedBitmap(bp, size);
                 Log.v(tag, "Finished re-size bitmap");
             }
         }
@@ -279,6 +298,28 @@ public class IconUrlUtil {
         Matrix matrix = new Matrix();
         // RESIZE THE BIT MAP
         matrix.postScale(scaleWidth, scaleHeight);
+        // "RECREATE" THE NEW BITMAP
+
+        Bitmap bitmap = null;
+        try{
+            bitmap = Bitmap.createBitmap(bm, 0, 0, width, height,
+                    matrix, false);
+        }
+        catch(OutOfMemoryError e){
+            Log.e(tag, "our of memory error when resize image");
+            return null;
+        }
+        return bitmap;
+    }
+    public static Bitmap getResizedBitmap(Bitmap bm, int newWidth) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaling = ((float) newWidth) / width;
+//        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaling, scaling);
         // "RECREATE" THE NEW BITMAP
 
         Bitmap bitmap = null;

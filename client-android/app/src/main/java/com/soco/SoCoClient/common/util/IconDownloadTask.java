@@ -2,8 +2,6 @@ package com.soco.SoCoClient.common.util;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
@@ -23,8 +21,9 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
     public String url;
     private int size;
     private boolean useRoundedCorner;
+//    private boolean autoAdjustSize;
     private Resources res;
-    int width, height;
+//    int width, height;
     boolean sizeReady = false;
     TaskCallBack callBack = null;
 
@@ -46,14 +45,15 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
         this.res = res;
     }
 
-    public IconDownloadTask(ImageView button,int width, int height, boolean useRoundedCorner, Resources res){
-        imageButtonReference = new WeakReference<>(button);
-        this.width = width;
-        this.height = height;
-        this.useRoundedCorner = useRoundedCorner;
-        this.res = res;
-        this.sizeReady = true;
-    }
+//    public IconDownloadTask(ImageView button,int width, boolean autoAdjustSize, boolean useRoundedCorner, Resources res){
+//        imageButtonReference = new WeakReference<>(button);
+//        this.width = width;
+////        this.height = height;
+//        this.useRoundedCorner = useRoundedCorner;
+//        this.autoAdjustSize=autoAdjustSize;
+//        this.res = res;
+//        this.sizeReady = true;
+//    }
 
     protected Bitmap doInBackground(String... urls) {
 //        urlList= new ArrayList<>();
@@ -86,17 +86,15 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
             else
                 Log.v(tag, "Found image in cache");
 
-            if(sizeReady){
-                Log.v(tag, "size ready");
-                bp = IconUrlUtil.processBitmap(bp, this.width, this.height);
-            }
-            else if(useRoundedCorner) {
+            if(useRoundedCorner) {
+                Log.v(tag, "process bit map in normal shape");    //e.g. user post photos
+                bp = IconUrlUtil.processBitmap(bp, this.size);
                 Log.v(tag, "process bit map in rounded corner");    //e.g. user icon
                 bp = IconUrlUtil.processBitmapRoundedCorner(bp, this.size);
             }
             else {
-                Log.v(tag, "process bit map in normal shape");    //e.g. user post photos
-                bp = IconUrlUtil.processBitmap(bp, this.size);
+                Log.v(tag, "size ready");
+                bp = IconUrlUtil.processBitmapAutoAdjusted(bp, this.size);
             }
         }
         return bp;

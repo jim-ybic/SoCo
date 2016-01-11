@@ -50,7 +50,7 @@ public class UserIconGridAdapter extends RecyclerView.Adapter<UserIconGridAdapte
     @Override
     public UserIconViewHolder onCreateViewHolder( ViewGroup viewGroup, int i )
     {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.usericon_entry, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_entry, viewGroup, false);
         Log.v(tag, "ViewHolder view: " + v);
         return new UserIconViewHolder(v);
     }
@@ -63,7 +63,7 @@ public class UserIconGridAdapter extends RecyclerView.Adapter<UserIconGridAdapte
         ((TextView) userIconViewHolder.itemView.findViewById(R.id.name)).setText(u.getUser_name());
         userIconViewHolder.itemView.findViewById(R.id.image).setTag(u.getUser_id());
         userIconViewHolder.itemView.findViewById(R.id.name).setTag(u.getUser_id());
-        userIconViewHolder.itemView.findViewById(R.id.item).setTag(u.getUser_id());
+//        userIconViewHolder.itemView.findViewById(R.id.item).setTag(u.getUser_id());
     }
     @Override
     public int getItemCount()

@@ -13,15 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
-import com.soco.SoCoClient.common.PhotoManager;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.service.EventPostsTask;
-import com.soco.SoCoClient.topics.Topic;
-import com.soco.SoCoClient.topics.TopicCardAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class AllPostsFragment extends Fragment
@@ -33,11 +31,11 @@ public class AllPostsFragment extends Fragment
     Context context;
     SocoApp socoApp;
     ProgressDialog pd;
-
+    static int counter=100000;
     SwipeRefreshLayoutBottom swipeContainer;
     RecyclerView mRecyclerView;
     PostCardAdapter adapter;
-    ArrayList<Post> posts = new ArrayList<>();
+    List<Post> posts = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,9 +61,14 @@ public class AllPostsFragment extends Fragment
                 // once the network request has completed successfully.
 
                 Log.v(tag, "add dummy posts");
-                posts.add(new Post("user1", "user1's comment"));
-                posts.add(new Post("user2", "user2's comment"));
-                posts.add(new Post("user3", "user3's comment"));
+                counter++;
+                posts.add(new Post("user" + Integer.toString(counter), "user's comment"));
+                counter++;
+                posts.add(new Post("user"+Integer.toString(counter), "user's comment"));
+                counter++;
+                posts.add(new Post("user"+Integer.toString(counter), "user's comment"));
+                counter++;
+                posts.add(new Post("user"+Integer.toString(counter), "user's comment"));
                 adapter.notifyDataSetChanged();
 
                 swipeContainer.setRefreshing(false);

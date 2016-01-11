@@ -11,12 +11,15 @@ public class Post {
     User user = new User();
     String comment;
     ArrayList<Photo> photos = new ArrayList<>();
-
+   static int counter = 100000;
     public Post(){}
 
     public Post(String username, String comment){
         this.user.setUser_name(username);
         this.comment = comment;
+        counter++;
+        this.id=Integer.toString(counter);
+        this.photos = new ArrayList<>();
     }
 
     public String getId() {
