@@ -99,7 +99,7 @@ public class AllPostsFragment extends Fragment
         //todo: test below
         Log.v(tag, "test photomanager");
         PhotoManager.init(context); //do this once
-        PhotoManager manager = new PhotoManager(1000);
+        PhotoManager manager = new PhotoManager(50000);
         manager.getBitmap("http://54.254.147.226:80/v1/image?image_path=images/events/2000101449419180409/image/8792531452149707670.jpg");
 
 

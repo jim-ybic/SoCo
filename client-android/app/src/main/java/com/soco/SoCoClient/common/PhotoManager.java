@@ -37,7 +37,7 @@ public class PhotoManager implements TaskCallBack {
         bitmapCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {
-                return bitmap.getByteCount() / 1024;
+                return bitmap.getByteCount() / 1024;    //todo: use bitmap count or total size???
             }
         };
     }
@@ -122,11 +122,13 @@ public class PhotoManager implements TaskCallBack {
             Log.v(tag, "return bitmap");
             Bitmap bitmap = (Bitmap) o;
 
+            Log.v(tag, "update image cache:: " + url + ", " + bitmap);
             bitmapCache.put(url, bitmap);
-            Log.v(tag, "update image cache, size is: " + bitmapCache.size());
+            Log.v(tag, "image cache size: " + bitmapCache.size());
 
             saveBitmapFileToLocal2(bitmap, url);
 
+            Log.v(tag, "save image to local index, url: " + url + ", timestamp: " + TimeUtil.now());
             localImageFileIndex.put(url, TimeUtil.now());   //put after every access
             Log.v(tag, "save image to local index, size is: " + localImageFileIndex.size());
         }
