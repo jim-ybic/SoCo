@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.PhotoManager;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
@@ -94,6 +95,13 @@ public class AllPostsFragment extends Fragment
                 downloadEventPosts();
             }
         }).start();
+
+        //todo: test below
+        Log.v(tag, "test photomanager");
+        PhotoManager.init(context); //do this once
+        PhotoManager manager = new PhotoManager(1000);
+        manager.getBitmap("http://54.254.147.226:80/v1/image?image_path=images/events/2000101449419180409/image/8792531452149707670.jpg");
+
 
         return rootView;
     }

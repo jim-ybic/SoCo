@@ -7,20 +7,21 @@
     android:focusableInTouchMode="true" >
 
     <LinearLayout
+        android:id="@+id/daily_quote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="每日一句：" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:text="敬畏耶和華是智慧的開端"/>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:text="每日一句：" />-->
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:text="敬畏耶和華是智慧的開端"/>-->
     </LinearLayout>
 
     <com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom

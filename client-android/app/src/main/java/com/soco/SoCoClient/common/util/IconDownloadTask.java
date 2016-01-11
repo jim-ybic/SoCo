@@ -8,6 +8,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.soco.SoCoClient.common.PhotoManager;
+import com.soco.SoCoClient.common.TaskCallBack;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -23,11 +26,17 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private Resources res;
     int width, height;
     boolean sizeReady = false;
+    TaskCallBack callBack = null;
 
     public IconDownloadTask(ImageView button,int size){
         imageButtonReference = new WeakReference<>(button);
         this.size=size;
         useRoundedCorner = true;
+    }
+
+    public IconDownloadTask(TaskCallBack cb){
+        imageButtonReference = new WeakReference<>(null);
+        this.callBack = cb;
     }
 
     public IconDownloadTask(ImageView button,int size, boolean useRoundedCorner, Resources res){
@@ -60,6 +69,9 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
                 if(bp!=null) {
                     IconUrlUtil.addBitmapToImageCache(url, bp);
+
+                    //todo: testing below
+//                    PhotoManager.saveBitmapFileToLocal2(bp, url);
                 }
             }
             else
@@ -95,6 +107,11 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
             if (this == bitmapWorkerTask){
                 imageButton.setImageBitmap(bitmap);
             }
+        }
+
+        if(callBack != null) {
+            Log.v(tag, "call back return bitmap");
+            callBack.doneTask(bitmap);
         }
     }
 }

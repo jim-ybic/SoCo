@@ -43,6 +43,7 @@ public class TimeUtil {
         }
         return TimeUtil.getDayOfWeek(d);
     }
+
     public static String getTextDate(String dateString,String format){
         if("yyyy-MM-dd".equalsIgnoreCase(format)){
             return dateString;
@@ -50,6 +51,7 @@ public class TimeUtil {
         Date date = TimeUtil.getDate(dateString);
         return TimeUtil.getDateToString(date, format);
     }
+
     public static String getTextStartEndTime(Event event){
         StringBuffer sb = new StringBuffer();
         if(!StringUtil.isEmptyString(event.getStart_time())){
