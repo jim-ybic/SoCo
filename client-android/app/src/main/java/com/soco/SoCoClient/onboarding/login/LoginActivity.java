@@ -218,7 +218,7 @@ public class LoginActivity //extends ActionBarActivity
             Log.v(tag, "handle receive message and dismiss dialog");
 
             if(socoApp.loginViaFacebookResponse && socoApp.loginViaFacebookResult){
-                Log.d(tag, "login via facebook success, finish this screen and login to dashboard");
+                Log.v(tag, "login via facebook success, finish this screen and login to dashboard");
                 Toast.makeText(getApplicationContext(), "Login via Facebook suceess.", Toast.LENGTH_SHORT).show();
 
                 Log.v(tag, "start dashboard");

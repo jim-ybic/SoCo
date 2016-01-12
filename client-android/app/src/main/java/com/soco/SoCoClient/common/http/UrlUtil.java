@@ -336,10 +336,14 @@ public class UrlUtil {
         StringBuffer sb = new StringBuffer();
         sb.append(getUserIconUrlPrefix());
         sb.append(SocoApp.getCurrentUserTokenForUrl());
-        if(SocoApp.user_id!=null&&!SocoApp.user_id.equalsIgnoreCase(user_id)){
-            sb.append("&buddy_user_id=");
-            sb.append(user_id);
-        }
+//        if(SocoApp.user_id!=null&&!SocoApp.user_id.equalsIgnoreCase(user_id)){
+//            sb.append("&buddy_user_id=");
+//            sb.append(user_id);
+//        }
+        //update: always append buddy_user_id, even for the user herself
+        sb.append("&buddy_user_id=");
+        sb.append(user_id);
+        Log.v(tag, "user icon url: " + sb.toString());
         return sb.toString();
     }
     public static String getGroupIconUrl(String group_id) {

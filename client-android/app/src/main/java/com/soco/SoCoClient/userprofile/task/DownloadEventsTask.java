@@ -95,7 +95,7 @@ public class DownloadEventsTask extends AsyncTask<String, Void, ArrayList<Event>
     }
 
      ArrayList<Event> parse(Object response) {
-        Log.d(tag, "parse response: " + response.toString());
+        Log.v(tag, "parse response: " + response.toString());
 
         try {
             JSONObject json = new JSONObject(response.toString());

@@ -25,7 +25,7 @@ public class EventsResponseUtil {
             JSONObject obj = allEvents.getJSONObject(i);
             Log.v(tag, "current event json: " + obj.toString());
             Event e = parseEventFromJSONObj(obj);
-            Log.d(tag, "event created: " + e.toString());
+            Log.d(tag, "event created: " + e.getTitle());
             result.add(e);
         }
         return result;

@@ -78,10 +78,12 @@ public class IconUrlUtil {
         updateImageButton(res, mButton, urlString, sizeLarge);
     }
 
-    public static void setImageForButtonRegularShape(Resources res, ImageView mButton, String urlString){
-        Log.v(tag, "set button image regular: " + urlString + ", " + phoneScreenSize);
-        updateImageButtonRegularShape(res, mButton, urlString, phoneScreenSize);
-    }
+//    public static void setImageForButtonRegularShape(Resources res, ImageView mButton, String urlString){
+//        Log.v(tag, "set button image regular: " + urlString + ", " + phoneScreenSize);
+//        updateImageButtonRegularShape(res, mButton, urlString, phoneScreenSize);
+//    }
+
+    //used by showing post photos
     public static void setImageForViewWithSize(Resources res, ImageView mView, String urlString){
         Log.v(tag, "display width/height: " + phoneScreenSize );
         updateImageButtonWithAutoAdjustedSize(res, mView, urlString, phoneScreenSize);
@@ -115,7 +117,7 @@ public class IconUrlUtil {
         }
     }
     private static void updateImageButtonWithAutoAdjustedSize(Resources res, ImageView mButton, String urlString,int size){
-        Log.v(tag, "update image button: " + res + ", " + mButton + ", " + urlString + ", " + size);
+        Log.v(tag, "update image button: " + urlString + ", size: " + size);
         try {
             if (cancelPotentialWork(urlString, mButton)) {
                 final IconDownloadTask task = new IconDownloadTask(mButton, size,false,res);
@@ -130,46 +132,46 @@ public class IconUrlUtil {
             e.printStackTrace();
         }
     }
-    private static void updateImageButtonRegularShape(Resources res, ImageView mButton, String urlString,int size){
-        Log.v(tag, "update image button: " + res + ", " + mButton + ", " + urlString + ", " + size);
-
-        int displayWidth = size;
-        int displayHeight = size;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection connection = (HttpURLConnection) url
-                    .openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            BitmapFactory.decodeStream(input, null, options);
-//            Uri uri = Uri.parse(urlString);
-//            BitmapFactory.decodeFile(uri.getPath(), options);
-            Log.v(tag, "bitmap width/height: " + options.outWidth + "/" + options.outHeight);
-            displayHeight = options.outHeight * size / options.outWidth;
-        }
-        catch(Exception e){
-            Log.e(tag, "cannot get image from url");
-            e.printStackTrace();
-        }
-        Log.v(tag, "display width/height: " + displayWidth + "/" + displayHeight);
-
-        try {
-            if (cancelPotentialWork(urlString, mButton)) {
-                final IconDownloadTask task = new IconDownloadTask(mButton, size, false, res);
-                final IconAsyncDrawable asyncDrawable =
-                        new IconAsyncDrawable(res, Bitmap.createBitmap(displayWidth, displayWidth, Bitmap.Config.ARGB_8888), task);
-                mButton.setImageDrawable(asyncDrawable);
-                task.execute(urlString);
-            }
-        }
-        catch (Exception e){
-            Log.e(tag, "cannot update image button: " + e);
-            e.printStackTrace();
-        }
-    }
+//    private static void updateImageButtonRegularShape(Resources res, ImageView mButton, String urlString,int size){
+//        Log.v(tag, "update image button: " + res + ", " + mButton + ", " + urlString + ", " + size);
+//
+//        int displayWidth = size;
+//        int displayHeight = size;
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inJustDecodeBounds = true;
+//        try {
+//            URL url = new URL(urlString);
+//            HttpURLConnection connection = (HttpURLConnection) url
+//                    .openConnection();
+//            connection.setDoInput(true);
+//            connection.connect();
+//            InputStream input = connection.getInputStream();
+//            BitmapFactory.decodeStream(input, null, options);
+////            Uri uri = Uri.parse(urlString);
+////            BitmapFactory.decodeFile(uri.getPath(), options);
+//            Log.v(tag, "bitmap width/height: " + options.outWidth + "/" + options.outHeight);
+//            displayHeight = options.outHeight * size / options.outWidth;
+//        }
+//        catch(Exception e){
+//            Log.e(tag, "cannot get image from url");
+//            e.printStackTrace();
+//        }
+//        Log.v(tag, "display width/height: " + displayWidth + "/" + displayHeight);
+//
+//        try {
+//            if (cancelPotentialWork(urlString, mButton)) {
+//                final IconDownloadTask task = new IconDownloadTask(mButton, size, false, res);
+//                final IconAsyncDrawable asyncDrawable =
+//                        new IconAsyncDrawable(res, Bitmap.createBitmap(displayWidth, displayWidth, Bitmap.Config.ARGB_8888), task);
+//                mButton.setImageDrawable(asyncDrawable);
+//                task.execute(urlString);
+//            }
+//        }
+//        catch (Exception e){
+//            Log.e(tag, "cannot update image button: " + e);
+//            e.printStackTrace();
+//        }
+//    }
 
     public static boolean cancelPotentialWork(String url, ImageView mButton) {
         final IconDownloadTask iconDownloadTask = getBitmapWorkerTask(mButton);
@@ -254,6 +256,7 @@ public class IconUrlUtil {
     }
 
     public static Bitmap getBitmapFromURL(String urlString) {
+        Log.w(tag, "download bitmap from url: " + urlString);
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url

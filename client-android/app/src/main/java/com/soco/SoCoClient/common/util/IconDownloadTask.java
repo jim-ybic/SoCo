@@ -60,23 +60,24 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
         Bitmap bp = null;
         for(String url:urls){
             this.url = url;
-            Log.v(tag, "Trying to find in cache for url: "+url);
+            Log.d(tag, "find image: "+url);
             bp = IconUrlUtil.getBitmapFromImageCache(url);
-            if(bp==null) {
 
-                Log.v(tag, "find image in local file cache: " + url);
+            if(bp==null) {
+                Log.d(tag, "not found in IconUrlUtil cache, find in PhotoManager: " + url);
                 PhotoManager manager = new PhotoManager();
                 bp = manager.getBitmap(url);
 
                 if(bp == null) {
-                    Log.w(tag, "image not in any cache, downloading from server: " + url);
+                    Log.d(tag, "not found in any cache, download from server: " + url);
 //                Log.v(tag, "Downloading image from server: "+url);
                     bp = IconUrlUtil.getBitmapFromURL(url);
                 }
                 else
-                    Log.v(tag, "image found in local cache files");
+                    Log.d(tag, "image found in PhotoManager: " + url);
 
                 if(bp!=null) {
+                    Log.d(tag, "add bitmap to image cache IconUrlUtil");
                     IconUrlUtil.addBitmapToImageCache(url, bp);
 
                     //todo: testing below
