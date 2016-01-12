@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import android.util.LruCache;
@@ -13,7 +12,6 @@ import com.soco.SoCoClient.common.util.IconDownloadTask;
 import com.soco.SoCoClient.common.util.TimeUtil;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -99,7 +97,7 @@ public class PhotoManager implements TaskCallBack {
 
         //approach 2: avoid out of memory error
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 8;
+//        options.inSampleSize = 8;
         Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);
 
         Log.v(tag, "loaded image from local: " + bitmap);
