@@ -26,16 +26,26 @@ public class PhotoManager implements TaskCallBack {
     static String SEPARATOR = "/";
     static String PERFS_NAME_LOCAL_FILE_INDEX = "local_file_index";
 
+    static String URL_IDENTIFIER_USERICON = "user_icon?";
+    static String URL_IDENTIFIER_IMAGE= "image?image_path=";
+    static String TOKEN_EQUAL = "token=";
+    static String IMAGES = "images";
+    static String USER_ICON = "user_icon";
+    static String USER_ICON_JPG = "user_icon.jpg";
+    static String USER_ID_EQUAL = "user_id=";
+    static String BUDDY_USER_ID_EQUAL = "buddy_user_id=";
+
     private static Context context;
     private static LruCache<String, Bitmap> bitmapCache;   //<url,bitmap>
     private static LinkedHashMap<String, String> localImageFileIndex = new LinkedHashMap<>();  //<url,timestamp>
     private static SharedPreferences index;
-    private String url;
+
+    private String urlToProcess;
 
     public PhotoManager(){}
 
     public static void init(Context c, int cacheSize){
-        Log.v(tag, "init photo manager, cache size: " + cacheSize + " kB");
+        Log.d(tag, "init photo manager, cache size: " + cacheSize + " kB");
         context = c;
 
         bitmapCache = new LruCache<String, Bitmap>(cacheSize) {
@@ -48,48 +58,108 @@ public class PhotoManager implements TaskCallBack {
         index = context.getSharedPreferences(PERFS_NAME_LOCAL_FILE_INDEX, 0);
         Map<String, ?> map = index.getAll();
         for(Map.Entry<String, ?> e : map.entrySet()){
-            Log.v(tag, "add entry: " + e.getKey() + ", " + e.getValue().toString());
+            Log.d(tag, "add entry: " + e.getKey() + ", " + e.getValue().toString());
             localImageFileIndex.put(e.getKey(), e.getValue().toString());
         }
-        Log.v(tag, map.size() + " entries loaded");
+        Log.d(tag, map.size() + " entries loaded");
         return;
     }
 
     public Bitmap getBitmap(String url){
-        Log.v(tag, "get bitmap from url: " + url);
-        this.url = url;
+        Log.d(tag, ">>> find image: " + url);
+        if(isImageUrl(url)){
+            urlToProcess = url;
+            Log.d(tag, "image url to process: " + urlToProcess);
+        }
+        else if(isUsericonUrl(url)){
+            urlToProcess = getUsericonUrlWithoutToken(url);
+            Log.d(tag, "user icon url to process: " + urlToProcess);
+        }
+        else{
+            Log.e(tag, "url not supported by PhotoManager");
+            return null;
+        }
 
-        Bitmap bitmap = bitmapCache.get(url);
+        Bitmap bitmap = bitmapCache.get(urlToProcess);
         if(bitmap != null){
-            Log.v(tag, "found bitmap in bitmapCache");
+            Log.d(tag, "found bitmap in bitmapCache");
             return bitmap;
         }
         else{
-            Log.v(tag, "bitmap not found in bitmapCache, find in internal storage");
-            String timestamp = localImageFileIndex.get(url);
+            Log.d(tag, "not found in bitmapCache, find in internal storage");
+            String timestamp = localImageFileIndex.get(urlToProcess);
             if(timestamp != null){
-                Log.v(tag, "found bitmap in local file storage - load to use, refresh timestamp");
-                bitmap = loadLocalBitmapFile(url);
-                bitmapCache.put(url, bitmap);
-                localImageFileIndex.put(url, TimeUtil.now());   //put after every access
-                return bitmap;
+                Log.d(tag, "found bitmap in local file index: " + urlToProcess);
+                if(isImageUrl(url))
+                    bitmap = loadLocalBitmapFileForImage(urlToProcess);
+                else if(isUsericonUrl(url))
+                    bitmap = loadLocalBitmapFileForUsericon(urlToProcess);
+
+                if(bitmap == null){
+                    Log.d(tag, "bitmap not loaded from local - remove index to cache and local storage: " + urlToProcess);
+                    localImageFileIndex.remove(urlToProcess);
+                    SharedPreferences.Editor editor = index.edit();
+                    editor.remove(urlToProcess);
+                    editor.commit();
+
+                    Log.d(tag, "download to use and save, refresh timestamp: " + url);
+                    downloadBitmapFromUrl(url);
+                }
+                else {
+                    Log.d(tag, "loaded bitmap from local storage, refresh timestamp: " + urlToProcess);
+                    bitmapCache.put(urlToProcess, bitmap);
+                    localImageFileIndex.put(urlToProcess, TimeUtil.now());   //put after every access
+                    return bitmap;
+                }
             }
             else{
-                Log.v(tag, "bitmap not found in local file storage - download to use and save, refresh timestamp");
+                Log.d(tag, "bitmap not found in local file storage - download to use and save, refresh timestamp");
                 downloadBitmapFromUrl(url);
             }
             return null;
         }
     }
 
-    private static Bitmap loadLocalBitmapFile(String url){
-        Log.v(tag, "load local bitmap file: " + url);
+    //e.g. http://54.254.147.226:80/v1/user_icon?user_id=1100101446780893099&token=39DB2A2FC2D26CFB1053F0229A6AAEDF7ECAF4BD9FA1A5C8390475293368A414&buddy_user_id=1100101446780892087
+    // after: http://54.254.147.226:80/v1/user_icon?buddy_user_id=1100101446780892087
+    private String getUsericonUrlWithoutToken(String url){
+        String prefix = url.substring(0, url.indexOf(USER_ID_EQUAL));
+        String suffix = url.substring(url.indexOf(BUDDY_USER_ID_EQUAL), url.length());
+        String url2 = prefix + suffix;
+        Log.v(tag, "user icon url without token: " + url2);
+        return url2;
+    }
 
-        String localFilePath = getLocalFilePathFromUrl(url);
+    //e.g. http://54.254.147.226:80/v1/image?image_path=images/events/2000101449419180409/image/10056611452128154618.jpg
+    // local file path: root/data/soco/images/user_icon/1100101446780892087/user_icon.jpg
+    private static Bitmap loadLocalBitmapFileForImage(String url){
+        Log.d(tag, "load image bitmap file from local: " + url);
+
+        String localFilePath = getLocalFilePathFromImageUrl(url);
         String root = Environment.getExternalStorageDirectory().toString();
         String photoPath = root + SEPARATOR + DATA_FOLDER_NAME + "/" + COMPANY_NAME + SEPARATOR + localFilePath;
-        Log.v(tag, "local file path: " + photoPath);
+        Log.d(tag, "local file path: " + photoPath);
 
+        return loadBitmap(photoPath);
+    }
+
+    // after: http://54.254.147.226:80/v1/user_icon?buddy_user_id=1100101446780892087
+    // local file path: root/data/soco/images/user_icon/1100101446780892087/user_icon.jpg
+    private static Bitmap loadLocalBitmapFileForUsericon(String urlToProcess){
+        Log.d(tag, "load usericon bitmap file from local: " + urlToProcess);
+
+        String userId = urlToProcess.substring(urlToProcess.indexOf(USER_ID_EQUAL) + 8, urlToProcess.length());
+        Log.d(tag, "userid: " + userId);
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        String photoPath = root + SEPARATOR + DATA_FOLDER_NAME + "/" + COMPANY_NAME + SEPARATOR + USER_ICON + SEPARATOR
+                            + userId + SEPARATOR + USER_ICON_JPG;
+        Log.d(tag, "local file path: " + photoPath);
+
+        return loadBitmap(photoPath);
+    }
+
+    private static Bitmap loadBitmap(String photoPath){
         //approach 1
 //        BitmapFactory.Options options = new BitmapFactory.Options();
 //        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -100,60 +170,93 @@ public class PhotoManager implements TaskCallBack {
 //        options.inSampleSize = 8;
         Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);
 
-        Log.v(tag, "loaded image from local: " + bitmap);
+        Log.d(tag, "loaded image from local: " + bitmap);
         return bitmap;
     }
 
-
     private Bitmap downloadBitmapFromUrl(String url){
-        Log.v(tag, "download bitmap from url: " + url);
+        Log.d(tag, "download bitmap from url: " + url);
         IconDownloadTask task = new IconDownloadTask(this);
         task.execute(url);
         return null;
     }
 
     public void doneTask(Object o){
-        Log.v(tag, "done task");
+        Log.d(tag, "done task");
         if(o == null){
             Log.e(tag, "return null");
         }
         else if(o instanceof Bitmap){
-            Log.v(tag, "return bitmap");
+            Log.d(tag, "return bitmap");
             Bitmap bitmap = (Bitmap) o;
 
-            Log.v(tag, "update image cache:: " + url + ", " + bitmap);
-            bitmapCache.put(url, bitmap);
-            Log.v(tag, "image cache size: " + bitmapCache.size() + " kB");
-
-            saveBitmapFileToLocal2(bitmap, url);
+            Log.d(tag, "image url - update image cache:: " + urlToProcess+ ", " + bitmap);
+            bitmapCache.put(urlToProcess, bitmap);
+            Log.d(tag, "image cache size: " + bitmapCache.size() + " kB");
+            saveBitmapFileToLocal2(bitmap, urlToProcess);
         }
+    }
+
+    private boolean isImageUrl(String url){
+        if(url.indexOf(URL_IDENTIFIER_IMAGE) != -1)
+            return true;
+        else
+            return false;
+    }
+
+    private boolean isUsericonUrl(String url){
+        if(url.indexOf(URL_IDENTIFIER_USERICON) != -1)
+            return true;
+        else
+            return false;
     }
 
     //e.g. http://54.254.147.226:80/v1/image?image_path=images/events/2000101449419180409/image/10056611452128154618.jpg
     public void saveBitmapFileToLocal2(Bitmap bitmap, String url){
-        if(url.indexOf(IMAGE_PATH) == -1){
-            Log.w(tag, "invalid image url, skip saving to local: " + url);
-            return;
-        }
-        else {
-            String localFilePath = getLocalFilePathFromUrl(url);
+        if(isImageUrl(url)){
+            Log.d(tag, "save image bitmap to local: " + url);
+            String localFilePath = getLocalFilePathFromImageUrl(url);
             saveBitmapFileToLocal(bitmap, localFilePath);
+        }
+        else if(isUsericonUrl(url)){
+            Log.d(tag, "save usericon bitmap to local: " + url);
+            String localFilePath = getLocalFilePathFromUsericonUrl(url);
+            saveBitmapFileToLocal(bitmap, localFilePath);
+        }
 
-            Log.v(tag, "save image to local index, url: " + url + ", timestamp: " + TimeUtil.now());
-            localImageFileIndex.put(url, TimeUtil.now());   //put after every access
-            Log.v(tag, "save image to local index, size is: " + localImageFileIndex.size());
+        Log.d(tag, "save image to local index, url: " + url + ", timestamp: " + TimeUtil.now());
+        localImageFileIndex.put(url, TimeUtil.now());   //put after every access
+        Log.d(tag, "saved image to local index, current size: " + localImageFileIndex.size());
 
-            Log.v(tag, "save index to local storage");
+        if(isImageUrl(url)) {
+            Log.d(tag, "persistence image index to local storage: " + url);
             SharedPreferences.Editor editor = index.edit();
             editor.putString(url, TimeUtil.now());
             editor.commit();
         }
+        else if(isUsericonUrl(url)){
+            Log.d(tag, "do not persistence usericon index - let App download all latest usericon on each starts");
+        }
     }
 
-    private static String getLocalFilePathFromUrl(String url){
-        Log.v(tag, "image url: " + url);
+    //e.g. url: http://54.254.147.226:80/v1/image?image_path=images/events/2000101449419180409/image/8792531452149707670.jpg
+    // local file path: images/events/2000101449419180409/image/8792531452149707670.jpg
+    private static String getLocalFilePathFromImageUrl(String url){
+        Log.d(tag, "get local file for image: " + url);
         String localFilePath = url.substring(url.indexOf(EQUAL) + 1, url.length());
-        Log.v(tag, "local file path: " + localFilePath);
+        Log.d(tag, "local file path: " + localFilePath);
+        return localFilePath;
+    }
+
+    //e.g. url: http://54.254.147.226:80/v1/user_icon?user_id=1100101446780893099
+    // local file path: images/user_icon/1100101446780893099/user_icon.jpg
+    private static String getLocalFilePathFromUsericonUrl(String urlWithoutToken){
+        Log.d(tag, "usericon url: " + urlWithoutToken);
+        String userId = urlWithoutToken.substring(urlWithoutToken.indexOf(USER_ID_EQUAL)+8, urlWithoutToken.length());
+        Log.d(tag, "userid: " + userId);
+
+        String localFilePath = IMAGES + SEPARATOR + USER_ICON + SEPARATOR + userId + SEPARATOR + USER_ICON_JPG;
+        Log.d(tag, "local file path: " + localFilePath);
         return localFilePath;
     }
 
@@ -165,15 +268,15 @@ public class PhotoManager implements TaskCallBack {
 
             String localDir = localFilePath.substring(0, localFilePath.lastIndexOf("/")+1);
             String filename = localFilePath.substring(localFilePath.lastIndexOf("/")+1, localFilePath.length());
-            Log.v(tag, "localdir: " + localDir + ", filename: " + filename);
+            Log.d(tag, "localdir: " + localDir + ", filename: " + filename);
 
             File absoluteDir = new File(root + SEPARATOR + DATA_FOLDER_NAME + "/" + COMPANY_NAME + SEPARATOR + localDir);
             absoluteDir.mkdirs();
 
-            Log.v(tag, "save local file: " + absoluteDir + ", " + filename);
+            Log.d(tag, "save local file: " + absoluteDir + "/" + filename);
             File file = new File(absoluteDir, filename);
             if(file.exists()) {
-                Log.v(tag, "delete existing file");
+                Log.d(tag, "delete existing file");
                 file.delete();
             }
 
@@ -181,7 +284,7 @@ public class PhotoManager implements TaskCallBack {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);   //todo
             fos.flush();
             fos.close();
-            Log.v(tag, "file saved locally success: " + absoluteDir + ", " + filename);
+            Log.d(tag, "file saved locally success: " + absoluteDir + ", " + filename);
         }
         catch(Exception e){
             Log.e(tag, "cannot save file: " + e.toString());

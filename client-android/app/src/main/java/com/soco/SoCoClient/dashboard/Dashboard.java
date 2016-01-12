@@ -168,7 +168,7 @@ public class Dashboard extends ActionBarActivity implements
             }
         });
 
-        Log.d(tag, "set dashboard title " + R.string.dashboard_title);
+        Log.v(tag, "set dashboard title " + getString(R.string.dashboard_title));
         TextView title = (TextView) actionbarView.findViewById(R.id.dashboard_title);
         title.setText(R.string.dashboard_title);
 
@@ -177,7 +177,8 @@ public class Dashboard extends ActionBarActivity implements
         User u = new User();
         u.setUser_id(socoApp.user_id);
         Log.v(tag, "ib: " + ib + ", user: " + u.toString());
-        IconUrlUtil.setImageForButtonSmall(getResources(), ib, u.getUser_icon_url());
+//        IconUrlUtil.setImageForButtonSmall(getResources(), ib, u.getUser_icon_url());
+        IconUrlUtil.setImageForButtonSmall(getResources(), ib, UrlUtil.getUserIconUrl(u.getUser_id()));
     }
     @Override
     public void onResume() {

@@ -56,7 +56,7 @@ public class SimpleEventCardAdapter
     public void onBindViewHolder( SimpleEventCardViewHolder simpleEventCardViewHolder, int i )
     {
         Event event = events.get(i);
-        Log.d(tag, "bind event: " + event.toString());
+        Log.v(tag, "bind event: " + event.getTitle());
         Long eventId = event.getId();
 
         Log.v(tag, "set title: " + event.getTitle() + ", set tag as eventid: " + eventId);

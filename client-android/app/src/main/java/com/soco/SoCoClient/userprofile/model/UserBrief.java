@@ -34,15 +34,19 @@ public class UserBrief {
         this.user_name = user_name;
     }
 
+    @Deprecated
     public String getUser_icon_url() {
 //        return "https://graph.facebook.com/10153298013434285/picture?type=normal";
         StringBuffer sb = new StringBuffer();
         sb.append(UrlUtil.getUserIconUrlPrefix());
         sb.append(SocoApp.getCurrentUserTokenForUrl());
-        if(SocoApp.user_id!=null&&!SocoApp.user_id.equalsIgnoreCase(this.user_id)){
-            sb.append("&buddy_user_id=");
-            sb.append(this.user_id);
-        }
+//        if(SocoApp.user_id!=null&&!SocoApp.user_id.equalsIgnoreCase(this.user_id)){
+//            sb.append("&buddy_user_id=");
+//            sb.append(this.user_id);
+//        }
+        //update: always append user id in the end
+        sb.append("&buddy_user_id=");
+        sb.append(this.user_id);
         return sb.toString();
     }
 

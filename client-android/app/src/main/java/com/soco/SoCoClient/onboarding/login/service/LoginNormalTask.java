@@ -109,7 +109,7 @@ public class LoginNormalTask extends AsyncTask<String, Void, Boolean> {
     }
 
     private int parse(Object response) {
-        Log.d(tag, "parse login normal response: " + response.toString());
+        Log.v(tag, "parse login normal response: " + response.toString());
 
         try {
             JSONObject json = new JSONObject(response.toString());
