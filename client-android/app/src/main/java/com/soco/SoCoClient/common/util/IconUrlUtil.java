@@ -406,5 +406,8 @@ public class IconUrlUtil {
         return inSampleSize;
     }
 
+    public static int getSizeLarge(){
+        return sizeLarge;
+    }
 }
 

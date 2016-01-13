@@ -4,8 +4,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
+import com.soco.SoCoClient.common.PhotoManager;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.UrlUtil;
@@ -30,6 +31,8 @@ import com.soco.SoCoClient.userprofile.model.User;
 import com.soco.SoCoClient.userprofile.task.SetUserIconTask;
 import com.soco.SoCoClient.userprofile.task.UserProfileTask;
 import com.soco.SoCoClient.userprofile.ui.UserProfileTabsAdapter;
+
+import java.io.FileNotFoundException;
 
 
 public class UserProfileActivity extends ActionBarActivity
@@ -217,7 +220,10 @@ public class UserProfileActivity extends ActionBarActivity
         Log.v(tag, "tap user icon, my userid: " + socoApp.user_id + ", tap userid: " + user.getUser_id());
         if(user.getUser_id().equals(socoApp.user_id)){
             Log.v(tag, "changing my icon");
+            //clear from cache. Both from IconUrlUtil cache and PhotoManager cache
             IconUrlUtil.removeBitmapFromCache(UrlUtil.getUserIconUrl(user.getUser_id()));
+            PhotoManager.clearUrlFromCacheAndLocalReference(UrlUtil.getUserIconUrl(user.getUser_id()));
+
             Intent i =  new Intent(Intent.ACTION_PICK, null);
             i.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
             startActivityForResult(i, REQUESTCODE_CHANGEICON);
@@ -239,30 +245,20 @@ public class UserProfileActivity extends ActionBarActivity
             Uri uriFile = data.getData();
             Log.i(tag, "file selected with uri: " + uriFile + ", " + uriFile.toString() + ", " + uriFile.getPath());
 
-            String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
-            Cursor cur = getContentResolver().query(uriFile, orientationColumn, null, null, null);
-            int orientation = -1;
-            if (cur != null && cur.moveToFirst()) {
-                orientation = cur.getInt(cur.getColumnIndex(orientationColumn[0]));
-            }
-            Log.d(tag, "orientation: " + orientation);
-
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(uriFile, filePathColumn, null, null, null);
-            if (cursor.moveToFirst()) {
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String filePath = cursor.getString(columnIndex);
-
-                Bitmap bitmap = IconUrlUtil.decodeSampledBitmapFromFile(filePath, socoApp.screenSizeWidth /2, socoApp.screenSizeHeight /2);
-                Log.d(tag, "bitmap: " + bitmap);
+            try {
+                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uriFile));
+                Log.v(tag, "process bit map in normal shape");    //e.g. user post photos
+                bitmap = IconUrlUtil.processBitmap(bitmap, IconUrlUtil.getSizeLarge());
+                Log.v(tag, "process bit map in rounded corner");    //e.g. user icon
+                bitmap = IconUrlUtil.processBitmapRoundedCorner(bitmap, IconUrlUtil.getSizeLarge());
                 ImageView view = (ImageView) findViewById(R.id.icon);
                 view.setImageBitmap(bitmap);
-                view.setRotation(orientation);
-            }
-            cursor.close();
 
-            new SetUserIconTask(getApplicationContext(), getContentResolver(),
-                    uriFile, this).execute();
+                new SetUserIconTask(getApplicationContext(), getContentResolver(),
+                        uriFile, this).execute();
+            }catch (FileNotFoundException e){
+                Log.e(tag, "File not found. Skipping the effort");
+            }
 
         }
     }

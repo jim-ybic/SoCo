@@ -14,7 +14,6 @@ import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.TimeUtil;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -142,7 +141,7 @@ public class PhotoManager implements TaskCallBack {
 
     //e.g. http://54.254.147.226:80/v1/user_icon?user_id=1100101446780893099&token=39DB2A2FC2D26CFB1053F0229A6AAEDF7ECAF4BD9FA1A5C8390475293368A414&buddy_user_id=1100101446780892087
     // after: http://54.254.147.226:80/v1/user_icon?buddy_user_id=1100101446780892087
-    private String getUsericonUrlWithoutToken(String url){
+    private static String getUsericonUrlWithoutToken(String url){
         String prefix = url.substring(0, url.indexOf(USER_ID_EQUAL));
         String suffix = url.substring(url.indexOf(BUDDY_USER_ID_EQUAL), url.length());
         String url2 = prefix + suffix;
@@ -341,4 +340,24 @@ public class PhotoManager implements TaskCallBack {
         return;
     }
 
+    //clear specified image from cache
+    public static void clearUrlFromCacheAndLocalReference(String url){
+        //get the key which used in PhotoManager
+        String urlKey = getUsericonUrlWithoutToken(url);
+        //remove from 2 places
+        localImageFileIndex.remove(urlKey);
+        bitmapCache.remove(urlKey);
+        //also delete the file on disk
+        String userId = urlKey.substring(urlKey.indexOf(USER_ID_EQUAL) + 8, urlKey.length());
+        Log.d(tag, "userid: " + userId);
+        String root = Environment.getExternalStorageDirectory().toString();
+        String photoPath = root + SEPARATOR + DATA_FOLDER_NAME + "/" + COMPANY_NAME
+                + SEPARATOR + IMAGES + SEPARATOR + USER_ICON
+                + SEPARATOR + userId + SEPARATOR + USER_ICON_JPG;
+        Log.d(tag, "local usericon file path: " + photoPath);
+        File file = new File(photoPath);
+        boolean deleted = file.delete();
+
+        Log.d(tag, "delete result"+deleted);
+    }
 }
