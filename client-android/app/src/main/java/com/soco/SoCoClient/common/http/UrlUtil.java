@@ -8,10 +8,13 @@ import com.soco.SoCoClient._ref.GeneralConfigV1;
 import com.soco.SoCoClient._ref.HttpConfigV1;
 import com.soco.SoCoClient.common.model.Profile;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.config.ClientConfig;
 
 public class UrlUtil {
+    public static final String SERVER_PORT = "80";
     static String tag = "UrlUtil";
 
+    @Deprecated
     public static String getLoginUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -21,6 +24,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getRegisterUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -30,6 +34,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getCreateProjectUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -41,6 +46,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getArchiveProjectUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -52,6 +58,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getUpdateProjectNameUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -63,6 +70,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getSetProjectAttributeUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -74,6 +82,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getHeartbeatUrl(Context context){
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -85,6 +94,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getInviteProjectMemberUrl(Context context) {
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -96,6 +106,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getJoinProjectByInviteUrl(Context context) {
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -107,6 +118,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getSendMessageUrl(Context context) {
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -118,6 +130,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getRetrieveMessageUrl(Context context) {
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -129,6 +142,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getAckRetrieveMessageUrl(Context context) {
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -140,6 +154,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getAddFriendUrl(Context context) {
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -151,6 +166,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getQueryUserUrl(Context context) {
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -162,6 +178,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getAddFileToActivityUrl(Context context) {
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -173,6 +190,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getGetActivityEventUrl(Context context) {
         String ip = getServerIp(context);
         String port = getServerPort(context);
@@ -184,6 +202,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getServerIp(Context context){
         SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         String ip = settings.getString(GeneralConfigV1.PROFILE_SERVER_IP, "");
@@ -195,6 +214,7 @@ public class UrlUtil {
             return ip;
     }
 
+    @Deprecated
     public static void setServerIp(Context context, String servIp){
         SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -202,6 +222,7 @@ public class UrlUtil {
         editor.commit();
     }
 
+    @Deprecated
     public static String getServerPort(Context context){
         SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         String port = settings.getString(GeneralConfigV1.PROFILE_SERVER_PORT, "");
@@ -213,6 +234,7 @@ public class UrlUtil {
             return port;
     }
 
+    @Deprecated
     public static void setServerPort(Context context, String servPort){
         SharedPreferences settings = context.getSharedPreferences(GeneralConfigV1.PROFILE_FILENAME, 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -226,8 +248,6 @@ public class UrlUtil {
     //http
     static final String URL_HEADER = "http://";
     static final String COLON = ":";
-    static final String SERVER_IP = "54.254.147.226";
-    static final String SERVER_PORT = "80";
 
     static final String LOGIN_PATH = "/v1/login";
     static final String SOCIAL_LOGIN_PATH = "/v1/social_login";
@@ -257,77 +277,77 @@ public class UrlUtil {
     static final String EVENT_POSTS_PATH = "/v1/event_posts";
 
     public static String getLoginUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + LOGIN_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + LOGIN_PATH;
         Log.v(tag, "login url: " + url);
         return url;
     }
 
     public static String getSocialLoginUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + SOCIAL_LOGIN_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + SOCIAL_LOGIN_PATH;
         Log.v(tag, "social login url: " + url);
         return url;
     }
 
     public static String getRegisterUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + REGISTER_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + REGISTER_PATH;
         Log.v(tag, "register url: " + url);
         return url;
     }
 
     public static String getCreateEventUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + CREATE_EVENT_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + CREATE_EVENT_PATH;
         Log.v(tag, "create event url: " + url);
         return url;
     }
 
     public static String getSuggestedEventsUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + SUGGESTED_EVENTS_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + SUGGESTED_EVENTS_PATH;
         Log.v(tag, "get suggested events url: " + url);
         return url;
     }
     public static String getSuggestedBuddiessUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + SUGGESTED_BUDDIES_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + SUGGESTED_BUDDIES_PATH;
         Log.v(tag, "get suggested events url: " + url);
         return url;
     }
 
     public static String getAddBuddyUrl() {
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + ADD_BUDDY_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + ADD_BUDDY_PATH;
         Log.v(tag, "get add buddy url: " + url);
         return url;
     }
 
     public static String getLikeEventUrl() {
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + LIKE_EVENT_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + LIKE_EVENT_PATH;
         Log.v(tag, "get like event url: " + url);
         return url;
     }
 
     public static String getRevertLikeEventUrl() {
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + REVERT_LIKE_EVENT_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + REVERT_LIKE_EVENT_PATH;
         Log.v(tag, "get revert like event url: " + url);
         return url;
     }
     public static String getJoinEventUrl() {
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + JOIN_EVENT_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + JOIN_EVENT_PATH;
         Log.v(tag, "get join event url: " + url);
         return url;
     }
 
     public static String getEventGroupsBuddiesUrl() {
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + EVENT_GROUPS_BUDDIES_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + EVENT_GROUPS_BUDDIES_PATH;
         Log.v(tag, "get event groups buddies url: " + url);
         return url;
     }
 
     public static String getUserIconUrlPrefix(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_ICON;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + USER_ICON;
 //        Log.v(tag, "user icon url: " + url);
         return url;
     }
 
     public static String getGroupIconUrlPrefix(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + GROUP_ICON;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + GROUP_ICON;
 //        Log.v(tag, "user icon url: " + url);
         return url;
     }
@@ -356,79 +376,79 @@ public class UrlUtil {
     }
 
     public static String getCreateGroupUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + CREATE_GROUP_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + CREATE_GROUP_PATH;
         Log.v(tag, "create group url: " + url);
         return url;
     }
 
     public static String getUserProfileUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_PROFILE_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + USER_PROFILE_PATH;
         Log.v(tag, "user profile url: " + url);
         return url;
     }
     public static String getMyBuddiesUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + MY_BUDDIES_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + MY_BUDDIES_PATH;
         Log.v(tag, "get my buddies url: " + url);
         return url;
     }
     public static String getMyMatchUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + MY_MATCH_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + MY_MATCH_PATH;
         Log.v(tag, "get my match url: " + url);
         return url;
     }
     public static String getEventsUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_EVENT_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + USER_EVENT_PATH;
         Log.v(tag, "get events url: " + url);
         return url;
     }
     public static String getUserGroupUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_GROUP_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + USER_GROUP_PATH;
         Log.v(tag, "get user group url: " + url);
         return url;
     }
     public static String getEventUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + CREATE_EVENT_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + CREATE_EVENT_PATH;
         Log.v(tag, "event url: " + url);
         return url;
     }
     public static String getGroupsUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + GROUP_LIST_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + GROUP_LIST_PATH;
         Log.v(tag, "groups url: " + url);
         return url;
     }
 
     public static String getGroupUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + GROUP_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + GROUP_PATH;
         Log.v(tag, "single group url: " + url);
         return url;
     }
 
     public static String getGroupMembersUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + GROUP_MEMBER_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + GROUP_MEMBER_PATH;
         Log.v(tag, "single group url: " + url);
         return url;
     }
 
     public static String getJoinGroupUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + JOIN_GROUP_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + JOIN_GROUP_PATH;
         Log.v(tag, "join group url: " + url);
         return url;
     }
 
     public static String getUserIconUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + USER_ICON_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + USER_ICON_PATH;
         Log.v(tag, "user icon url: " + url);
         return url;
     }
 
     public static String getEventPostUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + EVENT_POST_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + EVENT_POST_PATH;
         Log.v(tag, "event post url: " + url);
         return url;
     }
 
     public static String getEventPostsUrl(){
-        String url = URL_HEADER + SERVER_IP + COLON + SERVER_PORT + EVENT_POSTS_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + EVENT_POSTS_PATH;
         Log.v(tag, "event posts url: " + url);
         return url;
     }
