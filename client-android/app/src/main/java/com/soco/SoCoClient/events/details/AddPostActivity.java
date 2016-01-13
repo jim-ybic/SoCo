@@ -97,11 +97,16 @@ public class AddPostActivity extends ActionBarActivity
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String filePath = cursor.getString(columnIndex);
 
-                bitmap = IconUrlUtil.decodeSampledBitmapFromFile(filePath, socoApp.screenSizeWidth / 2, socoApp.screenSizeHeight / 2);
-                Log.d(tag, "bitmap: " + bitmap);
-                ((ImageView) findViewById(R.id.pic1)).setImageBitmap(bitmap);
-                ImageView view = (ImageView) findViewById(R.id.pic1);
-                view.setRotation(orientation);
+                bitmap = IconUrlUtil.decodeSampledBitmapFromFile(
+                        filePath, socoApp.screenSizeWidth / 4, socoApp.screenSizeHeight / 4);
+                if(bitmap == null){
+                    Toast.makeText(getApplicationContext(), R.string.msg_image_too_large, Toast.LENGTH_SHORT).show();
+                }else {
+                    Log.d(tag, "bitmap: " + bitmap);
+                    ((ImageView) findViewById(R.id.pic1)).setImageBitmap(bitmap);
+                    ImageView view = (ImageView) findViewById(R.id.pic1);
+                    view.setRotation(orientation);
+                }
             }
             cursor.close();
         }

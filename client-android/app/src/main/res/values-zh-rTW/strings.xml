@@ -37,6 +37,7 @@
     <string name="msg_login">正在登入</string>
     <string name="msg_login_via_facebook">正在經由Facebook登入</string>
     <string name="msg_downloading_events">正在下載活動</string>
+    <string name="msg_downloading_posts">正在下載動態</string>
     <string name="msg_downloading_users">正在下載用戶信息</string>
     <string name="msg_pls_wait">請稍候...</string>
     <string name="msg_info">信息</string>
@@ -49,6 +50,7 @@
     <string name="msg_post_fail">發表失敗，請稍後重試.</string>
     <string name="msg_joinevent_success">報名成功.</string>
     <string name="msg_network_error">網絡錯誤，請稍後重試.</string>
+    <string name="msg_image_too_large">圖片過大.</string>
 
     <string name="userprofile_tab_profile">簡介</string>
     <string name="userprofile_tab_groups">群組</string>

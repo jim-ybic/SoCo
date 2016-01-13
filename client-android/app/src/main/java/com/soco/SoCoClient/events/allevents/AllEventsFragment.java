@@ -79,15 +79,16 @@ public class AllEventsFragment extends Fragment
         simpleEventCardAdapter = new SimpleEventCardAdapter(getActivity(), events);
         mRecyclerView.setAdapter(simpleEventCardAdapter);
 
-        Log.v(tag, "show progress dialog, fetch events from server");
-        pd = ProgressDialog.show(getActivity(),
-                context.getString(R.string.msg_downloading_events),
-                context.getString(R.string.msg_pls_wait));
-        new Thread(new Runnable(){
-            public void run(){
-                downloadEventsInBackgroud();
-            }
-        }).start();
+//        Log.v(tag, "show progress dialog, fetch events from server");
+//        pd = ProgressDialog.show(getActivity(),
+//                context.getString(R.string.msg_downloading_events),
+//                context.getString(R.string.msg_pls_wait));
+//        new Thread(new Runnable(){
+//            public void run(){
+//                downloadEventsInBackgroud();
+//            }
+//        }).start();
+        downloadEventsInBackgroud();
 
         setOnclickListener();
         return rootView;
@@ -128,7 +129,7 @@ public class AllEventsFragment extends Fragment
         }
         // Now we call setRefreshing(false) to signal refresh has finished
         swipeContainer.setRefreshing(false);
-        pd.dismiss();
+//        pd.dismiss();
     }
 
     private void setOnclickListener(){

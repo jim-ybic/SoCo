@@ -9,12 +9,28 @@ import android.util.Log;
 import android.util.LruCache;
 
 import com.soco.SoCoClient.common.util.IconDownloadTask;
+import com.soco.SoCoClient.common.util.IconUrlUtil;
+import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.TimeUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+/**
+ * local cache file structure:
+ * a) for photos/images in events
+ * /root/data/soco/images/events/<eventid>/image/<filename>
+ * b) for user icons
+ * /root/images/user_icon/<userid>/user_icon.jpg
+ * c) for photos/images in topics
+ * n.a.
+ *
+ * strategy for find image for a given url: check function getBitmap
+ *
+ *
+ */
 
 public class PhotoManager implements TaskCallBack {
 
@@ -96,7 +112,7 @@ public class PhotoManager implements TaskCallBack {
                     bitmap = loadLocalBitmapFileForUsericon(urlToProcess);
 
                 if(bitmap == null){
-                    Log.d(tag, "bitmap not loaded from local - remove index to cache and local storage: " + urlToProcess);
+                    Log.d(tag, "bitmap not loaded from local - remove url from index: " + urlToProcess);
                     localImageFileIndex.remove(urlToProcess);
                     SharedPreferences.Editor editor = index.edit();
                     editor.remove(urlToProcess);
@@ -104,11 +120,15 @@ public class PhotoManager implements TaskCallBack {
 
                     Log.d(tag, "download to use and save, refresh timestamp: " + url);
                     downloadBitmapFromUrl(url);
+                    return null;
                 }
                 else {
-                    Log.d(tag, "loaded bitmap from local storage, refresh timestamp: " + urlToProcess);
+                    Log.d(tag, "loaded bitmap from local storage, refresh timestamp: " + urlToProcess + ", " + TimeUtil.now());
                     bitmapCache.put(urlToProcess, bitmap);
                     localImageFileIndex.put(urlToProcess, TimeUtil.now());   //put after every access
+                    SharedPreferences.Editor editor = index.edit();
+                    editor.putString(urlToProcess, TimeUtil.now());
+                    editor.commit();
                     return bitmap;
                 }
             }
@@ -138,7 +158,7 @@ public class PhotoManager implements TaskCallBack {
         String localFilePath = getLocalFilePathFromImageUrl(url);
         String root = Environment.getExternalStorageDirectory().toString();
         String photoPath = root + SEPARATOR + DATA_FOLDER_NAME + "/" + COMPANY_NAME + SEPARATOR + localFilePath;
-        Log.d(tag, "local file path: " + photoPath);
+        Log.d(tag, "local image file path: " + photoPath);
 
         return loadBitmap(photoPath);
     }
@@ -152,26 +172,39 @@ public class PhotoManager implements TaskCallBack {
         Log.d(tag, "userid: " + userId);
 
         String root = Environment.getExternalStorageDirectory().toString();
-        String photoPath = root + SEPARATOR + DATA_FOLDER_NAME + "/" + COMPANY_NAME + SEPARATOR + USER_ICON + SEPARATOR
-                            + userId + SEPARATOR + USER_ICON_JPG;
-        Log.d(tag, "local file path: " + photoPath);
+        String photoPath = root + SEPARATOR + DATA_FOLDER_NAME + "/" + COMPANY_NAME
+                            + SEPARATOR + IMAGES + SEPARATOR + USER_ICON
+                            + SEPARATOR + userId + SEPARATOR + USER_ICON_JPG;
+        Log.d(tag, "local usericon file path: " + photoPath);
 
         return loadBitmap(photoPath);
     }
 
     private static Bitmap loadBitmap(String photoPath){
-        //approach 1
+        try {
+            //approach 1
 //        BitmapFactory.Options options = new BitmapFactory.Options();
 //        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 //        Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);
 
-        //approach 2: avoid out of memory error
-        BitmapFactory.Options options = new BitmapFactory.Options();
+            //approach 2: avoid out of memory error
+            BitmapFactory.Options options = new BitmapFactory.Options();
 //        options.inSampleSize = 8;
-        Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);
+            Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);
 
-        Log.d(tag, "loaded image from local: " + bitmap);
-        return bitmap;
+
+            //approach 3: give a scale factor (according to screensize), auto calculate inSampleSize
+            bitmap = IconUrlUtil.decodeSampledBitmapFromFile(
+                    photoPath, SocoApp.screenSizeWidth / 2, SocoApp.screenSizeHeight / 2);
+
+            Log.d(tag, "loaded image from local: " + bitmap);
+            return bitmap;
+        }
+        catch(OutOfMemoryError e){
+            Log.e(tag, "out of memory when load image: " + e.toString());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private Bitmap downloadBitmapFromUrl(String url){
@@ -186,7 +219,7 @@ public class PhotoManager implements TaskCallBack {
         if(o == null){
             Log.e(tag, "return null");
         }
-        else if(o instanceof Bitmap){
+        else if(o instanceof Bitmap){   //IconDownloadTask
             Log.d(tag, "return bitmap");
             Bitmap bitmap = (Bitmap) o;
 
@@ -194,6 +227,12 @@ public class PhotoManager implements TaskCallBack {
             bitmapCache.put(urlToProcess, bitmap);
             Log.d(tag, "image cache size: " + bitmapCache.size() + " kB");
             saveBitmapFileToLocal2(bitmap, urlToProcess);
+        }
+        else if(o instanceof Boolean){  //SaveFileTask
+            boolean ret = (boolean) o;
+            if(ret){
+                Log.d(tag, "task save file success");
+            }
         }
     }
 
@@ -235,7 +274,13 @@ public class PhotoManager implements TaskCallBack {
             editor.commit();
         }
         else if(isUsericonUrl(url)){
+            //approach 1:
             Log.d(tag, "do not persistence usericon index - let App download all latest usericon on each starts");
+
+            //approach 2: still persist (done), but refresh after some time (n.a.)
+            SharedPreferences.Editor editor = index.edit();
+            editor.putString(url, TimeUtil.now());
+            editor.commit();
         }
     }
 
@@ -244,7 +289,7 @@ public class PhotoManager implements TaskCallBack {
     private static String getLocalFilePathFromImageUrl(String url){
         Log.d(tag, "get local file for image: " + url);
         String localFilePath = url.substring(url.indexOf(EQUAL) + 1, url.length());
-        Log.d(tag, "local file path: " + localFilePath);
+        Log.d(tag, "local image file path: " + localFilePath);
         return localFilePath;
     }
 
@@ -256,13 +301,13 @@ public class PhotoManager implements TaskCallBack {
         Log.d(tag, "userid: " + userId);
 
         String localFilePath = IMAGES + SEPARATOR + USER_ICON + SEPARATOR + userId + SEPARATOR + USER_ICON_JPG;
-        Log.d(tag, "local file path: " + localFilePath);
+        Log.d(tag, "local usericon file path: " + localFilePath);
         return localFilePath;
     }
 
 
     //e.g. images/events/2000101449419180409/image/10056611452128154618.jpg
-    private static void saveBitmapFileToLocal(Bitmap bitmap, String localFilePath){
+    private void saveBitmapFileToLocal(Bitmap bitmap, String localFilePath){
         try {
             String root = Environment.getExternalStorageDirectory().toString();
 
@@ -273,18 +318,20 @@ public class PhotoManager implements TaskCallBack {
             File absoluteDir = new File(root + SEPARATOR + DATA_FOLDER_NAME + "/" + COMPANY_NAME + SEPARATOR + localDir);
             absoluteDir.mkdirs();
 
-            Log.d(tag, "save local file: " + absoluteDir + "/" + filename);
-            File file = new File(absoluteDir, filename);
-            if(file.exists()) {
-                Log.d(tag, "delete existing file");
-                file.delete();
-            }
-
-            FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);   //todo
-            fos.flush();
-            fos.close();
-            Log.d(tag, "file saved locally success: " + absoluteDir + ", " + filename);
+//            Log.w(tag, "saving local file: " + absoluteDir + "/" + filename);
+//            File file = new File(absoluteDir, filename);
+//            if(file.exists()) {
+//                Log.d(tag, "delete existing file");
+//                file.delete();
+//            }
+//
+//            FileOutputStream fos = new FileOutputStream(file);
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);   //todo
+//            fos.flush();
+//            fos.close();
+//            Log.d(tag, "file saved locally success: " + absoluteDir + ", " + filename);
+            SaveFileTask task = new SaveFileTask(absoluteDir, filename, bitmap, this);
+            task.execute();
         }
         catch(Exception e){
             Log.e(tag, "cannot save file: " + e.toString());

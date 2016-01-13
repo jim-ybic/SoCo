@@ -91,7 +91,7 @@ public class AllPostsFragment extends Fragment
 
         Log.v(tag, "show progress dialog, start downloading event details");
         pd = ProgressDialog.show(getActivity(),
-                context.getString(R.string.msg_downloading_event),
+                context.getString(R.string.msg_downloading_posts),
                 context.getString(R.string.msg_pls_wait));
         new Thread(new Runnable(){
             public void run(){

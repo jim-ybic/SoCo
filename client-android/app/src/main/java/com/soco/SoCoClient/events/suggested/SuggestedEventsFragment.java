@@ -54,15 +54,16 @@ public class SuggestedEventsFragment extends Fragment
         Log.v(tag, "update global variable");
         socoApp.suggestedEventsView = rootView;
 
-        Log.v(tag, "show progress dialog, fetch suggested events from server");
-        pd = ProgressDialog.show(getActivity(),
-                context.getString(R.string.msg_downloading_events),
-                context.getString(R.string.msg_pls_wait));
-        new Thread(new Runnable(){
-            public void run(){
-                downloadEventsInBackgroud(getActivity());
-            }
-        }).start();
+//        Log.v(tag, "show progress dialog, fetch suggested events from server");
+//        pd = ProgressDialog.show(getActivity(),
+//                context.getString(R.string.msg_downloading_events),
+//                context.getString(R.string.msg_pls_wait));
+//        new Thread(new Runnable(){
+//            public void run(){
+//                downloadEventsInBackgroud(getActivity());
+//            }
+//        }).start();
+        downloadEventsInBackgroud(getActivity());
 
         return rootView;
     }
@@ -84,7 +85,7 @@ public class SuggestedEventsFragment extends Fragment
             Log.e(tag, "download suggested event fail, notify user");
             Toast.makeText(getActivity().getApplicationContext(), "Download events error, please try again later.", Toast.LENGTH_SHORT).show();
         }
-        pd.dismiss();
+//        pd.dismiss();
     }
 
     public void initEventCards(final View rootView, Context context, final SocoApp socoApp, Activity activity){

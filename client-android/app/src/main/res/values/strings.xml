@@ -96,6 +96,7 @@
     <string name="msg_login">Login in progress</string>
     <string name="msg_login_via_facebook">Login via Facebook in progress</string>
     <string name="msg_downloading_events">Downloading events</string>
+    <string name="msg_downloading_posts">Downloading posts</string>
     <string name="msg_downloading_users">Downloading users</string>
     <string name="msg_pls_wait">Please wait...</string>
     <string name="msg_info">Info</string>
@@ -108,6 +109,7 @@
     <string name="msg_post_fail">Post fail, please try again later.</string>
     <string name="msg_joinevent_success">Join success.</string>
     <string name="msg_network_error">Network error, please try again later.</string>
+    <string name="msg_image_too_large">Image is too large.</string>
 
     <string name="userprofile_tab_profile">Profile</string>
     <string name="userprofile_tab_groups">Groups</string>
