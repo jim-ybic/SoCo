@@ -18,6 +18,7 @@ import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.posts.Post;
 
 import java.util.ArrayList;
 
@@ -63,11 +64,14 @@ public class AllTopicsFragment extends Fragment
                 // once the network request has completed successfully.
 
 //                Log.v(tag, "add dummy data");
-//                topics.add(new Topic("sample topic #1"));
-//                topics.add(new Topic("sample topic #2"));
-//                topics.add(new Topic("sample topic #3"));
-//                adapter.notifyDataSetChanged();
+//                Topic p1 = new Topic(); p1.setTitle("sample topic #1");
+//                Topic p2 = new Topic(); p2.setTitle("sample topic #2");
+//                Topic p3 = new Topic(); p3.setTitle("sample topic #3");
+//                topics.add(p1);
+//                topics.add(p2);
+//                topics.add(p3);
 
+                adapter.notifyDataSetChanged();
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -77,11 +81,17 @@ public class AllTopicsFragment extends Fragment
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
 
-        topics = new ArrayList<>();
-        Log.v(tag, "add dummy data");
-        topics.add(new Topic("sample topic #1"));
-        topics.add(new Topic("sample topic #2"));
-        topics.add(new Topic("sample topic #3"));
+//        topics = new ArrayList<>();
+//        Log.v(tag, "add dummy data");
+//        Topic p1 = new Topic(); p1.setTitle("sample topic #1");
+//        Topic p2 = new Topic(); p2.setTitle("sample topic #2");
+//        Topic p3 = new Topic(); p3.setTitle("sample topic #3");
+//        topics.add(p1);
+//        topics.add(p2);
+//        topics.add(p3);
+
+        Log.d(tag, "download all topics task");
+        new AllTopicsTask(SocoApp.user_id, SocoApp.token, this).execute();
 
         adapter = new TopicCardAdapter(getActivity(), topics);
         mRecyclerView.setAdapter(adapter);
@@ -92,7 +102,19 @@ public class AllTopicsFragment extends Fragment
 
 
     public void doneTask(Object o) {
-        //todo
+        Log.v(tag, "donetask");
+        if(o == null)
+            Log.e(tag, "all topics task returns null");
+        else{
+            ArrayList<Topic> newTopics = (ArrayList<Topic>) o;
+            Log.v(tag, newTopics.size() + " topics found");
+            for(Topic p : newTopics){
+                topics.add(p);
+                Log.v(tag, "add new topic: " + p.toString());
+            }
+        }
+        adapter.notifyDataSetChanged();
+        swipeContainer.setRefreshing(false);
     }
 
 

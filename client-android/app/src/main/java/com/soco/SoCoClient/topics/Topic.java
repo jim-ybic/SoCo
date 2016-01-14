@@ -7,20 +7,32 @@ import java.util.ArrayList;
 
 public class Topic {
 
-    String name;
+    String id;
+    String title;
     int numberPosts;
     int numberEvents;
+    int numberViews;
+    int numberPhotos;
+    String createTimedate;
+    Group group = new Group();
+    User creator = new User();
 
-    public Topic(String name){
-        this.name = name;
+    Topic(){}
+
+    public String getId() {
+        return id;
     }
 
-    public String getName() {
-        return name;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int getNumberPosts() {
@@ -39,12 +51,58 @@ public class Topic {
         this.numberEvents = numberEvents;
     }
 
+    public int getNumberViews() {
+        return numberViews;
+    }
+
+    public void setNumberViews(int numberViews) {
+        this.numberViews = numberViews;
+    }
+
+    public int getNumberPhotos() {
+        return numberPhotos;
+    }
+
+    public void setNumberPhotos(int numberPhotos) {
+        this.numberPhotos = numberPhotos;
+    }
+
+    public String getCreateTimedate() {
+        return createTimedate;
+    }
+
+    public void setCreateTimedate(String createTimedate) {
+        this.createTimedate = createTimedate;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
     @Override
     public String toString() {
         return "Topic{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
                 ", numberPosts=" + numberPosts +
                 ", numberEvents=" + numberEvents +
+                ", numberViews=" + numberViews +
+                ", numberPhotos=" + numberPhotos +
+                ", createTimedate='" + createTimedate + '\'' +
+                ", group=" + group +
+                ", creator=" + creator +
                 '}';
     }
 }

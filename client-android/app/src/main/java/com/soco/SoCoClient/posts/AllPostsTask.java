@@ -9,12 +9,15 @@ import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
+import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.userprofile.model.User;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -27,22 +30,27 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
     String tag = "AllPostsTask";
     String user_id;
     String token;
+    String eventId;
+    String topicId;
     TaskCallBack callBack;
 
-    public AllPostsTask(String user_id, String token, TaskCallBack cb){
-        Log.v(tag, "event posts task: " + user_id);
+    public AllPostsTask(String user_id, String token, String eventId, String topicId, TaskCallBack cb){
+        Log.v(tag, "all posts task: " + user_id);
         this.user_id=user_id;
         this.token=token;
+        this.eventId = eventId;
+        this.topicId = topicId;
         callBack = cb;
     }
 
     protected ArrayList<Post> doInBackground(String... params) {
-        String url = UrlUtil.getEventPostsUrl();
+        String url = UrlUtil.getPostsUrl();
         Object response = request(
                 url,
                 user_id,
                 token,
-                params[0]   //eventid
+                eventId,
+                topicId
         );
 
         if (response != null) {
@@ -59,16 +67,21 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
             String url,
             String user_id,
             String token,
-            String event_id){
+            String eventId,
+            String topicId){
         if(!url.endsWith("?"))
             url += "?";
 
         List<NameValuePair> params = new LinkedList<>();
         params.add(new BasicNameValuePair(JsonKeys.USER_ID, user_id));
         params.add(new BasicNameValuePair(JsonKeys.TOKEN, token));
-        params.add(new BasicNameValuePair(JsonKeys.EVENT_ID, event_id));
-        String paramString = URLEncodedUtils.format(params, "utf-8");
 
+        if(eventId != null && !eventId.isEmpty())
+            params.add(new BasicNameValuePair(JsonKeys.EVENT_ID, eventId));
+        if(topicId != null && !topicId.isEmpty())
+            params.add(new BasicNameValuePair(JsonKeys.TOPIC_ID, topicId));
+
+        String paramString = URLEncodedUtils.format(params, "utf-8");
         url += paramString;
         Log.d(tag, "request url: " + url);
 
@@ -80,7 +93,12 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
         try {
             JSONObject json = new JSONObject(response.toString());
 
-            int status = json.getInt(JsonKeys.STATUS);
+            int status = HttpStatus.SUCCESS;    //default success
+            if(json.has(JsonKeys.STATUS))
+                status = json.getInt(JsonKeys.STATUS);
+            else
+                Log.w(tag, "status filed is missing, default success");
+
             if(status == HttpStatus.SUCCESS) {
                 String s = json.getString(JsonKeys.POSTS);
                 JSONArray array = new JSONArray(s);
@@ -137,7 +155,7 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
 
                 Long time = Long.valueOf(o.getString(JsonKeys.TIME));
                 p.setTime(TimeUtil.getDate(time, "HH:mm  dd/MM"));
-                p.setComment(o.getString(JsonKeys.COMMENT));
+                p.setComment(o.getString(JsonKeys.CONTENT));
 
                 User u = parseUser(o.getJSONObject(JsonKeys.USER));
                 p.setUser(u);
@@ -145,6 +163,15 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
                 if(o.has(JsonKeys.PHOTOS)) {
                     ArrayList<Photo> photos = parsePhotos(o.getJSONArray(JsonKeys.PHOTOS));
                     p.setPhotos(photos);
+                }
+
+                if(o.has(JsonKeys.EVENT)){
+                    Event e = parseEvent(o.getJSONObject(JsonKeys.EVENT));
+                    p.setEvent(e);
+                }
+
+                if(o.has(JsonKeys.TOPIC)){
+                    //todo: parse topic
                 }
 
                 Log.v(tag, "parsed post: " + p.toString());
@@ -211,8 +238,8 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
         else{
             User u = new User();
             try {
-                u.setUser_id(o.getString(JsonKeys.ID));
-                u.setUser_name(o.getString(JsonKeys.NAME));
+                u.setUser_id(o.getString(JsonKeys.USER_ID));
+                u.setUser_name(o.getString(JsonKeys.USER_NAME));
             }
             catch (Exception e){
                 Log.e(tag, "error parse user from json: " + e);
@@ -223,8 +250,34 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
         }
     }
 
+    private Event parseEvent(JSONObject o){
+        Log.v(tag, "parse event from json: " + o);
+        if(o == null){
+            Log.e(tag, "json is null");
+            return null;
+        }
+        else {
+            Event e = new Event();
+            try {
+                e.setId(o.getLong(JsonKeys.EVENT_ID));
+                e.setTitle(o.getString(JsonKeys.NAME));
+            }
+            catch (Exception e1){
+                Log.e(tag, "error parse event from json: " + e1);
+                e1.printStackTrace();
+                return null;
+            }
+            return e;
+        }
+    }
+
+
     protected void onPostExecute(ArrayList<Post> posts) {
-        Log.v(tag, "post execute, size: " + posts.size());
+        if(posts == null)
+            Log.e(tag, "no posts received");
+        else
+            Log.v(tag, "post execute, size: " + posts.size());
         callBack.doneTask(posts);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.soco.SoCoClient.events.service;
+package com.soco.SoCoClient.topics;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -8,9 +8,8 @@ import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
-import com.soco.SoCoClient.common.util.EventsResponseUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
-import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.groups.model.Group;
 import com.soco.SoCoClient.posts.Photo;
 import com.soco.SoCoClient.posts.Post;
 import com.soco.SoCoClient.userprofile.model.User;
@@ -25,28 +24,27 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-@Deprecated
-public class EventPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
 
-    String tag = "EventPostsTask";
+public class AllTopicsTask extends AsyncTask<String, Void, ArrayList<Topic>> {
+
+    String tag = "AllTopicsTask";
     String user_id;
     String token;
     TaskCallBack callBack;
 
-    public EventPostsTask(String user_id, String token, TaskCallBack cb){
-        Log.v(tag, "event posts task: " + user_id);
+    public AllTopicsTask(String user_id, String token, TaskCallBack cb){
+        Log.v(tag, "all topics task: " + user_id);
         this.user_id=user_id;
         this.token=token;
         callBack = cb;
     }
 
-    protected ArrayList<Post> doInBackground(String... params) {
-        String url = UrlUtil.getEventPostsUrl();
+    protected ArrayList<Topic> doInBackground(String... params) {
+        String url = UrlUtil.getTopicsUrl();
         Object response = request(
                 url,
                 user_id,
-                token,
-                params[0]   //eventid
+                token
         );
 
         if (response != null) {
@@ -62,33 +60,32 @@ public class EventPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
     private Object request(
             String url,
             String user_id,
-            String token,
-            String event_id){
+            String token
+    ){
         if(!url.endsWith("?"))
             url += "?";
 
         List<NameValuePair> params = new LinkedList<>();
         params.add(new BasicNameValuePair(JsonKeys.USER_ID, user_id));
         params.add(new BasicNameValuePair(JsonKeys.TOKEN, token));
-        params.add(new BasicNameValuePair(JsonKeys.EVENT_ID, event_id));
-        String paramString = URLEncodedUtils.format(params, "utf-8");
 
+        String paramString = URLEncodedUtils.format(params, "utf-8");
         url += paramString;
         Log.d(tag, "request url: " + url);
 
         return HttpUtil.executeHttpGet(url);
     }
 
-    private ArrayList<Post> parse(Object response) {
+    private ArrayList<Topic> parse(Object response) {
         Log.d(tag, "parse response: " + response.toString());
         try {
             JSONObject json = new JSONObject(response.toString());
 
             int status = json.getInt(JsonKeys.STATUS);
             if(status == HttpStatus.SUCCESS) {
-                String s = json.getString(JsonKeys.POSTS);
+                String s = json.getString(JsonKeys.TOPICS);
                 JSONArray array = new JSONArray(s);
-                return parsePosts(array);
+                return parseTopics(array);
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);
@@ -109,13 +106,13 @@ public class EventPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
         return null;
     }
 
-    private ArrayList<Post> parsePosts(JSONArray array){
-        ArrayList<Post> posts = new ArrayList<>();
+    private ArrayList<Topic> parseTopics(JSONArray array){
+        ArrayList<Topic> topics = new ArrayList<>();
         for(int i=0; i<array.length(); i++){
             try {
                 JSONObject o = array.getJSONObject(i);
-                Post p = parsePost(o);
-                posts.add(p);
+                Topic p = parseTopic(o);
+                topics.add(p);
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -124,82 +121,41 @@ public class EventPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
             }
         }
 
-        Log.v(tag, posts.size() + " posts downloaded");
-        return posts;
+        Log.v(tag, topics.size() + " posts downloaded");
+        return topics;
     }
 
-    private Post parsePost(JSONObject o){
-        Log.v(tag, "parse post from json: " + o);
+    private Topic parseTopic(JSONObject o){
+        Log.v(tag, "parse topic from json: " + o);
         if(o == null) {
             Log.e(tag, "json is null");
             return null;
         }
         else{
-            Post p = new Post();
+            Topic p = new Topic();
             try {
-                p.setId(o.getString(JsonKeys.ID));
+                p.setId(o.getString(JsonKeys.TOPIC_ID));
+                p.setTitle(o.getString(JsonKeys.TOPIC_TITLE));
 
-                Long time = Long.valueOf(o.getString(JsonKeys.TIME));
-                p.setTime(TimeUtil.getDate(time, "HH:mm  dd/MM"));
-                p.setComment(o.getString(JsonKeys.COMMENT));
+                p.setNumberPhotos(o.getInt(JsonKeys.NUMBER_OF_PHOTOS));
+                p.setNumberEvents(o.getInt(JsonKeys.NUMBER_OF_EVENTS));
+                p.setNumberPosts(o.getInt(JsonKeys.NUMBER_OF_POSTS));
+                p.setNumberViews(o.getInt(JsonKeys.NUMBER_OF_VIEWS));
 
-                User u = parseUser(o.getJSONObject(JsonKeys.USER));
-                p.setUser(u);
+                Long time = Long.valueOf(o.getString(JsonKeys.CREATE_DATE));
+                p.setCreateTimedate(TimeUtil.getDate(time, "HH:mm  dd/MM"));
 
-                if(o.has(JsonKeys.PHOTOS)) {
-                    ArrayList<Photo> photos = parsePhotos(o.getJSONArray(JsonKeys.PHOTOS));
-                    p.setPhotos(photos);
-                }
+                Group g = parseGroup(o.getJSONObject(JsonKeys.GROUP));
+                p.setGroup(g);
 
-                Log.v(tag, "parsed post: " + p.toString());
+                User u = parseUser(o.getJSONObject(JsonKeys.CREATOR));
+                p.setCreator(u);
+
+                Log.v(tag, "parsed topic: " + p.toString());
                 return p;
             }
             catch(Exception e){
-                Log.e(tag, "error parse post from json: " + e.toString());
-                e.printStackTrace();
-                return null;
-            }
-        }
-    }
-
-    private ArrayList<Photo> parsePhotos(JSONArray array){
-        if(array == null){
-            Log.e(tag, "json is null");
-            return null;
-        }
-        else{
-            ArrayList<Photo> photos = new ArrayList<>();
-            for(int i=0; i<array.length(); i++){
-                try {
-                    Photo p = parsePhoto(array.getJSONObject(i));
-                    photos.add(p);
-                }
-                catch (Exception e){
-                    Log.e(tag, "cannot get object from json array");
-                    e.printStackTrace();
-                }
-            }
-
-            Log.v(tag, photos.size() + " photos parsed");
-            return photos;
-        }
-    }
-
-    private Photo parsePhoto(JSONObject o){
-        if(o == null){
-            Log.e(tag, "json is null");
-            return null;
-        }
-        else{
-            Photo p = new Photo();
-            try {
-                p.setName(o.getString(JsonKeys.PHOTO_NAME));
-                p.setUrl(o.getString(JsonKeys.PHOTO_URL));
-                Log.v(tag, "parsed photo: " + p);
-                return p;
-            }
-            catch(Exception e){
-                Log.e(tag, "error parse photo from json: " + e);
+                Log.e(tag, "error parse topic from json: " + e.toString());
                 e.printStackTrace();
                 return null;
             }
@@ -215,8 +171,8 @@ public class EventPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
         else{
             User u = new User();
             try {
-                u.setUser_id(o.getString(JsonKeys.ID));
-                u.setUser_name(o.getString(JsonKeys.NAME));
+                u.setUser_id(o.getString(JsonKeys.USER_ID));
+                u.setUser_name(o.getString(JsonKeys.USER_NAME));
             }
             catch (Exception e){
                 Log.e(tag, "error parse user from json: " + e);
@@ -227,13 +183,33 @@ public class EventPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
         }
     }
 
-    protected void onPostExecute(ArrayList<Post> posts) {
-        if(posts == null){
-            Log.e(tag, "no post is created");
+    private Group parseGroup(JSONObject o){
+        Log.v(tag, "parse group from json: " + o);
+        if(o == null){
+            Log.e(tag, "json is null");
+            return null;
         }
-        else {
-            Log.v(tag, "post execute, size: " + posts.size());
+        else{
+            Group u = new Group();
+            try {
+                u.setGroup_id(o.getString(JsonKeys.GID));
+                u.setGroup_name(o.getString(JsonKeys.NAME));
+            }
+            catch (Exception e){
+                Log.e(tag, "error parse user from json: " + e);
+                e.printStackTrace();
+                return null;
+            }
+            Log.d(tag, "get group: " + u.toString());
+            return u;
         }
-        callBack.doneTask(posts);
+    }
+
+    protected void onPostExecute(ArrayList<Topic> topics) {
+        if(topics == null)
+            Log.e(tag, "no topic received");
+        else
+            Log.v(tag, "post execute, size: " + topics.size());
+        callBack.doneTask(topics);
     }
 }

@@ -60,17 +60,17 @@ public class AllPostsFragment extends Fragment
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
 
-                Log.v(tag, "add dummy posts");
-                counter++;
-                posts.add(new Post("user" + Integer.toString(counter), "user's comment"));
-                counter++;
-                posts.add(new Post("user"+Integer.toString(counter), "user's comment"));
-                counter++;
-                posts.add(new Post("user"+Integer.toString(counter), "user's comment"));
-                counter++;
-                posts.add(new Post("user"+Integer.toString(counter), "user's comment"));
-                adapter.notifyDataSetChanged();
+//                Log.v(tag, "add dummy posts");
+//                counter++;
+//                posts.add(new Post("user" + Integer.toString(counter), "user's comment"));
+//                counter++;
+//                posts.add(new Post("user"+Integer.toString(counter), "user's comment"));
+//                counter++;
+//                posts.add(new Post("user"+Integer.toString(counter), "user's comment"));
+//                counter++;
+//                posts.add(new Post("user"+Integer.toString(counter), "user's comment"));
 
+                adapter.notifyDataSetChanged();
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -109,14 +109,15 @@ public class AllPostsFragment extends Fragment
     }
 
     private void downloadEventPosts(){
-        String testeventid = "2000101449419180409";
-        new EventPostsTask(SocoApp.user_id, SocoApp.token, this).execute(testeventid);  //todo
+//        String testeventid = "2000101449419180409";
+//        new EventPostsTask(SocoApp.user_id, SocoApp.token, this).execute(testeventid);  //todo
+        new AllPostsTask(SocoApp.user_id, SocoApp.token, null, null, this).execute();
     }
 
     public void doneTask(Object o) {
         Log.v(tag, "donetask");
         if(o == null)
-            Log.e(tag, "event posts task returns null");
+            Log.e(tag, "all posts task returns null");
         else{
             ArrayList<Post> newPosts = (ArrayList<Post>) o;
             Log.v(tag, newPosts.size() + " posts found");

@@ -12,9 +12,12 @@ public class JsonKeys {
     public static final String COMMENT = "comment";
     public static final String CATEGORY = "category";
     public static final String COMMON_BUDDIES = "common_buddies";
+    public static final String CONTENT = "content";
     public static final String CREATOR_ICON_URL = "creator_icon_url";
     public static final String CREATOR_ID = "creator_id";
+    public static final String CREATOR = "creator";
     public static final String CREATOR_NAME = "creator_name";
+    public static final String CREATE_DATE = "create_date";
     public static final String DATE = "date";
     public static final String DESCRIPTION = "description";
     public static final String EMAIL = "email";
@@ -36,6 +39,7 @@ public class JsonKeys {
     public static final String FRIENDS_LIST = "friends_list";
     public static final String FRIEND_NAME = "friend_name";
     public static final String FRIENDS = "friends";
+    public static final String GID = "gid";
     public static final String GROUP = "group";
     public static final String GROUP_ICON_URL = "group_icon_url";
     public static final String GROUP_ID = "group_id";
@@ -58,6 +62,9 @@ public class JsonKeys {
     public static final String NUMBER_OF_COMMON_GROUPS = "number_of_common_groups";
     public static final String NUMBER_OF_EVENTS = "number_of_events";
     public static final String NUMBER_OF_GROUPS = "number_of_groups";
+    public static final String NUMBER_OF_PHOTOS = "number_of_photos";
+    public static final String NUMBER_OF_POSTS = "number_of_posts";
+    public static final String NUMBER_OF_VIEWS = "number_of_views";
     public static final String ORGANIZER = "organizer";
     public static final String POSTS = "posts";
     public static final String PHOTOS = "photos";
@@ -74,6 +81,10 @@ public class JsonKeys {
     public static final String SUPPORTING_GROUPS = "supporting_groups";
     public static final String TIME = "time";
     public static final String TIMEDATE = "timedate";
+    public static final String TOPIC = "topic";
+    public static final String TOPIC_ID = "topic_id";
+    public static final String TOPIC_TITLE = "topic_title";
+    public static final String TOPICS = "topics";
     public static final String TOKEN = "token";
     public static final String TYPE = "type";
     public static final String USER_ID = "user_id";

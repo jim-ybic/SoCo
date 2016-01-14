@@ -72,6 +72,19 @@ public class PostCardAdapter
 
         Log.v(tag, "set comment");
         ((TextView) holder.itemView.findViewById(R.id.comment)).setText(String.valueOf(p.getComment()));
+
+        Log.v(tag, "set topic/event");
+        if(p.getTopic() != null){
+            ((TextView) holder.itemView.findViewById(R.id.topicORevent)).setText(String.valueOf(p.getTopic().getTitle()));
+        }
+        else if(p.getEvent() != null){
+            ((TextView) holder.itemView.findViewById(R.id.topicORevent)).setText(String.valueOf(p.getEvent().getTitle()));
+        }
+        else {
+            Log.w(tag, "no related topic/event found for this post: " + p.getComment());
+            ((TextView) holder.itemView.findViewById(R.id.topicORevent)).setText("");
+        }
+
     }
 
     @Override

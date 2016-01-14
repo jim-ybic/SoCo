@@ -1,5 +1,7 @@
 package com.soco.SoCoClient.posts;
 
+import com.soco.SoCoClient.events.model.Event;
+import com.soco.SoCoClient.topics.Topic;
 import com.soco.SoCoClient.userprofile.model.User;
 
 import java.util.ArrayList;
@@ -11,7 +13,10 @@ public class Post {
     User user = new User();
     String comment;
     ArrayList<Photo> photos = new ArrayList<>();
-   static int counter = 100000;
+    static int counter = 100000;
+    Event event;
+    Topic topic;
+
     public Post(){}
 
     public Post(String username, String comment){
@@ -62,14 +67,32 @@ public class Post {
         this.photos = photos;
     }
 
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "id='" + id + '\'' +
                 ", time='" + time + '\'' +
-                ", user=" + user.getUser_name() +
+                ", user=" + user +
                 ", comment='" + comment + '\'' +
                 ", photos=" + photos +
+                ", event=" + event +
+                ", topic=" + topic +
                 '}';
     }
 }
