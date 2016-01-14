@@ -37,7 +37,7 @@ public class AllTopicsFragment extends Fragment
     RecyclerView mRecyclerView;
     TopicCardAdapter adapter;
     ArrayList<Topic> topics = new ArrayList<>();
-    TextView newTopics, hotTopics, specialTopics;
+//    TextView newTopics, hotTopics, specialTopics;
 
 
     @Override
@@ -96,7 +96,7 @@ public class AllTopicsFragment extends Fragment
         adapter = new TopicCardAdapter(getActivity(), topics);
         mRecyclerView.setAdapter(adapter);
 
-        setOnclickListener();
+//        setOnclickListener();
         return rootView;
     }
 
@@ -118,57 +118,57 @@ public class AllTopicsFragment extends Fragment
     }
 
 
-    private void setOnclickListener(){
-        newTopics = (TextView) rootView.findViewById(R.id.newEvents);
-        newTopics.setTypeface(null, Typeface.BOLD); //default
-        newTopics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v(tag, "tap new");
-                highlightCategory(getString(R.string.event_category_new));
-                //todo: load required items
-            }
-        });
+//    private void setOnclickListener(){
+//        newTopics = (TextView) rootView.findViewById(R.id.newEvents);
+//        newTopics.setTypeface(null, Typeface.BOLD); //default
+//        newTopics.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v(tag, "tap new");
+//                highlightCategory(getString(R.string.event_category_new));
+//                //todo: load required items
+//            }
+//        });
+//
+//        hotTopics = (TextView) rootView.findViewById(R.id.hotEvents);
+//        hotTopics.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v(tag, "tap hot");
+//                highlightCategory(getString(R.string.event_category_hot));
+//                //todo: load required items
+//            }
+//        });
+//
+//        specialTopics = (TextView) rootView.findViewById(R.id.specialEvents);
+//        specialTopics.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v(tag, "tap special");
+//                highlightCategory(getString(R.string.event_category_special));
+//                //todo: load required items
+//            }
+//        });
+//    }
 
-        hotTopics = (TextView) rootView.findViewById(R.id.hotEvents);
-        hotTopics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v(tag, "tap hot");
-                highlightCategory(getString(R.string.event_category_hot));
-                //todo: load required items
-            }
-        });
 
-        specialTopics = (TextView) rootView.findViewById(R.id.specialEvents);
-        specialTopics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v(tag, "tap special");
-                highlightCategory(getString(R.string.event_category_special));
-                //todo: load required items
-            }
-        });
-    }
-
-
-    private void highlightCategory(String cat){
-        if(cat.equals(getString(R.string.event_category_new))){
-            newTopics.setTypeface(null, Typeface.BOLD);
-            hotTopics.setTypeface(null, Typeface.NORMAL);
-            specialTopics.setTypeface(null, Typeface.NORMAL);
-        }
-        else if(cat.equals(getString(R.string.event_category_hot))){
-            newTopics.setTypeface(null, Typeface.NORMAL);
-            hotTopics.setTypeface(null, Typeface.BOLD);
-            specialTopics.setTypeface(null, Typeface.NORMAL);
-        }
-        else if(cat.equals(getString(R.string.event_category_special))){
-            newTopics.setTypeface(null, Typeface.NORMAL);
-            hotTopics.setTypeface(null, Typeface.NORMAL);
-            specialTopics.setTypeface(null, Typeface.BOLD);
-        }
-    }
+//    private void highlightCategory(String cat){
+//        if(cat.equals(getString(R.string.event_category_new))){
+//            newTopics.setTypeface(null, Typeface.BOLD);
+//            hotTopics.setTypeface(null, Typeface.NORMAL);
+//            specialTopics.setTypeface(null, Typeface.NORMAL);
+//        }
+//        else if(cat.equals(getString(R.string.event_category_hot))){
+//            newTopics.setTypeface(null, Typeface.NORMAL);
+//            hotTopics.setTypeface(null, Typeface.BOLD);
+//            specialTopics.setTypeface(null, Typeface.NORMAL);
+//        }
+//        else if(cat.equals(getString(R.string.event_category_special))){
+//            newTopics.setTypeface(null, Typeface.NORMAL);
+//            hotTopics.setTypeface(null, Typeface.NORMAL);
+//            specialTopics.setTypeface(null, Typeface.BOLD);
+//        }
+//    }
 
     @Override
     public void onClick(View v) {
