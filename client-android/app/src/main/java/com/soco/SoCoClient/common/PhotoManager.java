@@ -8,7 +8,6 @@ import android.os.Environment;
 import android.util.Log;
 import android.util.LruCache;
 
-import com.soco.SoCoClient.common.util.IconDownloadTask;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.common.util.TimeUtil;
@@ -79,7 +78,8 @@ public class PhotoManager implements TaskCallBack {
         Log.d(tag, map.size() + " entries loaded");
         return;
     }
-
+    // key method for loading the bitmap.
+    // Ideally, this is calling from IconDownloadTask doInBackgroud method. which will not blocking the UI.
     public Bitmap getBitmap(String url){
         Log.d(tag, ">>> find image: " + url);
         if(isImageUrl(url)){
@@ -94,13 +94,14 @@ public class PhotoManager implements TaskCallBack {
             Log.e(tag, "url not supported by PhotoManager");
             return null;
         }
-
+        //1st level, trying from memory cache
         Bitmap bitmap = bitmapCache.get(urlToProcess);
         if(bitmap != null){
             Log.d(tag, "found bitmap in bitmapCache");
             return bitmap;
         }
         else{
+            //2nd level, not in memory cache, trying from disk cache
             Log.d(tag, "not found in bitmapCache, find in internal storage");
             String timestamp = localImageFileIndex.get(urlToProcess);
             if(timestamp != null){
@@ -111,6 +112,7 @@ public class PhotoManager implements TaskCallBack {
                     bitmap = loadLocalBitmapFileForUsericon(urlToProcess);
 
                 if(bitmap == null){
+                    //3rd level, not in disk, trying download from url
                     Log.d(tag, "bitmap not loaded from local - remove url from index: " + urlToProcess);
                     localImageFileIndex.remove(urlToProcess);
                     SharedPreferences.Editor editor = index.edit();
@@ -118,8 +120,7 @@ public class PhotoManager implements TaskCallBack {
                     editor.commit();
 
                     Log.d(tag, "download to use and save, refresh timestamp: " + url);
-                    downloadBitmapFromUrl(url);
-                    return null;
+                    return downloadBitmapFromUrl(url);
                 }
                 else {
                     Log.d(tag, "loaded bitmap from local storage, refresh timestamp: " + urlToProcess + ", " + TimeUtil.now());
@@ -132,10 +133,10 @@ public class PhotoManager implements TaskCallBack {
                 }
             }
             else{
+                //3rd level, not in disk as well, trying to download from url
                 Log.d(tag, "bitmap not found in local file storage - download to use and save, refresh timestamp");
-                downloadBitmapFromUrl(url);
+                return downloadBitmapFromUrl(url);
             }
-            return null;
         }
     }
 
@@ -207,25 +208,23 @@ public class PhotoManager implements TaskCallBack {
     }
 
     private Bitmap downloadBitmapFromUrl(String url){
+        //don't call the IconDownloadTask but only the method to download from URL.Hence to avoid the infinite loop
         Log.d(tag, "download bitmap from url: " + url);
-        IconDownloadTask task = new IconDownloadTask(this);
-        task.execute(url);
-        return null;
+        Bitmap bitmap = IconUrlUtil.getBitmapFromURL(url);
+        if(bitmap!=null) {
+            // get the bitmap and set it to cache.
+            Log.d(tag, "image url - update image cache:: " + urlToProcess + ", " + bitmap);
+            bitmapCache.put(urlToProcess, bitmap);
+            Log.d(tag, "image cache size: " + bitmapCache.size() + " kB");
+            saveBitmapFileToLocal2(bitmap, urlToProcess);
+        }
+        return bitmap;
     }
 
     public void doneTask(Object o){
         Log.d(tag, "done task");
         if(o == null){
             Log.e(tag, "return null");
-        }
-        else if(o instanceof Bitmap){   //IconDownloadTask
-            Log.d(tag, "return bitmap");
-            Bitmap bitmap = (Bitmap) o;
-
-            Log.d(tag, "image url - update image cache:: " + urlToProcess+ ", " + bitmap);
-            bitmapCache.put(urlToProcess, bitmap);
-            Log.d(tag, "image cache size: " + bitmapCache.size() + " kB");
-            saveBitmapFileToLocal2(bitmap, urlToProcess);
         }
         else if(o instanceof Boolean){  //SaveFileTask
             boolean ret = (boolean) o;

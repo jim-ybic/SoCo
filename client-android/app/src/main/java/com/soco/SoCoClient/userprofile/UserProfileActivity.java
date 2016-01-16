@@ -221,7 +221,7 @@ public class UserProfileActivity extends ActionBarActivity
         if(user.getUser_id().equals(socoApp.user_id)){
             Log.v(tag, "changing my icon");
             //clear from cache. Both from IconUrlUtil cache and PhotoManager cache
-            IconUrlUtil.removeBitmapFromCache(UrlUtil.getUserIconUrl(user.getUser_id()));
+//            IconUrlUtil.removeBitmapFromCache(UrlUtil.getUserIconUrl(user.getUser_id()));
             PhotoManager.clearUrlFromCacheAndLocalReference(UrlUtil.getUserIconUrl(user.getUser_id()));
 
             Intent i =  new Intent(Intent.ACTION_PICK, null);

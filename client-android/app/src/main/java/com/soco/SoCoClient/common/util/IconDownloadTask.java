@@ -21,10 +21,7 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
     public String url;
     private int size;
     private boolean useRoundedCorner;
-//    private boolean autoAdjustSize;
     private Resources res;
-//    int width, height;
-    boolean sizeReady = false;
     TaskCallBack callBack = null;
 
     public IconDownloadTask(ImageView button,int size){
@@ -45,57 +42,26 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
         this.res = res;
     }
 
-//    public IconDownloadTask(ImageView button,int width, boolean autoAdjustSize, boolean useRoundedCorner, Resources res){
-//        imageButtonReference = new WeakReference<>(button);
-//        this.width = width;
-////        this.height = height;
-//        this.useRoundedCorner = useRoundedCorner;
-//        this.autoAdjustSize=autoAdjustSize;
-//        this.res = res;
-//        this.sizeReady = true;
-//    }
-
     protected Bitmap doInBackground(String... urls) {
-//        urlList= new ArrayList<>();
+        //1. get the bitmap from PhotoManager. It could be either from cache(memory/disk) or downloading from network
+        //2. process the bitmap before set to view. Resize, Round the corner.
         Bitmap bp = null;
-        for(String url:urls){
+        for (String url : urls) {
             this.url = url;
-            Log.d(tag, "find image: "+url);
-            bp = IconUrlUtil.getBitmapFromImageCache(url);
-
-            if(bp==null) {
-                Log.d(tag, "not found in IconUrlUtil cache, find in PhotoManager: " + url);
-                PhotoManager manager = new PhotoManager();
-                bp = manager.getBitmap(url);
-
-                if(bp == null) {
-                    Log.d(tag, "not found in any cache, download from server: " + url);
-//                Log.v(tag, "Downloading image from server: "+url);
-                    bp = IconUrlUtil.getBitmapFromURL(url);
+            //use photo manager to find image
+            Log.d(tag, "Using Photo Manager to find image: " + url);
+            PhotoManager manager = new PhotoManager();
+            bp = manager.getBitmap(url);
+            if(bp!=null) {
+                if (useRoundedCorner) {
+                    Log.v(tag, "process bit map in normal shape");    //e.g. user post photos
+                    bp = IconUrlUtil.processBitmap(bp, this.size);
+                    Log.v(tag, "process bit map in rounded corner");    //e.g. user icon
+                    bp = IconUrlUtil.processBitmapRoundedCorner(bp, this.size);
+                } else {
+                    Log.v(tag, "size ready");
+                    bp = IconUrlUtil.processBitmapAutoAdjusted(bp, this.size);
                 }
-                else
-                    Log.d(tag, "image found in PhotoManager: " + url);
-
-                if(bp!=null) {
-                    Log.d(tag, "add bitmap to image cache IconUrlUtil");
-                    IconUrlUtil.addBitmapToImageCache(url, bp);
-
-                    //todo: testing below
-//                    PhotoManager.saveBitmapFileToLocal2(bp, url);
-                }
-            }
-            else
-                Log.v(tag, "Found image in cache");
-
-            if(useRoundedCorner) {
-                Log.v(tag, "process bit map in normal shape");    //e.g. user post photos
-                bp = IconUrlUtil.processBitmap(bp, this.size);
-                Log.v(tag, "process bit map in rounded corner");    //e.g. user icon
-                bp = IconUrlUtil.processBitmapRoundedCorner(bp, this.size);
-            }
-            else {
-                Log.v(tag, "size ready");
-                bp = IconUrlUtil.processBitmapAutoAdjusted(bp, this.size);
             }
         }
         return bp;
@@ -108,6 +74,7 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
         if (isCancelled()) {
             bitmap = null;
         }
+        //after get the bitmap, only if it is not empty,  set it to UI. this has to be done in the PostExecute
         if (bitmap != null) {
             final ImageView imageButton = imageButtonReference.get();
             final IconDownloadTask bitmapWorkerTask =
@@ -116,7 +83,6 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
                 imageButton.setImageBitmap(bitmap);
             }
         }
-
         if(callBack != null) {
             Log.v(tag, "call back return bitmap");
             callBack.doneTask(bitmap);

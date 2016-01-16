@@ -12,7 +12,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.util.LruCache;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -25,55 +24,50 @@ import java.net.URL;
  * Created by David_WANG on 11/15/2015.
  */
 public class IconUrlUtil {
-    private static final String tag="IconUrlUtil";
+    private static final String tag = "IconUrlUtil";
 
-    private static LruCache<String, Bitmap> iconImageCache;
-//    int memClass = ( (ActivityManager)activity.getSystemService( Context.ACTIVITY_SERVICE ) ).getMemoryClass();
-//    int cacheSize = 1024 * 1024 * memClass / 8;
-//    LruCache cache = new LruCache<String, Bitmap>( cacheSize );
+    //    private static LruCache<String, Bitmap> iconImageCache;
+    private static int phoneScreenSize = 0;
+    private static int sizeSmall = 0;
+    private static int sizeNormal = 0;
+    private static int sizeLarge = 0;
 
-    private static int phoneScreenSize=0;
-    private static int sizeSmall=0;
-    private static int sizeNormal=0;
-    private static int sizeLarge=0;
-//    private static int counter=0;
-
-    public static void initialForIconDownloader(int screenSize,int cacheSize){
-        phoneScreenSize=screenSize;
+    public static void initialForIconDownloader(int screenSize, int cacheSize) {
+        phoneScreenSize = screenSize;
         sizeSmall = Math.round(screenSize * 0.11111f);
         sizeNormal = Math.round(screenSize * 0.185185f);
         sizeLarge = Math.round(screenSize * 0.21f);
-        iconImageCache = new LruCache<String, Bitmap>(cacheSize) {
-            @Override
-            protected int sizeOf(String key, Bitmap bitmap) {
-                // The cache size will be measured in kilobytes rather than
-                // number of items.
-                return bitmap.getByteCount() / 1024;
-            }
-        };
+//        iconImageCache = new LruCache<String, Bitmap>(cacheSize) {
+//            @Override
+//            protected int sizeOf(String key, Bitmap bitmap) {
+//                // The cache size will be measured in kilobytes rather than
+//                // number of items.
+//                return bitmap.getByteCount() / 1024;
+//            }
+//        };
     }
 
-    public static void setImageForButtonSmall(Resources res, ImageButton mButton, String urlString){
+    public static void setImageForButtonSmall(Resources res, ImageButton mButton, String urlString) {
         Log.v(tag, "set button image small: " + urlString + ", " + sizeSmall);
         updateImageButton(res, mButton, urlString, sizeSmall);
     }
 
-    public static void setImageForButtonNormal(Resources res, ImageButton mButton, String urlString){
+    public static void setImageForButtonNormal(Resources res, ImageButton mButton, String urlString) {
         Log.v(tag, "set button image normal: " + urlString + ", " + sizeNormal);
         updateImageButton(res, mButton, urlString, sizeNormal);
     }
 
-    public static void setImageForButtonSmall(Resources res, ImageView mButton, String urlString){
+    public static void setImageForButtonSmall(Resources res, ImageView mButton, String urlString) {
         Log.v(tag, "set button image small: " + urlString + ", " + sizeSmall);
         updateImageButton(res, mButton, urlString, sizeSmall);
     }
 
-    public static void setImageForButtonNormal(Resources res, ImageView mButton, String urlString){
+    public static void setImageForButtonNormal(Resources res, ImageView mButton, String urlString) {
         Log.v(tag, "set image view normal: " + urlString + ", " + sizeNormal);
         updateImageButton(res, mButton, urlString, sizeNormal);
     }
 
-    public static void setImageForButtonLarge(Resources res, ImageView mButton, String urlString){
+    public static void setImageForButtonLarge(Resources res, ImageView mButton, String urlString) {
         Log.v(tag, "set button image large: " + urlString + ", " + sizeLarge);
         updateImageButton(res, mButton, urlString, sizeLarge);
     }
@@ -84,8 +78,8 @@ public class IconUrlUtil {
 //    }
 
     //used by showing post photos
-    public static void setImageForViewWithSize(Resources res, ImageView mView, String urlString){
-        Log.v(tag, "display width/height: " + phoneScreenSize );
+    public static void setImageForViewWithSize(Resources res, ImageView mView, String urlString) {
+        Log.v(tag, "display width/height: " + phoneScreenSize);
         updateImageButtonWithAutoAdjustedSize(res, mView, urlString, phoneScreenSize);
     }
 
@@ -100,7 +94,7 @@ public class IconUrlUtil {
 //    }
     //Please use above method to get 3 fixed size image
     //below method for limited usage.
-    private static void updateImageButton(Resources res, ImageView mButton, String urlString,int size){
+    private static void updateImageButton(Resources res, ImageView mButton, String urlString, int size) {
         Log.v(tag, "update image button: " + res + ", " + mButton + ", " + urlString + ", " + size);
         try {
             if (cancelPotentialWork(urlString, mButton)) {
@@ -110,24 +104,23 @@ public class IconUrlUtil {
                 mButton.setImageDrawable(asyncDrawable);
                 task.execute(urlString);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.e(tag, "cannot update image button: " + e);
             e.printStackTrace();
         }
     }
-    private static void updateImageButtonWithAutoAdjustedSize(Resources res, ImageView mButton, String urlString,int size){
+
+    private static void updateImageButtonWithAutoAdjustedSize(Resources res, ImageView mButton, String urlString, int size) {
         Log.v(tag, "update image button: " + urlString + ", size: " + size);
         try {
             if (cancelPotentialWork(urlString, mButton)) {
-                final IconDownloadTask task = new IconDownloadTask(mButton, size,false,res);
+                final IconDownloadTask task = new IconDownloadTask(mButton, size, false, res);
                 final IconAsyncDrawable asyncDrawable =
                         new IconAsyncDrawable(res, Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888), task);
                 mButton.setImageDrawable(asyncDrawable);
                 task.execute(urlString);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.e(tag, "cannot update image button: " + e);
             e.printStackTrace();
         }
@@ -201,26 +194,27 @@ public class IconUrlUtil {
         }
         return null;
     }
-    public static void addBitmapToImageCache(String url, Bitmap bitmap) {
-        if (getBitmapFromImageCache(url) == null) {
-            Log.v(tag, "add bitmap to cache for url: " + url);
-            iconImageCache.put(url, bitmap);
-            Log.v(tag, "add image into cache, current cache size: " + iconImageCache.size() + "/" + iconImageCache.maxSize());
-        }
-    }
 
-    public static Bitmap getBitmapFromImageCache(String url) {
-        Log.v(tag, "get image from cache, current cache size: " + iconImageCache.size() + "/" + iconImageCache.maxSize());
-        return iconImageCache.get(url);
-    }
-
-    public static void removeBitmapFromCache(String url){
-        iconImageCache.remove(url);
-    }
-    public static Bitmap processBitmapRoundedCorner(Bitmap bp, int size){
-        if(bp==null){
+    //    public static void addBitmapToImageCache(String url, Bitmap bitmap) {
+//        if (getBitmapFromImageCache(url) == null) {
+//            Log.v(tag, "add bitmap to cache for url: " + url);
+//            iconImageCache.put(url, bitmap);
+//            Log.v(tag, "add image into cache, current cache size: " + iconImageCache.size() + "/" + iconImageCache.maxSize());
+//        }
+//    }
+//
+//    public static Bitmap getBitmapFromImageCache(String url) {
+//        Log.v(tag, "get image from cache, current cache size: " + iconImageCache.size() + "/" + iconImageCache.maxSize());
+//        return iconImageCache.get(url);
+//    }
+//
+//    public static void removeBitmapFromCache(String url){
+//        iconImageCache.remove(url);
+//    }
+    public static Bitmap processBitmapRoundedCorner(Bitmap bp, int size) {
+        if (bp == null) {
             Log.e(tag, "Not able to process bitmap as the input is empty");
-        }else {
+        } else {
             if (size != 0) {
                 bp = getResizedBitmap(bp, size, size);
                 Log.v(tag, "Finished re-size bitmap");
@@ -231,10 +225,10 @@ public class IconUrlUtil {
         return bp;
     }
 
-    public static Bitmap processBitmap(Bitmap bp, int size){
-        if(bp==null){
+    public static Bitmap processBitmap(Bitmap bp, int size) {
+        if (bp == null) {
             Log.e(tag, "Not able to process bitmap as the input is empty");
-        }else {
+        } else {
             if (size != 0) {
                 bp = getResizedBitmap(bp, size, size);
                 Log.v(tag, "Finished re-size bitmap");
@@ -243,10 +237,10 @@ public class IconUrlUtil {
         return bp;
     }
 
-    public static Bitmap processBitmapAutoAdjusted(Bitmap bp, int size){
-        if(bp==null){
+    public static Bitmap processBitmapAutoAdjusted(Bitmap bp, int size) {
+        if (bp == null) {
             Log.e(tag, "Not able to process bitmap as the input is empty");
-        }else {
+        } else {
             if (size != 0) {
                 bp = getResizedBitmap(bp, size);
                 Log.v(tag, "Finished re-size bitmap");
@@ -275,13 +269,11 @@ public class IconUrlUtil {
 //                Bitmap bitmap = IconUrlUtil.decodeSampledBitmapFromUrl(urlString, sizeLarge, sizeLarge);
                 Log.v(tag, "decode bitmap: " + bitmap);
                 return bitmap;
-            }
-            catch (OutOfMemoryError e){
+            } catch (OutOfMemoryError e) {
                 Log.e(tag, "out of memory when decode bitmap from: " + urlString);
                 e.printStackTrace();
                 return null;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Log.e(tag, "cannot decode bitmap from: " + urlString);
                 e.printStackTrace();
                 return null;
@@ -304,16 +296,16 @@ public class IconUrlUtil {
         // "RECREATE" THE NEW BITMAP
 
         Bitmap bitmap = null;
-        try{
+        try {
             bitmap = Bitmap.createBitmap(bm, 0, 0, width, height,
                     matrix, false);
-        }
-        catch(OutOfMemoryError e){
+        } catch (OutOfMemoryError e) {
             Log.e(tag, "our of memory error when resize image");
             return null;
         }
         return bitmap;
     }
+
     public static Bitmap getResizedBitmap(Bitmap bm, int newWidth) {
         int width = bm.getWidth();
         int height = bm.getHeight();
@@ -326,11 +318,10 @@ public class IconUrlUtil {
         // "RECREATE" THE NEW BITMAP
 
         Bitmap bitmap = null;
-        try{
+        try {
             bitmap = Bitmap.createBitmap(bm, 0, 0, width, height,
                     matrix, false);
-        }
-        catch(OutOfMemoryError e){
+        } catch (OutOfMemoryError e) {
             Log.e(tag, "our of memory error when resize image");
             return null;
         }
@@ -373,8 +364,7 @@ public class IconUrlUtil {
         try {
             Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
             return bitmap;
-        }
-        catch(OutOfMemoryError e){
+        } catch (OutOfMemoryError e) {
             Log.e(tag, "out of memory when decode file: " + filePath);
             e.printStackTrace();
             return null;
@@ -406,7 +396,7 @@ public class IconUrlUtil {
         return inSampleSize;
     }
 
-    public static int getSizeLarge(){
+    public static int getSizeLarge() {
         return sizeLarge;
     }
 }
