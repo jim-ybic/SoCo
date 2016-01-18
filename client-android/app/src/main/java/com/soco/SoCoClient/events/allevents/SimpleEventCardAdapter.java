@@ -62,24 +62,25 @@ public class SimpleEventCardAdapter
         Log.v(tag, "set title: " + event.getTitle() + ", set tag as eventid: " + eventId);
         ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.title)).setText(event.getTitle());
          simpleEventCardViewHolder.itemView.findViewById(R.id.title).setTag(eventId);
-        ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.address)).setText(event.getAddress());
-         simpleEventCardViewHolder.itemView.findViewById(R.id.address).setTag(eventId);
+        simpleEventCardViewHolder.itemView.findViewById(R.id.titlearea).setTag(eventId);
+//        ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.address)).setText(event.getAddress());
+//         simpleEventCardViewHolder.itemView.findViewById(R.id.address).setTag(eventId);
 
         Log.v(tag, "comment out below line due to the function (event comment) not available in system");
 //        ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textNoOfComments)).setText(Integer.toString(event.getNumber_of_comments()));
 //        simpleEventCardViewHolder.itemView.findViewById(R.id.textNoOfComments).setTag(eventId);
 
         //date time
-        if(!StringUtil.isEmptyString(event.getStart_date())) {
-            ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(event.getStart_date(), "dd-MMM"));
-            simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDate).setTag(eventId);
-            ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDayOfWeek)).setText(TimeUtil.getDayOfStartDate(event.getStart_date()));
-            simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDayOfWeek).setTag(eventId);
-        }
-        if(!StringUtil.isEmptyString(event.getStart_time())||StringUtil.isEmptyString(event.getEnd_time())) {
-            ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textStartEndTime)).setText(TimeUtil.getTextStartEndTime(event));
-            simpleEventCardViewHolder.itemView.findViewById(R.id.textStartEndTime).setTag(eventId);
-        }
+//        if(!StringUtil.isEmptyString(event.getStart_date())) {
+//            ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(event.getStart_date(), "dd-MMM"));
+//            simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDate).setTag(eventId);
+//            ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDayOfWeek)).setText(TimeUtil.getDayOfStartDate(event.getStart_date()));
+//            simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDayOfWeek).setTag(eventId);
+//        }
+//        if(!StringUtil.isEmptyString(event.getStart_time())||StringUtil.isEmptyString(event.getEnd_time())) {
+//            ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textStartEndTime)).setText(TimeUtil.getTextStartEndTime(event));
+//            simpleEventCardViewHolder.itemView.findViewById(R.id.textStartEndTime).setTag(eventId);
+//        }
 
 //        Log.v(tag, "set randome titlearea color");  //comment out due to not beautiful
 //        setTitleareaRandomColor(simpleEventCardViewHolder.itemView);
@@ -89,49 +90,47 @@ public class SimpleEventCardAdapter
 //        viewHolder.mTextView.setText(e.name);
 //        viewHolder.mImageView.setImageDrawable(mContext.getDrawable(e.getImageResourceId(mContext)));
 
-        Log.v(tag, "show event categories: " + event.getCategories());
-        if(event.getCategories()!=null && event.getCategories().size()>0) {
-            LinearLayout layout = (LinearLayout) simpleEventCardViewHolder.itemView.findViewById(R.id.categories);
-//            categoryList.removeAllViews();
-            ViewElementHelper.showCategories(event, layout, mContext);
-        }
+//        Log.v(tag, "show event categories: " + event.getCategories());
+//        if(event.getCategories()!=null && event.getCategories().size()>0) {
+//            LinearLayout layout = (LinearLayout) simpleEventCardViewHolder.itemView.findViewById(R.id.categories);
+//            ViewElementHelper.showCategories(event, layout, mContext);
+//        }
 
-        Log.v(tag, "show creator icon: " + event.getCreator_id() + ", " + event.getCreator_name());
-        ImageButton ib = (ImageButton) simpleEventCardViewHolder.itemView.findViewById(R.id.creator);
-        IconUrlUtil.setImageForButtonSmall(mContext.getResources(),ib, UrlUtil.getUserIconUrl(event.getCreator_id()));
+//        Log.v(tag, "show creator icon: " + event.getCreator_id() + ", " + event.getCreator_name());
+//        ImageButton ib = (ImageButton) simpleEventCardViewHolder.itemView.findViewById(R.id.creator);
+//        IconUrlUtil.setImageForButtonSmall(mContext.getResources(),ib, UrlUtil.getUserIconUrl(event.getCreator_id()));
 
-        Log.v(tag, "show event buddies, 3 maximum");
-        LinearLayout list = (LinearLayout) simpleEventCardViewHolder.itemView.findViewById(R.id.eventbuddies);
-        list.removeAllViews();
-        int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
-        TypedArray ta = mContext.obtainStyledAttributes(attrs);
-        int backgroundResource = ta.getResourceId(0, 0);
-        ta.recycle();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//		params.weight = 1.0f;
-        params.gravity = Gravity.LEFT;
-        int countBuddy = 1;
-        ArrayList<User> total = event.getJoinedFriends();
-        if(total.size()<MAX_NUMBER_BUDDIES_SHOW_ON_CARD){
-            for(User u:event.getJoinedGroupMemebers()){
-                total.add(u);
-                if(total.size()==MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-                    break;
-            }
-            if(total.size()<3){
-                for(User u:event.getJoinedBuddies()){
-                    total.add(u);
-                    if(total.size()==MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-                        break;
-                }
-            }
-        }
-        for(User u : total){
-            addBuddyButtonsToView(params, backgroundResource, u, list);
-            Log.v(tag, "added joined friend into view: " + u.toString());
-            if(++countBuddy>MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
-                break;
-        }
+//        Log.v(tag, "show event buddies, 3 maximum");
+//        LinearLayout list = (LinearLayout) simpleEventCardViewHolder.itemView.findViewById(R.id.eventbuddies);
+//        list.removeAllViews();
+//        int[] attrs = new int[] { android.R.attr.selectableItemBackground /* index 0 */};
+//        TypedArray ta = mContext.obtainStyledAttributes(attrs);
+//        int backgroundResource = ta.getResourceId(0, 0);
+//        ta.recycle();
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        params.gravity = Gravity.LEFT;
+//        int countBuddy = 1;
+//        ArrayList<User> total = event.getJoinedFriends();
+//        if(total.size()<MAX_NUMBER_BUDDIES_SHOW_ON_CARD){
+//            for(User u:event.getJoinedGroupMemebers()){
+//                total.add(u);
+//                if(total.size()==MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+//                    break;
+//            }
+//            if(total.size()<3){
+//                for(User u:event.getJoinedBuddies()){
+//                    total.add(u);
+//                    if(total.size()==MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+//                        break;
+//                }
+//            }
+//        }
+//        for(User u : total){
+//            addBuddyButtonsToView(params, backgroundResource, u, list);
+//            Log.v(tag, "added joined friend into view: " + u.toString());
+//            if(++countBuddy>MAX_NUMBER_BUDDIES_SHOW_ON_CARD)
+//                break;
+//        }
     }
 
     private void addBuddyButtonsToView(LinearLayout.LayoutParams params, int backgroundResource, User u, LinearLayout list){

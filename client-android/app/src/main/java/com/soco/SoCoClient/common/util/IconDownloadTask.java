@@ -49,7 +49,7 @@ public class IconDownloadTask extends AsyncTask<String, Void, Bitmap> {
         for (String url : urls) {
             this.url = url;
             //use photo manager to find image
-            Log.d(tag, "Using Photo Manager to find image: " + url);
+            Log.v(tag, "Using Photo Manager to find image: " + url);
             PhotoManager manager = new PhotoManager();
             bp = manager.getBitmap(url);
             if(bp!=null) {

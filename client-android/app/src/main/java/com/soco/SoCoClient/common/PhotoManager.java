@@ -81,14 +81,14 @@ public class PhotoManager implements TaskCallBack {
     // key method for loading the bitmap.
     // Ideally, this is calling from IconDownloadTask doInBackgroud method. which will not blocking the UI.
     public Bitmap getBitmap(String url){
-        Log.d(tag, ">>> find image: " + url);
+        Log.v(tag, ">>> find image: " + url);
         if(isImageUrl(url)){
             urlToProcess = url;
-            Log.d(tag, "image url to process: " + urlToProcess);
+            Log.v(tag, "image url to process: " + urlToProcess);
         }
         else if(isUsericonUrl(url)){
             urlToProcess = getUsericonUrlWithoutToken(url);
-            Log.d(tag, "user icon url to process: " + urlToProcess);
+            Log.v(tag, "user icon url to process: " + urlToProcess);
         }
         else{
             Log.e(tag, "url not supported by PhotoManager");
@@ -318,7 +318,7 @@ public class PhotoManager implements TaskCallBack {
 
 //            Log.w(tag, "saving local file: " + absoluteDir + "/" + filename);
 //            File file = new File(absoluteDir, filename);
-//            if(file.exists()) {
+//            if(file.exists())
 //                Log.d(tag, "delete existing file");
 //                file.delete();
 //            }

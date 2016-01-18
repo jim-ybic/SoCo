@@ -276,6 +276,7 @@ public class UrlUtil {
     static final String EVENT_POST_PATH = "/v1/event_post";
     static final String EVENT_POSTS_PATH = "/v1/event_posts";
     static final String POSTS_PATH = "/v1/posts";
+    static final String POST_PATH = "/v1/post";
     static final String TOPICS_PATH = "/v1/topics";
 
     public static String getLoginUrl(){
@@ -449,6 +450,7 @@ public class UrlUtil {
         return url;
     }
 
+    @Deprecated
     public static String getEventPostsUrl(){
         String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + EVENT_POSTS_PATH;
         Log.v(tag, "event posts url: " + url);
@@ -457,6 +459,12 @@ public class UrlUtil {
 
     public static String getPostsUrl(){
         String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + POSTS_PATH;
+        Log.v(tag, "get url: " + url);
+        return url;
+    }
+
+    public static String getPostUrl(){
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + POST_PATH;
         Log.v(tag, "get url: " + url);
         return url;
     }

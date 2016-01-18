@@ -24,6 +24,7 @@ import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.events.allevents.SimpleEventCardAdapter;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.service.EventPostsTask;
+import com.soco.SoCoClient.posts.AllPostsTask;
 import com.soco.SoCoClient.posts.Post;
 import com.soco.SoCoClient.posts.PostCardAdapter;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
@@ -98,7 +99,8 @@ public class EventPostsActivity extends ActionBarActivity implements TaskCallBac
     }
 
     private void downloadEventPosts(){
-        new EventPostsTask(SocoApp.user_id, SocoApp.token, this).execute(eventId);
+//        new EventPostsTask(SocoApp.user_id, SocoApp.token, this).execute(eventId);
+        new AllPostsTask(SocoApp.user_id, SocoApp.token, eventId, null, this).execute();
     }
 
     public void doneTask(Object o) {

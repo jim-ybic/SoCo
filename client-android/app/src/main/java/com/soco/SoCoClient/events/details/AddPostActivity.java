@@ -59,7 +59,7 @@ public class AddPostActivity extends ActionBarActivity
         Log.v(tag, "start add post task, comment: " + comment + ", bitmap: " + bitmap);
         new AddPostTask(
                 getApplicationContext(), getContentResolver(),
-                uriFile, comment, eventId,
+                uriFile, comment, eventId, null,
                 this)
                 .execute();
     }

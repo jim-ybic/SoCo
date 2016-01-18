@@ -79,9 +79,11 @@ public class Dashboard extends ActionBarActivity implements
         context = getApplicationContext();
         socoApp = (SocoApp) getApplicationContext();
         viewPager = (ViewPager) findViewById(R.id.pager);
+
         //Default value is 1. Which says if swipe between more than 1 tab, it will remove from memory and re-create again when swipe back.
         // now set the limit to 3. to avoid the issue. might need to change if we add more tabs
-        viewPager.setOffscreenPageLimit(3);
+        // Jim: replace 3 with a constant of number of tabs
+        viewPager.setOffscreenPageLimit(Config.DASHBOARD_TAB_COUNT);
 
         Log.v(tag, "initial screen resolution to app");
         Display display = getWindowManager().getDefaultDisplay();

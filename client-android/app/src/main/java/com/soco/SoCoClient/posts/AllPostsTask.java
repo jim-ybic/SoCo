@@ -76,10 +76,14 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
         params.add(new BasicNameValuePair(JsonKeys.USER_ID, user_id));
         params.add(new BasicNameValuePair(JsonKeys.TOKEN, token));
 
-        if(eventId != null && !eventId.isEmpty())
+        if(eventId != null && !eventId.isEmpty()) {
             params.add(new BasicNameValuePair(JsonKeys.EVENT_ID, eventId));
-        if(topicId != null && !topicId.isEmpty())
+            params.add(new BasicNameValuePair(JsonKeys.POST_TYPE, JsonKeys.EVENT));
+        }
+        if(topicId != null && !topicId.isEmpty()) {
             params.add(new BasicNameValuePair(JsonKeys.TOPIC_ID, topicId));
+            params.add(new BasicNameValuePair(JsonKeys.POST_TYPE, JsonKeys.TOPIC));
+        }
 
         String paramString = URLEncodedUtils.format(params, "utf-8");
         url += paramString;

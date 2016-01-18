@@ -45,38 +45,44 @@ public class AddPostTask extends AsyncTask<String, Void, Boolean> {
     Uri uriFile;
     String comment;
     String eventId;
+    String topicId;
     String suffix;
     TaskCallBack callback;
     String imageType = "image";
 
     public AddPostTask(
             Context context, ContentResolver cr,
-            Uri uriFile, String comment, String eventId,
+            Uri uriFile, String comment, String eventId, String topicId,
             TaskCallBack cb){
 
         this.context = context;
         this.socoApp = (SocoApp) context;
-        this.requestURL = UrlUtil.getEventPostUrl();
+        this.requestURL = UrlUtil.getPostUrl();
 
         this.cr = cr;
         this.uriFile = uriFile;
         this.comment = comment;
         this.eventId = eventId;
+        this.topicId = topicId;
         this.callback = cb;
 
         try {
-            if(uriFile != null)
+            if(uriFile != null) {
                 this.file = new File(uriFile.getPath());
 
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = cr.query(uriFile, filePathColumn, null, null, null);
-            if (cursor.moveToFirst()) {
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String filePath = cursor.getString(columnIndex);
-                Log.d(tag, "filepath: " + filePath);
-                this.suffix = filePath.substring(filePath.lastIndexOf("."));  //e.g. .jpg
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = cr.query(uriFile, filePathColumn, null, null, null);
+                if (cursor.moveToFirst()) {
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String filePath = cursor.getString(columnIndex);
+                    Log.d(tag, "filepath: " + filePath);
+                    this.suffix = filePath.substring(filePath.lastIndexOf("."));  //e.g. .jpg
+                }
+                cursor.close();
             }
-            cursor.close();
+            else{
+                Log.d(tag, "no photo in the post");
+            }
         }
         catch (Exception e){
             Log.e(tag, "file error: " + e.toString());
@@ -103,6 +109,7 @@ public class AddPostTask extends AsyncTask<String, Void, Boolean> {
 
             addUserid(user_id, token, dos);
             addEventId(dos);
+            addTopicId(dos);
             addComment(dos);
 //            addImageType(dos);
             addFile(dos);
@@ -162,17 +169,60 @@ public class AddPostTask extends AsyncTask<String, Void, Boolean> {
 
     private void addEventId(DataOutputStream dos) throws IOException {
         Log.v(tag, "add eventid: " + eventId);
-        StringBuffer sb = new StringBuffer();
+        if(eventId == null){
+            Log.d(tag, "no event id for post");
+            return;
+        }
+        else {
+            StringBuffer sbtype = new StringBuffer();
+            String namet = "post_type";
+            String valuet = "event";
+            sbtype.append(PREFIX + BOUNDARY + LINE_END);
+            sbtype.append("Content-Disposition: form-data; name=\"" + namet + "\"\r\n");
+            sbtype.append(LINE_END);
+            sbtype.append(URLEncoder.encode(valuet, "UTF-8") + LINE_END);
+            Log.v(tag, "dos write posttype: " + sbtype.toString());
+            dos.write(sbtype.toString().getBytes());
 
-        String name = "event_id";
-        String value = eventId;
-        sb.append(PREFIX + BOUNDARY + LINE_END);
-        sb.append("Content-Disposition: form-data; name=\"" + name + "\"\r\n");
-        sb.append(LINE_END);
-        sb.append(URLEncoder.encode(value, "UTF-8") + LINE_END);
+            StringBuffer sb = new StringBuffer();
+            String name = "event_id";
+            String value = eventId;
+            sb.append(PREFIX + BOUNDARY + LINE_END);
+            sb.append("Content-Disposition: form-data; name=\"" + name + "\"\r\n");
+            sb.append(LINE_END);
+            sb.append(URLEncoder.encode(value, "UTF-8") + LINE_END);
+            Log.v(tag, "dos write eventid: " + sb.toString());
+            dos.write(sb.toString().getBytes());
+        }
+    }
 
-        Log.v(tag, "dos write eventid: " + sb.toString());
-        dos.write(sb.toString().getBytes());
+    private void addTopicId(DataOutputStream dos) throws IOException {
+        Log.v(tag, "add topic id: " + topicId);
+        if(topicId == null){
+            Log.d(tag, "no topic id for post");
+            return;
+        }
+        else {
+            StringBuffer sbtype = new StringBuffer();
+            String namet = "post_type";
+            String valuet = "topic";
+            sbtype.append(PREFIX + BOUNDARY + LINE_END);
+            sbtype.append("Content-Disposition: form-data; name=\"" + namet + "\"\r\n");
+            sbtype.append(LINE_END);
+            sbtype.append(URLEncoder.encode(valuet, "UTF-8") + LINE_END);
+            Log.v(tag, "dos write posttype: " + sbtype.toString());
+            dos.write(sbtype.toString().getBytes());
+
+            StringBuffer sb = new StringBuffer();
+            String name = "topic_id";
+            String value = topicId;
+            sb.append(PREFIX + BOUNDARY + LINE_END);
+            sb.append("Content-Disposition: form-data; name=\"" + name + "\"\r\n");
+            sb.append(LINE_END);
+            sb.append(URLEncoder.encode(value, "UTF-8") + LINE_END);
+            Log.v(tag, "dos write topicid: " + sb.toString());
+            dos.write(sb.toString().getBytes());
+        }
     }
 
     private void addComment(DataOutputStream dos) throws IOException {

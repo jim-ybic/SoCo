@@ -55,7 +55,7 @@ public class PostCardAdapter
         ((TextView) holder.itemView.findViewById(R.id.username)).setText(p.getUser().getUser_name());
 
         Log.v(tag, "set post time");
-        ((TextView) holder.itemView.findViewById(R.id.time)).setText(p.getTime());
+//        ((TextView) holder.itemView.findViewById(R.id.time)).setText(p.getTime());    //modifying time format
 
         Log.v(tag, "set photo");
         holder.itemView.findViewById(R.id.photo).setVisibility(View.VISIBLE);

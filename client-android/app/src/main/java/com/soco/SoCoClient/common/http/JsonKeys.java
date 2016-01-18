@@ -67,6 +67,7 @@ public class JsonKeys {
     public static final String NUMBER_OF_VIEWS = "number_of_views";
     public static final String ORGANIZER = "organizer";
     public static final String POSTS = "posts";
+    public static final String POST_TYPE = "post_type";
     public static final String PHOTOS = "photos";
     public static final String PHOTO_NAME = "photo_name";
     public static final String PHOTO_URL = "photo_url";
