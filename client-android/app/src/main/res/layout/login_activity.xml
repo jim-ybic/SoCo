@@ -253,7 +253,7 @@
                 android:onClick="register"
                 android:paddingRight="10dp"
                 android:textColor="@android:color/white"
-                android:clickable="false"
+                android:clickable="true"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp" />
         </LinearLayout>

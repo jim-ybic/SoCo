@@ -52,12 +52,18 @@ public class TopicCardAdapter
     @Override
     public void onBindViewHolder(TopicCardViewHolder holder, int i ) {
         Topic p = topics.get(i);
+        String topicId = p.getId();
 
+        Log.v(tag, "bind topic id");
+        holder.title.setTag(topicId);
+        holder.banner.setTag(topicId);
+
+        Log.v(tag, "set topic details");
         holder.title.setText(p.getTitle());
         holder.group.setText(p.getGroup().getGroup_name());
-        holder.numberPosts.setText(String.valueOf(p.getNumberPosts()));
-        holder.numberEvents.setText(String.valueOf(p.getNumberEvents()));
-        holder.numberViews.setText(String.valueOf(p.getNumberViews()));
+//        holder.numberPosts.setText(String.valueOf(p.getNumberPosts()));
+//        holder.numberEvents.setText(String.valueOf(p.getNumberEvents()));
+//        holder.numberViews.setText(String.valueOf(p.getNumberViews()));
 
         //todo: show other data on ui/viewholder
     }
@@ -69,6 +75,7 @@ public class TopicCardAdapter
     }
 
     public static class TopicCardViewHolder extends RecyclerView.ViewHolder {
+        public LinearLayout banner;
         public TextView title;
         public TextView group;
         public TextView numberPosts;
@@ -77,11 +84,12 @@ public class TopicCardAdapter
 
         public TopicCardViewHolder(View v) {
             super(v);
+            banner = (LinearLayout) v.findViewById(R.id.banner);
             title = (TextView) v.findViewById(R.id.title);
             group = (TextView) v.findViewById(R.id.group);
-            numberPosts = (TextView) v.findViewById(R.id.number_posts);
-            numberEvents = (TextView) v.findViewById(R.id.number_events);
-            numberViews = (TextView) v.findViewById(R.id.number_views);
+//            numberPosts = (TextView) v.findViewById(R.id.number_posts);
+//            numberEvents = (TextView) v.findViewById(R.id.number_events);
+//            numberViews = (TextView) v.findViewById(R.id.number_views);
         }
     }
 }

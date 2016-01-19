@@ -26,6 +26,7 @@ public class TopicDetailsActivity extends ActionBarActivity
         implements TaskCallBack{
 
     static final String tag = "TopicDetailsActivity";
+    public static final String TOPIC_ID = "topic_id";
 
     SwipeRefreshLayoutBottom swipeContainerEvents;
     RecyclerView mRecyclerViewEvents;

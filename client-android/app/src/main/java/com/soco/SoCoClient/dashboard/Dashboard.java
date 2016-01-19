@@ -465,7 +465,11 @@ public class Dashboard extends ActionBarActivity implements
 
     public void topicdetails(View v){
         Log.v(tag, "tap topic title on topic card");
+        String topicId = (String) v.getTag();
+        Log.d(tag, "topicid: " + topicId);
+
         Intent i = new Intent(this, TopicDetailsActivity.class);
+        i.putExtra(TopicDetailsActivity.TOPIC_ID, topicId);
         //todo: link topic id through
         startActivity(i);
         //todo

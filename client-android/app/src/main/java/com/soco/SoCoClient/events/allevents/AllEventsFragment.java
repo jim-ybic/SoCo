@@ -171,13 +171,13 @@ public class AllEventsFragment extends Fragment
         startActivity(i);
     }
 
-    public void eventdetails(View view) {
-        Log.v(tag, "check event details");
-        Intent i = new Intent(getActivity(), EventDetailsActivity.class);
-        Long id = (Long) view.getTag();
-        i.putExtra(EventDetailsActivity.EVENT_ID, id);
-        startActivity(i);
-    }
+//    public void eventdetails(View view) {
+//        Log.v(tag, "check event details");
+//        Intent i = new Intent(getActivity(), EventDetailsActivity.class);
+//        Long id = (Long) view.getTag();
+//        i.putExtra(EventDetailsActivity.EVENT_ID, id);
+//        startActivity(i);
+//    }
 
     private void highlightCategory(String cat){
         if(cat.equals(getString(R.string.event_category_new))){

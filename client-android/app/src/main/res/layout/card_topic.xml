@@ -20,15 +20,18 @@
                 android:layout_width="80dp"
                 android:layout_height="120dp"
                 android:orientation="vertical"
-                android:background="#616161"
-                android:id="@+id/titlearea">
+                android:background="@drawable/topic_photo1"
+                android:id="@+id/banner"
+                android:clickable="true"
+                android:onClick="topicdetails">
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
 
                 <TextView
                     android:id="@+id/title"
@@ -37,58 +40,70 @@
                     android:textStyle="bold"
                     android:fontFamily="Roboto"
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center|left"
                     android:clickable="true"
                     android:onClick="topicdetails"
-                    android:layout_margin="5dp"
-                    android:text="title" />
+                    android:text="title"
+                    android:layout_marginTop="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="host group name"
+                    android:id="@+id/group"
+                    android:textSize="11sp"
+                    android:textColor="#727272"
+                    android:layout_marginTop="5dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="this is a sample topic name"
+                    android:id="@+id/description"
+                    android:textColor="#9B9B9B"
+                    android:textSize="11sp"
+                    android:layout_marginTop="5dp" />
 
                 <LinearLayout
-                    android:id="@+id/statistic"
-                    android:layout_width="match_parent"
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp">
-                    <TextView
-                        style="@style/Font.TopicCard.Indicator.Value"
-                        android:id="@+id/number_posts"
-                        android:text="100" />
-                    <TextView
-                        style="@style/Font.TopicCard.Indicator.Name"
-                        android:text="posts" />
-                    <TextView
-                        style="@style/Font.TopicCard.Indicator.Value"
-                        android:id="@+id/number_events"
-                        android:text="5" />
-                    <TextView
-                        style="@style/Font.TopicCard.Indicator.Name"
-                        android:text="events" />
-                    <TextView
-                        style="@style/Font.TopicCard.Indicator.Value"
-                        android:text="500"
-                        android:id="@+id/number_views" />
-                    <TextView
-                        style="@style/Font.TopicCard.Indicator.Name"
-                        android:text="views" />
+                    android:gravity="bottom"
+                    android:layout_marginBottom="5dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginRight="20dp">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/heart_black"/>
+                        <TextView
+                            style="@style/Font.PostCard.Indicator.Value"
+                            android:text="100"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginRight="20dp">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/comment"/>
+                        <TextView
+                            style="@style/Font.PostCard.Indicator.Value"
+                            android:text="100" />
+                    </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="fill_parent"
-                        android:text="host group name"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:id="@+id/group" />
-                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

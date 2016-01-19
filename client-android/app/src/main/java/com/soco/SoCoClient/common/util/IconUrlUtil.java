@@ -116,13 +116,16 @@ public class IconUrlUtil {
             if (cancelPotentialWork(urlString, mButton)) {
                 final IconDownloadTask task = new IconDownloadTask(mButton, size, false, res);
                 final IconAsyncDrawable asyncDrawable =
-                        new IconAsyncDrawable(res, Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888), task);
+                        new IconAsyncDrawable(res, Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888), task);     //this line may throw out of memory error!
                 mButton.setImageDrawable(asyncDrawable);
                 task.execute(urlString);
             }
         } catch (Exception e) {
             Log.e(tag, "cannot update image button: " + e);
             e.printStackTrace();
+        } catch (OutOfMemoryError e2){
+            Log.e(tag, "out of memory while resize image: " + e2);
+            e2.printStackTrace();
         }
     }
 //    private static void updateImageButtonRegularShape(Resources res, ImageView mButton, String urlString,int size){
