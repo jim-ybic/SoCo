@@ -82,6 +82,7 @@ public class JsonKeys {
     public static final String SUPPORTING_GROUPS = "supporting_groups";
     public static final String TIME = "time";
     public static final String TIMEDATE = "timedate";
+    public static final String TITLE = "title";
     public static final String TOPIC = "topic";
     public static final String TOPIC_ID = "topic_id";
     public static final String TOPIC_TITLE = "topic_title";

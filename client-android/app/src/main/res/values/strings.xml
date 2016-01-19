@@ -104,6 +104,7 @@
     <string name="msg_login_success">Login success.</string>
     <string name="msg_login_fail">Login fail, please check password and try again.</string>
     <string name="msg_downloading_event">Downloading event.</string>
+    <string name="msg_downloading_topic">Downloading topic.</string>
     <string name="msg_downloading_post">Downloading post.</string>
     <string name="msg_post_success">Post success.</string>
     <string name="msg_post_fail">Post fail, please try again later.</string>
@@ -142,5 +143,8 @@
 
     <string name="related_events">Related Events</string>
     <string name="recent_posts">Recent Posts</string>
+    <string name="title_activity_topic_events">Topic Events</string>
+    <string name="title_activity_topic_posts">Topic Posts</string>
+    <string name="title_activity_create_topic">Create Topic</string>
 
 </resources>

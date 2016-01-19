@@ -109,8 +109,13 @@ public class AllTopicsFragment extends Fragment
             ArrayList<Topic> newTopics = (ArrayList<Topic>) o;
             Log.v(tag, newTopics.size() + " topics found");
             for(Topic p : newTopics){
-                topics.add(p);
-                Log.v(tag, "add new topic: " + p.toString());
+                if(p == null){
+                    Log.e(tag, "oops, this shall not happen but somehow get a null topic...");
+                }
+                else {
+                    topics.add(p);
+                    Log.v(tag, "add new topic: " + p.toString());
+                }
             }
         }
         adapter.notifyDataSetChanged();

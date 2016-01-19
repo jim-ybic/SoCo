@@ -266,7 +266,7 @@ public class UrlUtil {
     static final String GROUP_ICON="/v1/group_icon?";
     static final String CREATE_GROUP_PATH = "/v1/group";
     static final String USER_PROFILE_PATH = "/v1/user";
-    static final String USER_EVENT_PATH = "/v1/events";
+    static final String EVENTS_PATH = "/v1/events";
     static final String USER_GROUP_PATH = "/v1/user_groups";
     static final String GROUP_LIST_PATH = "/v1/groups";
     static final String GROUP_PATH = "/v1/group";
@@ -278,6 +278,7 @@ public class UrlUtil {
     static final String POSTS_PATH = "/v1/posts";
     static final String POST_PATH = "/v1/post";
     static final String TOPICS_PATH = "/v1/topics";
+    static final String TOPIC_PATH = "/v1/topic";
 
     public static String getLoginUrl(){
         String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + LOGIN_PATH;
@@ -400,7 +401,7 @@ public class UrlUtil {
         return url;
     }
     public static String getEventsUrl(){
-        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + USER_EVENT_PATH;
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + EVENTS_PATH;
         Log.v(tag, "get events url: " + url);
         return url;
     }
@@ -471,6 +472,12 @@ public class UrlUtil {
 
     public static String getTopicsUrl(){
         String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + TOPICS_PATH;
+        Log.v(tag, "get url: " + url);
+        return url;
+    }
+
+    public static String getTopicUrl(){
+        String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + TOPIC_PATH;
         Log.v(tag, "get url: " + url);
         return url;
     }

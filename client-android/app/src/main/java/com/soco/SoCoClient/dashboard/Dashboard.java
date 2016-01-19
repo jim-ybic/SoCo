@@ -46,6 +46,7 @@ import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.events.service.LikeEventTask;
 import com.soco.SoCoClient.groups.AllGroupsActivity;
+import com.soco.SoCoClient.topics.CreateTopicActivity;
 import com.soco.SoCoClient.topics.TopicDetailsActivity;
 import com.soco.SoCoClient.userprofile.UserProfileActivity;
 import com.soco.SoCoClient.userprofile.model.User;
@@ -185,6 +186,7 @@ public class Dashboard extends ActionBarActivity implements
 //        IconUrlUtil.setImageForButtonSmall(getResources(), ib, u.getUser_icon_url());
         IconUrlUtil.setImageForButtonSmall(getResources(), ib, UrlUtil.getUserIconUrl(u.getUser_id()));
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -478,6 +480,12 @@ public class Dashboard extends ActionBarActivity implements
     public void createevent(View view) {
         Log.v(tag, "tap create event");
         Intent i = new Intent(this, CreateEventActivity.class);
+        startActivity(i);
+    }
+
+    public void createtopic(View view) {
+        Log.v(tag, "tap create topic");
+        Intent i = new Intent(this, CreateTopicActivity.class);
         startActivity(i);
     }
 

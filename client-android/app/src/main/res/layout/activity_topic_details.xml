@@ -1,39 +1,202 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/allevents">
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
+        android:id="@+id/master"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.soco.SoCoClient.events.allevents.AllEventsActivity"
-        android:padding="5dp">
+        android:background="@android:color/white">
 
-        <com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/swipeContainer"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/list"
+            android:layout_height="140dp"
+            android:orientation="vertical"
+            android:background="@drawable/picture3_crop"
+            android:id="@+id/banner">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_action_cancel_black"
+                android:padding="5dp"
+                android:onClick="close"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/detailsarea"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    style="@android:style/TextAppearance.Large.Inverse"
+                    android:textColor="#4A90E2"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="#"
+                    android:textIsSelectable="false"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:id="@+id/title"
+                    style="@android:style/TextAppearance.Large.Inverse"
+                    android:textColor="#4A90E2"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="title"
+                    android:textIsSelectable="false" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/intro"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10pt"
+                android:maxLines="4"
+                android:text="introduction" />
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/creator"
+                android:layout_marginTop="15dp">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/user1"
+                    android:id="@+id/creatoricon"
+                    android:padding="2dp" />
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="2dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="User name"
+                        android:id="@+id/creatorname"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="#727272"
+                        android:textStyle="bold"
+                        android:textSize="13sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/creatortitle"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="right"
+                        android:text="Teacher"
+                        android:textSize="11sp"
+                        android:textColor="#727272"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:id="@+id/links">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="view events (5)"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:clickable="true"
+                    android:onClick="topicevents"
+                    android:layout_weight="1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="view posts (20)"
+                    android:clickable="true"
+                    android:onClick="topicposts"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/sep"
+                android:orientation="horizontal">
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:background="#e2e2e2"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:id="@+id/socialbuttons">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/heart_black"/>
+                <TextView
+                    style="@style/Font.PostCard.Indicator.Value"
+                    android:text="100"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/comment"/>
+                <TextView
+                    style="@style/Font.PostCard.Indicator.Value"
+                    android:text="100" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/share"/>
+                <TextView
+                    style="@style/Font.PostCard.Indicator.Value"
+                    android:text="100"/>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:src="@drawable/fab"
-        app:layout_anchor="@id/list"
-        app:layout_anchorGravity="bottom|right"
-        android:clickable="true"
-        android:onClick="createevent"/>
-
-</android.support.design.widget.CoordinatorLayout>

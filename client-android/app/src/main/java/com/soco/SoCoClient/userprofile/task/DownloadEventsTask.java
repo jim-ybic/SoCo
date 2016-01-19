@@ -31,6 +31,7 @@ public class DownloadEventsTask extends AsyncTask<String, Void, ArrayList<Event>
     String tag = "DownloadEventsTask";
     String user_id;
     String token;
+    String topicId;
     String[] paramNames;
     TaskCallBack callBack;
 
@@ -38,14 +39,23 @@ public class DownloadEventsTask extends AsyncTask<String, Void, ArrayList<Event>
         Log.v(tag, "user event task: " + user_id);
         this.user_id=user_id;
         this.token=token;
-        callBack = cb;
+        this.callBack = cb;
     }
+
+    public DownloadEventsTask(String user_id, String token, String topicId, TaskCallBack cb){
+        Log.v(tag, "user event task: " + user_id);
+        this.user_id=user_id;
+        this.token=token;
+        this.topicId = topicId;
+        this.callBack = cb;
+    }
+
     public DownloadEventsTask(String user_id, String token, String[] paramNames, TaskCallBack cb){
         Log.v(tag, "user event task: " + user_id);
         this.user_id=user_id;
         this.token=token;
         this.paramNames=paramNames;
-        callBack = cb;
+        this.callBack = cb;
     }
 
     protected ArrayList<Event> doInBackground(String... params) {
@@ -70,7 +80,7 @@ public class DownloadEventsTask extends AsyncTask<String, Void, ArrayList<Event>
         return null;
     }
 
-    Object request(
+    private Object request(
             String url,
             String user_id,
             String token,
@@ -81,11 +91,16 @@ public class DownloadEventsTask extends AsyncTask<String, Void, ArrayList<Event>
         List<NameValuePair> params = new LinkedList<>();
         params.add(new BasicNameValuePair(JsonKeys.USER_ID, user_id));
         params.add(new BasicNameValuePair(JsonKeys.TOKEN, token));
-        if(paramNames!=null&&inputs!=null&&paramNames.length>0&&inputs.length>0) {
+
+        if(paramNames!=null&&inputs!=null&&paramNames.length>0&&inputs.length>0) {  //loading more
             for(int i = 0; i<paramNames.length&&i<inputs.length;i++){
                 params.add(new BasicNameValuePair(paramNames[i], inputs[i]));
             }
         }
+
+        if(topicId != null && !topicId.isEmpty())
+            params.add(new BasicNameValuePair(JsonKeys.TOPIC_ID, topicId));
+
         String paramString = URLEncodedUtils.format(params, "utf-8");
 
         url += paramString;

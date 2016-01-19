@@ -78,7 +78,7 @@ public class EventDetailsTask extends AsyncTask<String, Void, Event> {
         return HttpUtil.executeHttpGet(url);
     }
 
-    Event parse(Object response) {
+    private Event parse(Object response) {
         Log.d(tag, "parse response: " + response.toString());
 
         try {

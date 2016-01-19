@@ -9,6 +9,7 @@ public class Topic {
 
     String id;
     String title;
+    String introduction;
     int numberPosts;
     int numberEvents;
     int numberViews;
@@ -33,6 +34,14 @@ public class Topic {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 
     public int getNumberPosts() {
@@ -96,6 +105,7 @@ public class Topic {
         return "Topic{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
+                ", introduction='" + introduction + '\'' +
                 ", numberPosts=" + numberPosts +
                 ", numberEvents=" + numberEvents +
                 ", numberViews=" + numberViews +

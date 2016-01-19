@@ -461,7 +461,31 @@
         </activity>
         <activity
             android:name=".events.details.EventPostsActivity"
-            android:label="@string/title_activity_event_posts">
+            android:label="@string/title_activity_event_posts" >
+        </activity>
+        <activity
+            android:name=".topics.TopicEventsActivity"
+            android:label="@string/title_activity_topic_events"
+            android:parentActivityName=".topics.TopicDetailsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.topics.TopicDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".topics.TopicPostsActivity"
+            android:label="@string/title_activity_topic_posts"
+            android:parentActivityName=".topics.TopicDetailsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.topics.TopicDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".topics.CreateTopicActivity"
+            android:label="@string/title_activity_create_topic"
+            android:parentActivityName=".dashboard.Dashboard" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soco.SoCoClient.dashboard.Dashboard" />
         </activity>
     </application>
 

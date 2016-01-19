@@ -27,11 +27,14 @@ public class AddPostActivity extends ActionBarActivity
     static final String tag = "AddPostActivity";
     static final int REQUESTCODE_ADDPHOTO = 101;
     static final int REQUESTCODE_CUTTING = 102;
+
     public static final String EVENT_ID = "event_id";
+    public static final String TOPIC_ID = "topic_id";
 
     Context context;
     SocoApp socoApp;
     String eventId;
+    String topicId;
     Uri uriFile;
     String comment;
     Bitmap bitmap = null;
@@ -45,6 +48,8 @@ public class AddPostActivity extends ActionBarActivity
         Intent i = getIntent();
         eventId = i.getStringExtra(EVENT_ID);
         Log.v(tag, "get event id: " + eventId);
+        topicId = i.getStringExtra(TOPIC_ID);
+        Log.v(tag, "get topic id: " + topicId);
 
         context = getApplicationContext();
         socoApp = (SocoApp) context;
@@ -59,7 +64,7 @@ public class AddPostActivity extends ActionBarActivity
         Log.v(tag, "start add post task, comment: " + comment + ", bitmap: " + bitmap);
         new AddPostTask(
                 getApplicationContext(), getContentResolver(),
-                uriFile, comment, eventId, null,
+                uriFile, comment, eventId, topicId,
                 this)
                 .execute();
     }

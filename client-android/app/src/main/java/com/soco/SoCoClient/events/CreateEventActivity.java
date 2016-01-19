@@ -117,6 +117,13 @@ public class CreateEventActivity extends ActionBarActivity {
             return false;
         }
 
+        if(mStartdate.getText().toString().isEmpty() || mEnddate.getText().toString().isEmpty()
+                || mStarttime.getText().toString().isEmpty() || mEndtime.getText().toString().isEmpty()){
+            Log.e(tag, "title is empty");
+            Toast.makeText(getApplicationContext(), "Title cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         if(!socoApp.SKIP_LOGIN && (socoApp.user_id.isEmpty() || socoApp.token.isEmpty())){
             Log.e(tag, "user id or token is empty");
             Toast.makeText(getApplicationContext(), "Please re-login and try again.", Toast.LENGTH_SHORT).show();

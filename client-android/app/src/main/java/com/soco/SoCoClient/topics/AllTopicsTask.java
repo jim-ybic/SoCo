@@ -134,8 +134,9 @@ public class AllTopicsTask extends AsyncTask<String, Void, ArrayList<Topic>> {
         else{
             Topic p = new Topic();
             try {
-                p.setId(o.getString(JsonKeys.TOPIC_ID));
-                p.setTitle(o.getString(JsonKeys.TOPIC_TITLE));
+                p.setId(o.getString(JsonKeys.ID));
+                p.setTitle(o.getString(JsonKeys.TITLE));
+                p.setIntroduction(o.getString(JsonKeys.INTRODUCTION));
 
                 p.setNumberPhotos(o.getInt(JsonKeys.NUMBER_OF_PHOTOS));
                 p.setNumberEvents(o.getInt(JsonKeys.NUMBER_OF_EVENTS));
@@ -145,11 +146,15 @@ public class AllTopicsTask extends AsyncTask<String, Void, ArrayList<Topic>> {
                 Long time = Long.valueOf(o.getString(JsonKeys.CREATE_DATE));
                 p.setCreateTimedate(TimeUtil.getDate(time, "HH:mm  dd/MM"));
 
-                Group g = parseGroup(o.getJSONObject(JsonKeys.GROUP));
-                p.setGroup(g);
+                if(o.has(JsonKeys.GROUP)) {
+                    Group g = parseGroup(o.getJSONObject(JsonKeys.GROUP));
+                    p.setGroup(g);
+                }
 
-                User u = parseUser(o.getJSONObject(JsonKeys.CREATOR));
-                p.setCreator(u);
+                if(o.has(JsonKeys.CREATOR)) {
+                    User u = parseUser(o.getJSONObject(JsonKeys.CREATOR));
+                    p.setCreator(u);
+                }
 
                 Log.v(tag, "parsed topic: " + p.toString());
                 return p;
