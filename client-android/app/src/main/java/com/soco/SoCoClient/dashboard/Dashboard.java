@@ -342,16 +342,16 @@ public class Dashboard extends ActionBarActivity implements
     public void me(View view) {
         Log.v(tag, "tap me: popup menu window");
 
-        View popupView = getLayoutInflater().inflate(R.layout.popup_window, null);
+        View popupView = getLayoutInflater().inflate(R.layout.popup_window_me, null);
         PopupWindow window = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         window.setTouchable(true);
         window.setOutsideTouchable(true);
         window.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
         window.showAsDropDown(findViewById(R.id.mebutton));
-        setPopupListeners(window, popupView);
+        setMePopupListeners(window, popupView);
     }
 
-    void setPopupListeners(final PopupWindow window, View view) {
+    void setMePopupListeners(final PopupWindow window, View view) {
         TextView myprofile = (TextView) view.findViewById(R.id.popup_profile);
         Log.d(tag, "myprofile: " + myprofile);
         myprofile.setOnClickListener(new View.OnClickListener() {
@@ -472,9 +472,7 @@ public class Dashboard extends ActionBarActivity implements
 
         Intent i = new Intent(this, TopicDetailsActivity.class);
         i.putExtra(TopicDetailsActivity.TOPIC_ID, topicId);
-        //todo: link topic id through
         startActivity(i);
-        //todo
     }
 
     public void createevent(View view) {
@@ -487,6 +485,30 @@ public class Dashboard extends ActionBarActivity implements
         Log.v(tag, "tap create topic");
         Intent i = new Intent(this, CreateTopicActivity.class);
         startActivity(i);
+    }
+
+    public void postoptions(View v){
+        View popupView = getLayoutInflater().inflate(R.layout.popup_window_postoptions, null);
+        PopupWindow window = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        window.setTouchable(true);
+        window.setOutsideTouchable(true);
+        window.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        window.showAsDropDown(v);
+        setPostOptionsPopupListeners(window, popupView);
+    }
+
+    void setPostOptionsPopupListeners(final PopupWindow window, View view) {
+
+        TextView edit = (TextView) view.findViewById(R.id.popup_edit);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                //todo
+            }
+        });
+
+        //todo: more options
     }
 
 }

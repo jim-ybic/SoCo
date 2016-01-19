@@ -59,19 +59,7 @@ public class AllPostsFragment extends Fragment
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-
-//                Log.v(tag, "add dummy posts");
-//                counter++;
-//                posts.add(new Post("user" + Integer.toString(counter), "user's comment"));
-//                counter++;
-//                posts.add(new Post("user"+Integer.toString(counter), "user's comment"));
-//                counter++;
-//                posts.add(new Post("user"+Integer.toString(counter), "user's comment"));
-//                counter++;
-//                posts.add(new Post("user"+Integer.toString(counter), "user's comment"));
-
-                adapter.notifyDataSetChanged();
-                swipeContainer.setRefreshing(false);
+                downloadEventPosts();
             }
         });
 
@@ -79,12 +67,6 @@ public class AllPostsFragment extends Fragment
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
-
-//        Log.v(tag, "add dummy posts");
-//        posts = new ArrayList<>();
-//        posts.add(new Post("user1", "user1's comment"));
-//        posts.add(new Post("user2", "user2's comment"));
-//        posts.add(new Post("user3", "user3's comment"));
 
         adapter = new PostCardAdapter(getActivity(), posts);
         mRecyclerView.setAdapter(adapter);
@@ -99,19 +81,21 @@ public class AllPostsFragment extends Fragment
             }
         }).start();
 
-        //todo: test below
-//        Log.v(tag, "test photomanager");
-//        PhotoManager manager = new PhotoManager();
-//        manager.getBitmap("http://54.254.147.226:80/v1/image?image_path=images/events/2000101449419180409/image/8792531452149707670.jpg");
-
-
         return rootView;
     }
 
-    private void downloadEventPosts(){
-//        String testeventid = "2000101449419180409";
-//        new EventPostsTask(SocoApp.user_id, SocoApp.token, this).execute(testeventid);  //todo
-        new AllPostsTask(SocoApp.user_id, SocoApp.token, null, null, this).execute();
+    private void downloadEventPosts() {
+        if (posts != null && posts.size() > 0) {
+            Post lastPost = posts.get(posts.size()-1);
+            String[] params = new String[1];
+            params[0] = AllPostsTask.POST_ID;
+            Log.v(tag, "load more posts from: " + lastPost.getId());
+            new AllPostsTask(SocoApp.user_id, SocoApp.token, null, null, params, this).execute(lastPost.getId());
+        }
+        else {
+            Log.v(tag, "first load posts");
+            new AllPostsTask(SocoApp.user_id, SocoApp.token, null, null, null, this).execute();
+        }
     }
 
     public void doneTask(Object o) {

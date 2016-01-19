@@ -100,7 +100,7 @@ public class EventPostsActivity extends ActionBarActivity implements TaskCallBac
 
     private void downloadEventPosts(){
 //        new EventPostsTask(SocoApp.user_id, SocoApp.token, this).execute(eventId);
-        new AllPostsTask(SocoApp.user_id, SocoApp.token, eventId, null, this).execute();
+        new AllPostsTask(SocoApp.user_id, SocoApp.token, eventId, null, null, this).execute();
     }
 
     public void doneTask(Object o) {

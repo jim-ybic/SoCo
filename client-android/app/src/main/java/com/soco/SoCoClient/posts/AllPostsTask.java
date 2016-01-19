@@ -27,19 +27,27 @@ import java.util.List;
 
 public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
 
-    String tag = "AllPostsTask";
+    public static final String tag = "AllPostsTask";
+    public static final String POST_ID = "post_id";
+
     String user_id;
     String token;
     String eventId;
     String topicId;
+    String[] paramNames;
     TaskCallBack callBack;
 
-    public AllPostsTask(String user_id, String token, String eventId, String topicId, TaskCallBack cb){
+    public AllPostsTask(
+            String user_id, String token,
+            String eventId, String topicId,
+            String[] paramNames,
+            TaskCallBack cb){
         Log.v(tag, "all posts task: " + user_id);
         this.user_id=user_id;
         this.token=token;
         this.eventId = eventId;
         this.topicId = topicId;
+        this.paramNames = paramNames;
         callBack = cb;
     }
 
@@ -50,7 +58,8 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
                 user_id,
                 token,
                 eventId,
-                topicId
+                topicId,
+                params
         );
 
         if (response != null) {
@@ -68,13 +77,19 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
             String user_id,
             String token,
             String eventId,
-            String topicId){
+            String topicId,
+            String... inputs){
         if(!url.endsWith("?"))
             url += "?";
 
         List<NameValuePair> params = new LinkedList<>();
         params.add(new BasicNameValuePair(JsonKeys.USER_ID, user_id));
         params.add(new BasicNameValuePair(JsonKeys.TOKEN, token));
+
+        if(paramNames!=null && inputs!=null && paramNames.length>0 && inputs.length>0){
+            for(int i=0; i<paramNames.length && i<inputs.length; i++)
+                params.add(new BasicNameValuePair(paramNames[i], inputs[i]));
+        }
 
         if(eventId != null && !eventId.isEmpty()) {
             params.add(new BasicNameValuePair(JsonKeys.EVENT_ID, eventId));

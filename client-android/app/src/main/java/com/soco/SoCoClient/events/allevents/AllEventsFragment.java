@@ -44,7 +44,7 @@ public class AllEventsFragment extends Fragment
     SocoApp socoApp;
     View rootView;
     ProgressDialog pd;
-    TextView newEvents, hotEvents, specialEvents;
+//    TextView newEvents, hotEvents, specialEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,10 +96,10 @@ public class AllEventsFragment extends Fragment
 
     private void downloadEventsInBackgroud() {
         if (events != null && events.size() > 0) {
-            Log.v(tag, "load more events");
             Event lastEvent = events.get(events.size() - 1);
             String[] params = new String[1];
             params[0] = DownloadEventsTask.START_EVENT_ID;
+            Log.v(tag, "load more events from:" + lastEvent.getId());
             DownloadEventsTask uet = new DownloadEventsTask(SocoApp.user_id, SocoApp.token, params, this);
             uet.execute(Long.toString(lastEvent.getId()));
         } else {
@@ -133,36 +133,36 @@ public class AllEventsFragment extends Fragment
     }
 
     private void setOnclickListener(){
-        newEvents = (TextView) rootView.findViewById(R.id.newEvents);
-        newEvents.setTypeface(null, Typeface.BOLD); //default
-        newEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v(tag, "tap new");
-                highlightCategory(getString(R.string.event_category_new));
-                //todo: load required events
-            }
-        });
-
-        hotEvents = (TextView) rootView.findViewById(R.id.hotEvents);
-        hotEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v(tag, "tap hot");
-                highlightCategory(getString(R.string.event_category_hot));
-                //todo: load required events
-            }
-        });
-
-        specialEvents = (TextView) rootView.findViewById(R.id.specialEvents);
-        specialEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v(tag, "tap special");
-                highlightCategory(getString(R.string.event_category_special));
-                //todo: load required events
-            }
-        });
+//        newEvents = (TextView) rootView.findViewById(R.id.newEvents);
+//        newEvents.setTypeface(null, Typeface.BOLD); //default
+//        newEvents.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v(tag, "tap new");
+//                highlightCategory(getString(R.string.event_category_new));
+//                //todo: load required events
+//            }
+//        });
+//
+//        hotEvents = (TextView) rootView.findViewById(R.id.hotEvents);
+//        hotEvents.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v(tag, "tap hot");
+//                highlightCategory(getString(R.string.event_category_hot));
+//                //todo: load required events
+//            }
+//        });
+//
+//        specialEvents = (TextView) rootView.findViewById(R.id.specialEvents);
+//        specialEvents.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v(tag, "tap special");
+//                highlightCategory(getString(R.string.event_category_special));
+//                //todo: load required events
+//            }
+//        });
     }
 
     public void createevent(View view) {
@@ -179,22 +179,22 @@ public class AllEventsFragment extends Fragment
 //        startActivity(i);
 //    }
 
-    private void highlightCategory(String cat){
-        if(cat.equals(getString(R.string.event_category_new))){
-            newEvents.setTypeface(null, Typeface.BOLD);
-            hotEvents.setTypeface(null, Typeface.NORMAL);
-            specialEvents.setTypeface(null, Typeface.NORMAL);
-        }
-        else if(cat.equals(getString(R.string.event_category_hot))){
-            newEvents.setTypeface(null, Typeface.NORMAL);
-            hotEvents.setTypeface(null, Typeface.BOLD);
-            specialEvents.setTypeface(null, Typeface.NORMAL);
-        }
-        else if(cat.equals(getString(R.string.event_category_special))){
-            newEvents.setTypeface(null, Typeface.NORMAL);
-            hotEvents.setTypeface(null, Typeface.NORMAL);
-            specialEvents.setTypeface(null, Typeface.BOLD);
-        }
-    }
+//    private void highlightCategory(String cat){
+//        if(cat.equals(getString(R.string.event_category_new))){
+//            newEvents.setTypeface(null, Typeface.BOLD);
+//            hotEvents.setTypeface(null, Typeface.NORMAL);
+//            specialEvents.setTypeface(null, Typeface.NORMAL);
+//        }
+//        else if(cat.equals(getString(R.string.event_category_hot))){
+//            newEvents.setTypeface(null, Typeface.NORMAL);
+//            hotEvents.setTypeface(null, Typeface.BOLD);
+//            specialEvents.setTypeface(null, Typeface.NORMAL);
+//        }
+//        else if(cat.equals(getString(R.string.event_category_special))){
+//            newEvents.setTypeface(null, Typeface.NORMAL);
+//            hotEvents.setTypeface(null, Typeface.NORMAL);
+//            specialEvents.setTypeface(null, Typeface.BOLD);
+//        }
+//    }
 
 }

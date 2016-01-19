@@ -89,7 +89,7 @@ public class TopicPostsActivity extends ActionBarActivity
     }
 
     private void downloadTopicPosts(){
-        new AllPostsTask(SocoApp.user_id, SocoApp.token, null, topicId, this).execute();
+        new AllPostsTask(SocoApp.user_id, SocoApp.token, null, topicId, null, this).execute();
     }
 
     public void doneTask(Object o) {
