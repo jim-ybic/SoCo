@@ -3,7 +3,9 @@ package com.soco.SoCoClient.events.details;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -14,6 +16,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
@@ -120,7 +125,29 @@ public class EventPostsActivity extends ActionBarActivity implements TaskCallBac
         pd.dismiss();
     }
 
+    public void postoptions(View v){
+        View popupView = getLayoutInflater().inflate(R.layout.popup_window_postoptions, null);
+        PopupWindow window = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        window.setTouchable(true);
+        window.setOutsideTouchable(true);
+        window.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        window.showAsDropDown(v);
+        setPostOptionsPopupListeners(window, popupView);
+    }
 
+    void setPostOptionsPopupListeners(final PopupWindow window, View view) {
+
+        TextView edit = (TextView) view.findViewById(R.id.popup_edit);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                //todo
+            }
+        });
+
+        //todo: more options
+    }
 
 
 }

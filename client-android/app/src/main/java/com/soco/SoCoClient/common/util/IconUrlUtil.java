@@ -322,7 +322,7 @@ public class IconUrlUtil {
 
         Bitmap bitmap = null;
         try {
-            bitmap = Bitmap.createBitmap(bm, 0, 0, width, height,
+            bitmap = Bitmap.createBitmap(bm, 0, 0, width, height,   //this line may cause out of memory error
                     matrix, false);
         } catch (OutOfMemoryError e) {
             Log.e(tag, "our of memory error when resize image");

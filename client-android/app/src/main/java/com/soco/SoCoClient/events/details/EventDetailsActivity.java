@@ -6,7 +6,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,7 +82,6 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
             }
         }).start();
     }
-
 
     private void downloadEventDetails(){
         Log.v(tag, "download event details");
@@ -220,6 +222,12 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         startActivity(i);
     }
 
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Log.v(tag, "do nothing");
+//    }
+
     public void eventdetails(View view){
         Log.v(tag, "show event full intro message");
         String text = ((TextView) findViewById(R.id.intro)).getText().toString();
@@ -244,6 +252,10 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         startActivity(i);
     }
 
-
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        Log.d(tag, "resume");
+//    }
 
 }

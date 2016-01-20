@@ -437,11 +437,7 @@
         </activity>
         <activity
             android:name=".events.details.AddPostActivity"
-            android:label="@string/title_activity_add_post"
-            android:parentActivityName=".events.details.EventDetailsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.soco.SoCoClient.events.details.EventDetailsActivity" />
+            android:label="@string/title_activity_add_post">
         </activity>
         <activity
             android:name=".buddies.MyBuddiesActivity"
@@ -465,19 +461,11 @@
         </activity>
         <activity
             android:name=".topics.TopicEventsActivity"
-            android:label="@string/title_activity_topic_events"
-            android:parentActivityName=".topics.TopicDetailsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.soco.SoCoClient.topics.TopicDetailsActivity" />
+            android:label="@string/title_activity_topic_events">
         </activity>
         <activity
             android:name=".topics.TopicPostsActivity"
-            android:label="@string/title_activity_topic_posts"
-            android:parentActivityName=".topics.TopicDetailsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.soco.SoCoClient.topics.TopicDetailsActivity" />
+            android:label="@string/title_activity_topic_posts" >
         </activity>
         <activity
             android:name=".topics.CreateTopicActivity"

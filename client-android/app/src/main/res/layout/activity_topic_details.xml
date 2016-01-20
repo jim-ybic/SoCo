@@ -121,7 +121,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="view events (5)"
+                    android:text="view events"
                     android:textColor="@android:color/holo_blue_dark"
                     android:gravity="center_horizontal"
                     android:padding="10dp"
@@ -131,7 +131,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="view posts (20)"
+                    android:text="view posts"
                     android:clickable="true"
                     android:onClick="topicposts"
                     android:textColor="@android:color/holo_blue_dark"
