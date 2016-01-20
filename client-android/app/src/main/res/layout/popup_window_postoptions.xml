@@ -9,37 +9,19 @@
     android:paddingRight="20dp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Font.Popup.Postoption"
         android:text="Edit"
-        android:layout_gravity="center_horizontal"
-        android:padding="15dp"
-        android:textColor="@android:color/white"
-        android:id="@+id/popup_edit"
-        android:clickable="true"
-        android:textSize="16sp" />
+        android:id="@+id/popup_edit" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Font.Popup.Postoption"
         android:text="Delete"
-        android:layout_gravity="center_horizontal"
-        android:padding="15dp"
-        android:textColor="@android:color/white"
-        android:id="@+id/popup_delete"
-        android:clickable="true"
-        android:textSize="16sp" />
+        android:id="@+id/popup_delete" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Font.Popup.Postoption"
         android:text="Block User"
-        android:layout_gravity="center_horizontal"
-        android:padding="15dp"
-        android:textColor="@android:color/white"
-        android:id="@+id/popup_blockuser"
-        android:clickable="true"
-        android:textSize="16sp" />
+        android:id="@+id/popup_blockuser" />
 
 </LinearLayout>
 

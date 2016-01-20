@@ -18,7 +18,7 @@
         android:layout_height="140dp"
         android:orientation="vertical"
         android:background="#ffffb73f"
-        android:id="@+id/titlearea">
+        android:id="@+id/bannerarea">
         <!--<LinearLayout-->
             <!--android:id="@+id/quickinfo"-->
             <!--android:layout_width="match_parent"-->
@@ -254,7 +254,7 @@
         android:layout_marginLeft="10dp"
         android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/group2"
-        app:layout_anchor="@id/titlearea"
+        app:layout_anchor="@id/bannerarea"
         app:layout_anchorGravity="bottom|left"
         android:clickable="true"
         android:onClick="eventgroups"/>
@@ -266,7 +266,7 @@
         android:layout_marginLeft="60dp"
         android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/group2"
-        app:layout_anchor="@id/titlearea"
+        app:layout_anchor="@id/bannerarea"
         app:layout_anchorGravity="bottom|left"
         android:clickable="true"
         android:onClick="eventgroups"/>
@@ -278,7 +278,7 @@
         android:layout_marginLeft="110dp"
         android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/group2"
-        app:layout_anchor="@id/titlearea"
+        app:layout_anchor="@id/bannerarea"
         app:layout_anchorGravity="bottom|left"
         android:clickable="true"
         android:onClick="eventgroups"/>

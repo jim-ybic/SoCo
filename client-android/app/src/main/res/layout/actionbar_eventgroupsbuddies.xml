@@ -104,7 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:id="@+id/titlearea"
+        android:id="@+id/bannerarea"
         android:layout_marginTop="5dp">
         <TextView
             android:id="@+id/title"

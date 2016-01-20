@@ -30,7 +30,7 @@
             android:layout_height="140dp"
             android:orientation="vertical"
             android:background="#ffffb73f"
-            android:id="@+id/titlearea">
+            android:id="@+id/bannerarea">
             <TextView
                 android:id="@+id/textTitle"
                 style="@android:style/TextAppearance.Large.Inverse"
@@ -40,7 +40,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="title" />
         </LinearLayout>
 
         <LinearLayout
@@ -139,24 +140,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="5pt"
-                android:maxLines="4" />
+                android:layout_marginTop="5pt" />
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/viewdetails"
-                    android:clickable="true"
-                    android:onClick="eventdetails"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:gravity="center_horizontal"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:padding="10dp" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/viewdetails"-->
+                    <!--android:clickable="true"-->
+                    <!--android:onClick="eventdetails"-->
+                    <!--android:textColor="@android:color/holo_blue_dark"-->
+                    <!--android:gravity="center_horizontal"-->
+                    <!--android:layout_marginLeft="25dp"-->
+                    <!--android:layout_marginRight="25dp"-->
+                    <!--android:padding="10dp" />-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

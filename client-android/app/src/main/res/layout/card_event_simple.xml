@@ -14,27 +14,26 @@
             android:orientation="vertical"
             android:background="@android:color/white">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/picture3_crop"
-                android:id="@+id/titlearea"
                 android:clickable="true"
-                android:onClick="eventdetails">
-                <LinearLayout
-                    android:layout_width="match_parent"
+                android:onClick="eventdetails"
+                android:id="@+id/bannerarea">
+                <ImageView
+                    android:id="@+id/banner"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="right"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_action_favorite_white"/>
-                </LinearLayout>
-            </LinearLayout>
+                    android:src="@drawable/picture3_crop"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_favorite_white"
+                    android:layout_alignTop="@+id/banner"
+                    android:layout_alignRight="@+id/banner"
+                    android:layout_marginTop="10dp"/>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -86,7 +85,6 @@
                     android:orientation="vertical"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:gravity="center_vertical"
                     android:layout_weight="1">
                     <TextView
                         android:layout_width="wrap_content"
@@ -94,12 +92,12 @@
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
                         android:text="Back to School 2016"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:id="@+id/title" />
+                        android:id="@+id/title"
+                        android:maxLines="1"
+                        android:layout_marginBottom="2dp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -115,6 +113,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp">
                     <TextView
+                        android:id="@+id/join"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
@@ -126,11 +125,12 @@
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp" />
+                        android:paddingRight="10dp"
+                        android:clickable="true"
+                        android:onClick="joinevent2"/>
                 </LinearLayout>
 
             </LinearLayout>
-
 
         </LinearLayout>
 

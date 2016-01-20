@@ -11,15 +11,44 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:orientation="vertical"
-            android:background="@drawable/picture3_crop"
+            android:background="#ffffb73f"
             android:id="@+id/banner">
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_action_cancel_black"
-                android:padding="5dp"
+                android:src="@drawable/actionbar_close"
+                android:padding="10dp"
                 android:onClick="close"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:layout_weight="1">
+                <TextView
+                    style="@android:style/TextAppearance.Large.Inverse"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="#"
+                    android:textIsSelectable="false"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:id="@+id/title"
+                    style="@android:style/TextAppearance.Large.Inverse"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="title"
+                    android:textIsSelectable="false" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -31,38 +60,13 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    style="@android:style/TextAppearance.Large.Inverse"
-                    android:textColor="#4A90E2"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="#"
-                    android:textIsSelectable="false"
-                    android:layout_marginRight="5dp"/>
-                <TextView
-                    android:id="@+id/title"
-                    style="@android:style/TextAppearance.Large.Inverse"
-                    android:textColor="#4A90E2"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="title"
-                    android:textIsSelectable="false" />
-            </LinearLayout>
+
             <TextView
                 android:id="@+id/intro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="10pt"
-                android:maxLines="4"
                 android:text="introduction" />
 
             <LinearLayout

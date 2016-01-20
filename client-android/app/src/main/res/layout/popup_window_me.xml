@@ -9,60 +9,24 @@
     android:paddingRight="20dp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Font.Popup.Me"
         android:text="@string/menu_myprofile"
-        android:layout_gravity="center_horizontal"
-        android:padding="15dp"
-        android:textColor="@android:color/white"
-        android:id="@+id/popup_profile"
-        android:clickable="true"
-        android:textSize="16sp" />
+        android:id="@+id/popup_profile" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Font.Popup.Me"
         android:text="@string/menu_myevents"
-        android:layout_gravity="center_horizontal"
-        android:padding="15dp"
-        android:textColor="@android:color/white"
-        android:id="@+id/popup_myevents"
-        android:clickable="true"
-        android:textSize="16sp" />
+        android:id="@+id/popup_myevents" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Font.Popup.Me"
         android:text="@string/title_activity_my_buddies"
-        android:layout_gravity="center_horizontal"
-        android:padding="15dp"
-        android:textColor="@android:color/white"
-        android:id="@+id/popup_mybuddies"
-        android:clickable="true"
-        android:textSize="16sp" />
+        android:id="@+id/popup_mybuddies" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Font.Popup.Me"
         android:text="All Groups"
-        android:layout_gravity="center_horizontal"
-        android:padding="15dp"
-        android:textColor="@android:color/white"
-        android:id="@+id/popup_allgroups"
-        android:clickable="true"
-        android:textSize="16sp" />
-
-
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Settings"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:padding="15dp"-->
-        <!--android:textColor="@android:color/white"-->
-        <!--android:id="@+id/popup_settings"-->
-        <!--android:clickable="true"-->
-        <!--android:textSize="16sp" />-->
+        android:id="@+id/popup_allgroups" />
 
 </LinearLayout>
 

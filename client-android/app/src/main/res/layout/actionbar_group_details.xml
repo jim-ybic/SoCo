@@ -11,7 +11,7 @@
         android:layout_height="90dp"
         android:orientation="vertical"
         android:background="#4a4a4a"
-        android:id="@+id/titlearea">
+        android:id="@+id/bannerarea">
         <LinearLayout
             android:id="@+id/quickinfo"
             android:layout_width="match_parent"

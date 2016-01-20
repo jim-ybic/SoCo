@@ -68,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="false"
+                    android:src="@drawable/post_photo1"
                     android:id="@+id/photo" />
             </LinearLayout>
 

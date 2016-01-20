@@ -26,7 +26,7 @@
                 android:layout_height="80dp"
                 android:orientation="vertical"
                 android:background="#ffffb73f"
-                android:id="@+id/titlearea">
+                android:id="@+id/bannerarea">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -159,7 +159,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/idshk"
             android:clickable="false"
-            app:layout_anchor="@id/titlearea"
+            app:layout_anchor="@id/bannerarea"
             app:layout_anchorGravity="bottom|right" />
 
     </android.support.design.widget.CoordinatorLayout>

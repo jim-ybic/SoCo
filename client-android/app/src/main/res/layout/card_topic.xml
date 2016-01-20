@@ -16,16 +16,16 @@
             android:orientation="horizontal"
             android:background="@android:color/white">
 
-            <LinearLayout
+            <ImageView
                 android:layout_width="80dp"
                 android:layout_height="120dp"
                 android:orientation="vertical"
-                android:background="@drawable/topic_photo1"
+                android:src="@drawable/topic_photo1"
                 android:id="@+id/banner"
                 android:clickable="true"
                 android:onClick="topicdetails">
 
-            </LinearLayout>
+            </ImageView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,10 +60,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="this is a sample topic name"
-                    android:id="@+id/description"
+                    android:id="@+id/intro"
                     android:textColor="#9B9B9B"
                     android:textSize="11sp"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:maxLines="2" />
 
                 <LinearLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"

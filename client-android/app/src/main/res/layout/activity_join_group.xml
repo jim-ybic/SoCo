@@ -20,7 +20,7 @@
             android:layout_height="85dp"
             android:orientation="vertical"
             android:background="#ffffb73f"
-            android:id="@+id/titlearea">
+            android:id="@+id/bannerarea">
 
             <LinearLayout
                 android:id="@+id/quickinfo"

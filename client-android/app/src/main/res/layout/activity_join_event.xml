@@ -39,7 +39,7 @@
             android:layout_height="120dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:id="@+id/titlearea"
+            android:id="@+id/bannerarea"
             android:background="#ffffb73f"
             android:layout_gravity="center_vertical">
             <TextView

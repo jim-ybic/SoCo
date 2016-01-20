@@ -15,7 +15,7 @@
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:padding="10dp"
-        android:id="@+id/titlearea">
+        android:id="@+id/bannerarea">
         <EditText
             android:id="@+id/title"
             android:layout_width="match_parent"
