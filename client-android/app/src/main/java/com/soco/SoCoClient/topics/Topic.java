@@ -19,7 +19,7 @@ public class Topic {
     Group group = new Group();
     User creator = new User();
 
-    Topic(){}
+    public Topic(){}
 
     public String getId() {
         return id;

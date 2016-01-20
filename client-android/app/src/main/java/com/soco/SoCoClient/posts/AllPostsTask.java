@@ -11,6 +11,7 @@ import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.groups.model.Group;
+import com.soco.SoCoClient.topics.Topic;
 import com.soco.SoCoClient.userprofile.model.User;
 
 import org.apache.http.NameValuePair;
@@ -196,7 +197,8 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
                 }
 
                 if(o.has(JsonKeys.TOPIC)){
-                    //todo: parse topic
+                    Topic t = parseTopic(o.getJSONObject(JsonKeys.TOPIC));
+                    p.setTopic(t);
                 }
 
                 Log.v(tag, "parsed post: " + p.toString());
@@ -289,6 +291,27 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
             }
             catch (Exception e1){
                 Log.e(tag, "error parse event from json: " + e1);
+                e1.printStackTrace();
+                return null;
+            }
+            return e;
+        }
+    }
+
+    private Topic parseTopic(JSONObject o){
+        Log.v(tag, "parse topic from json: " + o);
+        if(o == null){
+            Log.e(tag, "json is null");
+            return null;
+        }
+        else {
+            Topic e = new Topic();
+            try {
+                e.setId(o.getString(JsonKeys.ID));
+                e.setTitle(o.getString(JsonKeys.TITLE));
+            }
+            catch (Exception e1){
+                Log.e(tag, "error parse topic from json: " + e1);
                 e1.printStackTrace();
                 return null;
             }

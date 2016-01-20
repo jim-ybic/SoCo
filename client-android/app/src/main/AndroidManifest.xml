@@ -465,11 +465,7 @@
         </activity>
         <activity
             android:name=".topics.CreateTopicActivity"
-            android:label="@string/title_activity_create_topic"
-            android:parentActivityName=".dashboard.Dashboard" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.soco.SoCoClient.dashboard.Dashboard" />
+            android:label="@string/title_activity_create_topic">
         </activity>
     </application>
 
