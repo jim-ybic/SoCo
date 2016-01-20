@@ -153,7 +153,7 @@ public final class EventCardStackAdapter extends BaseEventCardStackAdapter {
 
 	void setTitleareaRandomColor(View view) {
 		Log.v(tag, "set title area random color: begin");
-		View titleareaView = view.findViewById(R.id.titlearea);
+		View titleareaView = view.findViewById(R.id.bannerarea);
 		Random rnd = new Random();
 		int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
 		titleareaView.setBackgroundColor(color);

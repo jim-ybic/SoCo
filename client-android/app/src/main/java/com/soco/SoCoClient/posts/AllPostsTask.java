@@ -119,9 +119,15 @@ public class AllPostsTask extends AsyncTask<String, Void, ArrayList<Post>> {
                 Log.w(tag, "status filed is missing, default success");
 
             if(status == HttpStatus.SUCCESS) {
-                String s = json.getString(JsonKeys.POSTS);
-                JSONArray array = new JSONArray(s);
-                return parsePosts(array);
+                if(json.has(JsonKeys.POSTS)) {
+                    String s = json.getString(JsonKeys.POSTS);
+                    JSONArray array = new JSONArray(s);
+                    return parsePosts(array);
+                }
+                else{
+                    Log.w(tag, "no post found");
+                    return null;
+                }
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);

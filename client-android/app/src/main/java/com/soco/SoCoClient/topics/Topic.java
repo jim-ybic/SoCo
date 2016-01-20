@@ -15,6 +15,7 @@ public class Topic {
     int numberViews;
     int numberPhotos;
     String createTimedate;
+    String banner_url;
     Group group = new Group();
     User creator = new User();
 
@@ -82,6 +83,14 @@ public class Topic {
 
     public void setCreateTimedate(String createTimedate) {
         this.createTimedate = createTimedate;
+    }
+
+    public String getBanner_url() {
+        return banner_url;
+    }
+
+    public void setBanner_url(String banner_url) {
+        this.banner_url = banner_url;
     }
 
     public Group getGroup() {

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.soco.SoCoClient.common.HttpStatus;
 import com.soco.SoCoClient.common.TaskCallBack;
+import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
@@ -33,7 +34,7 @@ public class AllTopicsTask extends AsyncTask<String, Void, ArrayList<Topic>> {
     TaskCallBack callBack;
 
     public AllTopicsTask(String user_id, String token, TaskCallBack cb){
-        Log.v(tag, "all topics task: " + user_id);
+        Log.v(tag, "all topics task");
         this.user_id=user_id;
         this.token=token;
         callBack = cb;
@@ -136,7 +137,8 @@ public class AllTopicsTask extends AsyncTask<String, Void, ArrayList<Topic>> {
             try {
                 p.setId(o.getString(JsonKeys.ID));
                 p.setTitle(o.getString(JsonKeys.TITLE));
-                p.setIntroduction(o.getString(JsonKeys.INTRODUCTION));
+                if(o.has(JsonKeys.INTRODUCTION))
+                    p.setIntroduction(o.getString(JsonKeys.INTRODUCTION));
 
                 p.setNumberPhotos(o.getInt(JsonKeys.NUMBER_OF_PHOTOS));
                 p.setNumberEvents(o.getInt(JsonKeys.NUMBER_OF_EVENTS));
@@ -145,6 +147,15 @@ public class AllTopicsTask extends AsyncTask<String, Void, ArrayList<Topic>> {
 
                 Long time = Long.valueOf(o.getString(JsonKeys.CREATE_DATE));
                 p.setCreateTimedate(TimeUtil.getDate(time, "HH:mm  dd/MM"));
+
+                if(o.has(JsonKeys.BANNER_URL) && !o.getString(JsonKeys.BANNER_URL).isEmpty()){
+                    p.setBanner_url(o.getString(JsonKeys.BANNER_URL));
+                    Log.v(tag, "topic banner url: " + p.getBanner_url());
+                }
+                else{
+                    Log.v(tag, "topic has no banner, use default banner: " + Config.DEFAULT_TOPIC_BANNER_URL);
+                    p.setBanner_url(Config.DEFAULT_TOPIC_BANNER_URL);
+                }
 
                 if(o.has(JsonKeys.GROUP)) {
                     Group g = parseGroup(o.getJSONObject(JsonKeys.GROUP));

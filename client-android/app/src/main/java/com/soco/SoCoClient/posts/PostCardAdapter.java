@@ -65,9 +65,8 @@ public class PostCardAdapter
                      mContext.getResources(), (ImageView) holder.itemView.findViewById(R.id.photo), photo.getUrl());
         }
         else {
-            Log.v(tag, "no photo in the post, remove the view");
-            holder.itemView.findViewById(R.id.photo).setVisibility(View.GONE);
-//            ((ViewManager) holder.photo.getParent()).removeView(holder.photo);    //too rude
+            Log.v(tag, "no photo in the post, hide the view");
+//            holder.itemView.findViewById(R.id.photo).setVisibility(View.GONE);    //show testing photo
         }
 
         Log.v(tag, "set comment");

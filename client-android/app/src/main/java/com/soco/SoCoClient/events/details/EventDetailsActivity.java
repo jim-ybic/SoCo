@@ -125,9 +125,10 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
     public void joinevent(View view){
         Log.v(tag, "tap join event");
         Intent i = new Intent(getApplicationContext(), JoinEventActivity.class);
-        i.putExtra(Event.EVENT_ID,Long.toString(currentEventId));
+        i.putExtra(Event.EVENT_ID, Long.toString(currentEventId));
         startActivity(i);
     }
+
     public void groupdetails (View view){
         Log.v(tag, "tap on group details");
         Intent i = new Intent(this, GroupDetailsActivity.class);
@@ -165,6 +166,7 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         ((TextView) this.findViewById(R.id.likeevent)).setText(Integer.toString(event.getNumber_of_likes()));
         LikeUtil.initialLikeButton(((Button) this.findViewById(R.id.likeevent)), event.isLikedEvent());
 
+        Log.v(tag, "show categories");
         if(event.getCategories() != null && !event.getCategories().isEmpty()) {
             LinearLayout layout = (LinearLayout) findViewById(R.id.categories);
             ViewElementHelper.showCategories(event, layout, context);
@@ -172,6 +174,7 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         else
             Log.v(tag, "no category for event: " + event.getTitle());
 
+        Log.v(tag, "show buddies");
         if(event.getJoinedBuddies().size()>0 || event.getLikedBuddies().size()>0) {
             LinearLayout layout = (LinearLayout) findViewById(R.id.eventbuddies);
             ViewElementHelper.showBuddies(event, layout, context);
@@ -179,9 +182,10 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         else
             Log.v(tag, "no buddies for event: " + event.getTitle());
 
+        Log.v(tag, "show creator icon and name");
         if(!StringUtil.isEmptyString(event.getCreator_id())) {
             ImageButton ib = (ImageButton) this.findViewById(R.id.creator_icon);
-            IconUrlUtil.setImageForButtonNormal(getResources(), ib, UrlUtil.getUserIconUrl(event.getCreator_id()));
+            IconUrlUtil.setImageForButtonSmall(getResources(), ib, UrlUtil.getUserIconUrl(event.getCreator_id()));
             ib.setTag(event.getCreator_id());
         }
         if(!StringUtil.isEmptyString(event.getCreator_name())){
@@ -189,7 +193,6 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
             this.findViewById(R.id.creator_name).setTag(event.getCreator_id());
         }
     }
-
 
     public void share(View view){
         if(event!=null) {

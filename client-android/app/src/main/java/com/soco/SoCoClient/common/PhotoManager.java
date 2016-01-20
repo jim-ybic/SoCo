@@ -91,18 +91,18 @@ public class PhotoManager implements TaskCallBack {
             Log.v(tag, "user icon url to process: " + urlToProcess);
         }
         else{
-            Log.e(tag, "url not supported by PhotoManager");
+            Log.e(tag, "url not supported by PhotoManager: " + url);
             return null;
         }
         //1st level, trying from memory cache
         Bitmap bitmap = bitmapCache.get(urlToProcess);
         if(bitmap != null){
-            Log.d(tag, "found bitmap in bitmapCache");
+            Log.v(tag, "found bitmap in bitmapCache");
             return bitmap;
         }
         else{
             //2nd level, not in memory cache, trying from disk cache
-            Log.d(tag, "not found in bitmapCache, find in internal storage");
+            Log.v(tag, "not found in bitmapCache, find in internal storage");
             String timestamp = localImageFileIndex.get(urlToProcess);
             if(timestamp != null){
                 Log.d(tag, "found bitmap in local file index: " + urlToProcess);
@@ -169,7 +169,7 @@ public class PhotoManager implements TaskCallBack {
         Log.d(tag, "load usericon bitmap file from local: " + urlToProcess);
 
         String userId = urlToProcess.substring(urlToProcess.indexOf(USER_ID_EQUAL) + 8, urlToProcess.length());
-        Log.d(tag, "userid: " + userId);
+        Log.v(tag, "userid: " + userId);
 
         String root = Environment.getExternalStorageDirectory().toString();
         String photoPath = root + SEPARATOR + DATA_FOLDER_NAME + "/" + COMPANY_NAME
@@ -197,7 +197,7 @@ public class PhotoManager implements TaskCallBack {
             bitmap = IconUrlUtil.decodeSampledBitmapFromFile(
                     photoPath, SocoApp.screenSizeWidth / 2, SocoApp.screenSizeHeight / 2);
 
-            Log.d(tag, "loaded image from local: " + bitmap);
+            Log.v(tag, "loaded image from local: " + bitmap);
             return bitmap;
         }
         catch(OutOfMemoryError e){
@@ -209,7 +209,7 @@ public class PhotoManager implements TaskCallBack {
 
     private Bitmap downloadBitmapFromUrl(String url){
         //don't call the IconDownloadTask but only the method to download from URL.Hence to avoid the infinite loop
-        Log.d(tag, "download bitmap from url: " + url);
+        Log.v(tag, "download bitmap from url: " + url);
         Bitmap bitmap = IconUrlUtil.getBitmapFromURL(url);
         if(bitmap!=null) {
             // get the bitmap and set it to cache.

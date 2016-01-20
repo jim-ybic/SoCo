@@ -2,6 +2,7 @@ package com.soco.SoCoClient.common.http;
 
 public class JsonKeys {
     public static final String ADDRESS = "address";
+    public static final String BANNER_URL = "banner_url";
     public static final String BIOGRAPHY = "biography";
     public static final String BUDDIES = "buddies";
     public static final String BUDDIES_JOINED = "buddies_joined";

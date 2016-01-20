@@ -3,6 +3,7 @@ package com.soco.SoCoClient.topics;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -58,9 +59,15 @@ public class TopicCardAdapter
         holder.title.setTag(topicId);
         holder.banner.setTag(topicId);
 
+        Log.v(tag, "set banner");
+        IconUrlUtil.setImageForViewWithSize(
+                mContext.getResources(), (ImageView) holder.itemView.findViewById(R.id.banner), p.getBanner_url());
+
         Log.v(tag, "set topic details");
         holder.title.setText(p.getTitle());
+        holder.intro.setText(p.getIntroduction());
         holder.group.setText(p.getGroup().getGroup_name());
+
 //        holder.numberPosts.setText(String.valueOf(p.getNumberPosts()));
 //        holder.numberEvents.setText(String.valueOf(p.getNumberEvents()));
 //        holder.numberViews.setText(String.valueOf(p.getNumberViews()));
@@ -75,18 +82,20 @@ public class TopicCardAdapter
     }
 
     public static class TopicCardViewHolder extends RecyclerView.ViewHolder {
-        public LinearLayout banner;
+        public ImageView banner;
         public TextView title;
         public TextView group;
-        public TextView numberPosts;
-        public TextView numberEvents;
-        public TextView numberViews;
+        public TextView intro;
+//        public TextView numberPosts;
+//        public TextView numberEvents;
+//        public TextView numberViews;
 
         public TopicCardViewHolder(View v) {
             super(v);
-            banner = (LinearLayout) v.findViewById(R.id.banner);
+            banner = (ImageView) v.findViewById(R.id.banner);
             title = (TextView) v.findViewById(R.id.title);
             group = (TextView) v.findViewById(R.id.group);
+            intro = (TextView) v.findViewById(R.id.intro);
 //            numberPosts = (TextView) v.findViewById(R.id.number_posts);
 //            numberEvents = (TextView) v.findViewById(R.id.number_events);
 //            numberViews = (TextView) v.findViewById(R.id.number_views);

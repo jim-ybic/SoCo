@@ -58,6 +58,8 @@ public class LoginActivity //extends ActionBarActivity
     static final String PERFS_NAME = "EVENT_BUDDY_PERFS";
     static final String LOGIN_EMAIL = "login_email";
     static final String LOGIN_PASSWORD = "login_password";
+    public static final String USER_ID = "user_id";
+    static final String TOKEN = "token";
 
     static final int WAIT_INTERVAL_IN_SECOND = 1;
     static final int WAIT_ITERATION = 10;
@@ -242,26 +244,46 @@ public class LoginActivity //extends ActionBarActivity
             return;
         }
 
-        Log.v(tag, "saved login details");
-        SharedPreferences settings = context.getSharedPreferences(PERFS_NAME, 0);
         String loginEmail = ((TextView) findViewById(R.id.et_login_email)).getText().toString();
         String loginPassword = ((TextView) findViewById(R.id.et_login_password)).getText().toString();
-        Log.v(tag, "save login detail: " + loginEmail + ", " + loginPassword);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(LOGIN_EMAIL, loginEmail);
-        editor.putString(LOGIN_PASSWORD, loginPassword);
-        editor.commit();
 
-        Log.v(tag, "show progress dialog, start login normal in background");
-        pd = ProgressDialog.show(this,
-                context.getString(R.string.msg_login),
-                context.getString(R.string.msg_pls_wait));
-        hideViews();
-        new Thread(new Runnable(){
-            public void run(){
-                loginNormalInBackground();
-            }
-        }).start();
+
+        Log.v(tag, "saved login details");
+        SharedPreferences settings = context.getSharedPreferences(PERFS_NAME, 0);
+//        String savedLoginEmail = settings.getString(LOGIN_EMAIL, "");
+//        String savedLoginPassword = settings.getString(LOGIN_PASSWORD, "");
+
+//        if(loginEmail.equals(savedLoginEmail) && loginPassword.equals(savedLoginPassword)){   //this causes issues when when multiple people use one shared account to login
+//            Log.d(tag, "login email/password same as before, skip login to server");
+//            String savedUserid = settings.getString(USER_ID, "");
+//            String savedToken = settings.getString(TOKEN, "");
+//            Log.d(tag, "get saved userid/token: " + savedUserid + "/" + savedToken);
+//            SocoApp.user_id = savedUserid;
+//            SocoApp.token = savedToken;
+//
+//            Toast.makeText(getApplicationContext(), R.string.msg_login_success, Toast.LENGTH_SHORT).show();
+//            Log.v(tag, "start dashboard");
+//            Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+//            startActivity(intent);
+//        }
+//        else {
+            Log.v(tag, "save login detail: " + loginEmail + ", " + loginPassword);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(LOGIN_EMAIL, loginEmail);
+            editor.putString(LOGIN_PASSWORD, loginPassword);
+            editor.commit();
+
+            Log.v(tag, "show progress dialog, start login normal in background");
+            pd = ProgressDialog.show(this,
+                    context.getString(R.string.msg_login),
+                    context.getString(R.string.msg_pls_wait));
+            hideViews();
+            new Thread(new Runnable() {
+                public void run() {
+                    loginNormalInBackground();
+                }
+            }).start();
+//        }
     }
 
     boolean validateInput(){
@@ -280,7 +302,6 @@ public class LoginActivity //extends ActionBarActivity
         if(socoApp.loginNormalResponse && socoApp.loginNormalResult){
             Log.d(tag, "login normal success, finish this screen and login to dashboard");
             Toast.makeText(getApplicationContext(), R.string.msg_login_success, Toast.LENGTH_SHORT).show();
-
             Log.v(tag, "start dashboard");
             Intent intent = new Intent(LoginActivity.this, Dashboard.class);
             startActivity(intent);

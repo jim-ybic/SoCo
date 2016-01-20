@@ -306,9 +306,9 @@ public class Dashboard extends ActionBarActivity implements
     }
 
     public void eventdetails(View view) {
-        Log.v(tag, "check event details");
         Intent i = new Intent(this, EventDetailsActivity.class);
         Long id = (Long) view.getTag();
+        Log.v(tag, "check event details: " + id);
         i.putExtra(EventDetailsActivity.EVENT_ID, id);
         startActivity(i);
     }
@@ -509,6 +509,14 @@ public class Dashboard extends ActionBarActivity implements
         });
 
         //todo: more options
+    }
+
+    public void joinevent2(View view) {
+        Intent i = new Intent(this, JoinEventActivity.class);
+        String id = String.valueOf(view.getTag());
+        Log.v(tag, "join eventid: " + id);
+        i.putExtra(EventDetailsActivity.EVENT_ID, id);
+        startActivity(i);
     }
 
 }

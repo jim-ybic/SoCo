@@ -29,7 +29,7 @@
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@drawable/ic_launcher"
-        android:label="event buddies"
+        android:label="@string/product_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"

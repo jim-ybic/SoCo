@@ -1,11 +1,9 @@
 package com.soco.SoCoClient.events.allevents;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +15,9 @@ import android.widget.TextView;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
-import com.soco.SoCoClient.common.util.StringUtil;
-import com.soco.SoCoClient.common.util.TimeUtil;
 import com.soco.SoCoClient.events.model.Event;
-import com.soco.SoCoClient.events.ui.ViewElementHelper;
 import com.soco.SoCoClient.userprofile.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -53,22 +47,31 @@ public class SimpleEventCardAdapter
     // Note: do not use below function logic as reference,
     // please use TopicCardAdapter.onBindViewHolder
     @Override
-    public void onBindViewHolder( SimpleEventCardViewHolder simpleEventCardViewHolder, int i )
+    public void onBindViewHolder( SimpleEventCardViewHolder holder, int i )
     {
         Event event = events.get(i);
         Log.v(tag, "bind event: " + event.getTitle());
         Long eventId = event.getId();
 
-        Log.v(tag, "set title: " + event.getTitle() + ", set tag as eventid: " + eventId);
-        ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.title)).setText(event.getTitle());
-         simpleEventCardViewHolder.itemView.findViewById(R.id.title).setTag(eventId);
-        simpleEventCardViewHolder.itemView.findViewById(R.id.titlearea).setTag(eventId);
+        Log.v(tag, "set title: " + event.getTitle());
+        ((TextView) holder.itemView.findViewById(R.id.title)).setText(event.getTitle());
+
+        Log.v(tag, "set tag as eventid: " + eventId);
+        holder.itemView.findViewById(R.id.title).setTag(eventId);
+        holder.itemView.findViewById(R.id.banner).setTag(eventId);
+        holder.itemView.findViewById(R.id.bannerarea).setTag(eventId);
+        holder.itemView.findViewById(R.id.join).setTag(eventId);
 //        ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.address)).setText(event.getAddress());
 //         simpleEventCardViewHolder.itemView.findViewById(R.id.address).setTag(eventId);
 
         Log.v(tag, "comment out below line due to the function (event comment) not available in system");
 //        ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textNoOfComments)).setText(Integer.toString(event.getNumber_of_comments()));
 //        simpleEventCardViewHolder.itemView.findViewById(R.id.textNoOfComments).setTag(eventId);
+
+        Log.v(tag, "set banner");
+//        holder.itemView.findViewById(R.id.banner).setVisibility(View.VISIBLE);
+        IconUrlUtil.setImageForViewWithSize(
+                mContext.getResources(), (ImageView) holder.itemView.findViewById(R.id.banner), event.getBanner_url());
 
         //date time
 //        if(!StringUtil.isEmptyString(event.getStart_date())) {
@@ -146,7 +149,7 @@ public class SimpleEventCardAdapter
 
     void setTitleareaRandomColor(View view) {
         Log.v(tag, "set title area random color: begin");
-        View titleareaView = view.findViewById(R.id.titlearea);
+        View titleareaView = view.findViewById(R.id.banner);
         Random rnd = new Random();
         int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         titleareaView.setBackgroundColor(color);

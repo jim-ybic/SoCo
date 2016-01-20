@@ -2,6 +2,7 @@ package com.soco.SoCoClient.common.util;
 
 import android.util.Log;
 
+import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.groups.model.Group;
@@ -39,8 +40,10 @@ public class EventsResponseUtil {
 
         parseOrganizer(obj, e);
         parseBuddies(obj, e);
+
         return e;
     }
+
     public static void parseEventBasics(Event e, JSONObject obj) throws JSONException {
         e.setId(obj.getLong(JsonKeys.EVENT_ID));
         e.setTitle(obj.getString(JsonKeys.NAME));
@@ -52,6 +55,15 @@ public class EventsResponseUtil {
         }catch (JSONException exc){
             //in case of exception, set false as the default value
             e.setIsLikedEvent(false);
+        }
+
+        if(obj.has(JsonKeys.BANNER_URL) && !obj.getString(JsonKeys.BANNER_URL).isEmpty()){
+            e.setBanner_url(obj.getString(JsonKeys.BANNER_URL));
+            Log.d(tag, "event banner url: " + e.getBanner_url());
+        }
+        else{
+            Log.d(tag, "event has no banner, use default banner: " + Config.DEFAULT_EVENT_BANNER_URL);
+            e.setBanner_url(Config.DEFAULT_EVENT_BANNER_URL);
         }
     }
 

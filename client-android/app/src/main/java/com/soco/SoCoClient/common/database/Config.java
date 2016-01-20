@@ -191,5 +191,6 @@ public class Config {
     public static final String CONTACT_LIST_SECTION_MYFRIENDS = "MY FRIENDS";
     public static final String CONTACT_LIST_SECTION_MYPHONECONTACTS = "MY PHONE CONTACTS";
 
-
+    public static final String DEFAULT_EVENT_BANNER_URL = "http://52.74.138.131:80/v1/image?image_path=images/events/2100101453271584888/image/event3_Banner1453272219366.png";
+    public static final String DEFAULT_TOPIC_BANNER_URL = "http://52.74.138.131:80/v1/image?image_path=images/events/2100101453271584888/image/event3_Banner1453272219366.png";
 }

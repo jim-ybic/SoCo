@@ -62,16 +62,7 @@ public class AllTopicsFragment extends Fragment
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-
-//                Log.v(tag, "add dummy data");
-//                Topic p1 = new Topic(); p1.setTitle("sample topic #1");
-//                Topic p2 = new Topic(); p2.setTitle("sample topic #2");
-//                Topic p3 = new Topic(); p3.setTitle("sample topic #3");
-//                topics.add(p1);
-//                topics.add(p2);
-//                topics.add(p3);
-
-                adapter.notifyDataSetChanged();
+                Log.v(tag, "do nothing for now");
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -81,16 +72,7 @@ public class AllTopicsFragment extends Fragment
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
 
-//        topics = new ArrayList<>();
-//        Log.v(tag, "add dummy data");
-//        Topic p1 = new Topic(); p1.setTitle("sample topic #1");
-//        Topic p2 = new Topic(); p2.setTitle("sample topic #2");
-//        Topic p3 = new Topic(); p3.setTitle("sample topic #3");
-//        topics.add(p1);
-//        topics.add(p2);
-//        topics.add(p3);
-
-        Log.d(tag, "download all topics task");
+        Log.v(tag, "download all topics task");
         new AllTopicsTask(SocoApp.user_id, SocoApp.token, this).execute();
 
         adapter = new TopicCardAdapter(getActivity(), topics);
