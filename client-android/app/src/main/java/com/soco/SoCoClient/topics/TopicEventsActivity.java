@@ -19,6 +19,7 @@ import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.allevents.SimpleEventCardAdapter;
+import com.soco.SoCoClient.events.details.EventDetailsActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.userprofile.task.DownloadEventsTask;
 
@@ -105,6 +106,14 @@ public class TopicEventsActivity extends ActionBarActivity
         // Now we call setRefreshing(false) to signal refresh has finished
         swipeContainer.setRefreshing(false);
         pd.dismiss();
+    }
+
+    public void eventdetails(View view) {
+        Intent i = new Intent(this, EventDetailsActivity.class);
+        Long id = (Long) view.getTag();
+        Log.v(tag, "check event details: " + id);
+        i.putExtra(EventDetailsActivity.EVENT_ID, id);
+        startActivity(i);
     }
 
 }
