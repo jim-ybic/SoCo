@@ -22,7 +22,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.HostnameVerifier;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 
 public class HttpUtil {
 
@@ -74,6 +80,32 @@ public class HttpUtil {
         return response;
     }
 
+    public static Object executeHttpsPost(String url, JSONObject data) {
+        Object response = null;
+        Log.v(tag, "executeHttpPost, url: " + url);
+        Log.v(tag, "executeHttpPost, data: " + data);
+
+        try {
+            DefaultHttpClient httpclient = getDefaultHttpClient();
+            HttpPost httpost = new HttpPost(url);
+            StringEntity se = new StringEntity(data.toString(), HTTP.UTF_8);
+//            Log.d(tag, "string entity: " + se.toString());
+            httpost.setEntity(se);
+            httpost.setHeader("Accept", "application/json");
+            ResponseHandler responseHandler = new BasicResponseHandler();
+
+            response = httpclient.execute(httpost, responseHandler);
+            Log.v(tag, "Post success, response: " + response);
+        } catch (Exception e) {
+            Log.e(tag, "Post fail: " + e.toString());
+            e.printStackTrace();
+
+            return null;
+        }
+
+        return response;
+    }
+
     public static Object executeHttpGet(String url) {
         Object response = null;
         Log.v(tag, "executeHttpGet, url: " + url);
@@ -94,6 +126,27 @@ public class HttpUtil {
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
+
+        } catch (Exception e) {
+            Log.e(tag, "Get fail: " + e.toString());
+            e.printStackTrace();
+            return null;
+        }
+
+        return response;
+    }
+
+    public static Object executeHttpsGet(String url) {
+        Object response = null;
+        Log.v(tag, "executeHttpGet, url: " + url);
+
+        try {
+            DefaultHttpClient httpclient = getDefaultHttpClient();
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.setHeader("charset", HTTP.UTF_8);
+            ResponseHandler responseHandler = new BasicResponseHandler();
+            response = httpclient.execute(httpGet, responseHandler);
+            Log.v(tag, "Get success, response: " + response);
 
         } catch (Exception e) {
             Log.e(tag, "Get fail: " + e.toString());
@@ -138,6 +191,24 @@ public class HttpUtil {
         }
 
         return httpResponse;
+    }
+
+    private static DefaultHttpClient getDefaultHttpClient(){
+        HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+
+        DefaultHttpClient client = new DefaultHttpClient();
+
+        SchemeRegistry registry = new SchemeRegistry();
+        SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+        socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
+        registry.register(new Scheme("https", socketFactory, 443));
+        ThreadSafeClientConnManager mgr = new ThreadSafeClientConnManager(client.getParams(), registry);
+        DefaultHttpClient httpclient = new DefaultHttpClient(mgr, client.getParams());
+
+        // Set verifier
+        HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+
+        return httpclient;
     }
 
 }

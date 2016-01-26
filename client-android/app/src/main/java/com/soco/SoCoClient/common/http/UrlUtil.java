@@ -12,6 +12,7 @@ import com.soco.SoCoClient.config.ClientConfig;
 
 public class UrlUtil {
     public static final String SERVER_PORT = "80";
+    public static final String SERVER_SSL_PORT = "443";
     static String tag = "UrlUtil";
 
     @Deprecated
@@ -247,6 +248,7 @@ public class UrlUtil {
 
     //http
     static final String URL_HEADER = "http://";
+    static final String URL_SSL_HEADER = "https://";
     static final String COLON = ":";
 
     static final String LOGIN_PATH = "/v1/login";
@@ -286,6 +288,12 @@ public class UrlUtil {
         return url;
     }
 
+    public static String getLoginSSLUrl(){
+        String url = URL_SSL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_SSL_PORT + LOGIN_PATH;
+        Log.v(tag, "login url: " + url);
+        return url;
+    }
+
     public static String getSocialLoginUrl(){
         String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + SOCIAL_LOGIN_PATH;
         Log.v(tag, "social login url: " + url);
@@ -294,6 +302,12 @@ public class UrlUtil {
 
     public static String getRegisterUrl(){
         String url = URL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_PORT + REGISTER_PATH;
+        Log.v(tag, "register url: " + url);
+        return url;
+    }
+
+    public static String getRegisterSSLUrl(){
+        String url = URL_SSL_HEADER + ClientConfig.SERVER_IP + COLON + SERVER_SSL_PORT + REGISTER_PATH;
         Log.v(tag, "register url: " + url);
         return url;
     }

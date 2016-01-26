@@ -53,7 +53,8 @@ public class LoginNormalTask extends AsyncTask<String, Void, Boolean> {
 
         Log.v(tag, "login to server");
 
-        String url = UrlUtil.getLoginUrl();
+//        String url = UrlUtil.getLoginUrl();
+        String url = UrlUtil.getLoginSSLUrl();
         String name = "";   //not available from UI
         String email = socoApp.loginEmail;
         String phone = "";  //not available from UI
@@ -105,7 +106,7 @@ public class LoginNormalTask extends AsyncTask<String, Void, Boolean> {
             e.printStackTrace();
         }
 
-        return HttpUtil.executeHttpPost(url, data);
+        return HttpUtil.executeHttpsPost(url, data);
     }
 
     private int parse(Object response) {
