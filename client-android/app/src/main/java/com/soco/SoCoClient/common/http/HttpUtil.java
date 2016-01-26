@@ -2,8 +2,6 @@ package com.soco.SoCoClient.common.http;
 
 import android.util.Log;
 
-import com.soco.SoCoClient.common.util.SocoApp;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -18,7 +16,6 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -86,7 +83,7 @@ public class HttpUtil {
         Log.v(tag, "executeHttpPost, data: " + data);
 
         try {
-            DefaultHttpClient httpclient = getDefaultHttpClient();
+            DefaultHttpClient httpclient = getDefaultHttpClientSsl();
             HttpPost httpost = new HttpPost(url);
             StringEntity se = new StringEntity(data.toString(), HTTP.UTF_8);
 //            Log.d(tag, "string entity: " + se.toString());
@@ -141,7 +138,7 @@ public class HttpUtil {
         Log.v(tag, "executeHttpGet, url: " + url);
 
         try {
-            DefaultHttpClient httpclient = getDefaultHttpClient();
+            DefaultHttpClient httpclient = getDefaultHttpClientSsl();
             HttpGet httpGet = new HttpGet(url);
             httpGet.setHeader("charset", HTTP.UTF_8);
             ResponseHandler responseHandler = new BasicResponseHandler();
@@ -193,7 +190,7 @@ public class HttpUtil {
         return httpResponse;
     }
 
-    private static DefaultHttpClient getDefaultHttpClient(){
+    private static DefaultHttpClient getDefaultHttpClientSsl(){
         HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 
         DefaultHttpClient client = new DefaultHttpClient();
