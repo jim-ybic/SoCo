@@ -11,20 +11,11 @@ import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
+import com.soco.SoCoClient.common.util.SignatureUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
-import com.soco.SoCoClient.events.model.Event;
-import com.soco.SoCoClient.groups.model.Group;
-import com.soco.SoCoClient.userprofile.model.User;
+import com.soco.SoCoClient.config.ClientConfig;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class LoginNormalTask extends AsyncTask<String, Void, Boolean> {
@@ -39,10 +30,16 @@ public class LoginNormalTask extends AsyncTask<String, Void, Boolean> {
     SocoApp socoApp;
     TaskCallBack callBack;
 
+    String deviceImei;
+    String deviceImsi;
+
     public LoginNormalTask(Context context, TaskCallBack cb){
         this.context = context;
         this.socoApp = (SocoApp) context;
         this.callBack = cb;
+
+        deviceImei = SignatureUtil.getDeviceImei(context);
+        deviceImsi = SignatureUtil.getDeviceImsi(context);
     }
 
     protected Boolean doInBackground(String... params) {
@@ -53,8 +50,16 @@ public class LoginNormalTask extends AsyncTask<String, Void, Boolean> {
 
         Log.v(tag, "login to server");
 
-//        String url = UrlUtil.getLoginUrl();
-        String url = UrlUtil.getLoginSSLUrl();
+        String url;
+        if(ClientConfig.ENABLE_SSL_LOGIN) {
+            url = UrlUtil.getLoginSSLUrl();
+            Log.v(tag, "ssl enabled, login url: " + url);
+        }
+        else {
+            url = UrlUtil.getLoginUrl();
+            Log.v(tag, "ssl not enabled, login url: " + url);
+        }
+
         String name = "";   //not available from UI
         String email = socoApp.loginEmail;
         String phone = "";  //not available from UI
@@ -106,7 +111,14 @@ public class LoginNormalTask extends AsyncTask<String, Void, Boolean> {
             e.printStackTrace();
         }
 
-        return HttpUtil.executeHttpsPost(url, data);
+        if(ClientConfig.ENABLE_SSL_LOGIN){
+            Log.v(tag, "ssl enabled, execute https post: " + url);
+            return HttpUtil.executeHttpsPost(url, data);
+        }
+        else {
+            Log.v(tag, "ssl not enabled, execute http post: " + url);
+            return HttpUtil.executeHttpPost(url, data);
+        }
     }
 
     private int parse(Object response) {
