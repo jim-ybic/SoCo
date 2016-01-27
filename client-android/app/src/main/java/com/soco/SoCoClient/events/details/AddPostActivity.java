@@ -13,12 +13,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.config.ClientConfig;
 import com.soco.SoCoClient.events.service.AddPostTask;
 
 public class AddPostActivity extends ActionBarActivity
@@ -55,6 +57,15 @@ public class AddPostActivity extends ActionBarActivity
 
         context = getApplicationContext();
         socoApp = (SocoApp) context;
+
+        if(ClientConfig.ALLOW_POST_PHOTO) {
+            Log.d(tag, "do not allow user post photo (due to photo size issue");
+            (findViewById(R.id.addphoto)).setClickable(true);
+        }
+        else {
+            Log.d(tag, "allow user post photo (photo size issue fixed or being tested");
+            (findViewById(R.id.addphoto)).setClickable(false);
+        }
     }
 
     public void post(View view){

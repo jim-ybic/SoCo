@@ -36,6 +36,7 @@ import com.soco.SoCoClient.common.database.Config;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.config.ClientConfig;
 import com.soco.SoCoClient.events.CreateEventActivity;
 import com.soco.SoCoClient.events.allevents.AllEventsActivity;
 import com.soco.SoCoClient.events.comments.EventCommentsActivity;
@@ -348,7 +349,11 @@ public class Dashboard extends ActionBarActivity implements
         window.setOutsideTouchable(true);
         window.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
         window.showAsDropDown(findViewById(R.id.mebutton));
-        setMePopupListeners(window, popupView);
+
+        if(ClientConfig.ENABLE_MYPROFILE_MENU) {
+            Log.v(tag, "my profile menu enabled, adding menu item listeners");
+            setMePopupListeners(window, popupView);
+        }
     }
 
     void setMePopupListeners(final PopupWindow window, View view) {
