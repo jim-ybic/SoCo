@@ -8,6 +8,8 @@ import java.util.Formatter;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.soco.SoCoClient.common.model._ref.Activity;
@@ -65,5 +67,21 @@ public class SignatureUtil {
                 s += "\n" + n;
         }
         return s;
+    }
+
+    public static String getDeviceImei(Context context) {
+        String imei = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+        if (imei == null) {
+            imei = android.os.Build.SERIAL;
+            Log.d(tag, "device id not available, use os build serial: " + imei);
+        }
+        Log.d(tag, "imei: " + imei);
+        return imei;
+    }
+
+    public static String getDeviceImsi(Context context) {
+        String imsi = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getSubscriberId();
+        Log.d(tag, "imsi: " + imsi);
+        return imsi;
     }
 }
