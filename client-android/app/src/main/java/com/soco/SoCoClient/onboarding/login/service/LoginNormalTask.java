@@ -105,6 +105,12 @@ public class LoginNormalTask extends AsyncTask<String, Void, Boolean> {
             if(!phone.isEmpty())
                 data.put(JsonKeys.PHONE, phone);
             data.put(JsonKeys.PASSWORD, password);
+
+            if(deviceImei != null && !deviceImei.isEmpty())
+                data.put(JsonKeys.IMEI, deviceImei);
+            if(deviceImsi != null && !deviceImsi.isEmpty())
+                data.put(JsonKeys.IMSI, deviceImsi);
+
             Log.d(tag, "normal login request json: " + data);
         } catch (Exception e) {
             Log.e(tag, "cannot create json post data");
