@@ -48,6 +48,8 @@ public class JsonKeys {
     public static final String GROUP_NAME = "group_name";
     public static final String HOMETOWN = "hometown";
     public static final String ID = "id";
+    public static final String IMEI = "IMEI";
+    public static final String IMSI = "IMSI";
     public static final String INTEREST = "interest";
     public static final String INTERESTS = "interests";
     public static final String INTRODUCTION = "introduction";
