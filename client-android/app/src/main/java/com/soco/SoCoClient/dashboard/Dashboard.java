@@ -513,7 +513,23 @@ public class Dashboard extends ActionBarActivity implements
             }
         });
 
-        //todo: more options
+        TextView delete = (TextView) view.findViewById(R.id.popup_delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                //todo
+            }
+        });
+
+        TextView blockuser = (TextView) view.findViewById(R.id.popup_blockuser);
+        blockuser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                //todo
+            }
+        });
     }
 
     public void joinevent2(View view) {
