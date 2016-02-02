@@ -70,9 +70,10 @@ public class SimpleEventCardAdapter
 
         Log.v(tag, "set banner");
 //        holder.itemView.findViewById(R.id.banner).setVisibility(View.VISIBLE);
-        IconUrlUtil.setImageForViewWithSize(
-                mContext.getResources(), (ImageView) holder.itemView.findViewById(R.id.banner), event.getBanner_url());
-
+        if(event.getBanner_url()!=null) {
+            IconUrlUtil.setImageForViewWithSize(
+                    mContext.getResources(), (ImageView) holder.itemView.findViewById(R.id.banner), event.getBanner_url());
+        }
         //date time
 //        if(!StringUtil.isEmptyString(event.getStart_date())) {
 //            ((TextView) simpleEventCardViewHolder.itemView.findViewById(R.id.textStartDate)).setText(TimeUtil.getTextDate(event.getStart_date(), "dd-MMM"));

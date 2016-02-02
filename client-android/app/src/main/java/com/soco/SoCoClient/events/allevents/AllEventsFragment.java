@@ -2,10 +2,9 @@ package com.soco.SoCoClient.events.allevents;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Typeface;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,14 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.SocoApp;
 import com.soco.SoCoClient.events.CreateEventActivity;
-import com.soco.SoCoClient.events.details.EventDetailsActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.userprofile.task.DownloadEventsTask;
 
@@ -132,7 +129,17 @@ public class AllEventsFragment extends Fragment
         swipeContainer.setRefreshing(false);
 //        pd.dismiss();
     }
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.v(tag, "onResume of the AllEventsFragment Activity");
+        if(socoApp.newEvent!=null){
+            Event e = socoApp.newEvent;
+            events.add(e);
+            socoApp.newEvent=null;
+            simpleEventCardAdapter.notifyDataSetChanged();
+        }
+    }
     private void setOnclickListener(){
 //        newEvents = (TextView) rootView.findViewById(R.id.newEvents);
 //        newEvents.setTypeface(null, Typeface.BOLD); //default

@@ -9,8 +9,8 @@ import com.soco.SoCoClient.common.HttpStatus;
 import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.JsonKeys;
 import com.soco.SoCoClient.common.http.UrlUtil;
-import com.soco.SoCoClient.common.util.JsonSimulator;
 import com.soco.SoCoClient.common.util.SocoApp;
+import com.soco.SoCoClient.common.util.StringUtil;
 import com.soco.SoCoClient.events.model.Event;
 
 import org.json.JSONObject;
@@ -131,6 +131,10 @@ public class CreateEventService extends IntentService {
 //                        "event id: " + event_id
 //                );
                 socoApp.createEventResult = true;
+                String event_id = json.getString(JsonKeys.EVENT_ID);
+                if(!StringUtil.isEmptyString(event_id)){
+                    socoApp.newEvent.setId(Long.parseLong(event_id));
+                }
             }
             else {
                 String error_code = json.getString(JsonKeys.ERROR_CODE);
