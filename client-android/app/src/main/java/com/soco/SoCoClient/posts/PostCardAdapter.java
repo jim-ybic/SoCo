@@ -32,7 +32,7 @@ public class PostCardAdapter
     }
 
     public void setIsSourceFromSingleEvent(boolean isSourceFromSingleEvent) {
-        this.isSourceFromSingleEvent = isSourceFromSingleEvent;
+//        this.isSourceFromSingcreateevleEvent = isSourceFromSingleEvent;
     }
 
     @Override

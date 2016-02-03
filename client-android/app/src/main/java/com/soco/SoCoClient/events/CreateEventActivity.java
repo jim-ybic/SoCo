@@ -117,10 +117,13 @@ public class CreateEventActivity extends ActionBarActivity {
             return false;
         }
 
-        if(mStartdate.getText().toString().isEmpty() || mEnddate.getText().toString().isEmpty()
-                || mStarttime.getText().toString().isEmpty() || mEndtime.getText().toString().isEmpty()){
-            Log.e(tag, "title is empty");
-            Toast.makeText(getApplicationContext(), "Title cannot be empty.", Toast.LENGTH_SHORT).show();
+        if(mStartdate.getText().toString().isEmpty()
+//                || mEnddate.getText().toString().isEmpty()
+                || mStarttime.getText().toString().isEmpty()
+//                || mEndtime.getText().toString().isEmpty()
+                ){
+            Log.e(tag, "date or time is empty");
+            Toast.makeText(getApplicationContext(), "Date & Time cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
