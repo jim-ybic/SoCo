@@ -29,19 +29,12 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:orientation="vertical"
-            android:background="#ffffb73f"
             android:id="@+id/bannerarea">
-            <TextView
-                android:id="@+id/textTitle"
-                style="@android:style/TextAppearance.Large.Inverse"
-                android:textColor="@android:color/white"
-                android:textSize="22sp"
-                android:textStyle="bold"
+            <ImageView
+                android:id="@+id/eventDetailBanner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:text="title" />
+                android:src="@drawable/picture3_crop"/>
         </LinearLayout>
 
         <LinearLayout
@@ -50,24 +43,40 @@
             android:orientation="vertical"
             android:background="@android:color/white"
             android:id="@+id/datetimelocation"
-            android:layout_marginTop="5dp"
-            android:gravity="center_horizontal">
+            android:layout_marginTop="5dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/textTitle"
+                    style="@android:style/TextAppearance.Large.Inverse"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="title" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
-                    android:id="@+id/address" />
+                    android:id="@+id/address"
+                    android:text="address"/>
             </LinearLayout>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal">
                 <TextView
                     android:id="@+id/textStartDate"
                     android:layout_width="wrap_content"
@@ -231,12 +240,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/logo_paypal_small"
-                android:layout_marginRight="20dp" />
+                android:layout_marginRight="20dp"
+                android:onClick="eventpaypal" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/logo_alipay_small"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="20dp"
+                android:visibility="invisible" />
         </LinearLayout>
 
         <LinearLayout
