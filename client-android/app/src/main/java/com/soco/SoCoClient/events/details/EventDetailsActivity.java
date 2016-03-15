@@ -22,8 +22,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.braintreepayments.api.PayPal;
 import com.soco.SoCoClient.R;
 import com.soco.SoCoClient.common.TaskCallBack;
+import com.soco.SoCoClient.common.http.HttpUtil;
 import com.soco.SoCoClient.common.http.UrlUtil;
 import com.soco.SoCoClient.common.ui.SwipeRefreshLayoutBottom;
 import com.soco.SoCoClient.common.util.IconUrlUtil;
@@ -36,13 +38,22 @@ import com.soco.SoCoClient.events.comments.EventCommentsActivity;
 import com.soco.SoCoClient.events.model.Event;
 import com.soco.SoCoClient.events.photos.EventPhotosActivity;
 import com.soco.SoCoClient.events.service.EventDetailsTask;
+import com.soco.SoCoClient.events.service.EventPaypalActivity;
 import com.soco.SoCoClient.events.service.LikeEventTask;
 import com.soco.SoCoClient.events.ui.ViewElementHelper;
 import com.soco.SoCoClient.groups.GroupDetailsActivity;
 import com.soco.SoCoClient.posts.Post;
 import com.soco.SoCoClient.posts.PostCardAdapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+
+import com.braintreepayments.api.models.PaymentMethodNonce;
+import com.braintreepayments.api.PaymentRequest;
+import com.braintreepayments.api.BraintreePaymentActivity;
+
+import com.soco.SoCoClient.common.service.HttpRequestTask;
 
 
 public class EventDetailsActivity extends ActionBarActivity implements TaskCallBack {
@@ -57,6 +68,10 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
     private Event event;
     static final int MAX_NUMBER_BUDDIES_SHOW_ON_CARD = 6;
     ProgressDialog pd;
+
+    static int REQUEST_CODE = 100;
+
+    private String clientToken = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +98,13 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         }).start();
     }
 
+    private void getClientTokenForPaypal() throws IOException{
+//        String tokenURL = "https://localhost:8443/v1/client_token";
+        String tokenURL = "http://192.168.43.222:8090/v1/client_token";
+        HttpRequestTask getTask = new HttpRequestTask(this);
+        getTask.execute("GET", tokenURL);
+    }
+
     private void downloadEventDetails(){
         Log.v(tag, "download event details");
         EventDetailsTask edt = new EventDetailsTask(SocoApp.user_id,SocoApp.token,this);
@@ -96,10 +118,18 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
             Toast.makeText(getApplicationContext(), R.string.msg_network_error, Toast.LENGTH_SHORT).show();
             return;
         }
-        event = (Event) o;
-        showDetails(event);
+        if(o instanceof Event) {
+            event = (Event) o;
+            showDetails(event);
+        } else if(o instanceof String){
+            clientToken = (String)o;
+            Log.v(tag, "Get client token: "+clientToken);
+        } else {
+            Log.v(tag, "default: " + o);
+        }
         pd.dismiss();
     }
+
 
     public void close(View view){
         finish();
@@ -194,6 +224,9 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
             ((TextView) this.findViewById(R.id.creator_name)).setText(event.getCreator_name());
             this.findViewById(R.id.creator_name).setTag(event.getCreator_id());
         }
+        ////
+        IconUrlUtil.setImageForViewWithSize(
+            context.getResources(), (ImageView) this.findViewById(R.id.eventDetailBanner), event.getBanner_url());
     }
 
     public void share(View view){
@@ -250,6 +283,62 @@ public class EventDetailsActivity extends ActionBarActivity implements TaskCallB
         Intent i = new Intent(this, EventPostsActivity.class);
         i.putExtra(EventPostsActivity.EVENTID, String.valueOf(event.getId()));
         startActivity(i);
+    }
+
+    public void eventpaypal(View view){
+        Log.v(tag, "Click paypal");
+
+        Intent i = new Intent(this, EventPaypalActivity.class);
+        i.putExtra(EventPaypalActivity.EVENT_ID, event.getId());
+        i.putExtra(EventPaypalActivity.EVENT_TITLE, event.getTitle());
+        i.putExtra(EventPaypalActivity.EVENT_ADDRESS, event.getAddress());
+        i.putExtra(EventPaypalActivity.EVENT_START_DATE, event.getStart_date());
+        i.putExtra(EventPaypalActivity.EVENT_START_TIME, event.getStart_time());
+        i.putExtra(EventPaypalActivity.EVENT_END_DATE, event.getEnd_date());
+        i.putExtra(EventPaypalActivity.EVENT_END_TIME, event.getEnd_time());
+        i.putExtra(EventPaypalActivity.EVENT_BANNER, event.getBanner_url());
+
+        startActivity(i);
+
+//        try {
+//            if(clientToken.isEmpty()) {
+//                getClientTokenForPaypal();
+//            } else {
+//                startActivityForResult(getPaymentRequest().getIntent(this), REQUEST_CODE);
+//            }
+//        }catch (IOException e){
+//            Log.e(tag, e.getMessage());
+//        }
+
+    }
+
+    private PaymentRequest getPaymentRequest() {
+        PaymentRequest paymentRequest = new PaymentRequest()
+                .clientToken(clientToken)
+                .secondaryDescription("1 Item")
+                .amount("$1.00")
+                .submitButtonText("Buy");
+
+
+        return paymentRequest;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.v(tag, "In onActivityResult : " + requestCode);
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                PaymentMethodNonce paymentMethodNonce = data.getParcelableExtra(
+                        BraintreePaymentActivity.EXTRA_PAYMENT_METHOD_NONCE
+                );
+                String nonce = paymentMethodNonce.getNonce();
+                // Send the nonce to your server.
+                Log.v(tag, "nonce: " + nonce);
+                String tokenURL = "http://192.168.43.222:8090/v1/checkout";
+                HttpRequestTask getTask = new HttpRequestTask(this);
+                getTask.execute("POST", tokenURL, "payment_method_nonce", nonce);
+            }
+        }
     }
 
 //    @Override
