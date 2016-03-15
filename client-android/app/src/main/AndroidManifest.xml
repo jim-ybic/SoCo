@@ -172,7 +172,6 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -268,7 +267,6 @@
         <activity
             android:name=".events.details.EventDetailsActivity"
             android:label="@string/title_activity_activity_event_details" >
-
             <!-- android:parentActivityName=".dashboard.Dashboard" > -->
             <!-- <meta-data -->
             <!-- android:name="android.support.PARENT_ACTIVITY" -->
@@ -434,7 +432,11 @@
         </activity>
         <activity
             android:name=".events.details.AddPostActivity"
-            android:label="@string/title_activity_add_post">
+            android:label="@string/title_activity_add_post"
+            android:parentActivityName=".onboarding.login.LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".onboarding.login.LoginActivity" />
         </activity>
         <activity
             android:name=".buddies.MyBuddiesActivity"
@@ -467,6 +469,10 @@
         <activity
             android:name=".topics.CreateTopicActivity"
             android:label="@string/title_activity_create_topic">
+        </activity>
+        <activity
+            android:name=".events.service.EventPaypalActivity"
+            android:label="@string/title_activity_event_paypal">
         </activity>
     </application>
 
