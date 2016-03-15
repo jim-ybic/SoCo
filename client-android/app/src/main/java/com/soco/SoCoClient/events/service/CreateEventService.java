@@ -90,9 +90,12 @@ public class CreateEventService extends IntentService {
             }
 
             data.put(JsonKeys.NAME, event.getTitle());
-            if(!event.getAddress().isEmpty())
-                data.put(JsonKeys.LOCATION, event.getAddress());
+            JSONObject venue = new JSONObject();
+            if(!event.getAddress().isEmpty()) {
+                venue.put(JsonKeys.ADDRESS, event.getAddress());
+            }
 
+            data.put(JsonKeys.VENUE, venue);
             JSONObject dateObj = new JSONObject();
             if(!event.getStart_date().isEmpty())
                 dateObj.put(JsonKeys.START_DATE, event.getStart_date());
@@ -105,7 +108,7 @@ public class CreateEventService extends IntentService {
             data.put(JsonKeys.TIMEDATE, dateObj);
 
             if(!event.getIntroduction().isEmpty())
-                data.put(JsonKeys.INTRODUCTION, event.getIntroduction());
+                data.put(JsonKeys.DESCRIPTION, event.getIntroduction());
 
 
             Log.d(tag, "create event json: " + data);
