@@ -146,6 +146,7 @@
     <string name="title_activity_topic_events">Topic Events</string>
     <string name="title_activity_topic_posts">Topic Posts</string>
     <string name="title_activity_create_topic">Create Topic</string>
+    <string name="title_activity_event_paypal">Paypal</string>
 
     <string name="product_name">Activity Platform App</string>
 
